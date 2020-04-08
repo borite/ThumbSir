@@ -1,0 +1,49 @@
+name: ThumbSir
+description: A new Flutter application.
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.1.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^0.1.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true
+  assets:
+    - images/my.png
+    - images/my_big.png
+    - images/circle.png
+    - images/back.png
+    - images/set.png
+    - images/openclient.png
+    - images/openowner.png
+    - images/traded.png
+    - images/list.png
+    - images/cake.png
+    - images/home.png
+    - images/analyze.png
+    - images/bell.png
+    - images/morning.png
+    - images/todayplanmorning.png
+    - images/todayplannoon.png
+    - images/todayplanevening.png
+    - images/time.png
+    - images/star1.png
+    - images/star2.png
+    - images/star3.png
+    - images/star4.png
+    - images/star5.png
+    - images/phone.png
+    - images/site.png
+    - images/group.png
+    - images/company.png
+
+
