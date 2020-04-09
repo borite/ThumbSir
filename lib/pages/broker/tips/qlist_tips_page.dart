@@ -24,8 +24,9 @@ class _QListTipsPageState extends State<QListTipsPage> {
                 children: <Widget>[
                   // 导航栏
                   Padding(
-                      padding: EdgeInsets.only(top: 10),
+                      padding: EdgeInsets.all(15),
                       child:Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           GestureDetector(
                             onTap: (){
