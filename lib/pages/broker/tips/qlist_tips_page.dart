@@ -150,7 +150,7 @@ class _QListTipsPageState extends State<QListTipsPage> {
             )
         ),
         Positioned(
-          top: 12,
+          top: 21,
           left: -2,
           child: Image(
               image:AssetImage(image)

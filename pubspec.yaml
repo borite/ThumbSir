@@ -43,7 +43,10 @@ flutter:
     - images/star5.png
     - images/phone.png
     - images/site.png
+    - images/site_small.png
     - images/group.png
     - images/company.png
+    - images/editor.png
+    - images/upbtn.png
 
 

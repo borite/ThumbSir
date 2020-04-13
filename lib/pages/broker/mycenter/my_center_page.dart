@@ -232,7 +232,6 @@ class _MyCenterPageState extends State<MyCenterPage> {
                       ],
                     ),
                   )
-
                 ]
             )
           ],
