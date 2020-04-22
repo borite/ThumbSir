@@ -32,6 +32,7 @@ flutter:
     - images/analyze.png
     - images/bell.png
     - images/morning.png
+    - images/evening.png
     - images/todayplanmorning.png
     - images/todayplannoon.png
     - images/todayplanevening.png
@@ -49,5 +50,8 @@ flutter:
     - images/editor.png
     - images/upbtn.png
     - images/add.png
+    - images/next.png
+    - images/service.png
+    - images/vip.png
 
 

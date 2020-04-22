@@ -3,7 +3,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:ThumbSir/pages/broker/qlist/qlist_add_page.dart';
 import 'package:ThumbSir/pages/broker/qlist/qlist_analyze_page.dart';
-import 'package:ThumbSir/pages/broker/qlist/qlist_list_page.dart';
+import 'package:ThumbSir/pages/broker/qlist/qlist_morning_page.dart';
 
 class QListPage extends StatefulWidget {
   @override
@@ -20,7 +20,7 @@ class _QListPageState extends State<QListPage> {
           onPressed: () {
             Navigator.push(context, MaterialPageRoute(builder: (context)=>QListAddPage()));
           },
-          child: Image(image:AssetImage('images/add.png')),
+          child: Image(image:AssetImage('images/add.png'),),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         bottomNavigationBar: BottomNavigationBar(
@@ -48,7 +48,7 @@ class _QListPageState extends State<QListPage> {
             ),
           ],
         ),
-        body: _currentIndex == 1 ? QListListPage()
+        body: _currentIndex == 1 ? QListMorningPage()
         :_currentIndex == 0? Navigator.pop(context)
         : QListAnalyzePage()));
   }
