@@ -86,20 +86,24 @@ class _QListTipsPageState extends State<QListTipsPage> {
     return Stack(
       children: <Widget>[
         Container(
-            height: 100,
-            width: 335,
-            margin: EdgeInsets.only(top:10),
+            height: 102,
+            padding: EdgeInsets.only(bottom: 15,left: 15,right: 15),
             decoration: BoxDecoration(
               color: Colors.transparent,
             ),
             child: Container(
               height: 80,
               width: 335,
-              margin: EdgeInsets.only(top: 20),
+              margin: EdgeInsets.only(top: 10),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: Color(0xFFcccccc),width: 1),
+                boxShadow: [BoxShadow(
+                    color: Color(0xFFcccccc),
+                    offset: Offset(0.0, 3.0),
+                    blurRadius: 10.0,
+                    spreadRadius: 2.0
+                )],
               ),
               child:Container(
                   padding: EdgeInsets.only(left: 100),
@@ -150,15 +154,14 @@ class _QListTipsPageState extends State<QListTipsPage> {
             )
         ),
         Positioned(
-          top: 21,
-          left: -2,
+          left: 12,
           child: Image(
               image:AssetImage(image)
           ),
         ),
         Positioned(
-          top: 3,
-          left: 310,
+          top: -15,
+          left: 315,
           child: Text(
               '.',
             style: TextStyle(
