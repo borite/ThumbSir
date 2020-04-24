@@ -46,7 +46,7 @@ class _QListAnalyzePageState extends State<QListAnalyzePage> with SingleTickerPr
                       Container(
                           decoration: BoxDecoration(color: Colors.white),
                           child: Padding(
-                            padding: EdgeInsets.only(top:350,bottom:25),
+                            padding: EdgeInsets.only(top:335,bottom:25),
                             child:Column(
                               children: <Widget>[
                                 // 每一条量化
@@ -157,7 +157,7 @@ class _QListAnalyzePageState extends State<QListAnalyzePage> with SingleTickerPr
                         children: <Widget>[
                           Container(
                             width: 160,
-                            height: 200,
+                            height: 180,
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(12),
                                 boxShadow: [BoxShadow(
@@ -168,10 +168,29 @@ class _QListAnalyzePageState extends State<QListAnalyzePage> with SingleTickerPr
                                 )],
                                 color: Colors.white
                             ),
+                            child: Column(
+                              children: <Widget>[
+                                Padding(
+                                  padding:EdgeInsets.fromLTRB(10, 20, 10, 15),
+                                    child:Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: <Widget>[
+                                        Text('完成率',style: TextStyle(color: Color(0xFF666666)),),
+                                        Image(image: AssetImage('images/next.png'))
+                                      ],
+                                    )
+                                ),
+                                Container(
+                                  width: 110,
+                                  height: 110,
+                                  color: Colors.green,
+                                )
+                              ],
+                            ),
                           ),
                           Container(
                             width: 160,
-                            height: 200,
+                            height: 180,
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(12),
                                 boxShadow: [BoxShadow(
@@ -181,6 +200,35 @@ class _QListAnalyzePageState extends State<QListAnalyzePage> with SingleTickerPr
                                     spreadRadius: 2.0
                                 )],
                                 color: Colors.white
+                            ),
+                            child: Column(
+                              children: <Widget>[
+                                Padding(
+                                    padding:EdgeInsets.fromLTRB(10, 20, 10, 15),
+                                    child:Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: <Widget>[
+                                        Text('业务量',style: TextStyle(color: Color(0xFF666666)),),
+                                        Image(image: AssetImage('images/next.png'))
+                                      ],
+                                    )
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(left: 15,right: 15,bottom: 5),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: <Widget>[
+                                      Text('总业务量：8',style: TextStyle(fontSize: 10,color: Color(0xFF0E7AE6)),),
+                                      Text('3个未完成',style: TextStyle(fontSize: 10,color: Color(0xFFF24848)),),
+                                    ],
+                                  ),
+                                ),
+                                Container(
+                                  width: 150,
+                                  margin: EdgeInsets.only(top: 15),
+                                  child: Image(image: AssetImage('images/histogram.png')),
+                                )
+                              ],
                             ),
                           ),
                         ],

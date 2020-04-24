@@ -27,7 +27,7 @@ class _QListListPageState extends State<QListListPage> {
                 Container(
                     decoration: BoxDecoration(color: Colors.white),
                     child: Padding(
-                      padding: EdgeInsets.only(top:280,bottom:25),
+                      padding: EdgeInsets.only(top:295,bottom:25),
                       child:Column(
                         children: <Widget>[
                           // 每一条量化
