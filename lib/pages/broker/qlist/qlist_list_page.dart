@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:ThumbSir/pages/broker/mycenter/my_center_notlogin_page.dart';
+import 'package:ThumbSir/pages/home.dart';
 import 'package:flutter/material.dart';
 import 'package:ThumbSir/pages/broker/tips/qlist_tips_page.dart';
 
@@ -10,7 +11,6 @@ class QListListPage extends StatefulWidget {
 }
 
 class _QListListPageState extends State<QListListPage> {
-
   int _pageIndex = 0;
 
   @override
@@ -77,8 +77,17 @@ class _QListListPageState extends State<QListListPage> {
                                     children: <Widget>[
                                       Row(
                                         children: <Widget>[
+                                          GestureDetector(
+                                            onTap: (){
+                                              Navigator.pop(context);
+                                            },
+                                            child: Container(
+                                              padding: EdgeInsets.only(left: 15,top: 3),
+                                              child: Image(image: AssetImage('images/back_white.png'),),
+                                            ),
+                                          ),
                                           Container(
-                                            margin:EdgeInsets.only(top: 3,left:20),
+                                            margin:EdgeInsets.only(top: 3,left:10),
                                             child: Text(
                                               '共10个计划',
                                               style: TextStyle(
@@ -179,7 +188,6 @@ class _QListListPageState extends State<QListListPage> {
                                           ),
                                         ],
                                       )
-
                                     ],
                                   ),
                                 ),

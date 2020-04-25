@@ -11,14 +11,15 @@ class QListPage extends StatefulWidget {
 }
 
 class _QListPageState extends State<QListPage> {
-  int _currentIndex = 1;
+  int _currentIndex = 0;
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
+    return Scaffold(
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context)=>QListAddPage()));
+            setState(() {
+              _currentIndex = 1;
+            });
           },
           child: Image(image:AssetImage('images/add.png'),),
         ),
@@ -32,24 +33,25 @@ class _QListPageState extends State<QListPage> {
           },
           items: [
             BottomNavigationBarItem(
-                icon: Image(image:AssetImage('images/home.png')),
-                activeIcon:Icon(Icons.home,color:Colors.blue,),
-                title: Text('主页')
+              icon: Image(image:AssetImage('images/listicon.png')),
+              activeIcon:Image(image:AssetImage('images/listicon.png'),),
+              title: Text('量化')
             ),
             BottomNavigationBarItem(
-                icon: Icon(Icons.list,color: Colors.grey,),
-                activeIcon:Icon(Icons.list,color:Colors.blue,),
-              title: Text('新增计划')
+              icon: Icon(Icons.list,color: Colors.grey,),
+              activeIcon:Icon(Icons.list,color:Colors.blue,),
+              title: Text('新增计划'),
             ),
             BottomNavigationBarItem(
-                icon: Image(image:AssetImage('images/analyze.png')),
-                activeIcon:Icon(Icons.pie_chart,color:Colors.blue,),
-                title: Text('分析')
+              icon: Image(image:AssetImage('images/analyze.png')),
+              activeIcon:Image(image:AssetImage('images/analyze.png')),
+              title: Text('分析'),
             ),
           ],
         ),
-        body: _currentIndex == 1 ? QListListPage()
-        :_currentIndex == 0? Navigator.pop(context)
-        : QListAnalyzePage()));
+        body: _currentIndex == 1 ? QListAddPage()
+        :_currentIndex == 0? QListListPage()
+        : QListAnalyzePage()
+      );
   }
 }

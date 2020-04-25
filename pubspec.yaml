@@ -22,6 +22,7 @@ flutter:
     - images/my_big.png
     - images/circle.png
     - images/back.png
+    - images/back_white.png
     - images/set.png
     - images/openclient.png
     - images/openowner.png
@@ -30,6 +31,7 @@ flutter:
     - images/cake.png
     - images/home.png
     - images/analyze.png
+    - images/listicon.png
     - images/bell.png
     - images/morning.png
     - images/evening.png
