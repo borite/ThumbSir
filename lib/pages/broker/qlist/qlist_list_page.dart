@@ -1,7 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:ThumbSir/pages/broker/mycenter/my_center_notlogin_page.dart';
-import 'package:ThumbSir/pages/home.dart';
+import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:ThumbSir/pages/broker/tips/qlist_tips_page.dart';
 
@@ -31,11 +31,11 @@ class _QListListPageState extends State<QListListPage> {
                       child:Column(
                         children: <Widget>[
                           // 每一条量化
-                          _continueItem('带看','3套','10:00-11:00'),
+                          _continueItem('带看','3套','10:00-11:00',65),
                           _finishItem('带看','3套','10:00-11:00'),
-                          _extendItem('带看','3套','10:00-11:00'),
-                          _continueItem('带看','3套','10:00-11:00'),
-                          _continueItem('带看','3套','10:00-11:00'),
+                          _extendItem('带看','3套','10:00-11:00',77),
+                          _continueItem('带看','3套','10:00-11:00',30),
+                          _continueItem('带看','3套','10:00-11:00',65),
                         ],
                       ),
                     )
@@ -309,11 +309,11 @@ class _QListListPageState extends State<QListListPage> {
                       child:Column(
                         children: <Widget>[
                           // 每一条量化
-                          _continueItem('带看','3套','10:00-11:00'),
+                          _continueItem('带看','3套','10:00-11:00',60),
                           _finishItem('带看','3套','10:00-11:00'),
-                          _extendItem('带看','3套','10:00-11:00'),
-                          _continueItem('带看','3套','10:00-11:00'),
-                          _continueItem('带看','3套','10:00-11:00'),
+                          _extendItem('带看','3套','10:00-11:00',80),
+                          _continueItem('带看','3套','10:00-11:00',20),
+                          _continueItem('带看','3套','10:00-11:00',70),
                         ],
                       ),
                     )
@@ -552,7 +552,7 @@ class _QListListPageState extends State<QListListPage> {
 
   }
   // 未完成的item
-  _continueItem(String name,String number,String time){
+  _continueItem(String name,String number,String time,double percent){
     return Stack(
       children: <Widget>[
         Container(
@@ -663,13 +663,42 @@ class _QListListPageState extends State<QListListPage> {
 
         // 圆形进度条
         Positioned(
-          left: 250,
-          top:8,
+          left: 260,
+          top:14,
           child: Container(
-            width: 88,
-            height: 88,
+            width: 74,
+            height: 74,
+            padding: EdgeInsets.all(5),
             decoration: BoxDecoration(
-                color: Colors.green
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(37),
+              boxShadow: [BoxShadow(
+                  color: Color(0xFFcccccc),
+                  offset: Offset(2, 2),
+                  blurRadius: 10.0,
+                  spreadRadius: 2.0
+              )],
+            ),
+            child: SleekCircularSlider(
+              appearance: CircularSliderAppearance(
+                startAngle: 280,
+                angleRange: 360,
+                customWidths: CustomSliderWidths(progressBarWidth: 7),
+                customColors: CustomSliderColors(
+                  progressBarColors: [Color(0xFF0E7AE6),Color(0xFF2692FD),Color(0xFF93C0FB)],
+                  trackColor: Color(0x20CCCCCC),
+                  dotColor: Colors.transparent,
+                ),
+                infoProperties: InfoProperties(
+                  mainLabelStyle: TextStyle(
+                    fontSize: 14,
+                    color: Color(0xFF2692FD),
+                  )
+                )
+              ),
+              min: 0,
+              max: 100,
+              initialValue: percent,
             ),
           ),
         )
@@ -784,16 +813,25 @@ class _QListListPageState extends State<QListListPage> {
           ),
         ),
 
-        // 圆形进度条
+        // 已完成圆形进度条
         Positioned(
-          left: 250,
-          top:8,
+          left: 260,
+          top:14,
           child: Container(
-            width: 88,
-            height: 88,
+            width: 74,
+            height: 74,
+            padding: EdgeInsets.all(5),
             decoration: BoxDecoration(
-                color: Colors.green
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(37),
+              boxShadow: [BoxShadow(
+                  color: Color(0xFFcccccc),
+                  offset: Offset(2, 2),
+                  blurRadius: 10.0,
+                  spreadRadius: 2.0
+              )],
             ),
+            child: Image(image:AssetImage('images/finish.png')),
           ),
         )
       ],
@@ -801,7 +839,7 @@ class _QListListPageState extends State<QListListPage> {
   }
 
   // 展开的item
-  _extendItem(String name,String number,String time){
+  _extendItem(String name,String number,String time,double percent){
     return Stack(
       children: <Widget>[
         Container(
@@ -1120,13 +1158,31 @@ class _QListListPageState extends State<QListListPage> {
 
         // 圆形进度条
         Positioned(
-          top:15,
-          left: 100,
+          top:35,
+          left: 115,
           child: Container(
-            width: 138,
-            height: 138,
-            decoration: BoxDecoration(
-                color: Colors.green
+            width: 110,
+            height: 110,
+            child: SleekCircularSlider(
+              appearance: CircularSliderAppearance(
+                  startAngle: 280,
+                  angleRange: 360,
+                  customWidths: CustomSliderWidths(progressBarWidth: 12),
+                  customColors: CustomSliderColors(
+                    progressBarColors: [Color(0xFF0E7AE6),Color(0xFF2692FD),Color(0xFF93C0FB)],
+                    trackColor: Color(0x20CCCCCC),
+                    dotColor: Colors.transparent,
+                  ),
+                  infoProperties: InfoProperties(
+                      mainLabelStyle: TextStyle(
+                        fontSize: 22,
+                        color: Color(0xFF2692FD),
+                      )
+                  )
+              ),
+              min: 0,
+              max: 100,
+              initialValue: percent,
             ),
           ),
         )

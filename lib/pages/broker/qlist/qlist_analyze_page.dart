@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 
 class QListAnalyzePage extends StatefulWidget {
   @override
@@ -50,9 +51,9 @@ class _QListAnalyzePageState extends State<QListAnalyzePage> with SingleTickerPr
                             child:Column(
                               children: <Widget>[
                                 // 每一条量化
-                                _continueItem('带看','3','2','1'),
-                                _continueItem('签委托','3','2','1'),
-                                _continueItem('实勘','3','2','1'),
+                                _continueItem('带看','3','2','1',77),
+                                _continueItem('签委托','3','2','1',80),
+                                _continueItem('实勘','3','2','1',50),
                                 _finishItem('收钥匙', '3', '3','0'),
                                 _finishItem('打电话', '3', '3','0'),
                                 _finishItem('过户', '3', '3','0')
@@ -171,7 +172,7 @@ class _QListAnalyzePageState extends State<QListAnalyzePage> with SingleTickerPr
                             child: Column(
                               children: <Widget>[
                                 Padding(
-                                  padding:EdgeInsets.fromLTRB(10, 20, 10, 15),
+                                  padding:EdgeInsets.fromLTRB(10, 20, 10, 22),
                                     child:Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: <Widget>[
@@ -181,9 +182,29 @@ class _QListAnalyzePageState extends State<QListAnalyzePage> with SingleTickerPr
                                     )
                                 ),
                                 Container(
-                                  width: 110,
-                                  height: 110,
-                                  color: Colors.green,
+                                  width: 100,
+                                  height: 100,
+                                  child: SleekCircularSlider(
+                                    appearance: CircularSliderAppearance(
+                                        startAngle: 280,
+                                        angleRange: 360,
+                                        customWidths: CustomSliderWidths(progressBarWidth: 10),
+                                        customColors: CustomSliderColors(
+                                          progressBarColors: [Color(0xFF0E7AE6),Color(0xFF2692FD),Color(0xFF93C0FB)],
+                                          trackColor: Color(0x20CCCCCC),
+                                          dotColor: Colors.transparent,
+                                        ),
+                                        infoProperties: InfoProperties(
+                                            mainLabelStyle: TextStyle(
+                                              fontSize: 24,
+                                              color: Color(0xFF2692FD),
+                                            )
+                                        )
+                                    ),
+                                    min: 0,
+                                    max: 100,
+                                    initialValue: 80,
+                                  ),
                                 )
                               ],
                             ),
@@ -266,7 +287,7 @@ class _QListAnalyzePageState extends State<QListAnalyzePage> with SingleTickerPr
     );
   }
   // 未完成的item
-  _continueItem(String name,String sum,String finish,String unfinish){
+  _continueItem(String name,String sum,String finish,String unfinish,double percent){
     return Stack(
       children: <Widget>[
         Container(
@@ -296,13 +317,33 @@ class _QListAnalyzePageState extends State<QListAnalyzePage> with SingleTickerPr
                     Container(
                       width: 40,
                       height: 40,
-                      margin: EdgeInsets.only(left: 15,right: 15),
-                      color: Colors.green,
+                      margin: EdgeInsets.only(left: 15,right: 10),
+                      child: SleekCircularSlider(
+                        appearance: CircularSliderAppearance(
+                            startAngle: 280,
+                            angleRange: 360,
+                            customWidths: CustomSliderWidths(progressBarWidth: 4.5),
+                            customColors: CustomSliderColors(
+                              progressBarColors: [Color(0xFF0E7AE6),Color(0xFF2692FD),Color(0xFF93C0FB)],
+                              trackColor: Color(0x20CCCCCC),
+                              dotColor: Colors.transparent,
+                            ),
+                            infoProperties: InfoProperties(
+                                mainLabelStyle: TextStyle(
+                                  fontSize: 10,
+                                  color: Color(0xFF2692FD),
+                                )
+                            )
+                        ),
+                        min: 0,
+                        max: 100,
+                        initialValue: percent,
+                      ),
                     ),
                     Column(
                       children: <Widget>[
                         Container(
-                          width: 225,
+                          width: 235,
                           padding: EdgeInsets.only(top: 8,bottom: 3),
                           child: Text(
                             name,
@@ -365,7 +406,7 @@ class _QListAnalyzePageState extends State<QListAnalyzePage> with SingleTickerPr
                         blurRadius: 10.0,
                         spreadRadius: 2.0
                     )],
-                    color: Colors.white
+                    color: Colors.white,
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -373,13 +414,13 @@ class _QListAnalyzePageState extends State<QListAnalyzePage> with SingleTickerPr
                     Container(
                       width: 40,
                       height: 40,
-                      margin: EdgeInsets.only(left: 15,right: 15),
-                      color: Colors.green,
+                      margin: EdgeInsets.only(left: 15,right: 10),
+                      child: Image(image:AssetImage('images/finish.png')),
                     ),
                     Column(
                       children: <Widget>[
                         Container(
-                          width: 225,
+                          width: 235,
                           padding: EdgeInsets.only(top: 8,bottom: 3),
                           child: Text(
                             name,
