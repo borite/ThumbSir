@@ -161,7 +161,7 @@ class _QListTipsPageState extends State<QListTipsPage> {
         ),
         Positioned(
           top: -15,
-          left: 315,
+          left: 320,
           child: Text(
               '.',
             style: TextStyle(

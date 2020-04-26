@@ -81,7 +81,7 @@ class _QListAnalyzePageState extends State<QListAnalyzePage> with SingleTickerPr
                                     end: Alignment.bottomCenter,
                                   ),
                                   image: DecorationImage(
-                                    image:AssetImage('images/circle.png'),
+                                    image:AssetImage('images/circle_s.png'),
                                     fit: BoxFit.fitHeight,
                                   ),
                                 ),

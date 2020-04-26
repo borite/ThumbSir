@@ -27,152 +27,158 @@ class _HomeState extends State<Home> {
           fit: BoxFit.fitHeight,
         ),
       ),
-      child: Column(
+      child: ListView(
         children: <Widget>[
-          // 个人中心按钮
-          Padding(
-            padding: EdgeInsets.only(top: 40,left:320),
-            child:RaisedButton(
-              onPressed: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>MyCenterPage()));
-              },
-              color: Colors.transparent,
-              elevation: 0,
-              disabledElevation: 0,
-              highlightColor: Colors.transparent,
-              highlightElevation: 0,
-              splashColor: Colors.transparent,
-              disabledColor: Colors.transparent,
-              child: ClipOval(
-                child: Container(
-                    decoration: BoxDecoration(color: Colors.white),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      child:Image(
-                        width: 26,
-                        height:26,
-                        image: AssetImage('images/my.png'),
+          Column(
+              children: <Widget>[
+                // 个人中心按钮
+                Padding(
+                    padding: EdgeInsets.only(left:320),
+                    child:RaisedButton(
+                      onPressed: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>MyCenterPage()));
+                      },
+                      color: Colors.transparent,
+                      elevation: 0,
+                      disabledElevation: 0,
+                      highlightColor: Colors.transparent,
+                      highlightElevation: 0,
+                      splashColor: Colors.transparent,
+                      disabledColor: Colors.transparent,
+                      child: ClipOval(
+                        child: Container(
+                            decoration: BoxDecoration(color: Colors.white),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.all(Radius.circular(10)),
+                              child:Image(
+                                width: 26,
+                                height:26,
+                                image: AssetImage('images/my.png'),
+                              ),
+                            )
+                        ),
                       ),
                     )
                 ),
-              ),
-            )
-          ),
 
-          // 轮播图
-          Container(
-            height: 100,
-            width: 335,
-            margin: EdgeInsets.only(bottom: 25),
-            child:Container(
-                child: PageView(
-                  children: <Widget>[
-                    // 每一条轮播
-                    _item('images/cake.png','2020年3月24日','今天是章鱼哥的生日','记得送祝福!'),
-                    _item('images/cake.png','2020年3月24日','今天是徐姐的生日','记得送祝福!'),
-                  ],
+                // 轮播图
+                Container(
+                    height: 100,
+                    width: 335,
+                    margin: EdgeInsets.only(bottom: 25),
+                    child:Container(
+                      child: PageView(
+                        children: <Widget>[
+                          // 每一条轮播
+                          _item('images/cake.png','2020年3月24日','今天是章鱼哥的生日','记得送祝福!'),
+                          _item('images/cake.png','2020年3月24日','今天是徐姐的生日','记得送祝福!'),
+                        ],
+                      ),
+                    )
                 ),
-            )
-          ),
 
-          // 入口
-          Container(
-            margin: EdgeInsets.only(top: 20),
-            child:RaisedButton(
-              onPressed: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>QListPage()));
-              },
-              color: Colors.transparent,
-              elevation: 0,
-              disabledElevation: 0,
-              highlightColor: Colors.transparent,
-              highlightElevation: 0,
-              splashColor: Colors.transparent,
-              disabledColor: Colors.transparent,
-              child: ClipRRect(
-                borderRadius: BorderRadius.all(Radius.circular(12)),
-                child:Image(
-                    width: 353,
-                    height:110,
-                    image: AssetImage('images/list.png'),
-                    fit:BoxFit.cover
-                ),
-              ),
-            ),
-          ),
-          Container(
-              margin: EdgeInsets.only(top: 20),
-              child:RaisedButton(
-                onPressed: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=>OpenClientPage()));
-                },
-                color: Colors.transparent,
-                elevation: 0,
-                  disabledElevation: 0,
-                  highlightColor: Colors.transparent,
-                  highlightElevation: 0,
-                  splashColor: Colors.transparent,
-                  disabledColor: Colors.transparent,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.all(Radius.circular(12)),
-                    child:Image(
-                      width: 353,
-                      height:110,
-                      image: AssetImage('images/openclient.png'),
-                      fit:BoxFit.cover
-                  ),
-                )
-              )
-          ),
-          Container(
-              margin: EdgeInsets.only(top: 20),
-              child:RaisedButton(
-                onPressed: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=>OpenOwnerPage()));
-                },
-                color: Colors.transparent,
-                elevation: 0,
-                  disabledElevation: 0,
-                  highlightColor: Colors.transparent,
-                  highlightElevation: 0,
-                  splashColor: Colors.transparent,
-                  disabledColor: Colors.transparent,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.all(Radius.circular(12)),
-                    child:Image(
-                      width: 353,
-                      height:110,
-                      image: AssetImage('images/openowner.png'),
-                      fit:BoxFit.cover
+                // 入口
+                Container(
+                  margin: EdgeInsets.only(top: 20),
+                  child:RaisedButton(
+                    onPressed: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=>QListPage()));
+                    },
+                    color: Colors.transparent,
+                    elevation: 0,
+                    disabledElevation: 0,
+                    highlightColor: Colors.transparent,
+                    highlightElevation: 0,
+                    splashColor: Colors.transparent,
+                    disabledColor: Colors.transparent,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.all(Radius.circular(12)),
+                      child:Image(
+                          width: 353,
+                          height:110,
+                          image: AssetImage('images/list.png'),
+                          fit:BoxFit.cover
+                      ),
                     ),
-                )
-              )
-          ),
-          Container(
-              margin: EdgeInsets.only(top: 20),
-              child:RaisedButton(
-                onPressed: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>TradedPage()));
-                },
-                color: Colors.transparent,
-                elevation: 0,
-                  disabledElevation: 0,
-                  highlightColor: Colors.transparent,
-                  highlightElevation: 0,
-                  splashColor: Colors.transparent,
-                  disabledColor: Colors.transparent,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.all(Radius.circular(12)),
-                  child:Image(
-                    width: 353,
-                    height:110,
-                    image: AssetImage('images/traded.png'),
-                    fit:BoxFit.cover
                   ),
-                )
-              )
-          ),
-    ]));
+                ),
+                Container(
+                    margin: EdgeInsets.only(top: 20),
+                    child:RaisedButton(
+                        onPressed: (){
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>OpenClientPage()));
+                        },
+                        color: Colors.transparent,
+                        elevation: 0,
+                        disabledElevation: 0,
+                        highlightColor: Colors.transparent,
+                        highlightElevation: 0,
+                        splashColor: Colors.transparent,
+                        disabledColor: Colors.transparent,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.all(Radius.circular(12)),
+                          child:Image(
+                              width: 353,
+                              height:110,
+                              image: AssetImage('images/openclient.png'),
+                              fit:BoxFit.cover
+                          ),
+                        )
+                    )
+                ),
+                Container(
+                    margin: EdgeInsets.only(top: 20),
+                    child:RaisedButton(
+                        onPressed: (){
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>OpenOwnerPage()));
+                        },
+                        color: Colors.transparent,
+                        elevation: 0,
+                        disabledElevation: 0,
+                        highlightColor: Colors.transparent,
+                        highlightElevation: 0,
+                        splashColor: Colors.transparent,
+                        disabledColor: Colors.transparent,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.all(Radius.circular(12)),
+                          child:Image(
+                              width: 353,
+                              height:110,
+                              image: AssetImage('images/openowner.png'),
+                              fit:BoxFit.cover
+                          ),
+                        )
+                    )
+                ),
+                Container(
+                    margin: EdgeInsets.only(top: 20),
+                    child:RaisedButton(
+                        onPressed: (){
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>TradedPage()));
+                        },
+                        color: Colors.transparent,
+                        elevation: 0,
+                        disabledElevation: 0,
+                        highlightColor: Colors.transparent,
+                        highlightElevation: 0,
+                        splashColor: Colors.transparent,
+                        disabledColor: Colors.transparent,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.all(Radius.circular(12)),
+                          child:Image(
+                              width: 353,
+                              height:110,
+                              image: AssetImage('images/traded.png'),
+                              fit:BoxFit.cover
+                          ),
+                        )
+                    )
+                ),
+              ])
+        ],
+      )
+
+    );
   }
 
   _item(var image,String date,String content,String tip){

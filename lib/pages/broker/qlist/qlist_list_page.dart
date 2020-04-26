@@ -62,7 +62,7 @@ class _QListListPageState extends State<QListListPage> {
                                 end: Alignment.bottomCenter,
                               ),
                               image: DecorationImage(
-                                image:AssetImage('images/circle.png'),
+                                image:AssetImage('images/circle_s.png'),
                                 fit: BoxFit.fitHeight,
                               ),
                             ),

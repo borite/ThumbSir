@@ -43,7 +43,7 @@ class _MyCenterNotLoginPageState extends State<MyCenterNotLoginPage> {
                     children: <Widget>[
                       Container(
                         alignment: Alignment(-1,-1),
-                        margin: EdgeInsets.only(top: 20,left: 35),
+                        margin: EdgeInsets.only(top: 8,left: 25),
                         child: Column(
                           children: <Widget>[
                             Container(
@@ -94,7 +94,7 @@ class _MyCenterNotLoginPageState extends State<MyCenterNotLoginPage> {
                       ),
                       Container(
                         alignment: Alignment.topLeft,
-                        margin: EdgeInsets.only(top: 180,left: 25,bottom: 50),
+                        margin: EdgeInsets.only(top: 175,left: 16,bottom: 50),
                         child: Text(
                           '开通会员，体验高效功能！',
                           style:TextStyle(
@@ -106,8 +106,8 @@ class _MyCenterNotLoginPageState extends State<MyCenterNotLoginPage> {
                         ),
                       ),
                       Positioned(
-                        top: 121,
-                        left: 140,
+                        top: 108,
+                        left: 130,
                         child: Container(
                           margin: EdgeInsets.only(bottom: 15),
                           padding: EdgeInsets.only(top:2,bottom: 2,left: 5,right: 5),

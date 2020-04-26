@@ -42,7 +42,7 @@ class _MyCenterPageState extends State<MyCenterPage> {
                     children: <Widget>[
                       Container(
                         alignment: Alignment(-1,-1),
-                        margin: EdgeInsets.only(top: 20,left: 35),
+                        margin: EdgeInsets.only(top: 8,left: 35),
                         child: Column(
                           children: <Widget>[
                             Container(
@@ -93,7 +93,7 @@ class _MyCenterPageState extends State<MyCenterPage> {
                       ),
                       Container(
                         alignment: Alignment.topLeft,
-                        margin: EdgeInsets.only(top: 180,left: 30,bottom: 50),
+                        margin: EdgeInsets.only(top: 170,left: 30,bottom: 50),
                         child: Text(
                           '已付费至2021年3月15日，查看详情',
                           style:TextStyle(
@@ -105,7 +105,7 @@ class _MyCenterPageState extends State<MyCenterPage> {
                         ),
                       ),
                       Positioned(
-                        top: 121,
+                        top: 108,
                         left: 125,
                         child: Container(
                           margin: EdgeInsets.only(bottom: 15),

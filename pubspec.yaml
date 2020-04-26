@@ -21,6 +21,7 @@ flutter:
     - images/my.png
     - images/my_big.png
     - images/circle.png
+    - images/circle_s.png
     - images/back.png
     - images/back_white.png
     - images/set.png
