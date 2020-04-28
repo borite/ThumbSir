@@ -278,7 +278,8 @@ class _QListAnalyzePageState extends State<QListAnalyzePage> with SingleTickerPr
                   ),
                   insets: EdgeInsets.only(bottom: 10),
                 ),
-                labelStyle: TextStyle(fontSize: 16),
+                labelStyle: TextStyle(fontSize: 20),
+                unselectedLabelStyle: TextStyle(fontSize: 14),
               ),
             )
           ),

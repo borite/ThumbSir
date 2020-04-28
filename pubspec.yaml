@@ -37,6 +37,7 @@ flutter:
     - images/bell.png
     - images/finish.png
     - images/morning.png
+    - images/noon.png
     - images/evening.png
     - images/todayplanmorning.png
     - images/todayplannoon.png

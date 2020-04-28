@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:ThumbSir/pages/broker/mycenter/my_center_notlogin_page.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:ThumbSir/pages/broker/tips/qlist_tips_page.dart';
@@ -10,39 +11,60 @@ class QListListPage extends StatefulWidget {
   _QListListPageState createState() => _QListListPageState();
 }
 
-class _QListListPageState extends State<QListListPage> {
+class _QListListPageState extends State<QListListPage> with SingleTickerProviderStateMixin {
+  TabController _controller;
+  var tabs = [];
   int _pageIndex = 0;
 
   @override
-  Widget build(BuildContext context) {
+  void initState() {
+    _controller = TabController(length: 3,vsync: this);
+    tabs = <Tab>[
+      Tab(text: '今日计划',),
+      Tab(text: '明日计划',),
+      Tab(text: '往期计划',),
+    ];
 
+    super.initState();
+  }
+
+  // 防止页面销毁时内存泄漏造成性能问题
+  @override
+  void dispose(){
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return _pageIndex == 0 ?
     // 上午
     Container(
         decoration: BoxDecoration(color: Colors.white),
         child: Stack(
           children: <Widget>[
-            ListView(
-              children: <Widget>[
-                Container(
-                    decoration: BoxDecoration(color: Colors.white),
-                    child: Padding(
-                      padding: EdgeInsets.only(top:295,bottom:25),
-                      child:Column(
-                        children: <Widget>[
-                          // 每一条量化
-                          _continueItem('带看','3套','10:00-11:00',65),
-                          _finishItem('带看','3套','10:00-11:00'),
-                          _extendItem('带看','3套','10:00-11:00',77),
-                          _continueItem('带看','3套','10:00-11:00',30),
-                          _continueItem('带看','3套','10:00-11:00',65),
-                        ],
-                      ),
-                    )
-                )
-              ],
-            ),
-
+            TabBarView(
+            controller: _controller,
+            children: tabs.map((tab)=>ListView(
+                children: <Widget>[
+                  Container(
+                      decoration: BoxDecoration(color: Colors.white),
+                      child:Padding(
+                          padding: EdgeInsets.only(top:295,bottom:25),
+                          child: Column(
+                            children: <Widget>[
+                              // 每一条量化
+                              _continueItem('带看','3套','10:00-11:00',65),
+                              _finishItem('带看','3套','10:00-11:00'),
+                              _extendItem('带看','3套','10:00-11:00',77),
+                              _continueItem('带看','3套','10:00-11:00',30),
+                              _continueItem('带看','3套','10:00-11:00',65),
+                            ],
+                          ),
+                        )),
+                      ])
+                  ).toList()
+                ),
             // 顶部导航区域
             Positioned(
               child: Column(
@@ -192,61 +214,24 @@ class _QListListPageState extends State<QListListPage> {
                                   ),
                                 ),
                                 // 计划导航
-                                Row(
-                                  children: <Widget>[
-                                    Container(
-                                      padding: EdgeInsets.only(left:15,right: 20),
-                                      child: Stack(
-                                        children: <Widget>[
-                                          Positioned(
-                                            child: Container(
-                                              width:110,
-                                              margin: EdgeInsets.only(top: 20),
-                                              child: Image(
-                                                image: AssetImage('images/todayplanmorning.png'),
-                                              ),
-                                            ),
-                                          ),
-                                          Container(
-                                            padding: EdgeInsets.only(left: 13,top: 6),
-                                            child: Text(
-                                              '今日计划',
-                                              style: TextStyle(
-                                                fontSize: 20,
-                                                color: Colors.white,
-                                                decoration: TextDecoration.none,
-//                                              fontWeight: FontWeight.normal,
-                                              ),
-                                            ),
-                                          ),
-                                        ],
+                                Container(
+                                  padding: EdgeInsets.only(left: 0,right: 100),
+                                  child: TabBar(
+                                    tabs: tabs,
+                                    controller: _controller,
+                                    isScrollable: true, // 可以左右滑动
+                                    labelColor: Colors.white,
+                                    labelPadding: EdgeInsets.fromLTRB(12, 0, 12, 5),
+                                    indicator: UnderlineTabIndicator(
+                                      borderSide: BorderSide(
+                                        color: Color(0xFF0E7AE6),
+                                        width: 3,
                                       ),
-
+                                      insets: EdgeInsets.only(bottom: 10),
                                     ),
-                                    Container(
-                                      padding: EdgeInsets.only(right: 25),
-                                      child:Text(
-                                        '明日计划',
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          color: Colors.white,
-                                          decoration: TextDecoration.none,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                      ),
-                                    ),
-                                    Container(
-                                      child: Text(
-                                        '往期计划',
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          color: Colors.white,
-                                          decoration: TextDecoration.none,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                      ),
-                                    )
-                                  ],
+                                    labelStyle: TextStyle(fontSize: 20),
+                                    unselectedLabelStyle: TextStyle(fontSize: 14),
+                                  ),
                                 ),
                                 // 上午、下午、晚上导航
                                 Row(
@@ -257,11 +242,33 @@ class _QListListPageState extends State<QListListPage> {
                                     ),
                                     Container(
                                       padding: EdgeInsets.only(left:20,right:30,top:50),
-                                      child:Text('上午',style: TextStyle(fontSize: 20,color: Colors.white,decoration: TextDecoration.none,fontWeight: FontWeight.normal,),),
+                                      child:GestureDetector(
+                                        child: Text(
+                                            '上午',
+                                            style: TextStyle(
+                                              fontSize: 20,color: Colors.white,decoration: TextDecoration.none,fontWeight: FontWeight.normal,
+                                            ),
+                                        ),
+                                        onTap: (){
+                                          setState(() {
+                                            _pageIndex = 0;
+                                          });
+                                        },
+                                    )
                                     ),
                                     Container(
                                       padding: EdgeInsets.only(right:30,top:58),
-                                      child:Text('下午',style: TextStyle(fontSize: 14,color: Color(0xFF93C0FB),decoration: TextDecoration.none,fontWeight: FontWeight.normal,),),
+                                      child:GestureDetector(
+                                        child: Text(
+                                          '下午',
+                                          style: TextStyle(fontSize: 14,color: Colors.white,decoration: TextDecoration.none,fontWeight: FontWeight.normal,),
+                                        ),
+                                        onTap: (){
+                                          setState(() {
+                                            _pageIndex = 1;
+                                          });
+                                        },
+                                      ),
                                     ),
                                     Container(
                                       padding: EdgeInsets.only(top:58),
@@ -269,12 +276,12 @@ class _QListListPageState extends State<QListListPage> {
                                         child: Text(
                                           '晚上',
                                           style: TextStyle(
-                                            fontSize: 14,color: Color(0xFF93C0FB),decoration: TextDecoration.none,fontWeight: FontWeight.normal,
+                                            fontSize: 14,color: Colors.white,decoration: TextDecoration.none,fontWeight: FontWeight.normal,
                                           ),
                                         ),
                                         onTap: (){
                                           setState((){
-                                            _pageIndex == 2;
+                                            _pageIndex = 2;
                                           });
                                           print('$_pageIndex');
                                         },
@@ -287,267 +294,539 @@ class _QListListPageState extends State<QListListPage> {
                         ),
                       ),
                     )
-
                   ]
               ),
             ),
           ],
         ),
     )
-    :
-      // 晚上
+    :_pageIndex == 1 ?
+    // 下午
     Container(
-        decoration: BoxDecoration(color: Colors.white),
-        child: Stack(
-          children: <Widget>[
-            ListView(
-              children: <Widget>[
-                Container(
-                    decoration: BoxDecoration(color: Colors.white),
-                    child: Padding(
-                      padding: EdgeInsets.only(top:280,bottom:25),
-                      child:Column(
-                        children: <Widget>[
-                          // 每一条量化
-                          _continueItem('带看','3套','10:00-11:00',60),
-                          _finishItem('带看','3套','10:00-11:00'),
-                          _extendItem('带看','3套','10:00-11:00',80),
-                          _continueItem('带看','3套','10:00-11:00',20),
-                          _continueItem('带看','3套','10:00-11:00',70),
-                        ],
-                      ),
-                    )
-                )
-              ],
-            ),
-
-            // 顶部导航区域
-            Positioned(
-              child: Column(
+      decoration: BoxDecoration(color: Colors.white),
+      child: Stack(
+        children: <Widget>[
+          TabBarView(
+              controller: _controller,
+              children: tabs.map((tab)=>ListView(
                   children: <Widget>[
-                    FractionallySizedBox(
-                      widthFactor: 1,
-                      child: ClipPath(
-                        clipper: BottomClipper(),
-                        child: Container(
-                            height: 335,
-                            decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                colors: [Color(0xFF000747),Color(0xFF003273)],
-                                begin: Alignment.topCenter,
-                                end: Alignment.bottomCenter,
-                              ),
-                              image: DecorationImage(
-                                image:AssetImage('images/circle.png'),
-                                fit: BoxFit.fitHeight,
-                              ),
+                    Container(
+                        decoration: BoxDecoration(color: Colors.white),
+                        child:Padding(
+                          padding: EdgeInsets.only(top:295,bottom:25),
+                          child: Column(
+                            children: <Widget>[
+                              // 每一条量化
+                              _continueItem('带看','3套','10:00-11:00',65),
+                              _finishItem('带看','3套','10:00-11:00'),
+                              _extendItem('带看','3套','10:00-11:00',77),
+                              _continueItem('带看','3套','10:00-11:00',30),
+                              _continueItem('带看','3套','10:00-11:00',65),
+                            ],
+                          ),
+                        )),
+                  ])
+              ).toList()
+          ),
+          // 顶部导航区域
+          Positioned(
+            child: Column(
+                children: <Widget>[
+                  FractionallySizedBox(
+                    widthFactor: 1,
+                    child: ClipPath(
+                      clipper: BottomClipper(),
+                      child:
+                      //  背景
+                      Container(
+                          height: 335,
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [Color(0xFFF67818),Color(0xFFFCD654)],
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
                             ),
-                            child:Column(
-                              children: <Widget>[
-                                // 顶部信息与消息、个人中心按钮
-                                Container(
-                                  height: 100,
-                                  padding: EdgeInsets.only(top:30),
-                                  child:Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: <Widget>[
-                                      Row(
-                                        children: <Widget>[
-                                          Container(
-                                            margin:EdgeInsets.only(top: 3,left:20),
-                                            child: Text(
-                                              '共10个计划',
-                                              style: TextStyle(
-                                                  fontSize: 14,
-                                                  color: Color(0xFF9149EC),
-                                                  decoration: TextDecoration.none,
-                                                  fontWeight: FontWeight.normal
-                                              ),
-                                            ),
+                            image: DecorationImage(
+                              image:AssetImage('images/circle_s.png'),
+                              fit: BoxFit.fitHeight,
+                            ),
+                          ),
+                          child:Column(
+                            children: <Widget>[
+                              // 顶部信息与消息、个人中心按钮
+                              Container(
+                                height: 100,
+                                padding: EdgeInsets.only(top:30),
+                                child:Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    Row(
+                                      children: <Widget>[
+                                        GestureDetector(
+                                          onTap: (){
+                                            Navigator.pop(context);
+                                          },
+                                          child: Container(
+                                            padding: EdgeInsets.only(left: 15,top: 3),
+                                            child: Image(image: AssetImage('images/back_white.png'),),
                                           ),
-                                          Container(
-                                            margin:EdgeInsets.only(left:3,right: 3),
-                                            child: Text(
-                                              '|',
-                                              style: TextStyle(
-                                                fontSize: 18,
-                                                color: Color(0xFF9149EC),
+                                        ),
+                                        Container(
+                                          margin:EdgeInsets.only(top: 3,left:10),
+                                          child: Text(
+                                            '共10个计划',
+                                            style: TextStyle(
+                                                fontSize: 14,
+                                                color: Color(0xFFF67818),
                                                 decoration: TextDecoration.none,
-                                                fontWeight: FontWeight.normal,
+                                                fontWeight: FontWeight.normal
+                                            ),
+                                          ),
+                                        ),
+                                        Container(
+                                          margin:EdgeInsets.only(left:3,right: 3),
+                                          child: Text(
+                                            '|',
+                                            style: TextStyle(
+                                              fontSize: 18,
+                                              color: Color(0xFFF67818),
+                                              decoration: TextDecoration.none,
+                                              fontWeight: FontWeight.normal,
+                                            ),
+                                          ),
+                                        ),
+                                        Container(
+                                          margin:EdgeInsets.only(top: 3),
+                                          child: Text(
+                                            '已完成9个',
+                                            style: TextStyle(
+                                                fontSize: 14,
+                                                color: Color(0xFFF67818),
+                                                decoration: TextDecoration.none,
+                                                fontWeight: FontWeight.normal
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    // 消息提醒和个人中心按钮
+                                    Row(
+                                      children: <Widget>[
+                                        Container(
+                                          width: 60,
+                                          child: RaisedButton(
+                                            onPressed: (){
+                                              Navigator.push(context, MaterialPageRoute(builder: (context)=>QListTipsPage()));
+                                            },
+                                            color: Colors.transparent,
+                                            elevation: 0,
+                                            disabledElevation: 0,
+                                            highlightColor: Colors.transparent,
+                                            highlightElevation: 0,
+                                            splashColor: Colors.transparent,
+                                            disabledColor: Colors.transparent,
+                                            child: ClipOval(
+                                              child: Container(
+                                                  width: 26,
+                                                  decoration: BoxDecoration(color: Colors.white),
+                                                  child: ClipRRect(
+                                                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                                                    child:Image(
+                                                      width: 26,
+                                                      height:26,
+                                                      image: AssetImage('images/bell.png'),
+                                                    ),
+                                                  )
                                               ),
                                             ),
                                           ),
-                                          Container(
-                                            margin:EdgeInsets.only(top: 3),
-                                            child: Text(
-                                              '已完成9个',
-                                              style: TextStyle(
-                                                  fontSize: 14,
-                                                  color: Color(0xFF9149EC),
-                                                  decoration: TextDecoration.none,
-                                                  fontWeight: FontWeight.normal
+                                        ),
+                                        Container(
+                                          margin: EdgeInsets.only(right: 10),
+                                          width: 60,
+                                          child: RaisedButton(
+                                            onPressed: (){
+                                              Navigator.push(context, MaterialPageRoute(builder: (context)=>MyCenterNotLoginPage()));
+                                            },
+                                            color: Colors.transparent,
+                                            elevation: 0,
+                                            disabledElevation: 0,
+                                            highlightColor: Colors.transparent,
+                                            highlightElevation: 0,
+                                            splashColor: Colors.transparent,
+                                            disabledColor: Colors.transparent,
+                                            child: ClipOval(
+                                              child: Container(
+                                                  width: 26,
+                                                  decoration: BoxDecoration(color: Colors.white),
+                                                  child: ClipRRect(
+                                                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                                                    child:Image(
+                                                      width: 26,
+                                                      height:26,
+                                                      image: AssetImage('images/my.png'),
+                                                    ),
+                                                  )
                                               ),
                                             ),
                                           ),
-                                        ],
-                                      ),
-                                      // 消息提醒和个人中心按钮
-                                      Row(
-                                        children: <Widget>[
-                                          Container(
-                                            width: 60,
-                                            child: RaisedButton(
-                                              onPressed: (){
-                                                Navigator.push(context, MaterialPageRoute(builder: (context)=>QListTipsPage()));
-                                              },
-                                              color: Colors.transparent,
-                                              elevation: 0,
-                                              disabledElevation: 0,
-                                              highlightColor: Colors.transparent,
-                                              highlightElevation: 0,
-                                              splashColor: Colors.transparent,
-                                              disabledColor: Colors.transparent,
-                                              child: ClipOval(
-                                                child: Container(
-                                                    width: 26,
-                                                    decoration: BoxDecoration(color: Colors.white),
-                                                    child: ClipRRect(
-                                                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                                                      child:Image(
-                                                        width: 26,
-                                                        height:26,
-                                                        image: AssetImage('images/bell.png'),
-                                                      ),
-                                                    )
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                          Container(
-                                            margin: EdgeInsets.only(right: 10),
-                                            width: 60,
-                                            child: RaisedButton(
-                                              onPressed: (){
-                                                Navigator.push(context, MaterialPageRoute(builder: (context)=>MyCenterNotLoginPage()));
-                                              },
-                                              color: Colors.transparent,
-                                              elevation: 0,
-                                              disabledElevation: 0,
-                                              highlightColor: Colors.transparent,
-                                              highlightElevation: 0,
-                                              splashColor: Colors.transparent,
-                                              disabledColor: Colors.transparent,
-                                              child: ClipOval(
-                                                child: Container(
-                                                    width: 26,
-                                                    decoration: BoxDecoration(color: Colors.white),
-                                                    child: ClipRRect(
-                                                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                                                      child:Image(
-                                                        width: 26,
-                                                        height:26,
-                                                        image: AssetImage('images/my.png'),
-                                                      ),
-                                                    )
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      )
-
-                                    ],
+                                        ),
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              ),
+                              // 计划导航
+                              Container(
+                                padding: EdgeInsets.only(left: 0,right: 100),
+                                child: TabBar(
+                                  tabs: tabs,
+                                  controller: _controller,
+                                  isScrollable: true, // 可以左右滑动
+                                  labelColor: Colors.white,
+                                  labelPadding: EdgeInsets.fromLTRB(12, 0, 12, 5),
+                                  indicator: UnderlineTabIndicator(
+                                    borderSide: BorderSide(
+                                      color: Color(0xFFF67818),
+                                      width: 3,
+                                    ),
+                                    insets: EdgeInsets.only(bottom: 10),
                                   ),
+                                  labelStyle: TextStyle(fontSize: 20),
+                                  unselectedLabelStyle: TextStyle(fontSize: 14),
                                 ),
-                                // 计划导航
-                                Row(
-                                  children: <Widget>[
-                                    Container(
-                                      padding: EdgeInsets.only(left:15,right: 20),
-                                      child: Stack(
-                                        children: <Widget>[
-                                          Positioned(
-                                            child: Container(
-                                              width:110,
-                                              margin: EdgeInsets.only(top: 20),
-                                              child: Image(
-                                                image: AssetImage('images/todayplanevening.png'),
-                                              ),
-                                            ),
+                              ),
+                              // 上午、下午、晚上导航
+                              Row(
+                                children: <Widget>[
+                                  Container(
+                                    padding: EdgeInsets.only(left:90),
+                                    child: Image(image:AssetImage('images/noon.png')),
+                                  ),
+                                  Container(
+                                      padding: EdgeInsets.only(left:20,right:30,top:58),
+                                      child: GestureDetector(
+                                        child: Text(
+                                          '上午',
+                                          style: TextStyle(
+                                            fontSize: 14,color: Colors.white,decoration: TextDecoration.none,fontWeight: FontWeight.normal,
                                           ),
-                                          Container(
-                                            padding: EdgeInsets.only(left: 13,top: 6),
-                                            child: Text(
-                                              '今日计划',
-                                              style: TextStyle(
-                                                fontSize: 20,
-                                                color: Colors.white,
-                                                decoration: TextDecoration.none,
-//                                              fontWeight: FontWeight.normal,
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-
-                                    ),
-                                    Container(
-                                      padding: EdgeInsets.only(right: 25),
-                                      child:Text(
-                                        '明日计划',
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          color: Colors.white,
-                                          decoration: TextDecoration.none,
-                                          fontWeight: FontWeight.normal,
                                         ),
-                                      ),
-                                    ),
-                                    Container(
+                                        onTap: (){
+                                          setState((){
+                                            _pageIndex = 0;
+                                          });
+                                          print('$_pageIndex');
+                                        },
+                                      )
+                                  ),
+                                  Container(
+                                      padding: EdgeInsets.only(right:30,top:50),
+                                      child:GestureDetector(
+                                        child: Text(
+                                          '下午',
+                                          style: TextStyle(
+                                            fontSize: 20,color: Color(0xFFF24848),decoration: TextDecoration.none,fontWeight: FontWeight.normal,
+                                          ),
+                                        ),
+                                        onTap: (){
+                                          setState(() {
+                                            _pageIndex = 1;
+                                          });
+                                        },
+                                      )
+                                  ),
+                                  Container(
+                                    padding: EdgeInsets.only(top:58),
+                                    child:GestureDetector(
                                       child: Text(
-                                        '往期计划',
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          color: Colors.white,
-                                          decoration: TextDecoration.none,
-                                          fontWeight: FontWeight.normal,
-                                        ),
+                                        '晚上',
+                                        style: TextStyle(fontSize: 14,color: Colors.white,decoration: TextDecoration.none,fontWeight: FontWeight.normal,),
                                       ),
-                                    )
-                                  ],
-                                ),
-                                // 上午、下午、晚上导航
-                                Row(
-                                  children: <Widget>[
-                                    Container(
-                                      padding: EdgeInsets.only(left:90),
-                                      child: Image(image:AssetImage('images/evening.png')),
+                                      onTap: (){
+                                        setState(() {
+                                          _pageIndex = 2;
+                                        });
+                                      },
                                     ),
-                                    Container(
-                                      padding: EdgeInsets.only(left:20,right:30,top:50),
-                                      child:Text('晚上',style: TextStyle(fontSize: 20,color: Color(0xFF9149EC),decoration: TextDecoration.none,fontWeight: FontWeight.normal,),),
-                                    ),
-                                    Container(
-                                      padding: EdgeInsets.only(right:30,top:58),
-                                      child:Text('上午',style: TextStyle(fontSize: 14,color: Color(0xFF93C0FB),decoration: TextDecoration.none,fontWeight: FontWeight.normal,),),
-                                    ),
-                                    Container(
-                                      padding: EdgeInsets.only(top:58),
-                                      child: Text('下午',style: TextStyle(fontSize: 14,color: Color(0xFF93C0FB),decoration: TextDecoration.none,fontWeight: FontWeight.normal,),),
-                                    )
-                                  ],
-                                ),
-                              ],
-                            )
-                        ),
-                      ),
-                    )
+                                  ),
 
-                  ]
-              ),
+                                ],
+                              ),
+                            ],
+                          )
+                      ),
+                    ),
+                  )
+                ]
             ),
-          ],
-        )
+          ),
+        ],
+      ),
+    )
+    :
+    // 晚上
+    Container(
+      decoration: BoxDecoration(color: Colors.white),
+      child: Stack(
+        children: <Widget>[
+          TabBarView(
+              controller: _controller,
+              children: tabs.map((tab)=>ListView(
+                  children: <Widget>[
+                    Container(
+                        decoration: BoxDecoration(color: Colors.white),
+                        child:Padding(
+                          padding: EdgeInsets.only(top:295,bottom:25),
+                          child: Column(
+                            children: <Widget>[
+                              // 每一条量化
+                              _continueItem('带看','3套','10:00-11:00',65),
+                              _finishItem('带看','3套','10:00-11:00'),
+                              _extendItem('带看','3套','10:00-11:00',77),
+                              _continueItem('带看','3套','10:00-11:00',30),
+                              _continueItem('带看','3套','10:00-11:00',65),
+                            ],
+                          ),
+                        )),
+                  ])
+              ).toList()
+          ),
+          // 顶部导航区域
+          Positioned(
+            child: Column(
+                children: <Widget>[
+                  FractionallySizedBox(
+                    widthFactor: 1,
+                    child: ClipPath(
+                      clipper: BottomClipper(),
+                      child:
+                      //  背景
+                      Container(
+                          height: 335,
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [Color(0xFF000747),Color(0xFF003273)],
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                            ),
+                            image: DecorationImage(
+                              image:AssetImage('images/circle_s.png'),
+                              fit: BoxFit.fitHeight,
+                            ),
+                          ),
+                          child:Column(
+                            children: <Widget>[
+                              // 顶部信息与消息、个人中心按钮
+                              Container(
+                                height: 100,
+                                padding: EdgeInsets.only(top:30),
+                                child:Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    Row(
+                                      children: <Widget>[
+                                        GestureDetector(
+                                          onTap: (){
+                                            Navigator.pop(context);
+                                          },
+                                          child: Container(
+                                            padding: EdgeInsets.only(left: 15,top: 3),
+                                            child: Image(image: AssetImage('images/back_white.png'),),
+                                          ),
+                                        ),
+                                        Container(
+                                          margin:EdgeInsets.only(top: 3,left:10),
+                                          child: Text(
+                                            '共10个计划',
+                                            style: TextStyle(
+                                                fontSize: 14,
+                                                color: Color(0xFF7412F2),
+                                                decoration: TextDecoration.none,
+                                                fontWeight: FontWeight.normal
+                                            ),
+                                          ),
+                                        ),
+                                        Container(
+                                          margin:EdgeInsets.only(left:3,right: 3),
+                                          child: Text(
+                                            '|',
+                                            style: TextStyle(
+                                              fontSize: 18,
+                                              color: Color(0xFF7412F2),
+                                              decoration: TextDecoration.none,
+                                              fontWeight: FontWeight.normal,
+                                            ),
+                                          ),
+                                        ),
+                                        Container(
+                                          margin:EdgeInsets.only(top: 3),
+                                          child: Text(
+                                            '已完成9个',
+                                            style: TextStyle(
+                                                fontSize: 14,
+                                                color: Color(0xFF7412F2),
+                                                decoration: TextDecoration.none,
+                                                fontWeight: FontWeight.normal
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    // 消息提醒和个人中心按钮
+                                    Row(
+                                      children: <Widget>[
+                                        Container(
+                                          width: 60,
+                                          child: RaisedButton(
+                                            onPressed: (){
+                                              Navigator.push(context, MaterialPageRoute(builder: (context)=>QListTipsPage()));
+                                            },
+                                            color: Colors.transparent,
+                                            elevation: 0,
+                                            disabledElevation: 0,
+                                            highlightColor: Colors.transparent,
+                                            highlightElevation: 0,
+                                            splashColor: Colors.transparent,
+                                            disabledColor: Colors.transparent,
+                                            child: ClipOval(
+                                              child: Container(
+                                                  width: 26,
+                                                  decoration: BoxDecoration(color: Colors.white),
+                                                  child: ClipRRect(
+                                                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                                                    child:Image(
+                                                      width: 26,
+                                                      height:26,
+                                                      image: AssetImage('images/bell.png'),
+                                                    ),
+                                                  )
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        Container(
+                                          margin: EdgeInsets.only(right: 10),
+                                          width: 60,
+                                          child: RaisedButton(
+                                            onPressed: (){
+                                              Navigator.push(context, MaterialPageRoute(builder: (context)=>MyCenterNotLoginPage()));
+                                            },
+                                            color: Colors.transparent,
+                                            elevation: 0,
+                                            disabledElevation: 0,
+                                            highlightColor: Colors.transparent,
+                                            highlightElevation: 0,
+                                            splashColor: Colors.transparent,
+                                            disabledColor: Colors.transparent,
+                                            child: ClipOval(
+                                              child: Container(
+                                                  width: 26,
+                                                  decoration: BoxDecoration(color: Colors.white),
+                                                  child: ClipRRect(
+                                                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                                                    child:Image(
+                                                      width: 26,
+                                                      height:26,
+                                                      image: AssetImage('images/my.png'),
+                                                    ),
+                                                  )
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              ),
+                              // 计划导航
+                              Container(
+                                padding: EdgeInsets.only(left: 0,right: 100),
+                                child: TabBar(
+                                  tabs: tabs,
+                                  controller: _controller,
+                                  isScrollable: true, // 可以左右滑动
+                                  labelColor: Colors.white,
+                                  labelPadding: EdgeInsets.fromLTRB(12, 0, 12, 5),
+                                  indicator: UnderlineTabIndicator(
+                                    borderSide: BorderSide(
+                                      color: Color(0xFF003273),
+                                      width: 3,
+                                    ),
+                                    insets: EdgeInsets.only(bottom: 10),
+                                  ),
+                                  labelStyle: TextStyle(fontSize: 20),
+                                  unselectedLabelStyle: TextStyle(fontSize: 14),
+                                ),
+                              ),
+                              // 上午、下午、晚上导航
+                              Row(
+                                children: <Widget>[
+                                  Container(
+                                    padding: EdgeInsets.only(left:90),
+                                    child: Image(image:AssetImage('images/evening.png')),
+                                  ),
+                                  Container(
+                                    padding: EdgeInsets.only(left:20,right:30,top:58),
+                                    child:GestureDetector(
+                                      child: Text(
+                                        '上午',
+                                        style: TextStyle(fontSize: 14,color: Colors.white,decoration: TextDecoration.none,fontWeight: FontWeight.normal,),
+                                      ),
+                                      onTap: (){
+                                        setState(() {
+                                          _pageIndex = 0;
+                                        });
+                                      },
+                                    ),
+                                  ),
+                                  Container(
+                                      padding: EdgeInsets.only(right:30,top:58),
+                                      child: GestureDetector(
+                                        child: Text(
+                                          '下午',
+                                          style: TextStyle(
+                                            fontSize: 14,color: Colors.white,decoration: TextDecoration.none,fontWeight: FontWeight.normal,
+                                          ),
+                                        ),
+                                        onTap: (){
+                                          setState((){
+                                            _pageIndex = 1;
+                                          });
+                                          print('$_pageIndex');
+                                        },
+                                      )
+                                  ),
+                                  Container(
+                                      padding: EdgeInsets.only(top:50),
+                                      child:GestureDetector(
+                                        child: Text(
+                                          '晚上',
+                                          style: TextStyle(
+                                            fontSize: 20,color: Color(0xFF9149EC),decoration: TextDecoration.none,fontWeight: FontWeight.normal,
+                                          ),
+                                        ),
+                                        onTap: (){
+                                          setState(() {
+                                            _pageIndex = 2;
+                                          });
+                                        },
+                                      )
+                                  ),
+
+                                ],
+                              ),
+                            ],
+                          )
+                      ),
+                    ),
+                  )
+                ]
+            ),
+          ),
+        ],
+      ),
     );
 
   }
