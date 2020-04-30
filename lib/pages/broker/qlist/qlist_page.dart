@@ -1,7 +1,7 @@
 import 'dart:typed_data';
 
+import 'package:ThumbSir/pages/broker/qlist/qlist_choose_add_page.dart';
 import 'package:flutter/material.dart';
-import 'package:ThumbSir/pages/broker/qlist/qlist_add_page.dart';
 import 'package:ThumbSir/pages/broker/qlist/qlist_analyze_page.dart';
 import 'package:ThumbSir/pages/broker/qlist/qlist_list_page.dart';
 
@@ -40,7 +40,7 @@ class _QListPageState extends State<QListPage> {
             BottomNavigationBarItem(
               icon: Icon(Icons.list,color: Colors.grey,),
               activeIcon:Icon(Icons.list,color:Colors.blue,),
-              title: Text('新增计划'),
+              title: Text('新增任务'),
             ),
             BottomNavigationBarItem(
               icon: Image(image:AssetImage('images/analyze.png')),
@@ -49,7 +49,7 @@ class _QListPageState extends State<QListPage> {
             ),
           ],
         ),
-        body: _currentIndex == 1 ? QListAddPage()
+        body: _currentIndex == 1 ? QListChooseAddPage()
         :_currentIndex == 0? QListListPage()
         : QListAnalyzePage()
       );

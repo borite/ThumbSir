@@ -48,6 +48,11 @@ flutter:
     - images/star3.png
     - images/star4.png
     - images/star5.png
+    - images/star1_e.png
+    - images/star2_e.png
+    - images/star3_e.png
+    - images/star4_e.png
+    - images/star5_e.png
     - images/phone.png
     - images/site.png
     - images/site_small.png
@@ -61,5 +66,6 @@ flutter:
     - images/vip.png
     - images/date.png
     - images/histogram.png
+    - images/edit.png
 
 
