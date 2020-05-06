@@ -39,7 +39,11 @@ class _QListChooseAddPageState extends State<QListChooseAddPage> {
                   children: <Widget>[
                     Row(
                       children: <Widget>[
-                        Image(image: AssetImage('images/group.png')),
+                        Container(
+                          width: 40,
+                          height: 35,
+                          child: Image(image: AssetImage('images/plantoday.png')),
+                        ),
                         Container(
                           margin: EdgeInsets.only(left: 10),
                           child: Text(
@@ -74,7 +78,11 @@ class _QListChooseAddPageState extends State<QListChooseAddPage> {
                   children: <Widget>[
                     Row(
                       children: <Widget>[
-                        Image(image: AssetImage('images/group.png')),
+                        Container(
+                          width: 40,
+                          height: 35,
+                          child: Image(image: AssetImage('images/plantom.png')),
+                        ),
                         Container(
                           margin: EdgeInsets.only(left: 10),
                           child: Text(

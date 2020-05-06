@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:ThumbSir/pages/broker/tips/qlist_tips_page.dart';
+import 'package:ThumbSir/pages/broker/qlist/qlist_add_page.dart';
 
 class QListListPage extends StatefulWidget {
   @override
@@ -297,6 +298,39 @@ class _QListListPageState extends State<QListListPage> with SingleTickerProvider
                   ]
               ),
             ),
+            // 任务未排满的提示
+            Positioned(
+                bottom:20,
+                left:90,
+                width: 233,
+                height: 90,
+                child: GestureDetector(
+                  onTap: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>QListAddPage()));
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image:AssetImage('images/warnbox.png'),
+                        fit: BoxFit.fitHeight,
+                      ),
+                    ),
+                    child: Column(
+                      children: <Widget>[
+                        Container(
+                          width:20,
+                          padding: EdgeInsets.only(top: 15,bottom: 8),
+                          child: Image(image: AssetImage('images/warn.png'),),
+                        ),
+                        Text('您的今日任务时间不连贯，点我安排',style: TextStyle(
+                          fontSize: 12,
+                          color: Color(0xFFF24848)
+                        ),),
+                      ],
+                    ),
+                  ),
+                ),
+            ),
           ],
         ),
     )
@@ -559,6 +593,44 @@ class _QListListPageState extends State<QListListPage> with SingleTickerProvider
                     ),
                   )
                 ]
+            ),
+          ),
+          // 明日任务没安排满的提示
+          Positioned(
+            bottom:20,
+            left:90,
+            width: 233,
+            height: 90,
+            child: GestureDetector(
+              onTap: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>QListAddPage()));
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image:AssetImage('images/warnbox.png'),
+                    fit: BoxFit.fitHeight,
+                  ),
+                ),
+                child: Column(
+                  children: <Widget>[
+                    Container(
+                      width:20,
+                      padding: EdgeInsets.only(top: 15,bottom: 8),
+                      child: Image(image: AssetImage('images/bell_yellow.png'),),
+                    ),
+                    GestureDetector(
+                      onTap: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>QListAddPage()));
+                      },
+                      child: Text('您的明日任务没有安排满，点我安排',style: TextStyle(
+                          fontSize: 12,
+                          color: Color(0xFFFF9600)
+                      ),),
+                    ),
+                  ],
+                ),
+              ),
             ),
           ),
         ],

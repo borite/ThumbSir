@@ -1,3 +1,4 @@
+import 'package:ThumbSir/pages/broker/mycenter/my_center_group_page.dart';
 import 'package:flutter/material.dart';
 
 class MyCenterPage extends StatefulWidget {
@@ -175,28 +176,33 @@ class _MyCenterPageState extends State<MyCenterPage> {
                         ),
                         Padding(
                           padding: EdgeInsets.only(bottom: 20,right: 20),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Row(
-                                children: <Widget>[
-                                  Image(image: AssetImage('images/group.png')),
-                                  Container(
-                                    margin: EdgeInsets.only(left: 10),
-                                    child: Text(
-                                      '白石桥大区长河湾北门店小组成员',
-                                      style:TextStyle(
-                                        fontSize: 16,
-                                        color: Color(0xFF333333),
-                                        fontWeight: FontWeight.normal,
-                                        decoration: TextDecoration.none,
+                          child: GestureDetector(
+                            onTap: (){
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=>MyCenterGroupPage()));
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Row(
+                                  children: <Widget>[
+                                    Image(image: AssetImage('images/group.png')),
+                                    Container(
+                                      margin: EdgeInsets.only(left: 10),
+                                      child: Text(
+                                        '白石桥大区长河湾北门店小组成员',
+                                        style:TextStyle(
+                                          fontSize: 16,
+                                          color: Color(0xFF333333),
+                                          fontWeight: FontWeight.normal,
+                                          decoration: TextDecoration.none,
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                ],
-                              ),
-                              Image(image: AssetImage('images/next.png'),)
-                            ],
+                                  ],
+                                ),
+                                Image(image: AssetImage('images/next.png'),)
+                              ],
+                            ),
                           ),
                         ),
                         Padding(

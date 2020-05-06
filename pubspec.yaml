@@ -35,6 +35,7 @@ flutter:
     - images/analyze.png
     - images/listicon.png
     - images/bell.png
+    - images/bell_yellow.png
     - images/finish.png
     - images/morning.png
     - images/noon.png
@@ -64,8 +65,13 @@ flutter:
     - images/next.png
     - images/service.png
     - images/vip.png
+    - images/vip_yellow.png
     - images/date.png
     - images/histogram.png
     - images/edit.png
+    - images/plantoday.png
+    - images/plantom.png
+    - images/warn.png
+    - images/warnbox.png
 
 
