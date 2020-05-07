@@ -23,6 +23,7 @@ flutter:
     - images/my_big.png
     - images/circle.png
     - images/circle_s.png
+    - images/circle_middle.png
     - images/back.png
     - images/back_white.png
     - images/set.png
@@ -54,6 +55,11 @@ flutter:
     - images/star3_e.png
     - images/star4_e.png
     - images/star5_e.png
+    - images/star1_big.png
+    - images/star2_big.png
+    - images/star3_big.png
+    - images/star4_big.png
+    - images/star5_big.png
     - images/phone.png
     - images/site.png
     - images/site_small.png
@@ -73,5 +79,8 @@ flutter:
     - images/plantom.png
     - images/warn.png
     - images/warnbox.png
+    - images/upload.png
+    - images/camera.png
+    - images/imgbg.png
 
 

@@ -1,6 +1,8 @@
 import 'dart:typed_data';
 
 import 'package:ThumbSir/pages/broker/mycenter/my_center_notlogin_page.dart';
+import 'package:ThumbSir/pages/broker/qlist/qlist_change_page.dart';
+import 'package:ThumbSir/pages/broker/qlist/qlist_upload_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 import 'package:flutter/material.dart';
@@ -1247,7 +1249,12 @@ class _QListListPageState extends State<QListListPage> with SingleTickerProvider
                               )
                             ],
                           ),
-                          Image(image: AssetImage('images/editor.png'))
+                          GestureDetector(
+                            onTap: (){
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=>QListChangePage()));
+                            },
+                            child: Image(image: AssetImage('images/editor.png')),
+                          ),
                         ],
                       ),
                     ),
@@ -1455,16 +1462,31 @@ class _QListListPageState extends State<QListListPage> with SingleTickerProvider
                         width:335,
                         child:
                         Padding(
-                          padding: EdgeInsets.only(left: 20,top: 10,bottom: 20),
-                          child: Text(
-                            '图片上传',
-                            style:TextStyle(
-                              fontSize: 16,
-                              color: Color(0xFF666666),
-                              decoration: TextDecoration.none,
-                              fontWeight: FontWeight.normal,
-                            ),
+                          padding: EdgeInsets.only(left: 20,top: 10,bottom: 20,right: 20),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Text(
+                                '图片上传',
+                                style:TextStyle(
+                                  fontSize: 16,
+                                  color: Color(0xFF666666),
+                                  decoration: TextDecoration.none,
+                                  fontWeight: FontWeight.normal,
+                                ),
+                              ),
+                              GestureDetector(
+                                onTap: (){
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>QListUploadPage()));
+                                },
+                                child: Container(
+                                  width: 24,
+                                  child: Image(image: AssetImage('images/upload.png')),
+                                ),
+                              ),
+                            ],
                           ),
+
                         )
                     ),
                     // 图片
