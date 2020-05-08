@@ -1,3 +1,4 @@
+import 'package:ThumbSir/pages/login/login_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -46,22 +47,27 @@ class _MyCenterNotLoginPageState extends State<MyCenterNotLoginPage> {
                         margin: EdgeInsets.only(top: 8,left: 25),
                         child: Column(
                           children: <Widget>[
-                            Container(
+                            GestureDetector(
+                              onTap: (){
+                                Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginPage()));
+                              },
                               child: Container(
-                                width: 90,
-                                height: 90,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.all(Radius.circular(45)),
-                                  color: Colors.white,
-                                  boxShadow: [BoxShadow(
-                                      color: Color(0xFFcccccc),
-                                      offset: Offset(0.0, 3.0),
-                                      blurRadius: 10.0,
-                                      spreadRadius: 2.0
-                                  )],
-                                ),
-                                child:Image(
-                                  image: AssetImage('images/my_big.png'),
+                                child: Container(
+                                  width: 90,
+                                  height: 90,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.all(Radius.circular(45)),
+                                    color: Colors.white,
+                                    boxShadow: [BoxShadow(
+                                        color: Color(0xFFcccccc),
+                                        offset: Offset(0.0, 3.0),
+                                        blurRadius: 10.0,
+                                        spreadRadius: 2.0
+                                    )],
+                                  ),
+                                  child:Image(
+                                    image: AssetImage('images/my_big.png'),
+                                  ),
                                 ),
                               ),
                             ),

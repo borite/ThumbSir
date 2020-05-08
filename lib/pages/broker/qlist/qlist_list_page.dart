@@ -1,7 +1,6 @@
 import 'dart:typed_data';
 
 import 'package:ThumbSir/pages/broker/mycenter/my_center_notlogin_page.dart';
-import 'package:ThumbSir/pages/broker/qlist/qlist_change_page.dart';
 import 'package:ThumbSir/pages/broker/qlist/qlist_upload_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
@@ -1251,7 +1250,7 @@ class _QListListPageState extends State<QListListPage> with SingleTickerProvider
                           ),
                           GestureDetector(
                             onTap: (){
-                              Navigator.push(context, MaterialPageRoute(builder: (context)=>QListChangePage()));
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=>QListUploadPage()));
                             },
                             child: Image(image: AssetImage('images/editor.png')),
                           ),
@@ -1473,15 +1472,6 @@ class _QListListPageState extends State<QListListPage> with SingleTickerProvider
                                   color: Color(0xFF666666),
                                   decoration: TextDecoration.none,
                                   fontWeight: FontWeight.normal,
-                                ),
-                              ),
-                              GestureDetector(
-                                onTap: (){
-                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>QListUploadPage()));
-                                },
-                                child: Container(
-                                  width: 24,
-                                  child: Image(image: AssetImage('images/upload.png')),
                                 ),
                               ),
                             ],
