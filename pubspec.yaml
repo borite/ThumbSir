@@ -12,6 +12,8 @@ dependencies:
   cupertino_icons: ^0.1.2
   sleek_circular_slider: ^1.1.0
   flutter_time_picker_spinner: ^1.0.6
+  direct_select: ^1.0.2+1
+  flutter_picker: ^1.1.4
 
 dev_dependencies:
   flutter_test:
@@ -66,6 +68,7 @@ flutter:
     - images/site_small.png
     - images/group.png
     - images/company.png
+    - images/company_big.png
     - images/editor.png
     - images/upbtn.png
     - images/add.png
@@ -83,5 +86,11 @@ flutter:
     - images/upload.png
     - images/camera.png
     - images/imgbg.png
+    - images/key.png
+    - images/tie.png
+    - images/tie_blue.png
+    - images/warn_blue.png
+    - images/choose.png
+    - images/next_blue.png
 
 
