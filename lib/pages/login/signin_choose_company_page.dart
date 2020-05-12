@@ -194,7 +194,7 @@ class _SigninChooseCompanyPageState extends State<SigninChooseCompanyPage> {
                           width: 335,
                           height: 40,
                           padding: EdgeInsets.all(4),
-                          margin: EdgeInsets.only(bottom: 30,top: 100),
+                          margin: EdgeInsets.only(bottom: 50,top: 100),
                           decoration: BoxDecoration(
                               border: Border.all(width: 1,color: Color(0xFF93C0FB)),
                               borderRadius: BorderRadius.circular(8),

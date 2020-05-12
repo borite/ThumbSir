@@ -1,6 +1,7 @@
 import 'package:ThumbSir/pages/login/login_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:ThumbSir/widget/input.dart';
 
 class SigninChooseAreaPage extends StatefulWidget {
   @override
@@ -83,14 +84,542 @@ class _SigninChooseAreaPageState extends State<SigninChooseAreaPage> {
                           ),
                         ],
                       ),
-                      // 输入公司
-                      Text('区域'),
+                      // 填写区域1
+                      Padding(
+                        padding: EdgeInsets.only(top:20,left: 20),
+                        child: Row(
+                          children: <Widget>[
+                            Container(
+                              width: 20,
+                              height: 20,
+                              padding: EdgeInsets.all(2),
+                              decoration: BoxDecoration(
+                                color: Color(0xFF93C0FB),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Text(
+                                '1',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.normal,
+                                  decoration: TextDecoration.none,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(left: 10),
+                              child: Text('第一级：总经理管辖区域',style: TextStyle(
+                                fontSize: 16,
+                                color: Color(0xFF666666),
+                                fontWeight: FontWeight.normal,
+                                decoration: TextDecoration.none,
+                              ),),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Column(
+                        children: <Widget>[
+                          Input(
+                            defaultText: '例如：北京市',
+                          ),
+                          // 选择公司
+                          Container(
+                              width: 335,
+                              padding: EdgeInsets.only(top: 20,bottom: 20),
+                              decoration: BoxDecoration(
+                                  border: Border(bottom: BorderSide(width: 1,color: Color(0xFFCCCCCC)))
+                              ),
+                              child:Column(
+                                children: <Widget>[
+                                  Padding(
+                                    padding: EdgeInsets.only(top: 10,bottom: 10),
+                                    child: Row(
+                                      children: <Widget>[
+                                        Padding(
+                                          padding: EdgeInsets.only(right: 10),
+                                          child: Image(image: AssetImage('images/choose.png'),),
+                                        ),
+                                        Text('北京市',style: TextStyle(
+                                          fontSize: 14,
+                                          color: Color(0xFF5580EB),
+                                          fontWeight: FontWeight.normal,
+                                          decoration: TextDecoration.none,
+                                        ),textAlign: TextAlign.left,),
+                                      ],
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.only(top: 10,bottom: 10),
+                                    child: Row(
+                                      children: <Widget>[
+                                        Padding(
+                                          padding: EdgeInsets.only(right: 10),
+                                          child: Image(image: AssetImage('images/choose.png'),),
+                                        ),
+                                        Text('上海市',style: TextStyle(
+                                          fontSize: 14,
+                                          color: Color(0xFF5580EB),
+                                          fontWeight: FontWeight.normal,
+                                          decoration: TextDecoration.none,
+                                        ),textAlign: TextAlign.left,),
+                                      ],
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.only(top: 10,bottom: 10),
+                                    child: Row(
+                                      children: <Widget>[
+                                        Padding(
+                                          padding: EdgeInsets.only(right: 10),
+                                          child: Image(image: AssetImage('images/choose.png'),),
+                                        ),
+                                        Text('太原市',style: TextStyle(
+                                          fontSize: 14,
+                                          color: Color(0xFF5580EB),
+                                          fontWeight: FontWeight.normal,
+                                          decoration: TextDecoration.none,
+                                        ),textAlign: TextAlign.left,),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              )
+                          ),
+                        ],
+                      ),
+                      // 填写区域2
+                      Padding(
+                        padding: EdgeInsets.only(top:20,left: 20),
+                        child: Row(
+                          children: <Widget>[
+                            Container(
+                              width: 20,
+                              height: 20,
+                              padding: EdgeInsets.all(2),
+                              decoration: BoxDecoration(
+                                color: Color(0xFF93C0FB),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Text(
+                                '2',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.normal,
+                                  decoration: TextDecoration.none,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(left: 10),
+                              child: Text('第二级：副总经理管辖区域',style: TextStyle(
+                                fontSize: 16,
+                                color: Color(0xFF666666),
+                                fontWeight: FontWeight.normal,
+                                decoration: TextDecoration.none,
+                              ),),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Column(
+                        children: <Widget>[
+                          Input(
+                            defaultText: '例如：京中事业部',
+                          ),
+                          // 选择公司
+                          Container(
+                              width: 335,
+                              padding: EdgeInsets.only(top: 20,bottom: 20),
+                              decoration: BoxDecoration(
+                                  border: Border(bottom: BorderSide(width: 1,color: Color(0xFFCCCCCC)))
+                              ),
+                              child:Column(
+                                children: <Widget>[
+                                  Padding(
+                                    padding: EdgeInsets.only(top: 10,bottom: 10),
+                                    child: Row(
+                                      children: <Widget>[
+                                        Padding(
+                                          padding: EdgeInsets.only(right: 10),
+                                          child: Image(image: AssetImage('images/choose.png'),),
+                                        ),
+                                        Text('京中事业部',style: TextStyle(
+                                          fontSize: 14,
+                                          color: Color(0xFF5580EB),
+                                          fontWeight: FontWeight.normal,
+                                          decoration: TextDecoration.none,
+                                        ),textAlign: TextAlign.left,),
+                                      ],
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.only(top: 10,bottom: 10),
+                                    child: Row(
+                                      children: <Widget>[
+                                        Padding(
+                                          padding: EdgeInsets.only(right: 10),
+                                          child: Image(image: AssetImage('images/choose.png'),),
+                                        ),
+                                        Text('京南事业部',style: TextStyle(
+                                          fontSize: 14,
+                                          color: Color(0xFF5580EB),
+                                          fontWeight: FontWeight.normal,
+                                          decoration: TextDecoration.none,
+                                        ),textAlign: TextAlign.left,),
+                                      ],
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.only(top: 10,bottom: 10),
+                                    child: Row(
+                                      children: <Widget>[
+                                        Padding(
+                                          padding: EdgeInsets.only(right: 10),
+                                          child: Image(image: AssetImage('images/choose.png'),),
+                                        ),
+                                        Text('京西北事业部',style: TextStyle(
+                                          fontSize: 14,
+                                          color: Color(0xFF5580EB),
+                                          fontWeight: FontWeight.normal,
+                                          decoration: TextDecoration.none,
+                                        ),textAlign: TextAlign.left,),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              )
+                          ),
+                        ],
+                      ),
+                      // 填写区域3
+                      Padding(
+                        padding: EdgeInsets.only(top:20,left: 20),
+                        child: Row(
+                          children: <Widget>[
+                            Container(
+                              width: 20,
+                              height: 20,
+                              padding: EdgeInsets.all(2),
+                              decoration: BoxDecoration(
+                                color: Color(0xFF93C0FB),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Text(
+                                '3',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.normal,
+                                  decoration: TextDecoration.none,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(left: 10),
+                              child: Text('第三级：总监管辖区域',style: TextStyle(
+                                fontSize: 16,
+                                color: Color(0xFF666666),
+                                fontWeight: FontWeight.normal,
+                                decoration: TextDecoration.none,
+                              ),),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Column(
+                        children: <Widget>[
+                          Input(
+                            defaultText: '例如：学院大区',
+                          ),
+                          // 选择公司
+                          Container(
+                              width: 335,
+                              padding: EdgeInsets.only(top: 20,bottom: 20),
+                              decoration: BoxDecoration(
+                                  border: Border(bottom: BorderSide(width: 1,color: Color(0xFFCCCCCC)))
+                              ),
+                              child:Column(
+                                children: <Widget>[
+                                  Padding(
+                                    padding: EdgeInsets.only(top: 10,bottom: 10),
+                                    child: Row(
+                                      children: <Widget>[
+                                        Padding(
+                                          padding: EdgeInsets.only(right: 10),
+                                          child: Image(image: AssetImage('images/choose.png'),),
+                                        ),
+                                        Text('学院大区',style: TextStyle(
+                                          fontSize: 14,
+                                          color: Color(0xFF5580EB),
+                                          fontWeight: FontWeight.normal,
+                                          decoration: TextDecoration.none,
+                                        ),textAlign: TextAlign.left,),
+                                      ],
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.only(top: 10,bottom: 10),
+                                    child: Row(
+                                      children: <Widget>[
+                                        Padding(
+                                          padding: EdgeInsets.only(right: 10),
+                                          child: Image(image: AssetImage('images/choose.png'),),
+                                        ),
+                                        Text('西直门大区',style: TextStyle(
+                                          fontSize: 14,
+                                          color: Color(0xFF5580EB),
+                                          fontWeight: FontWeight.normal,
+                                          decoration: TextDecoration.none,
+                                        ),textAlign: TextAlign.left,),
+                                      ],
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.only(top: 10,bottom: 10),
+                                    child: Row(
+                                      children: <Widget>[
+                                        Padding(
+                                          padding: EdgeInsets.only(right: 10),
+                                          child: Image(image: AssetImage('images/choose.png'),),
+                                        ),
+                                        Text('双井大区',style: TextStyle(
+                                          fontSize: 14,
+                                          color: Color(0xFF5580EB),
+                                          fontWeight: FontWeight.normal,
+                                          decoration: TextDecoration.none,
+                                        ),textAlign: TextAlign.left,),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              )
+                          ),
+                        ],
+                      ),
+                      // 填写区域4
+                      Padding(
+                        padding: EdgeInsets.only(top:20,left: 20),
+                        child: Row(
+                          children: <Widget>[
+                            Container(
+                              width: 20,
+                              height: 20,
+                              padding: EdgeInsets.all(2),
+                              decoration: BoxDecoration(
+                                color: Color(0xFF93C0FB),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Text(
+                                '4',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.normal,
+                                  decoration: TextDecoration.none,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(left: 10),
+                              child: Text('第四级：商圈经理管辖区域',style: TextStyle(
+                                fontSize: 16,
+                                color: Color(0xFF666666),
+                                fontWeight: FontWeight.normal,
+                                decoration: TextDecoration.none,
+                              ),),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Column(
+                        children: <Widget>[
+                          Input(
+                            defaultText: '例如：长河湾北门店',
+                          ),
+                          // 选择公司
+                          Container(
+                              width: 335,
+                              padding: EdgeInsets.only(top: 20,bottom: 20),
+                              decoration: BoxDecoration(
+                                  border: Border(bottom: BorderSide(width: 1,color: Color(0xFFCCCCCC)))
+                              ),
+                              child:Column(
+                                children: <Widget>[
+                                  Padding(
+                                    padding: EdgeInsets.only(top: 10,bottom: 10),
+                                    child: Row(
+                                      children: <Widget>[
+                                        Padding(
+                                          padding: EdgeInsets.only(right: 10),
+                                          child: Image(image: AssetImage('images/choose.png'),),
+                                        ),
+                                        Text('长河湾北门店',style: TextStyle(
+                                          fontSize: 14,
+                                          color: Color(0xFF5580EB),
+                                          fontWeight: FontWeight.normal,
+                                          decoration: TextDecoration.none,
+                                        ),textAlign: TextAlign.left,),
+                                      ],
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.only(top: 10,bottom: 10),
+                                    child: Row(
+                                      children: <Widget>[
+                                        Padding(
+                                          padding: EdgeInsets.only(right: 10),
+                                          child: Image(image: AssetImage('images/choose.png'),),
+                                        ),
+                                        Text('交大嘉园店',style: TextStyle(
+                                          fontSize: 14,
+                                          color: Color(0xFF5580EB),
+                                          fontWeight: FontWeight.normal,
+                                          decoration: TextDecoration.none,
+                                        ),textAlign: TextAlign.left,),
+                                      ],
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.only(top: 10,bottom: 10),
+                                    child: Row(
+                                      children: <Widget>[
+                                        Padding(
+                                          padding: EdgeInsets.only(right: 10),
+                                          child: Image(image: AssetImage('images/choose.png'),),
+                                        ),
+                                        Text('交大东路店',style: TextStyle(
+                                          fontSize: 14,
+                                          color: Color(0xFF5580EB),
+                                          fontWeight: FontWeight.normal,
+                                          decoration: TextDecoration.none,
+                                        ),textAlign: TextAlign.left,),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              )
+                          ),
+                        ],
+                      ),
+                      // 填写区域5
+                      Padding(
+                        padding: EdgeInsets.only(top:20,left: 20),
+                        child: Row(
+                          children: <Widget>[
+                            Container(
+                              width: 20,
+                              height: 20,
+                              padding: EdgeInsets.all(2),
+                              decoration: BoxDecoration(
+                                color: Color(0xFF93C0FB),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Text(
+                                '5',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.normal,
+                                  decoration: TextDecoration.none,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(left: 10),
+                              child: Text('第五级：店经理管辖区域',style: TextStyle(
+                                fontSize: 16,
+                                color: Color(0xFF666666),
+                                fontWeight: FontWeight.normal,
+                                decoration: TextDecoration.none,
+                              ),),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Column(
+                        children: <Widget>[
+                          Input(
+                            defaultText: '例如：买卖1组',
+                          ),
+                          // 选择公司
+                          Container(
+                              width: 335,
+                              padding: EdgeInsets.only(top: 20,bottom: 20),
+                              decoration: BoxDecoration(
+                                  border: Border(bottom: BorderSide(width: 1,color: Color(0xFFCCCCCC)))
+                              ),
+                              child:Column(
+                                children: <Widget>[
+                                  Padding(
+                                    padding: EdgeInsets.only(top: 10,bottom: 10),
+                                    child: Row(
+                                      children: <Widget>[
+                                        Padding(
+                                          padding: EdgeInsets.only(right: 10),
+                                          child: Image(image: AssetImage('images/choose.png'),),
+                                        ),
+                                        Text('买卖1组',style: TextStyle(
+                                          fontSize: 14,
+                                          color: Color(0xFF5580EB),
+                                          fontWeight: FontWeight.normal,
+                                          decoration: TextDecoration.none,
+                                        ),textAlign: TextAlign.left,),
+                                      ],
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.only(top: 10,bottom: 10),
+                                    child: Row(
+                                      children: <Widget>[
+                                        Padding(
+                                          padding: EdgeInsets.only(right: 10),
+                                          child: Image(image: AssetImage('images/choose.png'),),
+                                        ),
+                                        Text('买卖2组',style: TextStyle(
+                                          fontSize: 14,
+                                          color: Color(0xFF5580EB),
+                                          fontWeight: FontWeight.normal,
+                                          decoration: TextDecoration.none,
+                                        ),textAlign: TextAlign.left,),
+                                      ],
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.only(top: 10,bottom: 10),
+                                    child: Row(
+                                      children: <Widget>[
+                                        Padding(
+                                          padding: EdgeInsets.only(right: 10),
+                                          child: Image(image: AssetImage('images/choose.png'),),
+                                        ),
+                                        Text('租赁1组',style: TextStyle(
+                                          fontSize: 14,
+                                          color: Color(0xFF5580EB),
+                                          fontWeight: FontWeight.normal,
+                                          decoration: TextDecoration.none,
+                                        ),textAlign: TextAlign.left,),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              )
+                          ),
+                        ],
+                      ),
                       // 完成
                       Container(
                           width: 335,
                           height: 40,
                           padding: EdgeInsets.all(4),
-                          margin: EdgeInsets.only(bottom: 30,top: 100),
+                          margin: EdgeInsets.only(bottom: 50,top: 100),
                           decoration: BoxDecoration(
                               border: Border.all(width: 1,color: Color(0xFF93C0FB)),
                               borderRadius: BorderRadius.circular(8),

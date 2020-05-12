@@ -1,34 +1,14 @@
 import 'package:ThumbSir/pages/login/signin_choose_area_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:direct_select/direct_select.dart';
-import 'package:flutter_picker/flutter_picker.dart';
+import 'package:wheel_chooser/wheel_chooser.dart';
 
 class SigninChoosePositionPage extends StatefulWidget {
-  SigninChoosePositionPage({Key key, this.title}) : super(key: key);
-  final String title;
   @override
   _SigninChoosePositionPageState createState() => _SigninChoosePositionPageState();
 }
 
 class _SigninChoosePositionPageState extends State<SigninChoosePositionPage> {
-  final TextEditingController _controller = TextEditingController();
-  final elements1 = [
-    "经纪人",
-    "店经理",
-    "商圈经理",
-    "总监",
-    "副总经理",
-    "总经理",
-  ];
-  int selectedIndex1 = 0;
-  List<Widget> _buildItems1() {
-    return elements1.map((val) => MySelectionItem(
-      title: val,
-    )).toList();
-  }
-
-  final PickerData2 = [["经纪人","店长"]];
 
   @override
     Widget build(BuildContext context) {
@@ -105,42 +85,30 @@ class _SigninChoosePositionPageState extends State<SigninChoosePositionPage> {
                         ],
                       ),
                       // 选择职位
-                      Text('职位'),
-                      Padding(
-                          padding: const EdgeInsets.all(15.0),
-                          child: Center(
-                            child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.stretch,
-                                children: <Widget>[
-                                  DirectSelect(
-                                      itemExtent: 35.0,
-                                      selectedIndex: selectedIndex1,
-                                      backgroundColor: Colors.red,
-                                      child: MySelectionItem(
-                                        isForList: false,
-                                        title: elements1[selectedIndex1],
-                                      ),
-                                      onSelectedItemChanged: (index) {
-                                        setState(() {
-                                          selectedIndex1 = index;
-                                        });
-                                      },
-                                      items: _buildItems1()
-                                  ),
-                                ]),
+                      Container(
+                        width: 200,
+                        height: 220,
+                        child: WheelChooser(
+                          onValueChanged: (s) => print(s),
+                          datas: ["经纪人", "店经理", "商圈经理", "总监", "副总经理", "总经理"],
+                          selectTextStyle: TextStyle(
+                            color: Color(0xFF0E7AE6),
+                            fontWeight: FontWeight.normal,
+                            fontSize: 14
                           ),
-                      ),
-                      GestureDetector(
-                        onTap: (){showPickerArray(context);},
-                        child: Text('选择职位'),
+                          unSelectTextStyle: TextStyle(
+                              color: Color(0xFF666666),
+                              fontWeight: FontWeight.normal,
+                              fontSize: 14
+                          ),
+                        ),
                       ),
                       // 下一步
                       Container(
                           width: 335,
                           height: 40,
                           padding: EdgeInsets.all(4),
-                          margin: EdgeInsets.only(bottom: 30,top: 100),
+                          margin: EdgeInsets.only(bottom: 50,top: 100),
                           decoration: BoxDecoration(
                               border: Border.all(width: 1,color: Color(0xFF93C0FB)),
                               borderRadius: BorderRadius.circular(8),
@@ -168,58 +136,5 @@ class _SigninChoosePositionPageState extends State<SigninChoosePositionPage> {
         ),
       );
   }
-  showPickerArray(BuildContext context) {
-    new Picker(
-        adapter: PickerDataAdapter<String>(pickerdata: PickerData2, isArray: true),
-        hideHeader: true,
-        title: new Text("Please Select"),
-        onConfirm: (Picker picker, List value) {
-          print(value.toString());
-          print(picker.getSelectedValues());
-        }
-    ).showDialog(context);
-  }
 }
 
-class MySelectionItem extends StatelessWidget {
-  final String title;
-  final bool isForList;
-
-  const MySelectionItem({Key key, this.title, this.isForList = true})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      height: 60.0,
-      child: isForList
-          ? Padding(
-        child: _buildItem(context),
-        padding: EdgeInsets.all(10.0),
-      )
-          : Card(
-        margin: EdgeInsets.symmetric(horizontal: 10.0),
-        child: Stack(
-          children: <Widget>[
-            _buildItem(context),
-            Align(
-              alignment: Alignment.centerRight,
-              child: Icon(Icons.arrow_drop_down),
-            )
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildItem(BuildContext context) {
-    return Container(
-      width: MediaQuery.of(context).size.width,
-      alignment: Alignment.center,
-      child: FittedBox(
-          child: Text(
-            title,
-          )),
-    );
-  }
-}

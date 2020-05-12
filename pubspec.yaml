@@ -12,8 +12,7 @@ dependencies:
   cupertino_icons: ^0.1.2
   sleek_circular_slider: ^1.1.0
   flutter_time_picker_spinner: ^1.0.6
-  direct_select: ^1.0.2+1
-  flutter_picker: ^1.1.4
+  wheel_chooser: ^0.1.0
 
 dev_dependencies:
   flutter_test:

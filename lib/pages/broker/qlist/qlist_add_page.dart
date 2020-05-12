@@ -451,7 +451,7 @@ class _QListAddPageState extends State<QListAddPage> {
                     width: 200,
                     height: 32,
                     padding: EdgeInsets.all(3),
-                    margin: EdgeInsets.fromLTRB(0, 40, 0, 80),
+                    margin: EdgeInsets.fromLTRB(0, 40, 0, 50),
                     decoration: BoxDecoration(
                       border: Border.all(width: 1,color: Color(0xFF93C0FB)),
                       borderRadius: BorderRadius.circular(5),
