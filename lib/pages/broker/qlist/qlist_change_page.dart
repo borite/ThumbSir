@@ -1,6 +1,5 @@
-import 'package:ThumbSir/pages/home.dart';
 import 'package:flutter/material.dart';
-import 'package:ThumbSir/pages/broker/mycenter/my_center_page.dart';
+import 'package:flutter_time_picker_spinner/flutter_time_picker_spinner.dart';
 
 class QListChangePage extends StatefulWidget {
   @override
@@ -8,6 +7,7 @@ class QListChangePage extends StatefulWidget {
 }
 
 class _QListChangePageState extends State<QListChangePage> {
+  DateTime _dateTime = DateTime.now();
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -260,18 +260,106 @@ class _QListChangePageState extends State<QListChangePage> {
                       )
 
                   ),
-                  Text('开始时间',style: TextStyle(
-                    fontSize: 14,
-                    color: Color(0xFF24CC8E),
-                    fontWeight: FontWeight.normal,
-                    decoration: TextDecoration.none,
-                  ),),
-                  Text('结束时间',style: TextStyle(
-                    fontSize: 14,
-                    color: Color(0xFF24CC8E),
-                    fontWeight: FontWeight.normal,
-                    decoration: TextDecoration.none,
-                  ),),
+                  // 开始时间
+                  Container(
+                      padding: EdgeInsets.only(left: 20),
+                      child: Stack(
+                        children: <Widget>[
+                          Row(
+                            children: <Widget>[
+                              Padding(
+                                padding: EdgeInsets.only(right: 30),
+                                child: Text('开始时间',style: TextStyle(
+                                  fontSize: 14,
+                                  color: Color(0xFF24CC8E),
+                                  fontWeight: FontWeight.normal,
+                                  decoration: TextDecoration.none,
+                                ),),
+                              ),
+                              hourMinute(),
+                              Padding(
+                                padding: EdgeInsets.only(left: 20),
+                                child: Text(
+                                  '分 '+
+                                      _dateTime.hour.toString().padLeft(2, '0') + ':' +
+                                      _dateTime.minute.toString().padLeft(2, '0') ,
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.normal,
+                                    color: Color(0xFF333333),
+                                    decoration: TextDecoration.none,
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                          Positioned(
+                            top: 50,
+                            left: 150,
+                            child: Text(
+                              '时',
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.normal,
+                                color: Color(0xFF333333),
+                                decoration: TextDecoration.none,
+                              ),
+                            ),
+                          )
+                        ],
+                      )
+
+                  ),
+                  // 结束时间
+                  Container(
+                      padding: EdgeInsets.only(left: 20,top: 10),
+                      child: Stack(
+                        children: <Widget>[
+                          Row(
+                            children: <Widget>[
+                              Padding(
+                                padding: EdgeInsets.only(right: 30),
+                                child: Text('结束时间',style: TextStyle(
+                                  fontSize: 14,
+                                  color: Color(0xFF24CC8E),
+                                  fontWeight: FontWeight.normal,
+                                  decoration: TextDecoration.none,
+                                ),),
+                              ),
+                              hourMinute(),
+                              Padding(
+                                padding: EdgeInsets.only(left: 20),
+                                child: Text(
+                                  '分 '+
+                                      _dateTime.hour.toString().padLeft(2, '0') + ':' +
+                                      _dateTime.minute.toString().padLeft(2, '0') ,
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.normal,
+                                    color: Color(0xFF333333),
+                                    decoration: TextDecoration.none,
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                          Positioned(
+                            top: 50,
+                            left: 150,
+                            child: Text(
+                              '时',
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.normal,
+                                color: Color(0xFF333333),
+                                decoration: TextDecoration.none,
+                              ),
+                            ),
+                          )
+                        ],
+                      )
+
+                  ),
                   // 任务描述
                   Padding(
                     padding: EdgeInsets.fromLTRB(20, 25, 20, 20),
@@ -379,4 +467,32 @@ class _QListChangePageState extends State<QListChangePage> {
         )
     );
   }
+}
+
+Widget hourMinute(){
+  return TimePickerSpinner(
+    normalTextStyle: TextStyle(
+      fontSize: 16,
+      color: Color(0xFF666666),
+      fontWeight: FontWeight.normal,
+      decoration: TextDecoration.none,
+    ),
+    highlightedTextStyle: TextStyle(
+      fontSize: 20,
+      color: Color(0xFF24CC8E),
+      decoration: TextDecoration.underline,
+      decorationColor: Color(0xFF24CC8E),
+      decorationStyle: TextDecorationStyle.solid,
+      fontWeight: FontWeight.normal,
+    ),
+    itemWidth: 40,
+    spacing: 50,
+    itemHeight: 40,
+    isForce2Digits: true,
+    onTimeChange: (time) {
+//      setState(() {
+//        _dateTime = time;
+//      });
+    },
+  );
 }

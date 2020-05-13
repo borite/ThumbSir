@@ -887,7 +887,6 @@ class _QListListPageState extends State<QListListPage> with SingleTickerProvider
                                         },
                                       )
                                   ),
-
                                 ],
                               ),
                             ],
@@ -1252,7 +1251,10 @@ class _QListListPageState extends State<QListListPage> with SingleTickerProvider
                             onTap: (){
                               Navigator.push(context, MaterialPageRoute(builder: (context)=>QListUploadPage()));
                             },
-                            child: Image(image: AssetImage('images/editor.png')),
+                            child: Container(
+                              width: 24,
+                              child: Image(image: AssetImage('images/upload.png')),
+                            ),
                           ),
                         ],
                       ),

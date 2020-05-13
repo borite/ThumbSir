@@ -1,16 +1,16 @@
 import 'package:ThumbSir/pages/home.dart';
-import 'package:ThumbSir/pages/login/find_key_phone_page.dart';
+import 'package:ThumbSir/pages/login/find_key_page.dart';
 import 'package:ThumbSir/pages/login/signin_nameandphone_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ThumbSir/widget/input.dart';
 
-class LoginPage extends StatefulWidget {
+class FindKeyPhonePage extends StatefulWidget {
   @override
-  _LoginPageState createState() => _LoginPageState();
+  _FindKeyPhonePageState createState() => _FindKeyPhonePageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _FindKeyPhonePageState extends State<FindKeyPhonePage> {
   final TextEditingController _controller = TextEditingController();
   @override
     Widget build(BuildContext context) {
@@ -32,24 +32,12 @@ class _LoginPageState extends State<LoginPage> {
                       Padding(
                           padding: EdgeInsets.all(15),
                           child:Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
                               GestureDetector(
                                 onTap: (){
                                   Navigator.pop(context);
                                 },
                                 child: Image(image: AssetImage('images/back.png'),),
-                              ),
-                              GestureDetector(
-                                onTap: (){
-                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>SigninNameAndPhonePage()));
-                                },
-                                child: Text('注册',style: TextStyle(
-                                  fontSize: 16,
-                                  color: Color(0xFF0E7AE6),
-                                  fontWeight: FontWeight.normal,
-                                  decoration: TextDecoration.none,
-                                ),),
                               ),
                             ],
                           )
@@ -77,14 +65,14 @@ class _LoginPageState extends State<LoginPage> {
                                       )],
                                     ),
                                     child:Image(
-                                      image: AssetImage('images/my_big.png'),
+                                      image: AssetImage('images/key.png'),
                                     ),
                                   ),
                                 ),
                                 Container(
                                   margin: EdgeInsets.only(top: 10,bottom: 30),
                                   child: Text(
-                                    '登录',
+                                    '找回密码',
                                     style:TextStyle(
                                       fontSize: 20,
                                       color: Color(0xFF333333),
@@ -102,10 +90,10 @@ class _LoginPageState extends State<LoginPage> {
                       Column(
                         children: <Widget>[
                           Input(
-                            defaultText: '手机号码',
+                            defaultText: '电话号码',
                           ),
                           Input(
-                            defaultText: '密码',
+                            defaultText: '验证码',
                           ),
                           Container(
                             width: 335,
@@ -114,7 +102,7 @@ class _LoginPageState extends State<LoginPage> {
                               onTap: (){
                                 Navigator.push(context, MaterialPageRoute(builder: (context)=>FindKeyPhonePage()));
                               },
-                              child: Text('忘记密码？',style: TextStyle(
+                              child: Text('无法收到验证码？发起账号申诉！',style: TextStyle(
                                 fontSize: 14,
                                 color: Color(0xFF5580EB),
                                 fontWeight: FontWeight.normal,
@@ -127,7 +115,7 @@ class _LoginPageState extends State<LoginPage> {
                       // 登录
                       GestureDetector(
                         onTap: (){
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=>Home()));
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>FindKeyPage()));
                         },
                         child: Container(
                             width: 335,
@@ -141,7 +129,7 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                             child: Padding(
                               padding: EdgeInsets.only(top: 4),
-                              child: Text('登录',style: TextStyle(
+                              child: Text('下一步',style: TextStyle(
                                 fontSize: 14,
                                 color: Colors.white,
                                 fontWeight: FontWeight.normal,

@@ -54,7 +54,7 @@ class _QListUploadPageState extends State<QListUploadPage> {
                             },
                             child: Row(
                               children: <Widget>[
-                                Text('修改任务',style: TextStyle(
+                                Text('修改此任务',style: TextStyle(
                                   fontSize: 16,
                                   color: Color(0xFF0E7AE6),
                                   fontWeight: FontWeight.normal,
@@ -62,7 +62,7 @@ class _QListUploadPageState extends State<QListUploadPage> {
                                 ),),
                                 Padding(
                                   padding: EdgeInsets.only(left: 5),
-                                  child: Image(image: AssetImage('images/set.png'),),
+                                  child: Image(image: AssetImage('images/editor.png'),),
                                 )
 
                               ],

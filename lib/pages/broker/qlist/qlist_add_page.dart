@@ -3,8 +3,6 @@ import 'package:flutter_time_picker_spinner/flutter_time_picker_spinner.dart';
 
 class QListAddPage extends StatefulWidget {
   @override
-  QListAddPage({Key key, this.title}) : super(key: key);
-  final String title;
   _QListAddPageState createState() => _QListAddPageState();
 }
 
@@ -270,7 +268,7 @@ class _QListAddPageState extends State<QListAddPage> {
                         Row(
                           children: <Widget>[
                             Padding(
-                              padding: EdgeInsets.only(right: 20),
+                              padding: EdgeInsets.only(right: 30),
                               child: Text('开始时间',style: TextStyle(
                                 fontSize: 14,
                                 color: Color(0xFF0E7AE6),
@@ -297,7 +295,7 @@ class _QListAddPageState extends State<QListAddPage> {
                         ),
                         Positioned(
                           top: 50,
-                          left: 140,
+                          left: 150,
                           child: Text(
                             '时',
                             style: TextStyle(
@@ -320,7 +318,7 @@ class _QListAddPageState extends State<QListAddPage> {
                           Row(
                             children: <Widget>[
                               Padding(
-                                padding: EdgeInsets.only(right: 20),
+                                padding: EdgeInsets.only(right: 30),
                                 child: Text('结束时间',style: TextStyle(
                                   fontSize: 14,
                                   color: Color(0xFF0E7AE6),
@@ -347,7 +345,7 @@ class _QListAddPageState extends State<QListAddPage> {
                           ),
                           Positioned(
                             top: 50,
-                            left: 140,
+                            left: 150,
                             child: Text(
                               '时',
                               style: TextStyle(

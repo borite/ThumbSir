@@ -1,16 +1,14 @@
-import 'package:ThumbSir/pages/home.dart';
-import 'package:ThumbSir/pages/login/find_key_phone_page.dart';
-import 'package:ThumbSir/pages/login/signin_nameandphone_page.dart';
+import 'package:ThumbSir/pages/login/login_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ThumbSir/widget/input.dart';
 
-class LoginPage extends StatefulWidget {
+class FindKeyPage extends StatefulWidget {
   @override
-  _LoginPageState createState() => _LoginPageState();
+  _FindKeyPageState createState() => _FindKeyPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _FindKeyPageState extends State<FindKeyPage> {
   final TextEditingController _controller = TextEditingController();
   @override
     Widget build(BuildContext context) {
@@ -32,24 +30,12 @@ class _LoginPageState extends State<LoginPage> {
                       Padding(
                           padding: EdgeInsets.all(15),
                           child:Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
                               GestureDetector(
                                 onTap: (){
                                   Navigator.pop(context);
                                 },
                                 child: Image(image: AssetImage('images/back.png'),),
-                              ),
-                              GestureDetector(
-                                onTap: (){
-                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>SigninNameAndPhonePage()));
-                                },
-                                child: Text('注册',style: TextStyle(
-                                  fontSize: 16,
-                                  color: Color(0xFF0E7AE6),
-                                  fontWeight: FontWeight.normal,
-                                  decoration: TextDecoration.none,
-                                ),),
                               ),
                             ],
                           )
@@ -77,14 +63,14 @@ class _LoginPageState extends State<LoginPage> {
                                       )],
                                     ),
                                     child:Image(
-                                      image: AssetImage('images/my_big.png'),
+                                      image: AssetImage('images/key.png'),
                                     ),
                                   ),
                                 ),
                                 Container(
                                   margin: EdgeInsets.only(top: 10,bottom: 30),
                                   child: Text(
-                                    '登录',
+                                    '找回密码',
                                     style:TextStyle(
                                       fontSize: 20,
                                       color: Color(0xFF333333),
@@ -102,53 +88,45 @@ class _LoginPageState extends State<LoginPage> {
                       Column(
                         children: <Widget>[
                           Input(
-                            defaultText: '手机号码',
-                          ),
-                          Input(
-                            defaultText: '密码',
+                            defaultText: '新密码',
                           ),
                           Container(
                             width: 335,
                             padding: EdgeInsets.only(top: 20),
-                            child: GestureDetector(
-                              onTap: (){
-                                Navigator.push(context, MaterialPageRoute(builder: (context)=>FindKeyPhonePage()));
-                              },
-                              child: Text('忘记密码？',style: TextStyle(
-                                fontSize: 14,
-                                color: Color(0xFF5580EB),
-                                fontWeight: FontWeight.normal,
-                                decoration: TextDecoration.none,
-                              ),textAlign: TextAlign.right,),
-                            ),
+                            child: Text('6-18位数字、字母组合，字母包含大小写，禁止使用符号',style: TextStyle(
+                              fontSize: 10,
+                              color: Color(0xFF999999),
+                              fontWeight: FontWeight.normal,
+                              decoration: TextDecoration.none,
+                            ),textAlign: TextAlign.left,),
                           ),
                         ],
                       ),
-                      // 登录
-                      GestureDetector(
-                        onTap: (){
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=>Home()));
-                        },
-                        child: Container(
-                            width: 335,
-                            height: 40,
-                            padding: EdgeInsets.all(4),
-                            margin: EdgeInsets.only(bottom: 50,top: 100),
-                            decoration: BoxDecoration(
-                                border: Border.all(width: 1,color: Color(0xFF93C0FB)),
-                                borderRadius: BorderRadius.circular(8),
-                                color: Color(0xFF93C0FB)
-                            ),
-                            child: Padding(
-                              padding: EdgeInsets.only(top: 4),
-                              child: Text('登录',style: TextStyle(
+                      // 下一步
+                      Container(
+                          width: 335,
+                          height: 40,
+                          padding: EdgeInsets.all(4),
+                          margin: EdgeInsets.only(bottom: 50,top: 100),
+                          decoration: BoxDecoration(
+                              border: Border.all(width: 1,color: Color(0xFF93C0FB)),
+                              borderRadius: BorderRadius.circular(8),
+                              color: Color(0xFF93C0FB)
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.only(top: 4),
+                            child: GestureDetector(
+                              onTap: (){
+                                Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginPage()));
+                              },
+                              child: Text('完成',style: TextStyle(
                                 fontSize: 14,
                                 color: Colors.white,
                                 fontWeight: FontWeight.normal,
                                 decoration: TextDecoration.none,
                               ),textAlign: TextAlign.center,),
-                            )
-                        ),
+                            ),
+                          )
                       ),
                     ]
                 )
