@@ -13,6 +13,10 @@ dependencies:
   sleek_circular_slider: ^1.1.0
   flutter_time_picker_spinner: ^1.0.6
   wheel_chooser: ^0.1.0
+  http: ^0.12.1
+  shared_preferences: ^0.5.7+2
+  some_calendar: ^1.2.3
+  month_picker_dialog: ^0.3.2
 
 dev_dependencies:
   flutter_test:
