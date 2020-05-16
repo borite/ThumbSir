@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:ThumbSir/pages/broker/mycenter/my_center_page.dart';
+import 'package:ThumbSir/pages/mycenter/my_center_page.dart';
 import 'package:ThumbSir/pages/broker/openclient/open_client_page.dart';
 import 'package:ThumbSir/pages/broker/openowner/open_owner_page.dart';
 import 'package:ThumbSir/pages/broker/qlist/qlist_page.dart';

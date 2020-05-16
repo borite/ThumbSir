@@ -1,4 +1,4 @@
-import 'package:ThumbSir/pages/broker/mycenter/my_center_notlogin_page.dart';
+import 'package:ThumbSir/pages/mycenter/my_center_notlogin_page.dart';
 import 'package:ThumbSir/widget/past_qlist.dart';
 import 'package:ThumbSir/widget/today_qlist.dart';
 import 'package:ThumbSir/widget/tomorrow_qlist.dart';
