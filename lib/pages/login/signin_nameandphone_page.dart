@@ -1,7 +1,12 @@
+import 'package:ThumbSir/pages/login/signin_choose_company_page.dart';
 import 'package:ThumbSir/pages/login/signin_key_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ThumbSir/widget/input.dart';
+import 'package:ThumbSir/model/sendverifycode_model.dart';
+import 'package:ThumbSir/dao/sendverifycode_dao.dart';
+import 'package:ThumbSir/dao/signin_dao.dart';
+import 'package:ThumbSir/model/userreg_model.dart';
 
 class SigninNameAndPhonePage extends StatefulWidget {
   @override
@@ -9,7 +14,11 @@ class SigninNameAndPhonePage extends StatefulWidget {
 }
 
 class _SigninNameAndPhonePageState extends State<SigninNameAndPhonePage> {
-  final TextEditingController _controller = TextEditingController();
+  final TextEditingController userNameController = TextEditingController();
+  final TextEditingController phoneNumController=TextEditingController();
+  final TextEditingController passwordController=TextEditingController();
+  final TextEditingController verifyCodeController=TextEditingController();
+
   @override
     Widget build(BuildContext context) {
       return Scaffold(
@@ -87,14 +96,139 @@ class _SigninNameAndPhonePageState extends State<SigninNameAndPhonePage> {
                       // 姓名、电话、密码、忘记密码
                       Column(
                         children: <Widget>[
-                          Input(
-                            defaultText: '姓名',
+                          //姓名
+                          Container(
+                            width: 335,
+                            height: 40,
+                            margin: EdgeInsets.only(top: 25),
+                            decoration: BoxDecoration(
+                              border: Border.all(width: 1,color: Color(0xFF2692FD)),
+                              borderRadius: BorderRadius.circular(8),
+                              color: Colors.white,
+                            ),
+                            child: TextField(
+                              controller: userNameController,
+                              autofocus: false,
+
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Color(0xFF999999),
+                                fontWeight: FontWeight.normal,
+                                decoration: TextDecoration.none,
+                              ),
+                              decoration: InputDecoration(
+                                  contentPadding: EdgeInsets.fromLTRB(10, 0, 10, 7),
+                                  border: InputBorder.none,
+                                  hintStyle: TextStyle(fontSize: 14),
+                                  hintText: "请输入真实姓名"
+                              ),
+                            ),
                           ),
-                          Input(
-                            defaultText: '手机号码',
+                          //密码
+                          Container(
+                            width: 335,
+                            height: 40,
+                            margin: EdgeInsets.only(top: 25),
+                            decoration: BoxDecoration(
+                              border: Border.all(width: 1,color: Color(0xFF2692FD)),
+                              borderRadius: BorderRadius.circular(8),
+                              color: Colors.white,
+                            ),
+                            child: TextField(
+                              controller: passwordController,
+                              autofocus: false,
+
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Color(0xFF999999),
+                                fontWeight: FontWeight.normal,
+                                decoration: TextDecoration.none,
+                              ),
+                              decoration: InputDecoration(
+                                  contentPadding: EdgeInsets.fromLTRB(10, 0, 10, 7),
+                                  border: InputBorder.none,
+                                  hintStyle: TextStyle(fontSize: 14),
+                                  hintText: "请输入密码"
+                              ),
+                            ),
                           ),
-                          Input(
-                            defaultText: '验证码',
+                          //手机号码输入框
+                          Container(
+                            width: 335,
+                            height: 40,
+                            margin: EdgeInsets.only(top: 25),
+                            decoration: BoxDecoration(
+                              border: Border.all(width: 1,color: Color(0xFF2692FD)),
+                              borderRadius: BorderRadius.circular(8),
+                              color: Colors.white,
+                            ),
+                            child: TextField(
+                              controller: phoneNumController,
+                              autofocus: false,
+
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Color(0xFF999999),
+                                fontWeight: FontWeight.normal,
+                                decoration: TextDecoration.none,
+                              ),
+                              decoration: InputDecoration(
+                                contentPadding: EdgeInsets.fromLTRB(10, 0, 10, 7),
+                                border: InputBorder.none,
+                                hintStyle: TextStyle(fontSize: 14),
+                                hintText: "手机号码"
+                              ),
+                            ),
+                          ),
+                          //验证码
+                          Container(
+                            width: 335,
+                            height: 40,
+                            margin: EdgeInsets.only(top: 25),
+                            decoration: BoxDecoration(
+                              border: Border.all(width: 1,color: Color(0xFF2692FD)),
+                              borderRadius: BorderRadius.circular(8),
+                              color: Colors.white,
+                            ),
+                            child: TextField(
+                              controller: verifyCodeController,
+                              autofocus: false,
+
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Color(0xFF999999),
+                                fontWeight: FontWeight.normal,
+                                decoration: TextDecoration.none,
+                              ),
+                              decoration: InputDecoration(
+                                  contentPadding: EdgeInsets.fromLTRB(10, 0, 10, 7),
+                                  border: InputBorder.none,
+                                  hintStyle: TextStyle(fontSize: 14),
+                                  hintText: "请输入验证码"
+                              ),
+                            ),
+                          ),
+                          //验证码发送按钮
+                          GestureDetector(
+                            onTap: () async {
+                              final String phoneNum=phoneNumController.text;
+                              final SendVerifyCode result=await SendVerifyCodeDao.sendSms(phoneNum);
+                              print(result);
+                            },
+                            child: Container(
+                              width: 100,
+                              height: 30,
+                              margin: EdgeInsets.only(top: 30),
+                              decoration: BoxDecoration(
+                                border: Border.all(color:Colors.grey,width: 1)
+                              ),
+                              child: Text('发送验证码',style: TextStyle(
+                                fontSize: 14,
+                                color: Color(0xFF5580EB),
+                                fontWeight: FontWeight.normal,
+                                decoration: TextDecoration.none,
+                              ),),
+                            ),
                           ),
                           Container(
                             width: 335,
@@ -130,8 +264,17 @@ class _SigninNameAndPhonePageState extends State<SigninNameAndPhonePage> {
                           child: Padding(
                             padding: EdgeInsets.only(top: 4),
                             child: GestureDetector(
-                              onTap: (){
-                                Navigator.push(context, MaterialPageRoute(builder: (context)=>SigninKeyPage()));
+                              onTap: () async {
+                                final String phoneNum=phoneNumController.text;
+                                final String userName=userNameController.text;
+                                final String password=passwordController.text;
+                                final String verifyCode=verifyCodeController.text;
+
+                                final UserReg result=await SigninDao.doUserReg(userName, password, phoneNum, verifyCode, '37ccc461-ab5c-4855-8842-bc45973d7cf0');
+                                print(result.code);
+                                print(result.message);
+                                print(result.data);
+                                //Navigator.push(context, MaterialPageRoute(builder: (context)=>SigninChooseCompanyPage()));
                               },
                               child: Text('下一步',style: TextStyle(
                                 fontSize: 14,

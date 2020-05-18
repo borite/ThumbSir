@@ -1,20 +1,28 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:ThumbSir/model/signin_model.dart';
+import 'package:ThumbSir/model/userreg_model.dart';
+import 'package:ThumbSir/utils/common_vars.dart';
 
-// 接口地址
-const URL = 'http://47.104.20.6:10086/api/';
+// 接口地址前缀
+const String apiPerfix=CommonVars.apiPrefix;
 
 class SigninDao {
-  static Future<SigninModel> fetch() async {
-    final response = await http.post(URL+'User/UserRegister');
+  static Future<UserReg> doUserReg(String _userName,String _password,String _phone,String _verifyCode, String _companyID ) async {
+    final response = await http.post(apiPerfix+'api/User/UserRegister',body: {
+      "UserName": _userName,
+      "Phone": _phone,
+      "Password": _password,
+      "yzm": _verifyCode,
+      "CompanyID": _companyID
+    });
+    //Utf8Decoder utf8decoder = Utf8Decoder();  // 修复中文乱码
+    //var result = json.decode(utf8decoder.convert(response.bodyBytes));
     if(response.statusCode == 200){
-      Utf8Decoder utf8decoder = Utf8Decoder();  // 修复中文乱码
-      var result = json.decode(utf8decoder.convert(response.bodyBytes));
-      return SigninModel.fromJson(result);
+
+      return userRegFromJson(response.body);
     }else{
-      throw Exception('加载失败');
+      throw Exception(response.body);
     }
   }
 }
