@@ -1,3 +1,4 @@
+import 'package:ThumbSir/pages/broker/qlist/qlist_view_mini_tasks_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_time_picker_spinner/flutter_time_picker_spinner.dart';
 
@@ -28,24 +29,60 @@ class _QListAddPageState extends State<QListAddPage> {
                   Padding(
                       padding: EdgeInsets.all(15),
                       child:Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-                          GestureDetector(
-                            onTap: (){
-                              Navigator.pop(context);
-                              },
-                            child: Image(image: AssetImage('images/back.png'),),
+                          Row(
+                            children: <Widget>[
+                              GestureDetector(
+                                onTap: (){
+                                  Navigator.pop(context);
+                                },
+                                child: Image(image: AssetImage('images/back.png'),),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(left: 20),
+                                child: Text('添加明日任务',style: TextStyle(
+                                  fontSize: 16,
+                                  color: Color(0xFF0E7AE6),
+                                  fontWeight: FontWeight.normal,
+                                  decoration: TextDecoration.none,
+                                ),),
+                              )
+                            ],
                           ),
-                          Padding(
-                            padding: EdgeInsets.only(left: 20),
-                            child: Text('添加明日任务',style: TextStyle(
-                              fontSize: 16,
-                              color: Color(0xFF0E7AE6),
+                          Text('修改',style: TextStyle(
+                            color: Color(0xFF5580EB),
+                            fontSize: 16,
+                            fontWeight: FontWeight.normal,
+                            decoration: TextDecoration.none,
+                          ),)
+                        ],
+                      )
+
+                  ),
+                  // 查看最低任务
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+                    child: Row(
+                      children: <Widget>[
+                        GestureDetector(
+                          onTap: (){
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=>QListViewMiniTasksPage()));
+                          },
+                          child: Text(
+                            '上级为您安排了最低任务量，点击查看',
+                            style: TextStyle(
+                              color: Color(0xFFF24848),
+                              fontSize: 14,
                               fontWeight: FontWeight.normal,
                               decoration: TextDecoration.none,
-                            ),),
-                          )
-                        ],
-                      ),
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ],
+                    )
+
                   ),
                   // 选择任务
                   Padding(
