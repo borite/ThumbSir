@@ -1,3 +1,5 @@
+import 'package:ThumbSir/dao/login_dao.dart';
+import 'package:ThumbSir/model/login_model.dart';
 import 'package:ThumbSir/pages/home.dart';
 import 'package:ThumbSir/pages/login/find_key_phone_page.dart';
 import 'package:ThumbSir/pages/login/signin_nameandphone_page.dart';
@@ -11,7 +13,8 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final TextEditingController _controller = TextEditingController();
+  final TextEditingController phoneNumController=TextEditingController();
+  final TextEditingController passwordController=TextEditingController();
   @override
     Widget build(BuildContext context) {
       return Scaffold(
@@ -98,14 +101,63 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                         ],
                       ),
-                      // 姓名、电话、密码、忘记密码
+                      // 电话、密码、忘记密码
                       Column(
                         children: <Widget>[
-                          Input(
-                            defaultText: '手机号码',
+                          //手机号码输入框
+                          Container(
+                            width: 335,
+                            height: 40,
+                            margin: EdgeInsets.only(top: 25),
+                            decoration: BoxDecoration(
+                              border: Border.all(width: 1,color: Color(0xFF2692FD)),
+                              borderRadius: BorderRadius.circular(8),
+                              color: Colors.white,
+                            ),
+                            child: TextField(
+                              controller: phoneNumController,
+                              autofocus: false,
+
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Color(0xFF999999),
+                                fontWeight: FontWeight.normal,
+                                decoration: TextDecoration.none,
+                              ),
+                              decoration: InputDecoration(
+                                  contentPadding: EdgeInsets.fromLTRB(8, 0, 10, 10),
+                                  border: InputBorder.none,
+                                  hintStyle: TextStyle(fontSize: 14),
+                                  hintText: "手机号码"
+                              ),
+                            ),
                           ),
-                          Input(
-                            defaultText: '密码',
+                          //密码输入框
+                          Container(
+                            width: 335,
+                            height: 40,
+                            margin: EdgeInsets.only(top: 25),
+                            decoration: BoxDecoration(
+                              border: Border.all(width: 1,color: Color(0xFF2692FD)),
+                              borderRadius: BorderRadius.circular(8),
+                              color: Colors.white,
+                            ),
+                            child: TextField(
+                              controller: passwordController,
+                              autofocus: false,
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Color(0xFF999999),
+                                fontWeight: FontWeight.normal,
+                                decoration: TextDecoration.none,
+                              ),
+                              decoration: InputDecoration(
+                                  contentPadding: EdgeInsets.fromLTRB(8, 0, 10, 10),
+                                  border: InputBorder.none,
+                                  hintStyle: TextStyle(fontSize: 14),
+                                  hintText: "密码"
+                              ),
+                            ),
                           ),
                           Container(
                             width: 335,
@@ -126,7 +178,10 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       // 登录
                       GestureDetector(
-                        onTap: (){
+                        onTap:() async{
+                          final String phoneNum=phoneNumController.text;
+                          final String password=passwordController.text;
+                          final LoginModel result=await LoginDao.doUserLogin(password, phoneNum,);
                           Navigator.push(context, MaterialPageRoute(builder: (context)=>Home()));
                         },
                         child: Container(

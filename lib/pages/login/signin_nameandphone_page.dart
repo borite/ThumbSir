@@ -117,7 +117,7 @@ class _SigninNameAndPhonePageState extends State<SigninNameAndPhonePage> {
                                 decoration: TextDecoration.none,
                               ),
                               decoration: InputDecoration(
-                                  contentPadding: EdgeInsets.fromLTRB(10, 0, 10, 7),
+                                  contentPadding: EdgeInsets.fromLTRB(8, 0, 10, 10),
                                   border: InputBorder.none,
                                   hintStyle: TextStyle(fontSize: 14),
                                   hintText: "请输入真实姓名"
@@ -145,7 +145,7 @@ class _SigninNameAndPhonePageState extends State<SigninNameAndPhonePage> {
                                 decoration: TextDecoration.none,
                               ),
                               decoration: InputDecoration(
-                                  contentPadding: EdgeInsets.fromLTRB(10, 0, 10, 7),
+                                  contentPadding: EdgeInsets.fromLTRB(8, 0, 10, 10),
                                   border: InputBorder.none,
                                   hintStyle: TextStyle(fontSize: 14),
                                   hintText: "请输入密码"
@@ -173,7 +173,7 @@ class _SigninNameAndPhonePageState extends State<SigninNameAndPhonePage> {
                                 decoration: TextDecoration.none,
                               ),
                               decoration: InputDecoration(
-                                contentPadding: EdgeInsets.fromLTRB(10, 0, 10, 7),
+                                contentPadding: EdgeInsets.fromLTRB(8, 0, 10, 10),
                                 border: InputBorder.none,
                                 hintStyle: TextStyle(fontSize: 14),
                                 hintText: "手机号码"
@@ -181,55 +181,63 @@ class _SigninNameAndPhonePageState extends State<SigninNameAndPhonePage> {
                             ),
                           ),
                           //验证码
-                          Container(
-                            width: 335,
-                            height: 40,
-                            margin: EdgeInsets.only(top: 25),
-                            decoration: BoxDecoration(
-                              border: Border.all(width: 1,color: Color(0xFF2692FD)),
-                              borderRadius: BorderRadius.circular(8),
-                              color: Colors.white,
-                            ),
-                            child: TextField(
-                              controller: verifyCodeController,
-                              autofocus: false,
-
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Color(0xFF999999),
-                                fontWeight: FontWeight.normal,
-                                decoration: TextDecoration.none,
+                          Stack(
+                            children: <Widget>[
+                              Container(
+                                width: 335,
+                                height: 40,
+                                margin: EdgeInsets.only(top: 25),
+                                decoration: BoxDecoration(
+                                  border: Border.all(width: 1,color: Color(0xFF2692FD)),
+                                  borderRadius: BorderRadius.circular(8),
+                                  color: Colors.white,
+                                ),
+                                child: TextField(
+                                  controller: verifyCodeController,
+                                  autofocus: false,
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: Color(0xFF999999),
+                                    fontWeight: FontWeight.normal,
+                                    decoration: TextDecoration.none,
+                                  ),
+                                  decoration: InputDecoration(
+                                    contentPadding: EdgeInsets.fromLTRB(8, 0, 10, 10),
+                                    border: InputBorder.none,
+                                    hintStyle: TextStyle(fontSize: 14),
+                                    hintText: "请输入验证码",
+                                  ),
+                                ),
                               ),
-                              decoration: InputDecoration(
-                                  contentPadding: EdgeInsets.fromLTRB(10, 0, 10, 7),
-                                  border: InputBorder.none,
-                                  hintStyle: TextStyle(fontSize: 14),
-                                  hintText: "请输入验证码"
+                              //验证码发送按钮
+                              Positioned(
+                                left: 230,
+                                child: GestureDetector(
+                                  onTap: () async {
+                                    final String phoneNum=phoneNumController.text;
+                                    final SendVerifyCode result=await SendVerifyCodeDao.sendSms(phoneNum);
+                                    print(result);
+                                  },
+                                  child: Container(
+                                    width: 100,
+                                    height: 30,
+                                    margin: EdgeInsets.only(top: 30),
+                                    padding: EdgeInsets.only(top: 5),
+                                    decoration: BoxDecoration(
+                                      border: Border(left: BorderSide(width: 1,color: Color(0xFF5580EB)))
+                                    ),
+                                    child: Text('发送验证码',style: TextStyle(
+                                      fontSize: 14,
+                                      color: Color(0xFF5580EB),
+                                      fontWeight: FontWeight.normal,
+                                      decoration: TextDecoration.none,
+                                    ),textAlign: TextAlign.center,),
+                                  ),
+                                ),
                               ),
-                            ),
+                            ],
                           ),
-                          //验证码发送按钮
-                          GestureDetector(
-                            onTap: () async {
-                              final String phoneNum=phoneNumController.text;
-                              final SendVerifyCode result=await SendVerifyCodeDao.sendSms(phoneNum);
-                              print(result);
-                            },
-                            child: Container(
-                              width: 100,
-                              height: 30,
-                              margin: EdgeInsets.only(top: 30),
-                              decoration: BoxDecoration(
-                                border: Border.all(color:Colors.grey,width: 1)
-                              ),
-                              child: Text('发送验证码',style: TextStyle(
-                                fontSize: 14,
-                                color: Color(0xFF5580EB),
-                                fontWeight: FontWeight.normal,
-                                decoration: TextDecoration.none,
-                              ),),
-                            ),
-                          ),
+                          // 同意隐私政策
                           Container(
                             width: 335,
                             padding: EdgeInsets.only(top: 20),
@@ -269,12 +277,11 @@ class _SigninNameAndPhonePageState extends State<SigninNameAndPhonePage> {
                                 final String userName=userNameController.text;
                                 final String password=passwordController.text;
                                 final String verifyCode=verifyCodeController.text;
-
                                 final UserReg result=await SigninDao.doUserReg(userName, password, phoneNum, verifyCode, '37ccc461-ab5c-4855-8842-bc45973d7cf0');
                                 print(result.code);
                                 print(result.message);
                                 print(result.data);
-                                //Navigator.push(context, MaterialPageRoute(builder: (context)=>SigninChooseCompanyPage()));
+                                Navigator.push(context, MaterialPageRoute(builder: (context)=>SigninChooseCompanyPage()));
                               },
                               child: Text('下一步',style: TextStyle(
                                 fontSize: 14,
