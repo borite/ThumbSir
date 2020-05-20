@@ -1,4 +1,5 @@
 import 'package:ThumbSir/pages/mycenter/add_member_page.dart';
+import 'package:ThumbSir/pages/mycenter/add_task_page.dart';
 import 'package:flutter/material.dart';
 
 class MCenterGroupPage extends StatefulWidget {
@@ -69,7 +70,7 @@ class _MCenterGroupPageState extends State<MCenterGroupPage> {
                         ],
                       )
                   ),
-                  // 头像按钮
+                  // 头像
                   Stack(
                     children: <Widget>[
                       Row(
@@ -145,6 +146,61 @@ class _MCenterGroupPageState extends State<MCenterGroupPage> {
                         ],
                       )
                     ],
+                  ),
+                  // 制定任务
+                  Container(
+                    width: 335,
+                    height: 83,
+                    margin: EdgeInsets.only(top: 40),
+                    padding: EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      border: Border.all(color: Color(0xFF5580EB),width: 1),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Column(
+                      children: <Widget>[
+                        Container(
+                          padding: EdgeInsets.only(bottom: 10),
+                          decoration: BoxDecoration(
+                            border: Border(bottom:BorderSide(color: Color(0xFF5580EB),width: 1)),
+                          ),
+                          child: GestureDetector(
+                            onTap: (){
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=>AddTaskPage()));
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Text('为下级设置任务名称',style:TextStyle(
+                                  fontSize: 14,
+                                  color: Color(0xFF5580EB),
+                                  fontWeight: FontWeight.normal,
+                                  decoration: TextDecoration.none,
+                                ),),
+                                Image(image: AssetImage('images/next.png'),)
+                              ],
+                            ),
+                          ),
+
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(top: 10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Text('为下级设置最低任务',style:TextStyle(
+                                fontSize: 14,
+                                color: Color(0xFF5580EB),
+                                fontWeight: FontWeight.normal,
+                                decoration: TextDecoration.none,
+                              ),),
+                              Image(image: AssetImage('images/next.png'),)
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                   // 成员列表
                   Padding(
