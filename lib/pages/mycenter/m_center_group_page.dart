@@ -1,5 +1,6 @@
 import 'package:ThumbSir/pages/mycenter/add_member_page.dart';
 import 'package:ThumbSir/pages/mycenter/add_task_page.dart';
+import 'package:ThumbSir/pages/mycenter/choose_mini_task_page.dart';
 import 'package:flutter/material.dart';
 
 class MCenterGroupPage extends StatefulWidget {
@@ -182,22 +183,27 @@ class _MCenterGroupPageState extends State<MCenterGroupPage> {
                               ],
                             ),
                           ),
-
                         ),
                         Padding(
                           padding: EdgeInsets.only(top: 10),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Text('为下级设置最低任务',style:TextStyle(
-                                fontSize: 14,
-                                color: Color(0xFF5580EB),
-                                fontWeight: FontWeight.normal,
-                                decoration: TextDecoration.none,
-                              ),),
-                              Image(image: AssetImage('images/next.png'),)
-                            ],
+                          child:GestureDetector(
+                            onTap: (){
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=>ChooseMiniTaskPage()));
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Text('为下级设置最低任务量',style:TextStyle(
+                                  fontSize: 14,
+                                  color: Color(0xFF5580EB),
+                                  fontWeight: FontWeight.normal,
+                                  decoration: TextDecoration.none,
+                                ),),
+                                Image(image: AssetImage('images/next.png'),)
+                              ],
+                            ),
                           ),
+
                         )
                       ],
                     ),

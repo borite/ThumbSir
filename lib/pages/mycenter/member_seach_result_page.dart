@@ -109,7 +109,7 @@ class _MemberSeachResultPageState extends State<MemberSeachResultPage> {
                   ),
                   Container(
                     padding: EdgeInsets.fromLTRB(20, 5, 20, 0),
-                    child: Text('北京链家房地产经纪有限公司，北京市，京中大部，白石桥大区，长河湾北门店，买卖A组经纪人',style: TextStyle(
+                    child: Text('北京链家房地产经纪有限公司——北京市——京中大部——白石桥大区——长河湾北门店——买卖A组——经纪人',style: TextStyle(
                       fontSize: 14,
                       color: Color(0xFF5580EB),
                       fontWeight: FontWeight.normal,

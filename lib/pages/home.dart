@@ -33,7 +33,7 @@ class _HomeState extends State<Home> {
               children: <Widget>[
                 // 个人中心按钮
                 Padding(
-                    padding: EdgeInsets.only(left:320),
+                    padding: EdgeInsets.only(left:300),
                     child:RaisedButton(
                       onPressed: (){
                         Navigator.push(context, MaterialPageRoute(builder: (context)=>MyCenterPage()));

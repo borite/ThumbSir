@@ -1,3 +1,4 @@
+import 'package:ThumbSir/pages/mycenter/self_defined_task_page.dart';
 import 'package:flutter/material.dart';
 
 class AddTaskPage extends StatefulWidget {
@@ -52,10 +53,10 @@ class _AddTaskPageState extends State<AddTaskPage> {
                       child: Row(
                         children: <Widget>[
                           Text(
-                              '修改：点击任务名称修改任务的名称、单位、说明',
+                              '修改、删除、新增任务名称',
                               style: TextStyle(
                                 color: Color(0xFF666666),
-                                fontSize: 14,
+                                fontSize: 16,
                                 fontWeight: FontWeight.normal,
                                 decoration: TextDecoration.none,
                               ),
@@ -63,43 +64,6 @@ class _AddTaskPageState extends State<AddTaskPage> {
                             ),
                         ],
                       )
-
-                  ),
-                  Padding(
-                      padding: EdgeInsets.fromLTRB(20, 5, 20, 0),
-                      child: Row(
-                        children: <Widget>[
-                          Text(
-                            '删除：点击右上角 x 删除任务名称',
-                            style: TextStyle(
-                              color: Color(0xFF666666),
-                              fontSize: 14,
-                              fontWeight: FontWeight.normal,
-                              decoration: TextDecoration.none,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ],
-                      )
-
-                  ),
-                  Padding(
-                      padding: EdgeInsets.fromLTRB(20, 5, 20, 0),
-                      child: Row(
-                        children: <Widget>[
-                          Text(
-                            '新增：点击自定义任务新增任务名称',
-                            style: TextStyle(
-                              color: Color(0xFF666666),
-                              fontSize: 14,
-                              fontWeight: FontWeight.normal,
-                              decoration: TextDecoration.none,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ],
-                      )
-
                   ),
                   // 任务item
                   Container(
@@ -228,16 +192,21 @@ class _AddTaskPageState extends State<AddTaskPage> {
                             )
                           ],
                         ),
-                        Container(
-                          width: 150,
-                          height: 28,
-                          padding: EdgeInsets.all(3),
-                          decoration: BoxDecoration(
-                              border: Border.all(width: 1,color: Color(0xFF666666)),
-                              borderRadius: BorderRadius.circular(5)
+                        GestureDetector(
+                          onTap: (){
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=>SelfDefinedTaskPage()));
+                          },
+                          child: Container(
+                            width: 150,
+                            height: 28,
+                            padding: EdgeInsets.all(3),
+                            decoration: BoxDecoration(
+                                border: Border.all(width: 1,color: Color(0xFF666666)),
+                                borderRadius: BorderRadius.circular(5)
+                            ),
+                            child: Text('自定义任务',style: TextStyle(fontSize: 14,color: Color(0xFF666666),fontWeight: FontWeight.normal,
+                              decoration: TextDecoration.none,),textAlign: TextAlign.center,),
                           ),
-                          child: Text('自定义任务',style: TextStyle(fontSize: 14,color: Color(0xFF666666),fontWeight: FontWeight.normal,
-                            decoration: TextDecoration.none,),textAlign: TextAlign.center,),
                         ),
                       ],
                     ),

@@ -117,7 +117,6 @@ class _LoginPageState extends State<LoginPage> {
                             child: TextField(
                               controller: phoneNumController,
                               autofocus: false,
-
                               style: TextStyle(
                                 fontSize: 14,
                                 color: Color(0xFF999999),

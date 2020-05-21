@@ -1,3 +1,4 @@
+import 'package:ThumbSir/pages/mycenter/invitation_page.dart';
 import 'package:ThumbSir/pages/mycenter/member_seach_result_page.dart';
 import 'package:ThumbSir/widget/input.dart';
 import 'package:flutter/material.dart';
@@ -196,24 +197,29 @@ class _AddMemberPageState extends State<AddMemberPage> {
                       ),
                     ),
                     // 发送邀请码
-                    Container(
-                      width: 335,
-                      margin: EdgeInsets.only(top: 30),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Row(
-                            children: <Widget>[
-                              Text('您还可以向下级发送职位邀请，马上去分享链接',style: TextStyle(
-                                fontSize: 14,
-                                color: Color(0xFF5580EB),
-                                fontWeight: FontWeight.normal,
-                                decoration: TextDecoration.none,
-                              ),textAlign: TextAlign.left,),
-                            ],
-                          ),
-                          Image(image: AssetImage('images/next_blue.png'),)
-                        ],
+                    GestureDetector(
+                      onTap: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>InvitationPage()));
+                      },
+                      child: Container(
+                        width: 335,
+                        margin: EdgeInsets.only(top: 30),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Row(
+                              children: <Widget>[
+                                Text('您还可以向下级发送职位邀请，马上去分享链接',style: TextStyle(
+                                  fontSize: 14,
+                                  color: Color(0xFF5580EB),
+                                  fontWeight: FontWeight.normal,
+                                  decoration: TextDecoration.none,
+                                ),textAlign: TextAlign.left,),
+                              ],
+                            ),
+                            Image(image: AssetImage('images/next_blue.png'),)
+                          ],
+                        ),
                       ),
                     ),
                   ]

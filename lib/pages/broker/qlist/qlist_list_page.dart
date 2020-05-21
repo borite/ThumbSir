@@ -224,60 +224,63 @@ class _QListListPageState extends State<QListListPage> with SingleTickerProvider
                                   ),
                                 ),
                                 // 上午、下午、晚上导航
-                                Row(
-                                  children: <Widget>[
-                                    Container(
-                                      padding: EdgeInsets.only(left:90),
-                                      child: Image(image:AssetImage('images/morning.png')),
-                                    ),
-                                    Container(
-                                      padding: EdgeInsets.only(left:20,right:30,top:50),
-                                      child:GestureDetector(
-                                        child: Text(
-                                            '上午',
-                                            style: TextStyle(
-                                              fontSize: 20,color: Colors.white,decoration: TextDecoration.none,fontWeight: FontWeight.normal,
-                                            ),
-                                        ),
-                                        onTap: (){
-                                          setState(() {
-                                            _pageIndex = 0;
-                                          });
-                                        },
-                                    )
-                                    ),
-                                    Container(
-                                      padding: EdgeInsets.only(right:30,top:58),
-                                      child:GestureDetector(
-                                        child: Text(
-                                          '下午',
-                                          style: TextStyle(fontSize: 14,color: Colors.white,decoration: TextDecoration.none,fontWeight: FontWeight.normal,),
-                                        ),
-                                        onTap: (){
-                                          setState(() {
-                                            _pageIndex = 1;
-                                          });
-                                        },
+                                Container(
+                                  width: 335,
+                                  padding: EdgeInsets.only(left:20),
+                                  child: Row(
+                                    children: <Widget>[
+                                      Container(
+                                        child: Image(image:AssetImage('images/morning.png')),
                                       ),
-                                    ),
-                                    Container(
-                                      padding: EdgeInsets.only(top:58),
-                                      child: GestureDetector(
-                                        child: Text(
-                                          '晚上',
-                                          style: TextStyle(
-                                            fontSize: 14,color: Colors.white,decoration: TextDecoration.none,fontWeight: FontWeight.normal,
+                                      Container(
+                                          padding: EdgeInsets.only(left:20,right:30,top:50),
+                                          child:GestureDetector(
+                                            child: Text(
+                                              '上午',
+                                              style: TextStyle(
+                                                fontSize: 20,color: Colors.white,decoration: TextDecoration.none,fontWeight: FontWeight.normal,
+                                              ),
+                                            ),
+                                            onTap: (){
+                                              setState(() {
+                                                _pageIndex = 0;
+                                              });
+                                            },
+                                          )
+                                      ),
+                                      Container(
+                                        padding: EdgeInsets.only(right:30,top:58),
+                                        child:GestureDetector(
+                                          child: Text(
+                                            '下午',
+                                            style: TextStyle(fontSize: 14,color: Colors.white,decoration: TextDecoration.none,fontWeight: FontWeight.normal,),
                                           ),
+                                          onTap: (){
+                                            setState(() {
+                                              _pageIndex = 1;
+                                            });
+                                          },
                                         ),
-                                        onTap: (){
-                                          setState((){
-                                            _pageIndex = 2;
-                                          });
-                                          print('$_pageIndex');
-                                        },
+                                      ),
+                                      Container(
+                                          padding: EdgeInsets.only(top:58),
+                                          child: GestureDetector(
+                                            child: Text(
+                                              '晚上',
+                                              style: TextStyle(
+                                                fontSize: 14,color: Colors.white,decoration: TextDecoration.none,fontWeight: FontWeight.normal,
+                                              ),
+                                            ),
+                                            onTap: (){
+                                              setState((){
+                                                _pageIndex = 2;
+                                              });
+                                              print('$_pageIndex');
+                                            },
+                                          )
                                       )
-                                    )
-                                  ],
+                                    ],
+                                  ),
                                 ),
                               ],
                             )
@@ -287,35 +290,37 @@ class _QListListPageState extends State<QListListPage> with SingleTickerProvider
                   ]
               ),
             ),
-            // 任务未排满的提示
-            Positioned(
-                bottom:20,
-                left:90,
-                width: 233,
-                height: 90,
-                child: GestureDetector(
-                  onTap: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>QListAddPage()));
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image:AssetImage('images/warnbox.png'),
-                        fit: BoxFit.fitHeight,
-                      ),
-                    ),
-                    child: Column(
-                      children: <Widget>[
-                        Container(
-                          width:20,
-                          padding: EdgeInsets.only(top: 15,bottom: 8),
-                          child: Image(image: AssetImage('images/warn.png'),),
+            // 今日任务未排满的提示
+            Padding(
+                padding: EdgeInsets.only(bottom: 20),
+                child:Align(
+                  alignment: Alignment.bottomCenter,
+                  child: GestureDetector(
+                    onTap: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=>QListAddPage()));
+                    },
+                    child: Container(
+                      width: 233,
+                      height: 90,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image:AssetImage('images/warnbox.png'),
+                          fit: BoxFit.fitHeight,
                         ),
-                        Text('您的今日任务时间不连贯，点我安排',style: TextStyle(
-                          fontSize: 12,
-                          color: Color(0xFFF24848)
-                        ),),
-                      ],
+                      ),
+                      child: Column(
+                        children: <Widget>[
+                          Container(
+                            width:20,
+                            padding: EdgeInsets.only(top: 15,bottom: 8),
+                            child: Image(image: AssetImage('images/warn.png'),),
+                          ),
+                          Text('您的今日任务时间不连贯，点我安排',style: TextStyle(
+                              fontSize: 12,
+                              color: Color(0xFFF24848)
+                          ),),
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -509,61 +514,64 @@ class _QListListPageState extends State<QListListPage> with SingleTickerProvider
                                 ),
                               ),
                               // 上午、下午、晚上导航
-                              Row(
-                                children: <Widget>[
-                                  Container(
-                                    padding: EdgeInsets.only(left:90),
-                                    child: Image(image:AssetImage('images/noon.png')),
-                                  ),
-                                  Container(
-                                      padding: EdgeInsets.only(left:20,right:30,top:58),
-                                      child: GestureDetector(
-                                        child: Text(
-                                          '上午',
-                                          style: TextStyle(
-                                            fontSize: 14,color: Colors.white,decoration: TextDecoration.none,fontWeight: FontWeight.normal,
+                              Container(
+                                width: 335,
+                                padding: EdgeInsets.only(left:20),
+                                child: Row(
+                                  children: <Widget>[
+                                    Container(
+                                      child: Image(image:AssetImage('images/noon.png')),
+                                    ),
+                                    Container(
+                                        padding: EdgeInsets.only(left:20,right:30,top:58),
+                                        child: GestureDetector(
+                                          child: Text(
+                                            '上午',
+                                            style: TextStyle(
+                                              fontSize: 14,color: Colors.white,decoration: TextDecoration.none,fontWeight: FontWeight.normal,
+                                            ),
                                           ),
-                                        ),
-                                        onTap: (){
-                                          setState((){
-                                            _pageIndex = 0;
-                                          });
-                                          print('$_pageIndex');
-                                        },
-                                      )
-                                  ),
-                                  Container(
-                                      padding: EdgeInsets.only(right:30,top:50),
+                                          onTap: (){
+                                            setState((){
+                                              _pageIndex = 0;
+                                            });
+                                            print('$_pageIndex');
+                                          },
+                                        )
+                                    ),
+                                    Container(
+                                        padding: EdgeInsets.only(right:30,top:50),
+                                        child:GestureDetector(
+                                          child: Text(
+                                            '下午',
+                                            style: TextStyle(
+                                              fontSize: 20,color: Color(0xFFF24848),decoration: TextDecoration.none,fontWeight: FontWeight.normal,
+                                            ),
+                                          ),
+                                          onTap: (){
+                                            setState(() {
+                                              _pageIndex = 1;
+                                            });
+                                          },
+                                        )
+                                    ),
+                                    Container(
+                                      padding: EdgeInsets.only(top:58),
                                       child:GestureDetector(
                                         child: Text(
-                                          '下午',
-                                          style: TextStyle(
-                                            fontSize: 20,color: Color(0xFFF24848),decoration: TextDecoration.none,fontWeight: FontWeight.normal,
-                                          ),
+                                          '晚上',
+                                          style: TextStyle(fontSize: 14,color: Colors.white,decoration: TextDecoration.none,fontWeight: FontWeight.normal,),
                                         ),
                                         onTap: (){
                                           setState(() {
-                                            _pageIndex = 1;
+                                            _pageIndex = 2;
                                           });
                                         },
-                                      )
-                                  ),
-                                  Container(
-                                    padding: EdgeInsets.only(top:58),
-                                    child:GestureDetector(
-                                      child: Text(
-                                        '晚上',
-                                        style: TextStyle(fontSize: 14,color: Colors.white,decoration: TextDecoration.none,fontWeight: FontWeight.normal,),
                                       ),
-                                      onTap: (){
-                                        setState(() {
-                                          _pageIndex = 2;
-                                        });
-                                      },
                                     ),
-                                  ),
 
-                                ],
+                                  ],
+                                ),
                               ),
                             ],
                           )
@@ -574,39 +582,41 @@ class _QListListPageState extends State<QListListPage> with SingleTickerProvider
             ),
           ),
           // 明日任务没安排满的提示
-          Positioned(
-            bottom:20,
-            left:90,
-            width: 233,
-            height: 90,
-            child: GestureDetector(
-              onTap: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>QListAddPage()));
-              },
-              child: Container(
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image:AssetImage('images/warnbox.png'),
-                    fit: BoxFit.fitHeight,
+          Padding(
+            padding: EdgeInsets.only(bottom: 20),
+            child:Align(
+              alignment: Alignment.bottomCenter,
+              child: GestureDetector(
+                onTap: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>QListAddPage()));
+                },
+                child: Container(
+                  width: 233,
+                  height: 90,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image:AssetImage('images/warnbox.png'),
+                      fit: BoxFit.fitHeight,
+                    ),
                   ),
-                ),
-                child: Column(
-                  children: <Widget>[
-                    Container(
-                      width:20,
-                      padding: EdgeInsets.only(top: 15,bottom: 8),
-                      child: Image(image: AssetImage('images/bell_yellow.png'),),
-                    ),
-                    GestureDetector(
-                      onTap: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>QListAddPage()));
-                      },
-                      child: Text('您的明日任务没有安排满，点我安排',style: TextStyle(
-                          fontSize: 12,
-                          color: Color(0xFFFF9600)
-                      ),),
-                    ),
-                  ],
+                  child: Column(
+                    children: <Widget>[
+                      Container(
+                        width:20,
+                        padding: EdgeInsets.only(top: 15,bottom: 8),
+                        child: Image(image: AssetImage('images/bell_yellow.png'),),
+                      ),
+                      GestureDetector(
+                        onTap: (){
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>QListAddPage()));
+                        },
+                        child: Text('您的明日任务没有安排满，点我安排',style: TextStyle(
+                            fontSize: 12,
+                            color: Color(0xFFFF9600)
+                        ),),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -800,60 +810,63 @@ class _QListListPageState extends State<QListListPage> with SingleTickerProvider
                                 ),
                               ),
                               // 上午、下午、晚上导航
-                              Row(
-                                children: <Widget>[
-                                  Container(
-                                    padding: EdgeInsets.only(left:90),
-                                    child: Image(image:AssetImage('images/evening.png')),
-                                  ),
-                                  Container(
-                                    padding: EdgeInsets.only(left:20,right:30,top:58),
-                                    child:GestureDetector(
-                                      child: Text(
-                                        '上午',
-                                        style: TextStyle(fontSize: 14,color: Colors.white,decoration: TextDecoration.none,fontWeight: FontWeight.normal,),
-                                      ),
-                                      onTap: (){
-                                        setState(() {
-                                          _pageIndex = 0;
-                                        });
-                                      },
+                              Container(
+                                width: 335,
+                                padding: EdgeInsets.only(left:20),
+                                child: Row(
+                                  children: <Widget>[
+                                    Container(
+                                      child: Image(image:AssetImage('images/evening.png')),
                                     ),
-                                  ),
-                                  Container(
-                                      padding: EdgeInsets.only(right:30,top:58),
-                                      child: GestureDetector(
-                                        child: Text(
-                                          '下午',
-                                          style: TextStyle(
-                                            fontSize: 14,color: Colors.white,decoration: TextDecoration.none,fontWeight: FontWeight.normal,
-                                          ),
-                                        ),
-                                        onTap: (){
-                                          setState((){
-                                            _pageIndex = 1;
-                                          });
-                                          print('$_pageIndex');
-                                        },
-                                      )
-                                  ),
-                                  Container(
-                                      padding: EdgeInsets.only(top:50),
+                                    Container(
+                                      padding: EdgeInsets.only(left:20,right:30,top:58),
                                       child:GestureDetector(
                                         child: Text(
-                                          '晚上',
-                                          style: TextStyle(
-                                            fontSize: 20,color: Color(0xFF9149EC),decoration: TextDecoration.none,fontWeight: FontWeight.normal,
-                                          ),
+                                          '上午',
+                                          style: TextStyle(fontSize: 14,color: Colors.white,decoration: TextDecoration.none,fontWeight: FontWeight.normal,),
                                         ),
                                         onTap: (){
                                           setState(() {
-                                            _pageIndex = 2;
+                                            _pageIndex = 0;
                                           });
                                         },
-                                      )
-                                  ),
-                                ],
+                                      ),
+                                    ),
+                                    Container(
+                                        padding: EdgeInsets.only(right:30,top:58),
+                                        child: GestureDetector(
+                                          child: Text(
+                                            '下午',
+                                            style: TextStyle(
+                                              fontSize: 14,color: Colors.white,decoration: TextDecoration.none,fontWeight: FontWeight.normal,
+                                            ),
+                                          ),
+                                          onTap: (){
+                                            setState((){
+                                              _pageIndex = 1;
+                                            });
+                                            print('$_pageIndex');
+                                          },
+                                        )
+                                    ),
+                                    Container(
+                                        padding: EdgeInsets.only(top:50),
+                                        child:GestureDetector(
+                                          child: Text(
+                                            '晚上',
+                                            style: TextStyle(
+                                              fontSize: 20,color: Color(0xFF9149EC),decoration: TextDecoration.none,fontWeight: FontWeight.normal,
+                                            ),
+                                          ),
+                                          onTap: (){
+                                            setState(() {
+                                              _pageIndex = 2;
+                                            });
+                                          },
+                                        )
+                                    ),
+                                  ],
+                                ),
                               ),
                             ],
                           )
