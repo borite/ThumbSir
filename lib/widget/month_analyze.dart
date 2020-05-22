@@ -26,7 +26,7 @@ class _MonthAnalyzeState extends State<MonthAnalyze> {
             Container(
                 decoration: BoxDecoration(color: Colors.white),
                 child: Padding(
-                  padding: EdgeInsets.only(top:335,bottom:25),
+                  padding: EdgeInsets.only(top:320,bottom:25),
                   child:Column(
                     children: <Widget>[
                       // 每一条量化
@@ -77,7 +77,7 @@ class _MonthAnalyzeState extends State<MonthAnalyze> {
           child: Container(
             width: 335,
             height: 40,
-            margin: EdgeInsets.only(top: 100),
+            margin: EdgeInsets.only(top: 80),
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(12),
                 boxShadow: [BoxShadow(
@@ -152,7 +152,7 @@ class _MonthAnalyzeState extends State<MonthAnalyze> {
           alignment: Alignment(0,-1),
           child: Container(
             width: 340,
-            margin: EdgeInsets.only(top: 160),
+            margin: EdgeInsets.only(top: 140),
             color: Colors.transparent,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

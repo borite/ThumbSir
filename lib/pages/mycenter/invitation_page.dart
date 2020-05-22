@@ -39,7 +39,6 @@ class _InvitationPageState extends State<InvitationPage> {
                             // 背景与导航
                             Container(
                               height: 100,
-                              padding: EdgeInsets.only(top:30),
                               child:Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
@@ -73,7 +72,7 @@ class _InvitationPageState extends State<InvitationPage> {
                             ),
                             Container(
                               alignment: Alignment(-1,-1),
-                              margin: EdgeInsets.only(top: 15,left: 37),
+                              margin: EdgeInsets.only(left: 37),
                               child: Column(
                                 children: <Widget>[
                                   Container(
@@ -121,7 +120,7 @@ class _InvitationPageState extends State<InvitationPage> {
                 child: Container(
                   width: 335,
                   height: 350,
-                  margin: EdgeInsets.only(top: 120),
+                  margin: EdgeInsets.only(top: 180),
                   padding: EdgeInsets.fromLTRB(20, 30, 20, 50),
                   decoration: BoxDecoration(
                     color: Colors.white,

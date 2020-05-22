@@ -32,7 +32,7 @@ class _DayAnalyzeState extends State<DayAnalyze> {
             Container(
                 decoration: BoxDecoration(color: Colors.white),
                 child: Padding(
-                  padding: EdgeInsets.only(top:335,bottom:25),
+                  padding: EdgeInsets.only(top:320,bottom:25),
                   child:Column(
                     children: <Widget>[
                       // 每一条量化
@@ -59,7 +59,7 @@ class _DayAnalyzeState extends State<DayAnalyze> {
                     child:
                     //  背景
                     Container(
-                      height: 335,
+                      height: 300,
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
                           colors: [Color(0xFF0E7AE6),Color(0xFF93C0FB)],
@@ -83,7 +83,7 @@ class _DayAnalyzeState extends State<DayAnalyze> {
           child: Container(
             width: 335,
             height: 40,
-            margin: EdgeInsets.only(top: 100),
+            margin: EdgeInsets.only(top: 80),
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(12),
                 boxShadow: [BoxShadow(
@@ -162,7 +162,7 @@ class _DayAnalyzeState extends State<DayAnalyze> {
           alignment: Alignment(0,-1),
           child: Container(
             width: 340,
-            margin: EdgeInsets.only(top: 160),
+            margin: EdgeInsets.only(top: 140),
             color: Colors.transparent,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

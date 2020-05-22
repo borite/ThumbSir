@@ -27,7 +27,7 @@ class _PastQListState extends State<PastQList> {
       children: <Widget>[
         Container(
           decoration: BoxDecoration(color: Colors.white),
-          padding: EdgeInsets.only(top:270,bottom:30),
+          padding: EdgeInsets.only(top:250,bottom:30),
           child: Container(
             child:
             SomeCalendar(

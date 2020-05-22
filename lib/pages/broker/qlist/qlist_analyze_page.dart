@@ -54,7 +54,7 @@ class _QListAnalyzePageState extends State<QListAnalyzePage> with SingleTickerPr
             ),
             // 顶部导航栏
             Positioned(
-                top:40,
+                top:20,
                 child: Container(
                   padding: EdgeInsets.only(left: 15,right: 15),
                   child: TabBar(

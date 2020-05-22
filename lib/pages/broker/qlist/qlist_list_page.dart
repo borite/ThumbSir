@@ -66,7 +66,7 @@ class _QListListPageState extends State<QListListPage> with SingleTickerProvider
                         child:
                         //  背景
                         Container(
-                            height: 335,
+                            height: 300,
                             decoration: BoxDecoration(
                               gradient: LinearGradient(
                                 colors: [Color(0xFF0E7AE6),Color(0xFF93C0FB)],
@@ -82,8 +82,8 @@ class _QListListPageState extends State<QListListPage> with SingleTickerProvider
                               children: <Widget>[
                                 // 顶部信息与消息、个人中心按钮
                                 Container(
-                                  height: 100,
-                                  padding: EdgeInsets.only(top:30),
+                                  height: 70,
+                                  padding: EdgeInsets.only(top: 20),
                                   child:Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: <Widget>[
@@ -356,7 +356,7 @@ class _QListListPageState extends State<QListListPage> with SingleTickerProvider
                       child:
                       //  背景
                       Container(
-                          height: 335,
+                          height: 300,
                           decoration: BoxDecoration(
                             gradient: LinearGradient(
                               colors: [Color(0xFFF67818),Color(0xFFFCD654)],
@@ -372,8 +372,8 @@ class _QListListPageState extends State<QListListPage> with SingleTickerProvider
                             children: <Widget>[
                               // 顶部信息与消息、个人中心按钮
                               Container(
-                                height: 100,
-                                padding: EdgeInsets.only(top:30),
+                                height: 70,
+                                padding: EdgeInsets.only(top: 20),
                                 child:Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
@@ -652,7 +652,7 @@ class _QListListPageState extends State<QListListPage> with SingleTickerProvider
                       child:
                       //  背景
                       Container(
-                          height: 335,
+                          height: 300,
                           decoration: BoxDecoration(
                             gradient: LinearGradient(
                               colors: [Color(0xFF000747),Color(0xFF003273)],
@@ -668,8 +668,8 @@ class _QListListPageState extends State<QListListPage> with SingleTickerProvider
                             children: <Widget>[
                               // 顶部信息与消息、个人中心按钮
                               Container(
-                                height: 100,
-                                padding: EdgeInsets.only(top:30),
+                                height: 70,
+                                padding: EdgeInsets.only(top: 20),
                                 child:Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
