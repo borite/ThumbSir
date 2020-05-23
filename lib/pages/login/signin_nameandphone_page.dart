@@ -1,8 +1,6 @@
 import 'package:ThumbSir/pages/login/signin_choose_company_page.dart';
-import 'package:ThumbSir/pages/login/signin_key_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:ThumbSir/widget/input.dart';
 import 'package:ThumbSir/model/sendverifycode_model.dart';
 import 'package:ThumbSir/dao/sendverifycode_dao.dart';
 import 'package:ThumbSir/dao/signin_dao.dart';

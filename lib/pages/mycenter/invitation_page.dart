@@ -18,109 +18,81 @@ class _InvitationPageState extends State<InvitationPage> {
   @override
     Widget build(BuildContext context) {
       return Scaffold(
-        body: Stack(
-          children: <Widget>[
-            Column(
-                children: <Widget>[
-                  FractionallySizedBox(
-                    widthFactor: 1,
-                    child: Container(
-                        height: 375,
-                        decoration: BoxDecoration(
-                          color: Color(0xFF5580EB),
-                          borderRadius: BorderRadius.only(bottomLeft:Radius.circular(20),bottomRight: Radius.circular(20)),
-                          image: DecorationImage(
-                            image:AssetImage('images/circle_s.png'),
-                            fit: BoxFit.fitHeight,
-                          ),
-                        ),
-                        child:Column(
-                          children: <Widget>[
-                            // 背景与导航
-                            Container(
-                              height: 100,
-                              child:Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-                                  Row(
-                                    children: <Widget>[
-                                      GestureDetector(
-                                        onTap: (){
-                                          Navigator.pop(context);
-                                        },
-                                        child: Container(
-                                          padding: EdgeInsets.only(left: 15,top: 3),
-                                          child: Image(image: AssetImage('images/back_white.png'),),
-                                        ),
-                                      ),
-                                      Container(
-                                        margin:EdgeInsets.only(left:10),
-                                        child: Text(
-                                          '邀请成员',
-                                          style: TextStyle(
-                                              fontSize: 16,
-                                              color: Colors.white,
-                                              decoration: TextDecoration.none,
-                                              fontWeight: FontWeight.normal
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Container(
-                              alignment: Alignment(-1,-1),
-                              margin: EdgeInsets.only(left: 37),
-                              child: Column(
-                                children: <Widget>[
-                                  Container(
-                                    child: Container(
-                                      width: 90,
-                                      height: 90,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.all(Radius.circular(45)),
-                                        color: Colors.white,
-                                        boxShadow: [BoxShadow(
-                                            color: Color(0xFF666666),
-                                            offset: Offset(0.0, 3.0),
-                                            blurRadius: 10.0,
-                                            spreadRadius: 2.0
-                                        )],
-                                      ),
-                                      child:Image(
-                                        image: AssetImage('images/my_big.png'),
-                                      ),
-                                    ),
-                                  ),
-                                  Container(
-                                    margin: EdgeInsets.only(top: 10,bottom: 30),
-                                    child: Text(
-                                      '创建职位邀请',
-                                      style:TextStyle(
-                                        fontSize: 20,
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.normal,
-                                        decoration: TextDecoration.none,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        )
-                    ),
-                  )
-                ]
+        body: Container(
+          // 背景
+            decoration: BoxDecoration(
+              color: Colors.white,
+              image: DecorationImage(
+                image:AssetImage('images/blue_circle.png'),
+                fit: BoxFit.fitWidth,
+              ),
             ),
-            Align(
-                alignment: Alignment.center,
-                child: Container(
+            child: ListView(
+              children: <Widget>[
+                Column(
+                    children: <Widget>[
+                      // 导航栏
+                      Padding(
+                          padding: EdgeInsets.all(15),
+                          child:Row(
+                            children: <Widget>[
+                              GestureDetector(
+                                onTap: (){
+                                  Navigator.pop(context);
+                                },
+                                child: Image(image: AssetImage('images/back_white.png'),),
+                              ),
+                            ],
+                          )
+                      ),
+                      // 头像按钮
+                      Stack(
+                        children: <Widget>[
+                          Container(
+                            alignment: Alignment(-1,-1),
+                            margin: EdgeInsets.only(top: 8,left: 37),
+                            child: Column(
+                              children: <Widget>[
+                                Container(
+                                  child: Container(
+                                    width: 90,
+                                    height: 90,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.all(Radius.circular(45)),
+                                      color: Colors.white,
+                                      boxShadow: [BoxShadow(
+                                          color: Color(0xFFcccccc),
+                                          offset: Offset(0.0, 3.0),
+                                          blurRadius: 10.0,
+                                          spreadRadius: 2.0
+                                      )],
+                                    ),
+                                    child:Image(
+                                      image: AssetImage('images/tie.png'),
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(top: 10,bottom: 30),
+                                  child: Text(
+                                    '创建职位邀请',
+                                    style:TextStyle(
+                                      fontSize: 20,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.normal,
+                                      decoration: TextDecoration.none,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                Container(
                   width: 335,
                   height: 350,
-                  margin: EdgeInsets.only(top: 180),
+                  margin: EdgeInsets.only(top: 30),
                   padding: EdgeInsets.fromLTRB(20, 30, 20, 50),
                   decoration: BoxDecoration(
                     color: Colors.white,
@@ -151,8 +123,7 @@ class _InvitationPageState extends State<InvitationPage> {
                         fontWeight: FontWeight.normal,
                         decoration: TextDecoration.none,
                       ),
-                    ),
-                    // 登录
+                    ), // 下一步
                     GestureDetector(
 //                      onTap:() async{
 //                        Navigator.push(context, MaterialPageRoute(builder: (context)=>Home()));
@@ -177,12 +148,12 @@ class _InvitationPageState extends State<InvitationPage> {
                           ),textAlign: TextAlign.center,),
                         )
                       ),
-                    ),],
-                  ),
-                ),
-              ),
-          ],
-        )
-      );
+                    )
+                ]
+                ))],
+            )
+        ]),
+      ));
+
   }
 }
