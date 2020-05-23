@@ -12,7 +12,10 @@ class SendVerifyCodeDao{
        final response= await http.post(apiUrl,body: {"phone":phoneNum});
        if(response.statusCode==200){
          final String resString=response.body;
-         return sendVerifyCodeFromJson(resString);
+         final String setCookie=response.headers['set-cookie'];
+         SendVerifyCode t= sendVerifyCodeFromJson(resString);
+         t.cookie=setCookie;
+         return t;
        }else{
          return null;
        }

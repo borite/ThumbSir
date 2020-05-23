@@ -16,7 +16,7 @@ class _SigninNameAndPhonePageState extends State<SigninNameAndPhonePage> {
   final TextEditingController phoneNumController=TextEditingController();
   final TextEditingController passwordController=TextEditingController();
   final TextEditingController verifyCodeController=TextEditingController();
-
+  String WebAPICookie;
   @override
     Widget build(BuildContext context) {
       return Scaffold(
@@ -214,7 +214,10 @@ class _SigninNameAndPhonePageState extends State<SigninNameAndPhonePage> {
                                   onTap: () async {
                                     final String phoneNum=phoneNumController.text;
                                     final SendVerifyCode result=await SendVerifyCodeDao.sendSms(phoneNum);
+                                    WebAPICookie=result.cookie.split(';')[0];
+
                                     print(result);
+                                    print(WebAPICookie);
                                   },
                                   child: Container(
                                     width: 100,
@@ -275,11 +278,15 @@ class _SigninNameAndPhonePageState extends State<SigninNameAndPhonePage> {
                                 final String userName=userNameController.text;
                                 final String password=passwordController.text;
                                 final String verifyCode=verifyCodeController.text;
-                                final UserReg result=await SigninDao.doUserReg(userName, password, phoneNum, verifyCode, '37ccc461-ab5c-4855-8842-bc45973d7cf0');
-                                print(result.code);
-                                print(result.message);
-                                print(result.data);
-                                Navigator.push(context, MaterialPageRoute(builder: (context)=>SigninChooseCompanyPage()));
+                                final UserReg result=await SigninDao.doUserReg(userName, password, phoneNum, verifyCode, '37ccc461-ab5c-4855-8842-bc45973d7cf0',WebAPICookie);
+                                print(result);
+                                if(result.code==200) {
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>SigninChooseCompanyPage()));
+                                }else{
+                                  print(result.code);
+                                  print(result.message);
+                                }
+
                               },
                               child: Text('下一步',style: TextStyle(
                                 fontSize: 14,

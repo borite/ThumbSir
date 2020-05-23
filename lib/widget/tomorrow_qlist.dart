@@ -17,7 +17,7 @@ class _TomorrowQListState extends State<TomorrowQList> {
         Container(
             decoration: BoxDecoration(color: Colors.white),
             child:Padding(
-              padding: EdgeInsets.only(top:275,bottom:25),
+              padding: EdgeInsets.only(top:265,bottom:25),
               child: Column(
                 children: <Widget>[
                   // 每一条量化

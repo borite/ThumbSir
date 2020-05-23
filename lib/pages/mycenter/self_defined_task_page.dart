@@ -18,7 +18,7 @@ class _SelfDefinedTaskPageState extends State<SelfDefinedTaskPage> {
             color: Colors.white,
             image: DecorationImage(
               image:AssetImage('images/circle.png'),
-              fit: BoxFit.fitHeight,
+              fit: BoxFit.fitWidth,
             ),
           ),
           child: ListView(

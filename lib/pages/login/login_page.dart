@@ -2,6 +2,7 @@ import 'package:ThumbSir/dao/login_dao.dart';
 import 'package:ThumbSir/model/login_model.dart';
 import 'package:ThumbSir/pages/home.dart';
 import 'package:ThumbSir/pages/login/find_key_phone_page.dart';
+import 'package:ThumbSir/pages/login/signin_choose_company_page.dart';
 import 'package:ThumbSir/pages/login/signin_nameandphone_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +25,7 @@ class _LoginPageState extends State<LoginPage> {
               color: Colors.white,
               image: DecorationImage(
                 image:AssetImage('images/circle.png'),
-                fit: BoxFit.fitHeight,
+                fit: BoxFit.fitWidth,
               ),
             ),
             child: ListView(
@@ -45,7 +46,7 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                               GestureDetector(
                                 onTap: (){
-                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>SigninNameAndPhonePage()));
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>SigninChooseCompanyPage()));
                                 },
                                 child: Text('注册',style: TextStyle(
                                   fontSize: 16,

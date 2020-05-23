@@ -3,6 +3,9 @@ import 'package:ThumbSir/pages/login/signin_choose_position_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ThumbSir/widget/input.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:ThumbSir/model/company_list.dart';
+import 'package:ThumbSir/dao/get_company_list.dart';
 
 class SigninChooseCompanyPage extends StatefulWidget {
   @override
@@ -11,6 +14,22 @@ class SigninChooseCompanyPage extends StatefulWidget {
 
 class _SigninChooseCompanyPageState extends State<SigninChooseCompanyPage> {
   final TextEditingController _controller = TextEditingController();
+
+  List<Datum> companies;
+
+  _load() async {
+    var r= await GetCompanyListDao.httpGetCompanyList();
+    companies=r.data;
+    print(companies);
+  }
+
+  @override
+  void initState()  {
+    // TODO: implement initState
+    super.initState();
+    _load();
+  }
+
   @override
     Widget build(BuildContext context) {
       return Scaffold(
@@ -20,7 +39,7 @@ class _SigninChooseCompanyPageState extends State<SigninChooseCompanyPage> {
               color: Colors.white,
               image: DecorationImage(
                 image:AssetImage('images/circle.png'),
-                fit: BoxFit.fitHeight,
+                fit: BoxFit.fitWidth,
               ),
             ),
             child: ListView(

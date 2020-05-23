@@ -8,18 +8,17 @@ import 'package:ThumbSir/utils/common_vars.dart';
 const String apiPerfix=CommonVars.apiPrefix;
 
 class SigninDao {
-  static Future<UserReg> doUserReg(String _userName,String _password,String _phone,String _verifyCode, String _companyID ) async {
+  static Future<UserReg> doUserReg(String _userName,String _password,String _phone,String _verifyCode, String _companyID,String _cookie ) async {
     final response = await http.post(apiPerfix+'api/User/UserRegister',body: {
       "UserName": _userName,
       "Phone": _phone,
       "Password": _password,
       "yzm": _verifyCode,
       "CompanyID": _companyID
-    });
+    },headers: {'Cookie':_cookie});
     //Utf8Decoder utf8decoder = Utf8Decoder();  // 修复中文乱码
     //var result = json.decode(utf8decoder.convert(response.bodyBytes));
     if(response.statusCode == 200){
-
       return userRegFromJson(response.body);
     }else{
       throw Exception(response.body);

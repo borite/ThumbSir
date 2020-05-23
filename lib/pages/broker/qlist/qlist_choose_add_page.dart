@@ -15,7 +15,7 @@ class _QListChooseAddPageState extends State<QListChooseAddPage> {
           color: Colors.white,
           image: DecorationImage(
             image:AssetImage('images/circle.png'),
-            fit: BoxFit.fitHeight,
+            fit: BoxFit.fitWidth,
           ),
         ),
         child: Column(

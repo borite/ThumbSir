@@ -24,7 +24,7 @@ class _InvitationPageState extends State<InvitationPage> {
               color: Colors.white,
               image: DecorationImage(
                 image:AssetImage('images/blue_circle.png'),
-                fit: BoxFit.fill,
+                fit: BoxFit.fitWidth,
               ),
             ),
             child: ListView(
@@ -89,69 +89,70 @@ class _InvitationPageState extends State<InvitationPage> {
                           ),
                         ],
                       ),
-                Container(
-                  width: 335,
-                  height: 350,
-                  margin: EdgeInsets.only(top: 30),
-                  padding: EdgeInsets.fromLTRB(20, 30, 20, 50),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(12),
-                    boxShadow: [BoxShadow(
-                      color: Color(0xFFcccccc),
-                      offset: Offset(0.0, 3.0),
-                      blurRadius: 10.0,
-                      spreadRadius: 2.0
-                    )],
-                  ),
-                  child: Column(
-                    children: <Widget>[
-                      Text(
-                        '1.职位邀请功能只能添加直属下级，您正在添加对方为北京链家房地产经纪有限公司，北京市-京中大部-白石桥大区-长河湾北门店-买卖A组经纪人。',
-                        style: TextStyle(
+                  Container(
+                    width: 335,
+                    height: 350,
+                    margin: EdgeInsets.only(top: 20),
+                    padding: EdgeInsets.fromLTRB(20, 30, 20, 50),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12),
+                      boxShadow: [BoxShadow(
+                        color: Color(0xFFcccccc),
+                        offset: Offset(0.0, 3.0),
+                        blurRadius: 10.0,
+                        spreadRadius: 2.0
+                      )],
+                    ),
+                    child: Column(
+                      children: <Widget>[
+                        Text(
+                          '1.职位邀请功能只能添加直属下级，您正在添加对方为北京链家房地产经纪有限公司，北京市-京中大部-白石桥大区-长河湾北门店-买卖A组经纪人。',
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Color(0xFF666666),
+                            fontWeight: FontWeight.normal,
+                            decoration: TextDecoration.none,
+                          ),
+                        ),
+                        Text(
+                          '2.分享邀请后会生成一个口令链接，您可将其发送至微信、QQ聊天等；他人打开链接并同意加入小组后会在您的消息中心有反馈，双向同意后才能建立上下级关系，请注意查看。',
+                          style: TextStyle(
                           fontSize: 14,
                           color: Color(0xFF666666),
                           fontWeight: FontWeight.normal,
                           decoration: TextDecoration.none,
                         ),
-                      ),
-                      Text(
-                        '2.分享邀请后会生成一个口令链接，您可将其发送至微信、QQ聊天等；他人打开链接并同意加入小组后会在您的消息中心有反馈，双向同意后才能建立上下级关系，请注意查看。',
-                        style: TextStyle(
-                        fontSize: 14,
-                        color: Color(0xFF666666),
-                        fontWeight: FontWeight.normal,
-                        decoration: TextDecoration.none,
-                      ),
-                    ), // 下一步
-                    GestureDetector(
-//                      onTap:() async{
-//                        Navigator.push(context, MaterialPageRoute(builder: (context)=>Home()));
-//                      },
-                      child: Container(
-                        width: 295,
-                        height: 40,
-                        padding: EdgeInsets.all(4),
-                        margin: EdgeInsets.only(top: 60),
-                        decoration: BoxDecoration(
-                          border: Border.all(width: 1,color: Color(0xFF5580EB)),
-                          borderRadius: BorderRadius.circular(8),
-                          color: Color(0xFF5580EB)
+                      ), // 下一步
+                      GestureDetector(
+  //                      onTap:() async{
+  //                        Navigator.push(context, MaterialPageRoute(builder: (context)=>Home()));
+  //                      },
+                        child: Container(
+                          width: 295,
+                          height: 40,
+                          padding: EdgeInsets.all(4),
+                          margin: EdgeInsets.only(top: 60),
+                          decoration: BoxDecoration(
+                            border: Border.all(width: 1,color: Color(0xFF5580EB)),
+                            borderRadius: BorderRadius.circular(8),
+                            color: Color(0xFF5580EB)
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.only(top: 4),
+                            child: Text('分享我的邀请',style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.white,
+                              fontWeight: FontWeight.normal,
+                              decoration: TextDecoration.none,
+                            ),textAlign: TextAlign.center,),
+                          )
                         ),
-                        child: Padding(
-                        padding: EdgeInsets.only(top: 4),
-                          child: Text('分享我的邀请',style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.white,
-                            fontWeight: FontWeight.normal,
-                            decoration: TextDecoration.none,
-                          ),textAlign: TextAlign.center,),
-                        )
-                      ),
-                    )
-                ]
-                ))],
-            )
+                      )
+                  ]
+                  )
+                )],
+              )
         ]),
       ));
 

@@ -19,7 +19,7 @@ class _SigninChooseAreaPageState extends State<SigninChooseAreaPage> {
               color: Colors.white,
               image: DecorationImage(
                 image:AssetImage('images/circle.png'),
-                fit: BoxFit.fitHeight,
+                fit: BoxFit.fitWidth,
               ),
             ),
             child: ListView(

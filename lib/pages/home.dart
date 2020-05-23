@@ -24,7 +24,7 @@ class _HomeState extends State<Home> {
         ),
         image: DecorationImage(
           image:AssetImage('images/circle.png'),
-          fit: BoxFit.fitHeight,
+          fit: BoxFit.fitWidth,
         ),
       ),
       child: ListView(

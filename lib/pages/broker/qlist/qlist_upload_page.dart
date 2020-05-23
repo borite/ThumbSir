@@ -16,7 +16,7 @@ class _QListUploadPageState extends State<QListUploadPage> {
           color: Colors.white,
           image: DecorationImage(
             image:AssetImage('images/circle_middle.png'),
-            fit: BoxFit.fitHeight,
+            fit: BoxFit.fitWidth,
           ),
         ),
         child: ListView(
