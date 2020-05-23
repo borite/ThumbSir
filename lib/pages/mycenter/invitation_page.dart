@@ -24,7 +24,7 @@ class _InvitationPageState extends State<InvitationPage> {
               color: Colors.white,
               image: DecorationImage(
                 image:AssetImage('images/blue_circle.png'),
-                fit: BoxFit.fitWidth,
+                fit: BoxFit.fill,
               ),
             ),
             child: ListView(

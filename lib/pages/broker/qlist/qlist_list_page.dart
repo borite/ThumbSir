@@ -83,7 +83,7 @@ class _QListListPageState extends State<QListListPage> with SingleTickerProvider
                                 // 顶部信息与消息、个人中心按钮
                                 Container(
                                   height: 70,
-                                  padding: EdgeInsets.only(top: 20),
+                                  padding: EdgeInsets.only(top: 30),
                                   child:Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: <Widget>[
@@ -373,7 +373,7 @@ class _QListListPageState extends State<QListListPage> with SingleTickerProvider
                               // 顶部信息与消息、个人中心按钮
                               Container(
                                 height: 70,
-                                padding: EdgeInsets.only(top: 20),
+                                padding: EdgeInsets.only(top: 30),
                                 child:Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
@@ -669,7 +669,7 @@ class _QListListPageState extends State<QListListPage> with SingleTickerProvider
                               // 顶部信息与消息、个人中心按钮
                               Container(
                                 height: 70,
-                                padding: EdgeInsets.only(top: 20),
+                                padding: EdgeInsets.only(top: 30),
                                 child:Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
