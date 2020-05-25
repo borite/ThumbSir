@@ -88,7 +88,7 @@ class _FindKeyPageState extends State<FindKeyPage> {
                       Column(
                         children: <Widget>[
                           Input(
-                            defaultText: '新密码',
+                            hintText: '新密码',
                           ),
                           Container(
                             width: 335,

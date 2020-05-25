@@ -5,6 +5,7 @@ import 'package:ThumbSir/model/sendverifycode_model.dart';
 import 'package:ThumbSir/dao/sendverifycode_dao.dart';
 import 'package:ThumbSir/dao/signin_dao.dart';
 import 'package:ThumbSir/model/userreg_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SigninNameAndPhonePage extends StatefulWidget {
   @override
@@ -26,7 +27,7 @@ class _SigninNameAndPhonePageState extends State<SigninNameAndPhonePage> {
               color: Colors.white,
               image: DecorationImage(
                 image:AssetImage('images/circle.png'),
-                fit: BoxFit.fitHeight,
+                fit: BoxFit.fitWidth,
               ),
             ),
             child: ListView(
@@ -214,10 +215,14 @@ class _SigninNameAndPhonePageState extends State<SigninNameAndPhonePage> {
                                   onTap: () async {
                                     final String phoneNum=phoneNumController.text;
                                     final SendVerifyCode result=await SendVerifyCodeDao.sendSms(phoneNum);
-                                    WebAPICookie=result.cookie.split(';')[0];
-
-                                    print(result);
-                                    print(WebAPICookie);
+                                    if(result.code==200) {
+                                      WebAPICookie =
+                                      result.cookie.split(';')[0];
+                                      print(result);
+                                      print(WebAPICookie);
+                                    }else{
+                                      debugPrint("出错了！");
+                                    }
                                   },
                                   child: Container(
                                     width: 100,
@@ -281,6 +286,8 @@ class _SigninNameAndPhonePageState extends State<SigninNameAndPhonePage> {
                                 final UserReg result=await SigninDao.doUserReg(userName, password, phoneNum, verifyCode, '37ccc461-ab5c-4855-8842-bc45973d7cf0',WebAPICookie);
                                 print(result);
                                 if(result.code==200) {
+                                  SharedPreferences prefs = await SharedPreferences.getInstance();
+                                  prefs.setString('userID', result.data);
                                   Navigator.push(context, MaterialPageRoute(builder: (context)=>SigninChooseCompanyPage()));
                                 }else{
                                   print(result.code);

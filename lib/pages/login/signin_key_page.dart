@@ -88,7 +88,7 @@ class _SigninKeyPageState extends State<SigninKeyPage> {
                       Column(
                         children: <Widget>[
                           Input(
-                            defaultText: '密码',
+                            hintText: '密码',
                           ),
                           Container(
                             width: 335,

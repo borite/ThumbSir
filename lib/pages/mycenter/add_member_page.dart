@@ -48,7 +48,7 @@ class _AddMemberPageState extends State<AddMemberPage> {
                           ],
                         )
                     ),
-                    Input(defaultText: '输入下级姓名或手机号',),
+                    Input(hintText: '输入下级姓名或手机号'),
                     // 搜索结果
                     Container(
                       width: 335,

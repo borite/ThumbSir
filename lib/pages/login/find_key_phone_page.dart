@@ -90,10 +90,10 @@ class _FindKeyPhonePageState extends State<FindKeyPhonePage> {
                       Column(
                         children: <Widget>[
                           Input(
-                            defaultText: '电话号码',
+                            hintText: '电话号码',
                           ),
                           Input(
-                            defaultText: '验证码',
+                            hintText: '验证码',
                           ),
                           Container(
                             width: 335,

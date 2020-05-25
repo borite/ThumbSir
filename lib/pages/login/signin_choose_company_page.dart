@@ -108,7 +108,7 @@ class _SigninChooseCompanyPageState extends State<SigninChooseCompanyPage> {
                       Column(
                         children: <Widget>[
                           Input(
-                            defaultText: '请输入您所属的公司名称',
+                            hintText: '请输入您所属的公司名称',
                           ),
                           // 没有公司
                           Container(

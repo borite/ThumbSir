@@ -46,7 +46,7 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                               GestureDetector(
                                 onTap: (){
-                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>SigninChooseCompanyPage()));
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>SigninNameAndPhonePage()));
                                 },
                                 child: Text('注册',style: TextStyle(
                                   fontSize: 16,

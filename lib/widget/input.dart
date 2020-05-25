@@ -2,23 +2,18 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class Input extends StatefulWidget {
-  final String defaultText;
+  final String hintText;
+  final TextEditingController controller;
   final ValueChanged<String> onChanged;
-  const Input({Key key,this.defaultText,this.onChanged});
+  const Input({Key key,this.hintText,this.onChanged,this.controller});
   @override
   _InputState createState() => _InputState();
 }
 
 class _InputState extends State<Input> {
-  final TextEditingController _controller = TextEditingController();
 
   @override
   void initState(){
-    if(widget.defaultText != null){
-      setState(() {
-        _controller.text = widget.defaultText;
-      });
-    }
     super.initState();
   }
 
@@ -34,9 +29,9 @@ class _InputState extends State<Input> {
         color: Colors.white,
       ),
       child: TextField(
-        controller: _controller,
-        onChanged: _onChanged,
+        controller: widget.controller,
         autofocus: false,
+        onChanged: _onChanged,
         style: TextStyle(
           fontSize: 14,
           color: Color(0xFF999999),
@@ -44,9 +39,10 @@ class _InputState extends State<Input> {
           decoration: TextDecoration.none,
         ),
         decoration: InputDecoration(
-          contentPadding: EdgeInsets.fromLTRB(10, 0, 10, 7),
-          border: InputBorder.none,
-          hintStyle: TextStyle(fontSize: 14),
+            contentPadding: EdgeInsets.fromLTRB(8, 0, 10, 10),
+            border: InputBorder.none,
+            hintStyle: TextStyle(fontSize: 14),
+            hintText: widget.hintText
         ),
       ),
     );

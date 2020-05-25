@@ -2,7 +2,9 @@ import 'package:ThumbSir/pages/login/signin_choose_area_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:wheel_chooser/wheel_chooser.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:ThumbSir/model/company_level_list.dart';
+import 'package:ThumbSir/dao/get_company_level_dao.dart';
 class SigninChoosePositionPage extends StatefulWidget {
   @override
   _SigninChoosePositionPageState createState() => _SigninChoosePositionPageState();
@@ -10,8 +12,56 @@ class SigninChoosePositionPage extends StatefulWidget {
 
 class _SigninChoosePositionPageState extends State<SigninChoosePositionPage> {
 
+  Future<SharedPreferences> _prefs=SharedPreferences.getInstance();
+  List levelNames=[];
+  List test=['1你'];
+
+
+ Future _load() async {
+    //final SharedPreferences prefs=await _prefs;
+    //String _companyID=prefs.getString("companyID");
+    //print(_companyID);
+    String _companyID='dbb0f5bb-9f97-45f2-a1c6-48b67b94268c';
+    var r= await GetCompanyLevelDao.httpGetCompanyLevel(_companyID);
+    print(r);
+    if(r.code==200){
+        if(r.data.length>0){
+          if(r.data[0].level1!=null){
+            levelNames.add(r.data[0].level1);
+          }
+          if(r.data[0].level2!=null){
+            levelNames.add(r.data[0].level2);
+          }
+          if(r.data[0].level3!=null){
+            levelNames.add(r.data[0].level3);
+          }
+          if(r.data[0].level4!=null){
+            levelNames.add(r.data[0].level4);
+          }
+          if(r.data[0].level5!=null){
+            levelNames.add(r.data[0].level5);
+          }
+          if(r.data[0].level6!=null) {
+            levelNames.add(r.data[0].level6);
+          }
+          setState(() {
+            test=levelNames;
+          });
+        }
+    }
+    //companies=r.data;
+    //print(companies);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _load();
+  }
+
   @override
     Widget build(BuildContext context) {
+
       return Scaffold(
         body: Container(
           // 背景
@@ -90,7 +140,7 @@ class _SigninChoosePositionPageState extends State<SigninChoosePositionPage> {
                         height: 220,
                         child: WheelChooser(
                           onValueChanged: (s) => print(s),
-                          datas: ["经纪人", "店经理", "商圈经理", "总监", "副总经理", "总经理"],
+                          datas: test,
                           selectTextStyle: TextStyle(
                             color: Color(0xFF0E7AE6),
                             fontWeight: FontWeight.normal,

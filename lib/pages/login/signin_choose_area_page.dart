@@ -123,7 +123,7 @@ class _SigninChooseAreaPageState extends State<SigninChooseAreaPage> {
                       Column(
                         children: <Widget>[
                           Input(
-                            defaultText: '例如：北京市',
+                            hintText: '例如：北京市',
                           ),
                           // 选择公司
                           Container(
@@ -229,7 +229,7 @@ class _SigninChooseAreaPageState extends State<SigninChooseAreaPage> {
                       Column(
                         children: <Widget>[
                           Input(
-                            defaultText: '例如：京中事业部',
+                            hintText: '例如：京中事业部',
                           ),
                           // 选择公司
                           Container(
@@ -335,7 +335,7 @@ class _SigninChooseAreaPageState extends State<SigninChooseAreaPage> {
                       Column(
                         children: <Widget>[
                           Input(
-                            defaultText: '例如：学院大区',
+                            hintText: '例如：学院大区',
                           ),
                           // 选择公司
                           Container(
@@ -441,7 +441,7 @@ class _SigninChooseAreaPageState extends State<SigninChooseAreaPage> {
                       Column(
                         children: <Widget>[
                           Input(
-                            defaultText: '例如：长河湾北门店',
+                            hintText: '例如：长河湾北门店',
                           ),
                           // 选择公司
                           Container(
@@ -547,7 +547,7 @@ class _SigninChooseAreaPageState extends State<SigninChooseAreaPage> {
                       Column(
                         children: <Widget>[
                           Input(
-                            defaultText: '例如：买卖1组',
+                            hintText: '例如：买卖1组',
                           ),
                           // 选择公司
                           Container(

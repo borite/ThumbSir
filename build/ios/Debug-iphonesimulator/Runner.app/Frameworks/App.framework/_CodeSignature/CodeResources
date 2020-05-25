@@ -10,7 +10,7 @@
 		</data>
 		<key>flutter_assets/AssetManifest.json</key>
 		<data>
-		uWTFXp8kEYwWgToEehlIrASMsjM=
+		YYPCPOIIb1C7KyCM4m74AN+s9VY=
 		</data>
 		<key>flutter_assets/FontManifest.json</key>
 		<data>
@@ -18,7 +18,7 @@
 		</data>
 		<key>flutter_assets/LICENSE</key>
 		<data>
-		ywyw/4jazG9CYcJDRpwRp6nZ0bs=
+		WqUAd5BoatWcVCRbf9ELy1Z20nM=
 		</data>
 		<key>flutter_assets/fonts/MaterialIcons-Regular.ttf</key>
 		<data>
@@ -134,7 +134,7 @@
 		</data>
 		<key>flutter_assets/images/listicon.png</key>
 		<data>
-		smIYsw2snXylBQU9WqHPWDP1JpE=
+		Q0Q02I7Iwk7QrmiCOEYAMwHy1YE=
 		</data>
 		<key>flutter_assets/images/morning.png</key>
 		<data>
@@ -322,7 +322,11 @@
 		</data>
 		<key>flutter_assets/kernel_blob.bin</key>
 		<data>
-		Tk+LkeOeE7aiYnWHefGnJLqqr6U=
+		r0MdhZNPBhhdzTYvxQf6TznAxY4=
+		</data>
+		<key>flutter_assets/packages/city_picker/assets/city_json.json</key>
+		<data>
+		XZegJRpTDtkf1XHHuxHgP6hUvCs=
 		</data>
 		<key>flutter_assets/packages/cupertino_icons/assets/CupertinoIcons.ttf</key>
 		<data>
@@ -347,11 +351,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			uWTFXp8kEYwWgToEehlIrASMsjM=
+			YYPCPOIIb1C7KyCM4m74AN+s9VY=
 			</data>
 			<key>hash2</key>
 			<data>
-			bDtQc9hs5b8Tj9R2pMm3/FUom2H0vIC2+ss+5OGOqkY=
+			4yyAFN0uGBnkGs9UvLXohvij+Tl+bLtB6r5WVMot8jc=
 			</data>
 		</dict>
 		<key>flutter_assets/FontManifest.json</key>
@@ -369,11 +373,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			ywyw/4jazG9CYcJDRpwRp6nZ0bs=
+			WqUAd5BoatWcVCRbf9ELy1Z20nM=
 			</data>
 			<key>hash2</key>
 			<data>
-			322fVXxN+8KgT3BjCeAPyTcyEPg6eRGdy3qWyL8ihQA=
+			DtCrVsR+kf00ooAnEYROxhTg/nBq8fgZRpyd3/9rq34=
 			</data>
 		</dict>
 		<key>flutter_assets/fonts/MaterialIcons-Regular.ttf</key>
@@ -688,11 +692,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			smIYsw2snXylBQU9WqHPWDP1JpE=
+			Q0Q02I7Iwk7QrmiCOEYAMwHy1YE=
 			</data>
 			<key>hash2</key>
 			<data>
-			Fav+5r8qEAnmtIURRiq24D3Ok0EZJ0KrqKdk6wikn98=
+			RI675+BODxPh/ce2LfAPdbVHFdFWDm6RijQjemknWd0=
 			</data>
 		</dict>
 		<key>flutter_assets/images/morning.png</key>
@@ -1205,11 +1209,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			Tk+LkeOeE7aiYnWHefGnJLqqr6U=
+			r0MdhZNPBhhdzTYvxQf6TznAxY4=
 			</data>
 			<key>hash2</key>
 			<data>
-			Iddfr3btbpIiONm6LV/1JJbpn0kedg3brtPS1mTwn0g=
+			p/OcAkB9X53HzMMALHptjrx5He42dzu1QvMm2kzglvw=
+			</data>
+		</dict>
+		<key>flutter_assets/packages/city_picker/assets/city_json.json</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			XZegJRpTDtkf1XHHuxHgP6hUvCs=
+			</data>
+			<key>hash2</key>
+			<data>
+			S5qM3nguJzxsvgHKE0z2tJiF8TwmiXfwDeiOcHEKAB8=
 			</data>
 		</dict>
 		<key>flutter_assets/packages/cupertino_icons/assets/CupertinoIcons.ttf</key>
