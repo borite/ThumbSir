@@ -1,4 +1,5 @@
 import 'package:ThumbSir/pages/mycenter/broker_center_group_page.dart';
+import 'package:ThumbSir/pages/mycenter/s_center_group_page.dart';
 import 'package:flutter/material.dart';
 
 import 'm_center_group_page.dart';
@@ -79,24 +80,12 @@ class _MyCenterPageState extends State<MyCenterPage> {
                                 ),
                               ),
                             ),
-                            Container(
-                              margin: EdgeInsets.only(bottom: 0),
-                              child: Text(
-                                '20246917',
-                                style:TextStyle(
-                                  fontSize: 14,
-                                  color: Color(0xFF666666),
-                                  fontWeight: FontWeight.normal,
-                                  decoration: TextDecoration.none,
-                                ),
-                              ),
-                            ),
                           ],
                         ),
                       ),
                       Container(
                         alignment: Alignment.topLeft,
-                        margin: EdgeInsets.only(top: 170,left: 30,bottom: 50),
+                        margin: EdgeInsets.only(top: 145,left: 30,bottom: 50),
                         child: Text(
                           '已付费至2021年3月15日，查看详情',
                           style:TextStyle(
@@ -114,14 +103,29 @@ class _MyCenterPageState extends State<MyCenterPage> {
                           margin: EdgeInsets.only(bottom: 15),
                           padding: EdgeInsets.only(top:2,bottom: 2,left: 5,right: 5),
                           decoration: BoxDecoration(
-                            border: Border.all(color: Color(0xFF0E7AE6),width: 1),
+//                            border: Border.all(color: Color(0xFF0E7AE6),width: 1), // 经纪人蓝色
+//                            border: Border.all(color: Color(0xFF24CC8E),width: 1), // 店长绿色
+                            border: Border.all(color: Color(0xFFFF9600),width: 1), // 商圈经理橘色
+//                            border: Border.all(color: Color(0xFF9149EC),width: 1), // 总监浅紫色
+//                            border: Border.all(color: Color(0xFF7412F2),width: 1), // 副总经理深紫色
+//                            border: Border.all(color: Color(0xFF003273),width: 1), // 总经理深蓝色
                             borderRadius: BorderRadius.circular(3),
                           ),
                           child: Text(
-                            '经纪人',
+//                            '经纪人',
+//                            '店长',
+                            '商圈经理',
+//                            '总监',
+//                            '副总经理',
+//                            '总经理',
                             style:TextStyle(
                               fontSize: 14,
-                              color: Color(0xFF0E7AE6),
+//                              color: Color(0xFF0E7AE6), // 经纪人蓝色
+//                              color: Color(0xFF24CC8E), // 店长绿色
+                              color: Color(0xFFFF9600), // 商圈经理橘色
+//                              color: Color(0xFF9149EC), // 总监浅紫色
+//                              color: Color(0xFF7412F2), // 副总经理深紫色
+//                              color: Color(0xFF003273), // 总经理深蓝色
                               fontWeight: FontWeight.normal,
                               decoration: TextDecoration.none,
                             ),
@@ -181,7 +185,8 @@ class _MyCenterPageState extends State<MyCenterPage> {
                           child: GestureDetector(
                             onTap: (){
 //                              Navigator.push(context, MaterialPageRoute(builder: (context)=>BrokerCenterGroupPage()));
-                              Navigator.push(context, MaterialPageRoute(builder: (context)=>MCenterGroupPage()));
+//                              Navigator.push(context, MaterialPageRoute(builder: (context)=>MCenterGroupPage()));
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=>SCenterGroupPage()));
                             },
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -192,7 +197,8 @@ class _MyCenterPageState extends State<MyCenterPage> {
                                     Container(
                                       margin: EdgeInsets.only(left: 10),
                                       child: Text(
-                                        '白石桥大区长河湾北门店小组成员',
+//                                      '长河湾北门店买卖A组成员',
+                                        '白石桥大区长河湾北门店成员',
                                         style:TextStyle(
                                           fontSize: 16,
                                           color: Color(0xFF333333),

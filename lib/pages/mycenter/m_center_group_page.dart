@@ -120,7 +120,6 @@ class _MCenterGroupPageState extends State<MCenterGroupPage> {
                               Container(
                                 padding: EdgeInsets.only(top: 12,left: 25),
                                 child: Container(
-                                  width: 40,
                                   height: 20,
                                   decoration: BoxDecoration(
                                       border: Border.all(color: Color(0xFF24CC8E),width: 1),
@@ -128,7 +127,7 @@ class _MCenterGroupPageState extends State<MCenterGroupPage> {
                                       borderRadius: BorderRadius.all(Radius.circular(5))
                                   ),
                                   child: Padding(
-                                    padding: EdgeInsets.only(top:2),
+                                    padding: EdgeInsets.only(top:2,left:5,right: 5),
                                     child: Text(
                                       '店长',
                                       style: TextStyle(
