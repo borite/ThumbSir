@@ -2,6 +2,7 @@ import 'package:ThumbSir/pages/mycenter/add_member_page.dart';
 import 'package:ThumbSir/pages/mycenter/add_task_page.dart';
 import 'package:ThumbSir/pages/mycenter/choose_mini_task_page.dart';
 import 'package:ThumbSir/pages/mycenter/s_center_group_detail_page.dart';
+import 'package:ThumbSir/pages/mycenter/z_center_group_detail_page.dart';
 import 'package:flutter/material.dart';
 
 class SCenterGroupPage extends StatefulWidget {
@@ -123,17 +124,20 @@ class _SCenterGroupPageState extends State<SCenterGroupPage> {
                                 child: Container(
                                   height: 20,
                                   decoration: BoxDecoration(
-                                      border: Border.all(color: Color(0xFFFF9600),width: 1),
+//                                      border: Border.all(color: Color(0xFFFF9600),width: 1), // 商圈经理橘色
+                                      border: Border.all(color: Color(0xFF9149EC),width: 1), // 总监紫色
                                       color: Colors.white,
                                       borderRadius: BorderRadius.all(Radius.circular(5))
                                   ),
                                   child: Padding(
                                     padding: EdgeInsets.only(top:2,left:5,right: 5),
                                     child: Text(
-                                      '商圈经理',
+//                                      '商圈经理',
+                                      '总监',
                                       style: TextStyle(
                                         fontSize: 10,
-                                        color: Color(0xFFFF9600),
+//                                        color: Color(0xFFFF9600),  // 商圈经理橘色
+                                        color: Color(0xFF9149EC), // 总监紫色
                                         fontWeight: FontWeight.normal,
                                         decoration: TextDecoration.none,
                                       ),
@@ -215,7 +219,7 @@ class _SCenterGroupPageState extends State<SCenterGroupPage> {
                       children: <Widget>[
                         GestureDetector(
                           onTap: (){
-                            Navigator.push(context, MaterialPageRoute(builder: (context)=>SCenterGroupDetailPage()));
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=>ZCenterGroupDetailPage()));
                           },
                           child: Container(
                             margin: EdgeInsets.only(bottom: 25),
@@ -267,7 +271,8 @@ class _SCenterGroupPageState extends State<SCenterGroupPage> {
                                       margin: EdgeInsets.only(left: 20),
                                       width: 200,
                                       child: Text(
-                                        '买卖A组',
+//                                      '买卖B组', // 商圈显示
+                                        '长河湾北门店',  // 总监显示门店
                                         style:TextStyle(
                                           fontSize: 14,
                                           color: Color(0xFF666666),
@@ -333,7 +338,8 @@ class _SCenterGroupPageState extends State<SCenterGroupPage> {
                                     margin: EdgeInsets.only(left: 20),
                                     width: 200,
                                     child: Text(
-                                      '买卖B组',
+//                                      '买卖B组', // 商圈显示
+                                      '交大嘉园店',  // 总监显示门店
                                       style:TextStyle(
                                         fontSize: 14,
                                         color: Color(0xFF666666),
@@ -398,7 +404,8 @@ class _SCenterGroupPageState extends State<SCenterGroupPage> {
                                     margin: EdgeInsets.only(left: 20),
                                     width: 200,
                                     child: Text(
-                                      '买卖C组',
+//                                      '买卖B组', // 商圈显示
+                                      '韦伯豪店',  // 总监显示门店
                                       style:TextStyle(
                                         fontSize: 14,
                                         color: Color(0xFF666666),
@@ -463,7 +470,8 @@ class _SCenterGroupPageState extends State<SCenterGroupPage> {
                                     margin: EdgeInsets.only(left: 20),
                                     width: 200,
                                     child: Text(
-                                      '租赁A组',
+//                                      '买卖B组', // 商圈显示
+                                      '时代之光南门店',  // 总监显示门店
                                       style:TextStyle(
                                         fontSize: 14,
                                         color: Color(0xFF666666),
@@ -528,7 +536,8 @@ class _SCenterGroupPageState extends State<SCenterGroupPage> {
                                     margin: EdgeInsets.only(left: 20),
                                     width: 200,
                                     child: Text(
-                                      '租赁B组',
+//                                      '买卖B组', // 商圈显示
+                                      '交大东路店',  // 总监显示门店
                                       style:TextStyle(
                                         fontSize: 14,
                                         color: Color(0xFF666666),
@@ -541,6 +550,290 @@ class _SCenterGroupPageState extends State<SCenterGroupPage> {
                               ),
                               Image(image: AssetImage('images/next.png'),)
                             ],
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: (){
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=>ZCenterGroupDetailPage()));
+                          },
+                          child: Container(
+                            margin: EdgeInsets.only(bottom: 25),
+                            padding: EdgeInsets.only(right: 15),
+                            width: 335,
+                            height: 60,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12),
+                              boxShadow: [BoxShadow(
+                                  color: Color(0xFFcccccc),
+                                  offset: Offset(0.0, 3.0),
+                                  blurRadius: 10.0,
+                                  spreadRadius: 2.0
+                              )],
+                              color: Colors.white,
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Row(
+                                  children: <Widget>[
+                                    Container(
+                                      width: 60,
+                                      height: 60,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.only(
+                                          topRight: Radius.circular(30),
+                                          bottomRight: Radius.circular(30),
+                                          topLeft: Radius.circular(12),
+                                          bottomLeft: Radius.circular(12),
+                                        ),
+                                        color: Color(0xFF93C0FB),
+                                        border: Border.all(color: Color(0xFFCCCCCC),width: 1),
+                                      ),
+                                      child:Padding(
+                                        padding: EdgeInsets.only(top: 16,left: 22),
+                                        child: Text(
+                                          '1',
+                                          style:TextStyle(
+                                            fontSize: 20,
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.normal,
+                                            decoration: TextDecoration.none,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    Container(
+                                      margin: EdgeInsets.only(left: 20),
+                                      width: 200,
+                                      child: Text(
+//                                      '买卖B组', // 商圈显示
+                                        '长河湾北门店',  // 总监显示门店
+                                        style:TextStyle(
+                                          fontSize: 14,
+                                          color: Color(0xFF666666),
+                                          fontWeight: FontWeight.normal,
+                                          decoration: TextDecoration.none,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Image(image: AssetImage('images/next.png'),)
+                              ],
+                            ),
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: (){
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=>ZCenterGroupDetailPage()));
+                          },
+                          child: Container(
+                            margin: EdgeInsets.only(bottom: 25),
+                            padding: EdgeInsets.only(right: 15),
+                            width: 335,
+                            height: 60,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12),
+                              boxShadow: [BoxShadow(
+                                  color: Color(0xFFcccccc),
+                                  offset: Offset(0.0, 3.0),
+                                  blurRadius: 10.0,
+                                  spreadRadius: 2.0
+                              )],
+                              color: Colors.white,
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Row(
+                                  children: <Widget>[
+                                    Container(
+                                      width: 60,
+                                      height: 60,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.only(
+                                          topRight: Radius.circular(30),
+                                          bottomRight: Radius.circular(30),
+                                          topLeft: Radius.circular(12),
+                                          bottomLeft: Radius.circular(12),
+                                        ),
+                                        color: Color(0xFF93C0FB),
+                                        border: Border.all(color: Color(0xFFCCCCCC),width: 1),
+                                      ),
+                                      child:Padding(
+                                        padding: EdgeInsets.only(top: 16,left: 22),
+                                        child: Text(
+                                          '1',
+                                          style:TextStyle(
+                                            fontSize: 20,
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.normal,
+                                            decoration: TextDecoration.none,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    Container(
+                                      margin: EdgeInsets.only(left: 20),
+                                      width: 200,
+                                      child: Text(
+//                                      '买卖B组', // 商圈显示
+                                        '长河湾北门店',  // 总监显示门店
+                                        style:TextStyle(
+                                          fontSize: 14,
+                                          color: Color(0xFF666666),
+                                          fontWeight: FontWeight.normal,
+                                          decoration: TextDecoration.none,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Image(image: AssetImage('images/next.png'),)
+                              ],
+                            ),
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: (){
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=>ZCenterGroupDetailPage()));
+                          },
+                          child: Container(
+                            margin: EdgeInsets.only(bottom: 25),
+                            padding: EdgeInsets.only(right: 15),
+                            width: 335,
+                            height: 60,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12),
+                              boxShadow: [BoxShadow(
+                                  color: Color(0xFFcccccc),
+                                  offset: Offset(0.0, 3.0),
+                                  blurRadius: 10.0,
+                                  spreadRadius: 2.0
+                              )],
+                              color: Colors.white,
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Row(
+                                  children: <Widget>[
+                                    Container(
+                                      width: 60,
+                                      height: 60,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.only(
+                                          topRight: Radius.circular(30),
+                                          bottomRight: Radius.circular(30),
+                                          topLeft: Radius.circular(12),
+                                          bottomLeft: Radius.circular(12),
+                                        ),
+                                        color: Color(0xFF93C0FB),
+                                        border: Border.all(color: Color(0xFFCCCCCC),width: 1),
+                                      ),
+                                      child:Padding(
+                                        padding: EdgeInsets.only(top: 16,left: 22),
+                                        child: Text(
+                                          '1',
+                                          style:TextStyle(
+                                            fontSize: 20,
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.normal,
+                                            decoration: TextDecoration.none,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    Container(
+                                      margin: EdgeInsets.only(left: 20),
+                                      width: 200,
+                                      child: Text(
+//                                      '买卖B组', // 商圈显示
+                                        '长河湾北门店',  // 总监显示门店
+                                        style:TextStyle(
+                                          fontSize: 14,
+                                          color: Color(0xFF666666),
+                                          fontWeight: FontWeight.normal,
+                                          decoration: TextDecoration.none,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Image(image: AssetImage('images/next.png'),)
+                              ],
+                            ),
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: (){
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=>ZCenterGroupDetailPage()));
+                          },
+                          child: Container(
+                            margin: EdgeInsets.only(bottom: 25),
+                            padding: EdgeInsets.only(right: 15),
+                            width: 335,
+                            height: 60,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12),
+                              boxShadow: [BoxShadow(
+                                  color: Color(0xFFcccccc),
+                                  offset: Offset(0.0, 3.0),
+                                  blurRadius: 10.0,
+                                  spreadRadius: 2.0
+                              )],
+                              color: Colors.white,
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Row(
+                                  children: <Widget>[
+                                    Container(
+                                      width: 60,
+                                      height: 60,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.only(
+                                          topRight: Radius.circular(30),
+                                          bottomRight: Radius.circular(30),
+                                          topLeft: Radius.circular(12),
+                                          bottomLeft: Radius.circular(12),
+                                        ),
+                                        color: Color(0xFF93C0FB),
+                                        border: Border.all(color: Color(0xFFCCCCCC),width: 1),
+                                      ),
+                                      child:Padding(
+                                        padding: EdgeInsets.only(top: 16,left: 22),
+                                        child: Text(
+                                          '1',
+                                          style:TextStyle(
+                                            fontSize: 20,
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.normal,
+                                            decoration: TextDecoration.none,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    Container(
+                                      margin: EdgeInsets.only(left: 20),
+                                      width: 200,
+                                      child: Text(
+//                                      '买卖B组', // 商圈显示
+                                        '长河湾北门店',  // 总监显示门店
+                                        style:TextStyle(
+                                          fontSize: 14,
+                                          color: Color(0xFF666666),
+                                          fontWeight: FontWeight.normal,
+                                          decoration: TextDecoration.none,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Image(image: AssetImage('images/next.png'),)
+                              ],
+                            ),
                           ),
                         ),
                       ],

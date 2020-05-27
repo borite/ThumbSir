@@ -1,4 +1,5 @@
 import 'package:ThumbSir/pages/broker/qlist/analyze_detail_page.dart';
+import 'package:ThumbSir/pages/mycenter/delete_member_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
@@ -168,9 +169,14 @@ class _GroupMemberListState extends State<GroupMemberList> {
                     ),
                   ],
                 ),
-                Padding(
-                  padding: EdgeInsets.only(right: 10),
-                  child: Image(image: AssetImage('images/next.png'),),
+                GestureDetector(
+                  onTap: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>DeleteMemberPage()));
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.only(right: 10),
+                    child: Image(image: AssetImage('images/delete_blue.png'),),
+                  ),
                 ),
               ],
             ),
@@ -237,10 +243,15 @@ class _GroupMemberListState extends State<GroupMemberList> {
                         ),
                       ],
                     ),
-                    Padding(
-                      padding: EdgeInsets.only(right: 10),
-                      child: Image(image: AssetImage('images/next.png'),),
-                    )
+                    GestureDetector(
+                      onTap: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>DeleteMemberPage()));
+                      },
+                      child: Padding(
+                        padding: EdgeInsets.only(right: 10),
+                        child: Image(image: AssetImage('images/delete_blue.png'),),
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -303,10 +314,15 @@ class _GroupMemberListState extends State<GroupMemberList> {
                         ),
                       ],
                     ),
-                    Padding(
-                      padding: EdgeInsets.only(right: 10),
-                      child: Image(image: AssetImage('images/next.png'),),
-                    )
+                    GestureDetector(
+                      onTap: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>DeleteMemberPage()));
+                      },
+                      child: Padding(
+                        padding: EdgeInsets.only(right: 10),
+                        child: Image(image: AssetImage('images/delete_blue.png'),),
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -369,10 +385,15 @@ class _GroupMemberListState extends State<GroupMemberList> {
                         ),
                       ],
                     ),
-                    Padding(
-                      padding: EdgeInsets.only(right: 10),
-                      child: Image(image: AssetImage('images/next.png'),),
-                    )
+                    GestureDetector(
+                      onTap: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>DeleteMemberPage()));
+                      },
+                      child: Padding(
+                        padding: EdgeInsets.only(right: 10),
+                        child: Image(image: AssetImage('images/delete_blue.png'),),
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -435,10 +456,15 @@ class _GroupMemberListState extends State<GroupMemberList> {
                         ),
                       ],
                     ),
-                    Padding(
-                      padding: EdgeInsets.only(right: 10),
-                      child: Image(image: AssetImage('images/next.png'),),
-                    )
+                    GestureDetector(
+                      onTap: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>DeleteMemberPage()));
+                      },
+                      child: Padding(
+                        padding: EdgeInsets.only(right: 10),
+                        child: Image(image: AssetImage('images/delete_blue.png'),),
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -501,10 +527,15 @@ class _GroupMemberListState extends State<GroupMemberList> {
                         ),
                       ],
                     ),
-                    Padding(
-                      padding: EdgeInsets.only(right: 10),
-                      child: Image(image: AssetImage('images/next.png'),),
-                    )
+                    GestureDetector(
+                      onTap: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>DeleteMemberPage()));
+                      },
+                      child: Padding(
+                        padding: EdgeInsets.only(right: 10),
+                        child: Image(image: AssetImage('images/delete_blue.png'),),
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -567,10 +598,15 @@ class _GroupMemberListState extends State<GroupMemberList> {
                         ),
                       ],
                     ),
-                    Padding(
-                      padding: EdgeInsets.only(right: 10),
-                      child: Image(image: AssetImage('images/next.png'),),
-                    )
+                    GestureDetector(
+                      onTap: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>DeleteMemberPage()));
+                      },
+                      child: Padding(
+                        padding: EdgeInsets.only(right: 10),
+                        child: Image(image: AssetImage('images/delete_blue.png'),),
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -633,10 +669,15 @@ class _GroupMemberListState extends State<GroupMemberList> {
                         ),
                       ],
                     ),
-                    Padding(
-                      padding: EdgeInsets.only(right: 10),
-                      child: Image(image: AssetImage('images/next.png'),),
-                    )
+                    GestureDetector(
+                      onTap: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>DeleteMemberPage()));
+                      },
+                      child: Padding(
+                        padding: EdgeInsets.only(right: 10),
+                        child: Image(image: AssetImage('images/delete_blue.png'),),
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -699,10 +740,15 @@ class _GroupMemberListState extends State<GroupMemberList> {
                         ),
                       ],
                     ),
-                    Padding(
-                      padding: EdgeInsets.only(right: 10),
-                      child: Image(image: AssetImage('images/next.png'),),
-                    )
+                    GestureDetector(
+                      onTap: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>DeleteMemberPage()));
+                      },
+                      child: Padding(
+                        padding: EdgeInsets.only(right: 10),
+                        child: Image(image: AssetImage('images/delete_blue.png'),),
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -765,10 +811,15 @@ class _GroupMemberListState extends State<GroupMemberList> {
                         ),
                       ],
                     ),
-                    Padding(
-                      padding: EdgeInsets.only(right: 10),
-                      child: Image(image: AssetImage('images/next.png'),),
-                    )
+                    GestureDetector(
+                      onTap: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>DeleteMemberPage()));
+                      },
+                      child: Padding(
+                        padding: EdgeInsets.only(right: 10),
+                        child: Image(image: AssetImage('images/delete_blue.png'),),
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -831,10 +882,15 @@ class _GroupMemberListState extends State<GroupMemberList> {
                         ),
                       ],
                     ),
-                    Padding(
-                      padding: EdgeInsets.only(right: 10),
-                      child: Image(image: AssetImage('images/next.png'),),
-                    )
+                    GestureDetector(
+                      onTap: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>DeleteMemberPage()));
+                      },
+                      child: Padding(
+                        padding: EdgeInsets.only(right: 10),
+                        child: Image(image: AssetImage('images/delete_blue.png'),),
+                      ),
+                    ),
                   ],
                 ),
               ),

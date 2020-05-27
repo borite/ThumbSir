@@ -43,7 +43,13 @@ flutter:
     - images/cake.png
     - images/home.png
     - images/analyze.png
+    - images/analyze_s.png
+    - images/teamanalyze.png
+    - images/teamanalyze_s.png
     - images/listicon.png
+    - images/listicon_s.png
+    - images/teamlisticon.png
+    - images/teamlisticon_s.png
     - images/bell.png
     - images/bell_yellow.png
     - images/finish.png
@@ -100,5 +106,6 @@ flutter:
     - images/next_blue.png
     - images/task.png
     - images/delete.png
+    - images/delete_blue.png
 
 

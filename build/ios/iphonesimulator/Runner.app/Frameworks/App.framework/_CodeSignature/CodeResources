@@ -10,7 +10,7 @@
 		</data>
 		<key>flutter_assets/AssetManifest.json</key>
 		<data>
-		YYPCPOIIb1C7KyCM4m74AN+s9VY=
+		OOcruslnXzrfJu48GDQUOO29S/U=
 		</data>
 		<key>flutter_assets/FontManifest.json</key>
 		<data>
@@ -91,6 +91,10 @@
 		<key>flutter_assets/images/delete.png</key>
 		<data>
 		XNKFZu0iGeCV8qTyea14+47UxFk=
+		</data>
+		<key>flutter_assets/images/delete_blue.png</key>
+		<data>
+		M0IipvzCC0Qc7d8gzhChcW8MUng=
 		</data>
 		<key>flutter_assets/images/edit.png</key>
 		<data>
@@ -322,7 +326,7 @@
 		</data>
 		<key>flutter_assets/kernel_blob.bin</key>
 		<data>
-		/tLPY+2mL/+KyedTOTjUpNUZgRM=
+		vWy73N8ne0Az5zsw1J9xAeqJ76c=
 		</data>
 		<key>flutter_assets/packages/city_picker/assets/city_json.json</key>
 		<data>
@@ -351,11 +355,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			YYPCPOIIb1C7KyCM4m74AN+s9VY=
+			OOcruslnXzrfJu48GDQUOO29S/U=
 			</data>
 			<key>hash2</key>
 			<data>
-			4yyAFN0uGBnkGs9UvLXohvij+Tl+bLtB6r5WVMot8jc=
+			x4/X8/w/9ZGYmLkdTphTg+lplgGj2L5VBVNnzmexj+k=
 			</data>
 		</dict>
 		<key>flutter_assets/FontManifest.json</key>
@@ -576,6 +580,17 @@
 			<key>hash2</key>
 			<data>
 			a2eDqGQclh05AKN2OHqSr5Z1/SIchYDtfnvLxvE9nvk=
+			</data>
+		</dict>
+		<key>flutter_assets/images/delete_blue.png</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			M0IipvzCC0Qc7d8gzhChcW8MUng=
+			</data>
+			<key>hash2</key>
+			<data>
+			XBNPDHUhhNFCdr2SyHd2X4cHa5wzT1hNn3QIpOzSUT0=
 			</data>
 		</dict>
 		<key>flutter_assets/images/edit.png</key>
@@ -1209,11 +1224,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			/tLPY+2mL/+KyedTOTjUpNUZgRM=
+			vWy73N8ne0Az5zsw1J9xAeqJ76c=
 			</data>
 			<key>hash2</key>
 			<data>
-			LgMvKtG/nPC6mz/BblHmZBXDZrr7iFKWimZfN049Dy0=
+			Lyx64Oka4P0oyzyPuhe/DTpEpYwvAzZ/HQCkHP416sw=
 			</data>
 		</dict>
 		<key>flutter_assets/packages/city_picker/assets/city_json.json</key>

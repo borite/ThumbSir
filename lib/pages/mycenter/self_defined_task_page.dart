@@ -119,32 +119,6 @@ class _SelfDefinedTaskPageState extends State<SelfDefinedTaskPage> {
                         ),
                       ),
                     ),
-                    Container(
-                      width: 335,
-                      height: 40,
-                      margin: EdgeInsets.only(top: 25),
-                      decoration: BoxDecoration(
-                        border: Border.all(width: 1,color: Color(0xFF2692FD)),
-                        borderRadius: BorderRadius.circular(8),
-                        color: Colors.white,
-                      ),
-                      child: TextField(
-                        controller: taskNameController,
-                        autofocus: false,
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Color(0xFF999999),
-                          fontWeight: FontWeight.normal,
-                          decoration: TextDecoration.none,
-                        ),
-                        decoration: InputDecoration(
-                            contentPadding: EdgeInsets.fromLTRB(8, 0, 10, 10),
-                            border: InputBorder.none,
-                            hintStyle: TextStyle(fontSize: 14),
-                            hintText: "任务说明"
-                        ),
-                      ),
-                    ),
                     // 完成
                     Container(
                         width: 335,

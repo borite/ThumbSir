@@ -105,8 +105,8 @@ class _MyCenterPageState extends State<MyCenterPage> {
                           decoration: BoxDecoration(
 //                            border: Border.all(color: Color(0xFF0E7AE6),width: 1), // 经纪人蓝色
 //                            border: Border.all(color: Color(0xFF24CC8E),width: 1), // 店长绿色
-                            border: Border.all(color: Color(0xFFFF9600),width: 1), // 商圈经理橘色
-//                            border: Border.all(color: Color(0xFF9149EC),width: 1), // 总监浅紫色
+//                            border: Border.all(color: Color(0xFFFF9600),width: 1), // 商圈经理橘色
+                            border: Border.all(color: Color(0xFF9149EC),width: 1), // 总监浅紫色
 //                            border: Border.all(color: Color(0xFF7412F2),width: 1), // 副总经理深紫色
 //                            border: Border.all(color: Color(0xFF003273),width: 1), // 总经理深蓝色
                             borderRadius: BorderRadius.circular(3),
@@ -114,16 +114,16 @@ class _MyCenterPageState extends State<MyCenterPage> {
                           child: Text(
 //                            '经纪人',
 //                            '店长',
-                            '商圈经理',
-//                            '总监',
+//                            '商圈经理',
+                            '总监',
 //                            '副总经理',
 //                            '总经理',
                             style:TextStyle(
                               fontSize: 14,
 //                              color: Color(0xFF0E7AE6), // 经纪人蓝色
 //                              color: Color(0xFF24CC8E), // 店长绿色
-                              color: Color(0xFFFF9600), // 商圈经理橘色
-//                              color: Color(0xFF9149EC), // 总监浅紫色
+//                              color: Color(0xFFFF9600), // 商圈经理橘色
+                              color: Color(0xFF9149EC), // 总监浅紫色
 //                              color: Color(0xFF7412F2), // 副总经理深紫色
 //                              color: Color(0xFF003273), // 总经理深蓝色
                               fontWeight: FontWeight.normal,
@@ -198,7 +198,8 @@ class _MyCenterPageState extends State<MyCenterPage> {
                                       margin: EdgeInsets.only(left: 10),
                                       child: Text(
 //                                      '长河湾北门店买卖A组成员',
-                                        '白石桥大区长河湾北门店成员',
+//                                      '白石桥大区长河湾北门店成员',
+                                        '白石桥大区成员',
                                         style:TextStyle(
                                           fontSize: 16,
                                           color: Color(0xFF333333),

@@ -1,3 +1,4 @@
+import 'package:ThumbSir/pages/mycenter/choose_mini_task_number_page.dart';
 import 'package:ThumbSir/pages/mycenter/self_defined_task_page.dart';
 import 'package:flutter/material.dart';
 import 'package:wheel_chooser/wheel_chooser.dart';
@@ -236,6 +237,7 @@ class _ChooseMiniTaskPageState extends State<ChooseMiniTaskPage> {
                       ],
                     ),
                   ),
+                  // 说明
                   Padding(
                       padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
                       child: Container(
@@ -252,30 +254,30 @@ class _ChooseMiniTaskPageState extends State<ChooseMiniTaskPage> {
                       )
                   ),
                   // 下一步
-                  Container(
-                      width: 335,
-                      height: 40,
-                      padding: EdgeInsets.all(4),
-                      margin: EdgeInsets.only(bottom: 50,top: 100),
-                      decoration: BoxDecoration(
-                          border: Border.all(width: 1,color: Color(0xFF5580EB)),
-                          borderRadius: BorderRadius.circular(8),
-                          color: Color(0xFF5580EB)
-                      ),
-                      child: Padding(
-                          padding: EdgeInsets.only(top: 4),
-                          child: GestureDetector(
-                            onTap: (){
-//                              Navigator.push(context, MaterialPageRoute(builder: (context)=>SigninChooseCompanyPage()));
-                            },
+                  GestureDetector(
+                    onTap: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=>ChooseMiniTaskNumberPage()));
+                    },
+                    child: Container(
+                        width: 335,
+                        height: 40,
+                        padding: EdgeInsets.all(4),
+                        margin: EdgeInsets.only(bottom: 50,top: 100),
+                        decoration: BoxDecoration(
+                            border: Border.all(width: 1,color: Color(0xFF5580EB)),
+                            borderRadius: BorderRadius.circular(8),
+                            color: Color(0xFF5580EB)
+                        ),
+                        child: Padding(
+                            padding: EdgeInsets.only(top: 4),
                             child: Text('下一步',style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.white,
-                              fontWeight: FontWeight.normal,
-                              decoration: TextDecoration.none,
-                            ),textAlign: TextAlign.center,),
-                          )
-                      )
+                                fontSize: 14,
+                                color: Colors.white,
+                                fontWeight: FontWeight.normal,
+                                decoration: TextDecoration.none,
+                              ),textAlign: TextAlign.center,),
+                        )
+                    ),
                   ),
                 ]
             )

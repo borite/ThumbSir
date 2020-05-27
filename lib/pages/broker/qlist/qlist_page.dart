@@ -1,5 +1,3 @@
-import 'dart:typed_data';
-
 import 'package:ThumbSir/pages/broker/qlist/qlist_choose_add_page.dart';
 import 'package:flutter/material.dart';
 import 'package:ThumbSir/pages/broker/qlist/qlist_analyze_page.dart';
@@ -31,10 +29,11 @@ class _QListPageState extends State<QListPage> {
               _currentIndex = index;
             });
           },
+          type: BottomNavigationBarType.fixed,
           items: [
             BottomNavigationBarItem(
               icon: Image(image:AssetImage('images/listicon.png')),
-              activeIcon:Image(image:AssetImage('images/listicon.png'),),
+              activeIcon:Image(image:AssetImage('images/listicon_s.png'),),
               title: Text('量化')
             ),
             BottomNavigationBarItem(
@@ -44,7 +43,7 @@ class _QListPageState extends State<QListPage> {
             ),
             BottomNavigationBarItem(
               icon: Image(image:AssetImage('images/analyze.png')),
-              activeIcon:Image(image:AssetImage('images/analyze.png')),
+              activeIcon:Image(image:AssetImage('images/analyze_s.png')),
               title: Text('分析'),
             ),
           ],
