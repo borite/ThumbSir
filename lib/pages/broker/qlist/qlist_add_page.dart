@@ -50,7 +50,7 @@ class _QListAddPageState extends State<QListAddPage> {
                               )
                             ],
                           ),
-                          Text('修改',style: TextStyle(
+                          Text('修改重置此任务',style: TextStyle(
                             color: Color(0xFF5580EB),
                             fontSize: 16,
                             fontWeight: FontWeight.normal,

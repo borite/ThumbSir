@@ -258,7 +258,7 @@ class _DayAnalyzeState extends State<DayAnalyze> {
         Navigator.push(context, MaterialPageRoute(builder: (context)=>AnalyzeDetailPage()));
       },
       child: Container(
-        width: 340,
+        width: 335,
         margin: EdgeInsets.only(bottom: 25),
         decoration: BoxDecoration(
             color: Colors.transparent
@@ -349,7 +349,7 @@ class _DayAnalyzeState extends State<DayAnalyze> {
   // 已完成的item
   _finishItem(String name,String sum,String finish){
     return Container(
-          width: 340,
+          width: 335,
           margin: EdgeInsets.only(bottom: 25),
           decoration: BoxDecoration(
               color: Colors.transparent

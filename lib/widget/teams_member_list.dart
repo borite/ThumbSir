@@ -49,7 +49,7 @@ class _TeamsMemberListState extends State<TeamsMemberList> {
                         color: Color(0xFF93C0FB),
                       ),
                       child:Padding(
-                        padding: EdgeInsets.only(top: 16,left: 22),
+                        padding: EdgeInsets.only(top: 16),
                         child: Text(
                           '1',
                           style:TextStyle(
@@ -58,6 +58,7 @@ class _TeamsMemberListState extends State<TeamsMemberList> {
                             fontWeight: FontWeight.normal,
                             decoration: TextDecoration.none,
                           ),
+                          textAlign: TextAlign.center,
                         ),
                       ),
                     ),
@@ -118,7 +119,7 @@ class _TeamsMemberListState extends State<TeamsMemberList> {
                               border: Border.all(color: Color(0xFFCCCCCC),width: 1),
                             ),
                             child:Padding(
-                              padding: EdgeInsets.only(top: 16,left: 22),
+                              padding: EdgeInsets.only(top: 16),
                               child: Text(
                                 '1',
                                 style:TextStyle(
@@ -127,6 +128,7 @@ class _TeamsMemberListState extends State<TeamsMemberList> {
                                   fontWeight: FontWeight.normal,
                                   decoration: TextDecoration.none,
                                 ),
+                                textAlign: TextAlign.center,
                               ),
                             ),
                           ),
@@ -190,7 +192,7 @@ class _TeamsMemberListState extends State<TeamsMemberList> {
                               border: Border.all(color: Color(0xFFCCCCCC),width: 1),
                             ),
                             child:Padding(
-                              padding: EdgeInsets.only(top: 16,left: 22),
+                              padding: EdgeInsets.only(top: 16),
                               child: Text(
                                 '1',
                                 style:TextStyle(
@@ -199,6 +201,7 @@ class _TeamsMemberListState extends State<TeamsMemberList> {
                                   fontWeight: FontWeight.normal,
                                   decoration: TextDecoration.none,
                                 ),
+                                textAlign: TextAlign.center,
                               ),
                             ),
                           ),
@@ -262,7 +265,7 @@ class _TeamsMemberListState extends State<TeamsMemberList> {
                               border: Border.all(color: Color(0xFFCCCCCC),width: 1),
                             ),
                             child:Padding(
-                              padding: EdgeInsets.only(top: 16,left: 22),
+                              padding: EdgeInsets.only(top: 16),
                               child: Text(
                                 '1',
                                 style:TextStyle(
@@ -271,6 +274,7 @@ class _TeamsMemberListState extends State<TeamsMemberList> {
                                   fontWeight: FontWeight.normal,
                                   decoration: TextDecoration.none,
                                 ),
+                                textAlign: TextAlign.center,
                               ),
                             ),
                           ),
@@ -334,7 +338,7 @@ class _TeamsMemberListState extends State<TeamsMemberList> {
                               border: Border.all(color: Color(0xFFCCCCCC),width: 1),
                             ),
                             child:Padding(
-                              padding: EdgeInsets.only(top: 16,left: 22),
+                              padding: EdgeInsets.only(top: 16),
                               child: Text(
                                 '1',
                                 style:TextStyle(
@@ -343,6 +347,7 @@ class _TeamsMemberListState extends State<TeamsMemberList> {
                                   fontWeight: FontWeight.normal,
                                   decoration: TextDecoration.none,
                                 ),
+                                textAlign: TextAlign.center,
                               ),
                             ),
                           ),
@@ -406,7 +411,7 @@ class _TeamsMemberListState extends State<TeamsMemberList> {
                               border: Border.all(color: Color(0xFFCCCCCC),width: 1),
                             ),
                             child:Padding(
-                              padding: EdgeInsets.only(top: 16,left: 22),
+                              padding: EdgeInsets.only(top: 16),
                               child: Text(
                                 '1',
                                 style:TextStyle(
@@ -415,6 +420,7 @@ class _TeamsMemberListState extends State<TeamsMemberList> {
                                   fontWeight: FontWeight.normal,
                                   decoration: TextDecoration.none,
                                 ),
+                                textAlign: TextAlign.center,
                               ),
                             ),
                           ),
@@ -478,7 +484,7 @@ class _TeamsMemberListState extends State<TeamsMemberList> {
                               border: Border.all(color: Color(0xFFCCCCCC),width: 1),
                             ),
                             child:Padding(
-                              padding: EdgeInsets.only(top: 16,left: 22),
+                              padding: EdgeInsets.only(top: 16),
                               child: Text(
                                 '1',
                                 style:TextStyle(
@@ -487,6 +493,7 @@ class _TeamsMemberListState extends State<TeamsMemberList> {
                                   fontWeight: FontWeight.normal,
                                   decoration: TextDecoration.none,
                                 ),
+                                textAlign: TextAlign.center,
                               ),
                             ),
                           ),
@@ -550,7 +557,7 @@ class _TeamsMemberListState extends State<TeamsMemberList> {
                               border: Border.all(color: Color(0xFFCCCCCC),width: 1),
                             ),
                             child:Padding(
-                              padding: EdgeInsets.only(top: 16,left: 22),
+                              padding: EdgeInsets.only(top: 16),
                               child: Text(
                                 '1',
                                 style:TextStyle(
@@ -559,6 +566,7 @@ class _TeamsMemberListState extends State<TeamsMemberList> {
                                   fontWeight: FontWeight.normal,
                                   decoration: TextDecoration.none,
                                 ),
+                                textAlign: TextAlign.center,
                               ),
                             ),
                           ),
@@ -622,7 +630,7 @@ class _TeamsMemberListState extends State<TeamsMemberList> {
                               border: Border.all(color: Color(0xFFCCCCCC),width: 1),
                             ),
                             child:Padding(
-                              padding: EdgeInsets.only(top: 16,left: 22),
+                              padding: EdgeInsets.only(top: 16),
                               child: Text(
                                 '1',
                                 style:TextStyle(
@@ -631,6 +639,7 @@ class _TeamsMemberListState extends State<TeamsMemberList> {
                                   fontWeight: FontWeight.normal,
                                   decoration: TextDecoration.none,
                                 ),
+                                textAlign: TextAlign.center,
                               ),
                             ),
                           ),
@@ -694,7 +703,7 @@ class _TeamsMemberListState extends State<TeamsMemberList> {
                               border: Border.all(color: Color(0xFFCCCCCC),width: 1),
                             ),
                             child:Padding(
-                              padding: EdgeInsets.only(top: 16,left: 22),
+                              padding: EdgeInsets.only(top: 16),
                               child: Text(
                                 '1',
                                 style:TextStyle(
@@ -703,6 +712,7 @@ class _TeamsMemberListState extends State<TeamsMemberList> {
                                   fontWeight: FontWeight.normal,
                                   decoration: TextDecoration.none,
                                 ),
+                                textAlign: TextAlign.center,
                               ),
                             ),
                           ),
@@ -766,7 +776,7 @@ class _TeamsMemberListState extends State<TeamsMemberList> {
                               border: Border.all(color: Color(0xFFCCCCCC),width: 1),
                             ),
                             child:Padding(
-                              padding: EdgeInsets.only(top: 16,left: 22),
+                              padding: EdgeInsets.only(top: 16),
                               child: Text(
                                 '1',
                                 style:TextStyle(
@@ -775,6 +785,7 @@ class _TeamsMemberListState extends State<TeamsMemberList> {
                                   fontWeight: FontWeight.normal,
                                   decoration: TextDecoration.none,
                                 ),
+                                textAlign: TextAlign.center,
                               ),
                             ),
                           ),

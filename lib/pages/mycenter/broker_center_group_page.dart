@@ -118,7 +118,7 @@ class _BrokerCenterGroupPageState extends State<BrokerCenterGroupPage> {
                                   ),
                                   Positioned(
                                     top: 60,
-                                    left: 20,
+                                    left: 23,
                                     child: Container(
                                       height: 20,
                                       decoration: BoxDecoration(
@@ -185,7 +185,6 @@ class _BrokerCenterGroupPageState extends State<BrokerCenterGroupPage> {
                             ),
                           ],
                         ),
-                        Image(image: AssetImage('images/next.png'),)
                       ],
                     ),
                   ),
@@ -251,7 +250,6 @@ class _BrokerCenterGroupPageState extends State<BrokerCenterGroupPage> {
                                   ),
                                 ],
                               ),
-                              Image(image: AssetImage('images/next.png'),)
                             ],
                           ),
                         ),
@@ -314,7 +312,6 @@ class _BrokerCenterGroupPageState extends State<BrokerCenterGroupPage> {
                                 ),
                               ],
                             ),
-                            Image(image: AssetImage('images/next.png'),)
                           ],
                         ),
                       ),
@@ -373,7 +370,6 @@ class _BrokerCenterGroupPageState extends State<BrokerCenterGroupPage> {
                                 ),
                               ],
                             ),
-                            Image(image: AssetImage('images/next.png'),)
                           ],
                         ),
                       ),
@@ -432,7 +428,6 @@ class _BrokerCenterGroupPageState extends State<BrokerCenterGroupPage> {
                                 ),
                               ],
                             ),
-                            Image(image: AssetImage('images/next.png'),)
                           ],
                         ),
                       ),
@@ -495,7 +490,6 @@ class _BrokerCenterGroupPageState extends State<BrokerCenterGroupPage> {
                                 ),
                               ],
                             ),
-                            Image(image: AssetImage('images/next.png'),)
                           ],
                         ),
                       ),

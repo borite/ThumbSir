@@ -1,3 +1,4 @@
+import 'package:ThumbSir/pages/major/qlist/major_qlist_page.dart';
 import 'package:ThumbSir/pages/manager/qlist/manager_qlist_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -85,6 +86,7 @@ class _HomeState extends State<Home> {
                     onPressed: (){
 //                      Navigator.push(context, MaterialPageRoute(builder: (context)=>QListPage()));
                       Navigator.push(context, MaterialPageRoute(builder: (context)=>ManagerQListPage()));
+//                      Navigator.push(context, MaterialPageRoute(builder: (context)=>MajorQListPage()));
                     },
                     color: Colors.transparent,
                     elevation: 0,

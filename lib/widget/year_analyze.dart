@@ -216,7 +216,7 @@ class _YearAnalyzeState extends State<YearAnalyze> {
     return Stack(
       children: <Widget>[
         Container(
-          width: 340,
+          width: 335,
           margin: EdgeInsets.only(bottom: 25),
           decoration: BoxDecoration(
               color: Colors.transparent
@@ -311,7 +311,7 @@ class _YearAnalyzeState extends State<YearAnalyze> {
     return Stack(
       children: <Widget>[
         Container(
-          width: 340,
+          width: 335,
           margin: EdgeInsets.only(bottom: 25),
           decoration: BoxDecoration(
               color: Colors.transparent

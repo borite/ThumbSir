@@ -249,7 +249,7 @@ class _MonthAnalyzeState extends State<MonthAnalyze> {
         Navigator.push(context, MaterialPageRoute(builder: (context)=>AnalyzeDetailPage()));
       },
       child: Container(
-        width: 340,
+        width: 335,
         margin: EdgeInsets.only(bottom: 25),
         decoration: BoxDecoration(
             color: Colors.transparent
@@ -340,7 +340,7 @@ class _MonthAnalyzeState extends State<MonthAnalyze> {
   // 已完成的item
   _finishItem(String name,String sum,String finish){
     return Container(
-      width: 340,
+      width: 335,
       margin: EdgeInsets.only(bottom: 25),
       decoration: BoxDecoration(
           color: Colors.transparent

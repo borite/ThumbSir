@@ -1,5 +1,6 @@
 import 'package:ThumbSir/pages/mycenter/broker_center_group_page.dart';
 import 'package:ThumbSir/pages/mycenter/s_center_group_page.dart';
+import 'package:ThumbSir/pages/mycenter/z_center_group_page.dart';
 import 'package:flutter/material.dart';
 
 import 'm_center_group_page.dart';
@@ -186,7 +187,8 @@ class _MyCenterPageState extends State<MyCenterPage> {
                             onTap: (){
 //                              Navigator.push(context, MaterialPageRoute(builder: (context)=>BrokerCenterGroupPage()));
 //                              Navigator.push(context, MaterialPageRoute(builder: (context)=>MCenterGroupPage()));
-                              Navigator.push(context, MaterialPageRoute(builder: (context)=>SCenterGroupPage()));
+//                              Navigator.push(context, MaterialPageRoute(builder: (context)=>SCenterGroupPage()));
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=>ZCenterGroupPage()));
                             },
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,

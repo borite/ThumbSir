@@ -1,6 +1,7 @@
 import 'package:ThumbSir/pages/mycenter/add_member_page.dart';
 import 'package:ThumbSir/pages/mycenter/add_task_page.dart';
 import 'package:ThumbSir/pages/mycenter/choose_mini_task_page.dart';
+import 'package:ThumbSir/pages/mycenter/delete_member_page.dart';
 import 'package:flutter/material.dart';
 
 class MCenterGroupPage extends StatefulWidget {
@@ -271,7 +272,12 @@ class _MCenterGroupPageState extends State<MCenterGroupPage> {
                                   ),
                                 ],
                               ),
-                              Image(image: AssetImage('images/next.png'),)
+                              GestureDetector(
+                                onTap: (){
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>DeleteMemberPage()));
+                                },
+                                child: Image(image: AssetImage('images/delete_blue.png'),),
+                              ),
                             ],
                           ),
                         ),
@@ -334,125 +340,12 @@ class _MCenterGroupPageState extends State<MCenterGroupPage> {
                                   ),
                                 ],
                               ),
-                              Image(image: AssetImage('images/next.png'),)
-                            ],
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.fromLTRB(20, 0, 20, 20),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Row(
-                                children: <Widget>[
-                                  Container(
-                                    width: 60,
-                                    height: 60,
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.all(Radius.circular(45)),
-                                        color: Colors.white,
-                                        border: Border.all(color: Color(0xFFCCCCCC),width: 1)
-                                    ),
-                                    child:Image(
-                                      image: AssetImage('images/my_big.png'),
-                                    ),
-                                  ),
-                                  Container(
-                                    margin: EdgeInsets.only(left: 20),
-                                    width: 200,
-                                    child: Column(
-                                      children: <Widget>[
-                                        Row(
-                                          children: <Widget>[
-                                            Text(
-                                              '马思维',
-                                              style:TextStyle(
-                                                fontSize: 14,
-                                                color: Color(0xFF333333),
-                                                fontWeight: FontWeight.normal,
-                                                decoration: TextDecoration.none,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        Container(
-                                          width: 200,
-                                          padding: EdgeInsets.only(top: 10),
-                                          child: Text(
-                                            '18612345678',
-                                            style:TextStyle(
-                                              fontSize: 10,
-                                              color: Color(0xFF999999),
-                                              fontWeight: FontWeight.normal,
-                                              decoration: TextDecoration.none,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
+                              GestureDetector(
+                                onTap: (){
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>DeleteMemberPage()));
+                                },
+                                child: Image(image: AssetImage('images/delete_blue.png'),),
                               ),
-                              Image(image: AssetImage('images/next.png'),)
-                            ],
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.fromLTRB(20, 0, 20, 20),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Row(
-                                children: <Widget>[
-                                  Container(
-                                    width: 60,
-                                    height: 60,
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.all(Radius.circular(45)),
-                                        color: Colors.white,
-                                        border: Border.all(color: Color(0xFFCCCCCC),width: 1)
-                                    ),
-                                    child:Image(
-                                      image: AssetImage('images/my_big.png'),
-                                    ),
-                                  ),
-                                  Container(
-                                    margin: EdgeInsets.only(left: 20),
-                                    width: 200,
-                                    child: Column(
-                                      children: <Widget>[
-                                        Row(
-                                          children: <Widget>[
-                                            Text(
-                                              '马思维',
-                                              style:TextStyle(
-                                                fontSize: 14,
-                                                color: Color(0xFF333333),
-                                                fontWeight: FontWeight.normal,
-                                                decoration: TextDecoration.none,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        Container(
-                                          width: 200,
-                                          padding: EdgeInsets.only(top: 10),
-                                          child: Text(
-                                            '18612345678',
-                                            style:TextStyle(
-                                              fontSize: 10,
-                                              color: Color(0xFF999999),
-                                              fontWeight: FontWeight.normal,
-                                              decoration: TextDecoration.none,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Image(image: AssetImage('images/next.png'),)
                             ],
                           ),
                         ),
@@ -515,7 +408,148 @@ class _MCenterGroupPageState extends State<MCenterGroupPage> {
                                   ),
                                 ],
                               ),
-                              Image(image: AssetImage('images/next.png'),)
+                              GestureDetector(
+                                onTap: (){
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>DeleteMemberPage()));
+                                },
+                                child: Image(image: AssetImage('images/delete_blue.png'),),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.fromLTRB(20, 0, 20, 20),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Row(
+                                children: <Widget>[
+                                  Container(
+                                    width: 60,
+                                    height: 60,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.all(Radius.circular(45)),
+                                        color: Colors.white,
+                                        border: Border.all(color: Color(0xFFCCCCCC),width: 1)
+                                    ),
+                                    child:Image(
+                                      image: AssetImage('images/my_big.png'),
+                                    ),
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.only(left: 20),
+                                    width: 200,
+                                    child: Column(
+                                      children: <Widget>[
+                                        Row(
+                                          children: <Widget>[
+                                            Text(
+                                              '马思维',
+                                              style:TextStyle(
+                                                fontSize: 14,
+                                                color: Color(0xFF333333),
+                                                fontWeight: FontWeight.normal,
+                                                decoration: TextDecoration.none,
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: EdgeInsets.only(left: 10),
+                                              child: Image(image: AssetImage('images/vip_yellow.png'),),
+                                            )
+                                          ],
+                                        ),
+                                        Container(
+                                          width: 200,
+                                          padding: EdgeInsets.only(top: 10),
+                                          child: Text(
+                                            '18612345678',
+                                            style:TextStyle(
+                                              fontSize: 10,
+                                              color: Color(0xFF999999),
+                                              fontWeight: FontWeight.normal,
+                                              decoration: TextDecoration.none,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              GestureDetector(
+                                onTap: (){
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>DeleteMemberPage()));
+                                },
+                                child: Image(image: AssetImage('images/delete_blue.png'),),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.fromLTRB(20, 0, 20, 20),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Row(
+                                children: <Widget>[
+                                  Container(
+                                    width: 60,
+                                    height: 60,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.all(Radius.circular(45)),
+                                        color: Colors.white,
+                                        border: Border.all(color: Color(0xFFCCCCCC),width: 1)
+                                    ),
+                                    child:Image(
+                                      image: AssetImage('images/my_big.png'),
+                                    ),
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.only(left: 20),
+                                    width: 200,
+                                    child: Column(
+                                      children: <Widget>[
+                                        Row(
+                                          children: <Widget>[
+                                            Text(
+                                              '马思维',
+                                              style:TextStyle(
+                                                fontSize: 14,
+                                                color: Color(0xFF333333),
+                                                fontWeight: FontWeight.normal,
+                                                decoration: TextDecoration.none,
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: EdgeInsets.only(left: 10),
+                                              child: Image(image: AssetImage('images/vip_yellow.png'),),
+                                            )
+                                          ],
+                                        ),
+                                        Container(
+                                          width: 200,
+                                          padding: EdgeInsets.only(top: 10),
+                                          child: Text(
+                                            '18612345678',
+                                            style:TextStyle(
+                                              fontSize: 10,
+                                              color: Color(0xFF999999),
+                                              fontWeight: FontWeight.normal,
+                                              decoration: TextDecoration.none,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              GestureDetector(
+                                onTap: (){
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>DeleteMemberPage()));
+                                },
+                                child: Image(image: AssetImage('images/delete_blue.png'),),
+                              ),
                             ],
                           ),
                         ),

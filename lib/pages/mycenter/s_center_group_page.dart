@@ -255,7 +255,7 @@ class _SCenterGroupPageState extends State<SCenterGroupPage> {
                                         border: Border.all(color: Color(0xFFCCCCCC),width: 1),
                                       ),
                                       child:Padding(
-                                        padding: EdgeInsets.only(top: 16,left: 22),
+                                        padding: EdgeInsets.only(top: 16),
                                         child: Text(
                                           '1',
                                           style:TextStyle(
@@ -264,341 +264,7 @@ class _SCenterGroupPageState extends State<SCenterGroupPage> {
                                             fontWeight: FontWeight.normal,
                                             decoration: TextDecoration.none,
                                           ),
-                                        ),
-                                      ),
-                                    ),
-                                    Container(
-                                      margin: EdgeInsets.only(left: 20),
-                                      width: 200,
-                                      child: Text(
-//                                      '买卖B组', // 商圈显示
-                                        '长河湾北门店',  // 总监显示门店
-                                        style:TextStyle(
-                                          fontSize: 14,
-                                          color: Color(0xFF666666),
-                                          fontWeight: FontWeight.normal,
-                                          decoration: TextDecoration.none,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                Image(image: AssetImage('images/next.png'),)
-                              ],
-                            ),
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(bottom: 25),
-                          padding: EdgeInsets.only(right: 15),
-                          width: 335,
-                          height: 60,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            boxShadow: [BoxShadow(
-                                color: Color(0xFFcccccc),
-                                offset: Offset(0.0, 3.0),
-                                blurRadius: 10.0,
-                                spreadRadius: 2.0
-                            )],
-                            color: Colors.white,
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Row(
-                                children: <Widget>[
-                                  Container(
-                                    width: 60,
-                                    height: 60,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.only(
-                                        topRight: Radius.circular(30),
-                                        bottomRight: Radius.circular(30),
-                                        topLeft: Radius.circular(12),
-                                        bottomLeft: Radius.circular(12),
-                                      ),
-                                      color: Color(0xFF93C0FB),
-                                      border: Border.all(color: Color(0xFFCCCCCC),width: 1),
-                                    ),
-                                    child:Padding(
-                                      padding: EdgeInsets.only(top: 16,left: 22),
-                                      child: Text(
-                                        '2',
-                                        style:TextStyle(
-                                          fontSize: 20,
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.normal,
-                                          decoration: TextDecoration.none,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  Container(
-                                    margin: EdgeInsets.only(left: 20),
-                                    width: 200,
-                                    child: Text(
-//                                      '买卖B组', // 商圈显示
-                                      '交大嘉园店',  // 总监显示门店
-                                      style:TextStyle(
-                                        fontSize: 14,
-                                        color: Color(0xFF666666),
-                                        fontWeight: FontWeight.normal,
-                                        decoration: TextDecoration.none,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Image(image: AssetImage('images/next.png'),)
-                            ],
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(bottom: 25),
-                          padding: EdgeInsets.only(right: 15),
-                          width: 335,
-                          height: 60,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            boxShadow: [BoxShadow(
-                                color: Color(0xFFcccccc),
-                                offset: Offset(0.0, 3.0),
-                                blurRadius: 10.0,
-                                spreadRadius: 2.0
-                            )],
-                            color: Colors.white,
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Row(
-                                children: <Widget>[
-                                  Container(
-                                    width: 60,
-                                    height: 60,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.only(
-                                        topRight: Radius.circular(30),
-                                        bottomRight: Radius.circular(30),
-                                        topLeft: Radius.circular(12),
-                                        bottomLeft: Radius.circular(12),
-                                      ),
-                                      color: Color(0xFF93C0FB),
-                                      border: Border.all(color: Color(0xFFCCCCCC),width: 1),
-                                    ),
-                                    child:Padding(
-                                      padding: EdgeInsets.only(top: 16,left: 22),
-                                      child: Text(
-                                        '3',
-                                        style:TextStyle(
-                                          fontSize: 20,
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.normal,
-                                          decoration: TextDecoration.none,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  Container(
-                                    margin: EdgeInsets.only(left: 20),
-                                    width: 200,
-                                    child: Text(
-//                                      '买卖B组', // 商圈显示
-                                      '韦伯豪店',  // 总监显示门店
-                                      style:TextStyle(
-                                        fontSize: 14,
-                                        color: Color(0xFF666666),
-                                        fontWeight: FontWeight.normal,
-                                        decoration: TextDecoration.none,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Image(image: AssetImage('images/next.png'),)
-                            ],
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(bottom: 25),
-                          padding: EdgeInsets.only(right: 15),
-                          width: 335,
-                          height: 60,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            boxShadow: [BoxShadow(
-                                color: Color(0xFFcccccc),
-                                offset: Offset(0.0, 3.0),
-                                blurRadius: 10.0,
-                                spreadRadius: 2.0
-                            )],
-                            color: Colors.white,
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Row(
-                                children: <Widget>[
-                                  Container(
-                                    width: 60,
-                                    height: 60,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.only(
-                                        topRight: Radius.circular(30),
-                                        bottomRight: Radius.circular(30),
-                                        topLeft: Radius.circular(12),
-                                        bottomLeft: Radius.circular(12),
-                                      ),
-                                      color: Color(0xFF93C0FB),
-                                      border: Border.all(color: Color(0xFFCCCCCC),width: 1),
-                                    ),
-                                    child:Padding(
-                                      padding: EdgeInsets.only(top: 16,left: 22),
-                                      child: Text(
-                                        '4',
-                                        style:TextStyle(
-                                          fontSize: 20,
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.normal,
-                                          decoration: TextDecoration.none,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  Container(
-                                    margin: EdgeInsets.only(left: 20),
-                                    width: 200,
-                                    child: Text(
-//                                      '买卖B组', // 商圈显示
-                                      '时代之光南门店',  // 总监显示门店
-                                      style:TextStyle(
-                                        fontSize: 14,
-                                        color: Color(0xFF666666),
-                                        fontWeight: FontWeight.normal,
-                                        decoration: TextDecoration.none,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Image(image: AssetImage('images/next.png'),)
-                            ],
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(bottom: 25),
-                          padding: EdgeInsets.only(right: 15),
-                          width: 335,
-                          height: 60,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            boxShadow: [BoxShadow(
-                                color: Color(0xFFcccccc),
-                                offset: Offset(0.0, 3.0),
-                                blurRadius: 10.0,
-                                spreadRadius: 2.0
-                            )],
-                            color: Colors.white,
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Row(
-                                children: <Widget>[
-                                  Container(
-                                    width: 60,
-                                    height: 60,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.only(
-                                        topRight: Radius.circular(30),
-                                        bottomRight: Radius.circular(30),
-                                        topLeft: Radius.circular(12),
-                                        bottomLeft: Radius.circular(12),
-                                      ),
-                                      color: Color(0xFF93C0FB),
-                                      border: Border.all(color: Color(0xFFCCCCCC),width: 1),
-                                    ),
-                                    child:Padding(
-                                      padding: EdgeInsets.only(top: 16,left: 22),
-                                      child: Text(
-                                        '5',
-                                        style:TextStyle(
-                                          fontSize: 20,
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.normal,
-                                          decoration: TextDecoration.none,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  Container(
-                                    margin: EdgeInsets.only(left: 20),
-                                    width: 200,
-                                    child: Text(
-//                                      '买卖B组', // 商圈显示
-                                      '交大东路店',  // 总监显示门店
-                                      style:TextStyle(
-                                        fontSize: 14,
-                                        color: Color(0xFF666666),
-                                        fontWeight: FontWeight.normal,
-                                        decoration: TextDecoration.none,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Image(image: AssetImage('images/next.png'),)
-                            ],
-                          ),
-                        ),
-                        GestureDetector(
-                          onTap: (){
-                            Navigator.push(context, MaterialPageRoute(builder: (context)=>ZCenterGroupDetailPage()));
-                          },
-                          child: Container(
-                            margin: EdgeInsets.only(bottom: 25),
-                            padding: EdgeInsets.only(right: 15),
-                            width: 335,
-                            height: 60,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(12),
-                              boxShadow: [BoxShadow(
-                                  color: Color(0xFFcccccc),
-                                  offset: Offset(0.0, 3.0),
-                                  blurRadius: 10.0,
-                                  spreadRadius: 2.0
-                              )],
-                              color: Colors.white,
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                Row(
-                                  children: <Widget>[
-                                    Container(
-                                      width: 60,
-                                      height: 60,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.only(
-                                          topRight: Radius.circular(30),
-                                          bottomRight: Radius.circular(30),
-                                          topLeft: Radius.circular(12),
-                                          bottomLeft: Radius.circular(12),
-                                        ),
-                                        color: Color(0xFF93C0FB),
-                                        border: Border.all(color: Color(0xFFCCCCCC),width: 1),
-                                      ),
-                                      child:Padding(
-                                        padding: EdgeInsets.only(top: 16,left: 22),
-                                        child: Text(
-                                          '1',
-                                          style:TextStyle(
-                                            fontSize: 20,
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.normal,
-                                            decoration: TextDecoration.none,
-                                          ),
+                                          textAlign: TextAlign.center,
                                         ),
                                       ),
                                     ),
@@ -661,7 +327,7 @@ class _SCenterGroupPageState extends State<SCenterGroupPage> {
                                         border: Border.all(color: Color(0xFFCCCCCC),width: 1),
                                       ),
                                       child:Padding(
-                                        padding: EdgeInsets.only(top: 16,left: 22),
+                                        padding: EdgeInsets.only(top: 16),
                                         child: Text(
                                           '1',
                                           style:TextStyle(
@@ -670,6 +336,7 @@ class _SCenterGroupPageState extends State<SCenterGroupPage> {
                                             fontWeight: FontWeight.normal,
                                             decoration: TextDecoration.none,
                                           ),
+                                          textAlign: TextAlign.center,
                                         ),
                                       ),
                                     ),
@@ -732,7 +399,7 @@ class _SCenterGroupPageState extends State<SCenterGroupPage> {
                                         border: Border.all(color: Color(0xFFCCCCCC),width: 1),
                                       ),
                                       child:Padding(
-                                        padding: EdgeInsets.only(top: 16,left: 22),
+                                        padding: EdgeInsets.only(top: 16),
                                         child: Text(
                                           '1',
                                           style:TextStyle(
@@ -741,6 +408,7 @@ class _SCenterGroupPageState extends State<SCenterGroupPage> {
                                             fontWeight: FontWeight.normal,
                                             decoration: TextDecoration.none,
                                           ),
+                                          textAlign: TextAlign.center,
                                         ),
                                       ),
                                     ),
@@ -803,7 +471,7 @@ class _SCenterGroupPageState extends State<SCenterGroupPage> {
                                         border: Border.all(color: Color(0xFFCCCCCC),width: 1),
                                       ),
                                       child:Padding(
-                                        padding: EdgeInsets.only(top: 16,left: 22),
+                                        padding: EdgeInsets.only(top: 16),
                                         child: Text(
                                           '1',
                                           style:TextStyle(
@@ -812,6 +480,367 @@ class _SCenterGroupPageState extends State<SCenterGroupPage> {
                                             fontWeight: FontWeight.normal,
                                             decoration: TextDecoration.none,
                                           ),
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      ),
+                                    ),
+                                    Container(
+                                      margin: EdgeInsets.only(left: 20),
+                                      width: 200,
+                                      child: Text(
+//                                      '买卖B组', // 商圈显示
+                                        '长河湾北门店',  // 总监显示门店
+                                        style:TextStyle(
+                                          fontSize: 14,
+                                          color: Color(0xFF666666),
+                                          fontWeight: FontWeight.normal,
+                                          decoration: TextDecoration.none,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Image(image: AssetImage('images/next.png'),)
+                              ],
+                            ),
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: (){
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=>ZCenterGroupDetailPage()));
+                          },
+                          child: Container(
+                            margin: EdgeInsets.only(bottom: 25),
+                            padding: EdgeInsets.only(right: 15),
+                            width: 335,
+                            height: 60,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12),
+                              boxShadow: [BoxShadow(
+                                  color: Color(0xFFcccccc),
+                                  offset: Offset(0.0, 3.0),
+                                  blurRadius: 10.0,
+                                  spreadRadius: 2.0
+                              )],
+                              color: Colors.white,
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Row(
+                                  children: <Widget>[
+                                    Container(
+                                      width: 60,
+                                      height: 60,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.only(
+                                          topRight: Radius.circular(30),
+                                          bottomRight: Radius.circular(30),
+                                          topLeft: Radius.circular(12),
+                                          bottomLeft: Radius.circular(12),
+                                        ),
+                                        color: Color(0xFF93C0FB),
+                                        border: Border.all(color: Color(0xFFCCCCCC),width: 1),
+                                      ),
+                                      child:Padding(
+                                        padding: EdgeInsets.only(top: 16),
+                                        child: Text(
+                                          '1',
+                                          style:TextStyle(
+                                            fontSize: 20,
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.normal,
+                                            decoration: TextDecoration.none,
+                                          ),
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      ),
+                                    ),
+                                    Container(
+                                      margin: EdgeInsets.only(left: 20),
+                                      width: 200,
+                                      child: Text(
+//                                      '买卖B组', // 商圈显示
+                                        '长河湾北门店',  // 总监显示门店
+                                        style:TextStyle(
+                                          fontSize: 14,
+                                          color: Color(0xFF666666),
+                                          fontWeight: FontWeight.normal,
+                                          decoration: TextDecoration.none,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Image(image: AssetImage('images/next.png'),)
+                              ],
+                            ),
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: (){
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=>ZCenterGroupDetailPage()));
+                          },
+                          child: Container(
+                            margin: EdgeInsets.only(bottom: 25),
+                            padding: EdgeInsets.only(right: 15),
+                            width: 335,
+                            height: 60,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12),
+                              boxShadow: [BoxShadow(
+                                  color: Color(0xFFcccccc),
+                                  offset: Offset(0.0, 3.0),
+                                  blurRadius: 10.0,
+                                  spreadRadius: 2.0
+                              )],
+                              color: Colors.white,
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Row(
+                                  children: <Widget>[
+                                    Container(
+                                      width: 60,
+                                      height: 60,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.only(
+                                          topRight: Radius.circular(30),
+                                          bottomRight: Radius.circular(30),
+                                          topLeft: Radius.circular(12),
+                                          bottomLeft: Radius.circular(12),
+                                        ),
+                                        color: Color(0xFF93C0FB),
+                                        border: Border.all(color: Color(0xFFCCCCCC),width: 1),
+                                      ),
+                                      child:Padding(
+                                        padding: EdgeInsets.only(top: 16),
+                                        child: Text(
+                                          '1',
+                                          style:TextStyle(
+                                            fontSize: 20,
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.normal,
+                                            decoration: TextDecoration.none,
+                                          ),
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      ),
+                                    ),
+                                    Container(
+                                      margin: EdgeInsets.only(left: 20),
+                                      width: 200,
+                                      child: Text(
+//                                      '买卖B组', // 商圈显示
+                                        '长河湾北门店',  // 总监显示门店
+                                        style:TextStyle(
+                                          fontSize: 14,
+                                          color: Color(0xFF666666),
+                                          fontWeight: FontWeight.normal,
+                                          decoration: TextDecoration.none,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Image(image: AssetImage('images/next.png'),)
+                              ],
+                            ),
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: (){
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=>ZCenterGroupDetailPage()));
+                          },
+                          child: Container(
+                            margin: EdgeInsets.only(bottom: 25),
+                            padding: EdgeInsets.only(right: 15),
+                            width: 335,
+                            height: 60,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12),
+                              boxShadow: [BoxShadow(
+                                  color: Color(0xFFcccccc),
+                                  offset: Offset(0.0, 3.0),
+                                  blurRadius: 10.0,
+                                  spreadRadius: 2.0
+                              )],
+                              color: Colors.white,
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Row(
+                                  children: <Widget>[
+                                    Container(
+                                      width: 60,
+                                      height: 60,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.only(
+                                          topRight: Radius.circular(30),
+                                          bottomRight: Radius.circular(30),
+                                          topLeft: Radius.circular(12),
+                                          bottomLeft: Radius.circular(12),
+                                        ),
+                                        color: Color(0xFF93C0FB),
+                                        border: Border.all(color: Color(0xFFCCCCCC),width: 1),
+                                      ),
+                                      child:Padding(
+                                        padding: EdgeInsets.only(top: 16),
+                                        child: Text(
+                                          '1',
+                                          style:TextStyle(
+                                            fontSize: 20,
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.normal,
+                                            decoration: TextDecoration.none,
+                                          ),
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      ),
+                                    ),
+                                    Container(
+                                      margin: EdgeInsets.only(left: 20),
+                                      width: 200,
+                                      child: Text(
+//                                      '买卖B组', // 商圈显示
+                                        '长河湾北门店',  // 总监显示门店
+                                        style:TextStyle(
+                                          fontSize: 14,
+                                          color: Color(0xFF666666),
+                                          fontWeight: FontWeight.normal,
+                                          decoration: TextDecoration.none,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Image(image: AssetImage('images/next.png'),)
+                              ],
+                            ),
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: (){
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=>ZCenterGroupDetailPage()));
+                          },
+                          child: Container(
+                            margin: EdgeInsets.only(bottom: 25),
+                            padding: EdgeInsets.only(right: 15),
+                            width: 335,
+                            height: 60,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12),
+                              boxShadow: [BoxShadow(
+                                  color: Color(0xFFcccccc),
+                                  offset: Offset(0.0, 3.0),
+                                  blurRadius: 10.0,
+                                  spreadRadius: 2.0
+                              )],
+                              color: Colors.white,
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Row(
+                                  children: <Widget>[
+                                    Container(
+                                      width: 60,
+                                      height: 60,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.only(
+                                          topRight: Radius.circular(30),
+                                          bottomRight: Radius.circular(30),
+                                          topLeft: Radius.circular(12),
+                                          bottomLeft: Radius.circular(12),
+                                        ),
+                                        color: Color(0xFF93C0FB),
+                                        border: Border.all(color: Color(0xFFCCCCCC),width: 1),
+                                      ),
+                                      child:Padding(
+                                        padding: EdgeInsets.only(top: 16),
+                                        child: Text(
+                                          '1',
+                                          style:TextStyle(
+                                            fontSize: 20,
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.normal,
+                                            decoration: TextDecoration.none,
+                                          ),
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      ),
+                                    ),
+                                    Container(
+                                      margin: EdgeInsets.only(left: 20),
+                                      width: 200,
+                                      child: Text(
+//                                      '买卖B组', // 商圈显示
+                                        '长河湾北门店',  // 总监显示门店
+                                        style:TextStyle(
+                                          fontSize: 14,
+                                          color: Color(0xFF666666),
+                                          fontWeight: FontWeight.normal,
+                                          decoration: TextDecoration.none,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Image(image: AssetImage('images/next.png'),)
+                              ],
+                            ),
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: (){
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=>ZCenterGroupDetailPage()));
+                          },
+                          child: Container(
+                            margin: EdgeInsets.only(bottom: 25),
+                            padding: EdgeInsets.only(right: 15),
+                            width: 335,
+                            height: 60,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12),
+                              boxShadow: [BoxShadow(
+                                  color: Color(0xFFcccccc),
+                                  offset: Offset(0.0, 3.0),
+                                  blurRadius: 10.0,
+                                  spreadRadius: 2.0
+                              )],
+                              color: Colors.white,
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Row(
+                                  children: <Widget>[
+                                    Container(
+                                      width: 60,
+                                      height: 60,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.only(
+                                          topRight: Radius.circular(30),
+                                          bottomRight: Radius.circular(30),
+                                          topLeft: Radius.circular(12),
+                                          bottomLeft: Radius.circular(12),
+                                        ),
+                                        color: Color(0xFF93C0FB),
+                                        border: Border.all(color: Color(0xFFCCCCCC),width: 1),
+                                      ),
+                                      child:Padding(
+                                        padding: EdgeInsets.only(top: 16),
+                                        child: Text(
+                                          '1',
+                                          style:TextStyle(
+                                            fontSize: 20,
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.normal,
+                                            decoration: TextDecoration.none,
+                                          ),
+                                          textAlign: TextAlign.center,
                                         ),
                                       ),
                                     ),

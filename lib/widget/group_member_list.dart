@@ -49,7 +49,7 @@ class _GroupMemberListState extends State<GroupMemberList> {
                         color: Color(0xFF93C0FB),
                       ),
                       child:Padding(
-                        padding: EdgeInsets.only(top: 16,left: 22),
+                        padding: EdgeInsets.only(top: 16),
                         child: Text(
                           '2',
                           style:TextStyle(
@@ -58,6 +58,7 @@ class _GroupMemberListState extends State<GroupMemberList> {
                             fontWeight: FontWeight.normal,
                             decoration: TextDecoration.none,
                           ),
+                          textAlign: TextAlign.center,
                         ),
                       ),
                     ),
