@@ -91,7 +91,7 @@ class _InvitationPageState extends State<InvitationPage> {
                       ),
                   Container(
                     width: 335,
-                    height: 350,
+                    height: 300,
                     margin: EdgeInsets.only(top: 20),
                     padding: EdgeInsets.fromLTRB(20, 30, 20, 50),
                     decoration: BoxDecoration(
@@ -103,15 +103,11 @@ class _InvitationPageState extends State<InvitationPage> {
                         blurRadius: 10.0,
                         spreadRadius: 2.0
                       )],
-                      image: DecorationImage(
-                        image:AssetImage('images/vipbg.png'),
-                        fit: BoxFit.fitWidth,
-                      ),
                     ),
                     child: Column(
                       children: <Widget>[
                         Text(
-                          '续费会员',
+                          '1.职位邀请仅可以帮助您建立直属上下级连接，请将邀请信息发送给您的直属下级。',
                           style: TextStyle(
                             fontSize: 14,
                             color: Color(0xFF666666),
@@ -120,14 +116,15 @@ class _InvitationPageState extends State<InvitationPage> {
                           ),
                         ),
                         Text(
-                          '2.分享邀请后会生成一个口令链接，您可将其发送至微信、QQ聊天等；他人打开链接并同意加入小组后会在您的消息中心有反馈，双向同意后才能建立上下级关系，请注意查看。',
+                          '2.分享邀请后会生成一个口令链接，您可将其发送至下级的微信、QQ聊天等；他人打开链接并同意加入小组后会在您的消息中心有反馈，双向同意后才能建立上下级关系，请注意查看。',
                           style: TextStyle(
                           fontSize: 14,
                           color: Color(0xFF666666),
                           fontWeight: FontWeight.normal,
                           decoration: TextDecoration.none,
                         ),
-                      ), // 下一步
+                      ),
+                      // 分享
                       GestureDetector(
   //                      onTap:() async{
   //                        Navigator.push(context, MaterialPageRoute(builder: (context)=>Home()));

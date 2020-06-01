@@ -3,6 +3,7 @@ import 'package:ThumbSir/model/login_model.dart';
 import 'package:ThumbSir/pages/home.dart';
 import 'package:ThumbSir/pages/login/find_key_phone_page.dart';
 import 'package:ThumbSir/pages/login/signin_nameandphone_page.dart';
+import 'package:ThumbSir/pages/mycenter/invitation_code_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ThumbSir/widget/input.dart';
@@ -376,23 +377,29 @@ class _VipPageState extends State<VipPage> {
                       ),
                     ),
                     // 我的邀请
-                    Container(
-                      width: 335,
-                      height:40,
-                      decoration: BoxDecoration(
-                          border: Border(bottom: BorderSide(color: Color(0xFFF2F2F2),width: 1))
-                      ),
-                      child: Row(
-                        children: <Widget>[
-                          Image(image: AssetImage('images/invitation.png'),),
-                          Padding(
-                            padding: EdgeInsets.only(left: 10),
-                            child: Text('我的邀请',style: TextStyle(
-                                fontSize: 14,
-                                color: Color(0xFF666666)
-                            ),),
-                          ),
-                        ],
+                    GestureDetector(
+                      onTap: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>InvitationCodePage()));
+                      },
+                      child: Container(
+                        width: 335,
+                        height:40,
+                        margin: EdgeInsets.only(top: 10),
+                        decoration: BoxDecoration(
+                            border: Border(bottom: BorderSide(color: Color(0xFFF2F2F2),width: 1))
+                        ),
+                        child: Row(
+                          children: <Widget>[
+                            Image(image: AssetImage('images/invitation.png'),),
+                            Padding(
+                              padding: EdgeInsets.only(left: 10),
+                              child: Text('我的邀请',style: TextStyle(
+                                  fontSize: 14,
+                                  color: Color(0xFF666666)
+                              ),),
+                            ),
+                          ],
+                        ),
                       ),
                     )
                   ],

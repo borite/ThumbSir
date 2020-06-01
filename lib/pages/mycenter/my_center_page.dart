@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:ThumbSir/pages/mycenter/broker_center_group_page.dart';
 import 'package:ThumbSir/pages/mycenter/s_center_group_page.dart';
+import 'package:ThumbSir/pages/mycenter/service_page.dart';
+import 'package:ThumbSir/pages/mycenter/set_page.dart';
 import 'package:ThumbSir/pages/mycenter/vip_page.dart';
 import 'package:ThumbSir/pages/mycenter/z_center_group_page.dart';
 import 'package:flutter/material.dart';
@@ -64,7 +66,12 @@ class _MyCenterPageState extends State<MyCenterPage> {
                             },
                             child: Image(image: AssetImage('images/back.png'),),
                           ),
-                          Image(image: AssetImage('images/set.png')),
+                          GestureDetector(
+                            onTap: (){
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=>SetPage()));
+                            },
+                            child: Image(image: AssetImage('images/set.png')),
+                          ),
                         ],
                       )
                   ),
@@ -146,15 +153,20 @@ class _MyCenterPageState extends State<MyCenterPage> {
                       ),
                       Row(
                         children: <Widget>[
-                          Container(
-                            margin: EdgeInsets.only(left: 30,bottom: 50),
-                            child: Text(
-                              '已付费至2021年3月15日，查看详情',
-                              style:TextStyle(
-                                fontSize: 14,
-                                color: Color(0xFF666666),
-                                fontWeight: FontWeight.normal,
-                                decoration: TextDecoration.none,
+                          GestureDetector(
+                            onTap: (){
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=>VipPage()));
+                            },
+                            child: Container(
+                              margin: EdgeInsets.only(left: 30,bottom: 50),
+                              child: Text(
+                                '已付费至2021年3月15日，查看详情',
+                                style:TextStyle(
+                                  fontSize: 14,
+                                  color: Color(0xFF666666),
+                                  fontWeight: FontWeight.normal,
+                                  decoration: TextDecoration.none,
+                                ),
                               ),
                             ),
                           )
@@ -302,7 +314,7 @@ class _MyCenterPageState extends State<MyCenterPage> {
                         // 客服中心
                         GestureDetector(
                           onTap: (){
-                            Navigator.push(context, MaterialPageRoute(builder: (context)=>VipPage()));
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=>ServicePage()));
                           },
                           child: Padding(
                             padding: EdgeInsets.only(bottom: 20,right: 20),
