@@ -86,7 +86,7 @@ class _TeamAnalyzeGroupDetailWidgetState extends State<TeamAnalyzeGroupDetailWid
               Navigator.push(context, MaterialPageRoute(builder: (context)=>TeamAnalyzeDetailPage()));
             },
             child: Container(
-              margin: EdgeInsets.fromLTRB(0, 40, 0, 30),
+              margin: EdgeInsets.fromLTRB(0, 20, 0, 30),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[

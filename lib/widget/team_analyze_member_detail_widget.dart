@@ -25,7 +25,7 @@ class _TeamAnalyzeMemberDetailWidgetState extends State<TeamAnalyzeMemberDetailW
         children: <Widget>[
           // 组名
           Container(
-            margin: EdgeInsets.only(bottom: 80,top: 5),
+            margin: EdgeInsets.only(bottom: 40,top: 5),
             width: 335,
             height: 60,
             decoration: BoxDecoration(
@@ -67,7 +67,7 @@ class _TeamAnalyzeMemberDetailWidgetState extends State<TeamAnalyzeMemberDetailW
                     Container(
                       margin: EdgeInsets.only(left: 20),
                       child: Text(
-                        '长河湾北门店',
+                        '长河湾北门店（马思唯）',
                         style:TextStyle(
                           fontSize: 14,
                           color: Color(0xFF666666),
@@ -138,7 +138,7 @@ class _TeamAnalyzeMemberDetailWidgetState extends State<TeamAnalyzeMemberDetailW
                               margin: EdgeInsets.only(left: 20),
                               width: 150,
                               child: Text(
-                                '买卖A组',
+                                '买卖A组（张三）',
                                 style:TextStyle(
                                   fontSize: 14,
                                   color: Color(0xFF666666),

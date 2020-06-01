@@ -16,8 +16,6 @@ class SigninDao {
       "yzm": _verifyCode,
       "CompanyID": _companyID
     },headers: {'Cookie':_cookie});
-    //Utf8Decoder utf8decoder = Utf8Decoder();  // 修复中文乱码
-    //var result = json.decode(utf8decoder.convert(response.bodyBytes));
     if(response.statusCode == 200){
       return userRegFromJson(response.body);
     }else{

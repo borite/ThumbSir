@@ -23,7 +23,7 @@ class _TeamsMemberListState extends State<TeamsMemberList> {
         children: <Widget>[
           // 组名
           Container(
-            margin: EdgeInsets.only(bottom: 80,top: 5),
+            margin: EdgeInsets.only(bottom: 40,top: 5),
             width: 335,
             height: 60,
             decoration: BoxDecoration(

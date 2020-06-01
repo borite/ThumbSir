@@ -24,7 +24,7 @@ class _TeamListDetailWidgetState extends State<TeamListDetailWidget> {
         children: <Widget>[
           // 组名
           Container(
-            margin: EdgeInsets.only(bottom: 80,top: 5),
+            margin: EdgeInsets.only(bottom: 40,top: 5),
             width: 335,
             height: 60,
             decoration: BoxDecoration(

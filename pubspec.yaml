@@ -35,6 +35,7 @@ flutter:
     - images/blue_circle.png
     - images/back.png
     - images/back_white.png
+    - images/back_w_arrow.png
     - images/set.png
     - images/openclient.png
     - images/openowner.png
@@ -88,6 +89,11 @@ flutter:
     - images/service.png
     - images/vip.png
     - images/vip_yellow.png
+    - images/vip_blue.png
+    - images/vipbg.png
+    - images/invitation.png
+    - images/wx.png
+    - images/zfb.png
     - images/date.png
     - images/histogram.png
     - images/edit.png

@@ -6,57 +6,25 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ThumbSir/model/company_level_list.dart';
 import 'package:ThumbSir/dao/get_company_level_dao.dart';
 class SigninChoosePositionPage extends StatefulWidget {
+  List levelNames;
+  SigninChoosePositionPage({this.levelNames});
   @override
-  _SigninChoosePositionPageState createState() => _SigninChoosePositionPageState();
+  _SigninChoosePositionPageState createState() => _SigninChoosePositionPageState(levelNames);
 }
 
 class _SigninChoosePositionPageState extends State<SigninChoosePositionPage> {
 
-  Future<SharedPreferences> _prefs=SharedPreferences.getInstance();
-  List levelNames=[];
-  List test=['1你'];
+  //Future<SharedPreferences> _prefs=SharedPreferences.getInstance();
 
+  List levelNames;
+  _SigninChoosePositionPageState(this.levelNames);
 
- Future _load() async {
-    //final SharedPreferences prefs=await _prefs;
-    //String _companyID=prefs.getString("companyID");
-    //print(_companyID);
-    String _companyID='dbb0f5bb-9f97-45f2-a1c6-48b67b94268c';
-    var r= await GetCompanyLevelDao.httpGetCompanyLevel(_companyID);
-    print(r);
-    if(r.code==200){
-        if(r.data.length>0){
-          if(r.data[0].level1!=null){
-            levelNames.add(r.data[0].level1);
-          }
-          if(r.data[0].level2!=null){
-            levelNames.add(r.data[0].level2);
-          }
-          if(r.data[0].level3!=null){
-            levelNames.add(r.data[0].level3);
-          }
-          if(r.data[0].level4!=null){
-            levelNames.add(r.data[0].level4);
-          }
-          if(r.data[0].level5!=null){
-            levelNames.add(r.data[0].level5);
-          }
-          if(r.data[0].level6!=null) {
-            levelNames.add(r.data[0].level6);
-          }
-          setState(() {
-            test=levelNames;
-          });
-        }
-    }
-    //companies=r.data;
-    //print(companies);
-  }
+  String selValue="";
 
   @override
   void initState() {
     super.initState();
-    _load();
+    print(levelNames);
   }
 
   @override
@@ -139,8 +107,10 @@ class _SigninChoosePositionPageState extends State<SigninChoosePositionPage> {
                         width: 200,
                         height: 220,
                         child: WheelChooser(
-                          onValueChanged: (s) => print(s),
-                          datas: test,
+                          onValueChanged: (s){
+                             selValue=s.toString();
+                          },
+                          datas: levelNames,
                           selectTextStyle: TextStyle(
                             color: Color(0xFF0E7AE6),
                             fontWeight: FontWeight.normal,
@@ -168,7 +138,8 @@ class _SigninChoosePositionPageState extends State<SigninChoosePositionPage> {
                             padding: EdgeInsets.only(top: 4),
                             child: GestureDetector(
                               onTap: (){
-                                Navigator.push(context, MaterialPageRoute(builder: (context)=>SigninChooseAreaPage()));
+
+                                Navigator.push(context, MaterialPageRoute(builder: (context)=>SigninChooseAreaPage(selValue:selValue)));
                               },
                               child: Text('下一步',style: TextStyle(
                                 fontSize: 14,

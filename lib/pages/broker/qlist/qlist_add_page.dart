@@ -504,32 +504,33 @@ class _QListAddPageState extends State<QListAddPage> {
         )
     );
   }
+  Widget hourMinute(){
+    return TimePickerSpinner(
+      normalTextStyle: TextStyle(
+        fontSize: 16,
+        color: Color(0xFF666666),
+        fontWeight: FontWeight.normal,
+        decoration: TextDecoration.none,
+      ),
+      highlightedTextStyle: TextStyle(
+        fontSize: 20,
+        color: Color(0xFF0E7AE6),
+        decoration: TextDecoration.underline,
+        decorationColor: Color(0xFF0E7AE6),
+        decorationStyle: TextDecorationStyle.solid,
+        fontWeight: FontWeight.normal,
+      ),
+      itemWidth: 40,
+      spacing: 50,
+      itemHeight: 40,
+      isForce2Digits: true,
+      onTimeChange: (time) {
+        print(time);
+        setState(() {
+          _dateTime=time;
+        });
+      },
+    );
+  }
 }
 
-Widget hourMinute(){
-  return TimePickerSpinner(
-    normalTextStyle: TextStyle(
-      fontSize: 16,
-      color: Color(0xFF666666),
-      fontWeight: FontWeight.normal,
-      decoration: TextDecoration.none,
-    ),
-    highlightedTextStyle: TextStyle(
-      fontSize: 20,
-      color: Color(0xFF0E7AE6),
-      decoration: TextDecoration.underline,
-      decorationColor: Color(0xFF0E7AE6),
-      decorationStyle: TextDecorationStyle.solid,
-      fontWeight: FontWeight.normal,
-    ),
-    itemWidth: 40,
-    spacing: 50,
-    itemHeight: 40,
-    isForce2Digits: true,
-    onTimeChange: (time) {
-//      setState(() {
-//        _dateTime = time;
-//      });
-    },
-  );
-}

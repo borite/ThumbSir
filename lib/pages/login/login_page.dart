@@ -1,12 +1,13 @@
 import 'package:ThumbSir/dao/login_dao.dart';
-import 'package:ThumbSir/model/login_model.dart';
-import 'package:ThumbSir/pages/home.dart';
+import 'package:ThumbSir/model/login_result_model.dart';
 import 'package:ThumbSir/pages/login/find_key_phone_page.dart';
-import 'package:ThumbSir/pages/login/signin_choose_company_page.dart';
 import 'package:ThumbSir/pages/login/signin_nameandphone_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:ThumbSir/widget/input.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert';
+
+import '../home.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -181,8 +182,19 @@ class _LoginPageState extends State<LoginPage> {
                         onTap:() async{
                           final String phoneNum=phoneNumController.text;
                           final String password=passwordController.text;
-                          final LoginModel result=await LoginDao.doUserLogin(password, phoneNum,);
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=>Home()));
+                          print(phoneNum);
+                          print(password);
+                          //final LoginModel result=await LoginDao.doUserLogin(password, phoneNum,);
+                          final LoginResult result=await LoginResultDao.doUserLogin(password, phoneNum);
+                          print(result);
+                          if(result.code==200){
+                              //String dataStr=loginResultDataToJson(result.data);
+                            String dataStr=json.encode(result.data);
+                            print(dataStr);
+                            SharedPreferences prefs = await SharedPreferences.getInstance();
+                            prefs.setString("userInfo", dataStr);
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=>Home()));
+                          }
                         },
                         child: Container(
                             width: 335,

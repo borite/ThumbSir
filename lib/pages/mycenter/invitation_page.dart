@@ -103,11 +103,15 @@ class _InvitationPageState extends State<InvitationPage> {
                         blurRadius: 10.0,
                         spreadRadius: 2.0
                       )],
+                      image: DecorationImage(
+                        image:AssetImage('images/vipbg.png'),
+                        fit: BoxFit.fitWidth,
+                      ),
                     ),
                     child: Column(
                       children: <Widget>[
                         Text(
-                          '1.职位邀请功能只能添加直属下级，您正在添加对方为北京链家房地产经纪有限公司，北京市-京中大部-白石桥大区-长河湾北门店-买卖A组经纪人。',
+                          '续费会员',
                           style: TextStyle(
                             fontSize: 14,
                             color: Color(0xFF666666),

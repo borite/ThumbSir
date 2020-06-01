@@ -20,6 +20,8 @@ class _SigninBuildCompanyPageState extends State<SigninBuildCompanyPage> {
   Future<SharedPreferences> _prefs=SharedPreferences.getInstance();
   Future<String> _companyID;
 
+  List<String> levelNames=[];
+
   final TextEditingController companyNameController = TextEditingController();
   final TextEditingController creditCodeController = TextEditingController();
   final TextEditingController levelOneController = TextEditingController();
@@ -501,51 +503,52 @@ class _SigninBuildCompanyPageState extends State<SigninBuildCompanyPage> {
                             padding: EdgeInsets.only(top: 4),
                             child: GestureDetector(
                               onTap: () async{
-//                                final SharedPreferences prefs=await _prefs;
-//                                final String companyName=companyNameController.text;
-//                                final String companyCode=creditCodeController.text;
-//                                final String province=p1;
-//                                final String city=p2;
-//                                final CommonResult result=await CreateCompanyDao.httpPostCreateCompany(companyName, companyCode, lcount , province, city);
-//                                //print(result);
-//                                if(result.code==200) {
-//                                  final companyID=result.data;
-//                                  await prefs.setString("companyID", companyID);
-//                                  //print(prefs.getString("companyID"));
-//                                  CommonResult r=null;
-//                                  for(int i=1;i<=int.parse(lcount);i++){
-//                                     String levelName="";
-//                                     int realLevelNum=7-i;
-//                                     switch(realLevelNum){
-//                                       case 1:
-//                                         levelName=levelOneController.text;
-//                                         break;
-//                                       case 2:
-//                                         levelName=levelTwoController.text;
-//                                         break;
-//                                       case 3:
-//                                         levelName=levelThreeController.text;
-//                                         break;
-//                                       case 4:
-//                                         levelName=levelFourController.text;
-//                                         break;
-//                                       case 5:
-//                                         levelName=levelFiveController.text;
-//                                         break;
-//                                       case 6:
-//                                         levelName=levelSixController.text;
-//                                         break;
-//                                       default:
-//                                         break;
-//                                     }
-//                                     r=await SetCompanyLevelDao.httpSetCompanyLevel(companyID, realLevelNum.toString(),levelName);
-//                                     //print(r);
-//                                  }
-                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>SigninChoosePositionPage()));
-//                                }else{
-//                                  print(result.code);
-//                                  print(result.message);
-//                                }
+                                final SharedPreferences prefs=await _prefs;
+                                final String companyName=companyNameController.text;
+                                final String companyCode=creditCodeController.text;
+                                final String province=p1;
+                                final String city=p2;
+                                final CommonResult result=await CreateCompanyDao.httpPostCreateCompany(companyName, companyCode, lcount , province, city);
+                                //print(result);
+                                if(result.code==200) {
+                                  final companyID=result.data;
+                                  await prefs.setString("companyID", companyID);
+                                  //print(prefs.getString("companyID"));
+                                  CommonResult r=null;
+                                  for(int i=1;i<=int.parse(lcount);i++){
+                                     String levelName="";
+                                     int realLevelNum=7-i;
+                                     switch(realLevelNum){
+                                       case 1:
+                                         levelName=levelOneController.text;
+                                         break;
+                                       case 2:
+                                         levelName=levelTwoController.text;
+                                         break;
+                                       case 3:
+                                         levelName=levelThreeController.text;
+                                         break;
+                                       case 4:
+                                         levelName=levelFourController.text;
+                                         break;
+                                       case 5:
+                                         levelName=levelFiveController.text;
+                                         break;
+                                       case 6:
+                                         levelName=levelSixController.text;
+                                         break;
+                                       default:
+                                         break;
+                                     }
+                                     r=await SetCompanyLevelDao.httpSetCompanyLevel(companyID, realLevelNum.toString(),levelName);
+                                     levelNames.add(realLevelNum.toString()+"-"+levelName);
+                                     //print(r);
+                                  }
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>SigninChoosePositionPage(levelNames:levelNames.reversed.toList())));
+                                }else{
+                                  print(result.code);
+                                  print(result.message);
+                                }
 
                                 //Navigator.push(context, MaterialPageRoute(builder: (context)=>SigninChooseCompanyPage()));
                               },

@@ -60,42 +60,7 @@ class _GroupListDetailPageState extends State<GroupListDetailPage> {
                       )
                   ),
                   // 分页
-                  Directionality(
-                    textDirection: TextDirection.ltr,
-                    child: Stack(
-                      children: <Widget>[
-                        // 内容
-                        Container(
-                          constraints: BoxConstraints(
-                            minHeight: 300,
-                            maxHeight: 1100,
-                          ),
-                          child: PageView(
-                            controller: _pageIndicatiorController,
-                            children: List.generate(3, (_) => GroupListDetailWidget())
-                          )
-                        ),
-                        // 分页器
-                        Align(
-                          alignment: Alignment.topCenter,
-                          child: Container(
-                            margin: EdgeInsets.only(top: 100),
-                            child: SmoothPageIndicator(
-                              controller: _pageIndicatiorController,
-                              count: 3,
-                              effect: WormEffect(
-                                activeDotColor: Color(0xFF93C0FB), // 高亮颜色
-                                dotColor: Color(0xFFCCCCCC),
-                                spacing: 10, // 间距
-                                dotWidth: 5,
-                                dotHeight: 5,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ]
-                    )
-                  )
+                  GroupListDetailWidget()
                 ])
           ])
     );

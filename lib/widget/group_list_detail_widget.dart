@@ -108,7 +108,7 @@ class _GroupListDetailWidgetState extends State<GroupListDetailWidget> {
               Navigator.push(context, MaterialPageRoute(builder: (context)=>TeamListMemberPage()));
             },
             child: Container(
-              margin: EdgeInsets.fromLTRB(0, 40, 0, 30),
+              margin: EdgeInsets.fromLTRB(0, 20, 0, 30),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
