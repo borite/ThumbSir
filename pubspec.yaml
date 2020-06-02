@@ -54,6 +54,7 @@ flutter:
     - images/bell.png
     - images/bell_yellow.png
     - images/finish.png
+    - images/finish_big.png
     - images/morning.png
     - images/noon.png
     - images/evening.png

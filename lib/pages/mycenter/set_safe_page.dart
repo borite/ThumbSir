@@ -1,3 +1,7 @@
+import 'package:ThumbSir/pages/login/find_key_page.dart';
+import 'package:ThumbSir/pages/login/find_key_phone_page.dart';
+import 'package:ThumbSir/pages/mycenter/change_code_page.dart';
+import 'package:ThumbSir/pages/mycenter/change_phone_old_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -21,100 +25,115 @@ class _SetSafePageState extends State<SetSafePage> {
               child: ListView(
                 children: <Widget>[
                   // 手机号码
-                  Container(
-                      color:Colors.white,
-                      height: 60,
-                      margin: EdgeInsets.only(top: 65),
-                      padding:EdgeInsets.only(left: 25,right: 20),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Container(
-                            width: 100,
-                            child: Text(
-                              '手机号码',
-                              style:TextStyle(
-                                fontSize: 16,
-                                color: Color(0xFF666666),
-                                fontWeight: FontWeight.normal,
-                                decoration: TextDecoration.none,
-                              ),
-                              textAlign: TextAlign.left,
-                            ),
-                          ),
-                          Row(
-                            children: <Widget>[
-                              Container(
-                                margin:EdgeInsets.only(right: 15),
-                                child: Text(
-                                  '15012345678',
-                                  style:TextStyle(
-                                    fontSize: 16,
-                                    color: Color(0xFF999999),
-                                    fontWeight: FontWeight.normal,
-                                    decoration: TextDecoration.none,
-                                  ),
-                                  textAlign: TextAlign.right,
+                  GestureDetector(
+                    onTap: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=>ChangePhoneOldPage()));
+                    },
+                    child: Container(
+                        color:Colors.white,
+                        height: 60,
+                        margin: EdgeInsets.only(top: 65),
+                        padding:EdgeInsets.only(left: 25,right: 20),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Container(
+                              width: 100,
+                              child: Text(
+                                '手机号码',
+                                style:TextStyle(
+                                  fontSize: 16,
+                                  color: Color(0xFF666666),
+                                  fontWeight: FontWeight.normal,
+                                  decoration: TextDecoration.none,
                                 ),
+                                textAlign: TextAlign.left,
                               ),
-                              Image(image: AssetImage('images/next.png'),)
-                            ],
-                          )
-                        ],
-                      )
+                            ),
+                            Row(
+                              children: <Widget>[
+                                Container(
+                                  margin:EdgeInsets.only(right: 15),
+                                  child: Text(
+                                    '150****5678',
+                                    style:TextStyle(
+                                      fontSize: 16,
+                                      color: Color(0xFF999999),
+                                      fontWeight: FontWeight.normal,
+                                      decoration: TextDecoration.none,
+                                    ),
+                                    textAlign: TextAlign.right,
+                                  ),
+                                ),
+                                Image(image: AssetImage('images/next.png'),)
+                              ],
+                            )
+                          ],
+                        )
 
+                    ),
                   ),
                   // 修改密码
-                  Container(
-                      color:Colors.white,
-                      height: 60,
-                      margin: EdgeInsets.only(top: 2),
-                      padding:EdgeInsets.only(left: 25,right: 20),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Container(
-                            width: 100,
-                            child: Text(
-                              '登录密码',
-                              style:TextStyle(
-                                fontSize: 16,
-                                color: Color(0xFF666666),
-                                fontWeight: FontWeight.normal,
-                                decoration: TextDecoration.none,
+                  GestureDetector(
+                    onTap: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=>ChangeCodePage()));
+                    },
+                    child: Container(
+                        color:Colors.white,
+                        height: 60,
+                        margin: EdgeInsets.only(top: 2),
+                        padding:EdgeInsets.only(left: 25,right: 20),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Container(
+                              width: 100,
+                              child: Text(
+                                '登录密码',
+                                style:TextStyle(
+                                  fontSize: 16,
+                                  color: Color(0xFF666666),
+                                  fontWeight: FontWeight.normal,
+                                  decoration: TextDecoration.none,
+                                ),
+                                textAlign: TextAlign.left,
                               ),
-                              textAlign: TextAlign.left,
                             ),
-                          ),
-                          Image(image: AssetImage('images/next.png'),)
-                        ],
-                      )
+                            Image(image: AssetImage('images/next.png'),)
+                          ],
+                        )
+                    ),
                   ),
                   // 找回密码
-                  Container(
-                      color:Colors.white,
-                      height: 60,
-                      margin: EdgeInsets.only(top: 2),
-                      padding:EdgeInsets.only(left: 25,right: 20),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Container(
-                            width: 100,
-                            child: Text(
-                              '找回密码',
-                              style:TextStyle(
-                                fontSize: 16,
-                                color: Color(0xFF666666),
-                                fontWeight: FontWeight.normal,
-                                decoration: TextDecoration.none,
+                  GestureDetector(
+                    onTap: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=>FindKeyPhonePage()));
+                    },
+                    child: Container(
+                        color:Colors.white,
+                        height: 60,
+                        margin: EdgeInsets.only(top: 2),
+                        padding:EdgeInsets.only(left: 25,right: 20),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Container(
+                              width: 100,
+                              child: Text(
+                                '找回密码',
+                                style:TextStyle(
+                                  fontSize: 16,
+                                  color: Color(0xFF666666),
+                                  fontWeight: FontWeight.normal,
+                                  decoration: TextDecoration.none,
+                                ),
+                                textAlign: TextAlign.left,
                               ),
-                              textAlign: TextAlign.left,
                             ),
-                          ),
-                          Image(image: AssetImage('images/next.png'),)
-                        ],
-                      )
+                            Image(image: AssetImage('images/next.png'),)
+                          ],
+                        )
+                    ),
                   ),
                   // 注销账户
                   Container(
