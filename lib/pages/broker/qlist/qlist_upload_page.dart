@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:ThumbSir/pages/broker/qlist/qlist_change_page.dart';
 import 'package:flutter/material.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
@@ -9,6 +11,41 @@ class QListUploadPage extends StatefulWidget {
 }
 
 class _QListUploadPageState extends State<QListUploadPage> {
+  List _images=[];
+  final _picker = ImagePicker();
+  Future pickImage(bool isTakePhoto) async {
+    Navigator.pop(context);
+    final image = await _picker.getImage(
+        source: isTakePhoto?ImageSource.camera:ImageSource.gallery
+    );
+    final File img=File(image.path);
+    setState(() {
+      _images.add(img);
+    });
+  }
+
+  _pickImage(){
+    showModalBottomSheet(context: context, builder: (context)=>Container(
+      height: 160,
+      child: Column(
+        children: <Widget>[
+          _item("拍照",true),
+          _item("从相册选择",false),
+        ],
+      ),
+    ));
+  }
+
+  _item(String title,bool isTakePhoto){
+    return GestureDetector(
+      child: ListTile(
+        leading: Icon(isTakePhoto ? Icons.camera_alt : Icons.photo_library),
+        title: Text(title),
+        onTap: ()=>pickImage(isTakePhoto),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -206,25 +243,28 @@ class _QListUploadPageState extends State<QListUploadPage> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
-                            Container(
-                              width: 90,
-                              height: 90,
-                              decoration: BoxDecoration(
-                                  image: DecorationImage(image: AssetImage('images/imgbg.png'))
-                              ),
-                              child: Column(
-                                children: <Widget>[
-                                  Padding(
-                                    padding: EdgeInsets.only(top: 25,bottom: 5),
-                                    child: Image(image: AssetImage('images/camera.png'),),
-                                  ),
-                                  Text('拍照上传',style: TextStyle(
-                                    fontSize: 14,
-                                    color: Color(0xFF999999),
-                                    fontWeight: FontWeight.normal,
-                                    decoration: TextDecoration.none,
-                                  ),)
-                                ],
+                            GestureDetector(
+                              onTap: _pickImage,
+                              child: Container(
+                                width: 90,
+                                height: 90,
+                                decoration: BoxDecoration(
+                                    image: DecorationImage(image: AssetImage('images/imgbg.png'))
+                                ),
+                                child: Column(
+                                  children: <Widget>[
+                                    Padding(
+                                      padding: EdgeInsets.only(top: 25,bottom: 5),
+                                      child: Image(image: AssetImage('images/camera.png'),),
+                                    ),
+                                    Text('拍照上传',style: TextStyle(
+                                      fontSize: 14,
+                                      color: Color(0xFF999999),
+                                      fontWeight: FontWeight.normal,
+                                      decoration: TextDecoration.none,
+                                    ),)
+                                  ],
+                                ),
                               ),
                             ),
                             Container(
@@ -233,7 +273,10 @@ class _QListUploadPageState extends State<QListUploadPage> {
                               decoration: BoxDecoration(
                                   image: DecorationImage(image: AssetImage('images/imgbg.png'))
                               ),
-                              child: Image(image: AssetImage('images/camera.png'),)
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(6),
+                                child: _images.length == 0 ? Image(image: AssetImage('images/camera.png'),) : Image.file(_images[0],width: 90,height: 90,fit: BoxFit.fill,),
+                              ),
                             ),
                             Container(
                                 width: 90,
@@ -241,12 +284,39 @@ class _QListUploadPageState extends State<QListUploadPage> {
                                 decoration: BoxDecoration(
                                     image: DecorationImage(image: AssetImage('images/imgbg.png'))
                                 ),
-                                child: Image(image: AssetImage('images/camera.png'),)
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(6),
+                                  child: _images.length == 0 ?
+                                  Image(image: AssetImage('images/camera.png'),)
+                                  : _images.length == 1 ?
+                                  Image(image: AssetImage('images/camera.png'),)
+                                  :_images.length == 2 ?
+                                  Image.file(_images[1],width: 90,height: 90,fit: BoxFit.fill,)
+                                  :
+                                  Container(
+                                    width: 90,
+                                    height: 90,
+                                    child: Stack(
+                                      alignment: Alignment.center,
+                                      children: <Widget>[
+                                        Image.file(_images[1],width: 90,height: 90,fit: BoxFit.fill,),
+                                        Container(width: 90,height: 90,color: Colors.black45,),
+                                        Text("+"+(_images.length-1).toString(),
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.normal,
+                                            decoration: TextDecoration.none,
+                                          ),
+                                          textAlign: TextAlign.center,)
+                                      ],
+                                    ),
+                                  ),
+                                ),
                             ),
                           ],
                         ),
                       ),
-
                     ],
                   ),
                   Column(
@@ -286,47 +356,80 @@ class _QListUploadPageState extends State<QListUploadPage> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
+                            GestureDetector(
+                              onTap: _pickImage,
+                              child: Container(
+                                width: 90,
+                                height: 90,
+                                decoration: BoxDecoration(
+                                    image: DecorationImage(image: AssetImage('images/imgbg.png'))
+                                ),
+                                child: Column(
+                                  children: <Widget>[
+                                    Padding(
+                                      padding: EdgeInsets.only(top: 25,bottom: 5),
+                                      child: Image(image: AssetImage('images/camera.png'),),
+                                    ),
+                                    Text('拍照上传',style: TextStyle(
+                                      fontSize: 14,
+                                      color: Color(0xFF999999),
+                                      fontWeight: FontWeight.normal,
+                                      decoration: TextDecoration.none,
+                                    ),)
+                                  ],
+                                ),
+                              ),
+                            ),
                             Container(
                               width: 90,
                               height: 90,
                               decoration: BoxDecoration(
                                   image: DecorationImage(image: AssetImage('images/imgbg.png'))
                               ),
-                              child: Column(
-                                children: <Widget>[
-                                  Padding(
-                                    padding: EdgeInsets.only(top: 25,bottom: 5),
-                                    child: Image(image: AssetImage('images/camera.png'),),
-                                  ),
-                                  Text('拍照上传',style: TextStyle(
-                                    fontSize: 14,
-                                    color: Color(0xFF999999),
-                                    fontWeight: FontWeight.normal,
-                                    decoration: TextDecoration.none,
-                                  ),)
-                                ],
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(6),
+                                child: _images.length == 0 ? Image(image: AssetImage('images/camera.png'),) : Image.file(_images[0],width: 90,height: 90,fit: BoxFit.fill,),
                               ),
                             ),
                             Container(
-                                width: 90,
-                                height: 90,
-                                decoration: BoxDecoration(
-                                    image: DecorationImage(image: AssetImage('images/imgbg.png'))
+                              width: 90,
+                              height: 90,
+                              decoration: BoxDecoration(
+                                  image: DecorationImage(image: AssetImage('images/imgbg.png'))
+                              ),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(6),
+                                child: _images.length == 0 ?
+                                Image(image: AssetImage('images/camera.png'),)
+                                    : _images.length == 1 ?
+                                Image(image: AssetImage('images/camera.png'),)
+                                    :_images.length == 2 ?
+                                Image.file(_images[1],width: 90,height: 90,fit: BoxFit.fill,)
+                                    :
+                                Container(
+                                  width: 90,
+                                  height: 90,
+                                  child: Stack(
+                                    alignment: Alignment.center,
+                                    children: <Widget>[
+                                      Image.file(_images[1],width: 90,height: 90,fit: BoxFit.fill,),
+                                      Container(width: 90,height: 90,color: Colors.black45,),
+                                      Text("+"+(_images.length-1).toString(),
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.normal,
+                                          decoration: TextDecoration.none,
+                                        ),
+                                        textAlign: TextAlign.center,)
+                                    ],
+                                  ),
                                 ),
-                                child: Image(image: AssetImage('images/camera.png'),)
-                            ),
-                            Container(
-                                width: 90,
-                                height: 90,
-                                decoration: BoxDecoration(
-                                    image: DecorationImage(image: AssetImage('images/imgbg.png'))
-                                ),
-                                child: Image(image: AssetImage('images/camera.png'),)
+                              ),
                             ),
                           ],
                         ),
                       ),
-
                     ],
                   ),
                   Column(
@@ -366,42 +469,76 @@ class _QListUploadPageState extends State<QListUploadPage> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
+                            GestureDetector(
+                              onTap: _pickImage,
+                              child: Container(
+                                width: 90,
+                                height: 90,
+                                decoration: BoxDecoration(
+                                    image: DecorationImage(image: AssetImage('images/imgbg.png'))
+                                ),
+                                child: Column(
+                                  children: <Widget>[
+                                    Padding(
+                                      padding: EdgeInsets.only(top: 25,bottom: 5),
+                                      child: Image(image: AssetImage('images/camera.png'),),
+                                    ),
+                                    Text('拍照上传',style: TextStyle(
+                                      fontSize: 14,
+                                      color: Color(0xFF999999),
+                                      fontWeight: FontWeight.normal,
+                                      decoration: TextDecoration.none,
+                                    ),)
+                                  ],
+                                ),
+                              ),
+                            ),
                             Container(
                               width: 90,
                               height: 90,
                               decoration: BoxDecoration(
                                   image: DecorationImage(image: AssetImage('images/imgbg.png'))
                               ),
-                              child: Column(
-                                children: <Widget>[
-                                  Padding(
-                                    padding: EdgeInsets.only(top: 25,bottom: 5),
-                                    child: Image(image: AssetImage('images/camera.png'),),
-                                  ),
-                                  Text('拍照上传',style: TextStyle(
-                                    fontSize: 14,
-                                    color: Color(0xFF999999),
-                                    fontWeight: FontWeight.normal,
-                                    decoration: TextDecoration.none,
-                                  ),)
-                                ],
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(6),
+                                child: _images.length == 0 ? Image(image: AssetImage('images/camera.png'),) : Image.file(_images[0],width: 90,height: 90,fit: BoxFit.fill,),
                               ),
                             ),
                             Container(
-                                width: 90,
-                                height: 90,
-                                decoration: BoxDecoration(
-                                    image: DecorationImage(image: AssetImage('images/imgbg.png'))
+                              width: 90,
+                              height: 90,
+                              decoration: BoxDecoration(
+                                  image: DecorationImage(image: AssetImage('images/imgbg.png'))
+                              ),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(6),
+                                child: _images.length == 0 ?
+                                Image(image: AssetImage('images/camera.png'),)
+                                    : _images.length == 1 ?
+                                Image(image: AssetImage('images/camera.png'),)
+                                    :_images.length == 2 ?
+                                Image.file(_images[1],width: 90,height: 90,fit: BoxFit.fill,)
+                                    :
+                                Container(
+                                  width: 90,
+                                  height: 90,
+                                  child: Stack(
+                                    alignment: Alignment.center,
+                                    children: <Widget>[
+                                      Image.file(_images[1],width: 90,height: 90,fit: BoxFit.fill,),
+                                      Container(width: 90,height: 90,color: Colors.black45,),
+                                      Text("+"+(_images.length-1).toString(),
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.normal,
+                                          decoration: TextDecoration.none,
+                                        ),
+                                        textAlign: TextAlign.center,)
+                                    ],
+                                  ),
                                 ),
-                                child: Image(image: AssetImage('images/camera.png'),)
-                            ),
-                            Container(
-                                width: 90,
-                                height: 90,
-                                decoration: BoxDecoration(
-                                    image: DecorationImage(image: AssetImage('images/imgbg.png'))
-                                ),
-                                child: Image(image: AssetImage('images/camera.png'),)
+                              ),
                             ),
                           ],
                         ),
