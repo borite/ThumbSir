@@ -1,4 +1,5 @@
-import 'package:ThumbSir/pages/mycenter/Aboutus_page.dart';
+import 'package:ThumbSir/pages/login/login_page.dart';
+import 'package:ThumbSir/pages/mycenter/aboutus_page.dart';
 import 'package:ThumbSir/pages/mycenter/introduce_version_page.dart';
 import 'package:ThumbSir/pages/mycenter/my_center_notlogin_page.dart';
 import 'package:ThumbSir/pages/mycenter/set_mymsg_page.dart';
@@ -12,6 +13,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ThumbSir/pages/broker/tips/qlist_tips_page.dart';
 import 'package:ThumbSir/pages/broker/qlist/qlist_add_page.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 class SetPage extends StatefulWidget {
   @override
@@ -307,20 +309,23 @@ class _SetPageState extends State<SetPage> {
                     ),
                   ),
                   // 退出登录
-                  Container(
-                    height:40,
-                    padding: EdgeInsets.only(top: 10),
-                    margin: EdgeInsets.only(left: 30,right: 30,top: 100),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
-                      color:Color(0xFF5580EB),
+                  GestureDetector(
+                    onTap: () => _onLogoutAlertPressed(context),
+                    child: Container(
+                      height:40,
+                      padding: EdgeInsets.only(top: 10),
+                      margin: EdgeInsets.only(left: 30,right: 30,top: 100),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                        color:Color(0xFF5580EB),
+                      ),
+                      child: Text('退出登录',style:TextStyle(
+                        fontSize: 14,
+                        color: Colors.white,
+                        fontWeight: FontWeight.normal,
+                        decoration: TextDecoration.none,
+                      ),textAlign: TextAlign.center,),
                     ),
-                    child: Text('退出登录',style:TextStyle(
-                      fontSize: 14,
-                      color: Colors.white,
-                      fontWeight: FontWeight.normal,
-                      decoration: TextDecoration.none,
-                    ),textAlign: TextAlign.center,),
                   )
                 ],
               ),
@@ -370,5 +375,23 @@ class _SetPageState extends State<SetPage> {
         ),
       ),
     );
+  }
+  _onLogoutAlertPressed(context) {
+    Alert(
+      context: context,
+      title: "是否退出登录？",
+      desc: "退出登录后不会删除任何历史数据，下次登录依然可以使用本账号。",
+      buttons: [
+        DialogButton(
+          child: Text(
+            "退出登录",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginPage())),
+          color: Color(0xFF5580EB),
+          width: 120,
+        )
+      ],
+    ).show();
   }
 }

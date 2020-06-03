@@ -1,12 +1,7 @@
-import 'package:ThumbSir/pages/mycenter/my_center_notlogin_page.dart';
 import 'package:ThumbSir/widget/input.dart';
-import 'package:ThumbSir/widget/past_qlist.dart';
-import 'package:ThumbSir/widget/today_qlist.dart';
-import 'package:ThumbSir/widget/tomorrow_qlist.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:ThumbSir/pages/broker/tips/qlist_tips_page.dart';
-import 'package:ThumbSir/pages/broker/qlist/qlist_add_page.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 class InvitationCodePage extends StatefulWidget {
   @override
@@ -214,19 +209,21 @@ class _InvitationCodePageState extends State<InvitationCodePage> {
                         decoration: TextDecoration.none,
                       ),
                     ),
-                    Container(
-                      margin: EdgeInsets.only(right: 20),
-                      child: Text(
-                        '输入邀请码',
-                        style:TextStyle(
-                          fontSize: 16,
-                          color: Colors.white,
-                          fontWeight: FontWeight.normal,
-                          decoration: TextDecoration.none,
+                    GestureDetector(
+                      onTap: () => _onCodeAlertPressed(context),
+                      child: Container(
+                        margin: EdgeInsets.only(right: 20),
+                        child: Text(
+                          '输入邀请码',
+                          style:TextStyle(
+                            fontSize: 16,
+                            color: Colors.white,
+                            fontWeight: FontWeight.normal,
+                            decoration: TextDecoration.none,
+                          ),
                         ),
                       ),
                     )
-
                   ],
                 ),
               ),
@@ -235,5 +232,27 @@ class _InvitationCodePageState extends State<InvitationCodePage> {
         ),
       ),
     );
+  }
+  _onCodeAlertPressed(context) {
+    Alert(
+      context: context,
+      title: "输入邀请码",
+      content: Column(
+        children: <Widget>[
+          TextField()
+        ],
+      ),
+      buttons: [
+        DialogButton(
+          child: Text(
+            "确定",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () => Navigator.pop(context),
+          color: Color(0xFF5580EB),
+          width: 120,
+        )
+      ],
+    ).show();
   }
 }

@@ -124,20 +124,20 @@ class _SCenterGroupPageState extends State<SCenterGroupPage> {
                                 child: Container(
                                   height: 20,
                                   decoration: BoxDecoration(
-//                                      border: Border.all(color: Color(0xFFFF9600),width: 1), // 商圈经理橘色
-                                      border: Border.all(color: Color(0xFF9149EC),width: 1), // 总监紫色
+                                      border: Border.all(color: Color(0xFFFF9600),width: 1), // 商圈经理橘色
+//                                      border: Border.all(color: Color(0xFF9149EC),width: 1), // 总监紫色
                                       color: Colors.white,
                                       borderRadius: BorderRadius.all(Radius.circular(5))
                                   ),
                                   child: Padding(
                                     padding: EdgeInsets.only(top:2,left:5,right: 5),
                                     child: Text(
-//                                      '商圈经理',
-                                      '总监',
+                                      '商圈经理',
+//                                      '总监',
                                       style: TextStyle(
                                         fontSize: 10,
-//                                        color: Color(0xFFFF9600),  // 商圈经理橘色
-                                        color: Color(0xFF9149EC), // 总监紫色
+                                        color: Color(0xFFFF9600),  // 商圈经理橘色
+//                                        color: Color(0xFF9149EC), // 总监紫色
                                         fontWeight: FontWeight.normal,
                                         decoration: TextDecoration.none,
                                       ),

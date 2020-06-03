@@ -4,6 +4,9 @@ import 'package:ThumbSir/pages/home.dart';
 import 'package:ThumbSir/pages/login/find_key_phone_page.dart';
 import 'package:ThumbSir/pages/login/signin_nameandphone_page.dart';
 import 'package:ThumbSir/pages/mycenter/invitation_code_page.dart';
+import 'package:ThumbSir/pages/mycenter/privacy_statement_page.dart';
+import 'package:ThumbSir/pages/mycenter/service_agreement_page.dart';
+import 'package:ThumbSir/pages/mycenter/vip_privilege_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ThumbSir/widget/input.dart';
@@ -320,60 +323,78 @@ class _VipPageState extends State<VipPage> {
                       ),
                       child: Row(
                         children: <Widget>[
-                          Container(
-                            width: 167.4,
-                            decoration: BoxDecoration(
-                              border: Border(right: BorderSide(color: Color(0xFFCCCCCC),width: 1))
-                            ),
-                            child: Row(
-                              children: <Widget>[
-                                Padding(
-                                  padding: EdgeInsets.only(left: 25,right: 10),
-                                  child: Text('会员服务协议',style: TextStyle(
-                                    fontSize: 14,
-                                    color: Color(0xFF666666)
-                                  ),),
-                                ),
-                                Image(image: AssetImage('images/next.png'),)
-                              ],
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.push(context, MaterialPageRoute(
+                                  builder: (context) => ServiceAgreementPage()));
+                            },
+                            child: Container(
+                              width: 167.4,
+                              decoration: BoxDecoration(
+                                  border: Border(right: BorderSide(color: Color(0xFFCCCCCC),width: 1))
+                              ),
+                              child: Row(
+                                children: <Widget>[
+                                  Padding(
+                                    padding: EdgeInsets.only(left: 25,right: 10),
+                                    child: Text('会员服务协议',style: TextStyle(
+                                        fontSize: 14,
+                                        color: Color(0xFF666666)
+                                    ),),
+                                  ),
+                                  Image(image: AssetImage('images/next.png'),)
+                                ],
+                              ),
                             ),
                           ),
-                          Container(
-                            width: 167.4,
-                            child: Row(
-                              children: <Widget>[
-                                Padding(
-                                  padding: EdgeInsets.only(left: 35,right: 10),
-                                  child: Text('会员隐私协议',style: TextStyle(
-                                      fontSize: 14,
-                                      color: Color(0xFF666666)
-                                  ),),
-                                ),
-                                Image(image: AssetImage('images/next.png'),)
-                              ],
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.push(context, MaterialPageRoute(
+                                  builder: (context) => PrivacyStatementPage()));
+                            },
+                            child: Container(
+                              width: 167.4,
+                              child: Row(
+                                children: <Widget>[
+                                  Padding(
+                                    padding: EdgeInsets.only(left: 35,right: 10),
+                                    child: Text('会员隐私协议',style: TextStyle(
+                                        fontSize: 14,
+                                        color: Color(0xFF666666)
+                                    ),),
+                                  ),
+                                  Image(image: AssetImage('images/next.png'),)
+                                ],
+                              ),
                             ),
                           ),
                         ],
                       ),
                     ),
                     // 会员特权
-                    Container(
-                      width: 335,
-                      height:40,
-                      decoration: BoxDecoration(
-                          border: Border(bottom: BorderSide(color: Color(0xFFF2F2F2),width: 1))
-                      ),
-                      child: Row(
-                        children: <Widget>[
-                          Image(image: AssetImage('images/vip_blue.png'),),
-                          Padding(
-                            padding: EdgeInsets.only(left: 10),
-                            child: Text('会员特权',style: TextStyle(
-                                fontSize: 14,
-                                color: Color(0xFF666666)
-                            ),),
-                          ),
-                        ],
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(
+                            builder: (context) => VipPrivilegePage()));
+                      },
+                      child: Container(
+                        width: 335,
+                        height:40,
+                        decoration: BoxDecoration(
+                            border: Border(bottom: BorderSide(color: Color(0xFFF2F2F2),width: 1))
+                        ),
+                        child: Row(
+                          children: <Widget>[
+                            Image(image: AssetImage('images/vip_blue.png'),),
+                            Padding(
+                              padding: EdgeInsets.only(left: 10),
+                              child: Text('会员特权',style: TextStyle(
+                                  fontSize: 14,
+                                  color: Color(0xFF666666)
+                              ),),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                     // 我的邀请

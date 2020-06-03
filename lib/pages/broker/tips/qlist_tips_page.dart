@@ -1,5 +1,8 @@
+import 'package:ThumbSir/pages/broker/tips/agree_invitation_page.dart';
+import 'package:ThumbSir/pages/broker/tips/connect_invitation_page.dart';
+import 'package:ThumbSir/pages/broker/tips/finish_invitation_page.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:ThumbSir/pages/broker/qlist/qlist_page.dart';
 
 class QListTipsPage extends StatefulWidget {
   @override
@@ -68,9 +71,28 @@ class _QListTipsPageState extends State<QListTipsPage> {
                     child: Column(
                       children: <Widget>[
                         // 每一条提醒
+                        GestureDetector(
+                          onTap: (){
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=>AgreeInvitationPage()));
+                          },
+                          child: _item('images/tie_big.png','2020年3月24日','收到一条职位邀请','来自张三'),
+                        ),
+                        GestureDetector(
+                          onTap: (){
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=>FinishInvitationPage()));
+                          },
+                          child: _item('images/tie_big.png','2020年3月24日','收到一条职位邀请回复','来自张三丰'),
+                        ),
+                        GestureDetector(
+                          onTap: (){
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=>ConnectInvitationPage()));
+                          },
+                          child: _item('images/tie_big.png','2020年3月24日','与张三丰成功建立上下级连接','可在个人中心的小组成员中查看'),
+                        ),
                         _item('images/cake.png','2020年3月24日','今天是章鱼哥的生日','记得送祝福!'),
-                        _item('images/morning.png','2020年3月24日','今天是徐姐的生日','记得送祝福!'),
-                        _item('images/cake.png','2020年3月24日','今天是章鱼哥的生日','记得送祝福!'),
+                        _item('images/morning_tip.png','2020年3月24日','今天是章鱼哥的生日','记得送祝福!'),
+                        _item('images/noon_tip.png','2020年3月24日','今天是章鱼哥的生日','记得送祝福!'),
+                        _item('images/evening_tip.png','2020年3月24日','今天是章鱼哥的生日','记得送祝福!'),
                       ],
                     ),
                   )
@@ -154,9 +176,13 @@ class _QListTipsPageState extends State<QListTipsPage> {
             )
         ),
         Positioned(
-          left: 12,
-          child: Image(
-              image:AssetImage(image)
+          left: 5,
+          child: Container(
+            width: 90,
+            height: 90,
+            child: Image(
+              image:AssetImage(image),fit: BoxFit.fitHeight,
+            ),
           ),
         ),
         Positioned(

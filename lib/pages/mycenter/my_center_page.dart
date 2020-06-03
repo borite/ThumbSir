@@ -124,12 +124,12 @@ class _MyCenterPageState extends State<MyCenterPage> {
                               margin: EdgeInsets.only(left: 15),
                               padding: EdgeInsets.only(top:2,bottom: 2,left: 5,right: 5),
                               decoration: BoxDecoration(
-                                //                            border: Border.all(color: Color(0xFF0E7AE6),width: 1), // 经纪人蓝色
-                                //                            border: Border.all(color: Color(0xFF24CC8E),width: 1), // 店长绿色
-                                //                            border: Border.all(color: Color(0xFFFF9600),width: 1), // 商圈经理橘色
-                                border: Border.all(color: Color(0xFF9149EC),width: 1), // 总监浅紫色
-                                //                            border: Border.all(color: Color(0xFF7412F2),width: 1), // 副总经理深紫色
-                                //                            border: Border.all(color: Color(0xFF003273),width: 1), // 总经理深蓝色
+//                            border: Border.all(color: Color(0xFF0E7AE6),width: 1), // 经纪人蓝色
+//                            border: Border.all(color: Color(0xFF24CC8E),width: 1), // 店长绿色
+                                border: Border.all(color: Color(0xFFFF9600),width: 1), // 商圈经理橘色
+//                                border: Border.all(color: Color(0xFF9149EC),width: 1), // 总监浅紫色
+//                            border: Border.all(color: Color(0xFF7412F2),width: 1), // 副总经理深紫色
+//                            border: Border.all(color: Color(0xFF003273),width: 1), // 总经理深蓝色
                                 borderRadius: BorderRadius.circular(3),
                               ),
                               child: Text(
@@ -138,8 +138,8 @@ class _MyCenterPageState extends State<MyCenterPage> {
                                   fontSize: 14,
 //                              color: Color(0xFF0E7AE6), // 经纪人蓝色
 //                              color: Color(0xFF24CC8E), // 店长绿色
-//                              color: Color(0xFFFF9600), // 商圈经理橘色
-                                  color: Color(0xFF9149EC), // 总监浅紫色
+                                  color: Color(0xFFFF9600), // 商圈经理橘色
+//                              color: Color(0xFF9149EC), // 总监浅紫色
 //                              color: Color(0xFF7412F2), // 副总经理深紫色
 //                              color: Color(0xFF003273), // 总经理深蓝色
                                   fontWeight: FontWeight.normal,
@@ -223,10 +223,10 @@ class _MyCenterPageState extends State<MyCenterPage> {
                           padding: EdgeInsets.only(bottom: 20,right: 20),
                           child: GestureDetector(
                             onTap: (){
-//                              Navigator.push(context, MaterialPageRoute(builder: (context)=>BrokerCenterGroupPage()));
-//                              Navigator.push(context, MaterialPageRoute(builder: (context)=>MCenterGroupPage()));
-//                              Navigator.push(context, MaterialPageRoute(builder: (context)=>SCenterGroupPage()));
-                              Navigator.push(context, MaterialPageRoute(builder: (context)=>ZCenterGroupPage()));
+//                              Navigator.push(context, MaterialPageRoute(builder: (context)=>BrokerCenterGroupPage())); // 经纪人
+//                              Navigator.push(context, MaterialPageRoute(builder: (context)=>MCenterGroupPage())); // 店长
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=>SCenterGroupPage())); // 商圈
+//                              Navigator.push(context, MaterialPageRoute(builder: (context)=>ZCenterGroupPage())); // 总监及以上
                             },
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,

@@ -1,9 +1,12 @@
 import 'package:ThumbSir/pages/login/find_key_page.dart';
 import 'package:ThumbSir/pages/login/find_key_phone_page.dart';
+import 'package:ThumbSir/pages/login/login_page.dart';
 import 'package:ThumbSir/pages/mycenter/change_code_page.dart';
 import 'package:ThumbSir/pages/mycenter/change_phone_old_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 class SetSafePage extends StatefulWidget {
   @override
@@ -136,48 +139,50 @@ class _SetSafePageState extends State<SetSafePage> {
                     ),
                   ),
                   // 注销账户
-                  Container(
-                      color:Colors.white,
-                      height: 60,
-                      margin: EdgeInsets.only(top: 15),
-                      padding:EdgeInsets.only(left: 25,right: 20),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Container(
-                            width: 100,
-                            child: Text(
-                              '注销账号',
-                              style:TextStyle(
-                                fontSize: 16,
-                                color: Color(0xFF666666),
-                                fontWeight: FontWeight.normal,
-                                decoration: TextDecoration.none,
-                              ),
-                              textAlign: TextAlign.left,
-                            ),
-                          ),
-                          Row(
-                            children: <Widget>[
-                              Container(
-                                margin:EdgeInsets.only(right: 15),
-                                child: Text(
-                                  '彻底删除所有数据',
-                                  style:TextStyle(
-                                    fontSize: 16,
-                                    color: Color(0xFF999999),
-                                    fontWeight: FontWeight.normal,
-                                    decoration: TextDecoration.none,
-                                  ),
-                                  textAlign: TextAlign.right,
+                  GestureDetector(
+                    onTap: () => _onDeleteAlertPressed(context),
+                    child: Container(
+                        color:Colors.white,
+                        height: 60,
+                        margin: EdgeInsets.only(top: 15),
+                        padding:EdgeInsets.only(left: 25,right: 20),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Container(
+                              width: 100,
+                              child: Text(
+                                '注销账号',
+                                style:TextStyle(
+                                  fontSize: 16,
+                                  color: Color(0xFF666666),
+                                  fontWeight: FontWeight.normal,
+                                  decoration: TextDecoration.none,
                                 ),
+                                textAlign: TextAlign.left,
                               ),
-                              Image(image: AssetImage('images/next.png'),)
-                            ],
-                          )
-                        ],
-                      )
-
+                            ),
+                            Row(
+                              children: <Widget>[
+                                Container(
+                                  margin:EdgeInsets.only(right: 15),
+                                  child: Text(
+                                    '彻底删除所有数据',
+                                    style:TextStyle(
+                                      fontSize: 16,
+                                      color: Color(0xFF999999),
+                                      fontWeight: FontWeight.normal,
+                                      decoration: TextDecoration.none,
+                                    ),
+                                    textAlign: TextAlign.right,
+                                  ),
+                                ),
+                                Image(image: AssetImage('images/next.png'),)
+                              ],
+                            )
+                          ],
+                        )
+                    ),
                   ),
                 ],
               ),
@@ -227,5 +232,31 @@ class _SetSafePageState extends State<SetSafePage> {
         ),
       ),
     );
+  }
+  _onDeleteAlertPressed(context) {
+    Alert(
+      context: context,
+      type: AlertType.warning,
+      title: "是否注销账号？",
+      desc: "注销账号后将删除关于您的所有数据，请慎重选择！",
+      buttons: [
+        DialogButton(
+          child: Text(
+            "确定",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginPage())),
+          color: Color(0xFF5580EB),
+        ),
+        DialogButton(
+          child: Text(
+            "取消",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () => Navigator.pop(context),
+          color: Color(0xFFCCCCCC),
+        ),
+      ],
+    ).show();
   }
 }

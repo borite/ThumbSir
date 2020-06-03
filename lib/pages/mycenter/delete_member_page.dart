@@ -1,6 +1,8 @@
 import 'package:ThumbSir/pages/broker/qlist/qlist_change_page.dart';
+import 'package:ThumbSir/pages/mycenter/s_center_group_detail_page.dart';
 import 'package:flutter/material.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 class DeleteMemberPage extends StatefulWidget {
   @override
@@ -108,27 +110,56 @@ class _DeleteMemberPageState extends State<DeleteMemberPage> {
                     ),),
                   ),
                   // 确认移出
-                  Container(
-                    width: 335,
-                    height: 40,
-                    padding: EdgeInsets.all(7),
-                    margin: EdgeInsets.fromLTRB(0, 40, 0, 80),
-                    decoration: BoxDecoration(
-                      border: Border.all(width: 1,color: Color(0xFF5580EB)),
-                      borderRadius: BorderRadius.circular(8),
-                      color: Color(0xFF5580EB)
+                  GestureDetector(
+                    onTap: () => _onDeleteAlertPressed(context),
+                    child: Container(
+                      width: 335,
+                      height: 40,
+                      padding: EdgeInsets.all(7),
+                      margin: EdgeInsets.fromLTRB(0, 40, 0, 80),
+                      decoration: BoxDecoration(
+                          border: Border.all(width: 1,color: Color(0xFF5580EB)),
+                          borderRadius: BorderRadius.circular(8),
+                          color: Color(0xFF5580EB)
+                      ),
+                      child: Text('确认移出',style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.white,
+                        fontWeight: FontWeight.normal,
+                        decoration: TextDecoration.none,
+                      ),textAlign: TextAlign.center,),
                     ),
-                    child: Text('确认移出',style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.white,
-                      fontWeight: FontWeight.normal,
-                      decoration: TextDecoration.none,
-                    ),textAlign: TextAlign.center,),
                   ),
                 ]
             )
           ],
         )
     );
+  }
+  _onDeleteAlertPressed(context) {
+    Alert(
+      context: context,
+      type: AlertType.warning,
+      title: "是否移出成员？",
+      desc: "移出成员后该成员将被解除所有组织关系，请慎重选择！",
+      buttons: [
+        DialogButton(
+          child: Text(
+            "确定",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context)=>SCenterGroupDetailPage())),
+          color: Color(0xFF5580EB),
+        ),
+        DialogButton(
+          child: Text(
+            "取消",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () => Navigator.pop(context),
+          color: Color(0xFFCCCCCC),
+        )
+      ],
+    ).show();
   }
 }

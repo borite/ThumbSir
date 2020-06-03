@@ -6,7 +6,7 @@ class Input extends StatefulWidget {
   final String tipText;
   final TextEditingController controller;
   final ValueChanged<String> onChanged;
-  const Input({Key key,this.hintText,this.tipText,this.onChanged,this.controller});
+  const Input({Key key,this.controller,this.onChanged,this.hintText="",this.tipText=""});
   @override
   _InputState createState() => _InputState();
 }

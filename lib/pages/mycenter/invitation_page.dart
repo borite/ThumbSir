@@ -1,11 +1,6 @@
-import 'package:ThumbSir/dao/login_dao.dart';
-import 'package:ThumbSir/model/login_model.dart';
-import 'package:ThumbSir/pages/home.dart';
-import 'package:ThumbSir/pages/login/find_key_phone_page.dart';
-import 'package:ThumbSir/pages/login/signin_nameandphone_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:ThumbSir/widget/input.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 class InvitationPage extends StatefulWidget {
   @override
@@ -91,7 +86,7 @@ class _InvitationPageState extends State<InvitationPage> {
                       ),
                   Container(
                     width: 335,
-                    height: 300,
+                    height: 370,
                     margin: EdgeInsets.only(top: 20),
                     padding: EdgeInsets.fromLTRB(20, 30, 20, 50),
                     decoration: BoxDecoration(
@@ -107,7 +102,7 @@ class _InvitationPageState extends State<InvitationPage> {
                     child: Column(
                       children: <Widget>[
                         Text(
-                          '1.职位邀请仅可以帮助您建立直属上下级连接，请将邀请信息发送给您的直属下级。',
+                          '1.职位邀请仅可以帮助您建立直属上下级连接，请将邀请信息发送给您的直属下级，即邀请对方成为北京链家房地产经纪有限公司——北京市——京中大部——白石桥大区——长河湾北门店——买卖A组——经纪人。',
                           style: TextStyle(
                             fontSize: 14,
                             color: Color(0xFF666666),
@@ -126,9 +121,7 @@ class _InvitationPageState extends State<InvitationPage> {
                       ),
                       // 分享
                       GestureDetector(
-  //                      onTap:() async{
-  //                        Navigator.push(context, MaterialPageRoute(builder: (context)=>Home()));
-  //                      },
+                        onTap: () => _onShareAlertPressed(context),
                         child: Container(
                           width: 295,
                           height: 40,
@@ -157,5 +150,23 @@ class _InvitationPageState extends State<InvitationPage> {
         ]),
       ));
 
+  }
+  _onShareAlertPressed(context) {
+    Alert(
+      context: context,
+      title: "邀请口令已复制",
+      desc: "创建职位邀请链接已生成HD3565h4fj34343，通过微信、QQ等对话发送给对方，对方复制这段话后打开拇指先生，会自动跳至消息中心接受邀请页面",
+      buttons: [
+        DialogButton(
+          child: Text(
+            "去黏贴",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () => Navigator.pop(context),
+          color: Color(0xFF5580EB),
+          width: 120,
+        )
+      ],
+    ).show();
   }
 }

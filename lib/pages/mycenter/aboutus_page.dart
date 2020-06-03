@@ -3,6 +3,9 @@ import 'package:ThumbSir/model/login_model.dart';
 import 'package:ThumbSir/pages/home.dart';
 import 'package:ThumbSir/pages/login/find_key_phone_page.dart';
 import 'package:ThumbSir/pages/login/signin_nameandphone_page.dart';
+import 'package:ThumbSir/pages/mycenter/legal_notice_page.dart';
+import 'package:ThumbSir/pages/mycenter/privacy_statement_page.dart';
+import 'package:ThumbSir/pages/mycenter/service_agreement_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ThumbSir/widget/input.dart';
@@ -134,55 +137,76 @@ class _AboutUsPageState extends State<AboutUsPage> {
                                 ),
                               ),
                             ),
-                            Container(
-                              height: 40,
-                              decoration: BoxDecoration(
-                                  border: Border(bottom: BorderSide(color: Color(0xFFEBEBEB),width: 1))
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-                                  Text('服务协议',style: TextStyle(
-                                    fontSize: 14,
-                                    color: Color(0xFF333333),
-                                    fontWeight: FontWeight.normal,
-                                    decoration: TextDecoration.none,
-                                  ),),
-                                  Image(image: AssetImage('images/next.png'),)
-                                ],
-                              ),
-                            ),
-                            Container(
-                              height: 40,
-                              decoration: BoxDecoration(
-                                  border: Border(bottom: BorderSide(color: Color(0xFFEBEBEB),width: 1))
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-                                  Text('隐私协议',style: TextStyle(
-                                    fontSize: 14,
-                                    color: Color(0xFF333333),
-                                    fontWeight: FontWeight.normal,
-                                    decoration: TextDecoration.none,
-                                  ),),
-                                  Image(image: AssetImage('images/next.png'),)
-                                ],
+                            // 服务协议
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.push(context, MaterialPageRoute(
+                                    builder: (context) => ServiceAgreementPage()));
+                              },
+                              child: Container(
+                                height: 40,
+                                decoration: BoxDecoration(
+                                    border: Border(bottom: BorderSide(color: Color(0xFFEBEBEB),width: 1))
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    Text('服务协议',style: TextStyle(
+                                      fontSize: 14,
+                                      color: Color(0xFF333333),
+                                      fontWeight: FontWeight.normal,
+                                      decoration: TextDecoration.none,
+                                    ),),
+                                    Image(image: AssetImage('images/next.png'),)
+                                  ],
+                                ),
                               ),
                             ),
-                            Container(
-                              height: 40,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-                                  Text('法律声明',style: TextStyle(
-                                    fontSize: 14,
-                                    color: Color(0xFF333333),
-                                    fontWeight: FontWeight.normal,
-                                    decoration: TextDecoration.none,
-                                  ),),
-                                  Image(image: AssetImage('images/next.png'),)
-                                ],
+                            // 隐私协议
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.push(context, MaterialPageRoute(
+                                    builder: (context) => PrivacyStatementPage()));
+                              },
+                              child: Container(
+                                height: 40,
+                                decoration: BoxDecoration(
+                                    border: Border(bottom: BorderSide(color: Color(0xFFEBEBEB),width: 1))
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    Text('隐私协议',style: TextStyle(
+                                      fontSize: 14,
+                                      color: Color(0xFF333333),
+                                      fontWeight: FontWeight.normal,
+                                      decoration: TextDecoration.none,
+                                    ),),
+                                    Image(image: AssetImage('images/next.png'),)
+                                  ],
+                                ),
+                              ),
+                            ),
+                            // 法律声明
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.push(context, MaterialPageRoute(
+                                    builder: (context) => LegalNoticePage()));
+                              },
+                              child: Container(
+                                height: 40,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    Text('法律声明',style: TextStyle(
+                                      fontSize: 14,
+                                      color: Color(0xFF333333),
+                                      fontWeight: FontWeight.normal,
+                                      decoration: TextDecoration.none,
+                                    ),),
+                                    Image(image: AssetImage('images/next.png'),)
+                                  ],
+                                ),
                               ),
                             ),
                             Container(

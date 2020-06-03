@@ -1,5 +1,6 @@
 import 'package:ThumbSir/pages/mycenter/self_defined_task_page.dart';
 import 'package:flutter/material.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 class AddTaskPage extends StatefulWidget {
   @override
@@ -88,8 +89,11 @@ class _AddTaskPageState extends State<AddTaskPage> {
                             Positioned(
                               top: 2,
                               left: 135,
-                              child: Image(image: AssetImage('images/delete.png'),),
-                            )
+                              child: GestureDetector(
+                                onTap: () => _onDeleteAlertPressed(context),
+                                child: Image(image: AssetImage('images/delete.png'),),
+                              ),
+                            ),
                           ],
                         ),
                         Stack(
@@ -108,8 +112,11 @@ class _AddTaskPageState extends State<AddTaskPage> {
                             Positioned(
                               top: 2,
                               left: 135,
-                              child: Image(image: AssetImage('images/delete.png'),),
-                            )
+                              child: GestureDetector(
+                                onTap: () => _onDeleteAlertPressed(context),
+                                child: Image(image: AssetImage('images/delete.png'),),
+                              ),
+                            ),
                           ],
                         ),
                         Stack(
@@ -128,8 +135,11 @@ class _AddTaskPageState extends State<AddTaskPage> {
                             Positioned(
                               top: 2,
                               left: 135,
-                              child: Image(image: AssetImage('images/delete.png'),),
-                            )
+                              child: GestureDetector(
+                                onTap: () => _onDeleteAlertPressed(context),
+                                child: Image(image: AssetImage('images/delete.png'),),
+                              ),
+                            ),
                           ],
                         ),
                         Stack(
@@ -148,8 +158,11 @@ class _AddTaskPageState extends State<AddTaskPage> {
                             Positioned(
                               top: 2,
                               left: 135,
-                              child: Image(image: AssetImage('images/delete.png'),),
-                            )
+                              child: GestureDetector(
+                                onTap: () => _onDeleteAlertPressed(context),
+                                child: Image(image: AssetImage('images/delete.png'),),
+                              ),
+                            ),
                           ],
                         ),
                         Stack(
@@ -168,8 +181,11 @@ class _AddTaskPageState extends State<AddTaskPage> {
                             Positioned(
                               top: 2,
                               left: 135,
-                              child: Image(image: AssetImage('images/delete.png'),),
-                            )
+                              child: GestureDetector(
+                                onTap: () => _onDeleteAlertPressed(context),
+                                child: Image(image: AssetImage('images/delete.png'),),
+                              ),
+                            ),
                           ],
                         ),
                         Stack(
@@ -188,8 +204,11 @@ class _AddTaskPageState extends State<AddTaskPage> {
                             Positioned(
                               top: 2,
                               left: 135,
-                              child: Image(image: AssetImage('images/delete.png'),),
-                            )
+                              child: GestureDetector(
+                                onTap: () => _onDeleteAlertPressed(context),
+                                child: Image(image: AssetImage('images/delete.png'),),
+                              ),
+                            ),
                           ],
                         ),
                         GestureDetector(
@@ -242,5 +261,23 @@ class _AddTaskPageState extends State<AddTaskPage> {
           ],
         )
     );
+  }
+  _onDeleteAlertPressed(context) {
+    Alert(
+      context: context,
+      title: "是否删除'带看'任务？",
+      desc: "删除后您和您的下级将看不再有此任务选项，请慎重选择",
+      buttons: [
+        DialogButton(
+          child: Text(
+            "确认删除",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () => Navigator.pop(context),
+          color: Color(0xFF5580EB),
+          width: 120,
+        )
+      ],
+    ).show();
   }
 }

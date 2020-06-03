@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:ThumbSir/pages/mycenter/my_center_page.dart';
 import 'package:ThumbSir/pages/broker/openclient/open_client_page.dart';
 import 'package:ThumbSir/pages/broker/openowner/open_owner_page.dart';
-import 'package:ThumbSir/pages/broker/qlist/qlist_page.dart';
 import 'package:ThumbSir/pages/broker/traded/traded_page.dart';
 
 class Home extends StatefulWidget {
@@ -72,8 +71,8 @@ class _HomeState extends State<Home> {
                       child: PageView(
                         children: <Widget>[
                           // 每一条轮播
-                          _item('images/cake.png','2020年3月24日','今天是章鱼哥的生日','记得送祝福!'),
-                          _item('images/cake.png','2020年3月24日','今天是徐姐的生日','记得送祝福!'),
+                          _item('images/tie_big.png','2020年3月24日','拇指先生正式上线啦！','邀请好友一起用起来吧~'),
+                          _item('images/tie_big.png','2020年3月24日','客户维护相关功能暂未开放','敬请期待！'),
                         ],
                       ),
                     )
@@ -249,10 +248,13 @@ class _HomeState extends State<Home> {
             )
         ),
         Positioned(
-          top: 12,
-          left: -2,
-          child: Image(
-              image:AssetImage(image)
+          top: 5,
+          child: Container(
+            width: 95,
+            height: 95,
+            child: Image(
+              image:AssetImage(image),
+            ),
           ),
         ),
       ],

@@ -19,6 +19,8 @@ dependencies:
   month_picker_dialog: ^0.3.2
   city_picker: ^0.1.4
   smooth_page_indicator: ^0.1.5
+  rflutter_alert: ^1.0.3
+  image_picker: ^0.6.7
 
 dev_dependencies:
   flutter_test:
@@ -56,8 +58,11 @@ flutter:
     - images/finish.png
     - images/finish_big.png
     - images/morning.png
+    - images/morning_tip.png
     - images/noon.png
+    - images/noon_tip.png
     - images/evening.png
+    - images/evening_tip.png
     - images/todayplanmorning.png
     - images/todayplannoon.png
     - images/todayplanevening.png
@@ -108,6 +113,7 @@ flutter:
     - images/key.png
     - images/tie.png
     - images/tie_blue.png
+    - images/tie_big.png
     - images/warn_blue.png
     - images/choose.png
     - images/next_blue.png

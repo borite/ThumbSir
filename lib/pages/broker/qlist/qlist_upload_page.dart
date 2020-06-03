@@ -1,6 +1,7 @@
 import 'package:ThumbSir/pages/broker/qlist/qlist_change_page.dart';
 import 'package:flutter/material.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
+import 'package:image_picker/image_picker.dart';
 
 class QListUploadPage extends StatefulWidget {
   @override
