@@ -1,3 +1,4 @@
+import 'package:ThumbSir/widget/qlist_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:some_calendar/some_calendar.dart';
@@ -153,11 +154,27 @@ class _TeamListMemberPageState extends State<TeamListMemberPage> {
                     child: Column(
                       children: <Widget>[
                       // 每一条量化
-                      _continueItem('带看','3套','10:00-11:00',65),
-                      _finishItem('带看','3套','10:00-11:00'),
-                      _extendItem('带看','3套','10:00-11:00',77),
-                      _continueItem('带看','3套','10:00-11:00',30),
-                      _continueItem('带看','3套','10:00-11:00',65),
+                        QListItem(
+                          name: "带看",
+                          number: "1组",
+                          time: "11：00-12：00",
+                          star: 3,
+                          percent: 80,
+                        ),
+                        QListItem(
+                          name: "带看",
+                          number: "1组",
+                          time: "11：00-12：00",
+                          star: 3,
+                          percent: 100,
+                        ),
+                        QListItem(
+                          name: "带看",
+                          number: "1组",
+                          time: "11：00-12：00",
+                          star: 3,
+                          percent: 80,
+                        ),
                       ],
                     ),
                   )

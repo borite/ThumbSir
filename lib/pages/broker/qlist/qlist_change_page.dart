@@ -8,6 +8,7 @@ class QListChangePage extends StatefulWidget {
 
 class _QListChangePageState extends State<QListChangePage> {
   DateTime _dateTime = DateTime.now();
+  int _starIndex=0;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -173,25 +174,96 @@ class _QListChangePageState extends State<QListChangePage> {
                     padding: EdgeInsets.only(left: 20),
                     child: Row(
                       children: <Widget>[
-                        Padding(
-                          padding: EdgeInsets.only(right: 15),
-                          child: Image(image: AssetImage('images/star1_e.png'),),
+                        GestureDetector(
+                          onTap: (){
+                            setState(() {
+                              _starIndex=1;
+                            });
+                          },
+                          child: Container(
+                              width: 45,
+                              height: 30,
+                              padding: EdgeInsets.only(right: 15),
+                              child: _starIndex ==0 ?
+                              Image(image: AssetImage('images/star1_e.png'),fit: BoxFit.fill,):
+                              Image(image: AssetImage('images/star1_big.png'),fit: BoxFit.fill,)
+                          ),
                         ),
-                        Padding(
-                          padding: EdgeInsets.only(right: 15),
-                          child: Image(image: AssetImage('images/star2_e.png'),),
+                        GestureDetector(
+                          onTap: (){
+                            setState(() {
+                              _starIndex=2;
+                            });
+                          },
+                          child: Container(
+                              width: 45,
+                              height: 30,
+                              padding: EdgeInsets.only(right: 15),
+                              child: _starIndex==2 ?
+                              Image(image: AssetImage('images/star2_big.png'),fit: BoxFit.fill,)
+                                  :_starIndex==3 ?
+                              Image(image: AssetImage('images/star2_big.png'),fit: BoxFit.fill,)
+                                  :_starIndex==4 ?
+                              Image(image: AssetImage('images/star2_big.png'),fit: BoxFit.fill,)
+                                  :_starIndex==5 ?
+                              Image(image: AssetImage('images/star2_big.png'),fit: BoxFit.fill,)
+                                  :
+                              Image(image: AssetImage('images/star2_e.png'),fit: BoxFit.fill,)
+                          ),
                         ),
-                        Padding(
-                          padding: EdgeInsets.only(right: 15),
-                          child: Image(image: AssetImage('images/star3_e.png'),),
+                        GestureDetector(
+                          onTap: (){
+                            setState(() {
+                              _starIndex=3;
+                            });
+                          },
+                          child: Container(
+                              width: 45,
+                              height: 30,
+                              padding: EdgeInsets.only(right: 15),
+                              child: _starIndex==3 ?
+                              Image(image: AssetImage('images/star3_big.png'),fit: BoxFit.fill,)
+                                  :_starIndex==4 ?
+                              Image(image: AssetImage('images/star3_big.png'),fit: BoxFit.fill,)
+                                  :_starIndex==5 ?
+                              Image(image: AssetImage('images/star3_big.png'),fit: BoxFit.fill,)
+                                  :
+                              Image(image: AssetImage('images/star3_e.png'),fit: BoxFit.fill,)
+                          ),
                         ),
-                        Padding(
-                          padding: EdgeInsets.only(right: 15),
-                          child: Image(image: AssetImage('images/star4_e.png'),),
+                        GestureDetector(
+                          onTap: (){
+                            setState(() {
+                              _starIndex=4;
+                            });
+                          },
+                          child: Container(
+                              width: 45,
+                              height: 30,
+                              padding: EdgeInsets.only(right: 15),
+                              child: _starIndex==4 ?
+                              Image(image: AssetImage('images/star4_big.png'),fit: BoxFit.fill,)
+                                  :_starIndex==5 ?
+                              Image(image: AssetImage('images/star4_big.png'),fit: BoxFit.fill,)
+                                  :
+                              Image(image: AssetImage('images/star4_e.png'),fit: BoxFit.fill,)
+                          ),
                         ),
-                        Padding(
-                          padding: EdgeInsets.only(right: 15),
-                          child: Image(image: AssetImage('images/star5_e.png'),),
+                        GestureDetector(
+                          onTap: (){
+                            setState(() {
+                              _starIndex=5;
+                            });
+                          },
+                          child: Container(
+                              width: 45,
+                              height: 30,
+                              padding: EdgeInsets.only(right: 15),
+                              child: _starIndex==5 ?
+                              Image(image: AssetImage('images/star5_big.png'),fit: BoxFit.fill,)
+                                  :
+                              Image(image: AssetImage('images/star5_e.png'),fit: BoxFit.fill,)
+                          ),
                         ),
                       ],
                     ),
@@ -467,32 +539,32 @@ class _QListChangePageState extends State<QListChangePage> {
         )
     );
   }
-}
 
-Widget hourMinute(){
-  return TimePickerSpinner(
-    normalTextStyle: TextStyle(
-      fontSize: 16,
-      color: Color(0xFF666666),
-      fontWeight: FontWeight.normal,
-      decoration: TextDecoration.none,
-    ),
-    highlightedTextStyle: TextStyle(
-      fontSize: 20,
-      color: Color(0xFF24CC8E),
-      decoration: TextDecoration.underline,
-      decorationColor: Color(0xFF24CC8E),
-      decorationStyle: TextDecorationStyle.solid,
-      fontWeight: FontWeight.normal,
-    ),
-    itemWidth: 40,
-    spacing: 50,
-    itemHeight: 40,
-    isForce2Digits: true,
-    onTimeChange: (time) {
-//      setState(() {
-//        _dateTime = time;
-//      });
-    },
-  );
+  Widget hourMinute(){
+    return TimePickerSpinner(
+      normalTextStyle: TextStyle(
+        fontSize: 16,
+        color: Color(0xFF666666),
+        fontWeight: FontWeight.normal,
+        decoration: TextDecoration.none,
+      ),
+      highlightedTextStyle: TextStyle(
+        fontSize: 20,
+        color: Color(0xFF24CC8E),
+        decoration: TextDecoration.underline,
+        decorationColor: Color(0xFF24CC8E),
+        decorationStyle: TextDecorationStyle.solid,
+        fontWeight: FontWeight.normal,
+      ),
+      itemWidth: 40,
+      spacing: 50,
+      itemHeight: 40,
+      isForce2Digits: true,
+      onTimeChange: (time) {
+        setState(() {
+          _dateTime = time;
+        });
+      },
+    );
+  }
 }

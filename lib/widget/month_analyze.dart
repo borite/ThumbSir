@@ -1,8 +1,13 @@
+import 'dart:convert';
+
 import 'package:ThumbSir/pages/broker/qlist/analyze_detail_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
-import 'package:month_picker_dialog/month_picker_dialog.dart';
+import 'package:wheel_chooser/wheel_chooser.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
+
+import 'analyze_item.dart';
 
 class MonthAnalyze extends StatefulWidget {
   final DateTime initialDate=DateTime.now();
@@ -31,12 +36,36 @@ class _MonthAnalyzeState extends State<MonthAnalyze> {
                   child:Column(
                     children: <Widget>[
                       // 每一条量化
-                      _continueItem('带看','3','2',77),
-                      _continueItem('签委托','3','2',80),
-                      _continueItem('实勘','3','2',50),
-                      _finishItem('收钥匙', '3', '3'),
-                      _finishItem('打电话', '3', '3'),
-                      _finishItem('过户', '3', '3'),
+                      AnalyzeItem(
+                        name: "带看",
+                        sum:"3",
+                        finish: "2",
+                        percent: 80,
+                      ),
+                      AnalyzeItem(
+                        name: "带看",
+                        sum:"3",
+                        finish: "2",
+                        percent: 100,
+                      ),
+                      AnalyzeItem(
+                        name: "带看",
+                        sum:"3",
+                        finish: "2",
+                        percent: 100,
+                      ),
+                      AnalyzeItem(
+                        name: "带看",
+                        sum:"3",
+                        finish: "2",
+                        percent: 50,
+                      ),
+                      AnalyzeItem(
+                        name: "带看",
+                        sum:"3",
+                        finish: "2",
+                        percent: 80,
+                      ),
                     ],
                   ),
                 )
@@ -109,41 +138,24 @@ class _MonthAnalyzeState extends State<MonthAnalyze> {
                 ),
 
                 // 月选择器插件
-                Builder(
-                  builder: (context) => GestureDetector(
-                    onTap: () {
-                      showMonthPicker(
-                        context: context,
-                        firstDate: DateTime(DateTime.now().year - 1, 5),
-                        lastDate: DateTime(DateTime.now().year + 1, 9),
-                        initialDate: selectedDate ?? widget.initialDate,
-                        locale: Locale("es"),
-                      ).then((date) {
-                        if (date != null) {
-                          setState(() {
-                            selectedDate = date;
-                          });
-                        }
-                      });
-                    },
-                    child: Row(
-                      children: <Widget>[
-                        Text(
-                          '日期',
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Color(0xFF999999),
-                          ),
+                GestureDetector(
+                  onTap: () => _onMonthPicker(context),
+                  child: Row(
+                    children: <Widget>[
+                      Text(
+                        '日期',
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Color(0xFF999999),
                         ),
-                        Padding(
-                          padding:EdgeInsets.only(left: 5,right: 8),
-                          child: Image(image: AssetImage('images/next.png')),
-                        ),
-                      ],
-                    ),
+                      ),
+                      Padding(
+                        padding:EdgeInsets.only(left: 5,right: 8),
+                        child: Image(image: AssetImage('images/next.png')),
+                      ),
+                    ],
                   ),
                 ),
-
               ],
             ),
           ),
@@ -240,172 +252,69 @@ class _MonthAnalyzeState extends State<MonthAnalyze> {
         ),
       ],
     );
-
   }
-  // 未完成的item
-  _continueItem(String name,String sum,String finish,double percent){
-    return GestureDetector(
-      onTap:() async{
-        Navigator.push(context, MaterialPageRoute(builder: (context)=>AnalyzeDetailPage()));
-      },
-      child: Container(
-        width: 335,
-        margin: EdgeInsets.only(bottom: 25),
-        decoration: BoxDecoration(
-            color: Colors.transparent
-        ),
-        child: Row(
-          children: <Widget>[
-            Container(
-              width: 335,
-              height: 60,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
-                  boxShadow: [BoxShadow(
-                      color: Color(0xFFcccccc),
-                      offset: Offset(0.0, 3.0),
-                      blurRadius: 10.0,
-                      spreadRadius: 2.0
-                  )],
-                  color: Colors.white
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Container(
-                    width: 40,
-                    height: 40,
-                    margin: EdgeInsets.only(left: 15,right: 10),
-                    child: SleekCircularSlider(
-                      appearance: CircularSliderAppearance(
-                          startAngle: 280,
-                          angleRange: 360,
-                          customWidths: CustomSliderWidths(progressBarWidth: 4.5),
-                          customColors: CustomSliderColors(
-                            progressBarColors: [Color(0xFF0E7AE6),Color(0xFF2692FD),Color(0xFF93C0FB)],
-                            trackColor: Color(0x20CCCCCC),
-                            dotColor: Colors.transparent,
-                          ),
-                          infoProperties: InfoProperties(
-                              mainLabelStyle: TextStyle(
-                                fontSize: 10,
-                                color: Color(0xFF2692FD),
-                              )
-                          )
-                      ),
-                      min: 0,
-                      max: 100,
-                      initialValue: percent,
-                    ),
-                  ),
-                  Column(
-                    children: <Widget>[
-                      Container(
-                        width: 235,
-                        padding: EdgeInsets.only(top: 8,bottom: 3),
-                        child: Text(
-                          name,
-                          style: TextStyle(
-                            color: Color(0xFFF24848),
-                            fontSize: 16,
-                          ),
-                          textAlign: TextAlign.left,
-                        ),
-                      ),
-                      Container(
-                        width: 225,
-                        child: Row(
-                          children: <Widget>[
-                            Text('计划：共$sum套',style: TextStyle(fontSize: 12,color: Color(0xFFF24848),),),
-                            Text('|',style: TextStyle(fontSize: 16,color: Color(0xFFCCCCCC),letterSpacing: 5),),
-                            Text('已完成 $finish套',style: TextStyle(fontSize: 12,color: Color(0xFFF24848),),),
-                          ],
-                        ),
-                      )
-                    ],
-                  ),
-                  Padding(
-                    padding:EdgeInsets.only(left: 5,right: 8),
-                    child: Image(image: AssetImage('images/next.png')),
-                  ),
-                ],
-              ),
-            )
-          ],
-        ),
-      ),
-    );
-  }
-
-  // 已完成的item
-  _finishItem(String name,String sum,String finish){
-    return Container(
-      width: 335,
-      margin: EdgeInsets.only(bottom: 25),
-      decoration: BoxDecoration(
-          color: Colors.transparent
-      ),
-      child: Row(
+  _onMonthPicker(context) {
+    Alert(
+      context: context,
+      title: "",
+      content: Column(
         children: <Widget>[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Image(image: AssetImage("images/back_select.png"),),
+              Text("2020年",style:TextStyle(
+                fontSize: 20,
+                color: Color(0xFF0E7AE6),
+                fontWeight: FontWeight.normal,
+                decoration: TextDecoration.none,
+              ),),
+              Image(image: AssetImage("images/next_select.png"),),
+            ],
+          ),
           Container(
-            width: 335,
-            height: 60,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(12),
-              boxShadow: [BoxShadow(
-                  color: Color(0xFFcccccc),
-                  offset: Offset(0.0, 3.0),
-                  blurRadius: 10.0,
-                  spreadRadius: 2.0
-              )],
-              color: Colors.white,
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Container(
-                  width: 40,
-                  height: 40,
-                  margin: EdgeInsets.only(left: 15,right: 10),
-                  child: Image(image:AssetImage('images/finish.png')),
-                ),
-                Column(
-                  children: <Widget>[
-                    Container(
-                      width: 235,
-                      padding: EdgeInsets.only(top: 8,bottom: 3),
-                      child: Text(
-                        name,
-                        style: TextStyle(
-                          color: Color(0xFF24CC8E),
-                          fontSize: 16,
-                        ),
-                        textAlign: TextAlign.left,
-                      ),
-                    ),
-                    Container(
-                      width: 225,
-                      child: Row(
-                        children: <Widget>[
-                          Text('计划：共$sum套',style: TextStyle(fontSize: 12,color: Color(0xFF999999),),),
-                          Text('|',style: TextStyle(fontSize: 16,color: Color(0xFFCCCCCC),letterSpacing: 5),),
-                          Text('已完成 $finish套',style: TextStyle(fontSize: 12,color: Color(0xFF999999),),),
-                        ],
-                      ),
-                    )
-
-                  ],
-                ),
-                Padding(
-                  padding:EdgeInsets.only(left: 5,right: 8),
-                  child: Image(image: AssetImage('images/next.png')),
-                ),
-              ],
+            width: 200,
+            height: 150,
+            margin: EdgeInsets.only(top: 30,bottom: 10),
+            child: WheelChooser(
+//          onValueChanged: (s){
+//            selValue=s.toString();
+//          },
+              datas: ["1月","2月","3月","4月","5月","6月","7月","8月","9月","10月","11月","12月"],
+              selectTextStyle: TextStyle(
+                  color: Color(0xFF0E7AE6),
+                  fontWeight: FontWeight.normal,
+                  fontSize: 14
+              ),
+              unSelectTextStyle: TextStyle(
+                  color: Color(0xFF666666),
+                  fontWeight: FontWeight.normal,
+                  fontSize: 14
+              ),
             ),
           )
         ],
-      ),
-    );
+      )
+      ,
+      buttons: [
+        DialogButton(
+          child: Text(
+            "确定",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+//          onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginPage())),
+          color: Color(0xFF5580EB),
+        ),
+        DialogButton(
+          child: Text(
+            "取消",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () => Navigator.pop(context),
+          color: Color(0xFFCCCCCC),
+        ),
+      ],
+    ).show();
   }
 }
 

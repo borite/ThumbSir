@@ -1,7 +1,4 @@
-import 'package:ThumbSir/pages/mycenter/add_member_page.dart';
 import 'package:ThumbSir/widget/group_list_detail_widget.dart';
-import 'package:ThumbSir/widget/group_member_list.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:flutter/material.dart';
 
 class GroupListDetailPage extends StatefulWidget {

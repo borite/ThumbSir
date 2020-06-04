@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:ThumbSir/pages/broker/qlist/img_view_page.dart';
 import 'package:ThumbSir/pages/broker/qlist/qlist_change_page.dart';
 import 'package:flutter/material.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
@@ -11,6 +12,7 @@ class QListUploadPage extends StatefulWidget {
 }
 
 class _QListUploadPageState extends State<QListUploadPage> {
+  int _starIndex=3;
   List _images=[];
   final _picker = ImagePicker();
   Future pickImage(bool isTakePhoto) async {
@@ -141,29 +143,65 @@ class _QListUploadPageState extends State<QListUploadPage> {
                   ),
                   // 重要度星星
                   Container(
-                    width:160,
+                    width:175,
                     margin: EdgeInsets.only(left: 10,top: 20,bottom: 35),
                     child: Row(
                       children: <Widget>[
-                        Padding(
-                          padding: EdgeInsets.only(right:10),
-                          child: Image(image: AssetImage('images/star1_big.png'),),
+                        Container(
+                            width:35,
+                            height: 20,
+                            padding: EdgeInsets.only(right: 15),
+                            child: _starIndex ==0 ?
+                            Image(image: AssetImage('images/star1_e.png'),fit: BoxFit.fill,):
+                            Image(image: AssetImage('images/star1_big.png'),fit: BoxFit.fill,)
                         ),
-                        Padding(
-                          padding: EdgeInsets.only(right:10),
-                          child: Image(image: AssetImage('images/star2_big.png'),),
+                        Container(
+                            width: 35,
+                            height: 20,
+                            padding: EdgeInsets.only(right: 15),
+                            child: _starIndex==2 ?
+                            Image(image: AssetImage('images/star2_big.png'),fit: BoxFit.fill,)
+                                :_starIndex==3 ?
+                            Image(image: AssetImage('images/star2_big.png'),fit: BoxFit.fill,)
+                                :_starIndex==4 ?
+                            Image(image: AssetImage('images/star2_big.png'),fit: BoxFit.fill,)
+                                :_starIndex==5 ?
+                            Image(image: AssetImage('images/star2_big.png'),fit: BoxFit.fill,)
+                                :
+                            Image(image: AssetImage('images/star2_e.png'),fit: BoxFit.fill,)
                         ),
-                        Padding(
-                          padding: EdgeInsets.only(right:10),
-                          child: Image(image: AssetImage('images/star3_big.png'),),
+                        Container(
+                            width: 35,
+                            height: 20,
+                            padding: EdgeInsets.only(right: 15),
+                            child: _starIndex==3 ?
+                            Image(image: AssetImage('images/star3_big.png'),fit: BoxFit.fill,)
+                                :_starIndex==4 ?
+                            Image(image: AssetImage('images/star3_big.png'),fit: BoxFit.fill,)
+                                :_starIndex==5 ?
+                            Image(image: AssetImage('images/star3_big.png'),fit: BoxFit.fill,)
+                                :
+                            Image(image: AssetImage('images/star3_e.png'),fit: BoxFit.fill,)
                         ),
-                        Padding(
-                          padding: EdgeInsets.only(right:10),
-                          child: Image(image: AssetImage('images/star4_big.png'),),
+                        Container(
+                            width: 35,
+                            height: 20,
+                            padding: EdgeInsets.only(right: 15),
+                            child: _starIndex==4 ?
+                            Image(image: AssetImage('images/star4_big.png'),fit: BoxFit.fill,)
+                                :_starIndex==5 ?
+                            Image(image: AssetImage('images/star4_big.png'),fit: BoxFit.fill,)
+                                :
+                            Image(image: AssetImage('images/star4_e.png'),fit: BoxFit.fill,)
                         ),
-                        Padding(
-                          padding: EdgeInsets.only(right:10),
-                          child: Image(image: AssetImage('images/star5_big.png'),),
+                        Container(
+                            width: 35,
+                            height: 20,
+                            padding: EdgeInsets.only(right: 15),
+                            child: _starIndex==5 ?
+                            Image(image: AssetImage('images/star5_big.png'),fit: BoxFit.fill,)
+                                :
+                            Image(image: AssetImage('images/star5_e.png'),fit: BoxFit.fill,)
                         ),
                       ],
                     ),
@@ -380,49 +418,59 @@ class _QListUploadPageState extends State<QListUploadPage> {
                                 ),
                               ),
                             ),
-                            Container(
-                              width: 90,
-                              height: 90,
-                              decoration: BoxDecoration(
-                                  image: DecorationImage(image: AssetImage('images/imgbg.png'))
-                              ),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(6),
-                                child: _images.length == 0 ? Image(image: AssetImage('images/camera.png'),) : Image.file(_images[0],width: 90,height: 90,fit: BoxFit.fill,),
+                            GestureDetector(
+                              onTap: (){
+                                Navigator.push(context, MaterialPageRoute(builder: (context)=>ImgViewPage()));
+                              },
+                              child: Container(
+                                width: 90,
+                                height: 90,
+                                decoration: BoxDecoration(
+                                    image: DecorationImage(image: AssetImage('images/imgbg.png'))
+                                ),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(6),
+                                  child: _images.length == 0 ? Image(image: AssetImage('images/camera.png'),) : Image.file(_images[0],width: 90,height: 90,fit: BoxFit.fill,),
+                                ),
                               ),
                             ),
-                            Container(
-                              width: 90,
-                              height: 90,
-                              decoration: BoxDecoration(
-                                  image: DecorationImage(image: AssetImage('images/imgbg.png'))
-                              ),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(6),
-                                child: _images.length == 0 ?
-                                Image(image: AssetImage('images/camera.png'),)
-                                    : _images.length == 1 ?
-                                Image(image: AssetImage('images/camera.png'),)
-                                    :_images.length == 2 ?
-                                Image.file(_images[1],width: 90,height: 90,fit: BoxFit.fill,)
-                                    :
-                                Container(
-                                  width: 90,
-                                  height: 90,
-                                  child: Stack(
-                                    alignment: Alignment.center,
-                                    children: <Widget>[
-                                      Image.file(_images[1],width: 90,height: 90,fit: BoxFit.fill,),
-                                      Container(width: 90,height: 90,color: Colors.black45,),
-                                      Text("+"+(_images.length-1).toString(),
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.normal,
-                                          decoration: TextDecoration.none,
-                                        ),
-                                        textAlign: TextAlign.center,)
-                                    ],
+                            GestureDetector(
+                              onTap: (){
+                                Navigator.push(context, MaterialPageRoute(builder: (context)=>ImgViewPage()));
+                              },
+                              child: Container(
+                                width: 90,
+                                height: 90,
+                                decoration: BoxDecoration(
+                                    image: DecorationImage(image: AssetImage('images/imgbg.png'))
+                                ),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(6),
+                                  child: _images.length == 0 ?
+                                  Image(image: AssetImage('images/camera.png'),)
+                                      : _images.length == 1 ?
+                                  Image(image: AssetImage('images/camera.png'),)
+                                      :_images.length == 2 ?
+                                  Image.file(_images[1],width: 90,height: 90,fit: BoxFit.fill,)
+                                      :
+                                  Container(
+                                    width: 90,
+                                    height: 90,
+                                    child: Stack(
+                                      alignment: Alignment.center,
+                                      children: <Widget>[
+                                        Image.file(_images[1],width: 90,height: 90,fit: BoxFit.fill,),
+                                        Container(width: 90,height: 90,color: Colors.black45,),
+                                        Text("+"+(_images.length-1).toString(),
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.normal,
+                                            decoration: TextDecoration.none,
+                                          ),
+                                          textAlign: TextAlign.center,)
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),

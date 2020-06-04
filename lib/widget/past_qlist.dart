@@ -27,14 +27,27 @@ class _PastQListState extends State<PastQList> {
       children: <Widget>[
         Container(
           decoration: BoxDecoration(color: Colors.white),
-          padding: EdgeInsets.only(top:250,bottom:30),
+          padding: EdgeInsets.only(top:260,bottom:30),
           child: Container(
-            child:
-            SomeCalendar(
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12),
+                boxShadow: [BoxShadow(
+                    color: Color(0xFFcccccc),
+                    offset: Offset(0.0, 3.0),
+                    blurRadius: 10.0,
+                    spreadRadius: 2.0
+                )
+                ],
+                color: Colors.white
+            ),
+            margin: EdgeInsets.only(left: 30,right: 30),
+            padding: EdgeInsets.only(top: 20),
+            height: 280,
+            child: SomeCalendar(
               primaryColor: Color(0xff93C0FB),
               mode: SomeMode.Single,
               scrollDirection: Axis.horizontal,
-              isWithoutDialog: false,
+              isWithoutDialog: true,
               selectedDate: selectedDate,
               startDate: Jiffy().subtract(years: 2),
               lastDate: Jiffy().add(months: 1),

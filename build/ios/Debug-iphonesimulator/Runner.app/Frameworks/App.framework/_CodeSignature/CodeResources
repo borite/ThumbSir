@@ -10,7 +10,7 @@
 		</data>
 		<key>flutter_assets/AssetManifest.json</key>
 		<data>
-		KCoOg/hLH8VT/9jzAbR+qY2VzHo=
+		9dGvz2GSRFUeyP3ADpOp6XqQ3sU=
 		</data>
 		<key>flutter_assets/FontManifest.json</key>
 		<data>
@@ -18,7 +18,7 @@
 		</data>
 		<key>flutter_assets/LICENSE</key>
 		<data>
-		sLFzdm/rl6NbxZOuinBuINQZj6c=
+		hc/3lmeyVhzsoJ7baQWKyzNW/cI=
 		</data>
 		<key>flutter_assets/fonts/MaterialIcons-Regular.ttf</key>
 		<data>
@@ -39,6 +39,10 @@
 		<key>flutter_assets/images/back.png</key>
 		<data>
 		PIPXqRrfGuaGQJk0n0ste401L/Q=
+		</data>
+		<key>flutter_assets/images/back_select.png</key>
+		<data>
+		ZXNcVC1Kv1Ao2dFBazKLLYV6EUc=
 		</data>
 		<key>flutter_assets/images/back_w_arrow.png</key>
 		<data>
@@ -126,7 +130,7 @@
 		</data>
 		<key>flutter_assets/images/finish_big.png</key>
 		<data>
-		6BBh+rWD54r7+Bmid0LZpbaIzQ0=
+		nODY/CNSL2Z9W27NinQH9ghToFA=
 		</data>
 		<key>flutter_assets/images/group.png</key>
 		<data>
@@ -188,6 +192,10 @@
 		<data>
 		B4VpS8u5q1U01+zwOX9lZZ3YpLo=
 		</data>
+		<key>flutter_assets/images/next_select.png</key>
+		<data>
+		rNYLCEfJKUeJ7DD3ODAz17NNc9g=
+		</data>
 		<key>flutter_assets/images/noon.png</key>
 		<data>
 		tCSe3MJMpT9QdPmXf7hey+7CUxI=
@@ -238,7 +246,7 @@
 		</data>
 		<key>flutter_assets/images/star1_big.png</key>
 		<data>
-		pLlFFB8tUg/A77rVqOD5EHeIpgY=
+		KdQo2k8IcnVi1SrrzJ4rpRc0THw=
 		</data>
 		<key>flutter_assets/images/star1_e.png</key>
 		<data>
@@ -250,7 +258,7 @@
 		</data>
 		<key>flutter_assets/images/star2_big.png</key>
 		<data>
-		JL2g35Ur3SKcWfQqebGSZ+kzZ8U=
+		Y6jHVByJGQzIVUBDd29Big4La6A=
 		</data>
 		<key>flutter_assets/images/star2_e.png</key>
 		<data>
@@ -262,7 +270,7 @@
 		</data>
 		<key>flutter_assets/images/star3_big.png</key>
 		<data>
-		radElzg6qsDr2SMT4PruWNB7IL8=
+		FBgP3144SgHprc11NhdoFYK/fJo=
 		</data>
 		<key>flutter_assets/images/star3_e.png</key>
 		<data>
@@ -274,7 +282,7 @@
 		</data>
 		<key>flutter_assets/images/star4_big.png</key>
 		<data>
-		pw76lL8uwdCVveJ+Rz5Nj+swAf8=
+		+KasSKoUgUnbfdQfOdItpXMTpxk=
 		</data>
 		<key>flutter_assets/images/star4_e.png</key>
 		<data>
@@ -286,7 +294,7 @@
 		</data>
 		<key>flutter_assets/images/star5_big.png</key>
 		<data>
-		4hVzzKKuGlT3qOQRWGuHD2kvSuc=
+		MhMxYAtVfWaiONA3tYqQX/mv9CA=
 		</data>
 		<key>flutter_assets/images/star5_e.png</key>
 		<data>
@@ -394,7 +402,7 @@
 		</data>
 		<key>flutter_assets/kernel_blob.bin</key>
 		<data>
-		fGcIn7UxtQUIDhBLFsWMislBLFo=
+		vr0Nfv2sv1etz8/V43d8d/1LJqM=
 		</data>
 		<key>flutter_assets/packages/city_picker/assets/city_json.json</key>
 		<data>
@@ -483,11 +491,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			KCoOg/hLH8VT/9jzAbR+qY2VzHo=
+			9dGvz2GSRFUeyP3ADpOp6XqQ3sU=
 			</data>
 			<key>hash2</key>
 			<data>
-			Nf8ELRsQDmM6zObbW7DvOUfyNNKKHa1vbIdYF8qtxM0=
+			aMHhJKjqImr5WWqmcrgDJJUho0tuvZM5wiza8O3NxIs=
 			</data>
 		</dict>
 		<key>flutter_assets/FontManifest.json</key>
@@ -505,11 +513,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			sLFzdm/rl6NbxZOuinBuINQZj6c=
+			hc/3lmeyVhzsoJ7baQWKyzNW/cI=
 			</data>
 			<key>hash2</key>
 			<data>
-			5UygVfT3EgPyJr//hBQBs9qr67Mq70UWUa5nCHVscAs=
+			gKoe1NTWiHb8EqEfV3vEBoyOtlOSQZAIpqjiMjLpPMA=
 			</data>
 		</dict>
 		<key>flutter_assets/fonts/MaterialIcons-Regular.ttf</key>
@@ -565,6 +573,17 @@
 			<key>hash2</key>
 			<data>
 			rZw3wLuVbmmOB9TGz16nQ2SDxC7fJ04im+aifHIKP1A=
+			</data>
+		</dict>
+		<key>flutter_assets/images/back_select.png</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			ZXNcVC1Kv1Ao2dFBazKLLYV6EUc=
+			</data>
+			<key>hash2</key>
+			<data>
+			ieg01t1pZckKbnRT2MNOZOFCJHwU4kt4kigVso+NL9c=
 			</data>
 		</dict>
 		<key>flutter_assets/images/back_w_arrow.png</key>
@@ -802,11 +821,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			6BBh+rWD54r7+Bmid0LZpbaIzQ0=
+			nODY/CNSL2Z9W27NinQH9ghToFA=
 			</data>
 			<key>hash2</key>
 			<data>
-			AyqHNgCzyY1PCjXd8ZRy2vcuAgVT7jDQ8NOYvr23wuo=
+			N04iG+B7gW8muZ6qowZvq9TCcgcl/8uh+fxOa0clxNE=
 			</data>
 		</dict>
 		<key>flutter_assets/images/group.png</key>
@@ -974,6 +993,17 @@
 			iTf56lmbFWiWOYodV7H/J8IVJDtUDBWJZFfUorAZJH0=
 			</data>
 		</dict>
+		<key>flutter_assets/images/next_select.png</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			rNYLCEfJKUeJ7DD3ODAz17NNc9g=
+			</data>
+			<key>hash2</key>
+			<data>
+			NdF0bEfu5JLkyzrLBntjRyl+DVUjBOXIVFsaeHV4pEg=
+			</data>
+		</dict>
 		<key>flutter_assets/images/noon.png</key>
 		<dict>
 			<key>hash</key>
@@ -1110,11 +1140,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			pLlFFB8tUg/A77rVqOD5EHeIpgY=
+			KdQo2k8IcnVi1SrrzJ4rpRc0THw=
 			</data>
 			<key>hash2</key>
 			<data>
-			POViDdbbgLp1ARR5GU3SOMYD8U47NbWVkk7hrQR4pBw=
+			1ILn1VCYZzDuXFB7mKuu1RGQyehsKK69QtFRxzqLEU4=
 			</data>
 		</dict>
 		<key>flutter_assets/images/star1_e.png</key>
@@ -1143,11 +1173,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			JL2g35Ur3SKcWfQqebGSZ+kzZ8U=
+			Y6jHVByJGQzIVUBDd29Big4La6A=
 			</data>
 			<key>hash2</key>
 			<data>
-			4eGFrdjf3ccbslHf3CsvWBkv5ETr1mt3zPsqL/MfA3o=
+			xxV1soeIRFewpQ/RQILQ0+UJqsEIc63SWULUfm60JbI=
 			</data>
 		</dict>
 		<key>flutter_assets/images/star2_e.png</key>
@@ -1176,11 +1206,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			radElzg6qsDr2SMT4PruWNB7IL8=
+			FBgP3144SgHprc11NhdoFYK/fJo=
 			</data>
 			<key>hash2</key>
 			<data>
-			oRAW4ZcJBlwMZXG8+j2JbWWuEiHJL6bvQI8P7aPT1MU=
+			1FaBi4eNmttDwHwy6hXvNWFtL3PnSwVK6m+rvqvz8pM=
 			</data>
 		</dict>
 		<key>flutter_assets/images/star3_e.png</key>
@@ -1209,11 +1239,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			pw76lL8uwdCVveJ+Rz5Nj+swAf8=
+			+KasSKoUgUnbfdQfOdItpXMTpxk=
 			</data>
 			<key>hash2</key>
 			<data>
-			jW3tlo+62rRC4yId5GpiOubJBhriB1bzlsPLjH/d6WQ=
+			nAXPnQUKPzH2RFO4/kMGnYt2X3o3PhPvawUpS7rxbmA=
 			</data>
 		</dict>
 		<key>flutter_assets/images/star4_e.png</key>
@@ -1242,11 +1272,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			4hVzzKKuGlT3qOQRWGuHD2kvSuc=
+			MhMxYAtVfWaiONA3tYqQX/mv9CA=
 			</data>
 			<key>hash2</key>
 			<data>
-			9TygS2MwxyVbhY1dRrb856+8dmZHmxTZHH1sw8rV2gY=
+			D9VqUtshXX1UxJv7JUdn1iCC+HxhH3NYsPQbEYmU3JQ=
 			</data>
 		</dict>
 		<key>flutter_assets/images/star5_e.png</key>
@@ -1539,11 +1569,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			fGcIn7UxtQUIDhBLFsWMislBLFo=
+			vr0Nfv2sv1etz8/V43d8d/1LJqM=
 			</data>
 			<key>hash2</key>
 			<data>
-			tGKdaMdRIRWy4AXYGvEb+EkFWE2Qu49LgL0R7eSY0vs=
+			aL/fE7DM7jk5usKPFwXSvdsSToAJ10hPGzFD/Ck9hKU=
 			</data>
 		</dict>
 		<key>flutter_assets/packages/city_picker/assets/city_json.json</key>
