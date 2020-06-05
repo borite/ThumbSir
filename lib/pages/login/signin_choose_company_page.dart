@@ -3,7 +3,6 @@ import 'package:ThumbSir/pages/login/signin_choose_position_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ThumbSir/widget/input.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ThumbSir/model/company_list.dart';
 import 'package:ThumbSir/dao/get_company_list.dart';
 
