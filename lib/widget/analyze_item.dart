@@ -13,11 +13,36 @@ class AnalyzeItem extends StatefulWidget {
   _AnalyzeItemState createState() => _AnalyzeItemState();
 }
 
-class _AnalyzeItemState extends State<AnalyzeItem> {
+class _AnalyzeItemState extends State<AnalyzeItem> with SingleTickerProviderStateMixin {
+  Animation<double> animation;
+  AnimationController controller;
+  AnimationStatus animationStatus;
+  double animationValue;
 
   @override
   void initState() {
     super.initState();
+    controller = AnimationController(vsync:this,duration: Duration(seconds: 1));
+    animation = Tween<double>(begin: 500,end:25).animate(
+        CurvedAnimation(parent: controller,curve: Curves.easeInOut)
+          ..addListener(() {
+            setState(() {
+              animationValue = animation.value;
+            });
+          })
+          ..addStatusListener((AnimationStatus state) {
+            setState(() {
+              animationStatus = state;
+            });
+          })
+    );
+    controller.forward();
+  }
+
+  @override
+  void dispose(){
+    controller.dispose();
+    super.dispose();
   }
 
   @override
@@ -28,7 +53,7 @@ class _AnalyzeItemState extends State<AnalyzeItem> {
         },
         child: Container(
           width: 335,
-          margin: EdgeInsets.only(bottom: 25),
+          margin: EdgeInsets.only(top: animation.value),
           decoration: BoxDecoration(
               color: Colors.transparent
           ),

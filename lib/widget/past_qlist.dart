@@ -10,15 +10,33 @@ class PastQList extends StatefulWidget {
   _PastQListState createState() => _PastQListState();
 }
 
-class _PastQListState extends State<PastQList> {
+class _PastQListState extends State<PastQList>  with SingleTickerProviderStateMixin{
   DateTime selectedDate = DateTime.now();
   List<DateTime> selectedDates = List();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
-
+  Animation<double> animation;
+  AnimationController controller;
+  AnimationStatus animationStatus;
+  double animationValue;
   @override
   void initState() {
     initializeDateFormatting();
     Intl.systemLocale = 'zh_Cn'; // to change the calendar format based on localization
+    controller = AnimationController(vsync:this,duration: Duration(seconds: 1));
+    animation = Tween<double>(begin: 780,end:280).animate(
+        CurvedAnimation(parent: controller,curve: Curves.easeInOut)
+          ..addListener(() {
+            setState(() {
+              animationValue = animation.value;
+            });
+          })
+          ..addStatusListener((AnimationStatus state) {
+            setState(() {
+              animationStatus = state;
+            });
+          })
+    );
+    controller.forward();
     super.initState();
   }
   @override
@@ -27,7 +45,7 @@ class _PastQListState extends State<PastQList> {
       children: <Widget>[
         Container(
           decoration: BoxDecoration(color: Colors.white),
-          padding: EdgeInsets.only(top:260,bottom:30),
+          padding: EdgeInsets.only(top:animation.value,bottom:30),
           child: Container(
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(12),

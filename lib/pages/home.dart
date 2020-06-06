@@ -12,7 +12,26 @@ class Home extends StatefulWidget {
   _HomeState createState() => _HomeState();
 }
 
-class _HomeState extends State<Home> {
+class _HomeState extends State<Home> with SingleTickerProviderStateMixin{
+  Animation<double> animation;
+  AnimationController controller;
+
+  @override
+  void initState() {
+    super.initState();
+    controller = AnimationController(vsync:this,duration: Duration(seconds: 1));
+    animation = Tween<double>(begin: 200,end:20).animate(
+        CurvedAnimation(parent: controller,curve: Curves.easeInOut)
+    );
+    controller.forward();
+  }
+
+  @override
+  void dispose(){
+    controller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -79,104 +98,10 @@ class _HomeState extends State<Home> {
                 ),
 
                 // 入口
-                Container(
-                  margin: EdgeInsets.only(top: 20),
-                  child:RaisedButton(
-                    onPressed: (){
-//                      Navigator.push(context, MaterialPageRoute(builder: (context)=>QListPage()));
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=>ManagerQListPage()));
-//                      Navigator.push(context, MaterialPageRoute(builder: (context)=>MajorQListPage()));
-                    },
-                    color: Colors.transparent,
-                    elevation: 0,
-                    disabledElevation: 0,
-                    highlightColor: Colors.transparent,
-                    highlightElevation: 0,
-                    splashColor: Colors.transparent,
-                    disabledColor: Colors.transparent,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.all(Radius.circular(12)),
-                      child:Image(
-                          width: 353,
-                          height:110,
-                          image: AssetImage('images/list.png'),
-                          fit:BoxFit.cover
-                      ),
-                    ),
-                  ),
-                ),
-                Container(
-                    margin: EdgeInsets.only(top: 20),
-                    child:RaisedButton(
-                        onPressed: (){
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=>OpenClientPage()));
-                        },
-                        color: Colors.transparent,
-                        elevation: 0,
-                        disabledElevation: 0,
-                        highlightColor: Colors.transparent,
-                        highlightElevation: 0,
-                        splashColor: Colors.transparent,
-                        disabledColor: Colors.transparent,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.all(Radius.circular(12)),
-                          child:Image(
-                              width: 353,
-                              height:110,
-                              image: AssetImage('images/openclient.png'),
-                              fit:BoxFit.cover
-                          ),
-                        )
-                    )
-                ),
-                Container(
-                    margin: EdgeInsets.only(top: 20),
-                    child:RaisedButton(
-                        onPressed: (){
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=>OpenOwnerPage()));
-                        },
-                        color: Colors.transparent,
-                        elevation: 0,
-                        disabledElevation: 0,
-                        highlightColor: Colors.transparent,
-                        highlightElevation: 0,
-                        splashColor: Colors.transparent,
-                        disabledColor: Colors.transparent,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.all(Radius.circular(12)),
-                          child:Image(
-                              width: 353,
-                              height:110,
-                              image: AssetImage('images/openowner.png'),
-                              fit:BoxFit.cover
-                          ),
-                        )
-                    )
-                ),
-                Container(
-                    margin: EdgeInsets.only(top: 20),
-                    child:RaisedButton(
-                        onPressed: (){
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=>TradedPage()));
-                        },
-                        color: Colors.transparent,
-                        elevation: 0,
-                        disabledElevation: 0,
-                        highlightColor: Colors.transparent,
-                        highlightElevation: 0,
-                        splashColor: Colors.transparent,
-                        disabledColor: Colors.transparent,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.all(Radius.circular(12)),
-                          child:Image(
-                              width: 353,
-                              height:110,
-                              image: AssetImage('images/traded.png'),
-                              fit:BoxFit.cover
-                          ),
-                        )
-                    )
-                ),
+                QlistBtn(animation: animation,),
+                OpenClientBtn(animation: animation,),
+                OpenOwnerBtn(animation: animation,),
+                TradedBtn(animation: animation,),
               ])
         ],
       )
@@ -258,6 +183,135 @@ class _HomeState extends State<Home> {
           ),
         ),
       ],
+    );
+  }
+}
+
+class QlistBtn extends AnimatedWidget{
+  QlistBtn({Key key,Animation<double> animation}):super(key:key,listenable: animation);
+  @override
+  Widget build(BuildContext context) {
+    final Animation<double> animation = listenable;
+    return Container(
+      margin: EdgeInsets.only(top: animation.value),
+      child:RaisedButton(
+        onPressed: (){
+//                      Navigator.push(context, MaterialPageRoute(builder: (context)=>QListPage()));
+          Navigator.push(context, MaterialPageRoute(builder: (context)=>ManagerQListPage()));
+//                      Navigator.push(context, MaterialPageRoute(builder: (context)=>MajorQListPage()));
+        },
+        color: Colors.transparent,
+        elevation: 0,
+        disabledElevation: 0,
+        highlightColor: Colors.transparent,
+        highlightElevation: 0,
+        splashColor: Colors.transparent,
+        disabledColor: Colors.transparent,
+        child: ClipRRect(
+          borderRadius: BorderRadius.all(Radius.circular(12)),
+          child:Image(
+              width: 353,
+              height:110,
+              image: AssetImage('images/list.png'),
+              fit:BoxFit.cover
+          ),
+        ),
+      ),
+    );
+  }
+}
+class OpenClientBtn extends AnimatedWidget{
+  OpenClientBtn({Key key,Animation<double> animation}):super(key:key,listenable: animation);
+  @override
+  Widget build(BuildContext context) {
+    final Animation<double> animation = listenable;
+    return Container(
+        margin: EdgeInsets.only(top: animation.value),
+        child:RaisedButton(
+            onPressed: (){
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>OpenClientPage()));
+            },
+            color: Colors.transparent,
+            elevation: 0,
+            disabledElevation: 0,
+            highlightColor: Colors.transparent,
+            highlightElevation: 0,
+            splashColor: Colors.transparent,
+            disabledColor: Colors.transparent,
+            child: ClipRRect(
+              borderRadius: BorderRadius.all(Radius.circular(12)),
+              child:Image(
+                  width: 353,
+                  height:110,
+                  image: AssetImage('images/openclient.png'),
+                  fit:BoxFit.cover
+              ),
+            )
+        )
+    );
+  }
+}
+
+class OpenOwnerBtn extends AnimatedWidget{
+  OpenOwnerBtn({Key key,Animation<double> animation}):super(key:key,listenable: animation);
+  @override
+  Widget build(BuildContext context) {
+    final Animation<double> animation = listenable;
+    return Container(
+        margin: EdgeInsets.only(top: animation.value),
+        child:RaisedButton(
+            onPressed: (){
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>OpenOwnerPage()));
+            },
+            color: Colors.transparent,
+            elevation: 0,
+            disabledElevation: 0,
+            highlightColor: Colors.transparent,
+            highlightElevation: 0,
+            splashColor: Colors.transparent,
+            disabledColor: Colors.transparent,
+            child: ClipRRect(
+              borderRadius: BorderRadius.all(Radius.circular(12)),
+              child:Image(
+                  width: 353,
+                  height:110,
+                  image: AssetImage('images/openowner.png'),
+                  fit:BoxFit.cover
+              ),
+            )
+        )
+    );
+  }
+}
+
+class TradedBtn extends AnimatedWidget{
+  TradedBtn({Key key,Animation<double> animation}):super(key:key,listenable: animation);
+  @override
+  Widget build(BuildContext context) {
+    final Animation<double> animation = listenable;
+    return Container(
+        margin: EdgeInsets.only(top: animation.value),
+        child:RaisedButton(
+            onPressed: (){
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>OpenOwnerPage()));
+            },
+            color: Colors.transparent,
+            elevation: 0,
+            disabledElevation: 0,
+            highlightColor: Colors.transparent,
+            highlightElevation: 0,
+            splashColor: Colors.transparent,
+            disabledColor: Colors.transparent,
+            child: ClipRRect(
+              borderRadius: BorderRadius.all(Radius.circular(12)),
+              child:Image(
+                  width: 353,
+                  height:110,
+                  image: AssetImage('images/openowner.png'),
+                  fit:BoxFit.cover
+              ),
+            )
+        )
     );
   }
 }

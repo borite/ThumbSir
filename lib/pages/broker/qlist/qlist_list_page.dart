@@ -12,21 +12,52 @@ class QListListPage extends StatefulWidget {
   _QListListPageState createState() => _QListListPageState();
 }
 
-class _QListListPageState extends State<QListListPage> with SingleTickerProviderStateMixin {
+class _QListListPageState extends State<QListListPage> with TickerProviderStateMixin {
   TabController _controller;
+
+  //0今天，1明天，2往期的Tab Index
+  int tabIndex=0;
   var tabs = [];
-  int _pageIndex = 0;
+
+  //0上午，1下午，2晚上的Index
+  int pageIndex = 0;
+  void onChange(pval,tval){
+    setState(() {
+      pageIndex = pval;
+      tabIndex=tval;
+    });
+  }
+
+  Animation<double> animation;
+  AnimationController animationController;
+  AnimationStatus animationStatus;
+  double animationValue;
 
   @override
   void initState() {
+    super.initState();
     _controller = TabController(length: 3,vsync: this);
+    animationController = AnimationController(vsync:this,duration: Duration(seconds: 1));
     tabs = <Tab>[
       Tab(text: '今日计划',),
       Tab(text: '明日计划',),
       Tab(text: '往期计划',),
     ];
-
-    super.initState();
+    pageIndex = 0;
+    animation = Tween<double>(begin: 0,end:300).animate(
+        CurvedAnimation(parent: animationController,curve: Curves.easeInOut)
+          ..addListener(() {
+            setState(() {
+              animationValue = animation.value;
+            });
+          })
+          ..addStatusListener((AnimationStatus state) {
+            setState(() {
+              animationStatus = state;
+            });
+          })
+    );
+    animationController.forward();
   }
 
   // 防止页面销毁时内存泄漏造成性能问题
@@ -34,11 +65,12 @@ class _QListListPageState extends State<QListListPage> with SingleTickerProvider
   void dispose(){
     _controller.dispose();
     super.dispose();
+    animationController.dispose();
   }
-
+  
   @override
   Widget build(BuildContext context) {
-    return _pageIndex == 0 ?
+    return pageIndex == 0 ?
     // 上午
     Container(
         decoration: BoxDecoration(color: Colors.white),
@@ -48,9 +80,17 @@ class _QListListPageState extends State<QListListPage> with SingleTickerProvider
               controller: _controller,
               children: <Widget>[
                 // 今日计划
-                TodayQList(),
+                TodayQList(
+                  tabIndex: tabIndex,
+                  pageIndex: pageIndex,
+                  callBack:()=>onChange(pageIndex,tabIndex)
+                ),
                 // 明日计划
-                TomorrowQList(),
+                TomorrowQList(
+                    tabIndex: tabIndex,
+                    pageIndex: pageIndex,
+                    callBack:()=>onChange(pageIndex,tabIndex)
+                ),
                 // 往期计划
                 PastQList(),
               ],
@@ -66,7 +106,7 @@ class _QListListPageState extends State<QListListPage> with SingleTickerProvider
                         child:
                         //  背景
                         Container(
-                            height: 300,
+                            height: animation.value,
                             decoration: BoxDecoration(
                               gradient: LinearGradient(
                                 colors: [Color(0xFF0E7AE6),Color(0xFF93C0FB)],
@@ -208,6 +248,11 @@ class _QListListPageState extends State<QListListPage> with SingleTickerProvider
                                   padding: EdgeInsets.only(left: 0,right: 100),
                                   child: TabBar(
                                     tabs: tabs,
+                                    onTap: (i){
+                                      setState(() {
+                                        tabIndex=i;
+                                      });
+                                    },
                                     controller: _controller,
                                     isScrollable: true, // 可以左右滑动
                                     labelColor: Colors.white,
@@ -243,7 +288,7 @@ class _QListListPageState extends State<QListListPage> with SingleTickerProvider
                                             ),
                                             onTap: (){
                                               setState(() {
-                                                _pageIndex = 0;
+                                                pageIndex = 0;
                                               });
                                             },
                                           )
@@ -256,9 +301,12 @@ class _QListListPageState extends State<QListListPage> with SingleTickerProvider
                                             style: TextStyle(fontSize: 14,color: Colors.white,decoration: TextDecoration.none,fontWeight: FontWeight.normal,),
                                           ),
                                           onTap: (){
-                                            setState(() {
-                                              _pageIndex = 1;
-                                            });
+                                            pageIndex=1;
+//                                            setState(() {
+//                                              pageIndex = 1;
+//                                            });
+                                            animationController.reset();
+                                            animationController.forward();
                                           },
                                         ),
                                       ),
@@ -273,9 +321,10 @@ class _QListListPageState extends State<QListListPage> with SingleTickerProvider
                                             ),
                                             onTap: (){
                                               setState((){
-                                                _pageIndex = 2;
+                                                pageIndex = 2;
                                               });
-                                              print('$_pageIndex');
+                                              animationController.reset();
+                                              animationController.forward();
                                             },
                                           )
                                       )
@@ -328,7 +377,7 @@ class _QListListPageState extends State<QListListPage> with SingleTickerProvider
           ],
         ),
     )
-    :_pageIndex == 1 ?
+    :pageIndex == 1 ?
     // 下午
     Container(
       decoration: BoxDecoration(color: Colors.white),
@@ -338,9 +387,17 @@ class _QListListPageState extends State<QListListPage> with SingleTickerProvider
             controller: _controller,
             children: <Widget>[
               // 今日计划
-              TodayQList(),
+              TodayQList(
+                  tabIndex: tabIndex,
+                  pageIndex: pageIndex,
+                  callBack:()=>onChange(pageIndex,tabIndex)
+              ),
               // 明日计划
-              TomorrowQList(),
+              TomorrowQList(
+                  tabIndex: tabIndex,
+                  pageIndex: pageIndex,
+                  callBack:()=>onChange(pageIndex,tabIndex)
+              ),
               // 往期计划
               PastQList(),
             ],
@@ -356,7 +413,7 @@ class _QListListPageState extends State<QListListPage> with SingleTickerProvider
                       child:
                       //  背景
                       Container(
-                          height: 300,
+                          height: animation.value,
                           decoration: BoxDecoration(
                             gradient: LinearGradient(
                               colors: [Color(0xFFF67818),Color(0xFFFCD654)],
@@ -497,6 +554,11 @@ class _QListListPageState extends State<QListListPage> with SingleTickerProvider
                               Container(
                                 padding: EdgeInsets.only(left: 0,right: 100),
                                 child: TabBar(
+                                  onTap: (i){
+                                    setState(() {
+                                      tabIndex=i;
+                                    });
+                                  },
                                   tabs: tabs,
                                   controller: _controller,
                                   isScrollable: true, // 可以左右滑动
@@ -533,9 +595,10 @@ class _QListListPageState extends State<QListListPage> with SingleTickerProvider
                                           ),
                                           onTap: (){
                                             setState((){
-                                              _pageIndex = 0;
+                                              pageIndex = 0;
                                             });
-                                            print('$_pageIndex');
+                                            animationController.reset();
+                                            animationController.forward();
                                           },
                                         )
                                     ),
@@ -550,7 +613,7 @@ class _QListListPageState extends State<QListListPage> with SingleTickerProvider
                                           ),
                                           onTap: (){
                                             setState(() {
-                                              _pageIndex = 1;
+                                              pageIndex = 1;
                                             });
                                           },
                                         )
@@ -564,8 +627,10 @@ class _QListListPageState extends State<QListListPage> with SingleTickerProvider
                                         ),
                                         onTap: (){
                                           setState(() {
-                                            _pageIndex = 2;
+                                            pageIndex = 2;
                                           });
+                                          animationController.reset();
+                                          animationController.forward();
                                         },
                                       ),
                                     ),
@@ -634,9 +699,17 @@ class _QListListPageState extends State<QListListPage> with SingleTickerProvider
             controller: _controller,
             children: <Widget>[
               // 今日计划
-              TodayQList(),
+              TodayQList(
+                  tabIndex: tabIndex,
+                  pageIndex: pageIndex,
+                  callBack:()=>onChange(pageIndex,tabIndex)
+              ),
               // 明日计划
-              TomorrowQList(),
+              TomorrowQList(
+                  tabIndex: tabIndex,
+                  pageIndex: pageIndex,
+                  callBack:()=>onChange(pageIndex,tabIndex)
+              ),
               // 往期计划
               PastQList(),
             ],
@@ -652,7 +725,7 @@ class _QListListPageState extends State<QListListPage> with SingleTickerProvider
                       child:
                       //  背景
                       Container(
-                          height: 300,
+                          height: animation.value,
                           decoration: BoxDecoration(
                             gradient: LinearGradient(
                               colors: [Color(0xFF000747),Color(0xFF003273)],
@@ -793,6 +866,11 @@ class _QListListPageState extends State<QListListPage> with SingleTickerProvider
                               Container(
                                 padding: EdgeInsets.only(left: 0,right: 100),
                                 child: TabBar(
+                                  onTap: (i){
+                                    setState(() {
+                                      tabIndex=i;
+                                    });
+                                  },
                                   tabs: tabs,
                                   controller: _controller,
                                   isScrollable: true, // 可以左右滑动
@@ -827,8 +905,10 @@ class _QListListPageState extends State<QListListPage> with SingleTickerProvider
                                         ),
                                         onTap: (){
                                           setState(() {
-                                            _pageIndex = 0;
+                                            pageIndex = 0;
                                           });
+                                          animationController.reset();
+                                          animationController.forward();
                                         },
                                       ),
                                     ),
@@ -843,9 +923,10 @@ class _QListListPageState extends State<QListListPage> with SingleTickerProvider
                                           ),
                                           onTap: (){
                                             setState((){
-                                              _pageIndex = 1;
+                                              pageIndex = 1;
                                             });
-                                            print('$_pageIndex');
+                                            animationController.reset();
+                                            animationController.forward();
                                           },
                                         )
                                     ),
@@ -860,7 +941,7 @@ class _QListListPageState extends State<QListListPage> with SingleTickerProvider
                                           ),
                                           onTap: (){
                                             setState(() {
-                                              _pageIndex = 2;
+                                              pageIndex = 2;
                                             });
                                           },
                                         )

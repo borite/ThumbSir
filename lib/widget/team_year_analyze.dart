@@ -34,7 +34,7 @@ class _TeamYearAnalyzeState extends State<TeamYearAnalyze> {
             Container(
                 decoration: BoxDecoration(color: Colors.white),
                 child: Padding(
-                  padding: EdgeInsets.only(top:290,bottom:25),
+                  padding: EdgeInsets.only(top:270,bottom:25),
                   child:Column(
                     children: <Widget>[
                       // 每一条量化
