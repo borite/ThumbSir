@@ -110,7 +110,7 @@
 		</data>
 		<key>Frameworks/App.framework/App</key>
 		<data>
-		0qwS9Ktvg+KW79ZF5wFyZ05ie4M=
+		fxOYAHaJUF9TyZi0ZmEUpaHRZ0s=
 		</data>
 		<key>Frameworks/App.framework/Info.plist</key>
 		<data>
@@ -118,7 +118,7 @@
 		</data>
 		<key>Frameworks/App.framework/_CodeSignature/CodeResources</key>
 		<data>
-		Y/q0RAomMik2xdgA8HD/VcWtycY=
+		gHMvfWqtWRe5M+fjqENgSaFMaEU=
 		</data>
 		<key>Frameworks/App.framework/flutter_assets/AssetManifest.json</key>
 		<data>
@@ -130,7 +130,7 @@
 		</data>
 		<key>Frameworks/App.framework/flutter_assets/LICENSE</key>
 		<data>
-		hc/3lmeyVhzsoJ7baQWKyzNW/cI=
+		0TwIRZb5N72sY8xeY3RIUTDInCQ=
 		</data>
 		<key>Frameworks/App.framework/flutter_assets/fonts/MaterialIcons-Regular.ttf</key>
 		<data>
@@ -514,7 +514,7 @@
 		</data>
 		<key>Frameworks/App.framework/flutter_assets/kernel_blob.bin</key>
 		<data>
-		uhph91NKfu8Ng5mjNn3GmCSspuA=
+		PWBCXSyc1npf8d7Hgs6RrNrdqMc=
 		</data>
 		<key>Frameworks/App.framework/flutter_assets/packages/city_picker/assets/city_json.json</key>
 		<data>
@@ -622,7 +622,7 @@
 		</data>
 		<key>Frameworks/flutter_plugin_android_lifecycle.framework/flutter_plugin_android_lifecycle</key>
 		<data>
-		rnXWjewXb3+OHOCOsfORlvyznXk=
+		rmq1rCOqgTkplJoX4pdQLVwGXhs=
 		</data>
 		<key>Frameworks/image_picker.framework/Info.plist</key>
 		<data>
@@ -634,7 +634,7 @@
 		</data>
 		<key>Frameworks/image_picker.framework/image_picker</key>
 		<data>
-		26WzkMRifx9+3jFQ9DqW1aDmCP4=
+		lTwiken/ayOWmQBg0ebrvtuOC1E=
 		</data>
 		<key>Frameworks/libswiftCore.dylib</key>
 		<data>
@@ -674,7 +674,19 @@
 		</data>
 		<key>Frameworks/shared_preferences.framework/shared_preferences</key>
 		<data>
-		HmOVGOAvqVlVSQMj/Wn9F6kv2H8=
+		z3ZngHUqIqxMQWcPcrwwKj/+7d8=
+		</data>
+		<key>Frameworks/simple_image_crop.framework/Info.plist</key>
+		<data>
+		IteICpjKvDmpjysYz2lsvA2GMUs=
+		</data>
+		<key>Frameworks/simple_image_crop.framework/_CodeSignature/CodeResources</key>
+		<data>
+		XAOq+4W7IuQRhqcYhhFAeL1VHEQ=
+		</data>
+		<key>Frameworks/simple_image_crop.framework/simple_image_crop</key>
+		<data>
+		LPE4phEMNCtDmed31DR9Gqc/FAk=
 		</data>
 		<key>Info.plist</key>
 		<data>
@@ -977,11 +989,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			0qwS9Ktvg+KW79ZF5wFyZ05ie4M=
+			fxOYAHaJUF9TyZi0ZmEUpaHRZ0s=
 			</data>
 			<key>hash2</key>
 			<data>
-			bcGtU7sgBWW4phbe8+frce0tYB18GqQXgYzjn+nHF1I=
+			/S06Ym3OknEOL17GyYc6A+GmZ5URpW3cgv5fP/R8YPE=
 			</data>
 		</dict>
 		<key>Frameworks/App.framework/Info.plist</key>
@@ -999,11 +1011,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			Y/q0RAomMik2xdgA8HD/VcWtycY=
+			gHMvfWqtWRe5M+fjqENgSaFMaEU=
 			</data>
 			<key>hash2</key>
 			<data>
-			lgPtUuxS5ZSRfLxLZQUeRlKuBj2oWKvqnPQYq8QVx8E=
+			cEmKBL5ey6AsVQS01guQcMENbdFL+pO1QSOS5D2U8DQ=
 			</data>
 		</dict>
 		<key>Frameworks/App.framework/flutter_assets/AssetManifest.json</key>
@@ -1032,11 +1044,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			hc/3lmeyVhzsoJ7baQWKyzNW/cI=
+			0TwIRZb5N72sY8xeY3RIUTDInCQ=
 			</data>
 			<key>hash2</key>
 			<data>
-			gKoe1NTWiHb8EqEfV3vEBoyOtlOSQZAIpqjiMjLpPMA=
+			uniHkE+mGL0kq4gqkzn+YxvMdHqDiMNeuefgIJ2b2mg=
 			</data>
 		</dict>
 		<key>Frameworks/App.framework/flutter_assets/fonts/MaterialIcons-Regular.ttf</key>
@@ -2088,11 +2100,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			uhph91NKfu8Ng5mjNn3GmCSspuA=
+			PWBCXSyc1npf8d7Hgs6RrNrdqMc=
 			</data>
 			<key>hash2</key>
 			<data>
-			ACjfUFgwU7SuY07eQueGQNTkhAfdP+aI1/mdd1/RO9A=
+			8MivqZHD4IEbaud79xZSHRSnsB9Voa4hEpDjnMWiBkY=
 			</data>
 		</dict>
 		<key>Frameworks/App.framework/flutter_assets/packages/city_picker/assets/city_json.json</key>
@@ -2385,11 +2397,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			rnXWjewXb3+OHOCOsfORlvyznXk=
+			rmq1rCOqgTkplJoX4pdQLVwGXhs=
 			</data>
 			<key>hash2</key>
 			<data>
-			nxhEh1vh90k5eWLfw+xRMPmC6hFcvnTsBb8kJDiwHlY=
+			r91Oc+vGuiLup2f8J/ViuNOVQQSVAltWIQx8yhMe7Io=
 			</data>
 		</dict>
 		<key>Frameworks/image_picker.framework/Info.plist</key>
@@ -2418,11 +2430,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			26WzkMRifx9+3jFQ9DqW1aDmCP4=
+			lTwiken/ayOWmQBg0ebrvtuOC1E=
 			</data>
 			<key>hash2</key>
 			<data>
-			W8EAejRYGv33cP6pCdebJmhU6a/9MEIE8O6uDZJDBp8=
+			+ia7n2jWBCGQjjN9yH6L4XYJ7cr9670PjLnug1yHKOU=
 			</data>
 		</dict>
 		<key>Frameworks/libswiftCore.dylib</key>
@@ -2528,11 +2540,44 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			HmOVGOAvqVlVSQMj/Wn9F6kv2H8=
+			z3ZngHUqIqxMQWcPcrwwKj/+7d8=
 			</data>
 			<key>hash2</key>
 			<data>
-			Px4Av1xxBspYe8z8IIjtKPh+9IlPgna4ZoOV5Ojlqio=
+			+FxKIKOCIhyS3u1oaMG3t/6cbn80eYxMxtP9d7NeBCY=
+			</data>
+		</dict>
+		<key>Frameworks/simple_image_crop.framework/Info.plist</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			IteICpjKvDmpjysYz2lsvA2GMUs=
+			</data>
+			<key>hash2</key>
+			<data>
+			xrpLuh0cCjqJYB6/s7mMIvU9LGj1rDLILMszt3zvBHk=
+			</data>
+		</dict>
+		<key>Frameworks/simple_image_crop.framework/_CodeSignature/CodeResources</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			XAOq+4W7IuQRhqcYhhFAeL1VHEQ=
+			</data>
+			<key>hash2</key>
+			<data>
+			KG/8JcpxG75tJXmQCQP5AhRJKVk5EQ3cBZgIXxuw1Ag=
+			</data>
+		</dict>
+		<key>Frameworks/simple_image_crop.framework/simple_image_crop</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			LPE4phEMNCtDmed31DR9Gqc/FAk=
+			</data>
+			<key>hash2</key>
+			<data>
+			yJAhQjhCSOzTVpH8wljrlO9cKA+jvgA7Tl3yJCbQpsQ=
 			</data>
 		</dict>
 	</dict>

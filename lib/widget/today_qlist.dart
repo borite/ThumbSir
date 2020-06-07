@@ -36,8 +36,8 @@ class _TodayQListState extends State<TodayQList> {
                 padding: EdgeInsets.only(top:240,bottom:25),
                 child: Column(
                   children: <Widget>[
-                    Text('今日明日往期'+this.widget.tabIndex.toString()),
-                    Text('上午下午晚上'+this.widget.pageIndex.toString()),
+//                    Text('今日明日往期'+this.widget.tabIndex.toString()),
+//                    Text('上午下午晚上'+this.widget.pageIndex.toString()),
                     // 每一条量化
                     QListItem(
                       name: "带看",

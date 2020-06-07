@@ -66,7 +66,6 @@ class _QListItemState extends State<QListItem> with SingleTickerProviderStateMix
         setState(() {
           _extend = true;
         });
-        print(_extend);
       },
       child: Container(
         margin: EdgeInsets.only(top: animation.value),

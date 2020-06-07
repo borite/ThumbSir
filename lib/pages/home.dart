@@ -1,3 +1,4 @@
+import 'package:ThumbSir/pages/broker/qlist/qlist_page.dart';
 import 'package:ThumbSir/pages/major/qlist/major_qlist_page.dart';
 import 'package:ThumbSir/pages/manager/qlist/manager_qlist_page.dart';
 import 'package:flutter/cupertino.dart';
@@ -6,6 +7,7 @@ import 'package:ThumbSir/pages/mycenter/my_center_page.dart';
 import 'package:ThumbSir/pages/broker/openclient/open_client_page.dart';
 import 'package:ThumbSir/pages/broker/openowner/open_owner_page.dart';
 import 'package:ThumbSir/pages/broker/traded/traded_page.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -293,7 +295,8 @@ class TradedBtn extends AnimatedWidget{
         margin: EdgeInsets.only(top: animation.value),
         child:RaisedButton(
             onPressed: (){
-              Navigator.push(context, MaterialPageRoute(builder: (context)=>OpenOwnerPage()));
+//              Navigator.push(context, MaterialPageRoute(builder: (context)=>OpenOwnerPage()));
+              _onCloseAlertPressed(context);
             },
             color: Colors.transparent,
             elevation: 0,
@@ -313,5 +316,31 @@ class TradedBtn extends AnimatedWidget{
             )
         )
     );
+  }
+  _onCloseAlertPressed(context) {
+    Alert(
+      context: context,
+      type: AlertType.warning,
+      title: "暂未开放，敬请期待!",
+      desc: "去业务量化清单看看吧~",
+      buttons: [
+        DialogButton(
+          child: Text(
+            "确定",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context)=>QListPage())),
+          color: Color(0xFF5580EB),
+        ),
+        DialogButton(
+          child: Text(
+            "取消",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () => Navigator.pop(context),
+          color: Color(0xFFCCCCCC),
+        ),
+      ],
+    ).show();
   }
 }

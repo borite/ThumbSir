@@ -14,7 +14,7 @@ class SetMyMsgPage extends StatefulWidget {
 
 class _SetMyMsgPageState extends State<SetMyMsgPage> {
   final TextEditingController textController = TextEditingController();
-
+  var portrait;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,7 +31,11 @@ class _SetMyMsgPageState extends State<SetMyMsgPage> {
                   GestureDetector(
                     onTap: () {
                       Navigator.push(context, MaterialPageRoute(
-                          builder: (context) => ChoosePortraitPage()));
+                        builder: (context) => ChoosePortraitPage())).then((p){
+                        setState(() {
+                          portrait = p;
+                        });
+                      });
                     },
                     child: Container(
                         color: Colors.white,
@@ -66,8 +70,13 @@ class _SetMyMsgPageState extends State<SetMyMsgPage> {
                                       border: Border.all(
                                           color: Color(0xFFF2F2F2), width: 1)
                                   ),
-                                  child: Image(
-                                    image: AssetImage("images/my_big.png"),),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(35),
+                                    child: portrait == null ?
+                                    Image(image: AssetImage('images/my_big.png'),)
+                                        :
+                                    Image.file(portrait,fit: BoxFit.fill,),
+                                  ),
                                 ),
                                 Image(image: AssetImage('images/next.png'),)
                               ],

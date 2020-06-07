@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:ThumbSir/pages/mycenter/broker_center_group_page.dart';
 import 'package:ThumbSir/pages/mycenter/s_center_group_page.dart';
 import 'package:ThumbSir/pages/mycenter/service_page.dart';
@@ -9,8 +8,7 @@ import 'package:ThumbSir/pages/mycenter/z_center_group_page.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ThumbSir/model/loginResultData.dart';
-
-
+import 'choose_portrait_page.dart';
 import 'm_center_group_page.dart';
 
 class MyCenterPage extends StatefulWidget {
@@ -19,7 +17,7 @@ class MyCenterPage extends StatefulWidget {
 }
 
 class _MyCenterPageState extends State<MyCenterPage> {
-
+  var portrait;
   LoginResultData userData;
 
   _getUserInfo() async {
@@ -34,7 +32,6 @@ class _MyCenterPageState extends State<MyCenterPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _getUserInfo();
   }
@@ -79,32 +76,46 @@ class _MyCenterPageState extends State<MyCenterPage> {
                   Column(
                     children: <Widget>[
                       // 头像
-                      Container(
-                        margin: EdgeInsets.only(top: 8,left: 35),
-                        child: Column(
-                          children: <Widget>[
-                            Row(
-                              children: <Widget>[
-                                Container(
-                                  width: 90,
-                                  height: 90,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.all(Radius.circular(45)),
-                                    color: Colors.white,
-                                    boxShadow: [BoxShadow(
-                                        color: Color(0xFFcccccc),
-                                        offset: Offset(0.0, 3.0),
-                                        blurRadius: 10.0,
-                                        spreadRadius: 2.0
-                                    )],
-                                  ),
-                                  child:Image(
-                                    image: AssetImage('images/my_big.png'),
-                                  ),
-                                )
-                              ],
-                            ),
-                          ],
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(context, MaterialPageRoute(
+                              builder: (context) => ChoosePortraitPage())).then((p){
+                            setState(() {
+                              portrait = p;
+                            });
+                          });
+                        },
+                        child: Container(
+                          margin: EdgeInsets.only(top: 8,left: 35),
+                          child: Column(
+                            children: <Widget>[
+                              Row(
+                                children: <Widget>[
+                                  Container(
+                                    width: 90,
+                                    height: 90,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.all(Radius.circular(45)),
+                                      color: Colors.white,
+                                      boxShadow: [BoxShadow(
+                                          color: Color(0xFFcccccc),
+                                          offset: Offset(0.0, 3.0),
+                                          blurRadius: 10.0,
+                                          spreadRadius: 2.0
+                                      )],
+                                    ),
+                                    child:ClipRRect(
+                                      borderRadius: BorderRadius.circular(45),
+                                      child: portrait == null ?
+                                      Image(image: AssetImage('images/my_big.png'),)
+                                          :
+                                      Image.file(portrait,fit: BoxFit.fill,),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                       Container(
