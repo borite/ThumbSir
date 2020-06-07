@@ -48,6 +48,12 @@
       <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/shared_preferences_web/.dart_tool" />
       <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/shared_preferences_web/.pub" />
       <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/shared_preferences_web/build" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/simple_image_crop/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/simple_image_crop/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/simple_image_crop/build" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/simple_image_crop/example/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/simple_image_crop/example/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/simple_image_crop/example/build" />
     </content>
     <orderEntry type="jdk" jdkName="Android API 29 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
