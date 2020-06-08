@@ -1,4 +1,5 @@
 import 'package:ThumbSir/pages/broker/qlist/analyze_detail_page.dart';
+import 'package:ThumbSir/pages/mycenter/change_member_page.dart';
 import 'package:ThumbSir/pages/mycenter/delete_member_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -104,8 +105,9 @@ class _GroupMemberListState extends State<GroupMemberList> {
                           ),
                           Positioned(
                             top: 60,
-                            left: 25,
+                            left: 10,
                             child: Container(
+                              width: 60,
                               height: 20,
                               decoration: BoxDecoration(
                                   border: Border.all(color: Color(0xFF24CC8E),width: 1),
@@ -123,6 +125,7 @@ class _GroupMemberListState extends State<GroupMemberList> {
                                     decoration: TextDecoration.none,
                                   ),
                                   textAlign: TextAlign.center,
+                                  overflow: TextOverflow.clip,
                                 ),
                               ),
                             ),
@@ -172,11 +175,16 @@ class _GroupMemberListState extends State<GroupMemberList> {
                 ),
                 GestureDetector(
                   onTap: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>DeleteMemberPage()));
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>ChangeMemberPage()));
                   },
                   child: Padding(
                     padding: EdgeInsets.only(right: 10),
-                    child: Image(image: AssetImage('images/delete_blue.png'),),
+                    child: Text("更换",style:TextStyle(
+                      fontSize: 14,
+                      color: Color(0xFF93C0FB),
+                      fontWeight: FontWeight.normal,
+                      decoration: TextDecoration.none,
+                    ),),
                   ),
                 ),
               ],

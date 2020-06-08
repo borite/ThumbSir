@@ -54,7 +54,7 @@ class _SelfDefinedTaskPageState extends State<SelfDefinedTaskPage> {
                         child: Row(
                           children: <Widget>[
                             Text(
-                              '自定义任务',
+                              '新增自定义任务',
                               style: TextStyle(
                                 color: Color(0xFF666666),
                                 fontSize: 16,

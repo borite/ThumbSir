@@ -1,6 +1,7 @@
 import 'package:ThumbSir/pages/login/signin_choose_company_page.dart';
 import 'package:ThumbSir/pages/mycenter/legal_notice_page.dart';
 import 'package:ThumbSir/pages/mycenter/privacy_statement_page.dart';
+import 'package:ThumbSir/widget/input.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ThumbSir/model/sendverifycode_model.dart';
@@ -19,6 +20,7 @@ class _SigninNameAndPhonePageState extends State<SigninNameAndPhonePage> {
   final TextEditingController phoneNumController=TextEditingController();
   final TextEditingController passwordController=TextEditingController();
   final TextEditingController verifyCodeController=TextEditingController();
+  final TextEditingController invitationCodeController = TextEditingController();
   String WebAPICookie;
   @override
     Widget build(BuildContext context) {
@@ -244,6 +246,12 @@ class _SigninNameAndPhonePageState extends State<SigninNameAndPhonePage> {
                                 ),
                               ),
                             ],
+                          ),
+                          // 邀请码
+                          Input(
+                            hintText: "请输入邀请码",
+                            tipText: "邀请码为选填项,非必填",
+                            controller: invitationCodeController,
                           ),
                           // 同意隐私政策
                           Container(

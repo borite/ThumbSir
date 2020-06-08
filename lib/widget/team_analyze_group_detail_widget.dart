@@ -109,8 +109,9 @@ class _TeamAnalyzeGroupDetailWidgetState extends State<TeamAnalyzeGroupDetailWid
                             ),
                             Positioned(
                               top: 60,
-                              left: 25,
+                              left: 10,
                               child: Container(
+                                width: 60,
                                 height: 20,
                                 decoration: BoxDecoration(
                                     border: Border.all(color: Color(0xFF24CC8E),width: 1),

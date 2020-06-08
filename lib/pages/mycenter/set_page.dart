@@ -1,18 +1,11 @@
 import 'package:ThumbSir/pages/login/login_page.dart';
 import 'package:ThumbSir/pages/mycenter/aboutus_page.dart';
 import 'package:ThumbSir/pages/mycenter/introduce_version_page.dart';
-import 'package:ThumbSir/pages/mycenter/my_center_notlogin_page.dart';
 import 'package:ThumbSir/pages/mycenter/set_mymsg_page.dart';
 import 'package:ThumbSir/pages/mycenter/set_safe_page.dart';
 import 'package:ThumbSir/pages/mycenter/update_version_page.dart';
-import 'package:ThumbSir/widget/input.dart';
-import 'package:ThumbSir/widget/past_qlist.dart';
-import 'package:ThumbSir/widget/today_qlist.dart';
-import 'package:ThumbSir/widget/tomorrow_qlist.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:ThumbSir/pages/broker/tips/qlist_tips_page.dart';
-import 'package:ThumbSir/pages/broker/qlist/qlist_add_page.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
 class SetPage extends StatefulWidget {
@@ -126,7 +119,7 @@ class _SetPageState extends State<SetPage> {
                                     Container(
                                       width: 300,
                                       child: Text(
-                                        '修改手机号码、修改密码、找回密码、注销账号',
+                                        '修改手机号码、修改密码、找回密码',
                                         style:TextStyle(
                                           fontSize: 12,
                                           color: Color(0xFF999999),

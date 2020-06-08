@@ -81,6 +81,116 @@ class _TeamAnalyzeMemberDetailWidgetState extends State<TeamAnalyzeMemberDetailW
               ],
             )
           ),
+          // 负责人
+          GestureDetector(
+            onTap: (){
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>TeamAnalyzeDetailPage()));
+            },
+            child: Container(
+              margin: EdgeInsets.only(bottom: 30),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Row(
+                    children: <Widget>[
+                      Container(
+                        child: Stack(
+                          children: <Widget>[
+                            Container(
+                              width: 80,
+                              height: 80,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.all(Radius.circular(45)),
+                                color: Colors.white,
+                                border: Border.all(color: Color(0xFFFF9600),width: 1), // 商圈经理橘色
+//                                border: Border.all(color: Color(0xFF9149EC),width: 1), // 总监浅紫色
+//                                border: Border.all(color: Color(0xFF7412F2),width: 1), // 副总经理深紫色
+//                                border: Border.all(color: Color(0xFF003273),width: 1), // 总经理深蓝色
+                              ),
+                              child:Image(
+                                image: AssetImage('images/my_big.png'),
+                              ),
+                            ),
+                            Positioned(
+                              top: 60,
+                              left: 10,
+                              child: Container(
+                                width: 60,
+                                height: 20,
+                                decoration: BoxDecoration(
+                                    border: Border.all(color: Color(0xFFFF9600),width: 1), // 商圈经理橘色
+//                                border: Border.all(color: Color(0xFF9149EC),width: 1), // 总监浅紫色
+//                                border: Border.all(color: Color(0xFF7412F2),width: 1), // 副总经理深紫色
+//                                border: Border.all(color: Color(0xFF003273),width: 1), // 总经理深蓝色
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.all(Radius.circular(5))
+                                ),
+                                child: Padding(
+                                  padding: EdgeInsets.only(top:2,left:5,right: 5),
+                                  child: Text(
+                                    '商圈经理',
+                                    style: TextStyle(
+                                      fontSize: 10,
+                                      color: Color(0xFFFF9600), // 商圈经理橘色
+//                                  color: Color(0xFF9149EC), // 总监浅紫色
+//                                  color: Color(0xFF7412F2), // 副总经理深紫色
+//                                  color: Color(0xFF003273), // 总经理深蓝色
+                                      fontWeight: FontWeight.normal,
+                                      decoration: TextDecoration.none,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                    overflow: TextOverflow.clip,
+                                  ),
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(left: 20),
+                        width: 150,
+                        child: Column(
+                          children: <Widget>[
+                            Row(
+                              children: <Widget>[
+                                Text(
+                                  '马思维',
+                                  style:TextStyle(
+                                    fontSize: 14,
+                                    color: Color(0xFF333333),
+                                    fontWeight: FontWeight.normal,
+                                    decoration: TextDecoration.none,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Container(
+                              width: 150,
+                              padding: EdgeInsets.only(top: 8),
+                              child: Text(
+                                '综合完成度：80%',
+                                style:TextStyle(
+                                  fontSize: 12,
+                                  color: Color(0xFF999999),
+                                  fontWeight: FontWeight.normal,
+                                  decoration: TextDecoration.none,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(right: 10),
+                    child: Image(image: AssetImage('images/next.png'),),
+                  ),
+                ],
+              ),
+            ),
+          ),
           // 列表
           Column(
             children: <Widget>[

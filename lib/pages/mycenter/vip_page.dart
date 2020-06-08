@@ -1,15 +1,10 @@
-import 'package:ThumbSir/dao/login_dao.dart';
-import 'package:ThumbSir/model/login_model.dart';
-import 'package:ThumbSir/pages/home.dart';
-import 'package:ThumbSir/pages/login/find_key_phone_page.dart';
-import 'package:ThumbSir/pages/login/signin_nameandphone_page.dart';
 import 'package:ThumbSir/pages/mycenter/invitation_code_page.dart';
 import 'package:ThumbSir/pages/mycenter/privacy_statement_page.dart';
 import 'package:ThumbSir/pages/mycenter/service_agreement_page.dart';
 import 'package:ThumbSir/pages/mycenter/vip_privilege_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:ThumbSir/widget/input.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 class VipPage extends StatefulWidget {
   @override
@@ -19,6 +14,7 @@ class VipPage extends StatefulWidget {
 class _VipPageState extends State<VipPage> {
   final TextEditingController phoneNumController=TextEditingController();
   final TextEditingController passwordController=TextEditingController();
+  int viptap = 2;
   @override
     Widget build(BuildContext context) {
       return Scaffold(
@@ -112,7 +108,8 @@ class _VipPageState extends State<VipPage> {
                       margin: EdgeInsets.only(bottom: 10),
                       width: 335,
                       child: Text(
-                        '会员到期时间2020年9月1日',
+//                        '会员到期时间2020年9月1日',
+                        '推广期免费，感谢支持！',
                         style:TextStyle(
                           fontSize: 14,
                           color: Colors.white,
@@ -154,158 +151,219 @@ class _VipPageState extends State<VipPage> {
                           ),
                           Row(
                             children: <Widget>[
-                              Container(
-                                width: 95,
-                                height: 100,
-                                margin: EdgeInsets.only(top: 10),
-                                decoration: BoxDecoration(
-//                                    border: Border.all(color: Color(0xFFFF9600),width: 1),
-                                    border: Border(right:BorderSide(color: Color(0xFFCCCCCC),width: 1)),
-//                                    borderRadius: BorderRadius.circular(8)
-                                ),
-                                child: Column(
-                                  children: <Widget>[
-                                    Padding(
-                                      padding: EdgeInsets.only(top: 12,bottom: 5),
-                                      child: Text('3个月',style: TextStyle(
-                                        fontSize: 14,
-                                        color: Color(0xFFFF9600),
-                                        fontWeight: FontWeight.normal,
-                                        decoration: TextDecoration.none,
-                                      ),),
-                                    ),
-                                    Text('￥299',style: TextStyle(
-                                      fontSize: 20,
-                                      color: Color(0xFFFF9600),
-                                      fontWeight: FontWeight.normal,
-                                      decoration: TextDecoration.none,
-                                    ),),
-                                  ],
-                                ),
-                              ),
-                              Container(
-                                width: 95,
-                                height: 100,
-                                margin: EdgeInsets.only(top: 10,left: 5,right: 5),
-                                decoration: BoxDecoration(
-//                                    border: Border.all(color: Color(0xFFFF9600),width: 1),
-                                    borderRadius: BorderRadius.circular(8)
-                                ),
-                                child: Column(
-                                  children: <Widget>[
-                                    Padding(
-                                      padding: EdgeInsets.only(top: 12,bottom: 5),
-                                      child: Text('6个月',style: TextStyle(
-                                        fontSize: 14,
-                                        color: Color(0xFFFF9600),
-                                        fontWeight: FontWeight.normal,
-                                        decoration: TextDecoration.none,
-                                      ),),
-                                    ),
-                                    Text('￥549',style: TextStyle(
-                                      fontSize: 20,
-                                      color: Color(0xFFFF9600),
-                                      fontWeight: FontWeight.normal,
-                                      decoration: TextDecoration.none,
-                                    ),),
-                                    Padding(
-                                      padding: EdgeInsets.only(top: 5),
-                                      child: Text('￥599',style: TextStyle(
-                                        fontSize: 14,
-                                        color: Color(0xFF999999),
-                                        fontWeight: FontWeight.normal,
-                                        decoration: TextDecoration.lineThrough,
-                                      ),),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Container(
-                                width: 95,
-                                height: 100,
-                                margin: EdgeInsets.only(top: 10),
-                                decoration: BoxDecoration(
+                              GestureDetector(
+                                onTap: (){
+                                  setState(() {
+                                    viptap = 0;
+                                  });
+                                },
+                                child: Container(
+                                  width: 95,
+                                  height: 100,
+                                  margin: EdgeInsets.only(top: 10),
+                                  decoration: viptap == 0?
+                                  BoxDecoration(
                                     border: Border.all(color: Color(0xFFFF9600),width: 1),
                                     borderRadius: BorderRadius.circular(8)
+                                  )
+                                  :viptap == 1?
+                                  BoxDecoration(
+                                    border: Border.all(color: Colors.white,width: 1),
+                                  )
+                                  :
+                                  BoxDecoration(
+                                    border: Border(right:BorderSide(color: Color(0xFFCCCCCC),width: 1),top:BorderSide(color: Colors.white,width: 1),left:BorderSide(color: Colors.white,width: 1)),
+                                  ),
+                                  child: Column(
+                                    children: <Widget>[
+                                      Padding(
+                                        padding: EdgeInsets.only(top: 12,bottom: 5),
+                                        child: Text('3个月',style: TextStyle(
+                                          fontSize: 14,
+                                          color: Color(0xFFFF9600),
+                                          fontWeight: FontWeight.normal,
+                                          decoration: TextDecoration.none,
+                                        ),),
+                                      ),
+                                      Text(
+//                                      '￥299',
+                                        '￥0',
+                                        style: TextStyle(
+                                          fontSize: 20,
+                                          color: Color(0xFFFF9600),
+                                          fontWeight: FontWeight.normal,
+                                          decoration: TextDecoration.none,
+                                        ),),
+                                    ],
+                                  ),
                                 ),
-                                child: Column(
-                                  children: <Widget>[
-                                    Padding(
-                                      padding: EdgeInsets.only(top: 12,bottom: 5),
-                                      child: Text('1年',style: TextStyle(
-                                        fontSize: 14,
-                                        color: Color(0xFFFF9600),
-                                        fontWeight: FontWeight.normal,
-                                        decoration: TextDecoration.none,
-                                      ),),
-                                    ),
-                                    Text('￥999',style: TextStyle(
-                                      fontSize: 20,
-                                      color: Color(0xFFFF9600),
-                                      fontWeight: FontWeight.normal,
-                                      decoration: TextDecoration.none,
-                                    ),),
-                                    Padding(
-                                      padding: EdgeInsets.only(top: 5),
-                                      child: Text('￥1199',style: TextStyle(
-                                        fontSize: 14,
-                                        color: Color(0xFF999999),
-                                        fontWeight: FontWeight.normal,
-                                        decoration: TextDecoration.lineThrough,
-                                      ),),
-                                    ),
-                                  ],
+                              ),
+                              GestureDetector(
+                                onTap: (){
+                                  setState(() {
+                                    viptap = 1;
+                                  });
+                                },
+                                child: Container(
+                                  width: 95,
+                                  height: 100,
+                                  margin: EdgeInsets.only(top: 10,left: 5,right: 5),
+                                  decoration: viptap == 1?
+                                  BoxDecoration(
+                                      border: Border.all(color: Color(0xFFFF9600),width: 1),
+                                      borderRadius: BorderRadius.circular(8)
+                                  )
+                                  :viptap == 2? BoxDecoration(
+                                    border: Border.all(color: Colors.white,width: 1),
+                                  )
+                                  :
+                                  BoxDecoration(
+                                    border: Border(right:BorderSide(color: Color(0xFFCCCCCC),width: 1),top:BorderSide(color: Colors.white,width: 1),left:BorderSide(color: Colors.white,width: 1)),
+                                  ),
+                                  child: Column(
+                                    children: <Widget>[
+                                      Padding(
+                                        padding: EdgeInsets.only(top: 12,bottom: 5),
+                                        child: Text('6个月',style: TextStyle(
+                                          fontSize: 14,
+                                          color: Color(0xFFFF9600),
+                                          fontWeight: FontWeight.normal,
+                                          decoration: TextDecoration.none,
+                                        ),),
+                                      ),
+                                      Text(
+//                                      '￥549',
+                                        '￥0',
+                                        style: TextStyle(
+                                          fontSize: 20,
+                                          color: Color(0xFFFF9600),
+                                          fontWeight: FontWeight.normal,
+                                          decoration: TextDecoration.none,
+                                        ),),
+                                      // 6个月原价
+//                                    Padding(
+//                                      padding: EdgeInsets.only(top: 5),
+//                                      child: Text(
+//                                        '￥599',
+//                                        style: TextStyle(
+//                                          fontSize: 14,
+//                                          color: Color(0xFF999999),
+//                                          fontWeight: FontWeight.normal,
+//                                          decoration: TextDecoration.lineThrough,
+//                                      ),),
+//                                    ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              GestureDetector(
+                                onTap: (){
+                                  setState(() {
+                                    viptap = 2;
+                                  });
+                                },
+                                child: Container(
+                                  width: 95,
+                                  height: 100,
+                                  margin: EdgeInsets.only(top: 10),
+                                  decoration: viptap == 2?
+                                  BoxDecoration(
+                                      border: Border.all(color: Color(0xFFFF9600),width: 1),
+                                      borderRadius: BorderRadius.circular(8)
+                                  )
+                                      :
+                                  BoxDecoration(
+                                    border: Border.all(color: Colors.white,width: 1),
+                                  ),
+                                  child: Column(
+                                    children: <Widget>[
+                                      Padding(
+                                        padding: EdgeInsets.only(top: 12,bottom: 5),
+                                        child: Text('1年',style: TextStyle(
+                                          fontSize: 14,
+                                          color: Color(0xFFFF9600),
+                                          fontWeight: FontWeight.normal,
+                                          decoration: TextDecoration.none,
+                                        ),),
+                                      ),
+                                      Text(
+//                                      '￥999',
+                                        '￥0',
+                                        style: TextStyle(
+                                          fontSize: 20,
+                                          color: Color(0xFFFF9600),
+                                          fontWeight: FontWeight.normal,
+                                          decoration: TextDecoration.none,
+                                        ),),
+                                      // 1年原价
+//                                    Padding(
+//                                      padding: EdgeInsets.only(top: 5),
+//                                      child: Text('￥1199',style: TextStyle(
+//                                        fontSize: 14,
+//                                        color: Color(0xFF999999),
+//                                        fontWeight: FontWeight.normal,
+//                                        decoration: TextDecoration.lineThrough,
+//                                      ),),
+//                                    ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ],
                           ),
                           Row(
                             children: <Widget>[
-                              Container(
-                                width: 148,
-                                margin: EdgeInsets.only(top: 32),
-                                decoration: BoxDecoration(
-                                  border: Border(right:BorderSide(color: Color(0xFFCCCCCC),width: 1)),
-                                ),
-                                child: Row(
-                                  children: <Widget>[
-                                    Padding(
-                                      padding: EdgeInsets.only(left: 25,right: 10),
-                                      child: Image(image: AssetImage('images/wx.png'),),
-                                    ),
-                                    Text(
-                                      '微信支付',
-                                      style:TextStyle(
-                                        fontSize: 14,
-                                        color: Color(0xFF999999),
-                                        fontWeight: FontWeight.normal,
-                                        decoration: TextDecoration.none,
+                              GestureDetector(
+                                onTap: () => _onFreeAlertPressed(context),
+                                child: Container(
+                                  width: 148,
+                                  margin: EdgeInsets.only(top: 32),
+                                  decoration: BoxDecoration(
+                                    border: Border(right:BorderSide(color: Color(0xFFCCCCCC),width: 1)),
+                                  ),
+                                  child: Row(
+                                    children: <Widget>[
+                                      Padding(
+                                        padding: EdgeInsets.only(left: 25,right: 10),
+                                        child: Image(image: AssetImage('images/wx.png'),),
                                       ),
-                                      textAlign: TextAlign.left,
-                                    ),
-                                  ],
+                                      Text(
+                                        '微信支付',
+                                        style:TextStyle(
+                                          fontSize: 14,
+                                          color: Color(0xFF999999),
+                                          fontWeight: FontWeight.normal,
+                                          decoration: TextDecoration.none,
+                                        ),
+                                        textAlign: TextAlign.left,
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
-                              Container(
-                                width: 140,
-                                margin: EdgeInsets.only(top: 32),
-                                child: Row(
-                                  children: <Widget>[
-                                    Padding(
-                                      padding: EdgeInsets.only(left: 30,right: 10),
-                                      child: Image(image: AssetImage('images/zfb.png'),),
-                                    ),
-                                    Text(
-                                      '支付宝支付',
-                                      style:TextStyle(
-                                        fontSize: 14,
-                                        color: Color(0xFF999999),
-                                        fontWeight: FontWeight.normal,
-                                        decoration: TextDecoration.none,
+                              GestureDetector(
+                                onTap: () => _onFreeAlertPressed(context),
+                                child: Container(
+                                  width: 140,
+                                  margin: EdgeInsets.only(top: 32),
+                                  child: Row(
+                                    children: <Widget>[
+                                      Padding(
+                                        padding: EdgeInsets.only(left: 30,right: 10),
+                                        child: Image(image: AssetImage('images/zfb.png'),),
                                       ),
-                                      textAlign: TextAlign.left,
-                                    ),
-                                  ],
+                                      Text(
+                                        '支付宝支付',
+                                        style:TextStyle(
+                                          fontSize: 14,
+                                          color: Color(0xFF999999),
+                                          fontWeight: FontWeight.normal,
+                                          decoration: TextDecoration.none,
+                                        ),
+                                        textAlign: TextAlign.left,
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ],
@@ -428,5 +486,23 @@ class _VipPageState extends State<VipPage> {
         ]),
       ));
 
+  }
+  _onFreeAlertPressed(context) {
+    Alert(
+      context: context,
+      type: AlertType.success,
+      title: "推广期免费",
+      desc: "感谢您的支持！",
+      buttons: [
+        DialogButton(
+          child: Text(
+            "知道啦",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () => Navigator.pop(context),
+          color: Color(0xFF5580EB),
+        ),
+      ],
+    ).show();
   }
 }

@@ -1,7 +1,7 @@
-import 'package:ThumbSir/widget/input.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:flutter/services.dart';
 
 class InvitationCodePage extends StatefulWidget {
   @override
@@ -10,6 +10,8 @@ class InvitationCodePage extends StatefulWidget {
 
 class _InvitationCodePageState extends State<InvitationCodePage> {
   final TextEditingController textController=TextEditingController();
+  int code = 1; // 是否已输入过邀请码
+  int friend = 1; // 是否有用户输入过自己的邀请码
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,12 +37,39 @@ class _InvitationCodePageState extends State<InvitationCodePage> {
                   // 邀请码
                   Container(
                     width: 335,
-                    child: Text('963123',style:TextStyle(
-                      fontSize: 28,
-                      color: Color(0xFF5580EB),
-                      fontWeight: FontWeight.normal,
-                      decoration: TextDecoration.none,
-                    ),textAlign: TextAlign.center,),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text('963123',style:TextStyle(
+                          fontSize: 28,
+                          color: Color(0xFF5580EB),
+                          fontWeight: FontWeight.normal,
+                          decoration: TextDecoration.none,
+                        ),textAlign: TextAlign.center,),
+                        Container(
+                          width: 40,
+                          height: 20,
+                          padding: EdgeInsets.only(top: 2),
+                          margin: EdgeInsets.only(left: 10),
+                          decoration: BoxDecoration(
+                            color: Color(0xFF5580EB),
+                            borderRadius: BorderRadius.circular(10)
+                          ),
+                          child: GestureDetector(
+                            onTap: (){
+                              Clipboard.setData(ClipboardData(text: '963123'));
+                              _onPasteAlertPressed(context);
+                            },
+                            child: Text("复制",style: TextStyle(
+                              fontSize: 10,
+                              color: Colors.white,
+                              fontWeight: FontWeight.normal,
+                              decoration: TextDecoration.none,
+                            ),textAlign: TextAlign.center,),
+                          ),
+                        )
+                      ],
+                    )
                   ),
                   // 邀请好友个数和增加vip天数
                   Container(
@@ -54,34 +83,39 @@ class _InvitationCodePageState extends State<InvitationCodePage> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        Container(
-                          width: 160,
-                          child: Column(
-                            children: <Widget>[
-                              Text(
-                                '0',
-                                style:TextStyle(
-                                  fontSize: 20,
-                                  color: Color(0xFF666666),
-                                  fontWeight: FontWeight.normal,
-                                  decoration: TextDecoration.none,
-                                ),
-                                textAlign: TextAlign.center,
-                              ),
-                              Padding(
-                                padding: EdgeInsets.only(top: 15),
-                                child: Text(
-                                  '邀请好友',
+                        GestureDetector(
+                          onTap:(){
+                            _onFriendAlertPressed(context);
+                          },
+                          child: Container(
+                            width: 160,
+                            child: Column(
+                              children: <Widget>[
+                                Text(
+                                  '0',
                                   style:TextStyle(
-                                    fontSize: 14,
+                                    fontSize: 20,
                                     color: Color(0xFF666666),
                                     fontWeight: FontWeight.normal,
                                     decoration: TextDecoration.none,
                                   ),
                                   textAlign: TextAlign.center,
                                 ),
-                              ),
-                            ],
+                                Padding(
+                                  padding: EdgeInsets.only(top: 15),
+                                  child: Text(
+                                    '邀请好友',
+                                    style:TextStyle(
+                                      fontSize: 14,
+                                      color: Color(0xFF666666),
+                                      fontWeight: FontWeight.normal,
+                                      decoration: TextDecoration.none,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                         Container(
@@ -158,7 +192,7 @@ class _InvitationCodePageState extends State<InvitationCodePage> {
                           textAlign: TextAlign.left,
                         ),
                         Text(
-                          '3.每一位受邀请人只能输入一次邀请码，如果输入邀请码失败请联系客服。',
+                          '3.每一位受邀请人在下次付费前只能输入一次邀请码，如果输入邀请码失败请联系客服。',
                           style:TextStyle(
                             fontSize: 14,
                             color: Color(0xFF666666),
@@ -233,7 +267,9 @@ class _InvitationCodePageState extends State<InvitationCodePage> {
       ),
     );
   }
+  // 输入邀请码的弹窗
   _onCodeAlertPressed(context) {
+    code == 0 ?
     Alert(
       context: context,
       title: "输入邀请码",
@@ -253,6 +289,127 @@ class _InvitationCodePageState extends State<InvitationCodePage> {
           width: 120,
         )
       ],
+    ).show()
+    :
+    Alert(
+      context: context,
+      title: "您已输入过邀请码",
+      content: Column(
+        children: <Widget>[
+          Text("张三丰已经邀请过您啦~",style: TextStyle(
+              fontSize: 14,
+              color: Color(0xFF999999)
+          ),),
+          Text("下次续费后可以再次输入邀请码",style: TextStyle(
+              fontSize: 14,
+              color: Color(0xFF999999)
+          ),)
+        ],
+      ),
+      buttons: [
+        DialogButton(
+          child: Text(
+            "确定",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () => Navigator.pop(context),
+          color: Color(0xFF5580EB),
+          width: 120,
+        )
+      ],
+    ).show()
+    ;
+  }
+  // 复制邀请码成功的弹窗
+  _onPasteAlertPressed(context) {
+    Alert(
+      context: context,
+      type: AlertType.success,
+      title: "邀请码复制成功",
+      buttons: [
+        DialogButton(
+          child: Text(
+            "确定",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () => Navigator.pop(context),
+          color: Color(0xFF5580EB),
+        ),
+      ],
     ).show();
+  }
+  // 邀请好友的弹窗
+  _onFriendAlertPressed(context) {
+    friend == 0 ?
+    Alert(
+      context: context,
+      type: AlertType.warning,
+      title: "很遗憾",
+      desc: "您的邀请码未被输入过",
+      content: Container(
+        margin: EdgeInsets.only(top: 15),
+        child: Column(
+          children: <Widget>[
+            Text("邀请好友得三天免费VIP",style: TextStyle(
+                fontSize: 14,
+                color: Color(0xFF999999)
+            ),),
+            Text("快去邀请好友吧~",style: TextStyle(
+                fontSize: 14,
+                color: Color(0xFF999999)
+            ),)
+          ],
+        ),
+      ),
+      buttons: [
+        DialogButton(
+          child: Text(
+            "确定",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () => Navigator.pop(context),
+          color: Color(0xFF5580EB),
+          width: 120,
+        )
+      ],
+    ).show()
+        :
+    Alert(
+      context: context,
+      type: AlertType.success,
+      title: "恭喜您",
+      desc: "已成功邀请3位好友",
+      content: Container(
+        margin: EdgeInsets.only(top: 15),
+        child: Column(
+          children: <Widget>[
+            Text("张三丰 15012345678",style: TextStyle(
+                fontSize: 14,
+                color: Color(0xFF999999)
+            ),),
+            Text("王结 18635467354",style: TextStyle(
+                fontSize: 14,
+                color: Color(0xFF999999)
+            ),),
+            Text("迪丽热巴 18643316784",style: TextStyle(
+                fontSize: 14,
+                color: Color(0xFF999999)
+            ),)
+          ],
+        ),
+      ),
+      buttons: [
+        DialogButton(
+          child: Text(
+            "确定",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () => Navigator.pop(context),
+          color: Color(0xFF5580EB),
+          width: 120,
+        )
+      ],
+    ).show()
+    ;
   }
 }

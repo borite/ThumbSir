@@ -1,13 +1,6 @@
-import 'package:ThumbSir/pages/broker/qlist/analyze_detail_page.dart';
 import 'package:ThumbSir/pages/manager/qlist/team_list_member_page.dart';
-import 'package:ThumbSir/pages/mycenter/delete_member_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:sleek_circular_slider/sleek_circular_slider.dart';
-import 'package:some_calendar/some_calendar.dart';
-import 'package:intl/intl.dart';
-import 'package:intl/date_symbol_data_local.dart';
-import 'package:jiffy/jiffy.dart';
 
 class GroupListDetailWidget extends StatefulWidget {
   @override
@@ -131,8 +124,9 @@ class _GroupListDetailWidgetState extends State<GroupListDetailWidget> {
                             ),
                             Positioned(
                               top: 60,
-                              left: 25,
+                              left: 10,
                               child: Container(
+                                width: 60,
                                 height: 20,
                                 decoration: BoxDecoration(
                                     border: Border.all(color: Color(0xFF24CC8E),width: 1),
@@ -172,7 +166,7 @@ class _GroupListDetailWidgetState extends State<GroupListDetailWidget> {
                                     fontWeight: FontWeight.normal,
                                     decoration: TextDecoration.none,
                                   ),
-                                ),
+                                )
                               ],
                             ),
                             Container(

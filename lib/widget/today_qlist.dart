@@ -16,14 +16,17 @@ class _TodayQListState extends State<TodayQList> {
   void initState(){
     super.initState();
   }
-  void onChange(pIndex,tIndex){
-    setState(() {
-      this.widget.pageIndex = pIndex;
-      this.widget.tabIndex=tIndex;
-    });
-  }
+
   @override
   Widget build(BuildContext context) {
+    int p = this.widget.pageIndex;
+    int t = this.widget.tabIndex;
+    void onChange(pIndex,tIndex){
+      setState(() {
+        p = pIndex;
+        t = tIndex;
+      });
+    }
     return Scaffold(
       body: ListView(
         children: <Widget>[
@@ -36,8 +39,8 @@ class _TodayQListState extends State<TodayQList> {
                 padding: EdgeInsets.only(top:240,bottom:25),
                 child: Column(
                   children: <Widget>[
-//                    Text('今日明日往期'+this.widget.tabIndex.toString()),
-//                    Text('上午下午晚上'+this.widget.pageIndex.toString()),
+                    Text('今日明日往期'+t.toString()),
+                    Text('上午下午晚上'+p.toString()),
                     // 每一条量化
                     QListItem(
                       name: "带看",

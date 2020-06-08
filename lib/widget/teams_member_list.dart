@@ -1,4 +1,6 @@
 import 'package:ThumbSir/pages/broker/qlist/analyze_detail_page.dart';
+import 'package:ThumbSir/pages/mycenter/change_member_page.dart';
+import 'package:ThumbSir/pages/mycenter/delete_member_page.dart';
 import 'package:ThumbSir/pages/mycenter/s_center_group_detail_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -78,6 +80,125 @@ class _TeamsMemberListState extends State<TeamsMemberList> {
                 ),
               ],
             )
+          ),
+          // 负责人
+          Container(
+            margin: EdgeInsets.only(bottom: 30),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Row(
+                  children: <Widget>[
+                    Container(
+                      child: Stack(
+                        children: <Widget>[
+                          Container(
+                            width: 80,
+                            height: 80,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.all(Radius.circular(45)),
+                                color: Colors.white,
+                                border: Border.all(color: Color(0xFFFF9600),width: 1), // 商圈经理橘色
+//                                border: Border.all(color: Color(0xFF9149EC),width: 1), // 总监浅紫色
+//                                border: Border.all(color: Color(0xFF7412F2),width: 1), // 副总经理深紫色
+//                                border: Border.all(color: Color(0xFF003273),width: 1), // 总经理深蓝色
+                            ),
+                            child:Image(
+                              image: AssetImage('images/my_big.png'),
+                            ),
+                          ),
+                          Positioned(
+                            top: 60,
+                            left: 10,
+                            child: Container(
+                              width: 60,
+                              height: 20,
+                              decoration: BoxDecoration(
+                                  border: Border.all(color: Color(0xFFFF9600),width: 1), // 商圈经理橘色
+//                                border: Border.all(color: Color(0xFF9149EC),width: 1), // 总监浅紫色
+//                                border: Border.all(color: Color(0xFF7412F2),width: 1), // 副总经理深紫色
+//                                border: Border.all(color: Color(0xFF003273),width: 1), // 总经理深蓝色
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.all(Radius.circular(5))
+                              ),
+                              child: Padding(
+                                padding: EdgeInsets.only(top:2,left:5,right: 5),
+                                child: Text(
+                                  '商圈经理',
+                                  style: TextStyle(
+                                    fontSize: 10,
+                                    color: Color(0xFFFF9600), // 商圈经理橘色
+//                                  color: Color(0xFF9149EC), // 总监浅紫色
+//                                  color: Color(0xFF7412F2), // 副总经理深紫色
+//                                  color: Color(0xFF003273), // 总经理深蓝色
+                                    fontWeight: FontWeight.normal,
+                                    decoration: TextDecoration.none,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                  overflow: TextOverflow.clip,
+                                ),
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(left: 20),
+                      width: 150,
+                      child: Column(
+                        children: <Widget>[
+                          Row(
+                            children: <Widget>[
+                              Text(
+                                '马思维',
+                                style:TextStyle(
+                                  fontSize: 14,
+                                  color: Color(0xFF333333),
+                                  fontWeight: FontWeight.normal,
+                                  decoration: TextDecoration.none,
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(left: 10),
+                                child: Image(image: AssetImage('images/vip_yellow.png'),),
+                              )
+                            ],
+                          ),
+                          Container(
+                            width: 150,
+                            padding: EdgeInsets.only(top: 10),
+                            child: Text(
+                              '18612345678',
+                              style:TextStyle(
+                                fontSize: 10,
+                                color: Color(0xFF999999),
+                                fontWeight: FontWeight.normal,
+                                decoration: TextDecoration.none,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                GestureDetector(
+                  onTap: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>ChangeMemberPage()));
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.only(right: 10),
+                    child: Text("更换",style:TextStyle(
+                      fontSize: 14,
+                      color: Color(0xFF93C0FB),
+                      fontWeight: FontWeight.normal,
+                      decoration: TextDecoration.none,
+                    ),),
+                  ),
+                ),
+              ],
+            ),
           ),
           // 列表
           Column(
