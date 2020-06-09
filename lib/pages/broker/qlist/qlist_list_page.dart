@@ -1,4 +1,4 @@
-import 'package:ThumbSir/pages/mycenter/my_center_notlogin_page.dart';
+import 'package:ThumbSir/pages/mycenter/my_center_page.dart';
 import 'package:ThumbSir/widget/past_qlist.dart';
 import 'package:ThumbSir/widget/today_qlist.dart';
 import 'package:ThumbSir/widget/tomorrow_qlist.dart';
@@ -213,7 +213,7 @@ class _QListListPageState extends State<QListListPage> with TickerProviderStateM
                                             width: 60,
                                             child: RaisedButton(
                                               onPressed: (){
-                                                Navigator.push(context, MaterialPageRoute(builder: (context)=>MyCenterNotLoginPage()));
+                                                Navigator.push(context, MaterialPageRoute(builder: (context)=>MyCenterPage()));
                                               },
                                               color: Colors.transparent,
                                               elevation: 0,
@@ -520,7 +520,7 @@ class _QListListPageState extends State<QListListPage> with TickerProviderStateM
                                           width: 60,
                                           child: RaisedButton(
                                             onPressed: (){
-                                              Navigator.push(context, MaterialPageRoute(builder: (context)=>MyCenterNotLoginPage()));
+                                              Navigator.push(context, MaterialPageRoute(builder: (context)=>MyCenterPage()));
                                             },
                                             color: Colors.transparent,
                                             elevation: 0,
@@ -832,7 +832,7 @@ class _QListListPageState extends State<QListListPage> with TickerProviderStateM
                                           width: 60,
                                           child: RaisedButton(
                                             onPressed: (){
-                                              Navigator.push(context, MaterialPageRoute(builder: (context)=>MyCenterNotLoginPage()));
+                                              Navigator.push(context, MaterialPageRoute(builder: (context)=>MyCenterPage()));
                                             },
                                             color: Colors.transparent,
                                             elevation: 0,

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:ThumbSir/pages/login/login_page.dart';
 import 'package:ThumbSir/pages/mycenter/aboutus_page.dart';
 import 'package:ThumbSir/pages/mycenter/introduce_version_page.dart';
@@ -7,6 +9,10 @@ import 'package:ThumbSir/pages/mycenter/update_version_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../home.dart';
+
 
 class SetPage extends StatefulWidget {
   @override
@@ -380,8 +386,23 @@ class _SetPageState extends State<SetPage> {
             "退出登录",
             style: TextStyle(color: Colors.white, fontSize: 20),
           ),
-          onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginPage())),
+          onPressed: () async {
+            SharedPreferences prefs = await SharedPreferences.getInstance();
+            prefs.remove("userInfo");
+            Navigator.of(context).pushAndRemoveUntil(
+                new MaterialPageRoute(builder: (context) => new Home()
+                ), (route) => route == null);
+          },
           color: Color(0xFF5580EB),
+          width: 120,
+        ),
+        DialogButton(
+          child: Text(
+            "取消",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () => Navigator.pop(context),
+          color: Color(0xFF999999),
           width: 120,
         )
       ],

@@ -1,4 +1,9 @@
+import 'dart:convert';
+
+import 'package:ThumbSir/model/loginResultData.dart';
+import 'package:ThumbSir/model/login_result_model.dart';
 import 'package:ThumbSir/pages/broker/qlist/qlist_page.dart';
+import 'package:ThumbSir/pages/login/login_page.dart';
 import 'package:ThumbSir/pages/major/qlist/major_qlist_page.dart';
 import 'package:ThumbSir/pages/manager/qlist/manager_qlist_page.dart';
 import 'package:flutter/cupertino.dart';
@@ -8,6 +13,7 @@ import 'package:ThumbSir/pages/broker/openclient/open_client_page.dart';
 import 'package:ThumbSir/pages/broker/openowner/open_owner_page.dart';
 import 'package:ThumbSir/pages/broker/traded/traded_page.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -17,7 +23,6 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> with SingleTickerProviderStateMixin{
   Animation<double> animation;
   AnimationController controller;
-
   @override
   void initState() {
     super.initState();
@@ -59,6 +64,20 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin{
                     child:RaisedButton(
                       onPressed: (){
                         Navigator.push(context, MaterialPageRoute(builder: (context)=>MyCenterPage()));
+                        //类比获取整个redux
+//                        SharedPreferences prefs = await SharedPreferences.getInstance();
+//                          uinfo= prefs.getString("userInfo");
+//                          if(uinfo!=null){
+//                            result =loginResultDataFromJson(uinfo);
+//                            exT = result.exTokenTime.millisecondsSinceEpoch; // token时间转时间戳
+//                            if(exT >= _dateTime){
+//                              Navigator.push(context, MaterialPageRoute(builder: (context)=>MyCenterPage()));
+//                            }else{
+//                              Navigator.push(context, MaterialPageRoute(builder: (context)=>MyCenterNotLoginPage()));
+//                            }
+//                          }else{
+//                            Navigator.push(context, MaterialPageRoute(builder: (context)=>MyCenterNotLoginPage()));
+//                          }
                       },
                       color: Colors.transparent,
                       elevation: 0,
@@ -190,6 +209,10 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin{
 }
 
 class QlistBtn extends AnimatedWidget{
+  int _dateTime = DateTime.now().millisecondsSinceEpoch; // 当前时间转时间戳
+  int exT;
+  String uinfo;
+  var result;
   QlistBtn({Key key,Animation<double> animation}):super(key:key,listenable: animation);
   @override
   Widget build(BuildContext context) {
@@ -197,10 +220,23 @@ class QlistBtn extends AnimatedWidget{
     return Container(
       margin: EdgeInsets.only(top: animation.value),
       child:RaisedButton(
-        onPressed: (){
-//                      Navigator.push(context, MaterialPageRoute(builder: (context)=>QListPage()));
-          Navigator.push(context, MaterialPageRoute(builder: (context)=>ManagerQListPage()));
-//                      Navigator.push(context, MaterialPageRoute(builder: (context)=>MajorQListPage()));
+        onPressed: () async {
+          //类比获取整个redux
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+          uinfo= prefs.getString("userInfo");
+          if(uinfo!=null){
+            result =loginResultDataFromJson(uinfo);
+            exT = result.exTokenTime.millisecondsSinceEpoch; // token时间转时间戳
+            if(exT >= _dateTime){
+//            Navigator.push(context, MaterialPageRoute(builder: (context)=>QListPage()));
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>ManagerQListPage()));
+//            Navigator.push(context, MaterialPageRoute(builder: (context)=>MajorQListPage()));
+            }else{
+              _onLoginAlertPressed(context);
+            }
+          }else{
+            _onLoginAlertPressed(context);
+          }
         },
         color: Colors.transparent,
         elevation: 0,
@@ -221,6 +257,31 @@ class QlistBtn extends AnimatedWidget{
       ),
     );
   }
+  _onLoginAlertPressed(context) {
+    Alert(
+      context: context,
+      type: AlertType.warning,
+      title: "请先登录",
+      buttons: [
+        DialogButton(
+          child: Text(
+            "去登录",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context)=>MyCenterPage())),
+          color: Color(0xFF5580EB),
+        ),
+        DialogButton(
+          child: Text(
+            "取消",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () => Navigator.pop(context),
+          color: Color(0xFFCCCCCC),
+        ),
+      ],
+    ).show();
+  }
 }
 class OpenClientBtn extends AnimatedWidget{
   OpenClientBtn({Key key,Animation<double> animation}):super(key:key,listenable: animation);
@@ -231,7 +292,8 @@ class OpenClientBtn extends AnimatedWidget{
         margin: EdgeInsets.only(top: animation.value),
         child:RaisedButton(
             onPressed: (){
-              Navigator.push(context, MaterialPageRoute(builder: (context)=>OpenClientPage()));
+              _onCloseAlertPressed(context);
+//              Navigator.push(context, MaterialPageRoute(builder: (context)=>OpenClientPage()));
             },
             color: Colors.transparent,
             elevation: 0,
@@ -252,6 +314,26 @@ class OpenClientBtn extends AnimatedWidget{
         )
     );
   }
+  _onCloseAlertPressed(context) {
+    Alert(
+      context: context,
+      title: "暂未开放，敬请期待!",
+      content: Padding(
+        padding: EdgeInsets.only(top: 10),
+        child: Image(image: AssetImage('images/wait.png'),),
+      ),
+      buttons: [
+        DialogButton(
+          child: Text(
+            "知道啦",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () => Navigator.pop(context),
+          color: Color(0xFF5580EB),
+        ),
+      ],
+    ).show();
+  }
 }
 
 class OpenOwnerBtn extends AnimatedWidget{
@@ -263,7 +345,8 @@ class OpenOwnerBtn extends AnimatedWidget{
         margin: EdgeInsets.only(top: animation.value),
         child:RaisedButton(
             onPressed: (){
-              Navigator.push(context, MaterialPageRoute(builder: (context)=>OpenOwnerPage()));
+              _onCloseAlertPressed(context);
+//              Navigator.push(context, MaterialPageRoute(builder: (context)=>OpenOwnerPage()));
             },
             color: Colors.transparent,
             elevation: 0,
@@ -283,6 +366,26 @@ class OpenOwnerBtn extends AnimatedWidget{
             )
         )
     );
+  }
+  _onCloseAlertPressed(context) {
+    Alert(
+      context: context,
+      title: "暂未开放，敬请期待!",
+      content: Padding(
+        padding: EdgeInsets.only(top: 10),
+        child: Image(image: AssetImage('images/wait.png'),),
+      ),
+      buttons: [
+        DialogButton(
+          child: Text(
+            "知道啦",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () => Navigator.pop(context),
+          color: Color(0xFF5580EB),
+        ),
+      ],
+    ).show();
   }
 }
 
@@ -320,25 +423,19 @@ class TradedBtn extends AnimatedWidget{
   _onCloseAlertPressed(context) {
     Alert(
       context: context,
-      type: AlertType.warning,
       title: "暂未开放，敬请期待!",
-      desc: "去业务量化清单看看吧~",
+      content: Padding(
+        padding: EdgeInsets.only(top: 10),
+        child: Image(image: AssetImage('images/wait.png'),),
+      ),
       buttons: [
         DialogButton(
           child: Text(
-            "确定",
-            style: TextStyle(color: Colors.white, fontSize: 20),
-          ),
-          onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context)=>QListPage())),
-          color: Color(0xFF5580EB),
-        ),
-        DialogButton(
-          child: Text(
-            "取消",
+            "知道啦",
             style: TextStyle(color: Colors.white, fontSize: 20),
           ),
           onPressed: () => Navigator.pop(context),
-          color: Color(0xFFCCCCCC),
+          color: Color(0xFF5580EB),
         ),
       ],
     ).show();

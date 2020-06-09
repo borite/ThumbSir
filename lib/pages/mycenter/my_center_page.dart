@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:ThumbSir/pages/login/login_page.dart';
 import 'package:ThumbSir/pages/mycenter/broker_center_group_page.dart';
 import 'package:ThumbSir/pages/mycenter/s_center_group_page.dart';
 import 'package:ThumbSir/pages/mycenter/service_page.dart';
@@ -19,15 +20,31 @@ class MyCenterPage extends StatefulWidget {
 class _MyCenterPageState extends State<MyCenterPage> {
   var portrait;
   LoginResultData userData;
-
+  int _dateTime = DateTime.now().millisecondsSinceEpoch; // 当前时间转时间戳
+  int exT;
+  String uinfo;
+  var result;
   _getUserInfo() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String uInfo= await prefs.getString("userInfo");
 
-    print(uInfo);
-    this.setState(() {
-      userData=LoginResultData.fromJson(json.decode(uInfo));
-    });
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    uinfo= prefs.getString("userInfo");
+    if(uinfo != null){
+      result =loginResultDataFromJson(uinfo);
+      exT = result.exTokenTime.millisecondsSinceEpoch; // token时间转时间戳
+      if(exT >= _dateTime){
+        this.setState(() {
+          userData=LoginResultData.fromJson(json.decode(uinfo));
+        });
+      }else{
+        setState(() {
+          userData = null;
+        });
+      }
+    }else{
+      setState(() {
+        userData = null;
+      });
+    }
   }
 
   @override
@@ -63,27 +80,33 @@ class _MyCenterPageState extends State<MyCenterPage> {
                             },
                             child: Image(image: AssetImage('images/back.png'),),
                           ),
+                          userData != null ?
                           GestureDetector(
                             onTap: (){
                               Navigator.push(context, MaterialPageRoute(builder: (context)=>SetPage()));
                             },
                             child: Image(image: AssetImage('images/set.png')),
-                          ),
+                          ):Container(width: 2,),
                         ],
                       )
                   ),
+                  userData != null ?
                   // 头像按钮
                   Column(
                     children: <Widget>[
                       // 头像
                       GestureDetector(
                         onTap: () {
-                          Navigator.push(context, MaterialPageRoute(
-                              builder: (context) => ChoosePortraitPage())).then((p){
-                            setState(() {
-                              portrait = p;
+                          if(userData == null){
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginPage()));
+                          }else{
+                            Navigator.push(context, MaterialPageRoute(
+                                builder: (context) => ChoosePortraitPage())).then((p){
+                              setState(() {
+                                portrait = p;
+                              });
                             });
-                          });
+                          }
                         },
                         child: Container(
                           margin: EdgeInsets.only(top: 8,left: 35),
@@ -131,28 +154,113 @@ class _MyCenterPageState extends State<MyCenterPage> {
                                 decoration: TextDecoration.none,
                               ),
                             ),
+                            userData.userLevel.substring(0,1)== '6' ?
                             Container(
                               margin: EdgeInsets.only(left: 15),
                               padding: EdgeInsets.only(top:2,bottom: 2,left: 5,right: 5),
                               decoration: BoxDecoration(
-//                            border: Border.all(color: Color(0xFF0E7AE6),width: 1), // 经纪人蓝色
-//                            border: Border.all(color: Color(0xFF24CC8E),width: 1), // 店长绿色
-                                border: Border.all(color: Color(0xFFFF9600),width: 1), // 商圈经理橘色
-//                                border: Border.all(color: Color(0xFF9149EC),width: 1), // 总监浅紫色
-//                            border: Border.all(color: Color(0xFF7412F2),width: 1), // 副总经理深紫色
-//                            border: Border.all(color: Color(0xFF003273),width: 1), // 总经理深蓝色
+                                border: Border.all(color: Color(0xFF0E7AE6),width: 1), // 经纪人蓝色
                                 borderRadius: BorderRadius.circular(3),
                               ),
                               child: Text(
-                                userData.userLevel,
+                                userData.userLevel.substring(2,),
                                 style:TextStyle(
                                   fontSize: 14,
-//                              color: Color(0xFF0E7AE6), // 经纪人蓝色
-//                              color: Color(0xFF24CC8E), // 店长绿色
+                                  color: Color(0xFF0E7AE6), // 经纪人蓝色
+                                  fontWeight: FontWeight.normal,
+                                  decoration: TextDecoration.none,
+                                ),
+                              ),
+                            )
+                            :
+                            userData.userLevel.substring(0,1) == '5'?
+                            Container(
+                              margin: EdgeInsets.only(left: 15),
+                              padding: EdgeInsets.only(top:2,bottom: 2,left: 5,right: 5),
+                              decoration: BoxDecoration(
+                                border: Border.all(color: Color(0xFF24CC8E),width: 1), // 店长绿色
+                                borderRadius: BorderRadius.circular(3),
+                              ),
+                              child: Text(
+                                userData.userLevel.substring(2,),
+                                style:TextStyle(
+                                  fontSize: 14,
+                                  color: Color(0xFF24CC8E), // 店长绿色
+                                  fontWeight: FontWeight.normal,
+                                  decoration: TextDecoration.none,
+                                ),
+                              ),
+                            )
+                                :
+                            userData.userLevel.substring(0,1) == '4'?
+                            Container(
+                              margin: EdgeInsets.only(left: 15),
+                              padding: EdgeInsets.only(top:2,bottom: 2,left: 5,right: 5),
+                              decoration: BoxDecoration(
+                                border: Border.all(color: Color(0xFFFF9600),width: 1), // 商圈经理橘色
+                                borderRadius: BorderRadius.circular(3),
+                              ),
+                              child: Text(
+                                userData.userLevel.substring(2,),
+                                style:TextStyle(
+                                  fontSize: 14,
                                   color: Color(0xFFFF9600), // 商圈经理橘色
-//                              color: Color(0xFF9149EC), // 总监浅紫色
-//                              color: Color(0xFF7412F2), // 副总经理深紫色
-//                              color: Color(0xFF003273), // 总经理深蓝色
+                                  fontWeight: FontWeight.normal,
+                                  decoration: TextDecoration.none,
+                                ),
+                              ),
+                            )
+                                :
+                            userData.userLevel.substring(0,1) == '3'?
+                            Container(
+                              margin: EdgeInsets.only(left: 15),
+                              padding: EdgeInsets.only(top:2,bottom: 2,left: 5,right: 5),
+                              decoration: BoxDecoration(
+                                border: Border.all(color: Color(0xFF9149EC),width: 1), // 总监浅紫色
+                                borderRadius: BorderRadius.circular(3),
+                              ),
+                              child: Text(
+                                userData.userLevel.substring(2,),
+                                style:TextStyle(
+                                  fontSize: 14,
+                                  color: Color(0xFF9149EC), // 总监浅紫色
+                                  fontWeight: FontWeight.normal,
+                                  decoration: TextDecoration.none,
+                                ),
+                              ),
+                            )
+                                :
+                            userData.userLevel.substring(0,1) == '2'?
+                            Container(
+                              margin: EdgeInsets.only(left: 15),
+                              padding: EdgeInsets.only(top:2,bottom: 2,left: 5,right: 5),
+                              decoration: BoxDecoration(
+                                border: Border.all(color: Color(0xFF7412F2),width: 1), // 副总经理深紫色
+                                borderRadius: BorderRadius.circular(3),
+                              ),
+                              child: Text(
+                                userData.userLevel.substring(2,),
+                                style:TextStyle(
+                                  fontSize: 14,
+                                  color: Color(0xFF7412F2), // 副总经理深紫色
+                                  fontWeight: FontWeight.normal,
+                                  decoration: TextDecoration.none,
+                                ),
+                              ),
+                            )
+                                :
+                            Container(
+                              margin: EdgeInsets.only(left: 15),
+                              padding: EdgeInsets.only(top:2,bottom: 2,left: 5,right: 5),
+                              decoration: BoxDecoration(
+                                border: Border.all(color: Color(0xFF003273),width: 1), // 总经理深蓝色
+                                borderRadius: BorderRadius.circular(3),
+                              ),
+                              child: Text(
+                                userData.userLevel.substring(2,),
+                                style:TextStyle(
+                                  fontSize: 14,
+                                  color: Color(0xFF003273), // 总经理深蓝色
                                   fontWeight: FontWeight.normal,
                                   decoration: TextDecoration.none,
                                 ),
@@ -160,18 +268,18 @@ class _MyCenterPageState extends State<MyCenterPage> {
                             ),
                           ],
                         ),
-
                       ),
                       Row(
                         children: <Widget>[
                           GestureDetector(
-                            onTap: (){
-                              Navigator.push(context, MaterialPageRoute(builder: (context)=>VipPage()));
-                            },
+//                            onTap: (){
+//                              Navigator.push(context, MaterialPageRoute(builder: (context)=>VipPage()));
+//                            },
                             child: Container(
                               margin: EdgeInsets.only(left: 30,bottom: 50),
                               child: Text(
-                                '已付费至2021年3月15日，查看详情',
+//                                '已付费至2021年3月15日，查看详情',
+                                '推广期免费，感谢支持！',
                                 style:TextStyle(
                                   fontSize: 14,
                                   color: Color(0xFF666666),
@@ -184,6 +292,64 @@ class _MyCenterPageState extends State<MyCenterPage> {
                         ],
                       ),
                     ],
+                  )
+                  :
+                  // 头像按钮
+                  Container(
+                    alignment: Alignment(-1,-1),
+                    margin: EdgeInsets.only(top: 8,left: 25,bottom: 60),
+                    child: Column(
+                      children: <Widget>[
+                        GestureDetector(
+                          onTap: (){
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginPage()));
+                          },
+                          child: Container(
+                            child: Container(
+                              width: 90,
+                              height: 90,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.all(Radius.circular(45)),
+                                color: Colors.white,
+                                boxShadow: [BoxShadow(
+                                    color: Color(0xFFcccccc),
+                                    offset: Offset(0.0, 3.0),
+                                    blurRadius: 10.0,
+                                    spreadRadius: 2.0
+                                )],
+                              ),
+                              child:Image(
+                                image: AssetImage('images/my_big.png'),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(top: 10,bottom: 10),
+                          child: Text(
+                            '未登录',
+                            style:TextStyle(
+                              fontSize: 20,
+                              color: Color(0xFF333333),
+                              fontWeight: FontWeight.normal,
+                              decoration: TextDecoration.none,
+                            ),
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(bottom: 0),
+                          child: Text(
+                            '请点击头像登录/注册',
+                            style:TextStyle(
+                              fontSize: 14,
+                              color: Color(0xFF666666),
+                              fontWeight: FontWeight.normal,
+                              decoration: TextDecoration.none,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                   // 详情菜单
                   Container(
@@ -198,7 +364,7 @@ class _MyCenterPageState extends State<MyCenterPage> {
                               Container(
                                 margin: EdgeInsets.only(left: 10),
                                 child: Text(
-                                  userData.companyName,
+                                  userData == null ? "所属公司": userData.companyName,
                                   style:TextStyle(
                                     fontSize: 16,
                                     color: Color(0xFF333333),
@@ -218,7 +384,7 @@ class _MyCenterPageState extends State<MyCenterPage> {
                               Container(
                                 margin: EdgeInsets.only(left: 10),
                                 child: Text(
-                                  userData.province+' '+userData.city,
+                                  userData == null ?"所在地区": userData.province+' '+userData.city,
                                   style:TextStyle(
                                     fontSize: 16,
                                     color: Color(0xFF333333),
@@ -234,10 +400,17 @@ class _MyCenterPageState extends State<MyCenterPage> {
                           padding: EdgeInsets.only(bottom: 20,right: 20),
                           child: GestureDetector(
                             onTap: (){
-//                              Navigator.push(context, MaterialPageRoute(builder: (context)=>BrokerCenterGroupPage())); // 经纪人
-//                              Navigator.push(context, MaterialPageRoute(builder: (context)=>MCenterGroupPage())); // 店长
-                              Navigator.push(context, MaterialPageRoute(builder: (context)=>SCenterGroupPage())); // 商圈
-//                              Navigator.push(context, MaterialPageRoute(builder: (context)=>ZCenterGroupPage())); // 总监及以上
+                              if(userData != null){
+                                if(userData.userLevel.substring(0,1) == '6'){
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>BrokerCenterGroupPage())); // 经纪人
+                                }else if(userData.userLevel.substring(0,1) == '5'){
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>MCenterGroupPage())); // 店长
+                                }else if(userData.userLevel.substring(0,1) == '4'){
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>SCenterGroupPage())); // 商圈
+                                }else{
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>ZCenterGroupPage())); // 总监及以上
+                                }
+                              }
                             },
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -248,9 +421,7 @@ class _MyCenterPageState extends State<MyCenterPage> {
                                     Container(
                                       margin: EdgeInsets.only(left: 10),
                                       child: Text(
-//                                      '长河湾北门店买卖A组成员',
-//                                      '白石桥大区长河湾北门店成员',
-                                        userData.section,
+                                        userData == null ?"所在区域及成员": userData.section+"成员",
                                         style:TextStyle(
                                           fontSize: 16,
                                           color: Color(0xFF333333),
@@ -274,7 +445,7 @@ class _MyCenterPageState extends State<MyCenterPage> {
                               Container(
                                 margin: EdgeInsets.only(left: 10),
                                 child: Text(
-                                  userData.phone,
+                                  userData == null ?"联系电话": userData.phone,
                                   style:TextStyle(
                                     fontSize: 16,
                                     color: Color(0xFF333333),
@@ -289,7 +460,9 @@ class _MyCenterPageState extends State<MyCenterPage> {
                         // 会员中心
                         GestureDetector(
                           onTap: (){
-                            Navigator.push(context, MaterialPageRoute(builder: (context)=>VipPage()));
+                            if(userData != null){
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=>VipPage()));
+                            }
                           },
                           child: Padding(
                             padding: EdgeInsets.only(bottom: 20,right: 20),
@@ -325,7 +498,9 @@ class _MyCenterPageState extends State<MyCenterPage> {
                         // 客服中心
                         GestureDetector(
                           onTap: (){
-                            Navigator.push(context, MaterialPageRoute(builder: (context)=>ServicePage()));
+                            if(userData != null){
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=>ServicePage()));
+                            }
                           },
                           child: Padding(
                             padding: EdgeInsets.only(bottom: 20,right: 20),

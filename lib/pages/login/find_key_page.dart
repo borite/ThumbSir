@@ -1,3 +1,4 @@
+import 'package:ThumbSir/common/reg.dart';
 import 'package:ThumbSir/pages/login/login_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -9,12 +10,27 @@ class FindKeyPage extends StatefulWidget {
 }
 
 class _FindKeyPageState extends State<FindKeyPage> {
-  final TextEditingController _controller = TextEditingController();
+  final TextEditingController passwordController=TextEditingController();
+  String password;
+  RegExp psdReg;
+  bool psdBool;
+
+  @override
+  void initState() {
+    psdReg = passwordReg;
+    super.initState();
+  }
   @override
     Widget build(BuildContext context) {
       return Scaffold(
-        body: Container(
-          // 背景
+        body: GestureDetector(
+          behavior: HitTestBehavior.translucent,
+          onTap: () {
+            // 触摸收起键盘
+            FocusScope.of(context).requestFocus(FocusNode());
+          },
+          child:Container(
+            // 背景
             decoration: BoxDecoration(
               color: Colors.white,
               image: DecorationImage(
@@ -84,23 +100,21 @@ class _FindKeyPageState extends State<FindKeyPage> {
                           ),
                         ],
                       ),
-                      // 姓名、电话、密码、忘记密码
-                      Column(
-                        children: <Widget>[
-                          Input(
-                            hintText: '新密码',
-                          ),
-                          Container(
-                            width: 335,
-                            padding: EdgeInsets.only(top: 20),
-                            child: Text('6-18位数字、字母组合，字母包含大小写，禁止使用符号',style: TextStyle(
-                              fontSize: 10,
-                              color: Color(0xFF999999),
-                              fontWeight: FontWeight.normal,
-                              decoration: TextDecoration.none,
-                            ),textAlign: TextAlign.left,),
-                          ),
-                        ],
+                      // 密码
+                      Input(
+                        hintText: "密码",
+                        errorTipText: "6-18位数字、字母组合，字母包含大小写，禁止使用符号",
+                        tipText: "6-18位数字、字母组合，字母包含大小写，禁止使用符号",
+                        rightText: "密码格式正确",
+                        controller: passwordController,
+                        inputType: TextInputType.text,
+                        reg: psdReg,
+                        onChanged: (text){
+                          setState(() {
+                            password = text;
+                            psdBool = psdReg.hasMatch(password);
+                          });
+                        },
                       ),
                       // 下一步
                       Container(
@@ -132,7 +146,8 @@ class _FindKeyPageState extends State<FindKeyPage> {
                 )
               ],
             )
-        ),
+          ),
+        )
       );
   }
 }

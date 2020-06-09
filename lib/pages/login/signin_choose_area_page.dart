@@ -701,7 +701,9 @@ class _SigninChooseAreaPageState extends State<SigninChooseAreaPage> {
                                 print(fr.code);
                                 print(fr.message);
                                 print(fr.data);
-                                Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginPage()));
+                                Navigator.of(context).pushAndRemoveUntil(
+                                    new MaterialPageRoute(builder: (context) => new LoginPage()
+                                    ), (route) => route == null);
                               },
                               child: Text('完成',style: TextStyle(
                                 fontSize: 14,

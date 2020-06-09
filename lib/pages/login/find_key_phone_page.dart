@@ -1,8 +1,12 @@
+import 'package:ThumbSir/common/reg.dart';
 import 'package:ThumbSir/pages/login/find_key_page.dart';
+import 'package:ThumbSir/widget/yzminput.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ThumbSir/widget/input.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+
+import '../home.dart';
 
 class FindKeyPhonePage extends StatefulWidget {
   @override
@@ -10,13 +14,32 @@ class FindKeyPhonePage extends StatefulWidget {
 }
 
 class _FindKeyPhonePageState extends State<FindKeyPhonePage> {
-  final TextEditingController _controller = TextEditingController();
-  final TextEditingController verifyCodeController = TextEditingController();
+  final TextEditingController phoneNumController=TextEditingController();
+  String phoneNum;
+  RegExp phoneReg;
+  bool phoneBool;
+  final TextEditingController verifyCodeController=TextEditingController();
+  String verifyCode;
+  RegExp yzmReg;
+  bool verifyCodeBool;
+
+  @override
+  void initState() {
+    phoneReg = telPhoneReg;
+    yzmReg = verifyCodeReg;
+    super.initState();
+  }
   @override
     Widget build(BuildContext context) {
       return Scaffold(
-        body: Container(
-          // 背景
+        body: GestureDetector(
+          behavior: HitTestBehavior.translucent,
+          onTap: () {
+            // 触摸收起键盘
+            FocusScope.of(context).requestFocus(FocusNode());
+          },
+          child:Container(
+            // 背景
             decoration: BoxDecoration(
               color: Colors.white,
               image: DecorationImage(
@@ -86,75 +109,41 @@ class _FindKeyPhonePageState extends State<FindKeyPhonePage> {
                           ),
                         ],
                       ),
-                      // 姓名、电话、密码、忘记密码
+                      // 电话、密码、忘记密码
                       Column(
                         children: <Widget>[
+                          //手机号码输入框
                           Input(
-                            hintText: '电话号码',
+                            hintText: "手机号码",
+                            tipText: "请输入手机号码",
+                            errorTipText: "请输入格式正确的手机号码",
+                            rightText: "手机号码格式正确",
+                            controller: phoneNumController,
+                            inputType: TextInputType.phone,
+                            reg: phoneReg,
+                            onChanged: (text){
+                              setState(() {
+                                phoneNum = text;
+                                phoneBool = phoneReg.hasMatch(phoneNum);
+                              });
+                            },
                           ),
-                          //验证码
-                          Stack(
-                            children: <Widget>[
-                              Container(
-                                width: 335,
-                                height: 40,
-                                margin: EdgeInsets.only(top: 25),
-                                decoration: BoxDecoration(
-                                  border: Border.all(width: 1,color: Color(0xFF2692FD)),
-                                  borderRadius: BorderRadius.circular(8),
-                                  color: Colors.white,
-                                ),
-                                child: TextField(
-                                  controller: verifyCodeController,
-                                  autofocus: false,
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    color: Color(0xFF999999),
-                                    fontWeight: FontWeight.normal,
-                                    decoration: TextDecoration.none,
-                                  ),
-                                  decoration: InputDecoration(
-                                    contentPadding: EdgeInsets.fromLTRB(8, 0, 10, 10),
-                                    border: InputBorder.none,
-                                    hintStyle: TextStyle(fontSize: 14),
-                                    hintText: "请输入验证码",
-                                  ),
-                                ),
-                              ),
-                              //验证码发送按钮
-                              Positioned(
-                                left: 230,
-                                child: GestureDetector(
-                                  onTap: () async {
-//                                    final String phoneNum=phoneNumController.text;
-//                                    final SendVerifyCode result=await SendVerifyCodeDao.sendSms(phoneNum);
-//                                    if(result.code==200) {
-//                                      WebAPICookie =
-//                                      result.cookie.split(';')[0];
-//                                      print(result);
-//                                      print(WebAPICookie);
-//                                    }else{
-//                                      debugPrint("出错了！");
-//                                    }
-                                  },
-                                  child: Container(
-                                    width: 100,
-                                    height: 30,
-                                    margin: EdgeInsets.only(top: 30),
-                                    padding: EdgeInsets.only(top: 5),
-                                    decoration: BoxDecoration(
-                                        border: Border(left: BorderSide(width: 1,color: Color(0xFF5580EB)))
-                                    ),
-                                    child: Text('发送验证码',style: TextStyle(
-                                      fontSize: 14,
-                                      color: Color(0xFF5580EB),
-                                      fontWeight: FontWeight.normal,
-                                      decoration: TextDecoration.none,
-                                    ),textAlign: TextAlign.center,),
-                                  ),
-                                ),
-                              ),
-                            ],
+                          // 验证码
+                          YZMInput(
+                            hintText: "验证码",
+                            tipText: "请输入验证码",
+                            errorTipText: "请输入格式正确的验证码",
+                            rightText: "验证码格式正确",
+                            yzmcontroller: verifyCodeController,
+                            controller: phoneNumController,
+                            inputType: TextInputType.number,
+                            reg: yzmReg,
+                            onChanged: (text){
+                              setState(() {
+                                verifyCode = text;
+                                verifyCodeBool = yzmReg.hasMatch(verifyCode);
+                              });
+                            },
                           ),
                           Container(
                             width: 335,
@@ -171,7 +160,7 @@ class _FindKeyPhonePageState extends State<FindKeyPhonePage> {
                           ),
                         ],
                       ),
-                      // 登录
+                      // 下一步
                       GestureDetector(
                         onTap: (){
                           Navigator.push(context, MaterialPageRoute(builder: (context)=>FindKeyPage()));
@@ -181,7 +170,14 @@ class _FindKeyPhonePageState extends State<FindKeyPhonePage> {
                             height: 40,
                             padding: EdgeInsets.all(4),
                             margin: EdgeInsets.only(bottom: 50,top: 100),
-                            decoration: BoxDecoration(
+                            decoration: phoneBool == true && verifyCodeBool == true ?
+                            BoxDecoration(
+                                border: Border.all(width: 1,color: Color(0xFF5580EB)),
+                                borderRadius: BorderRadius.circular(8),
+                                color: Color(0xFF5580EB)
+                            )
+                                :
+                            BoxDecoration(
                                 border: Border.all(width: 1,color: Color(0xFF93C0FB)),
                                 borderRadius: BorderRadius.circular(8),
                                 color: Color(0xFF93C0FB)
@@ -201,7 +197,8 @@ class _FindKeyPhonePageState extends State<FindKeyPhonePage> {
                 )
               ],
             )
-        ),
+          ),
+        )
       );
   }
   _onAppealAlertPressed(context) {
@@ -215,7 +212,10 @@ class _FindKeyPhonePageState extends State<FindKeyPhonePage> {
             "确定",
             style: TextStyle(color: Colors.white, fontSize: 20),
           ),
-          onPressed: () => Navigator.pop(context),
+          onPressed: () => Navigator.of(context).pushAndRemoveUntil(
+            new MaterialPageRoute(builder: (context) => new Home( )
+            ), (route) => route == null
+          ),
           color: Color(0xFF5580EB),
         ),
         DialogButton(

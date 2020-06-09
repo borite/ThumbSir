@@ -1,6 +1,6 @@
 import 'package:ThumbSir/pages/broker/tips/qlist_tips_page.dart';
 import 'package:ThumbSir/pages/manager/qlist/team_list_detail_page.dart';
-import 'package:ThumbSir/pages/mycenter/my_center_notlogin_page.dart';
+import 'package:ThumbSir/pages/mycenter/my_center_page.dart';
 import 'package:ThumbSir/pages/mycenter/z_center_group_detail_page.dart';
 import 'package:flutter/material.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
@@ -93,7 +93,7 @@ class _TeamListPageState extends State<TeamListPage> {
                                 width: 60,
                                 child: RaisedButton(
                                   onPressed: (){
-                                    Navigator.push(context, MaterialPageRoute(builder: (context)=>MyCenterNotLoginPage()));
+                                    Navigator.push(context, MaterialPageRoute(builder: (context)=>MyCenterPage()));
                                   },
                                   color: Colors.transparent,
                                   elevation: 0,
