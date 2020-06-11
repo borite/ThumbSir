@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:ThumbSir/model/sendverifycode_model.dart';
 import 'package:ThumbSir/utils/common_vars.dart';

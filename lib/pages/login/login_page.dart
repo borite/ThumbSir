@@ -143,7 +143,6 @@ class _LoginPageState extends State<LoginPage> {
                                   phoneNum = text;
                                   phoneBool = phoneReg.hasMatch(phoneNum);
                                 });
-                                print(phoneBool);
                               },
                             ),
                             //密码输入框
@@ -160,7 +159,6 @@ class _LoginPageState extends State<LoginPage> {
                                   password = text;
                                   psdBool = psdReg.hasMatch(password);
                                 });
-                                print(psdBool);
                               },
                             ),
                             // 忘记密码
@@ -182,7 +180,6 @@ class _LoginPageState extends State<LoginPage> {
                                     ),textAlign: TextAlign.right,),
                                   ),
                                 ),
-
                             ),
                           ],
                         ),

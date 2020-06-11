@@ -201,6 +201,7 @@ class _SigninNameAndPhonePageState extends State<SigninNameAndPhonePage> {
                                   verifyCodeBool = yzmReg.hasMatch(verifyCode);
                                 });
                               },
+                              editParentText: (editText) => _editParentText(editText),
                             ),
                             // 邀请码
                             Input(
@@ -310,7 +311,7 @@ class _SigninNameAndPhonePageState extends State<SigninNameAndPhonePage> {
                                         verifyCodeBool == true &&
                                         check == true){
                                       final UserReg result=await SigninDao.doUserReg(userName, password, phoneNum, verifyCode, '37ccc461-ab5c-4855-8842-bc45973d7cf0',WebAPICookie);
-                                      print(result);
+                                      print(WebAPICookie);
                                       if(result.code==200) {
                                         SharedPreferences prefs = await SharedPreferences.getInstance();
                                         prefs.setString('userID', result.data);
@@ -344,6 +345,11 @@ class _SigninNameAndPhonePageState extends State<SigninNameAndPhonePage> {
           ),
         )
       );
+  }
+  _editParentText(editText) {
+    setState(() {
+      WebAPICookie = editText;
+    });
   }
   _on404AlertPressed(context) {
     Alert(

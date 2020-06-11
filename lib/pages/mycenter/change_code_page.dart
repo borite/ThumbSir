@@ -1,14 +1,10 @@
-import 'package:ThumbSir/pages/login/signin_choose_company_page.dart';
 import 'package:ThumbSir/pages/mycenter/change_code_finish_page.dart';
+import 'package:ThumbSir/widget/input.dart';
+import 'package:ThumbSir/widget/yzminput.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:ThumbSir/model/sendverifycode_model.dart';
-import 'package:ThumbSir/dao/sendverifycode_dao.dart';
-import 'package:ThumbSir/dao/signin_dao.dart';
-import 'package:ThumbSir/model/userreg_model.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
-import 'change_phone_new_page.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:ThumbSir/common/reg.dart';
 
 class ChangeCodePage extends StatefulWidget {
   @override
@@ -17,8 +13,31 @@ class ChangeCodePage extends StatefulWidget {
 
 class _ChangeCodePageState extends State<ChangeCodePage> {
   final TextEditingController phoneNumController=TextEditingController();
+  String phoneNum;
+  RegExp phoneReg;
+  bool phoneBool;
   final TextEditingController passwordController=TextEditingController();
+  String password;
+  RegExp psdReg;
+  bool psdBool;
   final TextEditingController verifyCodeController=TextEditingController();
+  String verifyCode;
+  RegExp yzmReg;
+  bool verifyCodeBool;
+  final TextEditingController newPasswordController=TextEditingController();
+  String newPassword;
+  bool newPsdBool;
+  final TextEditingController sNewPasswordController=TextEditingController();
+  String sNewPassword;
+  bool sNewPsdBool;
+  @override
+  void initState() {
+    phoneReg = telPhoneReg;
+    psdReg = passwordReg;
+    yzmReg = verifyCodeReg;
+    super.initState();
+  }
+
   String WebAPICookie;
   @override
     Widget build(BuildContext context) {
@@ -57,7 +76,7 @@ class _ChangeCodePageState extends State<ChangeCodePage> {
                             width: 335,
                             margin: EdgeInsets.only(top: 10,bottom: 30),
                             child: Text(
-                              '修改密码',
+                              '修改登录密码',
                               style:TextStyle(
                                 fontSize: 20,
                                 color: Color(0xFF5580EB),
@@ -72,182 +91,86 @@ class _ChangeCodePageState extends State<ChangeCodePage> {
                       // 姓名、电话、密码、忘记密码
                       Column(
                         children: <Widget>[
-
-                          //手机号码输入框
-                          Container(
-                            width: 335,
-                            height: 40,
-                            margin: EdgeInsets.only(top: 25),
-                            decoration: BoxDecoration(
-                              border: Border.all(width: 1,color: Color(0xFF2692FD)),
-                              borderRadius: BorderRadius.circular(8),
-                              color: Colors.white,
-                            ),
-                            child: TextField(
-                              controller: phoneNumController,
-                              autofocus: false,
-
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Color(0xFF999999),
-                                fontWeight: FontWeight.normal,
-                                decoration: TextDecoration.none,
-                              ),
-                              decoration: InputDecoration(
-                                contentPadding: EdgeInsets.fromLTRB(8, 0, 10, 10),
-                                border: InputBorder.none,
-                                hintStyle: TextStyle(fontSize: 14),
-                                hintText: "手机号码"
-                              ),
-                            ),
+                          //手机号码
+                          Input(
+                            hintText: "手机号码",
+                            tipText: "请输入手机号码",
+                            errorTipText: "请输入格式正确的手机号码",
+                            rightText: "手机号码格式正确",
+                            controller: phoneNumController,
+                            inputType: TextInputType.phone,
+                            reg: phoneReg,
+                            onChanged: (text){
+                              setState(() {
+                                phoneNum = text;
+                                phoneBool = phoneReg.hasMatch(phoneNum);
+                              });
+                            },
                           ),
-                          //验证码
-                          Stack(
-                            children: <Widget>[
-                              Container(
-                                width: 335,
-                                height: 40,
-                                margin: EdgeInsets.only(top: 25),
-                                decoration: BoxDecoration(
-                                  border: Border.all(width: 1,color: Color(0xFF2692FD)),
-                                  borderRadius: BorderRadius.circular(8),
-                                  color: Colors.white,
-                                ),
-                                child: TextField(
-                                  controller: verifyCodeController,
-                                  autofocus: false,
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    color: Color(0xFF999999),
-                                    fontWeight: FontWeight.normal,
-                                    decoration: TextDecoration.none,
-                                  ),
-                                  decoration: InputDecoration(
-                                    contentPadding: EdgeInsets.fromLTRB(8, 0, 10, 10),
-                                    border: InputBorder.none,
-                                    hintStyle: TextStyle(fontSize: 14),
-                                    hintText: "请输入验证码",
-                                  ),
-                                ),
-                              ),
-                              //验证码发送按钮
-                              Positioned(
-                                left: 230,
-                                child: GestureDetector(
-                                  onTap: () async {
-                                    final String phoneNum=phoneNumController.text;
-                                    final SendVerifyCode result=await SendVerifyCodeDao.sendSms(phoneNum);
-                                    if(result.code==200) {
-                                      WebAPICookie =
-                                      result.cookie.split(';')[0];
-                                      print(result);
-                                      print(WebAPICookie);
-                                    }else{
-                                      debugPrint("出错了！");
-                                    }
-                                  },
-                                  child: Container(
-                                    width: 100,
-                                    height: 30,
-                                    margin: EdgeInsets.only(top: 30),
-                                    padding: EdgeInsets.only(top: 5),
-                                    decoration: BoxDecoration(
-                                      border: Border(left: BorderSide(width: 1,color: Color(0xFF5580EB)))
-                                    ),
-                                    child: Text('发送验证码',style: TextStyle(
-                                      fontSize: 14,
-                                      color: Color(0xFF5580EB),
-                                      fontWeight: FontWeight.normal,
-                                      decoration: TextDecoration.none,
-                                    ),textAlign: TextAlign.center,),
-                                  ),
-                                ),
-                              ),
-                            ],
+                          // 验证码
+                          YZMInput(
+                            hintText: "验证码",
+                            tipText: "请输入验证码",
+                            errorTipText: "请输入格式正确的验证码",
+                            rightText: "验证码格式正确",
+                            yzmcontroller: verifyCodeController,
+                            controller: phoneNumController,
+                            inputType: TextInputType.number,
+                            reg: yzmReg,
+                            onChanged: (text){
+                              setState(() {
+                                verifyCode = text;
+                                verifyCodeBool = yzmReg.hasMatch(verifyCode);
+                              });
+                            },
                           ),
-                          //密码
-                          Container(
-                            width: 335,
-                            height: 40,
-                            margin: EdgeInsets.only(top: 25),
-                            decoration: BoxDecoration(
-                              border: Border.all(width: 1,color: Color(0xFF2692FD)),
-                              borderRadius: BorderRadius.circular(8),
-                              color: Colors.white,
-                            ),
-                            child: TextField(
-                              controller: passwordController,
-                              autofocus: false,
-
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Color(0xFF999999),
-                                fontWeight: FontWeight.normal,
-                                decoration: TextDecoration.none,
-                              ),
-                              decoration: InputDecoration(
-                                  contentPadding: EdgeInsets.fromLTRB(8, 0, 10, 10),
-                                  border: InputBorder.none,
-                                  hintStyle: TextStyle(fontSize: 14),
-                                  hintText: "请输入密码"
-                              ),
-                            ),
+                          //密码输入框
+                          Input(
+                            hintText: "旧密码",
+                            errorTipText: "6-18位数字、字母组合，字母包含大小写，禁止使用符号",
+                            tipText: "6-18位数字、字母组合，字母包含大小写，禁止使用符号",
+                            rightText: "旧密码格式正确",
+                            controller: passwordController,
+                            inputType: TextInputType.text,
+                            reg: psdReg,
+                            onChanged: (text){
+                              setState(() {
+                                password = text;
+                                psdBool = psdReg.hasMatch(password);
+                              });
+                            },
                           ),
-                          //新密码
-                          Container(
-                            width: 335,
-                            height: 40,
-                            margin: EdgeInsets.only(top: 25),
-                            decoration: BoxDecoration(
-                              border: Border.all(width: 1,color: Color(0xFF2692FD)),
-                              borderRadius: BorderRadius.circular(8),
-                              color: Colors.white,
-                            ),
-                            child: TextField(
-                              controller: passwordController,
-                              autofocus: false,
-
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Color(0xFF999999),
-                                fontWeight: FontWeight.normal,
-                                decoration: TextDecoration.none,
-                              ),
-                              decoration: InputDecoration(
-                                  contentPadding: EdgeInsets.fromLTRB(8, 0, 10, 10),
-                                  border: InputBorder.none,
-                                  hintStyle: TextStyle(fontSize: 14),
-                                  hintText: "请输入新密码"
-                              ),
-                            ),
+                          //密码输入框
+                          Input(
+                            hintText: "新密码",
+                            errorTipText: "6-18位数字、字母组合，字母包含大小写，禁止使用符号",
+                            tipText: "6-18位数字、字母组合，字母包含大小写，禁止使用符号",
+                            rightText: "新密码格式正确",
+                            controller: newPasswordController,
+                            inputType: TextInputType.text,
+                            reg: psdReg,
+                            onChanged: (text){
+                              setState(() {
+                                newPassword = text;
+                                newPsdBool = psdReg.hasMatch(newPassword);
+                              });
+                            },
                           ),
-                          //确认新密码
-                          Container(
-                            width: 335,
-                            height: 40,
-                            margin: EdgeInsets.only(top: 25),
-                            decoration: BoxDecoration(
-                              border: Border.all(width: 1,color: Color(0xFF2692FD)),
-                              borderRadius: BorderRadius.circular(8),
-                              color: Colors.white,
-                            ),
-                            child: TextField(
-                              controller: passwordController,
-                              autofocus: false,
-
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Color(0xFF999999),
-                                fontWeight: FontWeight.normal,
-                                decoration: TextDecoration.none,
-                              ),
-                              decoration: InputDecoration(
-                                  contentPadding: EdgeInsets.fromLTRB(8, 0, 10, 10),
-                                  border: InputBorder.none,
-                                  hintStyle: TextStyle(fontSize: 14),
-                                  hintText: "确认新密码"
-                              ),
-                            ),
+                          //密码输入框
+                          Input(
+                            hintText: "确认新密码",
+                            errorTipText: "再次输入新密码",
+                            tipText: "再次输入新密码",
+                            rightText: "确认密码格式正确",
+                            controller: sNewPasswordController,
+                            inputType: TextInputType.text,
+                            reg: psdReg,
+                            onChanged: (text){
+                              setState(() {
+                                sNewPassword = text;
+                                sNewPsdBool = psdReg.hasMatch(sNewPassword);
+                              });
+                            },
                           ),
                         ],
                       ),
@@ -257,7 +180,18 @@ class _ChangeCodePageState extends State<ChangeCodePage> {
                           height: 40,
                           padding: EdgeInsets.all(4),
                           margin: EdgeInsets.only(bottom: 50,top: 100),
-                          decoration: BoxDecoration(
+                          decoration: phoneBool == true &&
+                              psdBool == true &&
+                              newPsdBool == true &&
+                              verifyCodeBool == true &&
+                              sNewPsdBool == true?
+                          BoxDecoration(
+                              border: Border.all(width: 1,color: Color(0xFF5580EB)),
+                              borderRadius: BorderRadius.circular(8),
+                              color: Color(0xFF5580EB)
+                          )
+                              :
+                          BoxDecoration(
                               border: Border.all(width: 1,color: Color(0xFF93C0FB)),
                               borderRadius: BorderRadius.circular(8),
                               color: Color(0xFF93C0FB)

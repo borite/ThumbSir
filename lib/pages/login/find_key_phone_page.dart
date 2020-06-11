@@ -1,10 +1,21 @@
 import 'package:ThumbSir/common/reg.dart';
+import 'package:ThumbSir/dao/checkverifycode_dao.dart';
+import 'package:ThumbSir/dao/getuser_byphone_dao.dart';
+import 'package:ThumbSir/dao/phoneverifycode_dao.dart';
+import 'package:ThumbSir/model/checkverifycode_model.dart';
+import 'package:ThumbSir/model/common_result_model.dart';
+import 'package:ThumbSir/model/find_user_result.dart';
+import 'package:ThumbSir/model/getuser_byphone_model.dart';
+import 'package:ThumbSir/model/phoneverifycode_model.dart';
 import 'package:ThumbSir/pages/login/find_key_page.dart';
+import 'package:ThumbSir/pages/login/signin_nameandphone_page.dart';
+import 'package:ThumbSir/widget/pyzminput.dart';
 import 'package:ThumbSir/widget/yzminput.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ThumbSir/widget/input.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../home.dart';
 
@@ -22,6 +33,11 @@ class _FindKeyPhonePageState extends State<FindKeyPhonePage> {
   String verifyCode;
   RegExp yzmReg;
   bool verifyCodeBool;
+
+  String WebAPICookie;
+
+  String username;
+  String userId;
 
   @override
   void initState() {
@@ -129,7 +145,7 @@ class _FindKeyPhonePageState extends State<FindKeyPhonePage> {
                             },
                           ),
                           // 验证码
-                          YZMInput(
+                          PYZMInput(
                             hintText: "验证码",
                             tipText: "请输入验证码",
                             errorTipText: "请输入格式正确的验证码",
@@ -144,6 +160,7 @@ class _FindKeyPhonePageState extends State<FindKeyPhonePage> {
                                 verifyCodeBool = yzmReg.hasMatch(verifyCode);
                               });
                             },
+                            editParentText: (editText,userName,userID) => _editParentText(editText,userName,userID),
                           ),
                           Container(
                             width: 335,
@@ -162,8 +179,18 @@ class _FindKeyPhonePageState extends State<FindKeyPhonePage> {
                       ),
                       // 下一步
                       GestureDetector(
-                        onTap: (){
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=>FindKeyPage()));
+                        onTap: () async {
+                          if(phoneBool == true && verifyCodeBool == true){
+                            final CommonResult coderesult=await CheckVerifyCodeDao.checkCode(verifyCode,WebAPICookie);
+                            if(coderesult != null){
+                              if(coderesult.code == 200 ){
+                                Navigator.push(context, MaterialPageRoute(builder: (context)=>FindKeyPage(
+                                  userName : username,
+                                  userID :userId
+                                )));
+                              }else{_onCodeAlertPressed(context);}
+                            }else{_onCodeAlertPressed(context);}
+                          }else{}
                         },
                         child: Container(
                             width: 335,
@@ -201,6 +228,15 @@ class _FindKeyPhonePageState extends State<FindKeyPhonePage> {
         )
       );
   }
+  // 修改contentText参数
+
+  _editParentText(editText,userName,userID) {
+    setState(() {
+      WebAPICookie = editText;
+      username = userName;
+      userId = userID;
+    });
+  }
   _onAppealAlertPressed(context) {
     Alert(
       context: context,
@@ -225,6 +261,23 @@ class _FindKeyPhonePageState extends State<FindKeyPhonePage> {
           ),
           onPressed: () => Navigator.pop(context),
           color: Color(0xFFCCCCCC),
+        ),
+      ],
+    ).show();
+  }
+  _onCodeAlertPressed(context) {
+    Alert(
+      context: context,
+      type: AlertType.error,
+      title: "验证码不正确",
+      buttons: [
+        DialogButton(
+          child: Text(
+            "确定",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () => Navigator.pop(context),
+          color: Color(0xFF5580EB),
         ),
       ],
     ).show();

@@ -30,14 +30,26 @@ class YZMInput extends StatefulWidget {
   final ValueChanged<String> onChanged;
   final inputType;
   final RegExp reg;
-  const YZMInput({Key key,this.controller,this.yzmcontroller,this.onChanged,this.hintText="",this.tipText="",this.rightText="格式正确",this.errorTipText,this.inputType,this.reg});
+  final editParentText;
+  const YZMInput({Key key,
+    this.controller,
+    this.yzmcontroller,
+    this.onChanged,
+    this.hintText="",
+    this.tipText="",
+    this.rightText="格式正确",
+    this.errorTipText,
+    this.inputType,
+    this.reg,
+    this.editParentText,
+  });
   @override
   _YZMInputState createState() => _YZMInputState();
 }
 
 class _YZMInputState extends State<YZMInput> {
   /// 倒计时的秒数，默认60秒。
-  int countdown = 60;
+  int countdown = 0;
   /// 用户点击时的回调函数。
   Function onTapCallback;
   /// 是否可以获取验证码。
@@ -57,8 +69,6 @@ class _YZMInputState extends State<YZMInput> {
   int _seconds;
   /// 当前墨水瓶（`InkWell`）的字体样式。
   TextStyle inkWellStyle = _availableStyle;
-  /// 当前墨水瓶（`InkWell`）的文本。
-  String _verifyStr = '获取验证码';
 
   @override
   void initState() {
@@ -84,38 +94,13 @@ class _YZMInputState extends State<YZMInput> {
     super.initState();
   }
 
-  /// 启动倒计时的计时器。
-  void _startTimer() {
-    // 计时器（`Timer`）组件的定期（`periodic`）构造函数，创建一个新的重复计时器。
-    _timer = Timer.periodic(
-        Duration(seconds: 1),
-            (timer) {
-          if (_seconds == 0) {
-            _cancelTimer();
-            _seconds = countdown;
-            inkWellStyle = _availableStyle;
-            setState(() {});
-            return;
-          }
-          _seconds--;
-          _verifyStr = '已发送$_seconds'+'s';
-          setState(() {});
-          if (_seconds == 0) {
-            _verifyStr = '重新发送';
-          }
-        });
-  }
-
-  /// 取消倒计时的计时器。
-  void _cancelTimer() {
-    // 计时器（`Timer`）组件的取消（`cancel`）方法，取消计时器。
-    _timer?.cancel();
-  }
-
   @override
   void dispose() {
     _focusNode.unfocus();
     super.dispose();
+    if(_timer!=null){
+      _timer.cancel();
+    }
   }
 
   @override
@@ -184,24 +169,19 @@ class _YZMInputState extends State<YZMInput> {
               onTap: () async {
                 final String phoneNum=this.widget.controller.text;
                 phoneBool = phoneReg.hasMatch(phoneNum);
-                if(phoneBool == true){
-                  setState(() {
-                    available = true;
-                  });
-                }else{
-                  setState(() {
-                    available = false;
-                  });
+                if(countdown>0){
+                  return;
                 }
-                if(available == true){
-                  print(available);
+                if(phoneBool == true){
                   final SendVerifyCode result=await SendVerifyCodeDao.sendSms(phoneNum);
                   if(result != null){
                     if(result.code==200) {
                       WebAPICookie = result.cookie.split(';')[0];
-                      print(WebAPICookie);
-                    }
+                      widget.editParentText(WebAPICookie);
+                    } else if(available == false){}else{_on400AlertPressed(context);}
                   } else if(available == false){}else{_on400AlertPressed(context);}
+                }else{  //电话号码不合法时
+                  _onPhoneAlertPressed(context);
                 }
               },
               child: Container(
@@ -212,25 +192,11 @@ class _YZMInputState extends State<YZMInput> {
                 decoration: BoxDecoration(
                     border: Border(left: BorderSide(width: 1,color: Color(0xFF5580EB)))
                 ),
-                child: available ? InkWell(
-                  child: Text(
-                    '$_verifyStr',
-                    style: inkWellStyle,
-                    textAlign: TextAlign.center,
-                  ),
-                  onTap: (_seconds == countdown) ? () {
-                    _startTimer();
-                    inkWellStyle = _unavailableStyle;
-                    _verifyStr = '已发送$_seconds'+'s';
-                    setState(() {});
-                    onTapCallback();
-                  } : null,
-                ): InkWell(
-                  child: Text(
-                    '获取验证码',
-                    style: _unavailableStyle,
-                    textAlign: TextAlign.center,),
-                    ),
+                child: Text(
+                  countdown > 0?'$countdown后重新获取':'获取验证码',
+                  style: _availableStyle,
+                  textAlign: TextAlign.center,
+                ),
                 )
               ),
             ),
@@ -281,6 +247,24 @@ class _YZMInputState extends State<YZMInput> {
             });
           },
           color: Color(0xFFCCCCCC),
+        ),
+      ],
+    ).show();
+  }
+
+  _onPhoneAlertPressed(context) {
+    Alert(
+      context: context,
+      type: AlertType.error,
+      title: "手机号码格式不正确",
+      buttons: [
+        DialogButton(
+          child: Text(
+            "再试试",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () => Navigator.pop(context),
+          color: Color(0xFF5580EB),
         ),
       ],
     ).show();

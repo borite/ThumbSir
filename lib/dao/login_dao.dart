@@ -23,6 +23,5 @@ class LoginResultDao {
       throw Exception(response.body);
     }
   }
-
 }
 

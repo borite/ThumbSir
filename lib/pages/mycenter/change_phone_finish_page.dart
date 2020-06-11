@@ -71,7 +71,7 @@ class _ChangePhoneFinishPageState extends State<ChangePhoneFinishPage> {
                             child: Text(
                               '手机号码修改成功',
                               style:TextStyle(
-                                fontSize: 14,
+                                fontSize: 20,
                                 color: Color(0xFF24CC8E),
                                 fontWeight: FontWeight.normal,
                                 decoration: TextDecoration.none,
@@ -82,7 +82,7 @@ class _ChangePhoneFinishPageState extends State<ChangePhoneFinishPage> {
                           Text(
                             '请重新登录账号',
                             style:TextStyle(
-                              fontSize: 14,
+                              fontSize: 16,
                               color: Color(0xFF999999),
                               fontWeight: FontWeight.normal,
                               decoration: TextDecoration.none,

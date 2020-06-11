@@ -1,5 +1,8 @@
+import 'package:ThumbSir/common/reg.dart';
 import 'package:ThumbSir/pages/login/signin_choose_company_page.dart';
 import 'package:ThumbSir/pages/mycenter/change_phone_finish_page.dart';
+import 'package:ThumbSir/widget/input.dart';
+import 'package:ThumbSir/widget/pyzminput.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ThumbSir/model/sendverifycode_model.dart';
@@ -15,9 +18,21 @@ class ChangePhoneNewPage extends StatefulWidget {
 
 class _ChangePhoneNewPageState extends State<ChangePhoneNewPage> {
   final TextEditingController phoneNumController=TextEditingController();
-  final TextEditingController passwordController=TextEditingController();
+  String phoneNum;
+  RegExp phoneReg;
+  bool phoneBool;
   final TextEditingController verifyCodeController=TextEditingController();
+  String verifyCode;
+  RegExp yzmReg;
+  bool verifyCodeBool;
+
   String WebAPICookie;
+  @override
+  void initState() {
+    phoneReg = telPhoneReg;
+    yzmReg = verifyCodeReg;
+    super.initState();
+  }
   @override
     Widget build(BuildContext context) {
       return Scaffold(
@@ -83,97 +98,38 @@ class _ChangePhoneNewPageState extends State<ChangePhoneNewPage> {
                       // 电话
                       Column(
                         children: <Widget>[
-                          //手机号码输入框
-                          Container(
-                            width: 335,
-                            height: 40,
-                            margin: EdgeInsets.only(top: 25),
-                            decoration: BoxDecoration(
-                              border: Border.all(width: 1,color: Color(0xFF2692FD)),
-                              borderRadius: BorderRadius.circular(8),
-                              color: Colors.white,
-                            ),
-                            child: TextField(
-                              controller: phoneNumController,
-                              autofocus: false,
-
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Color(0xFF999999),
-                                fontWeight: FontWeight.normal,
-                                decoration: TextDecoration.none,
-                              ),
-                              decoration: InputDecoration(
-                                contentPadding: EdgeInsets.fromLTRB(8, 0, 10, 10),
-                                border: InputBorder.none,
-                                hintStyle: TextStyle(fontSize: 14),
-                                hintText: "新的手机号码"
-                              ),
-                            ),
+                          //手机号码
+                          Input(
+                            hintText: "手机号码",
+                            tipText: "请输入手机号码",
+                            errorTipText: "请输入格式正确的手机号码",
+                            rightText: "手机号码格式正确",
+                            controller: phoneNumController,
+                            inputType: TextInputType.phone,
+                            reg: phoneReg,
+                            onChanged: (text){
+                              setState(() {
+                                phoneNum = text;
+                                phoneBool = phoneReg.hasMatch(phoneNum);
+                              });
+                            },
                           ),
-                          //验证码
-                          Stack(
-                            children: <Widget>[
-                              Container(
-                                width: 335,
-                                height: 40,
-                                margin: EdgeInsets.only(top: 25),
-                                decoration: BoxDecoration(
-                                  border: Border.all(width: 1,color: Color(0xFF2692FD)),
-                                  borderRadius: BorderRadius.circular(8),
-                                  color: Colors.white,
-                                ),
-                                child: TextField(
-                                  controller: verifyCodeController,
-                                  autofocus: false,
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    color: Color(0xFF999999),
-                                    fontWeight: FontWeight.normal,
-                                    decoration: TextDecoration.none,
-                                  ),
-                                  decoration: InputDecoration(
-                                    contentPadding: EdgeInsets.fromLTRB(8, 0, 10, 10),
-                                    border: InputBorder.none,
-                                    hintStyle: TextStyle(fontSize: 14),
-                                    hintText: "请输入验证码",
-                                  ),
-                                ),
-                              ),
-                              //验证码发送按钮
-                              Positioned(
-                                left: 230,
-                                child: GestureDetector(
-                                  onTap: () async {
-                                    final String phoneNum=phoneNumController.text;
-                                    final SendVerifyCode result=await SendVerifyCodeDao.sendSms(phoneNum);
-                                    if(result.code==200) {
-                                      WebAPICookie =
-                                      result.cookie.split(';')[0];
-                                      print(result);
-                                      print(WebAPICookie);
-                                    }else{
-                                      debugPrint("出错了！");
-                                    }
-                                  },
-                                  child: Container(
-                                    width: 100,
-                                    height: 30,
-                                    margin: EdgeInsets.only(top: 30),
-                                    padding: EdgeInsets.only(top: 5),
-                                    decoration: BoxDecoration(
-                                      border: Border(left: BorderSide(width: 1,color: Color(0xFF5580EB)))
-                                    ),
-                                    child: Text('发送验证码',style: TextStyle(
-                                      fontSize: 14,
-                                      color: Color(0xFF5580EB),
-                                      fontWeight: FontWeight.normal,
-                                      decoration: TextDecoration.none,
-                                    ),textAlign: TextAlign.center,),
-                                  ),
-                                ),
-                              ),
-                            ],
+                          // 验证码
+                          PYZMInput(
+                            hintText: "验证码",
+                            tipText: "请输入验证码",
+                            errorTipText: "请输入格式正确的验证码",
+                            rightText: "验证码格式正确",
+                            yzmcontroller: verifyCodeController,
+                            controller: phoneNumController,
+                            inputType: TextInputType.number,
+                            reg: yzmReg,
+                            onChanged: (text){
+                              setState(() {
+                                verifyCode = text;
+                                verifyCodeBool = yzmReg.hasMatch(verifyCode);
+                              });
+                            },
                           ),
                         ],
                       ),
@@ -183,7 +139,14 @@ class _ChangePhoneNewPageState extends State<ChangePhoneNewPage> {
                           height: 40,
                           padding: EdgeInsets.all(4),
                           margin: EdgeInsets.only(bottom: 50,top: 100),
-                          decoration: BoxDecoration(
+                          decoration: phoneBool == true && verifyCodeBool == true?
+                          BoxDecoration(
+                              border: Border.all(width: 1,color: Color(0xFF5580EB)),
+                              borderRadius: BorderRadius.circular(8),
+                              color: Color(0xFF5580EB)
+                          )
+                              :
+                          BoxDecoration(
                               border: Border.all(width: 1,color: Color(0xFF93C0FB)),
                               borderRadius: BorderRadius.circular(8),
                               color: Color(0xFF93C0FB)

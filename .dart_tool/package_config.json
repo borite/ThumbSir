@@ -299,10 +299,10 @@
       "name": "ThumbSir",
       "rootUri": "../",
       "packageUri": "lib/",
-      "languageVersion": "2.1"
+      "languageVersion": "2.2"
     }
   ],
-  "generated": "2020-06-08T17:13:49.805926Z",
+  "generated": "2020-06-11T16:28:57.412238Z",
   "generator": "pub",
   "generatorVersion": "2.8.3"
 }
