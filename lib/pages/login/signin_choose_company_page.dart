@@ -1,3 +1,4 @@
+import 'package:ThumbSir/common/reg.dart';
 import 'package:ThumbSir/pages/login/signin_build_company_page.dart';
 import 'package:ThumbSir/pages/login/signin_choose_position_page.dart';
 import 'package:flutter/cupertino.dart';
@@ -7,12 +8,24 @@ import 'package:ThumbSir/model/company_list.dart';
 import 'package:ThumbSir/dao/get_company_list.dart';
 
 class SigninChooseCompanyPage extends StatefulWidget {
+  final userId;
+  const SigninChooseCompanyPage({Key key,this.userId}) : super(key :key);
   @override
   _SigninChooseCompanyPageState createState() => _SigninChooseCompanyPageState();
 }
 
 class _SigninChooseCompanyPageState extends State<SigninChooseCompanyPage> {
   final TextEditingController _controller = TextEditingController();
+  String companyName;
+  bool companyNameBool;
+  RegExp companyNameReg;
+
+  @override
+  void initState() {
+    companyNameReg = TextReg;
+    _load();
+    super.initState();
+  }
 
   List<Datum> companies;
 
@@ -20,13 +33,6 @@ class _SigninChooseCompanyPageState extends State<SigninChooseCompanyPage> {
     var r= await GetCompanyListDao.httpGetCompanyList();
     companies=r.data;
     print(companies);
-  }
-
-  @override
-  void initState()  {
-    // TODO: implement initState
-    super.initState();
-    _load();
   }
 
   @override
@@ -108,6 +114,18 @@ class _SigninChooseCompanyPageState extends State<SigninChooseCompanyPage> {
                         children: <Widget>[
                           Input(
                             hintText: '请输入您所属的公司名称',
+                            errorTipText: "建议输入完整的公司名称",
+                            tipText: "建议输入完整的公司名称",
+                            rightText: "公司名称格式正确",
+                            controller: _controller,
+                            inputType: TextInputType.text,
+                            reg: companyNameReg,
+                            onChanged: (text){
+                              setState(() {
+                                companyName = text;
+                                companyNameBool = companyNameReg.hasMatch(companyName);
+                              });
+                            },
                           ),
                           // 没有公司
                           Container(
@@ -213,7 +231,14 @@ class _SigninChooseCompanyPageState extends State<SigninChooseCompanyPage> {
                           height: 40,
                           padding: EdgeInsets.all(4),
                           margin: EdgeInsets.only(bottom: 50,top: 100),
-                          decoration: BoxDecoration(
+                          decoration: companyNameBool == true ?
+                          BoxDecoration(
+                              border: Border.all(width: 1,color: Color(0xFF5580EB)),
+                              borderRadius: BorderRadius.circular(8),
+                              color: Color(0xFF5580EB)
+                          )
+                              :
+                          BoxDecoration(
                               border: Border.all(width: 1,color: Color(0xFF93C0FB)),
                               borderRadius: BorderRadius.circular(8),
                               color: Color(0xFF93C0FB)

@@ -693,14 +693,6 @@ class _SigninChooseAreaPageState extends State<SigninChooseAreaPage> {
                                 var userID=prefs.getString("userID");
                                 CommonResult r= await setSecionDao.httpPostSection(companyID, levelOneController.text, levelTwoController.text, levelThreeController.text, levelFourController.text, levelFiveController.text,'');
                                 CommonResult fr=await finishRegDao.httpPostFinishReg(userID, companyID, selValue, manageSection(selValue) );
-                                print('更新公司区域结果');
-                                print(r.code);
-                                print(r.message);
-                                print(r.data);
-                                print('更新用户信息结果');
-                                print(fr.code);
-                                print(fr.message);
-                                print(fr.data);
                                 Navigator.of(context).pushAndRemoveUntil(
                                     new MaterialPageRoute(builder: (context) => new LoginPage()
                                     ), (route) => route == null);

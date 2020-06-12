@@ -2,6 +2,7 @@ import 'package:ThumbSir/common/reg.dart';
 import 'package:ThumbSir/dao/login_dao.dart';
 import 'package:ThumbSir/model/login_result_model.dart';
 import 'package:ThumbSir/pages/login/find_key_phone_page.dart';
+import 'package:ThumbSir/pages/login/signin_choose_company_page.dart';
 import 'package:ThumbSir/pages/login/signin_nameandphone_page.dart';
 import 'package:ThumbSir/widget/input.dart';
 import 'package:flutter/cupertino.dart';
@@ -199,6 +200,9 @@ class _LoginPageState extends State<LoginPage> {
                                 _on401AlertPressed(context);
                               }
                               else if(result.code == 412){_on412AlertPressed(context);}
+                              else if(result.code == 402){
+                                _on402AlertPressed(context);
+                              }
                               else{_on404AlertPressed(context);}
                             }else{}
                           },
@@ -241,7 +245,7 @@ class _LoginPageState extends State<LoginPage> {
   _on404AlertPressed(context) {
     Alert(
       context: context,
-      type: AlertType.warning,
+      type: AlertType.error,
       title: "登录失败",
       desc: "该用户不存在，去注册",
       buttons: [
@@ -296,6 +300,38 @@ class _LoginPageState extends State<LoginPage> {
           ),
           onPressed: () => Navigator.pop(context),
           color: Color(0xFF5580EB),
+        ),
+      ],
+    ).show();
+  }
+  _on402AlertPressed(context) {
+    Alert(
+      context: context,
+      type: AlertType.warning,
+      title: "登录成功",
+      desc: "您还未填写公司信息",
+      buttons: [
+        DialogButton(
+          child: Text(
+            "去完善",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () async {
+            SharedPreferences prefs = await SharedPreferences.getInstance();
+            var userID=prefs.getString("userID");
+            Navigator.push(context, MaterialPageRoute(builder: (context)=>SigninChooseCompanyPage(
+                userId:userID
+            )));
+          },
+          color: Color(0xFF5580EB),
+        ),
+        DialogButton(
+          child: Text(
+            "取消",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () => Navigator.pop(context),
+          color: Color(0xFFCCCCCC),
         ),
       ],
     ).show();

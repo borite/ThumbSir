@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ThumbSir/widget/input.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class FindKeyPage extends StatefulWidget {
   final userName;
@@ -129,7 +130,7 @@ class _FindKeyPageState extends State<FindKeyPage> {
                             final CommonResult findKeyResult=await RetruveUserPwdDao.findPwd(passwordController.text,this.widget.userID);
                             if(findKeyResult != null){
                               if(findKeyResult.code == 200 ){
-                                Navigator.push(context, MaterialPageRoute(builder: (context)=>FindKeyPage()));
+                                Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginPage()));
                               }else{_onCodeAlertPressed(context);}
                             }else{_onCodeAlertPressed(context);}
                           }else{}
@@ -153,21 +154,15 @@ class _FindKeyPageState extends State<FindKeyPage> {
                             ),
                             child: Padding(
                               padding: EdgeInsets.only(top: 4),
-                              child: GestureDetector(
-                                onTap: (){
-                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginPage()));
-                                },
-                                child: Text('完成',style: TextStyle(
-                                  fontSize: 14,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.normal,
-                                  decoration: TextDecoration.none,
-                                ),textAlign: TextAlign.center,),
-                              ),
+                              child: Text('完成',style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.white,
+                                fontWeight: FontWeight.normal,
+                                decoration: TextDecoration.none,
+                              ),textAlign: TextAlign.center,),
                             )
                         ),
-                      )
-                      ,
+                      ),
                     ]
                 )
               ],

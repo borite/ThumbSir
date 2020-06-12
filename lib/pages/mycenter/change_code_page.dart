@@ -1,10 +1,16 @@
+import 'dart:convert';
+
+import 'package:ThumbSir/dao/modify_user_pwd_dao.dart';
+import 'package:ThumbSir/model/common_result_model.dart';
 import 'package:ThumbSir/pages/mycenter/change_code_finish_page.dart';
 import 'package:ThumbSir/widget/input.dart';
+import 'package:ThumbSir/widget/pyzminput.dart';
 import 'package:ThumbSir/widget/yzminput.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:ThumbSir/common/reg.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ChangeCodePage extends StatefulWidget {
   @override
@@ -108,7 +114,7 @@ class _ChangeCodePageState extends State<ChangeCodePage> {
                             },
                           ),
                           // 验证码
-                          YZMInput(
+                          PYZMInput(
                             hintText: "验证码",
                             tipText: "请输入验证码",
                             errorTipText: "请输入格式正确的验证码",
@@ -124,7 +130,7 @@ class _ChangeCodePageState extends State<ChangeCodePage> {
                               });
                             },
                           ),
-                          //密码输入框
+                          //旧密码输入框
                           Input(
                             hintText: "旧密码",
                             errorTipText: "6-18位数字、字母组合，字母包含大小写，禁止使用符号",
@@ -140,7 +146,7 @@ class _ChangeCodePageState extends State<ChangeCodePage> {
                               });
                             },
                           ),
-                          //密码输入框
+                          //新密码输入框
                           Input(
                             hintText: "新密码",
                             errorTipText: "6-18位数字、字母组合，字母包含大小写，禁止使用符号",
@@ -156,7 +162,7 @@ class _ChangeCodePageState extends State<ChangeCodePage> {
                               });
                             },
                           ),
-                          //密码输入框
+                          //确认密码输入框
                           Input(
                             hintText: "确认新密码",
                             errorTipText: "再次输入新密码",
@@ -200,20 +206,20 @@ class _ChangeCodePageState extends State<ChangeCodePage> {
                             padding: EdgeInsets.only(top: 4),
                             child: GestureDetector(
                               onTap: () async {
-//                                final String phoneNum=phoneNumController.text;
-//                                final String password=passwordController.text;
-//                                final String verifyCode=verifyCodeController.text;
-//                                final UserReg result=await SigninDao.doUserReg(password, phoneNum, verifyCode, '37ccc461-ab5c-4855-8842-bc45973d7cf0',WebAPICookie);
-//                                print(result);
-//                                if(result.code==200) {
-//                                  SharedPreferences prefs = await SharedPreferences.getInstance();
-//                                  prefs.setString('userID', result.data);
-//                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>SigninChooseCompanyPage()));
-//                                }else{
-//                                  print(result.code);
-//                                  print(result.message);
-//                                }
-                                Navigator.push(context, MaterialPageRoute(builder: (context)=>ChangeCodeFinishPage()));
+                                if(psdBool == true && newPasswordController.text == newPasswordController.text){
+                                  SharedPreferences prefs = await SharedPreferences.getInstance();
+                                  var userID=prefs.getString("userID");
+                                  final CommonResult modifyKeyResult=await ModifyUserPwdDao.modifyPwd(
+                                      passwordController.text,
+                                      newPasswordController.text,
+                                      userID);
+                                  if(modifyKeyResult != null){
+                                    if(modifyKeyResult.code == 200 ){
+                                      Navigator.push(context, MaterialPageRoute(builder: (context)=>ChangeCodeFinishPage()));
+                                    }else{_onCodeAlertPressed(context);}
+                                  }else{_onCodeAlertPressed(context);}
+                                }else{_onPwdAlertPressed(context);
+                                }
                               },
                               child: Text('下一步',style: TextStyle(
                                 fontSize: 14,
@@ -230,5 +236,41 @@ class _ChangeCodePageState extends State<ChangeCodePage> {
             )
         ),
       );
+  }
+  _onCodeAlertPressed(context) {
+    Alert(
+      context: context,
+      type: AlertType.error,
+      title: "旧密码不正确",
+      desc: "请重试",
+      buttons: [
+        DialogButton(
+          child: Text(
+            "确定",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () => Navigator.pop(context),
+          color: Color(0xFF5580EB),
+        ),
+      ],
+    ).show();
+  }
+  _onPwdAlertPressed(context) {
+    Alert(
+      context: context,
+      type: AlertType.error,
+      title: "新密码与确认密码不一致",
+      desc: "请重试",
+      buttons: [
+        DialogButton(
+          child: Text(
+            "确定",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () => Navigator.pop(context),
+          color: Color(0xFF5580EB),
+        ),
+      ],
+    ).show();
   }
 }
