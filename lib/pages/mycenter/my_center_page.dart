@@ -8,7 +8,7 @@ import 'package:ThumbSir/pages/mycenter/vip_page.dart';
 import 'package:ThumbSir/pages/mycenter/z_center_group_page.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:ThumbSir/model/loginResultData.dart';
+import 'package:ThumbSir/model/login_result_data_model.dart';
 import 'choose_portrait_page.dart';
 import 'm_center_group_page.dart';
 

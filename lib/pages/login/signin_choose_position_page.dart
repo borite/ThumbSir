@@ -3,19 +3,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:wheel_chooser/wheel_chooser.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:ThumbSir/model/company_level_list.dart';
+import 'package:ThumbSir/model/company_level_list_model.dart';
 import 'package:ThumbSir/dao/get_company_level_dao.dart';
 class SigninChoosePositionPage extends StatefulWidget {
   List levelNames;
-  SigninChoosePositionPage({this.levelNames});
+  String companyId;
+  SigninChoosePositionPage({this.levelNames,this.companyId});
   @override
   _SigninChoosePositionPageState createState() => _SigninChoosePositionPageState(levelNames);
 }
 
 class _SigninChoosePositionPageState extends State<SigninChoosePositionPage> {
-
-  //Future<SharedPreferences> _prefs=SharedPreferences.getInstance();
-
   List levelNames;
   _SigninChoosePositionPageState(this.levelNames);
 
@@ -24,7 +22,6 @@ class _SigninChoosePositionPageState extends State<SigninChoosePositionPage> {
   @override
   void initState() {
     super.initState();
-    print(levelNames);
   }
 
   @override
@@ -58,7 +55,7 @@ class _SigninChoosePositionPageState extends State<SigninChoosePositionPage> {
                             ],
                           )
                       ),
-                      // 头像按钮
+                      // 头像
                       Stack(
                         children: <Widget>[
                           Container(
@@ -130,16 +127,18 @@ class _SigninChoosePositionPageState extends State<SigninChoosePositionPage> {
                           padding: EdgeInsets.all(4),
                           margin: EdgeInsets.only(bottom: 50,top: 100),
                           decoration: BoxDecoration(
-                              border: Border.all(width: 1,color: Color(0xFF93C0FB)),
+                              border: Border.all(width: 1,color: Color(0xFF5580EB)),
                               borderRadius: BorderRadius.circular(8),
-                              color: Color(0xFF93C0FB)
+                              color: Color(0xFF5580EB)
                           ),
                           child: Padding(
                             padding: EdgeInsets.only(top: 4),
                             child: GestureDetector(
                               onTap: (){
-
-                                Navigator.push(context, MaterialPageRoute(builder: (context)=>SigninChooseAreaPage(selValue:selValue)));
+                                Navigator.push(context, MaterialPageRoute(builder: (context)=>SigninChooseAreaPage(
+                                    selValue:selValue,
+                                    companyId:widget.companyId
+                                )));
                               },
                               child: Text('下一步',style: TextStyle(
                                 fontSize: 14,

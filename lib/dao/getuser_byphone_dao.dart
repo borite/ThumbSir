@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:ThumbSir/model/find_user_result.dart';
+import 'package:ThumbSir/model/find_user_result_model.dart';
 import 'package:ThumbSir/model/getuser_byphone_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:ThumbSir/utils/common_vars.dart';

@@ -3,7 +3,7 @@ import 'package:ThumbSir/dao/login_dao.dart';
 import 'package:ThumbSir/model/login_result_model.dart';
 import 'package:ThumbSir/pages/login/find_key_phone_page.dart';
 import 'package:ThumbSir/pages/login/signin_choose_company_page.dart';
-import 'package:ThumbSir/pages/login/signin_nameandphone_page.dart';
+import 'package:ThumbSir/pages/login/signin_page.dart';
 import 'package:ThumbSir/widget/input.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

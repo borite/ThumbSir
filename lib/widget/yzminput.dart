@@ -176,6 +176,10 @@ class _YZMInputState extends State<YZMInput> {
                   final SendVerifyCode result=await SendVerifyCodeDao.sendSms(phoneNum);
                   if(result != null){
                     if(result.code==200) {
+                      setState(() {
+                        countdown=60;
+                      });
+                      startCountDownTimer();
                       WebAPICookie = result.cookie.split(';')[0];
                       widget.editParentText(WebAPICookie);
                     } else if(available == false){}else{_on400AlertPressed(context);}
@@ -250,6 +254,21 @@ class _YZMInputState extends State<YZMInput> {
         ),
       ],
     ).show();
+  }
+
+  //倒计时计时器方法
+  void startCountDownTimer(){
+    const oneSecond=const Duration(seconds: 1);
+    var callback=(timer)=>{
+      this.setState(() {
+        if(countdown < 1){
+          _timer.cancel();
+        }else{
+          countdown=countdown-1;
+        }
+      })
+    };
+    _timer=Timer.periodic(oneSecond, callback );
   }
 
   _onPhoneAlertPressed(context) {

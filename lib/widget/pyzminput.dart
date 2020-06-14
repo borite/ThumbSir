@@ -1,9 +1,9 @@
 import 'package:ThumbSir/common/reg.dart';
 import 'package:ThumbSir/dao/getuser_byphone_dao.dart';
 import 'package:ThumbSir/dao/phoneverifycode_dao.dart';
-import 'package:ThumbSir/model/find_user_result.dart';
+import 'package:ThumbSir/model/find_user_result_model.dart';
 import 'package:ThumbSir/model/phoneverifycode_model.dart';
-import 'package:ThumbSir/pages/login/signin_nameandphone_page.dart';
+import 'package:ThumbSir/pages/login/signin_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';

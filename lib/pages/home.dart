@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:ThumbSir/model/loginResultData.dart';
+import 'package:ThumbSir/model/login_result_data_model.dart';
 import 'package:ThumbSir/model/login_result_model.dart';
 import 'package:ThumbSir/pages/broker/qlist/qlist_page.dart';
 import 'package:ThumbSir/pages/login/login_page.dart';
