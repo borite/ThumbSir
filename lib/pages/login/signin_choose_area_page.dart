@@ -1,3 +1,5 @@
+import 'package:ThumbSir/dao/add_leader_dao.dart';
+import 'package:ThumbSir/dao/get_leader_dao.dart';
 import 'package:ThumbSir/dao/get_section_list_dao.dart';
 import 'package:ThumbSir/model/section_list_model.dart';
 import 'package:ThumbSir/pages/login/login_page.dart';
@@ -9,11 +11,13 @@ import 'package:ThumbSir/dao/set_section_dao.dart';
 import 'package:ThumbSir/dao/finish_reg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:simple_autocomplete_formfield/simple_autocomplete_formfield.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 class SigninChooseAreaPage extends StatefulWidget {
   String selValue;
   String companyId;
-  SigninChooseAreaPage({this.selValue,this.companyId});
+  int companyLevelCount;
+  SigninChooseAreaPage({this.selValue,this.companyId,this.companyLevelCount});
   @override
   _SigninChooseAreaPageState createState() => _SigninChooseAreaPageState(selValue);
 }
@@ -21,16 +25,23 @@ class SigninChooseAreaPage extends StatefulWidget {
 class _SigninChooseAreaPageState extends State<SigninChooseAreaPage> {
   final TextEditingController levelOneController = TextEditingController();
   final TextEditingController levelTwoController = TextEditingController();
-  var previousLevel;
-  var currentLevel;
+
 
   String selValue;
   _SigninChooseAreaPageState(this.selValue);
 
-  String selectedItem;
+  int previousLevelCount;
+  var previousLevel;
+  int currentLevelCount;
+  var currentLevel;
 
-  final previousKey = GlobalKey<FormState>();
-  final currentKey = GlobalKey<FormState>();
+  String previousSelectedItem;
+  String currentSelectedItem;
+
+  var userId;
+  var leaderId;
+  var leaderName;
+
   bool autovalidate = false;
 
   List<String> currentSections;
@@ -38,8 +49,11 @@ class _SigninChooseAreaPageState extends State<SigninChooseAreaPage> {
   final list = <String>[];
 
   _load() async {
-    previousLevel = (int.parse(selValue.substring(0,1))-1).toString();
-    currentLevel = selValue.substring(0,1);
+
+    previousLevelCount = int.parse(selValue.substring(0,1))-1;
+    previousLevel = previousLevelCount.toString();
+    currentLevelCount = int.parse(selValue.substring(0,1));
+    currentLevel = currentLevelCount.toString();
     var current = await GetSectionListDao.httpGetSectionList(widget.companyId,currentLevel);
     var previous = await GetSectionListDao.httpGetSectionList(widget.companyId,previousLevel);
     currentSections = current.data;
@@ -128,7 +142,7 @@ class _SigninChooseAreaPageState extends State<SigninChooseAreaPage> {
                           ),
                         ],
                       ),
-                      currentLevel != '1'?
+                      7-widget.companyLevelCount != currentLevelCount?
                       // 填写区域1
                       Padding(
                         padding: EdgeInsets.only(top:20,left: 20),
@@ -165,14 +179,13 @@ class _SigninChooseAreaPageState extends State<SigninChooseAreaPage> {
                           ],
                         ),
                       ):Text(''),
-                      currentLevel != '1'?
+                      7-widget.companyLevelCount != currentLevelCount?
                       // 输入上一级区域
                       Container(
                         width: 335,
                         height: 150,
                         margin: EdgeInsets.only(top: 10),
                         child: Form(
-                          key: previousKey,
                           autovalidate: autovalidate,
                           child: Column(children: <Widget>[
                             SimpleAutocompleteFormField<String>(
@@ -234,15 +247,23 @@ class _SigninChooseAreaPageState extends State<SigninChooseAreaPage> {
                               itemFromString: (string) => previousSections.singleWhere(
                                       (listItem) => listItem.toLowerCase() == string.toLowerCase(),
                                   orElse: () => null),
-                              onChanged: (value) {setState(() => selectedItem = value);},
-                              onSaved: (value) {setState(() => selectedItem = value);},
+                              onChanged: (value) {
+                                setState(() {
+                                  previousSelectedItem = value;
+                                });
+                              },
+                              onSaved: (value) {
+                                setState(() {
+                                  previousSelectedItem = value;
+                                });
+                              },
                               validator: (listItem) => listItem == null ? '请输入上一级管辖区域' : null,
                             ),
                           ]),
                         ),
                       ):Text(''),
                       // 填写区域2
-                      currentLevel != '6'?
+                      currentLevelCount != 6?
                       Padding(
                         padding: EdgeInsets.only(top:20,left: 20),
                         child: Row(
@@ -279,13 +300,12 @@ class _SigninChooseAreaPageState extends State<SigninChooseAreaPage> {
                         ),
                       ):Text(''),
                       // 输入本级区域
-                      currentLevel != '6'?
+                      currentLevelCount != 6?
                       Container(
                         width: 335,
                         height: 150,
                         margin: EdgeInsets.only(top: 10),
                         child: Form(
-                          key: currentKey,
                           autovalidate: autovalidate,
                           child: Column(children: <Widget>[
                             SimpleAutocompleteFormField<String>(
@@ -347,8 +367,19 @@ class _SigninChooseAreaPageState extends State<SigninChooseAreaPage> {
                               itemFromString: (string) => currentSections.singleWhere(
                                       (listItem) => listItem.toLowerCase() == string.toLowerCase(),
                                   orElse: () => null),
-                              onChanged: (value) {setState(() => selectedItem = value);},
-                              onSaved: (value) {setState(() => selectedItem = value);},
+                              onChanged: (value) {
+                                print(value);
+                                print(levelTwoController.text);
+                                setState(() {
+                                  currentSelectedItem = value;
+                                });
+                              },
+                              onSaved: (value) {
+                                print(value);
+                                setState(() {
+                                  currentSelectedItem = value;
+                                });
+                              },
                               validator: (listItem) => listItem == null ? '请输入您的管辖区域' : null,
                             ),
                           ]),
@@ -360,46 +391,61 @@ class _SigninChooseAreaPageState extends State<SigninChooseAreaPage> {
                           height: 40,
                           padding: EdgeInsets.all(4),
                           margin: EdgeInsets.only(bottom: 50,top: 60),
-                          decoration: currentLevel != 1
-                              && currentLevel != 6
-                              && levelOneController.text != null
-                              && levelTwoController.text != null ?
-                          BoxDecoration(
+                          decoration: BoxDecoration(
                               border: Border.all(width: 1,color: Color(0xFF5580EB)),
                               borderRadius: BorderRadius.circular(8),
                               color: Color(0xFF5580EB)
-                          )
-                          : currentLevel == 1 && levelTwoController.text != null?
-                          BoxDecoration(
-                              border: Border.all(width: 1,color: Color(0xFF5580EB)),
-                              borderRadius: BorderRadius.circular(8),
-                              color: Color(0xFF5580EB)
-                          )
-                          : currentLevel == 6 && levelOneController.text != null?
-                          BoxDecoration(
-                              border: Border.all(width: 1,color: Color(0xFF5580EB)),
-                              borderRadius: BorderRadius.circular(8),
-                              color: Color(0xFF5580EB)
-                          )
-                          :
-                          BoxDecoration(
-                              border: Border.all(width: 1,color: Color(0xFF93C0FB)),
-                              borderRadius: BorderRadius.circular(8),
-                              color: Color(0xFF93C0FB)
                           ),
                           child: Padding(
                             padding: EdgeInsets.only(top: 4),
                             child: GestureDetector(
                               onTap: () async {
+                                // 如果是最高级并且自己的管辖区域没填
+                                if(7-widget.companyLevelCount == currentLevelCount && levelTwoController.text == ''){
+                                  _onCurrentEmptyAlertPressed(context);
+                                }
+                                // 如果是最低级并且上级管辖区域没填
+                                else if(currentLevelCount == 6 && levelOneController.text == ''){
+                                  _onPreviousEmptyAlertPressed(context);
+                                }
+                                // 如果不是最高级和最低级，上级和自己的管辖区域没填
+                                else if(7-widget.companyLevelCount != currentLevelCount && currentLevelCount != 6){
+                                  if(levelOneController.text == ''){
+                                    _onPreviousEmptyAlertPressed(context);
+                                  } else if(levelTwoController.text == ''){
+                                    _onCurrentEmptyAlertPressed(context);
+                                  }
+                                }
+                                // 如果管辖区域都填写了，进行提交和存储
+                                else{
+                                  SharedPreferences prefs = await SharedPreferences.getInstance();
+                                  setState(() {
+                                    userId=prefs.getString("userID");
+                                  });
+                                  await setSecionDao.httpPostSection(widget.companyId, currentLevel, levelTwoController.text);
+                                  await finishRegDao.httpPostFinishReg(userId, widget.companyId, selValue, levelTwoController.text );
+                                 // 如果有上级区域，查找上级
+                                  if(7-widget.companyLevelCount != currentLevelCount && levelOneController.text == ''){
+                                    var leader = await GetLeaderDao.httpGetLeader(widget.companyId, levelOneController.text, previousLevel);
+                                    // 如果上级存在，弹窗，申请挂载
+                                    if(leader.code == 200){
+                                      setState(() {
+                                        leaderId = leader.data.userPid;
+                                        leaderName = leader.data.userName;
 
-                                SharedPreferences prefs = await SharedPreferences.getInstance();
-                                var userID=prefs.getString("userID");
-                                await setSecionDao.httpPostSection(widget.companyId, previousLevel, levelOneController.text);
-                                await setSecionDao.httpPostSection(widget.companyId, currentLevel, levelTwoController.text);
-                                await finishRegDao.httpPostFinishReg(userID, widget.companyId, currentLevel, levelTwoController.text );
-                                Navigator.of(context).pushAndRemoveUntil(
-                                    new MaterialPageRoute(builder: (context) => new LoginPage()
-                                    ), (route) => route == null);
+                                      });
+                                      _onChooseLeaderAlertPressed(context);
+                                    }
+                                    // 如果上级不存在，存储上级区域
+                                    else{
+                                      await setSecionDao.httpPostSection(widget.companyId, previousLevel, levelOneController.text);
+                                      Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginPage()));
+                                    }
+                                  }else{
+                                    Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginPage()));
+                                  }
+
+                                }
                               },
                               child: Text('完成',style: TextStyle(
                                 fontSize: 14,
@@ -416,5 +462,78 @@ class _SigninChooseAreaPageState extends State<SigninChooseAreaPage> {
             )
         ),
       );
+  }
+  _onPreviousEmptyAlertPressed(context) {
+    Alert(
+      context: context,
+      type: AlertType.warning,
+      title: "请填写上级管辖区域",
+      buttons: [
+        DialogButton(
+          child: Text(
+            "去填写",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: (){Navigator.pop(context);},
+        ),
+      ],
+    ).show();
+  }
+  _onCurrentEmptyAlertPressed(context) {
+    Alert(
+      context: context,
+      type: AlertType.warning,
+      title: "请填写您的管辖区域",
+      buttons: [
+        DialogButton(
+          child: Text(
+            "去填写",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: (){Navigator.pop(context);},
+        ),
+      ],
+    ).show();
+  }
+  _onChooseLeaderAlertPressed(context) {
+    Alert(
+      context: context,
+      type: AlertType.warning,
+      title: leaderName+"可能是您的上级",
+      desc: "是否申请成为他的下级，来建立上下级关系？",
+      buttons: [
+        DialogButton(
+          child: Text(
+            "申请",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () async {
+            // 申请挂载上级
+            print('申请挂载上级 userId');
+            print(userId);
+            print('申请挂载上级 leaderId');
+            print(leaderId);
+//            await AddLeaderDao.addLeaderPost(userId, leaderId);
+//            Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginPage()));
+          }
+        ),
+        DialogButton(
+          child: Text(
+            "不申请",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: ()async{
+            print('不申请，存上级区域 widget.companyId');
+            print(widget.companyId);
+            print('不申请，存上级区域 previousLevel');
+            print(previousLevel);
+            print('不申请，存上级区域 levelOneController.text');
+            print(levelOneController.text);
+//            await setSecionDao.httpPostSection(widget.companyId, previousLevel, levelOneController.text);
+//            Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginPage()));
+          },
+        ),
+      ],
+    ).show();
   }
 }

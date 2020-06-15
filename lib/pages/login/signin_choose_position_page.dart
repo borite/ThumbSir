@@ -2,25 +2,34 @@ import 'package:ThumbSir/pages/login/signin_choose_area_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:wheel_chooser/wheel_chooser.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:ThumbSir/model/company_level_list_model.dart';
-import 'package:ThumbSir/dao/get_company_level_dao.dart';
 class SigninChoosePositionPage extends StatefulWidget {
   List levelNames;
   String companyId;
-  SigninChoosePositionPage({this.levelNames,this.companyId});
+  int companyLevelCount;
+  SigninChoosePositionPage({this.levelNames,this.companyId,this.companyLevelCount});
   @override
   _SigninChoosePositionPageState createState() => _SigninChoosePositionPageState(levelNames);
 }
 
 class _SigninChoosePositionPageState extends State<SigninChoosePositionPage> {
   List levelNames;
+  List levelShowName=[];
   _SigninChoosePositionPageState(this.levelNames);
 
-  String selValue="";
+  String selValue;
 
   @override
   void initState() {
+
+    setState(() {
+      selValue=levelNames[0];
+    });
+    levelNames.forEach((element) {
+      String nameWithNum=element.toString();
+
+      levelShowName.add(nameWithNum.split('-')[1]);
+
+    });
     super.initState();
   }
 
@@ -105,9 +114,14 @@ class _SigninChoosePositionPageState extends State<SigninChoosePositionPage> {
                         height: 220,
                         child: WheelChooser(
                           onValueChanged: (s){
-                             selValue=s.toString();
+                            for(final i in levelNames){
+                              if(i.toString().split('-')[1]==s){
+                                selValue=i;
+                                break;
+                              }
+                            }
                           },
-                          datas: levelNames,
+                          datas: levelShowName,
                           selectTextStyle: TextStyle(
                             color: Color(0xFF0E7AE6),
                             fontWeight: FontWeight.normal,
@@ -137,7 +151,8 @@ class _SigninChoosePositionPageState extends State<SigninChoosePositionPage> {
                               onTap: (){
                                 Navigator.push(context, MaterialPageRoute(builder: (context)=>SigninChooseAreaPage(
                                     selValue:selValue,
-                                    companyId:widget.companyId
+                                    companyId:widget.companyId,
+                                    companyLevelCount:widget.companyLevelCount,
                                 )));
                               },
                               child: Text('下一步',style: TextStyle(

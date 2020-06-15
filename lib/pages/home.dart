@@ -413,7 +413,7 @@ class TradedBtn extends AnimatedWidget{
               child:Image(
                   width: 353,
                   height:110,
-                  image: AssetImage('images/openowner.png'),
+                  image: AssetImage('images/traded.png'),
                   fit:BoxFit.cover
               ),
             )

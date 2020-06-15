@@ -9,11 +9,9 @@ import 'package:simple_autocomplete_formfield/simple_autocomplete_formfield.dart
 import 'package:rflutter_alert/rflutter_alert.dart';
 
 class SigninChooseCompanyPage extends StatefulWidget {
-  final userId;
-  const SigninChooseCompanyPage({Key key, this.userId}) : super(key: key);
-
   @override
-  _SigninChooseCompanyPageState createState() => _SigninChooseCompanyPageState();}
+  _SigninChooseCompanyPageState createState() => _SigninChooseCompanyPageState();
+}
 
 class _SigninChooseCompanyPageState extends State<SigninChooseCompanyPage> {
   Datum selectedItem;
@@ -221,7 +219,8 @@ class _SigninChooseCompanyPageState extends State<SigninChooseCompanyPage> {
 
                             Navigator.push(context, MaterialPageRoute(builder: (context) => SigninChoosePositionPage(
                                 levelNames:levels,
-                                companyId:selectedItem.companyId
+                                companyId:selectedItem.companyId,
+                                companyLevelCount:selectedItem.levelCount,
                             )));
                           } else {
                             _on402AlertPressed(context);

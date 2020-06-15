@@ -9,7 +9,7 @@ const String apiPerfix=CommonVars.apiPrefix;
 
 class setSecionDao {
   static Future<CommonResult> httpPostSection(String cid,String num,String name) async {
-    final response = await http.post(apiPerfix+'api/User/SetLevelSection',body: {
+    final response = await http.post(apiPerfix+'api/company/SetLevelSection',body: {
       "CompanyID": cid,
       "LevelNum": num,
       "SectionName": name,

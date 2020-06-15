@@ -319,9 +319,7 @@ class _LoginPageState extends State<LoginPage> {
           onPressed: () async {
             SharedPreferences prefs = await SharedPreferences.getInstance();
             var userID=prefs.getString("userID");
-            Navigator.push(context, MaterialPageRoute(builder: (context)=>SigninChooseCompanyPage(
-                userId:userID
-            )));
+            Navigator.push(context, MaterialPageRoute(builder: (context)=>SigninChooseCompanyPage()));
           },
           color: Color(0xFF5580EB),
         ),
