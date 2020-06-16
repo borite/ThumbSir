@@ -9,7 +9,49 @@ class QListAddPage extends StatefulWidget {
 
 class _QListAddPageState extends State<QListAddPage> {
   DateTime _dateTime = DateTime.now();
-  int _starIndex=0;
+  int _starIndex = 0;
+  int _taskIndex = -1;
+
+  List taskList;
+  initState() {
+    super.initState();
+    taskList = ['带看','实勘','收钥匙','打业主电话','打客户电话','过户','面访业主','市价','签约','解决纠纷','物业交割'];
+  }
+
+  Widget buildGrid() {
+    List<Widget> tiles = [];//数组,用于存放循环生成的widget
+    Widget content;
+    for(var item in taskList) {
+      tiles.add(
+        GestureDetector(
+          onTap: (){
+            setState(() {
+              _taskIndex = taskList.indexOf(item);
+            });
+            print(_taskIndex);
+          },
+          child: Container(
+            width: 100,
+            height: 28,
+            padding: EdgeInsets.all(3),
+            decoration: BoxDecoration(
+                border: Border.all(width: 1,color: Color(0xFF93C0FB)),
+                borderRadius: BorderRadius.circular(5)
+            ),
+            child: Text(item,style: TextStyle(fontSize: 14,color: Color(0xFF0E7AE6),fontWeight: FontWeight.normal,
+              decoration: TextDecoration.none,),textAlign: TextAlign.center,),
+          ),
+        ),
+      );
+    }
+    content =Wrap(
+      spacing: 15,
+      runSpacing: 10,
+      children: tiles,
+    );
+    return content;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -120,56 +162,7 @@ class _QListAddPageState extends State<QListAddPage> {
                       ],
                     ),
                   ),
-                  Wrap(
-                    spacing: 15,
-                    runSpacing: 10,
-                    children: <Widget>[
-                      Container(
-                        width: 100,
-                        height: 28,
-                        padding: EdgeInsets.all(3),
-                        decoration: BoxDecoration(
-                          border: Border.all(width: 1,color: Color(0xFF93C0FB)),
-                          borderRadius: BorderRadius.circular(5)
-                        ),
-                        child: Text('带看',style: TextStyle(fontSize: 14,color: Color(0xFF0E7AE6),fontWeight: FontWeight.normal,
-                          decoration: TextDecoration.none,),textAlign: TextAlign.center,),
-                      ),
-                      Container(
-                        width: 100,
-                        height: 28,
-                        padding: EdgeInsets.all(3),
-                        decoration: BoxDecoration(
-                            border: Border.all(width: 1,color: Color(0xFF93C0FB)),
-                            borderRadius: BorderRadius.circular(5)
-                        ),
-                        child: Text('实勘',style: TextStyle(fontSize: 14,color: Color(0xFF0E7AE6),fontWeight: FontWeight.normal,
-                          decoration: TextDecoration.none,),textAlign: TextAlign.center,),
-                      ),
-                      Container(
-                        width: 100,
-                        height: 28,
-                        padding: EdgeInsets.all(3),
-                        decoration: BoxDecoration(
-                            border: Border.all(width: 1,color: Color(0xFF93C0FB)),
-                            borderRadius: BorderRadius.circular(5)
-                        ),
-                        child: Text('收钥匙',style: TextStyle(fontSize: 14,color: Color(0xFF0E7AE6),fontWeight: FontWeight.normal,
-                          decoration: TextDecoration.none,),textAlign: TextAlign.center,),
-                      ),
-                      Container(
-                        width: 100,
-                        height: 28,
-                        padding: EdgeInsets.all(3),
-                        decoration: BoxDecoration(
-                            border: Border.all(width: 1,color: Color(0xFF93C0FB)),
-                            borderRadius: BorderRadius.circular(5)
-                        ),
-                        child: Text('打业主电话',style: TextStyle(fontSize: 14,color: Color(0xFF0E7AE6),fontWeight: FontWeight.normal,
-                          decoration: TextDecoration.none,),textAlign: TextAlign.center,),
-                      ),
-                    ],
-                  ),
+                  buildGrid(),
                   // 重要性标注
                   Padding(
                     padding: EdgeInsets.fromLTRB(20, 25, 20, 20),

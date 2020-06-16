@@ -19,7 +19,7 @@ class SigninChooseAreaPage extends StatefulWidget {
   int companyLevelCount;
   SigninChooseAreaPage({this.selValue,this.companyId,this.companyLevelCount});
   @override
-  _SigninChooseAreaPageState createState() => _SigninChooseAreaPageState(selValue);
+  _SigninChooseAreaPageState createState() => _SigninChooseAreaPageState(selValue,companyId,companyLevelCount);
 }
 
 class _SigninChooseAreaPageState extends State<SigninChooseAreaPage> {
@@ -28,7 +28,9 @@ class _SigninChooseAreaPageState extends State<SigninChooseAreaPage> {
 
 
   String selValue;
-  _SigninChooseAreaPageState(this.selValue);
+  String companyId;
+  int companyLevelCount;
+  _SigninChooseAreaPageState(this.selValue,this.companyId,this.companyLevelCount);
 
   int previousLevelCount;
   var previousLevel;
@@ -54,10 +56,15 @@ class _SigninChooseAreaPageState extends State<SigninChooseAreaPage> {
     previousLevel = previousLevelCount.toString();
     currentLevelCount = int.parse(selValue.substring(0,1));
     currentLevel = currentLevelCount.toString();
-    var current = await GetSectionListDao.httpGetSectionList(widget.companyId,currentLevel);
-    var previous = await GetSectionListDao.httpGetSectionList(widget.companyId,previousLevel);
+    // 获取本级区域列表
+    var current = await GetSectionListDao.httpGetSectionList(companyId,currentLevel);
+    // 获取上一级区域列表
+    var previous = await GetSectionListDao.httpGetSectionList(companyId,previousLevel);
     currentSections = current.data;
     previousSections = previous.data;
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    userId=prefs.getString("userID");
   }
 
 
@@ -368,14 +375,11 @@ class _SigninChooseAreaPageState extends State<SigninChooseAreaPage> {
                                       (listItem) => listItem.toLowerCase() == string.toLowerCase(),
                                   orElse: () => null),
                               onChanged: (value) {
-                                print(value);
-                                print(levelTwoController.text);
                                 setState(() {
                                   currentSelectedItem = value;
                                 });
                               },
                               onSaved: (value) {
-                                print(value);
                                 setState(() {
                                   currentSelectedItem = value;
                                 });
@@ -400,34 +404,64 @@ class _SigninChooseAreaPageState extends State<SigninChooseAreaPage> {
                             padding: EdgeInsets.only(top: 4),
                             child: GestureDetector(
                               onTap: () async {
-                                // 如果是最高级并且自己的管辖区域没填
-                                if(7-widget.companyLevelCount == currentLevelCount && levelTwoController.text == ''){
-                                  _onCurrentEmptyAlertPressed(context);
+                                // 如果是最高级
+                                if(7-companyLevelCount == currentLevelCount){
+                                  // 自己的管辖区域没填
+                                  if( levelTwoController.text == ''){
+                                    _onCurrentEmptyAlertPressed(context);
+                                  }else{
+                                    await setSecionDao.httpPostSection(companyId, previousLevel, levelOneController.text);
+                                    await finishRegDao.httpPostFinishReg(userId, widget.companyId, selValue, levelOneController.text );
+                                    Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginPage()));
+                                  }
                                 }
-                                // 如果是最低级并且上级管辖区域没填
-                                else if(currentLevelCount == 6 && levelOneController.text == ''){
-                                  _onPreviousEmptyAlertPressed(context);
-                                }
-                                // 如果不是最高级和最低级，上级和自己的管辖区域没填
-                                else if(7-widget.companyLevelCount != currentLevelCount && currentLevelCount != 6){
+
+                                // 如果是最低级
+                                if(currentLevelCount == 6){
+                                  // 上级区域没填
                                   if(levelOneController.text == ''){
                                     _onPreviousEmptyAlertPressed(context);
+                                  }else{
+                                    await setSecionDao.httpPostSection(companyId, previousLevel, levelOneController.text);
+                                    await finishRegDao.httpPostFinishReg(userId, widget.companyId, selValue, levelOneController.text );
+                                    var leader = await GetLeaderDao.httpGetLeader(companyId, levelOneController.text, previousLevel);
+                                    if(leader != null){
+                                      // 如果有上级，且上级存在，弹窗，申请挂载
+                                      if(leader.code == 200){
+                                        setState(() {
+                                          leaderId = leader.data.userPid;
+                                          leaderName = leader.data.userName;
+
+                                        });
+                                        _onChooseLeaderAlertPressed(context);
+                                      }
+                                      // 如果有上级，且上级不存在，存储上级区域并跳转
+                                      else{
+                                        await setSecionDao.httpPostSection(companyId, previousLevel, levelOneController.text);
+                                        Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginPage()));
+                                      }
+                                    }
+                                    // 如果有上级，且上级不存在，存储上级区域并跳转
+                                    else{
+                                      await setSecionDao.httpPostSection(companyId, previousLevel, levelOneController.text);
+                                      Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginPage()));
+                                    }
+                                  }
+                                }
+
+                                // 如果不是最高级和最低级
+                                else if(7-companyLevelCount != currentLevelCount && currentLevelCount != 6){
+                                  if(levelOneController.text == ''){
+                                    _onPreviousEmptyAlertPressed(context);
+
                                   } else if(levelTwoController.text == ''){
                                     _onCurrentEmptyAlertPressed(context);
                                   }
-                                }
-                                // 如果管辖区域都填写了，进行提交和存储
-                                else{
-                                  SharedPreferences prefs = await SharedPreferences.getInstance();
-                                  setState(() {
-                                    userId=prefs.getString("userID");
-                                  });
-                                  await setSecionDao.httpPostSection(widget.companyId, currentLevel, levelTwoController.text);
-                                  await finishRegDao.httpPostFinishReg(userId, widget.companyId, selValue, levelTwoController.text );
-                                 // 如果有上级区域，查找上级
-                                  if(7-widget.companyLevelCount != currentLevelCount && levelOneController.text == ''){
-                                    var leader = await GetLeaderDao.httpGetLeader(widget.companyId, levelOneController.text, previousLevel);
-                                    // 如果上级存在，弹窗，申请挂载
+                                  if(levelTwoController.text != '' && levelOneController.text != ''){
+                                    await setSecionDao.httpPostSection(companyId, currentLevel, levelTwoController.text);
+                                    await finishRegDao.httpPostFinishReg(userId, widget.companyId, selValue, levelTwoController.text );
+                                    var leader = await GetLeaderDao.httpGetLeader(companyId, levelOneController.text, previousLevel);
+                                    print(leader);
                                     if(leader.code == 200){
                                       setState(() {
                                         leaderId = leader.data.userPid;
@@ -436,15 +470,12 @@ class _SigninChooseAreaPageState extends State<SigninChooseAreaPage> {
                                       });
                                       _onChooseLeaderAlertPressed(context);
                                     }
-                                    // 如果上级不存在，存储上级区域
+                                    // 如果有上级，且上级不存在，存储上级区域并跳转
                                     else{
-                                      await setSecionDao.httpPostSection(widget.companyId, previousLevel, levelOneController.text);
+                                      await setSecionDao.httpPostSection(companyId, previousLevel, levelOneController.text);
                                       Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginPage()));
                                     }
-                                  }else{
-                                    Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginPage()));
                                   }
-
                                 }
                               },
                               child: Text('完成',style: TextStyle(
@@ -513,8 +544,8 @@ class _SigninChooseAreaPageState extends State<SigninChooseAreaPage> {
             print(userId);
             print('申请挂载上级 leaderId');
             print(leaderId);
-//            await AddLeaderDao.addLeaderPost(userId, leaderId);
-//            Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginPage()));
+            await AddLeaderDao.addLeaderPost(userId, leaderId);
+            Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginPage()));
           }
         ),
         DialogButton(
@@ -523,14 +554,7 @@ class _SigninChooseAreaPageState extends State<SigninChooseAreaPage> {
             style: TextStyle(color: Colors.white, fontSize: 20),
           ),
           onPressed: ()async{
-            print('不申请，存上级区域 widget.companyId');
-            print(widget.companyId);
-            print('不申请，存上级区域 previousLevel');
-            print(previousLevel);
-            print('不申请，存上级区域 levelOneController.text');
-            print(levelOneController.text);
-//            await setSecionDao.httpPostSection(widget.companyId, previousLevel, levelOneController.text);
-//            Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginPage()));
+            Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginPage()));
           },
         ),
       ],

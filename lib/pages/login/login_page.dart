@@ -193,16 +193,13 @@ class _LoginPageState extends State<LoginPage> {
                                 String dataStr=json.encode(result.data);
                                 SharedPreferences prefs = await SharedPreferences.getInstance();
                                 prefs.setString("userInfo", dataStr);
+                                prefs.setString('userID', result.data.userPid);
                                 Navigator.of(context).pushAndRemoveUntil(
                                     new MaterialPageRoute(builder: (context) => new Home()
                                     ), (route) => route == null);
-                              } else if(result.code == 401){
-                                _on401AlertPressed(context);
-                              }
+                              } else if(result.code == 401){_on401AlertPressed(context);}
                               else if(result.code == 412){_on412AlertPressed(context);}
-                              else if(result.code == 402){
-                                _on402AlertPressed(context);
-                              }
+                              else if(result.code == 402){_on402AlertPressed(context);}
                               else{_on404AlertPressed(context);}
                             }else{}
                           },
@@ -317,8 +314,6 @@ class _LoginPageState extends State<LoginPage> {
             style: TextStyle(color: Colors.white, fontSize: 20),
           ),
           onPressed: () async {
-            SharedPreferences prefs = await SharedPreferences.getInstance();
-            var userID=prefs.getString("userID");
             Navigator.push(context, MaterialPageRoute(builder: (context)=>SigninChooseCompanyPage()));
           },
           color: Color(0xFF5580EB),

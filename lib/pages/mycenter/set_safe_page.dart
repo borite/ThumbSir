@@ -1,3 +1,7 @@
+import 'dart:convert';
+
+import 'package:ThumbSir/model/login_result_data_model.dart';
+import 'package:ThumbSir/pages/home.dart';
 import 'package:ThumbSir/pages/login/find_key_page.dart';
 import 'package:ThumbSir/pages/login/find_key_phone_page.dart';
 import 'package:ThumbSir/pages/login/login_page.dart';
@@ -7,6 +11,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SetSafePage extends StatefulWidget {
   @override
@@ -15,6 +20,38 @@ class SetSafePage extends StatefulWidget {
 
 class _SetSafePageState extends State<SetSafePage> {
   final TextEditingController textController=TextEditingController();
+
+  LoginResultData userData;
+  int _dateTime = DateTime.now().millisecondsSinceEpoch; // 当前时间转时间戳
+  int exT;
+  String uinfo;
+  var result;
+  _getUserInfo() async {
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    uinfo= prefs.getString("userInfo");
+    if(uinfo != null){
+      result =loginResultDataFromJson(uinfo);
+      exT = result.exTokenTime.millisecondsSinceEpoch; // token时间转时间戳
+      if(exT >= _dateTime){
+        this.setState(() {
+          userData=LoginResultData.fromJson(json.decode(uinfo));
+          print(userData);
+        });
+      }else{
+        _onLogoutAlertPressed(context);
+      }
+    }else{
+      _onLogoutAlertPressed(context);
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _getUserInfo();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,7 +95,7 @@ class _SetSafePageState extends State<SetSafePage> {
                                 Container(
                                   margin:EdgeInsets.only(right: 15),
                                   child: Text(
-                                    '150****5678',
+                                    userData.phone.substring(0,3) + '****' + userData.phone.substring(7,),
                                     style:TextStyle(
                                       fontSize: 16,
                                       color: Color(0xFF999999),
@@ -186,5 +223,29 @@ class _SetSafePageState extends State<SetSafePage> {
         ),
       ),
     );
+  }
+  _onLogoutAlertPressed(context) {
+    Alert(
+      context: context,
+      title: "需要重新登录",
+      desc: "长时间未进行登录操作，需要重新登录验证",
+      buttons: [
+        DialogButton(
+          child: Text(
+            "确定",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () async {
+            SharedPreferences prefs = await SharedPreferences.getInstance();
+            prefs.remove("userInfo");
+            Navigator.of(context).pushAndRemoveUntil(
+                new MaterialPageRoute(builder: (context) => new Home()
+                ), (route) => route == null
+            );
+          },
+          color: Color(0xFF5580EB),
+        ),
+      ],
+    ).show();
   }
 }

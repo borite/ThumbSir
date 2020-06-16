@@ -1,4 +1,5 @@
 import 'package:ThumbSir/common/reg.dart';
+import 'package:ThumbSir/pages/login/login_page.dart';
 import 'package:ThumbSir/pages/login/signin_choose_company_page.dart';
 import 'package:ThumbSir/pages/mycenter/legal_notice_page.dart';
 import 'package:ThumbSir/pages/mycenter/privacy_statement_page.dart';
@@ -310,7 +311,7 @@ class _SigninNameAndPhonePageState extends State<SigninNameAndPhonePage> {
                                         userNameBool == true &&
                                         verifyCodeBool == true &&
                                         check == true){
-                                      final UserReg result=await SigninDao.doUserReg(userName, password, phoneNum, verifyCode, '37ccc461-ab5c-4855-8842-bc45973d7cf0',WebAPICookie);
+                                      final UserReg result=await SigninDao.doUserReg(userName, password, phoneNum, verifyCode,WebAPICookie);
                                       print(WebAPICookie);
                                       if(result.code==200) {
                                         SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -322,6 +323,7 @@ class _SigninNameAndPhonePageState extends State<SigninNameAndPhonePage> {
                                         _on403AlertPressed(context);
                                       }
                                       else if(result.code == 410){_on410AlertPressed(context);}
+                                      else if(result.code == 420){_on420AlertPressed(context);}
                                       else{_on404AlertPressed(context);}
                                     }else if(check == false){
                                       setState(() {
@@ -385,7 +387,6 @@ class _SigninNameAndPhonePageState extends State<SigninNameAndPhonePage> {
       ],
     ).show();
   }
-
   _on410AlertPressed(context) {
     Alert(
       context: context,
@@ -400,6 +401,32 @@ class _SigninNameAndPhonePageState extends State<SigninNameAndPhonePage> {
           ),
           onPressed: () => Navigator.pop(context),
           color: Color(0xFF5580EB),
+        ),
+      ],
+    ).show();
+  }
+  _on420AlertPressed(context) {
+    Alert(
+      context: context,
+      type: AlertType.error,
+      title: "手机号码已注册",
+      buttons: [
+        DialogButton(
+          child: Text(
+            "去登录",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () async {
+            Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginPage()));
+          },
+          color: Color(0xFF5580EB),
+        ),
+        DialogButton(
+          child: Text(
+            "再试试",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () => Navigator.pop(context),
         ),
       ],
     ).show();

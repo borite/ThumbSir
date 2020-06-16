@@ -1,5 +1,6 @@
 import 'dart:math';
-
+import 'dart:convert';
+import 'package:ThumbSir/model/login_result_data_model.dart';
 import 'package:ThumbSir/pages/login/login_page.dart';
 import 'package:ThumbSir/pages/mycenter/aboutus_page.dart';
 import 'package:ThumbSir/pages/mycenter/introduce_version_page.dart';
@@ -20,7 +21,10 @@ class SetPage extends StatefulWidget {
 }
 
 class _SetPageState extends State<SetPage> {
+
   final TextEditingController textController=TextEditingController();
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -391,10 +395,10 @@ class _SetPageState extends State<SetPage> {
             prefs.remove("userInfo");
             Navigator.of(context).pushAndRemoveUntil(
                 new MaterialPageRoute(builder: (context) => new Home()
-                ), (route) => route == null);
+                ), (route) => route == null
+            );
           },
           color: Color(0xFF5580EB),
-          width: 120,
         ),
         DialogButton(
           child: Text(
@@ -403,7 +407,6 @@ class _SetPageState extends State<SetPage> {
           ),
           onPressed: () => Navigator.pop(context),
           color: Color(0xFF999999),
-          width: 120,
         )
       ],
     ).show();

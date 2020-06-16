@@ -1,3 +1,7 @@
+import 'dart:convert';
+
+import 'package:ThumbSir/model/login_result_data_model.dart';
+import 'package:ThumbSir/pages/home.dart';
 import 'package:ThumbSir/pages/login/signin_choose_company_page.dart';
 import 'package:ThumbSir/pages/login/signin_choose_position_page.dart';
 import 'package:ThumbSir/pages/mycenter/change_name_page.dart';
@@ -6,6 +10,7 @@ import 'package:ThumbSir/pages/mycenter/choose_portrait_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SetMyMsgPage extends StatefulWidget {
   @override
@@ -15,6 +20,37 @@ class SetMyMsgPage extends StatefulWidget {
 class _SetMyMsgPageState extends State<SetMyMsgPage> {
   final TextEditingController textController = TextEditingController();
   var portrait;
+
+  LoginResultData userData;
+  int _dateTime = DateTime.now().millisecondsSinceEpoch; // 当前时间转时间戳
+  int exT;
+  String uinfo;
+  var result;
+  _getUserInfo() async {
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    uinfo= prefs.getString("userInfo");
+    if(uinfo != null){
+      result =loginResultDataFromJson(uinfo);
+      exT = result.exTokenTime.millisecondsSinceEpoch; // token时间转时间戳
+      if(exT >= _dateTime){
+        this.setState(() {
+          userData=LoginResultData.fromJson(json.decode(uinfo));
+        });
+      }else{
+        _onLogoutAlertPressed(context);
+      }
+    }else{
+      _onLogoutAlertPressed(context);
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _getUserInfo();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -118,7 +154,7 @@ class _SetMyMsgPageState extends State<SetMyMsgPage> {
                                 Container(
                                   margin: EdgeInsets.only(right: 15),
                                   child: Text(
-                                    '马思唯',
+                                    userData.userName,
                                     style: TextStyle(
                                       fontSize: 16,
                                       color: Color(0xFF999999),
@@ -170,7 +206,7 @@ class _SetMyMsgPageState extends State<SetMyMsgPage> {
                                     Container(
                                       width: 330,
                                       child: Text(
-                                        '北京链家房地产经纪有限责任公司',
+                                        userData.companyName,
                                         style: TextStyle(
                                           fontSize: 12,
                                           color: Color(0xFF999999),
@@ -223,7 +259,8 @@ class _SetMyMsgPageState extends State<SetMyMsgPage> {
                                     Container(
                                       width: 330,
                                       child: Text(
-                                        '北京-京中大部-白石桥大区-长河湾北门店-买卖1组',
+                                        userData.province +" - "+ userData.city +" - "+ userData.section +" - "+ userData.userLevel.substring(2,),
+//                                        '北京-京中大部-白石桥大区-长河湾北门店-买卖1组',
                                         style: TextStyle(
                                           fontSize: 12,
                                           color: Color(0xFF999999),
@@ -342,6 +379,30 @@ class _SetMyMsgPageState extends State<SetMyMsgPage> {
           onPressed: () => Navigator.pop(context),
           color: Color(0xFFCCCCCC),
         )
+      ],
+    ).show();
+  }
+  _onLogoutAlertPressed(context) {
+    Alert(
+      context: context,
+      title: "需要重新登录",
+      desc: "长时间未进行登录操作，需要重新登录验证",
+      buttons: [
+        DialogButton(
+          child: Text(
+            "确定",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () async {
+            SharedPreferences prefs = await SharedPreferences.getInstance();
+            prefs.remove("userInfo");
+            Navigator.of(context).pushAndRemoveUntil(
+                new MaterialPageRoute(builder: (context) => new Home()
+                ), (route) => route == null
+            );
+          },
+          color: Color(0xFF5580EB),
+        ),
       ],
     ).show();
   }

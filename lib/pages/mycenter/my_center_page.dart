@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:ThumbSir/pages/home.dart';
 import 'package:ThumbSir/pages/login/login_page.dart';
 import 'package:ThumbSir/pages/mycenter/broker_center_group_page.dart';
 import 'package:ThumbSir/pages/mycenter/s_center_group_page.dart';
@@ -11,6 +12,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ThumbSir/model/login_result_data_model.dart';
 import 'choose_portrait_page.dart';
 import 'm_center_group_page.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 class MyCenterPage extends StatefulWidget {
   @override
@@ -36,14 +38,10 @@ class _MyCenterPageState extends State<MyCenterPage> {
           userData=LoginResultData.fromJson(json.decode(uinfo));
         });
       }else{
-        setState(() {
-          userData = null;
-        });
+        _onLogoutAlertPressed(context);
       }
     }else{
-      setState(() {
-        userData = null;
-      });
+      _onLogoutAlertPressed(context);
     }
   }
 
@@ -537,5 +535,29 @@ class _MyCenterPageState extends State<MyCenterPage> {
           ],
         )
     );
+  }
+  _onLogoutAlertPressed(context) {
+    Alert(
+      context: context,
+      title: "需要重新登录",
+      desc: "长时间未进行登录操作，需要重新登录验证",
+      buttons: [
+        DialogButton(
+          child: Text(
+            "确定",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () async {
+            SharedPreferences prefs = await SharedPreferences.getInstance();
+            prefs.remove("userInfo");
+            Navigator.of(context).pushAndRemoveUntil(
+                new MaterialPageRoute(builder: (context) => new Home()
+                ), (route) => route == null
+            );
+          },
+          color: Color(0xFF5580EB),
+        ),
+      ],
+    ).show();
   }
 }
