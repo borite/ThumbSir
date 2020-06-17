@@ -40,8 +40,6 @@ class _MyCenterPageState extends State<MyCenterPage> {
       }else{
         _onLogoutAlertPressed(context);
       }
-    }else{
-      _onLogoutAlertPressed(context);
     }
   }
 

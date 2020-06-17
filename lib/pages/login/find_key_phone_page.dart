@@ -35,8 +35,6 @@ class _FindKeyPhonePageState extends State<FindKeyPhonePage> {
   bool verifyCodeBool;
 
   String WebAPICookie;
-
-  String username;
   String userId;
 
   @override
@@ -160,7 +158,7 @@ class _FindKeyPhonePageState extends State<FindKeyPhonePage> {
                                 verifyCodeBool = yzmReg.hasMatch(verifyCode);
                               });
                             },
-                            editParentText: (editText,userName,userID) => _editParentText(editText,userName,userID),
+                            editParentText: (editText,userID) => _editParentText(editText,userID),
                           ),
                           Container(
                             width: 335,
@@ -185,7 +183,6 @@ class _FindKeyPhonePageState extends State<FindKeyPhonePage> {
                             if(coderesult != null){
                               if(coderesult.code == 200 ){
                                 Navigator.push(context, MaterialPageRoute(builder: (context)=>FindKeyPage(
-                                  userName : username,
                                   userID :userId
                                 )));
                               }else{_onCodeAlertPressed(context);}
@@ -230,10 +227,9 @@ class _FindKeyPhonePageState extends State<FindKeyPhonePage> {
   }
   // 修改contentText参数
 
-  _editParentText(editText,userName,userID) {
+  _editParentText(editText,userID) {
     setState(() {
       WebAPICookie = editText;
-      username = userName;
       userId = userID;
     });
   }

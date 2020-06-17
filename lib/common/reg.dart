@@ -4,3 +4,4 @@ final RegExp passwordReg = new RegExp(r"\d{6}$");
 final RegExp verifyCodeReg = new RegExp(r"\d{6}$");
 final RegExp invitationCodeReg = new RegExp(r"\d{6}$");
 final RegExp TextReg = new RegExp(r"\d{6}$");
+final RegExp CreditCodeReg = new RegExp(r"\d{6}$");

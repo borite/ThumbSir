@@ -36,11 +36,19 @@ class _ChangeCodePageState extends State<ChangeCodePage> {
   final TextEditingController sNewPasswordController=TextEditingController();
   String sNewPassword;
   bool sNewPsdBool;
+
+  String userId;
+  _load() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    userId=prefs.getString("userID");
+  }
+
   @override
   void initState() {
     phoneReg = telPhoneReg;
     psdReg = passwordReg;
     yzmReg = verifyCodeReg;
+    _load();
     super.initState();
   }
 
@@ -129,6 +137,7 @@ class _ChangeCodePageState extends State<ChangeCodePage> {
                                 verifyCodeBool = yzmReg.hasMatch(verifyCode);
                               });
                             },
+                            editParentText: (editText,userID) => _editParentText(editText,userID),
                           ),
                           //旧密码输入框
                           Input(
@@ -207,12 +216,10 @@ class _ChangeCodePageState extends State<ChangeCodePage> {
                             child: GestureDetector(
                               onTap: () async {
                                 if(psdBool == true && newPasswordController.text == newPasswordController.text){
-                                  SharedPreferences prefs = await SharedPreferences.getInstance();
-                                  var userID=prefs.getString("userID");
                                   final CommonResult modifyKeyResult=await ModifyUserPwdDao.modifyPwd(
-                                      passwordController.text,
                                       newPasswordController.text,
-                                      userID);
+                                      passwordController.text,
+                                      userId);
                                   if(modifyKeyResult != null){
                                     if(modifyKeyResult.code == 200 ){
                                       Navigator.push(context, MaterialPageRoute(builder: (context)=>ChangeCodeFinishPage()));
@@ -236,6 +243,12 @@ class _ChangeCodePageState extends State<ChangeCodePage> {
             )
         ),
       );
+  }
+  _editParentText(editText,userID) {
+    setState(() {
+      WebAPICookie = editText;
+      userId = userID;
+    });
   }
   _onCodeAlertPressed(context) {
     Alert(

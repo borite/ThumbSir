@@ -1,4 +1,12 @@
+import 'dart:convert';
+import 'package:ThumbSir/dao/checkverifycode_dao.dart';
+import 'package:ThumbSir/dao/modify_phone_step1_dao.dart';
+import 'package:ThumbSir/dao/modify_phone_step2_dao.dart';
+import 'package:ThumbSir/model/common_result_model.dart';
+import 'package:ThumbSir/pages/home.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:ThumbSir/common/reg.dart';
+import 'package:ThumbSir/model/login_result_data_model.dart';
 import 'package:ThumbSir/pages/login/signin_choose_company_page.dart';
 import 'package:ThumbSir/pages/mycenter/change_phone_finish_page.dart';
 import 'package:ThumbSir/widget/input.dart';
@@ -12,6 +20,9 @@ import 'package:ThumbSir/model/userreg_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ChangePhoneNewPage extends StatefulWidget {
+  final passWord;
+  final userID;
+  ChangePhoneNewPage({this.passWord,this.userID});
   @override
   _ChangePhoneNewPageState createState() => _ChangePhoneNewPageState();
 }
@@ -25,8 +36,9 @@ class _ChangePhoneNewPageState extends State<ChangePhoneNewPage> {
   String verifyCode;
   RegExp yzmReg;
   bool verifyCodeBool;
-
+  String userId;
   String WebAPICookie;
+
   @override
   void initState() {
     phoneReg = telPhoneReg;
@@ -130,6 +142,7 @@ class _ChangePhoneNewPageState extends State<ChangePhoneNewPage> {
                                 verifyCodeBool = yzmReg.hasMatch(verifyCode);
                               });
                             },
+                            editParentText: (editText,userID) => _editParentText(editText,userID),
                           ),
                         ],
                       ),
@@ -155,20 +168,19 @@ class _ChangePhoneNewPageState extends State<ChangePhoneNewPage> {
                             padding: EdgeInsets.only(top: 4),
                             child: GestureDetector(
                               onTap: () async {
-//                                final String phoneNum=phoneNumController.text;
-//                                final String password=passwordController.text;
-//                                final String verifyCode=verifyCodeController.text;
-//                                final UserReg result=await SigninDao.doUserReg(password, phoneNum, verifyCode, '37ccc461-ab5c-4855-8842-bc45973d7cf0',WebAPICookie);
-//                                print(result);
-//                                if(result.code==200) {
-//                                  SharedPreferences prefs = await SharedPreferences.getInstance();
-//                                  prefs.setString('userID', result.data);
-//                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>SigninChooseCompanyPage()));
-//                                }else{
-//                                  print(result.code);
-//                                  print(result.message);
-//                                }
-                                Navigator.push(context, MaterialPageRoute(builder: (context)=>ChangePhoneFinishPage()));
+                                final CommonResult coderesult=await CheckVerifyCodeDao.checkCode(verifyCode,WebAPICookie);
+                                if(coderesult != null){
+                                  if(coderesult.code == 200 ){
+                                    var result = await ModifyPhoneStepTwoDao.modifyPhone2(widget.passWord, phoneNum, widget.userID);
+                                    if(result.code==200) {
+                                      Navigator.push(context, MaterialPageRoute(builder: (context)=>ChangePhoneFinishPage()));
+                                    }else if(result.code == 400){
+                                      _on400AlertPressed(context);
+                                    }else if (result.code == 410){
+                                      _on400AlertPressed(context);
+                                    }
+                                  }else{_onCodeAlertPressed(context);}
+                                }else{_onCodeAlertPressed(context);}
                               },
                               child: Text('下一步',style: TextStyle(
                                 fontSize: 14,
@@ -185,5 +197,70 @@ class _ChangePhoneNewPageState extends State<ChangePhoneNewPage> {
             )
         ),
       );
+  }
+  _editParentText(editText,userID) {
+    setState(() {
+      WebAPICookie = editText;
+      userId = widget.userID;
+    });
+  }
+  _onLogoutAlertPressed(context) {
+    Alert(
+      context: context,
+      title: "需要重新登录",
+      desc: "长时间未进行登录操作，需要重新登录验证",
+      buttons: [
+        DialogButton(
+          child: Text(
+            "确定",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () async {
+            SharedPreferences prefs = await SharedPreferences.getInstance();
+            prefs.remove("userInfo");
+            Navigator.of(context).pushAndRemoveUntil(
+                new MaterialPageRoute(builder: (context) => new Home()
+                ), (route) => route == null
+            );
+          },
+          color: Color(0xFF5580EB),
+        ),
+      ],
+    ).show();
+  }
+  _onCodeAlertPressed(context) {
+    Alert(
+      context: context,
+      type: AlertType.error,
+      title: "验证码不正确",
+      desc: "请重试",
+      buttons: [
+        DialogButton(
+          child: Text(
+            "确定",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () => Navigator.pop(context),
+          color: Color(0xFF5580EB),
+        ),
+      ],
+    ).show();
+  }
+  _on400AlertPressed(context) {
+    Alert(
+      context: context,
+      title: "手机号码已注册",
+      desc: "请使用未注册的手机号码",
+      buttons: [
+        DialogButton(
+          child: Text(
+            "确定",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () => Navigator.pop(context),
+          color: Color(0xFF5580EB),
+        ),
+      ],
+    ).show();
   }
 }

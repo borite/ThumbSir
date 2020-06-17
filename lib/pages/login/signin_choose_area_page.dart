@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:ThumbSir/widget/input.dart';
 import 'package:ThumbSir/model/common_result_model.dart';
 import 'package:ThumbSir/dao/set_section_dao.dart';
-import 'package:ThumbSir/dao/finish_reg.dart';
+import 'package:ThumbSir/dao/finish_reg_dao.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:simple_autocomplete_formfield/simple_autocomplete_formfield.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
@@ -461,7 +461,6 @@ class _SigninChooseAreaPageState extends State<SigninChooseAreaPage> {
                                     await setSecionDao.httpPostSection(companyId, currentLevel, levelTwoController.text);
                                     await finishRegDao.httpPostFinishReg(userId, widget.companyId, selValue, levelTwoController.text );
                                     var leader = await GetLeaderDao.httpGetLeader(companyId, levelOneController.text, previousLevel);
-                                    print(leader);
                                     if(leader.code == 200){
                                       setState(() {
                                         leaderId = leader.data.userPid;

@@ -41,8 +41,6 @@ class _SetSafePageState extends State<SetSafePage> {
       }else{
         _onLogoutAlertPressed(context);
       }
-    }else{
-      _onLogoutAlertPressed(context);
     }
   }
 

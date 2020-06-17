@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:ThumbSir/dao/get_company_level_dao.dart';
 import 'package:ThumbSir/model/login_result_data_model.dart';
 import 'package:ThumbSir/pages/home.dart';
 import 'package:ThumbSir/pages/login/signin_choose_company_page.dart';
@@ -40,8 +41,6 @@ class _SetMyMsgPageState extends State<SetMyMsgPage> {
       }else{
         _onLogoutAlertPressed(context);
       }
-    }else{
-      _onLogoutAlertPressed(context);
     }
   }
 
@@ -368,7 +367,35 @@ class _SetMyMsgPageState extends State<SetMyMsgPage> {
             "确定",
             style: TextStyle(color: Colors.white, fontSize: 20),
           ),
-          onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context)=>SigninChoosePositionPage())),
+          onPressed: () async {
+            var companyLevel = await GetCompanyLevelDao.httpGetCompanyLevel(userData.companyId);
+
+            // 把每一项放在levels的数组里
+            List<String> levels=[];
+            if(companyLevel.data.level1!=null){
+              levels.add('1-'+companyLevel.data.level1);
+            }
+            if(companyLevel.data.level2!=null){
+              levels.add('2-'+companyLevel.data.level2);
+            }
+            if(companyLevel.data.level3!=null){
+              levels.add('3-'+companyLevel.data.level3);
+            }
+            if(companyLevel.data.level4!=null){
+              levels.add('4-'+companyLevel.data.level4);
+            }
+            levels.add('5-'+companyLevel.data.level5);
+            levels.add('6-'+companyLevel.data.level6);
+
+            int count = levels.length;
+
+            Navigator.push(context, MaterialPageRoute(builder: (context)=>SigninChoosePositionPage(
+              levelNames:levels,
+              companyId:userData.companyId,
+              companyLevelCount:count,
+            )));
+          },
+
           color: Color(0xFF5580EB),
         ),
         DialogButton(

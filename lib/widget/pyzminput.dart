@@ -59,7 +59,7 @@ class _PYZMInputState extends State<PYZMInput> {
   int tip = 0;
   String WebAPICookie;
 
-  String userID,userName;
+  String userID;
 
 
   // 倒计时的计时器。
@@ -195,8 +195,6 @@ class _PYZMInputState extends State<PYZMInput> {
                       countdown=60;
                     });
                     startCountDownTimer();
-                    //记录根据用户名和用户ID，这两个变量需要传递给下一页，修改密码时候会用到
-                    userName=phoneresult.data.userName;
                     userID=phoneresult.data.userPid;
 
                     //发送验证码，注意cookie
@@ -204,7 +202,7 @@ class _PYZMInputState extends State<PYZMInput> {
                     //验证码发送成功
                     if(coderesult.code==200){
                       WebAPICookie = coderesult.cookie.split(';')[0];
-                      widget.editParentText(WebAPICookie,userName,userID);
+                      widget.editParentText(WebAPICookie,userID);
                     }
                   }else{   //用户没有找到，会返回404
                     _on400AlertPressed(context);
