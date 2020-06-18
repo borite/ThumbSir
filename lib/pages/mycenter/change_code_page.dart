@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:ThumbSir/dao/check_verify_code_dao.dart';
 import 'package:ThumbSir/dao/modify_user_pwd_dao.dart';
 import 'package:ThumbSir/model/common_result_model.dart';
 import 'package:ThumbSir/pages/mycenter/change_code_finish_page.dart';
@@ -216,16 +217,21 @@ class _ChangeCodePageState extends State<ChangeCodePage> {
                             child: GestureDetector(
                               onTap: () async {
                                 if(psdBool == true && newPasswordController.text == newPasswordController.text){
-                                  final CommonResult modifyKeyResult=await ModifyUserPwdDao.modifyPwd(
-                                      newPasswordController.text,
-                                      passwordController.text,
-                                      userId);
-                                  if(modifyKeyResult != null){
-                                    if(modifyKeyResult.code == 200 ){
-                                      Navigator.push(context, MaterialPageRoute(builder: (context)=>ChangeCodeFinishPage()));
-                                    }else{_onCodeAlertPressed(context);}
-                                  }else{_onCodeAlertPressed(context);}
-                                }else{_onPwdAlertPressed(context);
+                                  final CommonResult coderesult=await CheckVerifyCodeDao.checkCode(verifyCode,WebAPICookie);
+                                  if(coderesult != null){
+                                    if(coderesult.code == 200 ){
+                                      final CommonResult modifyKeyResult=await ModifyUserPwdDao.modifyPwd(
+                                        newPasswordController.text,
+                                        passwordController.text,
+                                        userId
+                                      );
+                                      if(modifyKeyResult != null){
+                                        if(modifyKeyResult.code == 200 ){
+                                          Navigator.push(context, MaterialPageRoute(builder: (context)=>ChangeCodeFinishPage()));
+                                        }else{_onCodeAlertPressed(context);}
+                                      }else{_onCodeAlertPressed(context);}
+                                    }else{_onPwdAlertPressed(context);}
+                                  }else{_onVCodeAlertPressed(context);}
                                 }
                               },
                               child: Text('下一步',style: TextStyle(
@@ -255,6 +261,24 @@ class _ChangeCodePageState extends State<ChangeCodePage> {
       context: context,
       type: AlertType.error,
       title: "旧密码不正确",
+      desc: "请重试",
+      buttons: [
+        DialogButton(
+          child: Text(
+            "确定",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () => Navigator.pop(context),
+          color: Color(0xFF5580EB),
+        ),
+      ],
+    ).show();
+  }
+  _onVCodeAlertPressed(context) {
+    Alert(
+      context: context,
+      type: AlertType.error,
+      title: "验证码不正确",
       desc: "请重试",
       buttons: [
         DialogButton(

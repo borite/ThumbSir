@@ -1,4 +1,10 @@
+import 'dart:convert';
+import 'package:ThumbSir/pages/home.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:ThumbSir/dao/get_leader_and_team_member_dao.dart';
+import 'package:ThumbSir/model/login_result_data_model.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class BrokerCenterGroupPage extends StatefulWidget {
   @override
@@ -6,6 +12,54 @@ class BrokerCenterGroupPage extends StatefulWidget {
 }
 
 class _BrokerCenterGroupPageState extends State<BrokerCenterGroupPage> {
+  var leaderAndMemberResult;
+  bool hasMember = false;
+
+  LoginResultData userData;
+  int _dateTime = DateTime.now().millisecondsSinceEpoch; // 当前时间转时间戳
+  int exT;
+  String uinfo;
+  var result;
+
+  _getUserInfo() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    uinfo= prefs.getString("userInfo");
+    if(uinfo != null){
+      result =loginResultDataFromJson(uinfo);
+      exT = result.exTokenTime.millisecondsSinceEpoch; // token时间转时间戳
+      if(exT >= _dateTime){
+        this.setState(() {
+          userData=LoginResultData.fromJson(json.decode(uinfo));
+        });
+      }else{
+        _onLogoutAlertPressed(context);
+      }
+    }
+  }
+
+  _load()async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final userId= prefs.getString("userID");
+    leaderAndMemberResult = await GetLeaderAndTeamMemberDao.getLeaderAndTeamMember(userId);
+    print(leaderAndMemberResult.code);
+    if(leaderAndMemberResult.code == 200){
+      setState(() {
+        hasMember = true;
+      });
+    }else{
+      setState(() {
+        hasMember = false;
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    _getUserInfo();
+    _load();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -78,13 +132,16 @@ class _BrokerCenterGroupPageState extends State<BrokerCenterGroupPage> {
                           ),
                           Padding(
                             padding: EdgeInsets.only(left: 25,right: 15,top: 5),
-                            child: Text('哲里木',style: TextStyle(
-                              decoration: TextDecoration.none,
-                              fontSize: 20,
-                              color: Color(0xFF333333),
-                              fontWeight: FontWeight.normal,
+                            child: Text(
+                              userData == null ? '':userData.userName,
+                              style: TextStyle(
+                                decoration: TextDecoration.none,
+                                fontSize: 20,
+                                color: Color(0xFF333333),
+                                fontWeight: FontWeight.normal,
                             ),),
                           ),
+                          userData == null?Container(width: 1,):
                           Padding(
                             padding: EdgeInsets.only(top: 5),
                             child: Image(image: AssetImage('images/vip_yellow.png'),),
@@ -94,6 +151,7 @@ class _BrokerCenterGroupPageState extends State<BrokerCenterGroupPage> {
                     ],
                   ),
                   // 店长
+                  hasMember == false ?
                   Container(
                     margin: EdgeInsets.fromLTRB(20, 40, 20, 30),
                     child: Row(
@@ -187,8 +245,22 @@ class _BrokerCenterGroupPageState extends State<BrokerCenterGroupPage> {
                         ),
                       ],
                     ),
+                  )
+                  :Container(
+                    margin: EdgeInsets.only(top: 80),
+                    child: Text(
+                      '还没有同组成员',
+                      style: TextStyle(
+                        decoration: TextDecoration.none,
+                        fontSize: 20,
+                        color: Color(0xFFCCCCCC),
+                        fontWeight: FontWeight.normal,
+                      ),
+                      textAlign: TextAlign.center,
+                    )
                   ),
                   // 成员列表
+                  hasMember == false ?
                   Column(
                     children: <Widget>[
                       Container(
@@ -494,11 +566,36 @@ class _BrokerCenterGroupPageState extends State<BrokerCenterGroupPage> {
                         ),
                       ),
                     ],
-                  ),
+                  )
+                  :Container(width: 1,),
                 ]
             )
           ],
         )
     );
+  }
+  _onLogoutAlertPressed(context) {
+    Alert(
+      context: context,
+      title: "需要重新登录",
+      desc: "长时间未进行登录操作，需要重新登录验证",
+      buttons: [
+        DialogButton(
+          child: Text(
+            "确定",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () async {
+            SharedPreferences prefs = await SharedPreferences.getInstance();
+            prefs.remove("userInfo");
+            Navigator.of(context).pushAndRemoveUntil(
+                new MaterialPageRoute(builder: (context) => new Home()
+                ), (route) => route == null
+            );
+          },
+          color: Color(0xFF5580EB),
+        ),
+      ],
+    ).show();
   }
 }

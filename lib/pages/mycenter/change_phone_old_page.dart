@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:ThumbSir/common/reg.dart';
-import 'package:ThumbSir/dao/checkverifycode_dao.dart';
+import 'package:ThumbSir/dao/check_verify_code_dao.dart';
 import 'package:ThumbSir/dao/modify_phone_step1_dao.dart';
 import 'package:ThumbSir/model/common_result_model.dart';
 import 'package:ThumbSir/model/login_result_data_model.dart';
@@ -148,7 +148,7 @@ class _ChangePhoneOldPageState extends State<ChangePhoneOldPage> {
                                   ),
                                 ),
                                 Text(
-                                  userData.phone.substring(0,3)+'****'+userData.phone.substring(7,),
+                                  userData == null ?'':userData.phone.substring(0,3)+'****'+userData.phone.substring(7,),
                                   style:TextStyle(
                                     fontSize: 14,
                                     color: Color(0xFF2692FD),

@@ -8,6 +8,7 @@ import 'package:ThumbSir/pages/login/signin_choose_position_page.dart';
 import 'package:ThumbSir/pages/mycenter/change_name_page.dart';
 import 'package:ThumbSir/pages/mycenter/choose_mini_task_number_page.dart';
 import 'package:ThumbSir/pages/mycenter/choose_portrait_page.dart';
+import 'package:ThumbSir/widget/loading.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
@@ -28,7 +29,6 @@ class _SetMyMsgPageState extends State<SetMyMsgPage> {
   String uinfo;
   var result;
   _getUserInfo() async {
-
     SharedPreferences prefs = await SharedPreferences.getInstance();
     uinfo= prefs.getString("userInfo");
     if(uinfo != null){
@@ -66,7 +66,7 @@ class _SetMyMsgPageState extends State<SetMyMsgPage> {
                   GestureDetector(
                     onTap: () {
                       Navigator.push(context, MaterialPageRoute(
-                        builder: (context) => ChoosePortraitPage())).then((p){
+                          builder: (context) => ChoosePortraitPage())).then((p){
                         setState(() {
                           portrait = p;
                         });
@@ -125,7 +125,10 @@ class _SetMyMsgPageState extends State<SetMyMsgPage> {
                   GestureDetector(
                     onTap: () {
                       Navigator.push(context, MaterialPageRoute(
-                          builder: (context) => ChangeNamePage()));
+                          builder: (context) => ChangeNamePage())
+                      ).then((dataStr){
+                        _getUserInfo();
+                      });
                     },
                     child: Container(
                         color: Colors.white,
@@ -153,7 +156,7 @@ class _SetMyMsgPageState extends State<SetMyMsgPage> {
                                 Container(
                                   margin: EdgeInsets.only(right: 15),
                                   child: Text(
-                                    userData.userName,
+                                    userData == null ?'':userData.userName,
                                     style: TextStyle(
                                       fontSize: 16,
                                       color: Color(0xFF999999),
@@ -205,7 +208,7 @@ class _SetMyMsgPageState extends State<SetMyMsgPage> {
                                     Container(
                                       width: 330,
                                       child: Text(
-                                        userData.companyName,
+                                        userData == null ?'':userData.companyName,
                                         style: TextStyle(
                                           fontSize: 12,
                                           color: Color(0xFF999999),
@@ -258,7 +261,7 @@ class _SetMyMsgPageState extends State<SetMyMsgPage> {
                                     Container(
                                       width: 330,
                                       child: Text(
-                                        userData.province +" - "+ userData.city +" - "+ userData.section +" - "+ userData.userLevel.substring(2,),
+                                        userData == null ?'':userData.province +" - "+ userData.city +" - "+ userData.section +" - "+ userData.userLevel.substring(2,),
 //                                        '北京-京中大部-白石桥大区-长河湾北门店-买卖1组',
                                         style: TextStyle(
                                           fontSize: 12,

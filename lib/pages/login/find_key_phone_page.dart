@@ -1,7 +1,7 @@
 import 'package:ThumbSir/common/reg.dart';
-import 'package:ThumbSir/dao/checkverifycode_dao.dart';
+import 'package:ThumbSir/dao/check_verify_code_dao.dart';
 import 'package:ThumbSir/dao/getuser_byphone_dao.dart';
-import 'package:ThumbSir/dao/phoneverifycode_dao.dart';
+import 'package:ThumbSir/dao/signin_phone_verify_code_dao.dart';
 import 'package:ThumbSir/model/checkverifycode_model.dart';
 import 'package:ThumbSir/model/common_result_model.dart';
 import 'package:ThumbSir/model/find_user_result_model.dart';

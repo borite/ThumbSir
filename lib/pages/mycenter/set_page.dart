@@ -379,6 +379,7 @@ class _SetPageState extends State<SetPage> {
       ),
     );
   }
+  
   _onLogoutAlertPressed(context) {
     Alert(
       context: context,

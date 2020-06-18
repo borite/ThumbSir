@@ -461,13 +461,21 @@ class _SigninChooseAreaPageState extends State<SigninChooseAreaPage> {
                                     await setSecionDao.httpPostSection(companyId, currentLevel, levelTwoController.text);
                                     await finishRegDao.httpPostFinishReg(userId, widget.companyId, selValue, levelTwoController.text );
                                     var leader = await GetLeaderDao.httpGetLeader(companyId, levelOneController.text, previousLevel);
-                                    if(leader.code == 200){
-                                      setState(() {
-                                        leaderId = leader.data.userPid;
-                                        leaderName = leader.data.userName;
+                                    if(leader != null){
+                                      // 如果有上级，且上级存在，弹窗，申请挂载
+                                      if(leader.code == 200){
+                                        setState(() {
+                                          leaderId = leader.data.userPid;
+                                          leaderName = leader.data.userName;
 
-                                      });
-                                      _onChooseLeaderAlertPressed(context);
+                                        });
+                                        _onChooseLeaderAlertPressed(context);
+                                      }
+                                      // 如果有上级，且上级不存在，存储上级区域并跳转
+                                      else{
+                                        await setSecionDao.httpPostSection(companyId, previousLevel, levelOneController.text);
+                                        Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginPage()));
+                                      }
                                     }
                                     // 如果有上级，且上级不存在，存储上级区域并跳转
                                     else{

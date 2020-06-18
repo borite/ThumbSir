@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:ThumbSir/dao/checkverifycode_dao.dart';
+import 'package:ThumbSir/dao/check_verify_code_dao.dart';
 import 'package:ThumbSir/dao/modify_phone_step1_dao.dart';
 import 'package:ThumbSir/dao/modify_phone_step2_dao.dart';
 import 'package:ThumbSir/model/common_result_model.dart';
@@ -14,7 +14,7 @@ import 'package:ThumbSir/widget/pyzminput.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ThumbSir/model/sendverifycode_model.dart';
-import 'package:ThumbSir/dao/sendverifycode_dao.dart';
+import 'package:ThumbSir/dao/send_verify_code_dao.dart';
 import 'package:ThumbSir/dao/signin_dao.dart';
 import 'package:ThumbSir/model/userreg_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -174,10 +174,8 @@ class _ChangePhoneNewPageState extends State<ChangePhoneNewPage> {
                                     var result = await ModifyPhoneStepTwoDao.modifyPhone2(widget.passWord, phoneNum, widget.userID);
                                     if(result.code==200) {
                                       Navigator.push(context, MaterialPageRoute(builder: (context)=>ChangePhoneFinishPage()));
-                                    }else if(result.code == 400){
-                                      _on400AlertPressed(context);
                                     }else if (result.code == 410){
-                                      _on400AlertPressed(context);
+                                      _on410AlertPressed(context);
                                     }
                                   }else{_onCodeAlertPressed(context);}
                                 }else{_onCodeAlertPressed(context);}
@@ -204,30 +202,6 @@ class _ChangePhoneNewPageState extends State<ChangePhoneNewPage> {
       userId = widget.userID;
     });
   }
-  _onLogoutAlertPressed(context) {
-    Alert(
-      context: context,
-      title: "需要重新登录",
-      desc: "长时间未进行登录操作，需要重新登录验证",
-      buttons: [
-        DialogButton(
-          child: Text(
-            "确定",
-            style: TextStyle(color: Colors.white, fontSize: 20),
-          ),
-          onPressed: () async {
-            SharedPreferences prefs = await SharedPreferences.getInstance();
-            prefs.remove("userInfo");
-            Navigator.of(context).pushAndRemoveUntil(
-                new MaterialPageRoute(builder: (context) => new Home()
-                ), (route) => route == null
-            );
-          },
-          color: Color(0xFF5580EB),
-        ),
-      ],
-    ).show();
-  }
   _onCodeAlertPressed(context) {
     Alert(
       context: context,
@@ -246,7 +220,7 @@ class _ChangePhoneNewPageState extends State<ChangePhoneNewPage> {
       ],
     ).show();
   }
-  _on400AlertPressed(context) {
+  _on410AlertPressed(context) {
     Alert(
       context: context,
       title: "手机号码已注册",

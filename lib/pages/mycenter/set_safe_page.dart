@@ -36,7 +36,6 @@ class _SetSafePageState extends State<SetSafePage> {
       if(exT >= _dateTime){
         this.setState(() {
           userData=LoginResultData.fromJson(json.decode(uinfo));
-          print(userData);
         });
       }else{
         _onLogoutAlertPressed(context);
@@ -93,7 +92,7 @@ class _SetSafePageState extends State<SetSafePage> {
                                 Container(
                                   margin:EdgeInsets.only(right: 15),
                                   child: Text(
-                                    userData.phone.substring(0,3) + '****' + userData.phone.substring(7,),
+                                    userData == null ?'':userData.phone.substring(0,3) + '****' + userData.phone.substring(7,),
                                     style:TextStyle(
                                       fontSize: 16,
                                       color: Color(0xFF999999),
