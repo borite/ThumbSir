@@ -38,7 +38,7 @@ class _AddMemberPageState extends State<AddMemberPage> {
                             ),
                             Padding(
                               padding: EdgeInsets.only(left: 10),
-                              child: Text('添加成员',style: TextStyle(
+                              child: Text('添加上下级成员',style: TextStyle(
                                 fontSize: 16,
                                 color: Color(0xFF5580EB),
                                 fontWeight: FontWeight.normal,
@@ -48,7 +48,7 @@ class _AddMemberPageState extends State<AddMemberPage> {
                           ],
                         )
                     ),
-                    Input(hintText: '输入下级姓名或手机号'),
+                    Input(hintText: '输入上级或下级姓名或手机号'),
                     // 搜索结果
                     Container(
                       width: 335,

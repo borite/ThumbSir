@@ -61,7 +61,7 @@ class _ZCenterGroupPageState extends State<ZCenterGroupPage> {
                                 border: Border.all(color: Color(0xFF93C0FB),width: 1),
                                 borderRadius: BorderRadius.circular(20),
                               ),
-                              child: Text('添加成员',style: TextStyle(
+                              child: Text('添加上下级成员',style: TextStyle(
                                 fontSize: 16,
                                 color: Color(0xFF5580EB),
                                 fontWeight: FontWeight.normal,

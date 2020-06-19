@@ -28,7 +28,6 @@ class _QListAddPageState extends State<QListAddPage> {
             setState(() {
               _taskIndex = taskList.indexOf(item);
             });
-            print(_taskIndex);
           },
           child: Container(
             width: 100,
@@ -38,8 +37,16 @@ class _QListAddPageState extends State<QListAddPage> {
                 border: Border.all(width: 1,color: Color(0xFF93C0FB)),
                 borderRadius: BorderRadius.circular(5)
             ),
-            child: Text(item,style: TextStyle(fontSize: 14,color: Color(0xFF0E7AE6),fontWeight: FontWeight.normal,
-              decoration: TextDecoration.none,),textAlign: TextAlign.center,),
+            child: Text(
+              item,
+              style: TextStyle(
+                fontSize: 14,
+                color: Color(0xFF0E7AE6),
+                fontWeight: FontWeight.normal,
+                decoration: TextDecoration.none,
+              ),
+              textAlign: TextAlign.center,
+            ),
           ),
         ),
       );
