@@ -5,3 +5,4 @@ final RegExp verifyCodeReg = new RegExp(r"\d{6}$");
 final RegExp invitationCodeReg = new RegExp(r"\d{6}$");
 final RegExp TextReg = new RegExp(r"\d{6}$");
 final RegExp CreditCodeReg = new RegExp(r"\d{6}$");
+final RegExp FeedBackReg = new RegExp(r"\d{6}$"); // 5~300个字

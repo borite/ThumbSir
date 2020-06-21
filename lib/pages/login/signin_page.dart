@@ -320,7 +320,6 @@ class _SigninNameAndPhonePageState extends State<SigninNameAndPhonePage> {
                                           check == true){
                                         _onRefresh();
                                         UserReg result=await SigninDao.doUserReg(userName, password, phoneNum, verifyCode,WebAPICookie);
-                                        print(WebAPICookie);
                                         if(result.code==200) {
                                           SharedPreferences prefs = await SharedPreferences.getInstance();
                                           prefs.setString('userID', result.data);

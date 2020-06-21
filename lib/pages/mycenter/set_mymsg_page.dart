@@ -107,10 +107,11 @@ class _SetMyMsgPageState extends State<SetMyMsgPage> {
                                   ),
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(35),
-                                    child: portrait == null ?
+                                    child: userData == null && portrait == null?
                                     Image(image: AssetImage('images/my_big.png'),)
-                                        :
-                                    Image.file(portrait,fit: BoxFit.fill,),
+                                        :portrait != null && userData != null && userData.headImg != portrait?
+                                    Image.file(portrait,fit: BoxFit.fill,)
+                                        :Image(image:NetworkImage(userData.headImg)),
                                   ),
                                 ),
                                 Image(image: AssetImage('images/next.png'),)

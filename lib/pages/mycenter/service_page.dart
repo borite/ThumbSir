@@ -1,5 +1,9 @@
+import 'package:ThumbSir/dao/send_feed_back_dao.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:ThumbSir/common/reg.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 class ServicePage extends StatefulWidget {
   @override
@@ -7,7 +11,14 @@ class ServicePage extends StatefulWidget {
 }
 
 class _ServicePageState extends State<ServicePage> {
-  final TextEditingController textController=TextEditingController();
+  final TextEditingController feedBackController=TextEditingController();
+  RegExp feedBackReg;
+  bool feedBackBool = false;
+  @override
+  void initState() {
+    feedBackReg = FeedBackReg;
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -120,9 +131,10 @@ class _ServicePageState extends State<ServicePage> {
                       color: Colors.white,
                     ),
                     child: TextField(
-                      controller: textController,
+                      controller: feedBackController,
                       autofocus: false,
                       keyboardType: TextInputType.multiline,
+                      onChanged: _onChanged,
                       maxLines: null,
                       style: TextStyle(
                         fontSize: 14,
@@ -137,20 +149,48 @@ class _ServicePageState extends State<ServicePage> {
                     ),
                   ),
                   // 确定
-                  Container(
-                    height:40,
-                    padding: EdgeInsets.only(top: 10),
-                    margin: EdgeInsets.only(left: 80,right: 80),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
-                      color:Color(0xFF5580EB),
+                  GestureDetector(
+                    onTap: ()async{
+                      if(feedBackBool == true){
+                        SharedPreferences prefs = await SharedPreferences.getInstance();
+                        final userId= prefs.getString("userID");
+                        var result = await SendFeedBackDao.sendFeedBack(userId, feedBackController.text);
+                        if(result.code == 200){
+                          _onSuccessAlertPressed(context);
+                          setState(() {
+                            feedBackController.text = '';
+                            feedBackBool = false;
+                          });
+                        }else{
+                          _onErrorAlertPressed(context);
+                          setState(() {
+                            feedBackController.text = '';
+                            feedBackBool = false;
+                          });
+                        };
+                      }else{}
+                    },
+                    child: Container(
+                      height:40,
+                      padding: EdgeInsets.only(top: 10),
+                      margin: EdgeInsets.only(left: 80,right: 80),
+                      decoration: feedBackBool == false ?
+                      BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                        color:Color(0xFF93C0FB),
+                      )
+                          :
+                      BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                        color:Color(0xFF5580EB),
+                      ),
+                      child: Text('确定',style:TextStyle(
+                        fontSize: 14,
+                        color: Colors.white,
+                        fontWeight: FontWeight.normal,
+                        decoration: TextDecoration.none,
+                      ),textAlign: TextAlign.center,),
                     ),
-                    child: Text('确定',style:TextStyle(
-                      fontSize: 14,
-                      color: Colors.white,
-                      fontWeight: FontWeight.normal,
-                      decoration: TextDecoration.none,
-                    ),textAlign: TextAlign.center,),
                   )
                 ],
               ),
@@ -200,5 +240,48 @@ class _ServicePageState extends State<ServicePage> {
         ),
       ),
     );
+  }
+  _onChanged(String text){
+    if(text != null){
+      setState(() {
+        feedBackBool = feedBackReg.hasMatch(feedBackController.text);
+      });
+    }
+  }
+  _onSuccessAlertPressed(context) {
+    Alert(
+      context: context,
+      type: AlertType.success,
+      title: "提交成功",
+      desc: "感谢您对拇指先生的支持！",
+      buttons: [
+        DialogButton(
+          child: Text(
+            "确定",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () => Navigator.pop(context),
+          color: Color(0xFF5580EB),
+        ),
+      ],
+    ).show();
+  }
+  _onErrorAlertPressed(context) {
+    Alert(
+      context: context,
+      type: AlertType.error,
+      title: "提交失败",
+      desc: "请检查您的网络情况",
+      buttons: [
+        DialogButton(
+          child: Text(
+            "确定",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () => Navigator.pop(context),
+          color: Color(0xFF5580EB),
+        ),
+      ],
+    ).show();
   }
 }

@@ -91,8 +91,14 @@ class _BrokerCenterGroupPageState extends State<BrokerCenterGroupPage> {
                         color: Colors.white,
                         border: Border.all(color: Color(0xFFCCCCCC),width: 1)
                     ),
-                    child:Image(
-                      image: AssetImage('images/my_big.png'),
+                    child:ClipRRect(
+                      borderRadius: BorderRadius.circular(30),
+                      child: Image(
+                        image: item.headImg != null?
+                        NetworkImage(item.headImg)
+                        :
+                        AssetImage('images/my_big.png'),
+                      ),
                     ),
                   ),
                   Container(
@@ -241,71 +247,20 @@ class _BrokerCenterGroupPageState extends State<BrokerCenterGroupPage> {
                             ],
                           )
                       ),
-                      // 头像
-                      Stack(
-                        children: <Widget>[
-                          Row(
-                            children: <Widget>[
-                              Container(
-                                alignment: Alignment(-1,-1),
-                                margin: EdgeInsets.only(top: 8,left: 35),
-                                child: Column(
-                                  children: <Widget>[
-                                    Container(
-                                      child: Container(
-                                        width: 90,
-                                        height: 90,
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.all(Radius.circular(45)),
-                                          color: Colors.white,
-                                          boxShadow: [BoxShadow(
-                                              color: Color(0xFFcccccc),
-                                              offset: Offset(0.0, 3.0),
-                                              blurRadius: 10.0,
-                                              spreadRadius: 2.0
-                                          )],
-                                        ),
-                                        child:Image(
-                                          image: AssetImage('images/my_big.png'),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.only(left: 25,right: 15,top: 5),
-                                child: Text(
-                                  userData == null ? '':userData.userName,
-                                  style: TextStyle(
-                                    decoration: TextDecoration.none,
-                                    fontSize: 20,
-                                    color: Color(0xFF333333),
-                                    fontWeight: FontWeight.normal,
-                                  ),),
-                              ),
-                              userData == null?Container(width: 1,):
-                                  userData.userIsVip == false?Container(width: 1,):
-                              Padding(
-                                padding: EdgeInsets.only(top: 5),
-                                child: Image(image: AssetImage('images/vip_yellow.png'),),
-                              )
-                            ],
-                          )
-                        ],
-                      ),
                       // 店长
                       hasMember != false ?
                       Container(
-                        margin: EdgeInsets.fromLTRB(20, 40, 20, 30),
+                        margin: EdgeInsets.fromLTRB(20, 20, 20, 30),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
                             Row(
                               children: <Widget>[
                                 Container(
+                                  alignment: Alignment.center,
                                   child: Stack(
                                     children: <Widget>[
+                                      // 店长头像
                                       Container(
                                         width: 80,
                                         height: 80,
@@ -314,13 +269,21 @@ class _BrokerCenterGroupPageState extends State<BrokerCenterGroupPage> {
                                             color: Colors.white,
                                             border: Border.all(color: Color(0xFF24CC8E),width: 1)
                                         ),
-                                        child:Image(
-                                          image: AssetImage('images/my_big.png'),
+                                        child: ClipRRect(
+                                          borderRadius: BorderRadius.circular(40),
+                                          child: Image(
+                                            image: leaderAndMemberResult.data.leader.headImg != null?
+                                            NetworkImage(leaderAndMemberResult.data.leader.headImg)
+                                            :
+                                            AssetImage('images/my_big.png'),
+                                          ),
                                         ),
                                       ),
-                                      Positioned(
-                                        top: 60,
-                                        left: 23,
+                                      // 职位名称
+                                      Container(
+                                        padding: EdgeInsets.only(top: 60),
+                                        width: 80,
+                                        alignment: Alignment.bottomCenter,
                                         child: Container(
                                           height: 20,
                                           decoration: BoxDecoration(
@@ -331,7 +294,7 @@ class _BrokerCenterGroupPageState extends State<BrokerCenterGroupPage> {
                                           child: Padding(
                                             padding: EdgeInsets.only(top:2,left:5,right: 5),
                                             child: Text(
-                                              '店长',
+                                              leaderAndMemberResult.data.leader.userLevel != null?leaderAndMemberResult.data.leader.userLevel.substring(2,):'店长',
                                               style: TextStyle(
                                                 fontSize: 10,
                                                 color: Color(0xFF24CC8E),
@@ -437,7 +400,7 @@ class _BrokerCenterGroupPageState extends State<BrokerCenterGroupPage> {
                           )
                       ),
                       // 成员列表
-                      hasMember != false ?
+                      hasMember != false && leaderAndMemberResult.data.teamMember != null?
                       brokerItem()
                       :
                       Container(width: 1,),

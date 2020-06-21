@@ -62,40 +62,44 @@ class Leader {
     this.userType,
     this.email,
     this.isVip,
+    this.userLevel,
     this.vipEndTime,
   });
 
   String userPid;
   String userName;
-  dynamic headImg;
+  String headImg;
   String phone;
   String section;
   int userType;
   dynamic email;
-  dynamic isVip;
+  bool isVip;
+  String userLevel;
   dynamic vipEndTime;
 
   factory Leader.fromJson(Map<String, dynamic> json) => Leader(
     userPid: json["UserPID"] == null ? null : json["UserPID"],
     userName: json["UserName"] == null ? null : json["UserName"],
-    headImg: json["HeadImg"],
+    headImg: json["HeadImg"] == null ? null : json["HeadImg"],
     phone: json["Phone"] == null ? null : json["Phone"],
     section: json["Section"] == null ? null : json["Section"],
     userType: json["UserType"] == null ? null : json["UserType"],
     email: json["Email"],
-    isVip: json["IsVIP"],
+    isVip: json["IsVIP"] == null ? null : json["IsVIP"],
+    userLevel: json["UserLevel"] == null ? null : json["UserLevel"],
     vipEndTime: json["VipEndTime"],
   );
 
   Map<String, dynamic> toJson() => {
     "UserPID": userPid == null ? null : userPid,
     "UserName": userName == null ? null : userName,
-    "HeadImg": headImg,
+    "HeadImg": headImg == null ? null : headImg,
     "Phone": phone == null ? null : phone,
     "Section": section == null ? null : section,
     "UserType": userType == null ? null : userType,
     "Email": email,
-    "IsVIP": isVip,
+    "IsVIP": isVip == null ? null : isVip,
+    "UserLevel": userLevel == null ? null : userLevel,
     "VipEndTime": vipEndTime,
   };
 }

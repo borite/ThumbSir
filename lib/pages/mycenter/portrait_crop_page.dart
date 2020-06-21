@@ -34,7 +34,7 @@ class _PortraitCropPageState extends State<PortraitCropPage> {
         body: Center(
           child: ImgCrop(
             key: cropKey,
-            // chipRadius: 100,
+            //chipRadius: 100,
             // chipShape: 'rect',
             maximumScale: 3,
             image: portrait,
@@ -43,7 +43,7 @@ class _PortraitCropPageState extends State<PortraitCropPage> {
         floatingActionButton: FloatingActionButton(
           onPressed: () async {
             final crop = cropKey.currentState;
-            final croppedFile = await crop.cropCompleted(args['image'], pictureQuality: 600);
+            final croppedFile = await crop.cropCompleted(args['image'], pictureQuality: 200);
             // 把裁剪结果传给上一页
             Navigator.of(context).pop(croppedFile);
           },
