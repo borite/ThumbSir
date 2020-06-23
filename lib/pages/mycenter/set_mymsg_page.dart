@@ -111,7 +111,9 @@ class _SetMyMsgPageState extends State<SetMyMsgPage> {
                                     Image(image: AssetImage('images/my_big.png'),)
                                         :portrait != null && userData != null && userData.headImg != portrait?
                                     Image.file(portrait,fit: BoxFit.fill,)
-                                        :Image(image:NetworkImage(userData.headImg)),
+                                        :userData.headImg != null ?
+                                    Image(image:NetworkImage(userData.headImg))
+                                        :Image(image: AssetImage('images/my_big.png'),),
                                   ),
                                 ),
                                 Image(image: AssetImage('images/next.png'),)

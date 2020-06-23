@@ -3,6 +3,8 @@ import 'package:ThumbSir/widget/group_member_list.dart';
 import 'package:flutter/material.dart';
 
 class SCenterGroupDetailPage extends StatefulWidget {
+  final myMsg;
+  SCenterGroupDetailPage({this.myMsg});
   @override
   _SCenterGroupDetailPageState createState() => _SCenterGroupDetailPageState();
 }
@@ -54,30 +56,13 @@ class _SCenterGroupDetailPageState extends State<SCenterGroupDetailPage> {
                               )
                             ],
                           ),
-                          GestureDetector(
-                            onTap: (){
-                              Navigator.push(context, MaterialPageRoute(builder: (context)=>AddMemberPage()));
-                            },
-                            child: Container(
-                              padding: EdgeInsets.fromLTRB(15, 5, 15, 5),
-                              decoration: BoxDecoration(
-                                border: Border.all(color: Color(0xFF93C0FB),width: 1),
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              child: Text('添加上下级成员',style: TextStyle(
-                                fontSize: 16,
-                                color: Color(0xFF5580EB),
-                                fontWeight: FontWeight.normal,
-                                decoration: TextDecoration.none,
-                              ),),
-                            ),
-                          )
-
                         ],
                       )
                   ),
                   // 列表
-                  GroupMemberList()
+                  GroupMemberList(
+                    myMsg: widget.myMsg,
+                  )
                 ])
           ])
     );

@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:ThumbSir/pages/home.dart';
-import 'package:ThumbSir/pages/mycenter/add_leader_page.dart';
 import 'package:ThumbSir/pages/mycenter/add_member_page.dart';
 import 'package:ThumbSir/widget/loading.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
@@ -68,7 +67,6 @@ class _BrokerCenterGroupPageState extends State<BrokerCenterGroupPage> {
         _loading = false;
       });
     }
-
   }
 
   // 经纪人列表
@@ -209,7 +207,7 @@ class _BrokerCenterGroupPageState extends State<BrokerCenterGroupPage> {
                               leaderAndMemberResult == null?
                               GestureDetector(
                                 onTap: (){
-                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>AddLeaderPage()));
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>AddMemberPage()));
                                 },
                                 child: Container(
                                   padding: EdgeInsets.fromLTRB(15, 5, 15, 5),
@@ -228,7 +226,7 @@ class _BrokerCenterGroupPageState extends State<BrokerCenterGroupPage> {
                               :leaderAndMemberResult.code == 200 ?Container(width: 1,)
                               :GestureDetector(
                                 onTap: (){
-                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>AddLeaderPage()));
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>AddMemberPage()));
                                 },
                                 child: Container(
                                   padding: EdgeInsets.fromLTRB(15, 5, 15, 5),
@@ -416,16 +414,6 @@ class _BrokerCenterGroupPageState extends State<BrokerCenterGroupPage> {
     setState(() {
       _loading = !_loading;
     });
-//    if(leaderAndMemberResult != null){
-//      setState(() {
-//        _loading = !_loading;
-//      });
-//    }
-//    await Future.delayed(Duration(milliseconds: 500), () {
-//      setState(() {
-//        _loading = !_loading;
-//      });
-//    });
   }
   _onLogoutAlertPressed(context) {
     Alert(

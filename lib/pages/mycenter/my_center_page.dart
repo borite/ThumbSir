@@ -7,7 +7,6 @@ import 'package:ThumbSir/pages/mycenter/service_page.dart';
 import 'package:ThumbSir/pages/mycenter/set_page.dart';
 import 'package:ThumbSir/pages/mycenter/vip_page.dart';
 import 'package:ThumbSir/pages/mycenter/z_center_group_page.dart';
-import 'package:ThumbSir/widget/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ThumbSir/model/login_result_data_model.dart';
@@ -23,8 +22,6 @@ class MyCenterPage extends StatefulWidget {
 class _MyCenterPageState extends State<MyCenterPage> {
   var portrait;
   LoginResultData userData;
-  int _dateTime = DateTime.now().millisecondsSinceEpoch; // 当前时间转时间戳
-  int exT;
   String uinfo;
   var result;
 
@@ -33,14 +30,9 @@ class _MyCenterPageState extends State<MyCenterPage> {
     uinfo= prefs.getString("userInfo");
     if(uinfo != null){
       result =loginResultDataFromJson(uinfo);
-      exT = result.exTokenTime.millisecondsSinceEpoch; // token时间转时间戳
-      if(exT >= _dateTime){
-        this.setState(() {
-          userData=LoginResultData.fromJson(json.decode(uinfo));
-        });
-      }else{
-        _onLogoutAlertPressed(context);
-      }
+      this.setState(() {
+        userData=LoginResultData.fromJson(json.decode(uinfo));
+      });
     }
   }
 
@@ -133,7 +125,9 @@ class _MyCenterPageState extends State<MyCenterPage> {
                                         Image(image: AssetImage('images/my_big.png'),)
                                             :portrait != null && userData != null && userData.headImg != portrait?
                                         Image.file(portrait,fit: BoxFit.fill,)
-                                            :Image(image:NetworkImage(userData.headImg)),
+                                            :userData.headImg != null ?
+                                        Image(image:NetworkImage(userData.headImg))
+                                            :Image(image: AssetImage('images/my_big.png'),),
                                       ),
                                     )
                                   ],
@@ -406,10 +400,10 @@ class _MyCenterPageState extends State<MyCenterPage> {
                                     Navigator.push(context, MaterialPageRoute(builder: (context)=>BrokerCenterGroupPage())); // 经纪人
                                   }else if(userData.userLevel.substring(0,1) == '5'){
                                     Navigator.push(context, MaterialPageRoute(builder: (context)=>MCenterGroupPage())); // 店长
-                                  }else if(userData.userLevel.substring(0,1) == '4'){
-                                    Navigator.push(context, MaterialPageRoute(builder: (context)=>SCenterGroupPage())); // 商圈
+                                  }else if(userData.userLevel.substring(0,1) == '4' || userData.userLevel.substring(0,1) == '3'){
+                                    Navigator.push(context, MaterialPageRoute(builder: (context)=>SCenterGroupPage())); // 总监、商圈
                                   }else{
-                                    Navigator.push(context, MaterialPageRoute(builder: (context)=>ZCenterGroupPage())); // 总监及以上
+                                    Navigator.push(context, MaterialPageRoute(builder: (context)=>ZCenterGroupPage())); // 副总、总
                                   }
                                 }
                               },
