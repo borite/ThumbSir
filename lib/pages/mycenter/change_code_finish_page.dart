@@ -106,19 +106,6 @@ class _ChangeCodeFinishPageState extends State<ChangeCodeFinishPage> {
                             padding: EdgeInsets.only(top: 4),
                             child: GestureDetector(
                               onTap: () async {
-//                                final String phoneNum=phoneNumController.text;
-//                                final String password=passwordController.text;
-//                                final String verifyCode=verifyCodeController.text;
-//                                final UserReg result=await SigninDao.doUserReg(password, phoneNum, verifyCode, '37ccc461-ab5c-4855-8842-bc45973d7cf0',WebAPICookie);
-//                                print(result);
-//                                if(result.code==200) {
-//                                  SharedPreferences prefs = await SharedPreferences.getInstance();
-//                                  prefs.setString('userID', result.data);
-//                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>SigninChooseCompanyPage()));
-//                                }else{
-//                                  print(result.code);
-//                                  print(result.message);
-//                                }
                                 Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginPage()));
                               },
                               child: Text('重新登录',style: TextStyle(

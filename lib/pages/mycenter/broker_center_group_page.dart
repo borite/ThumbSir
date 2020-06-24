@@ -49,8 +49,6 @@ class _BrokerCenterGroupPageState extends State<BrokerCenterGroupPage> {
     leaderAndMemberResult = await GetLeaderAndTeamMemberDao.getLeaderAndTeamMember(userId);
     if(leaderAndMemberResult != null){
       if(leaderAndMemberResult.code == 200){
-        // 存储上级id
-        prefs.setString('leaderID', leaderAndMemberResult.data.leader.userPid);
         setState(() {
           hasMember = true;
           _loading =false;

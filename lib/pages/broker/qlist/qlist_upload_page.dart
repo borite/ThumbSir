@@ -67,50 +67,24 @@ class _QListUploadPageState extends State<QListUploadPage> {
                   Padding(
                       padding: EdgeInsets.all(15),
                       child:Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-                          Row(
-                            children: <Widget>[
-                              GestureDetector(
-                                onTap: (){
-                                  Navigator.pop(context);
-                                },
-                                child: Image(image: AssetImage('images/back.png'),),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.only(left: 20),
-                                child: Text('上传任务交付物照片',style: TextStyle(
-                                  fontSize: 16,
-                                  color: Color(0xFF0E7AE6),
-                                  fontWeight: FontWeight.normal,
-                                  decoration: TextDecoration.none,
-                                ),),
-                              )
-                            ],
-                          ),
                           GestureDetector(
                             onTap: (){
-                              Navigator.push(context, MaterialPageRoute(builder: (context)=>QListChangePage()));
+                              Navigator.pop(context);
                             },
-                            child: Row(
-                              children: <Widget>[
-                                Text('修改此任务',style: TextStyle(
-                                  fontSize: 16,
-                                  color: Color(0xFF0E7AE6),
-                                  fontWeight: FontWeight.normal,
-                                  decoration: TextDecoration.none,
-                                ),),
-                                Padding(
-                                  padding: EdgeInsets.only(left: 5),
-                                  child: Image(image: AssetImage('images/editor.png'),),
-                                )
-
-                              ],
-                            ),
+                            child: Image(image: AssetImage('images/back.png'),),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(left: 20),
+                            child: Text('上传任务交付物照片',style: TextStyle(
+                              fontSize: 16,
+                              color: Color(0xFF0E7AE6),
+                              fontWeight: FontWeight.normal,
+                              decoration: TextDecoration.none,
+                            ),),
                           )
                         ],
-                      )
-
+                      ),
                   ),
                   // 完成百分比
                   Container(

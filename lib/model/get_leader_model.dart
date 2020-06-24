@@ -37,21 +37,29 @@ class Data {
     this.userPid,
     this.userName,
     this.headImg,
+    this.phone,
+    this.userLevel,
   });
 
   String userPid;
   String userName;
-  String headImg;
+  dynamic headImg;
+  String phone;
+  String userLevel;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
     userPid: json["UserPID"] == null ? null : json["UserPID"],
     userName: json["UserName"] == null ? null : json["UserName"],
-    headImg: json["HeadImg"] == null ? null : json["HeadImg"],
+    headImg: json["HeadImg"],
+    phone: json["Phone"] == null ? null : json["Phone"],
+    userLevel: json["UserLevel"] == null ? null : json["UserLevel"],
   );
 
   Map<String, dynamic> toJson() => {
     "UserPID": userPid == null ? null : userPid,
     "UserName": userName == null ? null : userName,
-    "HeadImg": headImg == null ? null : headImg,
+    "HeadImg": headImg,
+    "Phone": phone == null ? null : phone,
+    "UserLevel": userLevel == null ? null : userLevel,
   };
 }

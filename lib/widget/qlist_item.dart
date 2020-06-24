@@ -1,3 +1,4 @@
+import 'package:ThumbSir/pages/broker/qlist/qlist_change_page.dart';
 import 'package:ThumbSir/pages/broker/qlist/qlist_upload_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -442,12 +443,12 @@ class _QListItemState extends State<QListItem> with SingleTickerProviderStateMix
                           GestureDetector(
                             onTap: () {
                               Navigator.push(context, MaterialPageRoute(
-                                  builder: (context) => QListUploadPage()));
+                                  builder: (context) => QListChangePage()));
                             },
                             child: Container(
                               width: 24,
                               child: Image(
-                                  image: AssetImage('images/upload.png')),
+                                  image: AssetImage('images/editor.png')),
                             ),
                           ),
                         ],
@@ -753,10 +754,33 @@ class _QListItemState extends State<QListItem> with SingleTickerProviderStateMix
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-                          Container(
-                            width: 90,
-                            height: 90,
-                            color: Colors.blue,
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.push(context, MaterialPageRoute(
+                                  builder: (context) => QListUploadPage()
+                              ));
+                            },
+                            child: Container(
+                              width: 90,
+                              height: 90,
+                              decoration: BoxDecoration(
+                                  image: DecorationImage(image: AssetImage('images/imgbg.png'))
+                              ),
+                              child: Column(
+                                children: <Widget>[
+                                  Padding(
+                                    padding: EdgeInsets.only(top: 25,bottom: 5),
+                                    child: Image(image: AssetImage('images/camera.png'),),
+                                  ),
+                                  Text('拍照上传',style: TextStyle(
+                                    fontSize: 14,
+                                    color: Color(0xFF999999),
+                                    fontWeight: FontWeight.normal,
+                                    decoration: TextDecoration.none,
+                                  ),)
+                                ],
+                              ),
+                            ),
                           ),
                           Container(
                             width: 90,

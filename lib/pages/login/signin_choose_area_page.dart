@@ -1,6 +1,10 @@
+import 'dart:convert';
+
 import 'package:ThumbSir/dao/add_leader_dao.dart';
 import 'package:ThumbSir/dao/get_leader_dao.dart';
 import 'package:ThumbSir/dao/get_section_list_dao.dart';
+import 'package:ThumbSir/dao/un_bind_member_dao.dart';
+import 'package:ThumbSir/model/login_result_data_model.dart';
 import 'package:ThumbSir/model/section_list_model.dart';
 import 'package:ThumbSir/pages/login/login_page.dart';
 import 'package:flutter/cupertino.dart';
@@ -26,6 +30,7 @@ class _SigninChooseAreaPageState extends State<SigninChooseAreaPage> {
   final TextEditingController levelOneController = TextEditingController();
   final TextEditingController levelTwoController = TextEditingController();
 
+  String companyID; // 原来的公司id
 
   String selValue;
   String companyId;
@@ -50,6 +55,8 @@ class _SigninChooseAreaPageState extends State<SigninChooseAreaPage> {
   List<String> previousSections;
   final list = <String>[];
 
+
+
   _load() async {
 
     previousLevelCount = int.parse(selValue.substring(0,1))-1;
@@ -67,10 +74,25 @@ class _SigninChooseAreaPageState extends State<SigninChooseAreaPage> {
     userId=prefs.getString("userID");
   }
 
+  LoginResultData userData;
+  String uinfo;
+  var result;
+
+  _getUserInfo() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    uinfo= prefs.getString("userInfo");
+    if(uinfo != null){
+      result =loginResultDataFromJson(uinfo);
+      this.setState(() {
+        userData=LoginResultData.fromJson(json.decode(uinfo));
+      });
+    }
+  }
 
   @override
   void initState() {
     _load();
+    _getUserInfo();
     super.initState();
   }
 
@@ -410,6 +432,9 @@ class _SigninChooseAreaPageState extends State<SigninChooseAreaPage> {
                                   if( levelTwoController.text == ''){
                                     _onCurrentEmptyAlertPressed(context);
                                   }else{
+                                    if(userData != null && userData.companyId != null && userData.userLevel != null){
+                                      await UnBindMemberDao.unbind(userId, userData.userLevel.substring(0,1), userData.companyId);
+                                    }
                                     await setSecionDao.httpPostSection(companyId, previousLevel, levelOneController.text);
                                     await finishRegDao.httpPostFinishReg(userId, widget.companyId, selValue, levelOneController.text );
                                     Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginPage()));
@@ -422,6 +447,9 @@ class _SigninChooseAreaPageState extends State<SigninChooseAreaPage> {
                                   if(levelOneController.text == ''){
                                     _onPreviousEmptyAlertPressed(context);
                                   }else{
+                                    if(userData != null && userData.companyId != null && userData.userLevel != null){
+                                      await UnBindMemberDao.unbind(userId, userData.userLevel.substring(0,1), userData.companyId);
+                                    }
                                     await setSecionDao.httpPostSection(companyId, previousLevel, levelOneController.text);
                                     await finishRegDao.httpPostFinishReg(userId, widget.companyId, selValue, levelOneController.text );
                                     var leader = await GetLeaderDao.httpGetLeader(companyId, levelOneController.text, previousLevel);
@@ -458,6 +486,9 @@ class _SigninChooseAreaPageState extends State<SigninChooseAreaPage> {
                                     _onCurrentEmptyAlertPressed(context);
                                   }
                                   if(levelTwoController.text != '' && levelOneController.text != ''){
+                                    if(userData != null && userData.companyId != null && userData.userLevel != null){
+                                      await UnBindMemberDao.unbind(userId, userData.userLevel.substring(0,1), userData.companyId);
+                                    }
                                     await setSecionDao.httpPostSection(companyId, currentLevel, levelTwoController.text);
                                     await finishRegDao.httpPostFinishReg(userId, widget.companyId, selValue, levelTwoController.text );
                                     var leader = await GetLeaderDao.httpGetLeader(companyId, levelOneController.text, previousLevel);
@@ -547,13 +578,10 @@ class _SigninChooseAreaPageState extends State<SigninChooseAreaPage> {
           ),
           onPressed: () async {
             // 申请挂载上级
-            print('申请挂载上级 userId');
-            print(userId);
-            print('申请挂载上级 leaderId');
-            print(leaderId);
             await AddLeaderDao.addLeaderPost(userId, leaderId);
             Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginPage()));
-          }
+          },
+          color: Color(0xFF5580EB),
         ),
         DialogButton(
           child: Text(
@@ -563,6 +591,7 @@ class _SigninChooseAreaPageState extends State<SigninChooseAreaPage> {
           onPressed: ()async{
             Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginPage()));
           },
+          color: Color(0xFFCCCCCC),
         ),
       ],
     ).show();

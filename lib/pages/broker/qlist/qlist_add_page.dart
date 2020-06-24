@@ -78,36 +78,24 @@ class _QListAddPageState extends State<QListAddPage> {
                   Padding(
                       padding: EdgeInsets.all(15),
                       child:Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-                          Row(
-                            children: <Widget>[
-                              GestureDetector(
-                                onTap: (){
-                                  Navigator.pop(context);
-                                },
-                                child: Image(image: AssetImage('images/back.png'),),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.only(left: 20),
-                                child: Text('添加明日任务',style: TextStyle(
-                                  fontSize: 16,
-                                  color: Color(0xFF0E7AE6),
-                                  fontWeight: FontWeight.normal,
-                                  decoration: TextDecoration.none,
-                                ),),
-                              )
-                            ],
+                          GestureDetector(
+                            onTap: (){
+                              Navigator.pop(context);
+                            },
+                            child: Image(image: AssetImage('images/back.png'),),
                           ),
-                          Text('修改重置此任务',style: TextStyle(
-                            color: Color(0xFF5580EB),
-                            fontSize: 16,
-                            fontWeight: FontWeight.normal,
-                            decoration: TextDecoration.none,
-                          ),)
+                          Padding(
+                            padding: EdgeInsets.only(left: 20),
+                            child: Text('添加明日任务',style: TextStyle(
+                              fontSize: 16,
+                              color: Color(0xFF0E7AE6),
+                              fontWeight: FontWeight.normal,
+                              decoration: TextDecoration.none,
+                            ),),
+                          )
                         ],
-                      )
-
+                      ),
                   ),
                   // 查看最低任务
                   Padding(
@@ -137,31 +125,105 @@ class _QListAddPageState extends State<QListAddPage> {
                   Padding(
                     padding: EdgeInsets.all(20),
                     child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
+                        Row(
+                          children: <Widget>[
+                            Container(
+                              width: 20,
+                              height: 20,
+                              padding: EdgeInsets.all(2),
+                              decoration: BoxDecoration(
+                                color: Color(0xFF93C0FB),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Text(
+                                '1',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.normal,
+                                  decoration: TextDecoration.none,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(left: 10),
+                              child: Text('选择任务',style: TextStyle(
+                                fontSize: 20,
+                                color: Color(0xFF666666),
+                                fontWeight: FontWeight.normal,
+                                decoration: TextDecoration.none,
+                              ),),
+                            ),
+                          ],
+                        ),
+                        Text('修改',style: TextStyle(
+                          color: Color(0xFF5580EB),
+                          fontSize: 16,
+                          fontWeight: FontWeight.normal,
+                          decoration: TextDecoration.none,
+                        ),)
+                      ],
+                    ),
+                  ),
+                  buildGrid(),
+                  Container(
+                    width: 335,
+                    margin: EdgeInsets.only(top: 20),
+                    child: Row(
+                      children: <Widget>[
+                        Padding(
+                          padding: EdgeInsets.only(left: 10,right: 20),
+                          child: Text('任务数量',style: TextStyle(
+                            fontSize: 20,
+                            color: Color(0xFF666666),
+                            fontWeight: FontWeight.normal,
+                            decoration: TextDecoration.none,
+                          ),),
+                        ),
                         Container(
                           width: 20,
                           height: 20,
-                          padding: EdgeInsets.all(2),
+                          margin: EdgeInsets.only(right: 15),
                           decoration: BoxDecoration(
-                            color: Color(0xFF93C0FB),
                             borderRadius: BorderRadius.circular(10),
+                            border: Border.all(color: Color(0xFF5580EB),width: 1),
                           ),
-                          child: Text(
-                            '1',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 14,
-                              fontWeight: FontWeight.normal,
-                              decoration: TextDecoration.none,
-                            ),
-                            textAlign: TextAlign.center,
+                          child: Text('+',style: TextStyle(
+                            color: Color(0xFF5580EB),
+                            fontSize: 14,
+                            fontWeight: FontWeight.normal,
+                            decoration: TextDecoration.none,
+                          ),textAlign: TextAlign.center,),
+                        ),
+                        Text('1',style: TextStyle(
+                          color: Color(0xFF5580EB),
+                          fontSize: 20,
+                          fontWeight: FontWeight.normal,
+                          decoration: TextDecoration.none,
+                        ),),
+                        Container(
+                          width: 20,
+                          height: 20,
+                          margin: EdgeInsets.only(left: 15,right: 20),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            border: Border.all(color: Color(0xFF5580EB),width: 1),
                           ),
+                          child: Text('-',style: TextStyle(
+                            color: Color(0xFF5580EB),
+                            fontSize: 14,
+                            fontWeight: FontWeight.normal,
+                            decoration: TextDecoration.none,
+                          ),textAlign: TextAlign.center,),
                         ),
                         Padding(
-                          padding: EdgeInsets.only(left: 10),
-                          child: Text('选择任务',style: TextStyle(
-                            fontSize: 20,
+                          padding: EdgeInsets.only(right: 20),
+                          child: Text('组',style: TextStyle(
                             color: Color(0xFF666666),
+                            fontSize: 20,
                             fontWeight: FontWeight.normal,
                             decoration: TextDecoration.none,
                           ),),
@@ -169,7 +231,7 @@ class _QListAddPageState extends State<QListAddPage> {
                       ],
                     ),
                   ),
-                  buildGrid(),
+
                   // 重要性标注
                   Padding(
                     padding: EdgeInsets.fromLTRB(20, 25, 20, 20),
