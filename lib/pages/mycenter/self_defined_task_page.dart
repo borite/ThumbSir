@@ -1,4 +1,8 @@
+import 'package:ThumbSir/common/reg.dart';
+import 'package:ThumbSir/pages/mycenter/add_task_page.dart';
+import 'package:ThumbSir/widget/input.dart';
 import 'package:flutter/material.dart';
+import 'package:ThumbSir/model/get_default_task_model.dart';
 
 class SelfDefinedTaskPage extends StatefulWidget {
   @override
@@ -6,8 +10,23 @@ class SelfDefinedTaskPage extends StatefulWidget {
 }
 
 class _SelfDefinedTaskPageState extends State<SelfDefinedTaskPage> {
-  final TextEditingController taskNameController=TextEditingController();
-  DateTime _dateTime = DateTime.now();
+  final TextEditingController taskNameController = TextEditingController();
+  String taskName;
+  RegExp taskNameReg;
+  bool taskNameBool;
+  final TextEditingController taskUnitController=TextEditingController();
+  String taskUnit;
+  RegExp taskUnitReg;
+  bool taskUnitBool;
+
+  var taskMsg;
+
+  @override
+  void initState() {
+    taskNameReg = taskReg;
+    taskUnitReg = taskReg;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +69,7 @@ class _SelfDefinedTaskPageState extends State<SelfDefinedTaskPage> {
                     ),
                     // 说明
                     Padding(
-                        padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+                        padding: EdgeInsets.fromLTRB(20, 20, 20, 20),
                         child: Row(
                           children: <Widget>[
                             Text(
@@ -67,84 +86,78 @@ class _SelfDefinedTaskPageState extends State<SelfDefinedTaskPage> {
                         )
                     ),
                     // 填写
-                    Container(
-                      width: 335,
-                      height: 40,
-                      margin: EdgeInsets.only(top: 25),
-                      decoration: BoxDecoration(
-                        border: Border.all(width: 1,color: Color(0xFF2692FD)),
-                        borderRadius: BorderRadius.circular(8),
-                        color: Colors.white,
-                      ),
-                      child: TextField(
-                        controller: taskNameController,
-                        autofocus: false,
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Color(0xFF999999),
-                          fontWeight: FontWeight.normal,
-                          decoration: TextDecoration.none,
-                        ),
-                        decoration: InputDecoration(
-                            contentPadding: EdgeInsets.fromLTRB(8, 0, 10, 10),
-                            border: InputBorder.none,
-                            hintStyle: TextStyle(fontSize: 14),
-                            hintText: "任务名称"
-                        ),
-                      ),
+                    // 名称
+                    Input(
+                      hintText: "任务名称",
+                      errorTipText: "请输入任务名称，1~5个汉字或字母",
+                      tipText: "请输入任务名称，1~5个汉字或字母",
+                      rightText: "任务名称格式正确",
+                      controller: taskNameController,
+                      inputType: TextInputType.text,
+                      reg: taskNameReg,
+                      onChanged: (text){
+                        setState(() {
+                          taskName = text;
+                          taskNameBool = taskNameReg.hasMatch(taskName);
+                        });
+                      },
                     ),
-                    Container(
-                      width: 335,
-                      height: 40,
-                      margin: EdgeInsets.only(top: 25),
-                      decoration: BoxDecoration(
-                        border: Border.all(width: 1,color: Color(0xFF2692FD)),
-                        borderRadius: BorderRadius.circular(8),
-                        color: Colors.white,
-                      ),
-                      child: TextField(
-                        controller: taskNameController,
-                        autofocus: false,
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Color(0xFF999999),
-                          fontWeight: FontWeight.normal,
-                          decoration: TextDecoration.none,
-                        ),
-                        decoration: InputDecoration(
-                            contentPadding: EdgeInsets.fromLTRB(8, 0, 10, 10),
-                            border: InputBorder.none,
-                            hintStyle: TextStyle(fontSize: 14),
-                            hintText: "任务单位"
-                        ),
-                      ),
+                    // 单位
+                    Input(
+                      hintText: "任务单位",
+                      tipText: "请输入任务单位，1~5个汉字或字母",
+                      errorTipText: "请输入任务单位，1~5个汉字或字母",
+                      rightText: "任务单位格式正确",
+                      controller: taskUnitController,
+                      inputType: TextInputType.phone,
+                      reg: taskUnitReg,
+                      onChanged: (text){
+                        setState(() {
+                          taskUnit = text;
+                          taskUnitBool = taskUnitReg.hasMatch(taskUnit);
+                        });
+                      },
                     ),
                     // 完成
-                    Container(
-                        width: 335,
-                        height: 40,
-                        padding: EdgeInsets.all(4),
-                        margin: EdgeInsets.only(bottom: 50,top: 100),
-                        decoration: BoxDecoration(
+                    GestureDetector(
+                      onTap: (){
+                        if(taskNameBool == true && taskUnitBool == true){
+                          setState(() {
+                            taskMsg=new Datum(id: 0,taskName: taskNameController.text,taskDesc: null,taskUnit: taskUnitController.text);
+                          });
+                          Navigator.of(context).pop(
+                            taskMsg
+                          );
+                        }else{}
+                      },
+                      child: Container(
+                          width: 335,
+                          height: 40,
+                          padding: EdgeInsets.all(4),
+                          margin: EdgeInsets.only(bottom: 50,top: 100),
+                          decoration: taskNameBool == true && taskUnitBool == true ?
+                          BoxDecoration(
                             border: Border.all(width: 1,color: Color(0xFF5580EB)),
                             borderRadius: BorderRadius.circular(8),
                             color: Color(0xFF5580EB)
-                        ),
-                        child: Padding(
+                          )
+                          :
+                          BoxDecoration(
+                            border: Border.all(width: 1,color: Color(0xFF93C0FB)),
+                            borderRadius: BorderRadius.circular(8),
+                            color: Color(0xFF93C0FB)
+                          ),
+                          child: Padding(
                             padding: EdgeInsets.only(top: 4),
-                            child: GestureDetector(
-                              onTap: (){
-//                              Navigator.push(context, MaterialPageRoute(builder: (context)=>SigninChooseCompanyPage()));
-                              },
-                              child: Text('完成',style: TextStyle(
-                                fontSize: 14,
-                                color: Colors.white,
-                                fontWeight: FontWeight.normal,
-                                decoration: TextDecoration.none,
-                              ),textAlign: TextAlign.center,),
-                            )
-                        )
-                    ),
+                            child: Text('完成',style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.white,
+                              fontWeight: FontWeight.normal,
+                              decoration: TextDecoration.none,
+                            ),textAlign: TextAlign.center,),
+                          )
+                      ),
+                    )
                   ]
               )
             ],

@@ -10,10 +10,13 @@ class QListItem extends StatefulWidget {
   final String time;
   final int star;
   final double percent;
+  final String remark;
+  final String address;
+  final String currentAddress;
   int pageIndex;
   int tabIndex;
   final callBack;
-  QListItem({Key key,this.name,this.number,this.time,this.star,this.percent,this.tabIndex,this.pageIndex,this.callBack}):super(key:key);
+  QListItem({Key key,this.name,this.number,this.time,this.star,this.percent,this.remark,this.address,this.currentAddress,this.tabIndex,this.pageIndex,this.callBack}):super(key:key);
   @override
   _QListItemState createState() => _QListItemState();
 }
@@ -44,11 +47,6 @@ class _QListItemState extends State<QListItem> with SingleTickerProviderStateMix
               });
             })
     );
-
-    print("tab");
-    print(this.widget.tabIndex);
-    print("page");
-    print(this.widget.pageIndex);
 
     controller.forward();
   }
@@ -619,8 +617,7 @@ class _QListItemState extends State<QListItem> with SingleTickerProviderStateMix
                     // 任务描述
                     Container(
                         width: 335,
-                        child:
-                        Padding(
+                        child: Padding(
                           padding: EdgeInsets.only(left: 20),
                           child: Text(
                             '任务描述',
@@ -641,7 +638,7 @@ class _QListItemState extends State<QListItem> with SingleTickerProviderStateMix
                           padding: EdgeInsets.only(
                               left: 20, right: 20, bottom: 10, top: 10),
                           child: Text(
-                            '共带看3套房，客户对第二套比较满意,共带看3套房，客户对第二套比较满意,共带看3套房，客户对第二套比较满意',
+                            widget.remark,
                             style: TextStyle(
                               fontSize: 14,
                               color: Color(0xFF999999),
@@ -657,26 +654,20 @@ class _QListItemState extends State<QListItem> with SingleTickerProviderStateMix
                       child: Column(
                         children: <Widget>[
                           // 每一条定位
-                          Padding(
-                            padding: EdgeInsets.only(bottom: 10),
-                            child: Row(
-                              children: <Widget>[
-                                Padding(
-                                  padding: EdgeInsets.only(right: 5),
-                                  child: Image(image: AssetImage(
-                                      'images/site_small.png'),),
-                                ),
-                                Text(
-                                  '新华大街新华地铁口惠明小区',
+                          Container(
+                              width: 335,
+                              child: Padding(
+                                padding: EdgeInsets.only(top: 10,bottom: 10),
+                                child: Text(
+                                  '计划地点',
                                   style: TextStyle(
                                     fontSize: 14,
-                                    color: Color(0xFF0E7AE6),
+                                    color: Color(0xFF666666),
                                     decoration: TextDecoration.none,
                                     fontWeight: FontWeight.normal,
                                   ),
-                                )
-                              ],
-                            ),
+                                ),
+                              )
                           ),
                           Padding(
                             padding: EdgeInsets.only(bottom: 10),
@@ -688,7 +679,7 @@ class _QListItemState extends State<QListItem> with SingleTickerProviderStateMix
                                       'images/site_small.png'),),
                                 ),
                                 Text(
-                                  '新华大街新华地铁口惠明小区',
+                                  widget.address,
                                   style: TextStyle(
                                     fontSize: 14,
                                     color: Color(0xFF0E7AE6),
@@ -698,6 +689,21 @@ class _QListItemState extends State<QListItem> with SingleTickerProviderStateMix
                                 )
                               ],
                             ),
+                          ),
+                          Container(
+                              width: 335,
+                              child: Padding(
+                                padding: EdgeInsets.only(top: 10,bottom: 10),
+                                child: Text(
+                                  '上传凭证地点',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: Color(0xFF666666),
+                                    decoration: TextDecoration.none,
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                                ),
+                              )
                           ),
                           Padding(
                             padding: EdgeInsets.only(bottom: 10),
@@ -709,7 +715,7 @@ class _QListItemState extends State<QListItem> with SingleTickerProviderStateMix
                                       'images/site_small.png'),),
                                 ),
                                 Text(
-                                  '新华大街新华地铁口惠明小区',
+                                  widget.currentAddress,
                                   style: TextStyle(
                                     fontSize: 14,
                                     color: Color(0xFF0E7AE6),

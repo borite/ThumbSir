@@ -9,6 +9,7 @@ class ChooseMiniTaskNumberPage extends StatefulWidget {
 
 class _ChooseMiniTaskNumberPageState extends State<ChooseMiniTaskNumberPage> {
   DateTime _dateTime = DateTime.now();
+  int itemCount = 1;
 
   @override
   Widget build(BuildContext context) {
@@ -128,18 +129,29 @@ class _ChooseMiniTaskNumberPageState extends State<ChooseMiniTaskNumberPage> {
                                   borderRadius: BorderRadius.circular(10),
                                   border: Border.all(color: Color(0xFF5580EB),width: 1),
                                 ),
-                                child: Text('+',style: TextStyle(
+                                child: GestureDetector(
+                                  onTap: (){
+                                    if(itemCount >= 2){
+                                      setState(() {
+                                        itemCount = itemCount - 1;
+                                      });
+                                    }else{}
+                                  },
+                                  child: Text('-',style: TextStyle(
+                                    color: Color(0xFF5580EB),
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.normal,
+                                    decoration: TextDecoration.none,
+                                  ),textAlign: TextAlign.center,),
+                                ),
+                              ),
+                              Text(
+                                itemCount.toString(),
+                                style: TextStyle(
                                   color: Color(0xFF5580EB),
-                                  fontSize: 14,
+                                  fontSize: 20,
                                   fontWeight: FontWeight.normal,
                                   decoration: TextDecoration.none,
-                                ),textAlign: TextAlign.center,),
-                              ),
-                              Text('1',style: TextStyle(
-                                color: Color(0xFF5580EB),
-                                fontSize: 20,
-                                fontWeight: FontWeight.normal,
-                                decoration: TextDecoration.none,
                               ),),
                               Container(
                                 width: 20,
@@ -149,12 +161,19 @@ class _ChooseMiniTaskNumberPageState extends State<ChooseMiniTaskNumberPage> {
                                   borderRadius: BorderRadius.circular(10),
                                   border: Border.all(color: Color(0xFF5580EB),width: 1),
                                 ),
-                                child: Text('-',style: TextStyle(
-                                  color: Color(0xFF5580EB),
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.normal,
-                                  decoration: TextDecoration.none,
-                                ),textAlign: TextAlign.center,),
+                                child: GestureDetector(
+                                  onTap: (){
+                                    setState(() {
+                                      itemCount = itemCount + 1;
+                                    });
+                                  },
+                                  child: Text('+',style: TextStyle(
+                                    color: Color(0xFF5580EB),
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.normal,
+                                    decoration: TextDecoration.none,
+                                  ),textAlign: TextAlign.center,),
+                                ),
                               ),
                               Padding(
                                 padding: EdgeInsets.only(right: 20),

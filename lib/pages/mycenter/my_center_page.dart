@@ -20,6 +20,8 @@ class MyCenterPage extends StatefulWidget {
 }
 
 class _MyCenterPageState extends State<MyCenterPage> {
+  final TextEditingController startTimeController = TextEditingController();
+
   var portrait;
   LoginResultData userData;
   String uinfo;
@@ -533,30 +535,5 @@ class _MyCenterPageState extends State<MyCenterPage> {
           )
       ),
     );
-  }
-
-  _onLogoutAlertPressed(context) {
-    Alert(
-      context: context,
-      title: "需要重新登录",
-      desc: "长时间未进行登录操作，需要重新登录验证",
-      buttons: [
-        DialogButton(
-          child: Text(
-            "确定",
-            style: TextStyle(color: Colors.white, fontSize: 20),
-          ),
-          onPressed: () async {
-            SharedPreferences prefs = await SharedPreferences.getInstance();
-            prefs.remove("userInfo");
-            Navigator.of(context).pushAndRemoveUntil(
-                new MaterialPageRoute(builder: (context) => new Home()
-                ), (route) => route == null
-            );
-          },
-          color: Color(0xFF5580EB),
-        ),
-      ],
-    ).show();
   }
 }

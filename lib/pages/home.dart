@@ -225,12 +225,19 @@ class QlistBtn extends AnimatedWidget{
           SharedPreferences prefs = await SharedPreferences.getInstance();
           uinfo= prefs.getString("userInfo");
           if(uinfo!=null){
-            result =loginResultDataFromJson(uinfo);
-            exT = result.exTokenTime.millisecondsSinceEpoch; // token时间转时间戳
+            result=LoginResultData.fromJson(json.decode(uinfo));
+            exT = result.exTokenTime.millisecondsSinceEpoch;
+            // token时间转时间戳
             if(exT >= _dateTime){
-//            Navigator.push(context, MaterialPageRoute(builder: (context)=>QListPage()));
-              Navigator.push(context, MaterialPageRoute(builder: (context)=>ManagerQListPage()));
-//            Navigator.push(context, MaterialPageRoute(builder: (context)=>MajorQListPage()));
+              if(result.userLevel.substring(0,1)=="6"){
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>QListPage()));
+              }
+              if(result.userLevel.substring(0,1)=="4"||result.userLevel.substring(0,1)=="5"){
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>ManagerQListPage()));
+              }
+              if(result.userLevel.substring(0,1)=="1"||result.userLevel.substring(0,1)=="2"||result.userLevel.substring(0,1)=="3"){
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>MajorQListPage()));
+              }
             }else{
               _onLoginAlertPressed(context);
             }
