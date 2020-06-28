@@ -38,6 +38,12 @@
       "languageVersion": "2.0"
     },
     {
+      "name": "chips_choice",
+      "rootUri": "file:///Users/jiaozhengying/flutter/.pub-cache/hosted/pub.flutter-io.cn/chips_choice-1.2.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.1"
+    },
+    {
       "name": "city_picker",
       "rootUri": "file:///Users/jiaozhengying/flutter/.pub-cache/hosted/pub.flutter-io.cn/city_picker-0.1.4",
       "packageUri": "lib/",
@@ -72,6 +78,18 @@
       "rootUri": "file:///Users/jiaozhengying/flutter/.pub-cache/hosted/pub.flutter-io.cn/dio-3.0.9",
       "packageUri": "lib/",
       "languageVersion": "2.4"
+    },
+    {
+      "name": "equatable",
+      "rootUri": "file:///Users/jiaozhengying/flutter/.pub-cache/hosted/pub.flutter-io.cn/equatable-1.2.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.0"
+    },
+    {
+      "name": "fl_chart",
+      "rootUri": "file:///Users/jiaozhengying/flutter/.pub-cache/hosted/pub.flutter-io.cn/fl_chart-0.10.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.6"
     },
     {
       "name": "flutter",
@@ -168,6 +186,18 @@
       "rootUri": "file:///Users/jiaozhengying/flutter/.pub-cache/hosted/pub.flutter-io.cn/path-1.6.4",
       "packageUri": "lib/",
       "languageVersion": "2.0"
+    },
+    {
+      "name": "path_drawing",
+      "rootUri": "file:///Users/jiaozhengying/flutter/.pub-cache/hosted/pub.flutter-io.cn/path_drawing-0.4.1",
+      "packageUri": "lib/",
+      "languageVersion": "1.19"
+    },
+    {
+      "name": "path_parsing",
+      "rootUri": "file:///Users/jiaozhengying/flutter/.pub-cache/hosted/pub.flutter-io.cn/path_parsing-0.1.4",
+      "packageUri": "lib/",
+      "languageVersion": "1.19"
     },
     {
       "name": "pedantic",
@@ -326,7 +356,7 @@
       "languageVersion": "2.2"
     }
   ],
-  "generated": "2020-06-23T20:35:05.381240Z",
+  "generated": "2020-06-28T14:36:08.271875Z",
   "generator": "pub",
   "generatorVersion": "2.8.3"
 }

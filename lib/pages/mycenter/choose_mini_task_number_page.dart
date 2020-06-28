@@ -1,6 +1,9 @@
-import 'package:ThumbSir/pages/mycenter/self_defined_task_page.dart';
+import 'dart:convert';
+import 'package:ThumbSir/dao/get_mission_s_dao.dart';
+import 'package:ThumbSir/model/login_result_data_model.dart';
 import 'package:flutter/material.dart';
-import 'package:wheel_chooser/wheel_chooser.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 class ChooseMiniTaskNumberPage extends StatefulWidget {
   @override
@@ -8,8 +11,43 @@ class ChooseMiniTaskNumberPage extends StatefulWidget {
 }
 
 class _ChooseMiniTaskNumberPageState extends State<ChooseMiniTaskNumberPage> {
-  DateTime _dateTime = DateTime.now();
   int itemCount = 1;
+  bool _loading = false;
+  LoginResultData userData;
+  String uinfo;
+  var result;
+
+  _getUserInfo() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    uinfo= prefs.getString("userInfo");
+    if(uinfo != null){
+      result =loginResultDataFromJson(uinfo);
+      this.setState(() {
+        userData=LoginResultData.fromJson(json.decode(uinfo));
+      });
+      _load();
+    }
+  }
+  _load() async {
+    if(userData != null){
+      var taskList = await GetMissionSDao.getMissionS(userData.userPid, userData.userLevel.substring(0,1), userData.companyId);
+      if (taskList.code == 200) {
+        print(taskList);
+        setState(() {
+          _loading = false;
+        });
+      } else {
+        _onLoadAlert(context);
+      }
+    }
+  }
+
+  @override
+  void initState() {
+    _getUserInfo();
+    super.initState();
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -631,5 +669,27 @@ class _ChooseMiniTaskNumberPageState extends State<ChooseMiniTaskNumberPage> {
           ],
         )
     );
+  }
+  _onLoadAlert(context) {
+    Alert(
+      context: context,
+      title: "加载任务失败",
+      desc: "请检查网络连接情况",
+      buttons: [
+        DialogButton(
+          child: Text(
+            "确定",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () {
+            Navigator.pop(context);
+            setState(() {
+              _loading = false;
+            });
+          },
+          color: Color(0xFF5580EB),
+        )
+      ],
+    ).show();
   }
 }

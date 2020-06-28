@@ -1,7 +1,15 @@
+import 'dart:convert';
+import 'package:ThumbSir/dao/creat_mission_dao.dart';
+import 'package:chips_choice/chips_choice.dart';
+import 'package:ThumbSir/dao/get_default_task_dao.dart';
+import 'package:ThumbSir/model/get_default_task_model.dart';
+import 'package:ThumbSir/model/login_result_data_model.dart';
 import 'package:ThumbSir/pages/mycenter/choose_mini_task_number_page.dart';
-import 'package:ThumbSir/pages/mycenter/self_defined_task_page.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wheel_chooser/wheel_chooser.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:ThumbSir/model/set_kpimission_item_model.dart';
 
 class ChooseMiniTaskPage extends StatefulWidget {
   @override
@@ -9,7 +17,63 @@ class ChooseMiniTaskPage extends StatefulWidget {
 }
 
 class _ChooseMiniTaskPageState extends State<ChooseMiniTaskPage> {
-  DateTime _dateTime = DateTime.now();
+  String minCount = "1";
+  List missionContent=new List();
+  List idList = [];
+  String selectTaskIDs="";
+  int itemLength = 0;
+
+  int tag = 1;
+  List<String> tags = [];
+
+  var taskMsg;
+  List<Datum> tasks = [];
+  List<Widget> tasksShowList = [];
+
+  bool _loading = false;
+
+  LoginResultData userData;
+  String uinfo;
+  var result;
+
+  _getUserInfo() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    uinfo= prefs.getString("userInfo");
+    if(uinfo != null){
+      result =loginResultDataFromJson(uinfo);
+      this.setState(() {
+        userData=LoginResultData.fromJson(json.decode(uinfo));
+      });
+    }
+  }
+  _load() async {
+    var taskList = await GetDefaultTaskDao.httpGetDefaultTask();
+    if (taskList.code == 200) {
+
+      List<Datum> filteredList=new List();
+
+      taskList.data.forEach((element) {
+        if(element.id!=12 && element.id!=13 && element.id!=14){
+          filteredList.add(element);
+        }
+      });
+
+      setState(() {
+        tasks = filteredList;
+        _loading = false;
+      });
+    } else {
+      _onLoadAlert(context);
+    }
+  }
+
+  @override
+  void initState() {
+    _getUserInfo();
+    _load();
+    _onRefresh();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +119,7 @@ class _ChooseMiniTaskPageState extends State<ChooseMiniTaskPage> {
                       child: Row(
                         children: <Widget>[
                           Text(
-                              '选择任务',
+                              '选择核心任务(2~8项)',
                               style: TextStyle(
                                 color: Color(0xFF666666),
                                 fontSize: 16,
@@ -67,104 +131,72 @@ class _ChooseMiniTaskPageState extends State<ChooseMiniTaskPage> {
                         ],
                       )
                   ),
-                  // 任务item
-                  Container(
-                    padding: EdgeInsets.only(top: 40,bottom: 50),
-                    child: Wrap(
-                      spacing: 15,
-                      runSpacing: 10,
+                  Content(
+                    title: '可选的任务名称',
+                    child: FormField<List<String>>(
+                      autovalidate: true,
+                      initialValue: tags,
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return '请选择核心任务的名称';
+                        }
+                        if (value.length > 8) {
+                          return "选择不可多于8项";
+                        }
+                        return null;
+                      },
+                      builder: (state) {
+                      return Column(
                       children: <Widget>[
                         Container(
-                          width: 100,
-                          height: 28,
-                          padding: EdgeInsets.all(3),
-                          decoration: BoxDecoration(
-                            border: Border.all(width: 1,color: Color(0xFF5580EB)),
-                            borderRadius: BorderRadius.circular(5),
-                            color: Color(0xFF5580EB)
+                          alignment: Alignment.centerLeft,
+                          child: ChipsChoice<String>.multiple(
+                              value: state.value,
+                              options:  ChipsChoiceOption.listFrom<String,Datum>(
+                                source: tasks,
+                                // 存储形式
+                                value:(index,item)=>'{"id":"'+item.id.toString()+'","TaskTitle":"'+item.taskName+'","TaskUnit":"'+item.taskUnit+'"}',
+                                // 展示形式
+                                label: (index,item)=>item.taskName
+                            ),
+                              onChanged: (val) {
+                                state.didChange(val);
+                                missionContent = val;
+                                String ids="";
+                                val.forEach((element) {
+                                  var item=selectItemFromJson(element);
+                                  ids+=item.id+",";
+                                  selectTaskIDs = ids;
+                                  if(state.value != null){
+                                    setState(() {
+                                      itemLength = state.value.length;
+                                    });
+                                  }
+                                });
+                              },
+                              itemConfig: ChipsChoiceItemConfig(
+                                selectedColor: Color(0xFF5580EB),
+                                selectedBrightness: Brightness.dark,
+                                unselectedColor: Color(0xFF5580EB),
+                                unselectedBorderOpacity: .3,
+                              ),
+                              isWrapped: true,
                           ),
-                          child: Text('休息',style: TextStyle(fontSize: 14,color: Colors.white,fontWeight: FontWeight.normal,
-                            decoration: TextDecoration.none,),textAlign: TextAlign.center,),
                         ),
                         Container(
-                          width: 100,
-                          height: 28,
-                          padding: EdgeInsets.all(3),
-                          decoration: BoxDecoration(
-                              border: Border.all(width: 1,color: Color(0xFF93C0FB)),
-                              borderRadius: BorderRadius.circular(5)
-                          ),
-                          child: Text('带看',style: TextStyle(fontSize: 14,color: Color(0xFF5580EB),fontWeight: FontWeight.normal,
-                            decoration: TextDecoration.none,),textAlign: TextAlign.center,),
-                        ),
-                        Container(
-                          width: 100,
-                          height: 28,
-                          padding: EdgeInsets.all(3),
-                          decoration: BoxDecoration(
-                              border: Border.all(width: 1,color: Color(0xFF93C0FB)),
-                              borderRadius: BorderRadius.circular(5)
-                          ),
-                          child: Text('实勘',style: TextStyle(fontSize: 14,color: Color(0xFF5580EB),fontWeight: FontWeight.normal,
-                            decoration: TextDecoration.none,),textAlign: TextAlign.center,),
-                        ),
-                        Container(
-                          width: 100,
-                          height: 28,
-                          padding: EdgeInsets.all(3),
-                          decoration: BoxDecoration(
-                              border: Border.all(width: 1,color: Color(0xFF93C0FB)),
-                              borderRadius: BorderRadius.circular(5)
-                          ),
-                          child: Text('打业主电话',style: TextStyle(fontSize: 14,color: Color(0xFF5580EB),fontWeight: FontWeight.normal,
-                            decoration: TextDecoration.none,),textAlign: TextAlign.center,),
-                        ),
-                        Container(
-                          width: 100,
-                          height: 28,
-                          padding: EdgeInsets.all(3),
-                          decoration: BoxDecoration(
-                              border: Border.all(width: 1,color: Color(0xFF93C0FB)),
-                              borderRadius: BorderRadius.circular(5)
-                          ),
-                          child: Text('过户',style: TextStyle(fontSize: 14,color: Color(0xFF5580EB),fontWeight: FontWeight.normal,
-                            decoration: TextDecoration.none,),textAlign: TextAlign.center,),
-                        ),
-                        Container(
-                          width: 100,
-                          height: 28,
-                          padding: EdgeInsets.all(3),
-                          decoration: BoxDecoration(
-                              border: Border.all(width: 1,color: Color(0xFF93C0FB)),
-                              borderRadius: BorderRadius.circular(5)
-                          ),
-                          child: Text('录入房源',style: TextStyle(fontSize: 14,color: Color(0xFF5580EB),fontWeight: FontWeight.normal,
-                            decoration: TextDecoration.none,),textAlign: TextAlign.center,),
-                        ),
-                        Container(
-                          width: 100,
-                          height: 28,
-                          padding: EdgeInsets.all(3),
-                          decoration: BoxDecoration(
-                              border: Border.all(width: 1,color: Color(0xFF93C0FB)),
-                              borderRadius: BorderRadius.circular(5)
-                          ),
-                          child: Text('签委托',style: TextStyle(fontSize: 14,color: Color(0xFF5580EB),fontWeight: FontWeight.normal,
-                            decoration: TextDecoration.none,),textAlign: TextAlign.center,),
-                        ),
-                        Container(
-                          width: 100,
-                          height: 28,
-                          padding: EdgeInsets.all(3),
-                          decoration: BoxDecoration(
-                              border: Border.all(width: 1,color: Color(0xFF93C0FB)),
-                              borderRadius: BorderRadius.circular(5)
-                          ),
-                          child: Text('面访业主',style: TextStyle(fontSize: 14,color: Color(0xFF5580EB),fontWeight: FontWeight.normal,
-                            decoration: TextDecoration.none,),textAlign: TextAlign.center,),
-                        ),
-                      ],
-                    ),
+                          padding: EdgeInsets.fromLTRB(15, 0, 15, 15),
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            state.errorText ?? state.value.length.toString() + '/8 可选',
+                            style: TextStyle(
+                              color: state.hasError
+                              ? Colors.redAccent
+                              : Colors.green
+                            ),
+                          )
+                        )
+                      ]);}
+                    )
                   ),
                   // 最低完成量
                   Padding(
@@ -212,8 +244,12 @@ class _ChooseMiniTaskPageState extends State<ChooseMiniTaskPage> {
                           height: 120,
                           margin: EdgeInsets.only(top: 28),
                           child: WheelChooser(
-                            onValueChanged: (s) => print(s),
-                            datas: ["1", "2", "3", "4", "5","6","7","8","9","10"],
+                            onValueChanged: (s){
+                              setState(() {
+                                minCount = s;
+                              });
+                            },
+                            datas: ["1", "2", "3", "4", "5","6","7","8"],
                             selectTextStyle: TextStyle(
                                 color: Color(0xFF0E7AE6),
                                 fontWeight: FontWeight.normal,
@@ -242,31 +278,50 @@ class _ChooseMiniTaskPageState extends State<ChooseMiniTaskPage> {
                       padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
                       child: Container(
                         child: Text(
-                            '说明：设置每日最低完成任务数量是规定经纪人每日最少完成上面所选的任务中的任意几项任务就算今日任务量达标。',
+                            '说明：每日最少完成上面所选的任务中的任意几项任务就算下级的今日任务量达标。',
                             style: TextStyle(
                               color: Color(0xFF666666),
                               fontSize: 12,
                               fontWeight: FontWeight.normal,
                               decoration: TextDecoration.none,
                             ),
-                            textAlign: TextAlign.center,
+                            textAlign: TextAlign.left,
                           ),
                       )
                   ),
                   // 下一步
                   GestureDetector(
-                    onTap: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=>ChooseMiniTaskNumberPage()));
+                    onTap: ()async{
+                      if(userData != null && itemLength>1 && itemLength<=8){
+                        var creatMissionResult = await CreatMissionDao.creatMission(
+                            userData.companyId,
+                            userData.userPid,
+                            selectTaskIDs,
+                            minCount,
+                            userData.userLevel.substring(0,1),
+                            missionContent
+                        );
+                        if(creatMissionResult.code == 200){
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>ChooseMiniTaskNumberPage()));
+                        }
+                      }else{}
                     },
                     child: Container(
                         width: 335,
                         height: 40,
                         padding: EdgeInsets.all(4),
                         margin: EdgeInsets.only(bottom: 50,top: 100),
-                        decoration: BoxDecoration(
+                        decoration: itemLength>1 && itemLength<=8 ?
+                        BoxDecoration(
                             border: Border.all(width: 1,color: Color(0xFF5580EB)),
                             borderRadius: BorderRadius.circular(8),
                             color: Color(0xFF5580EB)
+                        )
+                        :
+                        BoxDecoration(
+                            border: Border.all(width: 1,color: Color(0xFF93C0FB)),
+                            borderRadius: BorderRadius.circular(8),
+                            color: Color(0xFF93C0FB)
                         ),
                         child: Padding(
                             padding: EdgeInsets.only(top: 4),
@@ -285,4 +340,74 @@ class _ChooseMiniTaskPageState extends State<ChooseMiniTaskPage> {
         )
     );
   }
+  // 加载中loading
+  Future<Null> _onRefresh() async {
+    setState(() {
+      _loading = !_loading;
+    });
+  }
+
+  _onLoadAlert(context) {
+    Alert(
+      context: context,
+      title: "加载任务失败",
+      desc: "请检查网络连接情况",
+      buttons: [
+        DialogButton(
+          child: Text(
+            "确定",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () {
+            Navigator.pop(context);
+            setState(() {
+              _loading = false;
+            });
+          },
+          color: Color(0xFF5580EB),
+        )
+      ],
+    ).show();
+  }
 }
+
+
+class Content extends StatelessWidget {
+
+  final String title;
+  final Widget child;
+
+  Content({
+    Key key,
+    @required this.title,
+    @required this.child,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      elevation: 2,
+      margin: EdgeInsets.all(20),
+      clipBehavior: Clip.antiAliasWithSaveLayer,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Container(
+            width: double.infinity,
+            padding: EdgeInsets.all(15),
+            color: Color(0x205580EB),
+            child: Text(
+              title,
+              style: TextStyle(
+                  color: Color(0xFF5580EB),
+                  fontWeight: FontWeight.normal
+              ),
+            ),
+          ),
+          child,
+        ],
+      ),
+    );
+  }
+}
+

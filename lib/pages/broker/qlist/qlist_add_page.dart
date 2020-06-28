@@ -1,6 +1,9 @@
 import 'dart:convert';
 import 'package:ThumbSir/common/reg.dart';
+import 'package:ThumbSir/dao/get_default_task_dao.dart';
 import 'package:ThumbSir/dao/user_select_mission_dao.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:ThumbSir/model/get_default_task_model.dart';
 import 'package:ThumbSir/model/login_result_data_model.dart';
 import 'package:ThumbSir/pages/broker/qlist/qlist_view_mini_tasks_page.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +19,7 @@ class _QListAddPageState extends State<QListAddPage> {
   final TextEditingController remarkController=TextEditingController();
   RegExp remarkReg;
   bool remarkBool = false;
+  int chooseId = 0;
 
   LoginResultData userData;
   String uinfo;
@@ -31,63 +35,82 @@ class _QListAddPageState extends State<QListAddPage> {
       });
     }
   }
+  _load() async {
+    var taskList = await GetDefaultTaskDao.httpGetDefaultTask();
+    if (taskList.code == 200) {
+      setState(() {
+        tasks = taskList.data;
+        _loading = false;
+      });
+    } else {
+      _onLoadAlert(context);
+    }
+  }
+
+  var taskMsg;
+  List<Datum> tasks = [];
+  List<Widget> tasksShowList = [];
+
+  bool _loading = false;
 
   @override
   void initState() {
     super.initState();
     remarkReg = FeedBackReg;
     _getUserInfo();
-    taskList = ['带看','实勘','收钥匙','打业主电话','打客户电话','过户','面访业主','市价','签约','解决纠纷','物业交割'];
+    _load();
   }
   
   DateTime startTime = DateTime.now();
   DateTime endTime = DateTime.now();
   int _starIndex = 0;
-  int _taskIndex = -1;
   int itemCount = 1;
   bool isRemark = false;
 
   List taskList;
 
-  Widget buildGrid() {
-    List<Widget> tiles = [];//数组,用于存放循环生成的widget
+  Widget taskItem() {
     Widget content;
-    for(var item in taskList) {
-      tiles.add(
-        GestureDetector(
-          onTap: (){
-            setState(() {
-              _taskIndex = taskList.indexOf(item);
-              print(_taskIndex);
-            });
-          },
-          child: Container(
-            width: 100,
-            height: 28,
-            padding: EdgeInsets.all(3),
-            decoration: BoxDecoration(
-                border: Border.all(width: 1,color: Color(0xFF93C0FB)),
-                borderRadius: BorderRadius.circular(5)
-            ),
-            child: Text(
-              item,
-              style: TextStyle(
-                fontSize: 14,
-                color: Color(0xFF0E7AE6),
-                fontWeight: FontWeight.normal,
-                decoration: TextDecoration.none,
+    if (tasks != null) {
+      for (var item in tasks) {
+//        bool _isChoose = false;
+        tasksShowList.add(
+          GestureDetector(
+            onTap: (){
+              setState(() {
+                chooseId = item.id;
+              });
+              print(item.id);
+            },
+            child: Container(
+              width: 100,
+              height: 28,
+              padding: EdgeInsets.all(3),
+              decoration: BoxDecoration(
+                  border: Border.all(width: 1,color: Color(0xFF93C0FB)),
+                  borderRadius: BorderRadius.circular(5)
               ),
-              textAlign: TextAlign.center,
+              child: Text(
+                item.taskName,
+                style: TextStyle(
+                  fontSize: 14,
+                  color: Color(0xFF0E7AE6),
+                  fontWeight: FontWeight.normal,
+                  decoration: TextDecoration.none,
+                ),
+                textAlign: TextAlign.center,
+              ),
             ),
           ),
-        ),
-      );
+        );
+      }
     }
-    content =Wrap(
+    content = Wrap(
       spacing: 15,
       runSpacing: 10,
-      children: tiles,
+      children: tasksShowList,
     );
+
     return content;
   }
 
@@ -201,7 +224,7 @@ class _QListAddPageState extends State<QListAddPage> {
                         ],
                       ),
                     ),
-                    buildGrid(),
+                    taskItem(),
                     Container(
                       width: 335,
                       margin: EdgeInsets.only(top: 20),
@@ -706,18 +729,18 @@ class _QListAddPageState extends State<QListAddPage> {
                     // 完成
                     GestureDetector(
                       onTap: ()async{
-//                      await UserSelectMissionDao.selectMission(
-//                          userData.companyId,
-//                          userData.userPid,
-//                          '', // adminTaskId,
-//                          userData.userLevel.substring(0,1),
-//                          startTime.toIso8601String(),
-//                          endTime.toIso8601String(),
-//                          _starIndex.toString(),
-//                          itemCount.toString(),
-//                          '', // address,
-//                          remarkController.text,
-//                      );
+                      await UserSelectMissionDao.selectMission(
+                          userData.companyId,
+                          userData.userPid,
+                          chooseId.toString(), // adminTaskId,
+                          userData.userLevel.substring(0,1),
+                          startTime.toIso8601String(),
+                          endTime.toIso8601String(),
+                          _starIndex.toString(),
+                          itemCount.toString(),
+                          '北京市', // address,
+                          remarkController.text,
+                      );
                       },
                       child: Container(
                         width: 200,
@@ -805,6 +828,28 @@ class _QListAddPageState extends State<QListAddPage> {
         remarkBool = remarkReg.hasMatch(remarkController.text);
       });
     }
+  }
+  _onLoadAlert(context) {
+    Alert(
+      context: context,
+      title: "加载任务失败",
+      desc: "请检查网络连接情况",
+      buttons: [
+        DialogButton(
+          child: Text(
+            "确定",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () {
+            Navigator.pop(context);
+            setState(() {
+              _loading = false;
+            });
+          },
+          color: Color(0xFF5580EB),
+        )
+      ],
+    ).show();
   }
 }
 

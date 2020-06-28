@@ -1,6 +1,5 @@
 import 'package:ThumbSir/common/reg.dart';
 import 'package:ThumbSir/dao/get_default_task_dao.dart';
-import 'package:ThumbSir/pages/mycenter/self_defined_task_page.dart';
 import 'package:ThumbSir/widget/input.dart';
 import 'package:ThumbSir/widget/loading.dart';
 import 'package:flutter/material.dart';

@@ -24,6 +24,8 @@ dependencies:
   simple_autocomplete_formfield: ^0.2.7
   mime: ^0.9.6+3
   dio: 3.0.9
+  fl_chart: ^0.10.0
+  chips_choice: ^1.2.0
 
 dev_dependencies:
   flutter_test:

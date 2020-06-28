@@ -1,3 +1,4 @@
+import 'package:ThumbSir/pages/manager/qlist/team_analyze_pie_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
@@ -165,88 +166,88 @@ class _TeamDayAnalyzeState extends State<TeamDayAnalyze> {
         Align(
           alignment: Alignment(0,-1),
           child: Container(
-            width: 335,
-            height: 100,
-            margin: EdgeInsets.only(top: 190),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12),
-                boxShadow: [BoxShadow(
-                    color: Color(0xFFcccccc),
-                    offset: Offset(0.0, 3.0),
-                    blurRadius: 10.0,
-                    spreadRadius: 2.0
-                )],
-                color: Colors.white
-            ),
-            // 综合完成度
-            child: Row(
-              children: <Widget>[
-                Container(
-                  width: 70,
-                  height: 70,
-                  margin: EdgeInsets.only(left: 20),
-                  child: SleekCircularSlider(
-                    appearance: CircularSliderAppearance(
-                        startAngle: 280,
-                        angleRange: 360,
-                        customWidths: CustomSliderWidths(progressBarWidth: 7),
-                        customColors: CustomSliderColors(
-                          progressBarColors: [Color(0xFF0E7AE6),Color(0xFF2692FD),Color(0xFF93C0FB)],
-                          trackColor: Color(0x20CCCCCC),
-                          dotColor: Colors.transparent,
-                        ),
-                        infoProperties: InfoProperties(
-                            mainLabelStyle: TextStyle(
-                              fontSize: 18,
-                              color: Color(0xFF2692FD),
-                            )
-                        )
+              width: 280,
+              height: 100,
+              margin: EdgeInsets.only(top: 190),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  boxShadow: [BoxShadow(
+                      color: Color(0xFFcccccc),
+                      offset: Offset(0.0, 3.0),
+                      blurRadius: 10.0,
+                      spreadRadius: 2.0
+                  )],
+                  color: Colors.white
+              ),
+              // 综合完成度
+              child: Row(
+                children: <Widget>[
+                  Container(
+                    width: 70,
+                    height: 70,
+                    margin: EdgeInsets.only(left: 20),
+                    child: SleekCircularSlider(
+                      appearance: CircularSliderAppearance(
+                          startAngle: 280,
+                          angleRange: 360,
+                          customWidths: CustomSliderWidths(progressBarWidth: 7),
+                          customColors: CustomSliderColors(
+                            progressBarColors: [Color(0xFF0E7AE6),Color(0xFF2692FD),Color(0xFF93C0FB)],
+                            trackColor: Color(0x20CCCCCC),
+                            dotColor: Colors.transparent,
+                          ),
+                          infoProperties: InfoProperties(
+                              mainLabelStyle: TextStyle(
+                                fontSize: 18,
+                                color: Color(0xFF2692FD),
+                              )
+                          )
+                      ),
+                      min: 0,
+                      max: 100,
+                      initialValue: 80,
                     ),
-                    min: 0,
-                    max: 100,
-                    initialValue: 80,
                   ),
-                ),
-                Column(
-                  children: <Widget>[
-                    Container(
-                      width: 200,
-                        padding:EdgeInsets.fromLTRB(20, 10, 10, 10),
-                        child:Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Text(
-                              '综合完成度',
-                              style: TextStyle(color: Color(0xFF0E7AE6),fontSize: 20),
-                              textAlign: TextAlign.left,
-                            ),
-                          ],
-                        )
-                    ),
-                    Container(
-                        width: 200,
-                        padding:EdgeInsets.fromLTRB(20, 0, 10, 5),
-                        child:Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Text('计划：共6项',style: TextStyle(color: Color(0xFF666666),fontSize: 14),textAlign: TextAlign.left,),
-                          ],
-                        )
-                    ),
-                    Container(
-                      width: 200,
-                        padding:EdgeInsets.fromLTRB(20, 0, 10, 0),
-                        child:Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Text('已完成：4项',style: TextStyle(color: Color(0xFF666666),fontSize: 14),textAlign: TextAlign.left,),
-                          ],
-                        )
-                    ),
-                  ],
-                ),
-              ],
-            )
+                  Column(
+                    children: <Widget>[
+                      Container(
+                          width: 150,
+                          padding:EdgeInsets.fromLTRB(20, 10, 10, 10),
+                          child:Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Text(
+                                '综合完成度',
+                                style: TextStyle(color: Color(0xFF0E7AE6),fontSize: 20),
+                                textAlign: TextAlign.left,
+                              ),
+                            ],
+                          )
+                      ),
+                      Container(
+                          width: 150,
+                          padding:EdgeInsets.fromLTRB(20, 0, 10, 5),
+                          child:Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Text('计划：共6项',style: TextStyle(color: Color(0xFF666666),fontSize: 14),textAlign: TextAlign.left,),
+                            ],
+                          )
+                      ),
+                      Container(
+                          width: 150,
+                          padding:EdgeInsets.fromLTRB(20, 0, 10, 0),
+                          child:Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Text('已完成：4项',style: TextStyle(color: Color(0xFF666666),fontSize: 14),textAlign: TextAlign.left,),
+                            ],
+                          )
+                      ),
+                    ],
+                  ),
+                ],
+              )
           ),
         ),
       ],

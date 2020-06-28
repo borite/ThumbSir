@@ -35,27 +35,31 @@ class GetMissionS {
 class Datum {
   Datum({
     this.id,
-    this.taskTittleA,
+    this.taskCount,
+    this.taskTitle,
     this.taskUnit,
-    this.taskCountA,
+    this.taskContent,
   });
 
   int id;
-  String taskTittleA;
+  int taskCount;
+  String taskTitle;
   String taskUnit;
-  int taskCountA;
+  String taskContent;
 
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
     id: json["ID"] == null ? null : json["ID"],
-    taskTittleA: json["TaskTittleA"] == null ? null : json["TaskTittleA"],
+    taskCount: json["TaskCount"] == null ? null : json["TaskCount"],
+    taskTitle: json["TaskTitle"] == null ? null : json["TaskTitle"],
     taskUnit: json["TaskUnit"] == null ? null : json["TaskUnit"],
-    taskCountA: json["TaskCountA"] == null ? null : json["TaskCountA"],
+    taskContent: json["TaskContent"] == null ? null : json["TaskContent"],
   );
 
   Map<String, dynamic> toJson() => {
     "ID": id == null ? null : id,
-    "TaskTittleA": taskTittleA == null ? null : taskTittleA,
+    "TaskCount": taskCount == null ? null : taskCount,
+    "TaskTitle": taskTitle == null ? null : taskTitle,
     "TaskUnit": taskUnit == null ? null : taskUnit,
-    "TaskCountA": taskCountA == null ? null : taskCountA,
+    "TaskContent": taskContent == null ? null : taskContent,
   };
 }

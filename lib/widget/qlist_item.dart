@@ -638,7 +638,8 @@ class _QListItemState extends State<QListItem> with SingleTickerProviderStateMix
                           padding: EdgeInsets.only(
                               left: 20, right: 20, bottom: 10, top: 10),
                           child: Text(
-                            widget.remark,
+                            '描述',
+//                            widget.remark,
                             style: TextStyle(
                               fontSize: 14,
                               color: Color(0xFF999999),
@@ -715,7 +716,8 @@ class _QListItemState extends State<QListItem> with SingleTickerProviderStateMix
                                       'images/site_small.png'),),
                                 ),
                                 Text(
-                                  widget.currentAddress,
+                                  '海淀区',
+//                                  widget.currentAddress,
                                   style: TextStyle(
                                     fontSize: 14,
                                     color: Color(0xFF0E7AE6),

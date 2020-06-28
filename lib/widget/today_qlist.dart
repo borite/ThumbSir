@@ -135,6 +135,7 @@ class _TodayQListState extends State<TodayQList> with SingleTickerProviderStateM
               percent: item.finishRate,
               pageIndex: this.widget.pageIndex,
               tabIndex: this.widget.tabIndex,
+              address: '北京市海淀区',
               callBack: ()=>onChange(this.widget.pageIndex,this.widget.tabIndex),
             ),
           );
@@ -162,6 +163,7 @@ class _TodayQListState extends State<TodayQList> with SingleTickerProviderStateM
               percent: item.finishRate,
               pageIndex: this.widget.pageIndex,
               tabIndex: this.widget.tabIndex,
+              address: '北京市海淀区',
               callBack: ()=>onChange(this.widget.pageIndex,this.widget.tabIndex),
             ),
           );

@@ -132,7 +132,7 @@ class _MCenterGroupPageState extends State<MCenterGroupPage> {
                             width: 200,
                             padding: EdgeInsets.only(top: 10),
                             child: Text(
-                              userData.phone,
+                              item.phone,
                               style:TextStyle(
                                 fontSize: 10,
                                 color: Color(0xFF999999),

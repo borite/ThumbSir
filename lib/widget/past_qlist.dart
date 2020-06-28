@@ -59,8 +59,8 @@ class _PastQListState extends State<PastQList>  with SingleTickerProviderStateMi
                 color: Colors.white
             ),
             margin: EdgeInsets.only(left: 30,right: 30),
-            padding: EdgeInsets.only(top: 20),
-            height: 280,
+            padding: EdgeInsets.all(20),
+            height: 300,
             child: SomeCalendar(
               primaryColor: Color(0xff93C0FB),
               mode: SomeMode.Single,
@@ -71,9 +71,10 @@ class _PastQListState extends State<PastQList>  with SingleTickerProviderStateMi
               lastDate: Jiffy().add(months: 1),
               textColor: Color(0xFF93C0FB),
               done: (date) {
+                print(date);
                 setState(() {
                   selectedDate = date;
-                  showSnackbar(selectedDate.toString());
+                  showSnackBar(selectedDate.toString());
                 });
               },
               labels: Labels(
@@ -86,7 +87,7 @@ class _PastQListState extends State<PastQList>  with SingleTickerProviderStateMi
       ],
     );
   }
-  void showSnackbar(String x) {
+  void showSnackBar(String x) {
     _scaffoldKey.currentState.showSnackBar(SnackBar(
       content: Text(x),
     ));

@@ -1,3 +1,4 @@
+import 'package:ThumbSir/pages/manager/qlist/team_analyze_pie_page.dart';
 import 'package:ThumbSir/widget/month_analyze.dart';
 import 'package:ThumbSir/widget/quarter_analyze.dart';
 import 'package:ThumbSir/widget/team_day_analyze.dart';
@@ -81,6 +82,24 @@ class _TeamAnalyzeDetailPageState extends State<TeamAnalyzeDetailPage> with Sing
                           ),),
                         )
                       ],
+                    ),
+                    GestureDetector(
+                      onTap: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>TeamAnalyzePiePage()));
+                      },
+                      child: Container(
+                        padding: EdgeInsets.fromLTRB(15, 5, 15, 5),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.white,width: 1),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Text('时间分布',style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.white,
+                          fontWeight: FontWeight.normal,
+                          decoration: TextDecoration.none,
+                        ),),
+                      ),
                     ),
                   ],
                 )
