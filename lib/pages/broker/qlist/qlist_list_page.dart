@@ -340,40 +340,40 @@ class _QListListPageState extends State<QListListPage> with TickerProviderStateM
               ),
             ),
             // 今日任务未排满的提示
-            Padding(
-                padding: EdgeInsets.only(bottom: 20),
-                child:Align(
-                  alignment: Alignment.bottomCenter,
-                  child: GestureDetector(
-                    onTap: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=>QListAddPage()));
-                    },
-                    child: Container(
-                      width: 233,
-                      height: 90,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image:AssetImage('images/warnbox.png'),
-                          fit: BoxFit.fitHeight,
-                        ),
-                      ),
-                      child: Column(
-                        children: <Widget>[
-                          Container(
-                            width:20,
-                            padding: EdgeInsets.only(top: 15,bottom: 8),
-                            child: Image(image: AssetImage('images/warn.png'),),
-                          ),
-                          Text('您的今日任务时间不连贯，点我安排',style: TextStyle(
-                              fontSize: 12,
-                              color: Color(0xFFF24848)
-                          ),),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-            ),
+//            Padding(
+//                padding: EdgeInsets.only(bottom: 20),
+//                child:Align(
+//                  alignment: Alignment.bottomCenter,
+//                  child: GestureDetector(
+//                    onTap: (){
+//                      Navigator.push(context, MaterialPageRoute(builder: (context)=>QListAddPage()));
+//                    },
+//                    child: Container(
+//                      width: 233,
+//                      height: 90,
+//                      decoration: BoxDecoration(
+//                        image: DecorationImage(
+//                          image:AssetImage('images/warnbox.png'),
+//                          fit: BoxFit.fitHeight,
+//                        ),
+//                      ),
+//                      child: Column(
+//                        children: <Widget>[
+//                          Container(
+//                            width:20,
+//                            padding: EdgeInsets.only(top: 15,bottom: 8),
+//                            child: Image(image: AssetImage('images/warn.png'),),
+//                          ),
+//                          Text('您的今日任务时间不连贯，点我安排',style: TextStyle(
+//                              fontSize: 12,
+//                              color: Color(0xFFF24848)
+//                          ),),
+//                        ],
+//                      ),
+//                    ),
+//                  ),
+//                ),
+//            ),
           ],
         ),
     )
@@ -647,45 +647,45 @@ class _QListListPageState extends State<QListListPage> with TickerProviderStateM
             ),
           ),
           // 明日任务没安排满的提示
-          Padding(
-            padding: EdgeInsets.only(bottom: 20),
-            child:Align(
-              alignment: Alignment.bottomCenter,
-              child: GestureDetector(
-                onTap: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=>QListAddPage()));
-                },
-                child: Container(
-                  width: 233,
-                  height: 90,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image:AssetImage('images/warnbox.png'),
-                      fit: BoxFit.fitHeight,
-                    ),
-                  ),
-                  child: Column(
-                    children: <Widget>[
-                      Container(
-                        width:20,
-                        padding: EdgeInsets.only(top: 15,bottom: 8),
-                        child: Image(image: AssetImage('images/bell_yellow.png'),),
-                      ),
-                      GestureDetector(
-                        onTap: (){
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=>QListAddPage()));
-                        },
-                        child: Text('您的明日任务没有安排满，点我安排',style: TextStyle(
-                            fontSize: 12,
-                            color: Color(0xFFFF9600)
-                        ),),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ),
+//          Padding(
+//            padding: EdgeInsets.only(bottom: 20),
+//            child:Align(
+//              alignment: Alignment.bottomCenter,
+//              child: GestureDetector(
+//                onTap: (){
+//                  Navigator.push(context, MaterialPageRoute(builder: (context)=>QListAddPage()));
+//                },
+//                child: Container(
+//                  width: 233,
+//                  height: 90,
+//                  decoration: BoxDecoration(
+//                    image: DecorationImage(
+//                      image:AssetImage('images/warnbox.png'),
+//                      fit: BoxFit.fitHeight,
+//                    ),
+//                  ),
+//                  child: Column(
+//                    children: <Widget>[
+//                      Container(
+//                        width:20,
+//                        padding: EdgeInsets.only(top: 15,bottom: 8),
+//                        child: Image(image: AssetImage('images/bell_yellow.png'),),
+//                      ),
+//                      GestureDetector(
+//                        onTap: (){
+//                          Navigator.push(context, MaterialPageRoute(builder: (context)=>QListAddPage()));
+//                        },
+//                        child: Text('您的明日任务没有安排满，点我安排',style: TextStyle(
+//                            fontSize: 12,
+//                            color: Color(0xFFFF9600)
+//                        ),),
+//                      ),
+//                    ],
+//                  ),
+//                ),
+//              ),
+//            ),
+//          ),
         ],
       ),
     )

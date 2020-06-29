@@ -10,7 +10,7 @@ const String apiPerfix=CommonVars.apiPrefix;
 
 class GetMissionSDao {
   static Future<GetMissionS> getMissionS(String userId, String userLevel,String companyId,) async {
-    final response = await http.get(apiPerfix+'api/mission/GetMissionS?UserID='+userId+'UserLevel='+userLevel+'&CompanyID='+companyId);
+    final response = await http.get(apiPerfix+'api/mission/GetMissionS?UserID='+userId+'&UserLevel='+userLevel+'&CompanyID='+companyId);
     //Utf8Decoder utf8decoder = Utf8Decoder();  // 修复中文乱码
     //var result = json.decode(utf8decoder.convert(response.bodyBytes));
     if(response.statusCode == 200){

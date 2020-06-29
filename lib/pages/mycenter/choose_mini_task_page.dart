@@ -23,7 +23,6 @@ class _ChooseMiniTaskPageState extends State<ChooseMiniTaskPage> {
   String selectTaskIDs="";
   int itemLength = 0;
 
-  int tag = 1;
   List<String> tags = [];
 
   var taskMsg;
@@ -147,7 +146,7 @@ class _ChooseMiniTaskPageState extends State<ChooseMiniTaskPage> {
                       },
                       builder: (state) {
                       return Column(
-                      children: <Widget>[
+                        children: <Widget>[
                         Container(
                           alignment: Alignment.centerLeft,
                           child: ChipsChoice<String>.multiple(
@@ -301,6 +300,7 @@ class _ChooseMiniTaskPageState extends State<ChooseMiniTaskPage> {
                             userData.userLevel.substring(0,1),
                             missionContent
                         );
+                        print(creatMissionResult.code);
                         if(creatMissionResult.code == 200){
                           Navigator.push(context, MaterialPageRoute(builder: (context)=>ChooseMiniTaskNumberPage()));
                         }

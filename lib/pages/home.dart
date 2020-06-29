@@ -1,9 +1,7 @@
 import 'dart:convert';
-
+import 'package:ThumbSir/dao/get_message_dao.dart';
 import 'package:ThumbSir/model/login_result_data_model.dart';
-import 'package:ThumbSir/model/login_result_model.dart';
 import 'package:ThumbSir/pages/broker/qlist/qlist_page.dart';
-import 'package:ThumbSir/pages/login/login_page.dart';
 import 'package:ThumbSir/pages/major/qlist/major_qlist_page.dart';
 import 'package:ThumbSir/pages/manager/qlist/manager_qlist_page.dart';
 import 'package:flutter/cupertino.dart';
@@ -21,10 +19,24 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> with SingleTickerProviderStateMixin{
+  var msgList;
+  List<Widget> msgShowList = [];
+
+  _load() async {
+    var msgResult = await GetMessageDao.getMessage('1','1');
+    if (msgResult.code == 200) {
+      setState(() {
+        msgList = msgResult.data;
+      });
+    }
+  }
+
   Animation<double> animation;
   AnimationController controller;
+
   @override
   void initState() {
+    _load();
     super.initState();
     controller = AnimationController(vsync:this,duration: Duration(seconds: 1));
     animation = Tween<double>(begin: 200,end:20).animate(
@@ -37,6 +49,21 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin{
   void dispose(){
     controller.dispose();
     super.dispose();
+  }
+  Widget msgItem() {
+    Widget content;
+    if (msgList != null) {
+      for (var item in msgList) {
+        msgShowList.add(
+          _item('images/tie_big.png',item.sendTime.toIso8601String().substring(0,10),item.msgTitle,item.msgContent),
+        );
+      }
+    }
+    content = PageView(
+      children: msgShowList,
+    );
+
+    return content;
   }
 
   @override
@@ -64,20 +91,6 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin{
                     child:RaisedButton(
                       onPressed: (){
                         Navigator.push(context, MaterialPageRoute(builder: (context)=>MyCenterPage()));
-                        //类比获取整个redux
-//                        SharedPreferences prefs = await SharedPreferences.getInstance();
-//                          uinfo= prefs.getString("userInfo");
-//                          if(uinfo!=null){
-//                            result =loginResultDataFromJson(uinfo);
-//                            exT = result.exTokenTime.millisecondsSinceEpoch; // token时间转时间戳
-//                            if(exT >= _dateTime){
-//                              Navigator.push(context, MaterialPageRoute(builder: (context)=>MyCenterPage()));
-//                            }else{
-//                              Navigator.push(context, MaterialPageRoute(builder: (context)=>MyCenterNotLoginPage()));
-//                            }
-//                          }else{
-//                            Navigator.push(context, MaterialPageRoute(builder: (context)=>MyCenterNotLoginPage()));
-//                          }
                       },
                       color: Colors.transparent,
                       elevation: 0,
@@ -108,13 +121,15 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin{
                     width: 335,
                     margin: EdgeInsets.only(bottom: 25),
                     child:Container(
-                      child: PageView(
-                        children: <Widget>[
-                          // 每一条轮播
-                          _item('images/tie_big.png','2020年3月24日','拇指先生正式上线啦！','邀请好友一起用起来吧~'),
-                          _item('images/tie_big.png','2020年3月24日','客户维护相关功能暂未开放','敬请期待！'),
-                        ],
-                      ),
+                      child:
+                      msgItem(),
+//                      PageView(
+//                        children: <Widget>[
+//                          // 每一条轮播
+//                          _item('images/tie_big.png','2020年3月24日','拇指先生正式上线啦！','邀请好友一起用起来吧~'),
+//                          _item('images/tie_big.png','2020年3月24日','客户维护相关功能暂未开放','敬请期待！'),
+//                        ],
+//                      ),
                     )
                 ),
 

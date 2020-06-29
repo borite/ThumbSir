@@ -9,6 +9,7 @@ import 'package:ThumbSir/pages/broker/qlist/qlist_view_mini_tasks_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_time_picker_spinner/flutter_time_picker_spinner.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:chips_choice/chips_choice.dart';
 
 class QListAddPage extends StatefulWidget {
   @override
@@ -19,7 +20,10 @@ class _QListAddPageState extends State<QListAddPage> {
   final TextEditingController remarkController=TextEditingController();
   RegExp remarkReg;
   bool remarkBool = false;
-  int chooseId = 0;
+  String chooseId = "0";
+  String chooseUnit = "";
+
+  String tag = "1";
 
   LoginResultData userData;
   String uinfo;
@@ -68,51 +72,6 @@ class _QListAddPageState extends State<QListAddPage> {
   bool isRemark = false;
 
   List taskList;
-
-  Widget taskItem() {
-    Widget content;
-    if (tasks != null) {
-      for (var item in tasks) {
-//        bool _isChoose = false;
-        tasksShowList.add(
-          GestureDetector(
-            onTap: (){
-              setState(() {
-                chooseId = item.id;
-              });
-              print(item.id);
-            },
-            child: Container(
-              width: 100,
-              height: 28,
-              padding: EdgeInsets.all(3),
-              decoration: BoxDecoration(
-                  border: Border.all(width: 1,color: Color(0xFF93C0FB)),
-                  borderRadius: BorderRadius.circular(5)
-              ),
-              child: Text(
-                item.taskName,
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Color(0xFF0E7AE6),
-                  fontWeight: FontWeight.normal,
-                  decoration: TextDecoration.none,
-                ),
-                textAlign: TextAlign.center,
-              ),
-            ),
-          ),
-        );
-      }
-    }
-    content = Wrap(
-      spacing: 15,
-      runSpacing: 10,
-      children: tasksShowList,
-    );
-
-    return content;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -179,7 +138,7 @@ class _QListAddPageState extends State<QListAddPage> {
                     ),
                     // 选择任务
                     Padding(
-                      padding: EdgeInsets.all(20),
+                      padding: EdgeInsets.only(top: 20,left: 20,right: 20),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
@@ -224,10 +183,37 @@ class _QListAddPageState extends State<QListAddPage> {
                         ],
                       ),
                     ),
-                    taskItem(),
+                    Content(
+                      title: '可选的任务名称',
+                      child: ChipsChoice<String>.single(
+                        value: tag,
+                        options:  ChipsChoiceOption.listFrom<String,Datum>(
+                          source: tasks,
+                          // 存储形式
+                          value:(index,item)=>'{"id":"'+item.id.toString()+'","TaskTitle":"'+item.taskName+'","TaskUnit":"'+item.taskUnit+'"}',
+                          // 展示形式
+                          label: (index,item)=>item.taskName
+                        ),
+                        onChanged: (val){
+                          print(val);
+                          setState((){
+                            tag = val;
+//                            chooseId = val.id;
+//                            chooseUnit = val.taskUnit;
+                          });
+                        },
+                        itemConfig: ChipsChoiceItemConfig(
+                          selectedColor: Color(0xFF5580EB),
+                          selectedBrightness: Brightness.dark,
+                          unselectedColor: Color(0xFF5580EB),
+                          unselectedBorderOpacity: .3,
+                        ),
+                        isWrapped: true,
+                      ),
+                    ),
                     Container(
                       width: 335,
-                      margin: EdgeInsets.only(top: 20),
+                      margin: EdgeInsets.only(top: 10),
                       child: Row(
                         children: <Widget>[
                           Padding(
@@ -295,7 +281,7 @@ class _QListAddPageState extends State<QListAddPage> {
                           ),
                           Padding(
                             padding: EdgeInsets.only(right: 20),
-                            child: Text('组',style: TextStyle(
+                            child: Text(chooseUnit,style: TextStyle(
                               color: Color(0xFF666666),
                               fontSize: 20,
                               fontWeight: FontWeight.normal,
@@ -491,10 +477,24 @@ class _QListAddPageState extends State<QListAddPage> {
                       ),
                     ),
                     Padding(
-                        padding: EdgeInsets.only(left: 20,bottom: 20),
+                        padding: EdgeInsets.only(left: 20,bottom: 5),
                         child: Row(
                           children: <Widget>[
                             Text('明日可填写的时间段有11:00-12:00，18:30-20:00',style: TextStyle(
+                              fontSize: 10,
+                              color: Color(0xFF999999),
+                              fontWeight: FontWeight.normal,
+                              decoration: TextDecoration.none,
+                            )),
+                          ],
+                        )
+
+                    ),
+                    Padding(
+                        padding: EdgeInsets.only(left: 20,bottom: 20),
+                        child: Row(
+                          children: <Widget>[
+                            Text('建议10:00~20:00的所有时间线连续，若不连续，未安排的时间段会填补为"未知"',style: TextStyle(
                               fontSize: 10,
                               color: Color(0xFF999999),
                               fontWeight: FontWeight.normal,
@@ -524,9 +524,7 @@ class _QListAddPageState extends State<QListAddPage> {
                                 Padding(
                                   padding: EdgeInsets.only(left: 20),
                                   child: Text(
-                                    '分 '+
-                                        startTime.hour.toString().padLeft(2, '0') + ':' +
-                                        startTime.minute.toString().padLeft(2, '0') ,
+                                    '分',
                                     style: TextStyle(
                                       fontSize: 14,
                                       fontWeight: FontWeight.normal,
@@ -574,9 +572,7 @@ class _QListAddPageState extends State<QListAddPage> {
                                 Padding(
                                   padding: EdgeInsets.only(left: 20),
                                   child: Text(
-                                    '分 '+
-                                        endTime.hour.toString().padLeft(2, '0') + ':' +
-                                        endTime.minute.toString().padLeft(2, '0') ,
+                                    '分',
                                     style: TextStyle(
                                       fontSize: 14,
                                       fontWeight: FontWeight.normal,
@@ -602,7 +598,6 @@ class _QListAddPageState extends State<QListAddPage> {
                             )
                           ],
                         )
-
                     ),
                     // 任务描述
                     Padding(
@@ -732,7 +727,7 @@ class _QListAddPageState extends State<QListAddPage> {
                       await UserSelectMissionDao.selectMission(
                           userData.companyId,
                           userData.userPid,
-                          chooseId.toString(), // adminTaskId,
+                          chooseId, // adminTaskId,
                           userData.userLevel.substring(0,1),
                           startTime.toIso8601String(),
                           endTime.toIso8601String(),
@@ -850,6 +845,45 @@ class _QListAddPageState extends State<QListAddPage> {
         )
       ],
     ).show();
+  }
+}
+
+class Content extends StatelessWidget {
+
+  final String title;
+  final Widget child;
+
+  Content({
+    Key key,
+    @required this.title,
+    @required this.child,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      elevation: 2,
+      margin: EdgeInsets.all(20),
+      clipBehavior: Clip.antiAliasWithSaveLayer,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Container(
+            width: double.infinity,
+            padding: EdgeInsets.all(15),
+            color: Color(0x205580EB),
+            child: Text(
+              title,
+              style: TextStyle(
+                  color: Color(0xFF5580EB),
+                  fontWeight: FontWeight.normal
+              ),
+            ),
+          ),
+          child,
+        ],
+      ),
+    );
   }
 }
 

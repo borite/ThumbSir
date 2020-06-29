@@ -168,7 +168,7 @@ class _SetPageState extends State<SetPage> {
                                   children: <Widget>[
                                     Container(
                                       width: 250,
-                                      padding: EdgeInsets.only(top: 8,bottom: 5),
+                                      padding: EdgeInsets.only(top: 20,bottom: 5),
                                       child: Text(
                                         '新版本介绍',
                                         style:TextStyle(
@@ -180,20 +180,6 @@ class _SetPageState extends State<SetPage> {
                                         textAlign: TextAlign.left,
                                       ),
                                     ),
-                                    Container(
-                                      width: 250,
-                                      child: Text(
-                                        '量化系统',
-                                        style:TextStyle(
-                                          fontSize: 12,
-                                          color: Color(0xFF999999),
-                                          fontWeight: FontWeight.normal,
-                                          decoration: TextDecoration.none,
-                                        ),
-                                        textAlign: TextAlign.left,
-                                      ),
-                                    ),
-
                                   ],
                                 )
                               ],
@@ -223,25 +209,12 @@ class _SetPageState extends State<SetPage> {
                                   children: <Widget>[
                                     Container(
                                       width: 250,
-                                      padding: EdgeInsets.only(top: 8,bottom: 5),
+                                      padding: EdgeInsets.only(top: 20,bottom: 5),
                                       child: Text(
                                         '检查与更新',
                                         style:TextStyle(
                                           fontSize: 16,
                                           color: Color(0xFF666666),
-                                          fontWeight: FontWeight.normal,
-                                          decoration: TextDecoration.none,
-                                        ),
-                                        textAlign: TextAlign.left,
-                                      ),
-                                    ),
-                                    Container(
-                                      width: 250,
-                                      child: Text(
-                                        'MXZS3435.01',
-                                        style:TextStyle(
-                                          fontSize: 12,
-                                          color: Color(0xFF999999),
                                           fontWeight: FontWeight.normal,
                                           decoration: TextDecoration.none,
                                         ),

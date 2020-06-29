@@ -13,9 +13,13 @@ class ChooseMiniTaskNumberPage extends StatefulWidget {
 class _ChooseMiniTaskNumberPageState extends State<ChooseMiniTaskNumberPage> {
   int itemCount = 1;
   bool _loading = false;
+  var taskListResult;
+  List<Widget> taskList = [];
+
   LoginResultData userData;
   String uinfo;
   var result;
+
 
   _getUserInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -30,9 +34,8 @@ class _ChooseMiniTaskNumberPageState extends State<ChooseMiniTaskNumberPage> {
   }
   _load() async {
     if(userData != null){
-      var taskList = await GetMissionSDao.getMissionS(userData.userPid, userData.userLevel.substring(0,1), userData.companyId);
-      if (taskList.code == 200) {
-        print(taskList);
+      taskListResult = await GetMissionSDao.getMissionS(userData.userPid, userData.userLevel.substring(0,1), userData.companyId);
+      if (taskListResult.code == 200) {
         setState(() {
           _loading = false;
         });
@@ -48,6 +51,126 @@ class _ChooseMiniTaskNumberPageState extends State<ChooseMiniTaskNumberPage> {
     super.initState();
   }
 
+  // 下级成员列表
+  Widget taskListItem(){
+    Widget content;
+    if( taskListResult.data != null){
+      for(var item in taskListResult.data) {
+        taskList.add(
+          Container(
+            width: 335,
+            height: 60,
+            margin: EdgeInsets.only(top: 20),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12),
+                boxShadow: [BoxShadow(
+                    color: Color(0xFFcccccc),
+                    offset: Offset(0.0, 3.0),
+                    blurRadius: 10.0,
+                    spreadRadius: 2.0
+                )],
+                color: Colors.white
+            ),
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Row(
+                    children: <Widget>[
+                      Padding(
+                        padding: EdgeInsets.only(left: 20,right: 15),
+                        child: Image(image: AssetImage('images/task.png'),),
+                      ),
+                      Text(
+                        item.taskTitle != null ? item.taskTitle: '无',
+                        style: TextStyle(
+                        color: Color(0xFF5580EB),
+                        fontSize: 16,
+                        fontWeight: FontWeight.normal,
+                        decoration: TextDecoration.none,
+                      ),),
+                    ],
+                  ),
+                  Row(
+                    children: <Widget>[
+                      Container(
+                        width: 20,
+                        height: 20,
+                        margin: EdgeInsets.only(right: 15),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(color: Color(0xFF5580EB),width: 1),
+                        ),
+                        child: GestureDetector(
+                          onTap: (){
+                            if(itemCount >= 2){
+                              setState(() {
+                                itemCount = itemCount - 1;
+                              });
+                            }else{}
+                          },
+                          child: Text('-',style: TextStyle(
+                            color: Color(0xFF5580EB),
+                            fontSize: 14,
+                            fontWeight: FontWeight.normal,
+                            decoration: TextDecoration.none,
+                          ),textAlign: TextAlign.center,),
+                        ),
+                      ),
+                      Text(
+                        item.taskCount,
+                        style: TextStyle(
+                          color: Color(0xFF5580EB),
+                          fontSize: 20,
+                          fontWeight: FontWeight.normal,
+                          decoration: TextDecoration.none,
+                        ),),
+                      Container(
+                        width: 20,
+                        height: 20,
+                        margin: EdgeInsets.only(left: 15,right: 20),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(color: Color(0xFF5580EB),width: 1),
+                        ),
+                        child: GestureDetector(
+                          onTap: (){
+                            setState(() {
+                              itemCount = itemCount + 1;
+                              item.taskCount = itemCount.toString();
+                            });
+                          },
+                          child: Text('+',style: TextStyle(
+                            color: Color(0xFF5580EB),
+                            fontSize: 14,
+                            fontWeight: FontWeight.normal,
+                            decoration: TextDecoration.none,
+                          ),textAlign: TextAlign.center,),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(right: 20),
+                        child: Text(
+                          item.taskUnit != null ? item.taskUnit+'/人/天' :'无/人/天',
+                          style: TextStyle(
+                            color: Color(0xFF999999),
+                            fontSize: 10,
+                            fontWeight: FontWeight.normal,
+                            decoration: TextDecoration.none,
+                        ),),
+                      ),
+                    ],
+                  )
+                ]),
+          ),
+        );
+      };
+    }
+
+    content =Column(
+      children: taskList,
+    );
+    return content;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -124,519 +247,21 @@ class _ChooseMiniTaskNumberPageState extends State<ChooseMiniTaskNumberPage> {
                       )
                   ),
                   // 每一项
-                  Column(
-                    children: <Widget>[
-                      Container(
-                        width: 335,
-                        height: 60,
-                        margin: EdgeInsets.only(top: 20),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            boxShadow: [BoxShadow(
-                                color: Color(0xFFcccccc),
-                                offset: Offset(0.0, 3.0),
-                                blurRadius: 10.0,
-                                spreadRadius: 2.0
-                            )],
-                            color: Colors.white
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Row(
-                            children: <Widget>[
-                              Padding(
-                                padding: EdgeInsets.only(left: 20,right: 15),
-                                child: Image(image: AssetImage('images/task.png'),),
-                              ),
-                              Text('实勘',style: TextStyle(
-                                color: Color(0xFF5580EB),
-                                fontSize: 16,
-                                fontWeight: FontWeight.normal,
-                                decoration: TextDecoration.none,
-                              ),),
-                            ],
-                          ),
-                          Row(
-                            children: <Widget>[
-                              Container(
-                                width: 20,
-                                height: 20,
-                                margin: EdgeInsets.only(right: 15),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  border: Border.all(color: Color(0xFF5580EB),width: 1),
-                                ),
-                                child: GestureDetector(
-                                  onTap: (){
-                                    if(itemCount >= 2){
-                                      setState(() {
-                                        itemCount = itemCount - 1;
-                                      });
-                                    }else{}
-                                  },
-                                  child: Text('-',style: TextStyle(
-                                    color: Color(0xFF5580EB),
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.normal,
-                                    decoration: TextDecoration.none,
-                                  ),textAlign: TextAlign.center,),
-                                ),
-                              ),
-                              Text(
-                                itemCount.toString(),
-                                style: TextStyle(
-                                  color: Color(0xFF5580EB),
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.normal,
-                                  decoration: TextDecoration.none,
-                              ),),
-                              Container(
-                                width: 20,
-                                height: 20,
-                                margin: EdgeInsets.only(left: 15,right: 20),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  border: Border.all(color: Color(0xFF5580EB),width: 1),
-                                ),
-                                child: GestureDetector(
-                                  onTap: (){
-                                    setState(() {
-                                      itemCount = itemCount + 1;
-                                    });
-                                  },
-                                  child: Text('+',style: TextStyle(
-                                    color: Color(0xFF5580EB),
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.normal,
-                                    decoration: TextDecoration.none,
-                                  ),textAlign: TextAlign.center,),
-                                ),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.only(right: 20),
-                                child: Text('套/人/天',style: TextStyle(
-                                  color: Color(0xFF999999),
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.normal,
-                                  decoration: TextDecoration.none,
-                                ),),
-                              ),
-                            ],
-                          )
-                        ]),
+                  taskList == [] ?
+                  taskListItem()
+                  :
+                  Padding(
+                    padding: EdgeInsets.only(top: 20),
+                    child: Text(
+                      '没有数据',
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: Color(0xFFCCCCCC),
+                        fontWeight: FontWeight.normal,
+                        decoration: TextDecoration.none,
                       ),
-                      Container(
-                        width: 335,
-                        height: 60,
-                        margin: EdgeInsets.only(top: 20),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            boxShadow: [BoxShadow(
-                                color: Color(0xFFcccccc),
-                                offset: Offset(0.0, 3.0),
-                                blurRadius: 10.0,
-                                spreadRadius: 2.0
-                            )],
-                            color: Colors.white
-                        ),
-                        child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Row(
-                                children: <Widget>[
-                                  Padding(
-                                    padding: EdgeInsets.only(left: 20,right: 15),
-                                    child: Image(image: AssetImage('images/task.png'),),
-                                  ),
-                                  Text('打电话',style: TextStyle(
-                                    color: Color(0xFF5580EB),
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.normal,
-                                    decoration: TextDecoration.none,
-                                  ),),
-                                ],
-                              ),
-                              Row(
-                                children: <Widget>[
-                                  Container(
-                                    width: 20,
-                                    height: 20,
-                                    margin: EdgeInsets.only(right: 15),
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      border: Border.all(color: Color(0xFF5580EB),width: 1),
-                                    ),
-                                    child: Text('+',style: TextStyle(
-                                      color: Color(0xFF5580EB),
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.normal,
-                                      decoration: TextDecoration.none,
-                                    ),textAlign: TextAlign.center,),
-                                  ),
-                                  Text('50',style: TextStyle(
-                                    color: Color(0xFF5580EB),
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.normal,
-                                    decoration: TextDecoration.none,
-                                  ),),
-                                  Container(
-                                    width: 20,
-                                    height: 20,
-                                    margin: EdgeInsets.only(left: 15,right: 20),
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      border: Border.all(color: Color(0xFF5580EB),width: 1),
-                                    ),
-                                    child: Text('-',style: TextStyle(
-                                      color: Color(0xFF5580EB),
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.normal,
-                                      decoration: TextDecoration.none,
-                                    ),textAlign: TextAlign.center,),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(right: 20),
-                                    child: Text('套/人/天',style: TextStyle(
-                                      color: Color(0xFF999999),
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.normal,
-                                      decoration: TextDecoration.none,
-                                    ),),
-                                  ),
-                                ],
-                              )
-                            ]),
-                      ),
-                      Container(
-                        width: 335,
-                        height: 60,
-                        margin: EdgeInsets.only(top: 20),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            boxShadow: [BoxShadow(
-                                color: Color(0xFFcccccc),
-                                offset: Offset(0.0, 3.0),
-                                blurRadius: 10.0,
-                                spreadRadius: 2.0
-                            )],
-                            color: Colors.white
-                        ),
-                        child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Row(
-                                children: <Widget>[
-                                  Padding(
-                                    padding: EdgeInsets.only(left: 20,right: 15),
-                                    child: Image(image: AssetImage('images/task.png'),),
-                                  ),
-                                  Text('面访业主',style: TextStyle(
-                                    color: Color(0xFF5580EB),
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.normal,
-                                    decoration: TextDecoration.none,
-                                  ),),
-                                ],
-                              ),
-                              Row(
-                                children: <Widget>[
-                                  Container(
-                                    width: 20,
-                                    height: 20,
-                                    margin: EdgeInsets.only(right: 15),
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      border: Border.all(color: Color(0xFF5580EB),width: 1),
-                                    ),
-                                    child: Text('+',style: TextStyle(
-                                      color: Color(0xFF5580EB),
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.normal,
-                                      decoration: TextDecoration.none,
-                                    ),textAlign: TextAlign.center,),
-                                  ),
-                                  Text('1',style: TextStyle(
-                                    color: Color(0xFF5580EB),
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.normal,
-                                    decoration: TextDecoration.none,
-                                  ),),
-                                  Container(
-                                    width: 20,
-                                    height: 20,
-                                    margin: EdgeInsets.only(left: 15,right: 20),
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      border: Border.all(color: Color(0xFF5580EB),width: 1),
-                                    ),
-                                    child: Text('-',style: TextStyle(
-                                      color: Color(0xFF5580EB),
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.normal,
-                                      decoration: TextDecoration.none,
-                                    ),textAlign: TextAlign.center,),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(right: 20),
-                                    child: Text('套/人/天',style: TextStyle(
-                                      color: Color(0xFF999999),
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.normal,
-                                      decoration: TextDecoration.none,
-                                    ),),
-                                  ),
-                                ],
-                              )
-                            ]),
-                      ),
-                      Container(
-                        width: 335,
-                        height: 60,
-                        margin: EdgeInsets.only(top: 20),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            boxShadow: [BoxShadow(
-                                color: Color(0xFFcccccc),
-                                offset: Offset(0.0, 3.0),
-                                blurRadius: 10.0,
-                                spreadRadius: 2.0
-                            )],
-                            color: Colors.white
-                        ),
-                        child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Row(
-                                children: <Widget>[
-                                  Padding(
-                                    padding: EdgeInsets.only(left: 20,right: 15),
-                                    child: Image(image: AssetImage('images/task.png'),),
-                                  ),
-                                  Text('实勘',style: TextStyle(
-                                    color: Color(0xFF5580EB),
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.normal,
-                                    decoration: TextDecoration.none,
-                                  ),),
-                                ],
-                              ),
-                              Row(
-                                children: <Widget>[
-                                  Container(
-                                    width: 20,
-                                    height: 20,
-                                    margin: EdgeInsets.only(right: 15),
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      border: Border.all(color: Color(0xFF5580EB),width: 1),
-                                    ),
-                                    child: Text('+',style: TextStyle(
-                                      color: Color(0xFF5580EB),
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.normal,
-                                      decoration: TextDecoration.none,
-                                    ),textAlign: TextAlign.center,),
-                                  ),
-                                  Text('1',style: TextStyle(
-                                    color: Color(0xFF5580EB),
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.normal,
-                                    decoration: TextDecoration.none,
-                                  ),),
-                                  Container(
-                                    width: 20,
-                                    height: 20,
-                                    margin: EdgeInsets.only(left: 15,right: 20),
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      border: Border.all(color: Color(0xFF5580EB),width: 1),
-                                    ),
-                                    child: Text('-',style: TextStyle(
-                                      color: Color(0xFF5580EB),
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.normal,
-                                      decoration: TextDecoration.none,
-                                    ),textAlign: TextAlign.center,),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(right: 20),
-                                    child: Text('套/人/天',style: TextStyle(
-                                      color: Color(0xFF999999),
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.normal,
-                                      decoration: TextDecoration.none,
-                                    ),),
-                                  ),
-                                ],
-                              )
-                            ]),
-                      ),
-                      Container(
-                        width: 335,
-                        height: 60,
-                        margin: EdgeInsets.only(top: 20),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            boxShadow: [BoxShadow(
-                                color: Color(0xFFcccccc),
-                                offset: Offset(0.0, 3.0),
-                                blurRadius: 10.0,
-                                spreadRadius: 2.0
-                            )],
-                            color: Colors.white
-                        ),
-                        child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Row(
-                                children: <Widget>[
-                                  Padding(
-                                    padding: EdgeInsets.only(left: 20,right: 15),
-                                    child: Image(image: AssetImage('images/task.png'),),
-                                  ),
-                                  Text('实勘',style: TextStyle(
-                                    color: Color(0xFF5580EB),
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.normal,
-                                    decoration: TextDecoration.none,
-                                  ),),
-                                ],
-                              ),
-                              Row(
-                                children: <Widget>[
-                                  Container(
-                                    width: 20,
-                                    height: 20,
-                                    margin: EdgeInsets.only(right: 15),
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      border: Border.all(color: Color(0xFF5580EB),width: 1),
-                                    ),
-                                    child: Text('+',style: TextStyle(
-                                      color: Color(0xFF5580EB),
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.normal,
-                                      decoration: TextDecoration.none,
-                                    ),textAlign: TextAlign.center,),
-                                  ),
-                                  Text('1',style: TextStyle(
-                                    color: Color(0xFF5580EB),
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.normal,
-                                    decoration: TextDecoration.none,
-                                  ),),
-                                  Container(
-                                    width: 20,
-                                    height: 20,
-                                    margin: EdgeInsets.only(left: 15,right: 20),
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      border: Border.all(color: Color(0xFF5580EB),width: 1),
-                                    ),
-                                    child: Text('-',style: TextStyle(
-                                      color: Color(0xFF5580EB),
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.normal,
-                                      decoration: TextDecoration.none,
-                                    ),textAlign: TextAlign.center,),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(right: 20),
-                                    child: Text('套/人/天',style: TextStyle(
-                                      color: Color(0xFF999999),
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.normal,
-                                      decoration: TextDecoration.none,
-                                    ),),
-                                  ),
-                                ],
-                              )
-                            ]),
-                      ),
-                      Container(
-                        width: 335,
-                        height: 60,
-                        margin: EdgeInsets.only(top: 20),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            boxShadow: [BoxShadow(
-                                color: Color(0xFFcccccc),
-                                offset: Offset(0.0, 3.0),
-                                blurRadius: 10.0,
-                                spreadRadius: 2.0
-                            )],
-                            color: Colors.white
-                        ),
-                        child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Row(
-                                children: <Widget>[
-                                  Padding(
-                                    padding: EdgeInsets.only(left: 20,right: 15),
-                                    child: Image(image: AssetImage('images/task.png'),),
-                                  ),
-                                  Text('实勘',style: TextStyle(
-                                    color: Color(0xFF5580EB),
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.normal,
-                                    decoration: TextDecoration.none,
-                                  ),),
-                                ],
-                              ),
-                              Row(
-                                children: <Widget>[
-                                  Container(
-                                    width: 20,
-                                    height: 20,
-                                    margin: EdgeInsets.only(right: 15),
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      border: Border.all(color: Color(0xFF5580EB),width: 1),
-                                    ),
-                                    child: Text('+',style: TextStyle(
-                                      color: Color(0xFF5580EB),
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.normal,
-                                      decoration: TextDecoration.none,
-                                    ),textAlign: TextAlign.center,),
-                                  ),
-                                  Text('1',style: TextStyle(
-                                    color: Color(0xFF5580EB),
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.normal,
-                                    decoration: TextDecoration.none,
-                                  ),),
-                                  Container(
-                                    width: 20,
-                                    height: 20,
-                                    margin: EdgeInsets.only(left: 15,right: 20),
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      border: Border.all(color: Color(0xFF5580EB),width: 1),
-                                    ),
-                                    child: Text('-',style: TextStyle(
-                                      color: Color(0xFF5580EB),
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.normal,
-                                      decoration: TextDecoration.none,
-                                    ),textAlign: TextAlign.center,),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(right: 20),
-                                    child: Text('套/人/天',style: TextStyle(
-                                      color: Color(0xFF999999),
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.normal,
-                                      decoration: TextDecoration.none,
-                                    ),),
-                                  ),
-                                ],
-                              )
-                            ]),
-                      ),
-                    ],
+                      textAlign: TextAlign.center,
+                    ),
                   ),
                   // 完成
                   Container(

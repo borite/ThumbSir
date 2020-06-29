@@ -94,7 +94,6 @@ class _TodayQListState extends State<TodayQList> with SingleTickerProviderStateM
     Widget content;
     if (missions != null) {
       for (var item in missions) {
-        print(int.parse(item.planningEndTime.toIso8601String().substring(11,13)));
         if(int.parse(item.planningEndTime.toIso8601String().substring(11,13)) <= 12){
           missionsMorningShowList.add(
             QListItem(
