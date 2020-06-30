@@ -14,22 +14,7 @@ class _AnalyzeDetailPageState extends State<AnalyzeDetailPage> with SingleTicker
 
   @override
   void initState() {
-    _controller = TabController(length: 5,vsync: this);
-    tabs = <Tab>[
-      Tab(text: '日汇总',),
-      Tab(text: '周汇总',),
-      Tab(text: '月汇总',),
-      Tab(text: '季度汇总',),
-      Tab(text: '年度汇总',),
-    ];
     super.initState();
-  }
-
-  // 防止页面销毁时内存泄漏造成性能问题
-  @override
-  void dispose(){
-    _controller.dispose();
-    super.dispose();
   }
 
   @override
@@ -59,28 +44,17 @@ class _AnalyzeDetailPageState extends State<AnalyzeDetailPage> with SingleTicker
                                 },
                                 child: Image(image: AssetImage('images/back.png'),),
                               ),
+                              Padding(
+                                padding: EdgeInsets.only(left: 10),
+                                child: Text('长河湾北门店 2020-04-05至2020-05-05',style: TextStyle(
+                                  fontSize: 16,
+                                  color: Color(0xFF5580EB),
+                                  fontWeight: FontWeight.normal,
+                                  decoration: TextDecoration.none,
+                                ),),
+                              )
                             ],
                           )
-                      ),
-                      // 日历导航栏
-                      Container(
-                        padding: EdgeInsets.only(left: 15,right: 15),
-                        child: TabBar(
-                          tabs: tabs,
-                          controller: _controller,
-                          isScrollable: true, // 可以左右滑动
-                          labelColor: Color(0xFF5580EB),
-                          labelPadding: EdgeInsets.fromLTRB(10, 0, 10, 5),
-                          indicator: UnderlineTabIndicator(
-                            borderSide: BorderSide(
-                              color: Color(0xFF0E7AE6),
-                              width: 3,
-                            ),
-                            insets: EdgeInsets.only(bottom: 10),
-                          ),
-                          labelStyle: TextStyle(fontSize: 20),
-                          unselectedLabelStyle: TextStyle(fontSize: 14),
-                        ),
                       ),
                       // 圆形进度条
                       Container(
@@ -131,7 +105,7 @@ class _AnalyzeDetailPageState extends State<AnalyzeDetailPage> with SingleTicker
                       // 每一项
                       Container(
                           width: 335,
-                          height: 160,
+                          height: 110,
                           margin: EdgeInsets.only(bottom: 25),
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(12),
@@ -148,40 +122,48 @@ class _AnalyzeDetailPageState extends State<AnalyzeDetailPage> with SingleTicker
                               Container(
                                 width: 60,
                                 height: 60,
-                                margin: EdgeInsets.only(left: 20),
-                                child: SleekCircularSlider(
-                                  appearance: CircularSliderAppearance(
-                                      startAngle: 280,
-                                      angleRange: 360,
-                                      customWidths: CustomSliderWidths(progressBarWidth: 5),
-                                      customColors: CustomSliderColors(
-                                        progressBarColors: [Color(0xFF0E7AE6),Color(0xFF2692FD),Color(0xFF93C0FB)],
-                                        trackColor: Color(0x20CCCCCC),
-                                        dotColor: Colors.transparent,
-                                      ),
-                                      infoProperties: InfoProperties(
-                                          mainLabelStyle: TextStyle(
-                                            fontSize: 16,
-                                            color: Color(0xFF2692FD),
-                                          )
-                                      )
-                                  ),
-                                  min: 0,
-                                  max: 100,
-                                  initialValue: 80,
+                                margin: EdgeInsets.only(left: 15),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.all(Radius.circular(45)),
+                                  color: Colors.white,
+                                  boxShadow: [BoxShadow(
+                                      color: Color(0xFFcccccc),
+                                      offset: Offset(0.0, 3.0),
+                                      blurRadius: 10.0,
+                                      spreadRadius: 2.0
+                                  )],
+                                ),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(30),
+                                  child: Image(image: AssetImage('images/my_big.png'),)
                                 ),
                               ),
                               Column(
                                 children: <Widget>[
                                   Container(
                                     width: 250,
-                                    padding:EdgeInsets.fromLTRB(20, 15, 5, 10),
-                                    child:Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: <Widget>[
-                                          Text('带看',style: TextStyle(color: Color(0xFF0E7AE6),fontSize: 20),),
-                                        ],
-                                    )
+                                    child: Row(
+                                      children: <Widget>[
+                                        Container(
+                                            padding:EdgeInsets.fromLTRB(20, 15, 5, 10),
+                                            child:Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: <Widget>[
+                                                Text('带看',style: TextStyle(color: Color(0xFF0E7AE6),fontSize: 20),),
+                                              ],
+                                            )
+                                        ),
+                                        Container(
+                                            padding:EdgeInsets.fromLTRB(20, 15, 5, 5),
+                                            child:Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: <Widget>[
+                                                Text('经纪人-王菲菲',style: TextStyle(color: Color(0xFF93C0FB),fontSize: 14),),
+                                              ],
+                                            )
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                   Container(
                                       width: 250,
@@ -197,29 +179,12 @@ class _AnalyzeDetailPageState extends State<AnalyzeDetailPage> with SingleTicker
                                       width: 250,
                                       padding:EdgeInsets.fromLTRB(20, 0, 5, 5),
                                       child:Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: <Widget>[
-                                          Text('已完成：1000组',style: TextStyle(color: Color(0xFF666666),fontSize: 14),),
-                                        ],
-                                      )
-                                  ),
-                                  Container(
-                                      width: 250,
-                                      padding:EdgeInsets.fromLTRB(20, 0, 5, 5),
-                                      child:Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: <Widget>[
+                                          Padding(
+                                            padding: EdgeInsets.only(right: 10),
+                                            child: Text('已完成：1000组',style: TextStyle(color: Color(0xFF666666),fontSize: 14),),
+                                          ),
                                           Text('未完成：1000组',style: TextStyle(color: Color(0xFFF24848),fontSize: 14),),
-                                        ],
-                                      )
-                                  ),
-                                  Container(
-                                      width: 250,
-                                      padding:EdgeInsets.fromLTRB(20, 0, 5, 5),
-                                      child:Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: <Widget>[
-                                          Text('时间：2020-5-20 14:00-15:00',style: TextStyle(color: Color(0xFF93C0FB),fontSize: 14),),
                                         ],
                                       )
                                   ),
@@ -230,7 +195,7 @@ class _AnalyzeDetailPageState extends State<AnalyzeDetailPage> with SingleTicker
                       ),
                       Container(
                           width: 335,
-                          height: 160,
+                          height: 110,
                           margin: EdgeInsets.only(bottom: 25),
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(12),
@@ -247,40 +212,48 @@ class _AnalyzeDetailPageState extends State<AnalyzeDetailPage> with SingleTicker
                               Container(
                                 width: 60,
                                 height: 60,
-                                margin: EdgeInsets.only(left: 20),
-                                child: SleekCircularSlider(
-                                  appearance: CircularSliderAppearance(
-                                      startAngle: 280,
-                                      angleRange: 360,
-                                      customWidths: CustomSliderWidths(progressBarWidth: 5),
-                                      customColors: CustomSliderColors(
-                                        progressBarColors: [Color(0xFF0E7AE6),Color(0xFF2692FD),Color(0xFF93C0FB)],
-                                        trackColor: Color(0x20CCCCCC),
-                                        dotColor: Colors.transparent,
-                                      ),
-                                      infoProperties: InfoProperties(
-                                          mainLabelStyle: TextStyle(
-                                            fontSize: 16,
-                                            color: Color(0xFF2692FD),
-                                          )
-                                      )
-                                  ),
-                                  min: 0,
-                                  max: 100,
-                                  initialValue: 80,
+                                margin: EdgeInsets.only(left: 15),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.all(Radius.circular(45)),
+                                  color: Colors.white,
+                                  boxShadow: [BoxShadow(
+                                      color: Color(0xFFcccccc),
+                                      offset: Offset(0.0, 3.0),
+                                      blurRadius: 10.0,
+                                      spreadRadius: 2.0
+                                  )],
+                                ),
+                                child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(30),
+                                    child: Image(image: AssetImage('images/my_big.png'),)
                                 ),
                               ),
                               Column(
                                 children: <Widget>[
                                   Container(
-                                      width: 250,
-                                      padding:EdgeInsets.fromLTRB(20, 15, 5, 10),
-                                      child:Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: <Widget>[
-                                          Text('带看',style: TextStyle(color: Color(0xFF0E7AE6),fontSize: 20),),
-                                        ],
-                                      )
+                                    width: 250,
+                                    child: Row(
+                                      children: <Widget>[
+                                        Container(
+                                            padding:EdgeInsets.fromLTRB(20, 15, 5, 10),
+                                            child:Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: <Widget>[
+                                                Text('带看',style: TextStyle(color: Color(0xFF0E7AE6),fontSize: 20),),
+                                              ],
+                                            )
+                                        ),
+                                        Container(
+                                            padding:EdgeInsets.fromLTRB(20, 15, 5, 5),
+                                            child:Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: <Widget>[
+                                                Text('经纪人-王菲菲',style: TextStyle(color: Color(0xFF93C0FB),fontSize: 14),),
+                                              ],
+                                            )
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                   Container(
                                       width: 250,
@@ -296,29 +269,12 @@ class _AnalyzeDetailPageState extends State<AnalyzeDetailPage> with SingleTicker
                                       width: 250,
                                       padding:EdgeInsets.fromLTRB(20, 0, 5, 5),
                                       child:Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: <Widget>[
-                                          Text('已完成：1000组',style: TextStyle(color: Color(0xFF666666),fontSize: 14),),
-                                        ],
-                                      )
-                                  ),
-                                  Container(
-                                      width: 250,
-                                      padding:EdgeInsets.fromLTRB(20, 0, 5, 5),
-                                      child:Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: <Widget>[
+                                          Padding(
+                                            padding: EdgeInsets.only(right: 10),
+                                            child: Text('已完成：1000组',style: TextStyle(color: Color(0xFF666666),fontSize: 14),),
+                                          ),
                                           Text('未完成：1000组',style: TextStyle(color: Color(0xFFF24848),fontSize: 14),),
-                                        ],
-                                      )
-                                  ),
-                                  Container(
-                                      width: 250,
-                                      padding:EdgeInsets.fromLTRB(20, 0, 5, 5),
-                                      child:Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: <Widget>[
-                                          Text('时间：2020-5-20 14:00-15:00',style: TextStyle(color: Color(0xFF93C0FB),fontSize: 14),),
                                         ],
                                       )
                                   ),

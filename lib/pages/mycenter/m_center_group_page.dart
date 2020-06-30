@@ -101,8 +101,11 @@ class _MCenterGroupPageState extends State<MCenterGroupPage> {
                           color: Colors.white,
                           border: Border.all(color: Color(0xFFCCCCCC),width: 1)
                       ),
-                      child:Image(
-                        image: AssetImage('images/my_big.png'),
+                      child:ClipRRect(
+                        borderRadius: BorderRadius.circular(30),
+                        child: item.headImg != null ?
+                        Image(image:NetworkImage(item.headImg))
+                        :Image(image: AssetImage('images/my_big.png'),),
                       ),
                     ),
                     Container(
@@ -148,7 +151,9 @@ class _MCenterGroupPageState extends State<MCenterGroupPage> {
                 ),
                 GestureDetector(
                   onTap: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>DeleteMemberPage()));
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>DeleteMemberPage(
+                      item:item
+                    )));
                   },
                   child: Image(image: AssetImage('images/delete_blue.png'),),
                 ),

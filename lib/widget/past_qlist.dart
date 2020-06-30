@@ -41,55 +41,57 @@ class _PastQListState extends State<PastQList>  with SingleTickerProviderStateMi
   }
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      children: <Widget>[
-        Container(
-          decoration: BoxDecoration(color: Colors.white),
-          padding: EdgeInsets.only(top:animation.value,bottom:30),
-          child: Container(
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12),
-                boxShadow: [BoxShadow(
-                    color: Color(0xFFcccccc),
-                    offset: Offset(0.0, 3.0),
-                    blurRadius: 10.0,
-                    spreadRadius: 2.0
-                )
-                ],
-                color: Colors.white
-            ),
-            margin: EdgeInsets.only(left: 30,right: 30),
-            padding: EdgeInsets.all(20),
-            height: 300,
-            child: SomeCalendar(
-              primaryColor: Color(0xff93C0FB),
-              mode: SomeMode.Single,
-              scrollDirection: Axis.horizontal,
-              isWithoutDialog: true,
-              selectedDate: selectedDate,
-              startDate: Jiffy().subtract(years: 2),
-              lastDate: Jiffy().add(months: 1),
-              textColor: Color(0xFF93C0FB),
-              done: (date) {
-                print(date);
-                setState(() {
-                  selectedDate = date;
-                  showSnackBar(selectedDate.toString());
-                });
-              },
-              labels: Labels(
-                dialogCancel: '取消',
-                dialogDone: '确定',
+    return Scaffold(
+      key: _scaffoldKey,
+      body: ListView(
+        children: <Widget>[
+          Container(
+            decoration: BoxDecoration(color: Colors.white),
+            padding: EdgeInsets.only(top:animation.value,bottom:30),
+            child: Container(
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  boxShadow: [BoxShadow(
+                      color: Color(0xFFcccccc),
+                      offset: Offset(0.0, 3.0),
+                      blurRadius: 10.0,
+                      spreadRadius: 2.0
+                  )
+                  ],
+                  color: Colors.white
+              ),
+              margin: EdgeInsets.only(left: 30,right: 30),
+              padding: EdgeInsets.all(20),
+              height: 300,
+              child: SomeCalendar(
+                primaryColor: Color(0xff93C0FB),
+                mode: SomeMode.Single,
+                scrollDirection: Axis.horizontal,
+                isWithoutDialog: true,
+                selectedDate: selectedDate,
+                startDate: Jiffy().subtract(years: 2),
+                lastDate: Jiffy().add(months: 1),
+                textColor: Color(0xFF93C0FB),
+                done: (date) {
+                  setState(() {
+                    selectedDate = date;
+//                    showSnackBar(selectedDate.toString());
+                  });
+                },
+                labels: Labels(
+                  dialogCancel: '取消',
+                  dialogDone: '确定',
+                ),
               ),
             ),
-          ),
-        )
-      ],
+          )
+        ],
+      ),
     );
   }
-  void showSnackBar(String x) {
-    _scaffoldKey.currentState.showSnackBar(SnackBar(
-      content: Text(x),
-    ));
-  }
+//  void showSnackBar(String x) {
+//    _scaffoldKey.currentState.showSnackBar(SnackBar(
+//      content: Text(x.substring(0,10)),
+//    ));
+//  }
 }

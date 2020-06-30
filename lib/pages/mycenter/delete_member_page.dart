@@ -1,15 +1,49 @@
+import 'dart:convert';
+
+import 'package:ThumbSir/dao/un_bind_member_dao.dart';
+import 'package:ThumbSir/model/login_result_data_model.dart';
 import 'package:ThumbSir/pages/broker/qlist/qlist_change_page.dart';
+import 'package:ThumbSir/pages/home.dart';
 import 'package:ThumbSir/pages/mycenter/s_center_group_detail_page.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
 class DeleteMemberPage extends StatefulWidget {
+  final item;
+  DeleteMemberPage({this.item});
   @override
   _DeleteMemberPageState createState() => _DeleteMemberPageState();
 }
 
 class _DeleteMemberPageState extends State<DeleteMemberPage> {
+  LoginResultData userData;
+  int _dateTime = DateTime.now().millisecondsSinceEpoch; // 当前时间转时间戳
+  int exT;
+  String uinfo;
+  var result;
+
+  _getUserInfo() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    uinfo= prefs.getString("userInfo");
+    if(uinfo != null){
+      result =loginResultDataFromJson(uinfo);
+      exT = result.exTokenTime.millisecondsSinceEpoch; // token时间转时间戳
+      if(exT >= _dateTime){
+        this.setState(() {
+          userData=LoginResultData.fromJson(json.decode(uinfo));
+        });
+      }else{
+        _onLogoutAlertPressed(context);
+      }
+    }
+  }
+  @override
+  void initState() {
+    super.initState();
+    _getUserInfo();
+  }
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -59,8 +93,11 @@ class _DeleteMemberPageState extends State<DeleteMemberPage> {
                         color: Colors.white,
                         border: Border.all(color: Color(0xFF93C0FB),width: 1)
                       ),
-                      child:Image(
-                        image: AssetImage('images/my_big.png'),
+                      child:ClipRRect(
+                        borderRadius: BorderRadius.circular(50),
+                        child: widget.item.headImg != null ?
+                        Image(image:NetworkImage(widget.item.headImg))
+                            :Image(image: AssetImage('images/my_big.png'),),
                       ),
                     ),
                   ),
@@ -70,11 +107,13 @@ class _DeleteMemberPageState extends State<DeleteMemberPage> {
                     decoration: BoxDecoration(
                         border: Border(bottom: BorderSide(width: 1,color: Color(0xFF93C0FB)))
                     ),
-                    child: Text('马思唯',style: TextStyle(
-                      fontSize: 16,
-                      color: Color(0xFF5580EB),
-                      fontWeight: FontWeight.normal,
-                      decoration: TextDecoration.none,
+                    child: Text(
+                      widget.item != null ? widget.item.userName:'',
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Color(0xFF5580EB),
+                        fontWeight: FontWeight.normal,
+                        decoration: TextDecoration.none,
                     ),),
                   ),
                   Container(
@@ -83,11 +122,13 @@ class _DeleteMemberPageState extends State<DeleteMemberPage> {
                     decoration: BoxDecoration(
                         border: Border(bottom: BorderSide(width: 1,color: Color(0xFF93C0FB)))
                     ),
-                    child: Text('13812345678',style: TextStyle(
-                      fontSize: 16,
-                      color: Color(0xFF5580EB),
-                      fontWeight: FontWeight.normal,
-                      decoration: TextDecoration.none,
+                    child: Text(
+                      widget.item != null ? widget.item.phone:'',
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Color(0xFF5580EB),
+                        fontWeight: FontWeight.normal,
+                        decoration: TextDecoration.none,
                     ),),
                   ),
                   // 备注
@@ -148,7 +189,17 @@ class _DeleteMemberPageState extends State<DeleteMemberPage> {
             "确定",
             style: TextStyle(color: Colors.white, fontSize: 20),
           ),
-          onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context)=>SCenterGroupDetailPage())),
+          onPressed: ()async{
+            if(userData!= null){
+              var deleteMemberResult = await UnBindMemberDao.unbind(widget.item.userPid, widget.item.userLevel.substring(0,1), userData.companyId);
+              if(deleteMemberResult.code == 200){
+                Navigator.of(context).pushAndRemoveUntil(
+                    new MaterialPageRoute(builder: (context) => new Home()
+                    ), (route) => route == null
+                );
+              }
+            }
+          },
           color: Color(0xFF5580EB),
         ),
         DialogButton(
@@ -159,6 +210,30 @@ class _DeleteMemberPageState extends State<DeleteMemberPage> {
           onPressed: () => Navigator.pop(context),
           color: Color(0xFFCCCCCC),
         )
+      ],
+    ).show();
+  }
+  _onLogoutAlertPressed(context) {
+    Alert(
+      context: context,
+      title: "需要重新登录",
+      desc: "长时间未进行登录操作，需要重新登录验证",
+      buttons: [
+        DialogButton(
+          child: Text(
+            "确定",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () async {
+            SharedPreferences prefs = await SharedPreferences.getInstance();
+            prefs.remove("userInfo");
+            Navigator.of(context).pushAndRemoveUntil(
+                new MaterialPageRoute(builder: (context) => new Home()
+                ), (route) => route == null
+            );
+          },
+          color: Color(0xFF5580EB),
+        ),
       ],
     ).show();
   }

@@ -560,14 +560,6 @@ class _AddMemberPageState extends State<AddMemberPage> {
             onPressed: (){Navigator.pop(context);},
             color: Color(0xFF5580EB)
         ),
-        DialogButton(
-          child: Text(
-            "不发送",
-            style: TextStyle(color: Colors.white, fontSize: 20),
-          ),
-          onPressed: (){Navigator.pop(context);},
-          color: Color(0xFFCCCCCC),
-        ),
       ],
     ).show();
   }

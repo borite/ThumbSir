@@ -1,11 +1,10 @@
-import 'package:ThumbSir/widget/analyze_item.dart';
-import 'package:ThumbSir/widget/month_analyze.dart';
-import 'package:ThumbSir/widget/quarter_analyze.dart';
-import 'package:ThumbSir/widget/week_analyze.dart';
-import 'package:ThumbSir/widget/year_analyze.dart';
+import 'package:ThumbSir/widget/user_analyze_item.dart';
 import 'package:flutter/material.dart';
-import 'package:ThumbSir/widget/day_analyze.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
+import 'package:some_calendar/some_calendar.dart';
+import 'package:intl/intl.dart';
+import 'package:intl/date_symbol_data_local.dart';
+import 'package:jiffy/jiffy.dart';
 
 class QListAnalyzePage extends StatefulWidget {
   @override
@@ -13,9 +12,22 @@ class QListAnalyzePage extends StatefulWidget {
 }
 
 class _QListAnalyzePageState extends State<QListAnalyzePage> with SingleTickerProviderStateMixin{
+
+  DateTime selectedDate = DateTime.now();
+  List<DateTime> selectedDates = List();
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  @override
+  void initState() {
+    initializeDateFormatting();
+    Intl.systemLocale = 'zh_Cn'; // to change the calendar format based on localization
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       body: Container(
         decoration: BoxDecoration(color: Colors.white),
         child: Stack(
@@ -25,39 +37,44 @@ class _QListAnalyzePageState extends State<QListAnalyzePage> with SingleTickerPr
                 Container(
                     decoration: BoxDecoration(color: Colors.white),
                     child: Padding(
-                      padding: EdgeInsets.only(top:270,bottom:25),
+                      padding: EdgeInsets.only(top:250,bottom:25),
                       child:Column(
                         children: <Widget>[
                           // 每一条量化
-                          AnalyzeItem(
+                          UserAnalyzeItem(
                             name: "带看",
                             sum:"3",
                             finish: "2",
                             percent: 80,
+                            timePersent: 20,
                           ),
-                          AnalyzeItem(
-                            name: "带看",
-                            sum:"3",
-                            finish: "2",
-                            percent: 100,
-                          ),
-                          AnalyzeItem(
-                            name: "带看",
-                            sum:"3",
-                            finish: "2",
-                            percent: 100,
-                          ),
-                          AnalyzeItem(
-                            name: "带看",
-                            sum:"3",
-                            finish: "2",
-                            percent: 50,
-                          ),
-                          AnalyzeItem(
-                            name: "带看",
+                          UserAnalyzeItem(
+                            name: "谈单",
                             sum:"3",
                             finish: "2",
                             percent: 80,
+                            timePersent: 20,
+                          ),
+                          UserAnalyzeItem(
+                            name: "签约",
+                            sum:"3",
+                            finish: "2",
+                            percent: 100,
+                            timePersent: 20,
+                          ),
+                          UserAnalyzeItem(
+                            name: "实勘",
+                            sum:"3",
+                            finish: "2",
+                            percent: 80,
+                            timePersent: 20,
+                          ),
+                          UserAnalyzeItem(
+                            name: "空看",
+                            sum:"3",
+                            finish: "2",
+                            percent: 80,
+                            timePersent: 20,
                           ),
                         ],
                       ),
@@ -96,7 +113,8 @@ class _QListAnalyzePageState extends State<QListAnalyzePage> with SingleTickerPr
             ),
             // 日期
             Container(
-              margin: EdgeInsets.only(top: 50,left: 20,right: 20),
+              height: 60,
+              margin: EdgeInsets.only(top: 40,left: 20,right: 20),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
@@ -108,40 +126,64 @@ class _QListAnalyzePageState extends State<QListAnalyzePage> with SingleTickerPr
                     child: Image(image: AssetImage('images/back_white.png'),),
                   ),
                   // 日期
-                  Container(
-                    width: 300,
-                    height: 40,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12),
-                        boxShadow: [BoxShadow(
-                            color: Color(0x990E7AE6),
-                            offset: Offset(0.0, 3.0),
-                            blurRadius: 10.0,
-                            spreadRadius: 2.0
-                        )],
-                        color: Colors.white
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Row(
-                          children: <Widget>[
-                            Padding(
-                              padding:EdgeInsets.only(left: 8,right: 8),
-                              child: Image(image: AssetImage('images/date.png')),
+                  GestureDetector(
+                    onTap: ()async{
+                      showDialog(
+                          context: context,
+                          builder: (_) => SomeCalendar(
+                            mode: SomeMode.Range,
+                            scrollDirection: Axis.horizontal,
+                            startDate: Jiffy().subtract(years: 3),
+                            lastDate: Jiffy().add(months: 1),
+                            primaryColor: Color(0xff93C0FB),
+                            textColor: Color(0xFF93C0FB),
+                            isWithoutDialog: false,
+                            selectedDates: selectedDates,
+                            labels: Labels(
+                              dialogCancel: '取消',
+                              dialogDone: '确定',
                             ),
-                            Text(
-                              '2020-04-05',
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Color(0xFF0E7AE6),
+                            done: (date) {
+                              setState(() {
+                                selectedDates = date;
+//                              showSnackBar(selectedDates.toString());
+                              });
+                            },
+                          )
+                      );
+                    },
+                    child: Container(
+                      width: 310,
+                      height: 40,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12),
+                          boxShadow: [BoxShadow(
+                              color: Color(0x990E7AE6),
+                              offset: Offset(0.0, 3.0),
+                              blurRadius: 10.0,
+                              spreadRadius: 2.0
+                          )],
+                          color: Colors.white
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Row(
+                            children: <Widget>[
+                              Padding(
+                                padding:EdgeInsets.only(left: 8,right: 8),
+                                child: Image(image: AssetImage('images/date.png')),
                               ),
-                            )
-                          ],
-                        ),
-                        GestureDetector(
-//                      onTap: () => _onDayPicker(context),
-                          child: Row(
+                              Text(
+                                '2020-04-05至2020-05-05',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Color(0xFF0E7AE6),
+                                ),
+                              )
+                            ],
+                          ),
+                          Row(
                             children: <Widget>[
                               Text(
                                 '日期',
@@ -156,10 +198,12 @@ class _QListAnalyzePageState extends State<QListAnalyzePage> with SingleTickerPr
                               ),
                             ],
                           ),
-                        )
-                      ],
+                        ],
+                      ),
                     ),
                   ),
+                  // 右边
+                  Container(width: 20,)
                 ],
               ),
             ),
@@ -169,7 +213,7 @@ class _QListAnalyzePageState extends State<QListAnalyzePage> with SingleTickerPr
               child: Container(
                   width: 290,
                   height: 150,
-                  margin: EdgeInsets.only(top: 140),
+                  margin: EdgeInsets.only(top: 120),
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(12),
                       boxShadow: [BoxShadow(
