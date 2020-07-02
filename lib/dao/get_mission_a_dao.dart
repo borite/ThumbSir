@@ -1,8 +1,5 @@
 import 'dart:async';
 import 'package:ThumbSir/model/get_mission_a_model.dart';
-import 'package:ThumbSir/model/get_mission_s_model.dart';
-import 'package:ThumbSir/model/get_next_level_users_model.dart';
-import 'package:ThumbSir/model/section_list_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:ThumbSir/utils/common_vars.dart';
 

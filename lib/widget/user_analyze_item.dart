@@ -8,8 +8,9 @@ class UserAnalyzeItem extends StatefulWidget {
   final String sum;
   final String finish;
   final double percent;
-  final double timePersent;
-  const UserAnalyzeItem({Key key,this.name,this.sum,this.finish,this.percent,this.timePersent});
+  final double timePercent;
+  final String unit;
+  const UserAnalyzeItem({Key key,this.name,this.sum,this.finish,this.percent,this.timePercent,this.unit});
   @override
   _UserAnalyzeItemState createState() => _UserAnalyzeItemState();
 }
@@ -120,7 +121,7 @@ class _UserAnalyzeItemState extends State<UserAnalyzeItem> with SingleTickerProv
                             Padding(
                               padding: EdgeInsets.only(top: 4,left: 10),
                               child: Text(
-                                '时间占比：'+this.widget.timePersent.toString()+'%',
+                                '时间占比：'+this.widget.timePercent.toString()+'%',
                                 style: TextStyle(
                                   color: Color(0xFF24CC8E),
                                   fontSize: 12,
@@ -135,9 +136,9 @@ class _UserAnalyzeItemState extends State<UserAnalyzeItem> with SingleTickerProv
                       width: 260,
                       child: Row(
                         children: <Widget>[
-                          Text('计划：共'+this.widget.sum+'套',style: TextStyle(fontSize: 12,color: Color(0xFF999999),),),
+                          Text('计划：共'+this.widget.sum+this.widget.unit,style: TextStyle(fontSize: 12,color: Color(0xFF999999),),),
                           Text('|',style: TextStyle(fontSize: 16,color: Color(0xFFCCCCCC),letterSpacing: 5),),
-                          Text('已完成 '+this.widget.finish+'套',style: TextStyle(fontSize: 12,color: Color(0xFF999999),),),
+                          Text('已完成 '+this.widget.finish+this.widget.unit,style: TextStyle(fontSize: 12,color: Color(0xFF999999),),),
                         ],
                       ),
                     )
@@ -163,7 +164,7 @@ class _UserAnalyzeItemState extends State<UserAnalyzeItem> with SingleTickerProv
                             Padding(
                               padding: EdgeInsets.only(top: 4,left: 10),
                               child: Text(
-                                '时间占比：'+this.widget.timePersent.toString()+'%',
+                                '时间占比：'+this.widget.timePercent.toString()+'%',
                                 style: TextStyle(
                                   color: Color(0xFFF24848),
                                   fontSize: 12,
@@ -178,9 +179,9 @@ class _UserAnalyzeItemState extends State<UserAnalyzeItem> with SingleTickerProv
                       width: 260,
                       child: Row(
                         children: <Widget>[
-                          Text('计划：共'+this.widget.sum+'套',style: TextStyle(fontSize: 12,color: Color(0xFFF24848),),),
+                          Text('计划：共'+this.widget.sum+this.widget.unit,style: TextStyle(fontSize: 12,color: Color(0xFFF24848),),),
                           Text('|',style: TextStyle(fontSize: 16,color: Color(0xFFCCCCCC),letterSpacing: 5),),
-                          Text('已完成 '+this.widget.finish+'套',style: TextStyle(fontSize: 12,color: Color(0xFFF24848),),),
+                          Text('已完成 '+this.widget.finish+this.widget.unit,style: TextStyle(fontSize: 12,color: Color(0xFFF24848),),),
                         ],
                       ),
                     )

@@ -1,11 +1,11 @@
-import 'package:ThumbSir/pages/broker/qlist/qlist_change_page.dart';
 import 'package:ThumbSir/pages/mycenter/add_member_page.dart';
-import 'package:ThumbSir/pages/mycenter/s_center_group_detail_page.dart';
+import 'package:ThumbSir/pages/mycenter/change_member_search_page.dart';
 import 'package:flutter/material.dart';
-import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
 class ChangeMemberPage extends StatefulWidget {
+  final msg;
+  ChangeMemberPage({this.msg});
   @override
   _ChangeMemberPageState createState() => _ChangeMemberPageState();
 }
@@ -60,9 +60,16 @@ class _ChangeMemberPageState extends State<ChangeMemberPage> {
                         color: Colors.white,
                         border: Border.all(color: Color(0xFF93C0FB),width: 1)
                       ),
-                      child:Image(
-                        image: AssetImage('images/my_big.png'),
-                      ),
+                      child:ClipRRect(
+                        borderRadius: BorderRadius.circular(45),
+                        child: Image(
+                          image: widget.msg== null?
+                          AssetImage('images/my_big.png')
+                              :widget.msg != null && widget.msg.headImg == null?
+                          AssetImage('images/my_big.png')
+                              :NetworkImage(widget.msg.headImg),
+                        ),
+                      )
                     ),
                   ),
                   Container(
@@ -71,7 +78,7 @@ class _ChangeMemberPageState extends State<ChangeMemberPage> {
                     decoration: BoxDecoration(
                         border: Border(bottom: BorderSide(width: 1,color: Color(0xFF93C0FB)))
                     ),
-                    child: Text('马思唯',style: TextStyle(
+                    child: Text(widget.msg!= null ? widget.msg.userName:'',style: TextStyle(
                       fontSize: 16,
                       color: Color(0xFF5580EB),
                       fontWeight: FontWeight.normal,
@@ -84,7 +91,7 @@ class _ChangeMemberPageState extends State<ChangeMemberPage> {
                     decoration: BoxDecoration(
                         border: Border(bottom: BorderSide(width: 1,color: Color(0xFF93C0FB)))
                     ),
-                    child: Text('13812345678',style: TextStyle(
+                    child: Text(widget.msg!= null ? widget.msg.phone:'',style: TextStyle(
                       fontSize: 16,
                       color: Color(0xFF5580EB),
                       fontWeight: FontWeight.normal,
@@ -103,7 +110,7 @@ class _ChangeMemberPageState extends State<ChangeMemberPage> {
                   ),
                   Container(
                     padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
-                    child: Text('更换成员功能会将当前成员移出您所属的区域，并添加一位新的成员顶替该职位。确认更换后将解除当前成员的所有上下级关系，且该成员须重新填写区域，请慎重操作。',style: TextStyle(
+                    child: Text('更换成员成功后会将当前成员移出您所属的区域，并添加一位新的成员顶替该职位并获得当前成员的所有组织关系。确认更换后将解除当前成员的所有组织关系。',style: TextStyle(
                       fontSize: 14,
                       color: Color(0xFF999999),
                       fontWeight: FontWeight.normal,
@@ -112,7 +119,11 @@ class _ChangeMemberPageState extends State<ChangeMemberPage> {
                   ),
                   // 确认移出
                   GestureDetector(
-                    onTap: () => _onDeleteAlertPressed(context),
+                    onTap: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=>ChangeMemberSearchPage(
+                        oldMemberId : widget.msg.userPid
+                      )));
+                    },
                     child: Container(
                       width: 335,
                       height: 40,
@@ -136,31 +147,5 @@ class _ChangeMemberPageState extends State<ChangeMemberPage> {
           ],
         )
     );
-  }
-  _onDeleteAlertPressed(context) {
-    Alert(
-      context: context,
-      type: AlertType.warning,
-      title: "是否移出成员？",
-      desc: "移出成员后该成员将被解除所有组织关系，请慎重选择！",
-      buttons: [
-        DialogButton(
-          child: Text(
-            "确定",
-            style: TextStyle(color: Colors.white, fontSize: 20),
-          ),
-          onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context)=>AddMemberPage())),
-          color: Color(0xFF5580EB),
-        ),
-        DialogButton(
-          child: Text(
-            "取消",
-            style: TextStyle(color: Colors.white, fontSize: 20),
-          ),
-          onPressed: () => Navigator.pop(context),
-          color: Color(0xFFCCCCCC),
-        )
-      ],
-    ).show();
   }
 }

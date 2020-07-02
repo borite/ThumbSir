@@ -1,5 +1,9 @@
+import 'dart:convert';
+import 'package:ThumbSir/dao/get_personal_data_dao.dart';
+import 'package:ThumbSir/model/login_result_data_model.dart';
 import 'package:ThumbSir/widget/user_analyze_item.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 import 'package:some_calendar/some_calendar.dart';
 import 'package:intl/intl.dart';
@@ -13,15 +17,93 @@ class QListAnalyzePage extends StatefulWidget {
 
 class _QListAnalyzePageState extends State<QListAnalyzePage> with SingleTickerProviderStateMixin{
 
-  DateTime selectedDate = DateTime.now();
+//  DateTime selectedDate = DateTime.now().toIso8601String();
   List<DateTime> selectedDates = List();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
+  bool _loading = false;
+  var sumResult;
+  var listResult;
+  var startTime = DateTime.now();
+  var showEndTime = DateTime.now();
+  var endTime = DateTime.now();
+
+  List<Widget> showList = [];
+
+  LoginResultData userData;
+  String uinfo;
+  var result;
+
+  _getUserInfo() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    uinfo= prefs.getString("userInfo");
+    if(uinfo != null){
+      result =loginResultDataFromJson(uinfo);
+      this.setState(() {
+        userData=LoginResultData.fromJson(json.decode(uinfo));
+      });
+    }
+    if(userData != null){
+      _load();
+    }else{
+      setState(() {
+        _loading =false;
+      });
+    }
+  }
+
+  _load()async{
+    var getDataResult = await GetPersonalDataDao.getPersonalData(
+        userData.userPid,
+        userData.companyId,
+        startTime.toIso8601String(),
+        endTime.toIso8601String()
+    );
+    if(getDataResult != null){
+      if(getDataResult.code == 200){
+        setState(() {
+          _loading =false;
+          sumResult = getDataResult.data.zonghe;
+          listResult = getDataResult.data.list;
+        });
+      }
+    }else{
+      setState(() {
+        _loading = false;
+      });
+    }
+  }
+
   @override
   void initState() {
+    _getUserInfo();
+    _onRefresh();
     initializeDateFormatting();
     Intl.systemLocale = 'zh_Cn'; // to change the calendar format based on localization
     super.initState();
+  }
+
+  // 下级成员列表
+  Widget analyzeItem(){
+    Widget content;
+    if(listResult != null){
+      for(var item in listResult) {
+        showList.add(
+          UserAnalyzeItem(
+            name: item.taskName,
+            sum:item.planCount.toString(),
+            finish: item.finishCount.toString(),
+            percent: item.finishRate*100,
+            timePercent: double.parse((item.timeProportion*100).toStringAsFixed(2)),
+            unit: item.taskUnit,
+          ),
+        );
+      };
+    }
+    content =Column(
+      children:showList,
+    );
+    return content;
   }
 
   @override
@@ -38,46 +120,7 @@ class _QListAnalyzePageState extends State<QListAnalyzePage> with SingleTickerPr
                     decoration: BoxDecoration(color: Colors.white),
                     child: Padding(
                       padding: EdgeInsets.only(top:250,bottom:25),
-                      child:Column(
-                        children: <Widget>[
-                          // 每一条量化
-                          UserAnalyzeItem(
-                            name: "带看",
-                            sum:"3",
-                            finish: "2",
-                            percent: 80,
-                            timePersent: 20,
-                          ),
-                          UserAnalyzeItem(
-                            name: "谈单",
-                            sum:"3",
-                            finish: "2",
-                            percent: 80,
-                            timePersent: 20,
-                          ),
-                          UserAnalyzeItem(
-                            name: "签约",
-                            sum:"3",
-                            finish: "2",
-                            percent: 100,
-                            timePersent: 20,
-                          ),
-                          UserAnalyzeItem(
-                            name: "实勘",
-                            sum:"3",
-                            finish: "2",
-                            percent: 80,
-                            timePersent: 20,
-                          ),
-                          UserAnalyzeItem(
-                            name: "空看",
-                            sum:"3",
-                            finish: "2",
-                            percent: 80,
-                            timePersent: 20,
-                          ),
-                        ],
-                      ),
+                      child:analyzeItem()
                     )
                 )
               ],
@@ -146,7 +189,11 @@ class _QListAnalyzePageState extends State<QListAnalyzePage> with SingleTickerPr
                             done: (date) {
                               setState(() {
                                 selectedDates = date;
-//                              showSnackBar(selectedDates.toString());
+                                startTime = date[0];
+                                showEndTime = date[date.length - 1];
+                                endTime = date[date.length-1];
+                                showList.clear();
+                                _load();
                               });
                             },
                           )
@@ -175,7 +222,7 @@ class _QListAnalyzePageState extends State<QListAnalyzePage> with SingleTickerPr
                                 child: Image(image: AssetImage('images/date.png')),
                               ),
                               Text(
-                                '2020-04-05至2020-05-05',
+                                startTime.toIso8601String().substring(0,10) +'至'+showEndTime.toIso8601String().substring(0,10),
                                 style: TextStyle(
                                   fontSize: 14,
                                   color: Color(0xFF0E7AE6),
@@ -212,8 +259,8 @@ class _QListAnalyzePageState extends State<QListAnalyzePage> with SingleTickerPr
               alignment: Alignment(0,-1),
               child: Container(
                   width: 290,
-                  height: 150,
-                  margin: EdgeInsets.only(top: 120),
+                  height: 170,
+                  margin: EdgeInsets.only(top: 110),
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(12),
                       boxShadow: [BoxShadow(
@@ -225,82 +272,107 @@ class _QListAnalyzePageState extends State<QListAnalyzePage> with SingleTickerPr
                       color: Colors.white
                   ),
                   // 综合完成度
-                  child: Row(
+                  child: Column(
                     children: <Widget>[
-                      Container(
-                        width: 100,
-                        height: 100,
-                        margin: EdgeInsets.only(left: 20),
-                        child: SleekCircularSlider(
-                          appearance: CircularSliderAppearance(
-                              startAngle: 280,
-                              angleRange: 360,
-                              customWidths: CustomSliderWidths(progressBarWidth: 10),
-                              customColors: CustomSliderColors(
-                                progressBarColors: [Color(0xFF0E7AE6),Color(0xFF2692FD),Color(0xFF93C0FB)],
-                                trackColor: Color(0x20CCCCCC),
-                                dotColor: Colors.transparent,
-                              ),
-                              infoProperties: InfoProperties(
-                                  mainLabelStyle: TextStyle(
-                                    fontSize: 24,
-                                    color: Color(0xFF2692FD),
-                                  )
-                              )
-                          ),
-                          min: 0,
-                          max: 100,
-                          initialValue: 80,
-                        ),
-                      ),
-                      Column(
+                      Row(
                         children: <Widget>[
-                          Padding(
-                              padding:EdgeInsets.fromLTRB(20, 15, 10, 15),
-                              child:Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-                                  Text('综合完成度',style: TextStyle(color: Color(0xFF0E7AE6),fontSize: 20),),
-                                ],
-                              )
+                          Container(
+                            width: 100,
+                            height: 100,
+                            margin: EdgeInsets.only(left: 20),
+                            child: SleekCircularSlider(
+                              appearance: CircularSliderAppearance(
+                                  startAngle: 280,
+                                  angleRange: 360,
+                                  customWidths: CustomSliderWidths(progressBarWidth: 10),
+                                  customColors: CustomSliderColors(
+                                    progressBarColors: [Color(0xFF0E7AE6),Color(0xFF2692FD),Color(0xFF93C0FB)],
+                                    trackColor: Color(0x20CCCCCC),
+                                    dotColor: Colors.transparent,
+                                  ),
+                                  infoProperties: InfoProperties(
+                                      mainLabelStyle: TextStyle(
+                                        fontSize: 24,
+                                        color: Color(0xFF2692FD),
+                                      )
+                                  )
+                              ),
+                              min: 0,
+                              max: 100,
+                              initialValue: sumResult != null ? sumResult.rate*100:0,
+                            ),
                           ),
-                          Padding(
-                              padding:EdgeInsets.fromLTRB(0, 0, 10, 10),
-                              child:Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-                                  Text('计划：共6项',style: TextStyle(color: Color(0xFF666666),fontSize: 14),),
-                                ],
-                              )
-                          ),
-                          Padding(
-                              padding:EdgeInsets.fromLTRB(0, 0, 10, 10),
-                              child:Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-                                  Text('已完成：4项',style: TextStyle(color: Color(0xFF666666),fontSize: 14),),
-                                ],
-                              )
-                          ),
-                          Padding(
-                              padding:EdgeInsets.fromLTRB(0, 0, 10, 10),
-                              child:Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-                                  Text('未完成：2项',style: TextStyle(color: Color(0xFFF24848),fontSize: 14),),
-                                ],
-                              )
+                          Column(
+                            children: <Widget>[
+                              Padding(
+                                  padding:EdgeInsets.fromLTRB(20, 15, 10, 15),
+                                  child:Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: <Widget>[
+                                      Text('综合完成度',style: TextStyle(color: Color(0xFF0E7AE6),fontSize: 20),),
+                                    ],
+                                  )
+                              ),
+                              Padding(
+                                  padding:EdgeInsets.fromLTRB(0, 0, 10, 10),
+                                  child:Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: <Widget>[
+                                      Text(
+                                        sumResult != null ? '计划：共'+sumResult.planCount.toString()+'项':'计划：共0项',
+                                        style: TextStyle(color: Color(0xFF666666),fontSize: 14),),
+                                    ],
+                                  )
+                              ),
+                              Padding(
+                                  padding:EdgeInsets.fromLTRB(0, 0, 10, 10),
+                                  child:Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: <Widget>[
+                                      Text(
+                                        sumResult != null ? '已完成：'+sumResult.finishTask.toString()+'项':'已完成：4项',
+                                        style: TextStyle(color: Color(0xFF666666),fontSize: 14),),
+                                    ],
+                                  )
+                              ),
+                              Padding(
+                                  padding:EdgeInsets.fromLTRB(0, 0, 10, 10),
+                                  child:Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: <Widget>[
+                                      Text(
+                                        sumResult != null ? '未完成：'+sumResult.unFinishTask.toString()+'项':'未完成：0项',
+                                        style: TextStyle(color: Color(0xFFF24848),fontSize: 14),),
+                                    ],
+                                  )
+                              ),
+                            ],
                           ),
                         ],
                       ),
+                      Container(
+                        width: 250,
+                        child: Text(
+                          '温馨提示：仅统计10:00~22:00的量化任务',
+                          style: TextStyle(color: Color(0xFF999999),fontSize: 10),
+                          textAlign: TextAlign.right,
+                        ),
+                      )
                     ],
-                  )
+                  ),
+
               ),
             ),
           ],
         ),
       ),
     );
+  }
+  // 加载中loading
+  Future<Null> _onRefresh() async {
+    setState(() {
+      _loading = !_loading;
+    });
   }
 }
 

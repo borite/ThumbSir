@@ -1,16 +1,13 @@
+import 'dart:convert';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:ThumbSir/dao/get_next_level_users_dao.dart';
-import 'package:ThumbSir/pages/broker/qlist/analyze_detail_page.dart';
+import 'package:ThumbSir/model/login_result_data_model.dart';
 import 'package:ThumbSir/pages/mycenter/change_member_page.dart';
-import 'package:ThumbSir/pages/mycenter/delete_member_page.dart';
 import 'package:ThumbSir/pages/mycenter/s_center_group_detail_page.dart';
 import 'package:ThumbSir/pages/mycenter/z_center_group_detail_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:sleek_circular_slider/sleek_circular_slider.dart';
-import 'package:some_calendar/some_calendar.dart';
-import 'package:intl/intl.dart';
-import 'package:intl/date_symbol_data_local.dart';
-import 'package:jiffy/jiffy.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class TeamsMemberList extends StatefulWidget {
   final myMsg;
@@ -45,11 +42,28 @@ class _TeamsMemberListState extends State<TeamsMemberList> {
     }
   }
 
+  LoginResultData userData;
+  String uinfo;
+  var result;
+
+  _getUserInfo() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    uinfo= prefs.getString("userInfo");
+    if(uinfo != null){
+      result =loginResultDataFromJson(uinfo);
+      this.setState(() {
+        userData=LoginResultData.fromJson(json.decode(uinfo));
+      });
+    }
+  }
+
   @override
   void initState() {
     super.initState();
+    _getUserInfo();
     _load();
   }
+
   // 下级成员列表
   Widget memberItem(){
     Widget content;
@@ -323,8 +337,14 @@ class _TeamsMemberListState extends State<TeamsMemberList> {
                   ],
                 ),
                 GestureDetector(
-                  onTap: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>ChangeMemberPage()));
+                  onTap: () async {
+                    if((int.parse(userData.userLevel.substring(0,1))+1) == int.parse(widget.myMsg.userLevel.substring(0,1))){
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=>ChangeMemberPage(
+                        msg:widget.myMsg,
+                      )));
+                    }else{
+                      _onOtherMemberAlertPressed(context);
+                    }
                   },
                   child: Padding(
                     padding: EdgeInsets.only(right: 10),
@@ -389,6 +409,24 @@ class _TeamsMemberListState extends State<TeamsMemberList> {
         ],
       ),
     );
+  }
+  _onOtherMemberAlertPressed(context) {
+    Alert(
+      context: context,
+      type: AlertType.error,
+      title: "抱歉，无法更换该成员",
+      desc: "您仅能更换比您低一层级的直属下级",
+      buttons: [
+        DialogButton(
+            child: Text(
+              "知道了",
+              style: TextStyle(color: Colors.white, fontSize: 20),
+            ),
+            onPressed: (){Navigator.pop(context);},
+            color: Color(0xFF5580EB)
+        ),
+      ],
+    ).show();
   }
 }
 

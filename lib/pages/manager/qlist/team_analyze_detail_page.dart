@@ -42,7 +42,7 @@ class _TeamAnalyzeDetailPageState extends State<TeamAnalyzeDetailPage> with Sing
                     Container(
                         decoration: BoxDecoration(color: Colors.white),
                         child: Padding(
-                          padding: EdgeInsets.only(top:220,bottom:25),
+                          padding: EdgeInsets.only(top:240,bottom:25),
                           child:Column(
                             children: <Widget>[
                               // 每一条量化
@@ -98,7 +98,7 @@ class _TeamAnalyzeDetailPageState extends State<TeamAnalyzeDetailPage> with Sing
                             child:
                             //  背景
                             Container(
-                              height: 260,
+                              height: 290,
                               decoration: BoxDecoration(
                                 gradient: LinearGradient(
                                   colors: [Color(0xFF0E7AE6),Color(0xFF93C0FB)],
@@ -205,7 +205,7 @@ class _TeamAnalyzeDetailPageState extends State<TeamAnalyzeDetailPage> with Sing
                   alignment: Alignment(0,-1),
                   child: Container(
                       width: 280,
-                      height: 100,
+                      height: 125,
                       margin: EdgeInsets.only(top: 140),
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(12),
@@ -218,74 +218,87 @@ class _TeamAnalyzeDetailPageState extends State<TeamAnalyzeDetailPage> with Sing
                           color: Colors.white
                       ),
                       // 综合完成度
-                      child: Row(
+                      child: Column(
                         children: <Widget>[
-                          Container(
-                            width: 70,
-                            height: 70,
-                            margin: EdgeInsets.only(left: 20),
-                            child: SleekCircularSlider(
-                              appearance: CircularSliderAppearance(
-                                  startAngle: 280,
-                                  angleRange: 360,
-                                  customWidths: CustomSliderWidths(progressBarWidth: 7),
-                                  customColors: CustomSliderColors(
-                                    progressBarColors: [Color(0xFF0E7AE6),Color(0xFF2692FD),Color(0xFF93C0FB)],
-                                    trackColor: Color(0x20CCCCCC),
-                                    dotColor: Colors.transparent,
-                                  ),
-                                  infoProperties: InfoProperties(
-                                      mainLabelStyle: TextStyle(
-                                        fontSize: 18,
-                                        color: Color(0xFF2692FD),
-                                      )
-                                  )
-                              ),
-                              min: 0,
-                              max: 100,
-                              initialValue: 80,
-                            ),
-                          ),
-                          Column(
+                          Row(
                             children: <Widget>[
                               Container(
-                                  width: 150,
-                                  padding:EdgeInsets.fromLTRB(20, 10, 10, 10),
-                                  child:Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: <Widget>[
-                                      Text(
-                                        '综合完成度',
-                                        style: TextStyle(color: Color(0xFF0E7AE6),fontSize: 20),
-                                        textAlign: TextAlign.left,
+                                width: 70,
+                                height: 70,
+                                margin: EdgeInsets.only(left: 20),
+                                child: SleekCircularSlider(
+                                  appearance: CircularSliderAppearance(
+                                      startAngle: 280,
+                                      angleRange: 360,
+                                      customWidths: CustomSliderWidths(progressBarWidth: 7),
+                                      customColors: CustomSliderColors(
+                                        progressBarColors: [Color(0xFF0E7AE6),Color(0xFF2692FD),Color(0xFF93C0FB)],
+                                        trackColor: Color(0x20CCCCCC),
+                                        dotColor: Colors.transparent,
                                       ),
-                                    ],
-                                  )
+                                      infoProperties: InfoProperties(
+                                          mainLabelStyle: TextStyle(
+                                            fontSize: 18,
+                                            color: Color(0xFF2692FD),
+                                          )
+                                      )
+                                  ),
+                                  min: 0,
+                                  max: 100,
+                                  initialValue: 80,
+                                ),
                               ),
-                              Container(
-                                  width: 150,
-                                  padding:EdgeInsets.fromLTRB(20, 0, 10, 5),
-                                  child:Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: <Widget>[
-                                      Text('计划：共6项',style: TextStyle(color: Color(0xFF666666),fontSize: 14),textAlign: TextAlign.left,),
-                                    ],
-                                  )
-                              ),
-                              Container(
-                                  width: 150,
-                                  padding:EdgeInsets.fromLTRB(20, 0, 10, 0),
-                                  child:Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: <Widget>[
-                                      Text('已完成：4项',style: TextStyle(color: Color(0xFF666666),fontSize: 14),textAlign: TextAlign.left,),
-                                    ],
-                                  )
+                              Column(
+                                children: <Widget>[
+                                  Container(
+                                      width: 150,
+                                      padding:EdgeInsets.fromLTRB(20, 10, 10, 10),
+                                      child:Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: <Widget>[
+                                          Text(
+                                            '综合完成度',
+                                            style: TextStyle(color: Color(0xFF0E7AE6),fontSize: 20),
+                                            textAlign: TextAlign.left,
+                                          ),
+                                        ],
+                                      )
+                                  ),
+                                  Container(
+                                      width: 150,
+                                      padding:EdgeInsets.fromLTRB(20, 0, 10, 5),
+                                      child:Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: <Widget>[
+                                          Text('计划：共6项',style: TextStyle(color: Color(0xFF666666),fontSize: 14),textAlign: TextAlign.left,),
+                                        ],
+                                      )
+                                  ),
+                                  Container(
+                                      width: 150,
+                                      padding:EdgeInsets.fromLTRB(20, 0, 10, 10),
+                                      child:Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: <Widget>[
+                                          Text('已完成：4项',style: TextStyle(color: Color(0xFF666666),fontSize: 14),textAlign: TextAlign.left,),
+                                        ],
+                                      )
+                                  ),
+                                ],
                               ),
                             ],
                           ),
+                          Container(
+                            width: 250,
+                            child: Text(
+                              '温馨提示：仅统计10:00~22:00的量化任务',
+                              style: TextStyle(color: Color(0xFF999999),fontSize: 10),
+                              textAlign: TextAlign.right,
+                            ),
+                          )
                         ],
-                      )
+                      ),
+
                   ),
                 ),
               ],

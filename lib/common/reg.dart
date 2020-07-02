@@ -7,3 +7,4 @@ final RegExp TextReg = new RegExp(r"\d{6}$");
 final RegExp CreditCodeReg = new RegExp(r"\d{6}$");
 final RegExp FeedBackReg = new RegExp(r"\d{6}$"); // 5~300个字或字母
 final RegExp taskReg = new RegExp(r"\d{6}$"); // 1~5个字或字母
+final RegExp inviterCodeReg = new RegExp(r"\d{7}$"); // 7位数字

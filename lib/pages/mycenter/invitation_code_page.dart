@@ -1,7 +1,16 @@
+import 'dart:convert';
+
+import 'package:ThumbSir/common/reg.dart';
+import 'package:ThumbSir/dao/get_invited_user_dao.dart';
+import 'package:ThumbSir/dao/get_inviter_dao.dart';
+import 'package:ThumbSir/dao/update_invite_code_dao.dart';
+import 'package:ThumbSir/model/get_inviter_model.dart';
+import 'package:ThumbSir/model/login_result_data_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class InvitationCodePage extends StatefulWidget {
   @override
@@ -9,9 +18,58 @@ class InvitationCodePage extends StatefulWidget {
 }
 
 class _InvitationCodePageState extends State<InvitationCodePage> {
-  final TextEditingController textController=TextEditingController();
+  final TextEditingController inviterController=TextEditingController();
+
   int code = 1; // 是否已输入过邀请码
   int friend = 1; // 是否有用户输入过自己的邀请码
+  var inviter;
+  var inviteFriendMsg;
+
+  LoginResultData userData;
+  String uinfo;
+  var result;
+
+  _getUserInfo() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    uinfo= prefs.getString("userInfo");
+    if(uinfo != null){
+      result =loginResultDataFromJson(uinfo);
+      this.setState(() {
+        userData=LoginResultData.fromJson(json.decode(uinfo));
+      });
+      if(userData != null){
+        _load();
+      }
+    }
+  }
+
+  _load()async{
+    var inviterResult = await GetInviterDao.getInviter(userData.userPid);
+    if(inviterResult.code == 200){
+      setState(() {
+        code = 1;
+        inviter = inviterResult.data;
+      });
+    }
+    if(inviterResult.code == 404){
+      setState(() {
+        code = 0;
+      });
+    }
+
+    var inviteFriendResult = await GetInvitedUserDao.getInvitedUser(userData.inviteCode,1,20);
+    if(inviteFriendResult.code == 200){
+      setState(() {
+        inviteFriendMsg = inviteFriendResult.data;
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _getUserInfo();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,11 +98,13 @@ class _InvitationCodePageState extends State<InvitationCodePage> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        Text('963123',style:TextStyle(
-                          fontSize: 28,
-                          color: Color(0xFF5580EB),
-                          fontWeight: FontWeight.normal,
-                          decoration: TextDecoration.none,
+                        Text(
+                          userData != null && userData.inviteCode != null ? userData.inviteCode:'',
+                          style:TextStyle(
+                            fontSize: 28,
+                            color: Color(0xFF5580EB),
+                            fontWeight: FontWeight.normal,
+                            decoration: TextDecoration.none,
                         ),textAlign: TextAlign.center,),
                         Container(
                           width: 40,
@@ -85,14 +145,14 @@ class _InvitationCodePageState extends State<InvitationCodePage> {
                       children: <Widget>[
                         GestureDetector(
                           onTap:(){
-                            _onFriendAlertPressed(context);
+//                            _onFriendAlertPressed(context);
                           },
                           child: Container(
                             width: 160,
                             child: Column(
                               children: <Widget>[
                                 Text(
-                                  '0',
+                                  inviteFriendMsg != null ? inviteFriendMsg.tcount.toString():'',
                                   style:TextStyle(
                                     fontSize: 20,
                                     color: Color(0xFF666666),
@@ -127,7 +187,7 @@ class _InvitationCodePageState extends State<InvitationCodePage> {
                           child: Column(
                             children: <Widget>[
                               Text(
-                                '0',
+                                inviteFriendMsg != null ? ((inviteFriendMsg.tcount)*3).toString():'',
                                 style:TextStyle(
                                   fontSize: 20,
                                   color: Color(0xFF666666),
@@ -275,7 +335,10 @@ class _InvitationCodePageState extends State<InvitationCodePage> {
       title: "输入邀请码",
       content: Column(
         children: <Widget>[
-          TextField()
+          TextField(
+            controller: inviterController,
+            keyboardType: TextInputType.number,
+          )
         ],
       ),
       buttons: [
@@ -284,7 +347,21 @@ class _InvitationCodePageState extends State<InvitationCodePage> {
             "确定",
             style: TextStyle(color: Colors.white, fontSize: 20),
           ),
-          onPressed: () => Navigator.pop(context),
+          onPressed: ()async{
+            var inputResult = await UpdateInviteCodeDao.updateInviteCode(inviterController.text, userData.userPid);
+            if(inputResult.code == 200){
+              setState(() {
+                code = 1;
+              });
+              Navigator.pop(context);
+            }else if(userData.inviteCode == inviterController.text){
+              _myInviteCode();
+            }
+            else{
+              _wrongInviteCode();
+            }
+
+          },
           color: Color(0xFF5580EB),
           width: 120,
         )
@@ -296,7 +373,9 @@ class _InvitationCodePageState extends State<InvitationCodePage> {
       title: "您已输入过邀请码",
       content: Column(
         children: <Widget>[
-          Text("张三丰已经邀请过您啦~",style: TextStyle(
+          Text(
+            inviter != null ? inviter.userName+"已经邀请过您啦~":'',
+            style: TextStyle(
               fontSize: 14,
               color: Color(0xFF999999)
           ),),
@@ -319,6 +398,44 @@ class _InvitationCodePageState extends State<InvitationCodePage> {
       ],
     ).show()
     ;
+  }
+  // 邀请码错误
+  _wrongInviteCode(){
+    Alert(
+      context: context,
+      title: "邀请码不存在",
+      desc: "请重试",
+      buttons: [
+        DialogButton(
+          child: Text(
+            "确定",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () => Navigator.pop(context),
+          color: Color(0xFF5580EB),
+          width: 120,
+        )
+      ],
+    ).show();
+  }
+  // 邀请码错误
+  _myInviteCode(){
+    Alert(
+      context: context,
+      title: "不能输入自己的邀请码",
+      desc: "请重试",
+      buttons: [
+        DialogButton(
+          child: Text(
+            "确定",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () => Navigator.pop(context),
+          color: Color(0xFF5580EB),
+          width: 120,
+        )
+      ],
+    ).show();
   }
   // 复制邀请码成功的弹窗
   _onPasteAlertPressed(context) {

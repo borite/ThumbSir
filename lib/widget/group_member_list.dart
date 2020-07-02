@@ -1,8 +1,12 @@
+import 'dart:convert';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:ThumbSir/dao/get_next_level_users_dao.dart';
+import 'package:ThumbSir/model/login_result_data_model.dart';
 import 'package:ThumbSir/pages/mycenter/change_member_page.dart';
 import 'package:ThumbSir/pages/mycenter/delete_member_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class GroupMemberList extends StatefulWidget {
   final myMsg;
@@ -37,10 +41,26 @@ class _GroupMemberListState extends State<GroupMemberList> {
     }
   }
 
+  LoginResultData userData;
+  String uinfo;
+  var result;
+
+  _getUserInfo() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    uinfo= prefs.getString("userInfo");
+    if(uinfo != null){
+      result =loginResultDataFromJson(uinfo);
+      this.setState(() {
+        userData=LoginResultData.fromJson(json.decode(uinfo));
+      });
+    }
+  }
+
   @override
   void initState() {
     super.initState();
     _load();
+    _getUserInfo();
   }
 
   // 下级成员列表
@@ -113,15 +133,6 @@ class _GroupMemberListState extends State<GroupMemberList> {
                       ),
                     ),
                   ],
-                ),
-                GestureDetector(
-                  onTap: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>DeleteMemberPage()));
-                  },
-                  child: Padding(
-                    padding: EdgeInsets.only(right: 10),
-                    child: Image(image: AssetImage('images/delete_blue.png'),),
-                  ),
                 ),
               ],
             ),
@@ -299,8 +310,14 @@ class _GroupMemberListState extends State<GroupMemberList> {
                   ],
                 ),
                 GestureDetector(
-                  onTap: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>ChangeMemberPage()));
+                  onTap: () async {
+                    if((int.parse(userData.userLevel.substring(0,1))+1) == int.parse(widget.myMsg.userLevel.substring(0,1))){
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=>ChangeMemberPage(
+                        msg:widget.myMsg,
+                      )));
+                    }else{
+                      _onOtherMemberAlertPressed(context);
+                    }
                   },
                   child: Padding(
                     padding: EdgeInsets.only(right: 10),
@@ -365,6 +382,24 @@ class _GroupMemberListState extends State<GroupMemberList> {
         ],
       ),
     );
+  }
+  _onOtherMemberAlertPressed(context) {
+    Alert(
+      context: context,
+      type: AlertType.error,
+      title: "抱歉，无法更换该成员",
+      desc: "您仅能更换比您低一层级的直属下级",
+      buttons: [
+        DialogButton(
+            child: Text(
+              "知道了",
+              style: TextStyle(color: Colors.white, fontSize: 20),
+            ),
+            onPressed: (){Navigator.pop(context);},
+            color: Color(0xFF5580EB)
+        ),
+      ],
+    ).show();
   }
 }
 
