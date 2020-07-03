@@ -23,7 +23,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin{
   List<Widget> msgShowList = [];
 
   _load() async {
-    var msgResult = await GetMessageDao.getMessage('1','1');
+    var msgResult = await GetMessageDao.getMessage('1','1','1','5');
     if (msgResult.code == 200) {
       setState(() {
         msgList = msgResult.data;

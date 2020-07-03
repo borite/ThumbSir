@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:ThumbSir/common/reg.dart';
 import 'package:ThumbSir/dao/get_default_task_dao.dart';
 import 'package:ThumbSir/dao/user_select_mission_dao.dart';
+import 'package:ThumbSir/model/choose_item_model.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:ThumbSir/model/get_default_task_model.dart';
 import 'package:ThumbSir/model/login_result_data_model.dart';
@@ -195,11 +196,11 @@ class _QListAddPageState extends State<QListAddPage> {
                           label: (index,item)=>item.taskName
                         ),
                         onChanged: (val){
-                          print(val);
                           setState((){
                             tag = val;
-//                            chooseId = val.id;
-//                            chooseUnit = val.taskUnit;
+                            var item = chooseItemFromJson(val);
+                            chooseId = item.id;
+                            chooseUnit = item.taskUnit;
                           });
                         },
                         itemConfig: ChipsChoiceItemConfig(

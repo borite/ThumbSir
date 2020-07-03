@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:ThumbSir/dao/add_leader_dao.dart';
 import 'package:ThumbSir/dao/get_leader_dao.dart';
 import 'package:ThumbSir/dao/get_section_list_dao.dart';
+import 'package:ThumbSir/dao/send_message_dao.dart';
 import 'package:ThumbSir/dao/un_bind_member_dao.dart';
 import 'package:ThumbSir/model/login_result_data_model.dart';
 import 'package:ThumbSir/model/section_list_model.dart';
@@ -578,6 +579,7 @@ class _SigninChooseAreaPageState extends State<SigninChooseAreaPage> {
           ),
           onPressed: () async {
             // 申请挂载上级
+            await SendMessageDao.sendMessage(userData.userPid, leaderId, '上下级职位联接邀请', userData.userName+'申请成为你的下级', '2');
             await AddLeaderDao.addLeaderPost(userId, leaderId);
             Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginPage()));
           },

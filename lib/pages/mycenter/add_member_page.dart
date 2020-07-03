@@ -5,6 +5,7 @@ import 'package:ThumbSir/dao/add_leader_dao.dart';
 import 'package:ThumbSir/dao/add_team_member_dao.dart';
 import 'package:ThumbSir/dao/get_leader_dao.dart';
 import 'package:ThumbSir/dao/get_user_by_phone_dao.dart';
+import 'package:ThumbSir/dao/send_message_dao.dart';
 import 'package:ThumbSir/model/login_result_data_model.dart';
 import 'package:ThumbSir/pages/home.dart';
 import 'package:ThumbSir/pages/mycenter/invitation_page.dart';
@@ -486,7 +487,8 @@ class _AddMemberPageState extends State<AddMemberPage> {
             onPressed: () async {
               // 申请挂载上级
               var leaderResult = await AddLeaderDao.addLeaderPost(userData.userPid, areaResultData.userPid);
-              if(leaderResult.code == 200){
+              var sendMessageResult = await SendMessageDao.sendMessage(userData.userPid, areaResultData.userPid, '上下级职位联接邀请', userData.userName+'申请成为你的下级', '2');
+              if(leaderResult.code == 200 && sendMessageResult.code == 200){
                 _onLeaderResult200AlertPressed(context);
               }else if(leaderResult.code == 410){
                 _onResult410AlertPressed(context);
@@ -520,9 +522,10 @@ class _AddMemberPageState extends State<AddMemberPage> {
               style: TextStyle(color: Colors.white, fontSize: 20),
             ),
             onPressed: () async {
-              // 申请挂载上级
+              // 申请挂载下级
               var memberResult = await AddTeamMemberDao.addMemberPost(userData.userPid, phoneResultData.userPid);
-              if(memberResult.code == 200){
+              var sendMessageResult = await SendMessageDao.sendMessage(userData.userPid, phoneResultData.userPid, '上下级职位联接邀请', userData.userName+'申请成为你的上级', '2');
+              if(memberResult.code == 200 && sendMessageResult.code == 200){
                 _onMemberResult200AlertPressed(context);
               }
               if(memberResult.code == 420){

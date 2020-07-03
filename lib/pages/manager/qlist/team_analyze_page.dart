@@ -1,7 +1,7 @@
-import 'package:ThumbSir/pages/broker/tips/qlist_tips_page.dart';
 import 'package:ThumbSir/pages/manager/qlist/team_analyze_detail_page.dart';
 import 'package:ThumbSir/pages/manager/qlist/team_analyze_member_detail_page.dart';
 import 'package:ThumbSir/pages/mycenter/my_center_page.dart';
+import 'package:ThumbSir/pages/tips/qlist_tips_page.dart';
 import 'package:flutter/material.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 

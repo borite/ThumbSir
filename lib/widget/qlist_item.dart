@@ -638,8 +638,7 @@ class _QListItemState extends State<QListItem> with SingleTickerProviderStateMix
                           padding: EdgeInsets.only(
                               left: 20, right: 20, bottom: 10, top: 10),
                           child: Text(
-                            '描述',
-//                            widget.remark,
+                            widget.remark,
                             style: TextStyle(
                               fontSize: 14,
                               color: Color(0xFF999999),

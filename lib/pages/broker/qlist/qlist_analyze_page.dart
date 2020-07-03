@@ -56,8 +56,8 @@ class _QListAnalyzePageState extends State<QListAnalyzePage> with SingleTickerPr
     var getDataResult = await GetPersonalDataDao.getPersonalData(
         userData.userPid,
         userData.companyId,
-        startTime.toIso8601String(),
-        endTime.toIso8601String()
+        startTime.toIso8601String().substring(0,11)+'00:00:00.000000',
+        endTime.toIso8601String().substring(0,11)+'23:59:59.000000',
     );
     if(getDataResult != null){
       if(getDataResult.code == 200){

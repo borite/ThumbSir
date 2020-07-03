@@ -40,6 +40,7 @@ class Datum {
     this.msgType,
     this.sendTime,
     this.state,
+    this.fromUser,
   });
 
   int id;
@@ -48,6 +49,7 @@ class Datum {
   int msgType;
   DateTime sendTime;
   int state;
+  String fromUser;
 
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
     id: json["ID"] == null ? null : json["ID"],
@@ -56,14 +58,16 @@ class Datum {
     msgType: json["MsgType"] == null ? null : json["MsgType"],
     sendTime: json["SendTime"] == null ? null : DateTime.parse(json["SendTime"]),
     state: json["State"] == null ? null : json["State"],
+    fromUser: json["FromUser"] == null ? null : json["FromUser"],
   );
 
   Map<String, dynamic> toJson() => {
-  "ID": id == null ? null : id,
-  "MsgTitle": msgTitle == null ? null : msgTitle,
-  "MsgContent": msgContent == null ? null : msgContent,
-  "MsgType": msgType == null ? null : msgType,
+    "ID": id == null ? null : id,
+    "MsgTitle": msgTitle == null ? null : msgTitle,
+    "MsgContent": msgContent == null ? null : msgContent,
+    "MsgType": msgType == null ? null : msgType,
     "SendTime": sendTime == null ? null : sendTime.toIso8601String(),
     "State": state == null ? null : state,
+    "FromUser": fromUser == null ? null : fromUser,
   };
 }

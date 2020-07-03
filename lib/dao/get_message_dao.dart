@@ -7,8 +7,8 @@ import 'package:ThumbSir/utils/common_vars.dart';
 const String apiPerfix=CommonVars.apiPrefix;
 
 class GetMessageDao {
-  static Future<GetMessage> getMessage(String userID,String msgType) async {
-    final response = await http.get(apiPerfix+'api/commontools/GetMessage?UserID='+userID+'&MsgType='+msgType);
+  static Future<GetMessage> getMessage(String userID,String msgType,String pageIndex,String pageSize) async {
+    final response = await http.get(apiPerfix+'api/commontools/GetMessage?UserID='+userID+'&MsgType='+msgType+'&pageIndex='+pageIndex+'&pageSize='+pageIndex);
     //Utf8Decoder utf8decoder = Utf8Decoder();  // 修复中文乱码
     //var result = json.decode(utf8decoder.convert(response.bodyBytes));
     if(response.statusCode == 200){
