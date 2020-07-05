@@ -23,7 +23,6 @@ class QListItem extends StatefulWidget {
 
 class _QListItemState extends State<QListItem> with SingleTickerProviderStateMixin{
   bool _extend = false;
-  int _starIndex = 1;
   Animation<double> animation;
   AnimationController controller;
   AnimationStatus animationStatus;
@@ -120,7 +119,7 @@ class _QListItemState extends State<QListItem> with SingleTickerProviderStateMix
                                     fontWeight: FontWeight.normal,
                                   ),
                                 ),
-                              )
+                              ),
                             ],
                           ),
                         )
@@ -181,7 +180,7 @@ class _QListItemState extends State<QListItem> with SingleTickerProviderStateMix
                                   width: 20,
                                   height: 16,
                                   padding: EdgeInsets.only(right: 3),
-                                  child: _starIndex == 0 ?
+                                  child: widget.star == 0 ?
                                   Image(image: AssetImage('images/star1_e.png'),
                                     fit: BoxFit.fill,) :
                                   Image(image: AssetImage('images/star1_big.png'),
@@ -191,16 +190,16 @@ class _QListItemState extends State<QListItem> with SingleTickerProviderStateMix
                                   width: 20,
                                   height: 16,
                                   padding: EdgeInsets.only(right: 3),
-                                  child: _starIndex == 2 ?
+                                  child: widget.star == 2 ?
                                   Image(image: AssetImage('images/star2_big.png'),
                                     fit: BoxFit.fill,)
-                                      : _starIndex == 3 ?
+                                      : widget.star == 3 ?
                                   Image(image: AssetImage('images/star2_big.png'),
                                     fit: BoxFit.fill,)
-                                      : _starIndex == 4 ?
+                                      : widget.star == 4 ?
                                   Image(image: AssetImage('images/star2_big.png'),
                                     fit: BoxFit.fill,)
-                                      : _starIndex == 5 ?
+                                      : widget.star == 5 ?
                                   Image(image: AssetImage('images/star2_big.png'),
                                     fit: BoxFit.fill,)
                                       :
@@ -211,13 +210,13 @@ class _QListItemState extends State<QListItem> with SingleTickerProviderStateMix
                                   width: 20,
                                   height: 16,
                                   padding: EdgeInsets.only(right: 3),
-                                  child: _starIndex == 3 ?
+                                  child: widget.star == 3 ?
                                   Image(image: AssetImage('images/star3_big.png'),
                                     fit: BoxFit.fill,)
-                                      : _starIndex == 4 ?
+                                      : widget.star == 4 ?
                                   Image(image: AssetImage('images/star3_big.png'),
                                     fit: BoxFit.fill,)
-                                      : _starIndex == 5 ?
+                                      : widget.star == 5 ?
                                   Image(image: AssetImage('images/star3_big.png'),
                                     fit: BoxFit.fill,)
                                       :
@@ -228,10 +227,10 @@ class _QListItemState extends State<QListItem> with SingleTickerProviderStateMix
                                   width: 20,
                                   height: 16,
                                   padding: EdgeInsets.only(right: 3),
-                                  child: _starIndex == 4 ?
+                                  child: widget.star == 4 ?
                                   Image(image: AssetImage('images/star4_big.png'),
                                     fit: BoxFit.fill,)
-                                      : _starIndex == 5 ?
+                                      : widget.star == 5 ?
                                   Image(image: AssetImage('images/star4_big.png'),
                                     fit: BoxFit.fill,)
                                       :
@@ -242,7 +241,7 @@ class _QListItemState extends State<QListItem> with SingleTickerProviderStateMix
                                   width: 20,
                                   height: 16,
                                   padding: EdgeInsets.only(right: 3),
-                                  child: _starIndex == 5 ?
+                                  child: widget.star == 5 ?
                                   Image(image: AssetImage('images/star5_big.png'),
                                     fit: BoxFit.fill,)
                                       :
@@ -492,7 +491,7 @@ class _QListItemState extends State<QListItem> with SingleTickerProviderStateMix
                                   width: 20,
                                   height: 16,
                                   padding: EdgeInsets.only(right: 3),
-                                  child: _starIndex == 0 ?
+                                  child: widget.star == 0 ?
                                   Image(
                                     image: AssetImage('images/star1_e.png'),
                                     fit: BoxFit.fill,) :
@@ -504,19 +503,19 @@ class _QListItemState extends State<QListItem> with SingleTickerProviderStateMix
                                   width: 20,
                                   height: 16,
                                   padding: EdgeInsets.only(right: 3),
-                                  child: _starIndex == 2 ?
+                                  child: widget.star == 2 ?
                                   Image(
                                     image: AssetImage('images/star2_big.png'),
                                     fit: BoxFit.fill,)
-                                      : _starIndex == 3 ?
+                                      : widget.star == 3 ?
                                   Image(
                                     image: AssetImage('images/star2_big.png'),
                                     fit: BoxFit.fill,)
-                                      : _starIndex == 4 ?
+                                      : widget.star == 4 ?
                                   Image(
                                     image: AssetImage('images/star2_big.png'),
                                     fit: BoxFit.fill,)
-                                      : _starIndex == 5 ?
+                                      : widget.star == 5 ?
                                   Image(
                                     image: AssetImage('images/star2_big.png'),
                                     fit: BoxFit.fill,)
@@ -529,15 +528,15 @@ class _QListItemState extends State<QListItem> with SingleTickerProviderStateMix
                                   width: 20,
                                   height: 16,
                                   padding: EdgeInsets.only(right: 3),
-                                  child: _starIndex == 3 ?
+                                  child: widget.star == 3 ?
                                   Image(
                                     image: AssetImage('images/star3_big.png'),
                                     fit: BoxFit.fill,)
-                                      : _starIndex == 4 ?
+                                      : widget.star == 4 ?
                                   Image(
                                     image: AssetImage('images/star3_big.png'),
                                     fit: BoxFit.fill,)
-                                      : _starIndex == 5 ?
+                                      : widget.star == 5 ?
                                   Image(
                                     image: AssetImage('images/star3_big.png'),
                                     fit: BoxFit.fill,)
@@ -550,11 +549,11 @@ class _QListItemState extends State<QListItem> with SingleTickerProviderStateMix
                                   width: 20,
                                   height: 16,
                                   padding: EdgeInsets.only(right: 3),
-                                  child: _starIndex == 4 ?
+                                  child: widget.star == 4 ?
                                   Image(
                                     image: AssetImage('images/star4_big.png'),
                                     fit: BoxFit.fill,)
-                                      : _starIndex == 5 ?
+                                      : widget.star == 5 ?
                                   Image(
                                     image: AssetImage('images/star4_big.png'),
                                     fit: BoxFit.fill,)
@@ -567,7 +566,7 @@ class _QListItemState extends State<QListItem> with SingleTickerProviderStateMix
                                   width: 20,
                                   height: 16,
                                   padding: EdgeInsets.only(right: 3),
-                                  child: _starIndex == 5 ?
+                                  child: widget.star == 5 ?
                                   Image(
                                     image: AssetImage('images/star5_big.png'),
                                     fit: BoxFit.fill,)
@@ -763,9 +762,7 @@ class _QListItemState extends State<QListItem> with SingleTickerProviderStateMix
                         children: <Widget>[
                           GestureDetector(
                             onTap: () {
-                              Navigator.push(context, MaterialPageRoute(
-                                  builder: (context) => QListUploadPage()
-                              ));
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => QListUploadPage()));
                             },
                             child: Container(
                               width: 90,
@@ -828,7 +825,7 @@ class _QListItemState extends State<QListItem> with SingleTickerProviderStateMix
         // 圆形进度条
         this.widget.percent == 100 ?
         Positioned(
-          top: 70,
+          top: 80,
           left: 112,
           child: Container(
             width: 110,
@@ -837,7 +834,7 @@ class _QListItemState extends State<QListItem> with SingleTickerProviderStateMix
           ),
         )
             : Positioned(
-          top: 60,
+          top: 70,
           left: 115,
           child: Container(
             width: 110,

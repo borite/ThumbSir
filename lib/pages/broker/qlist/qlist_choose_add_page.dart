@@ -24,9 +24,12 @@ class _QListChooseAddPageState extends State<QListChooseAddPage> {
               padding: EdgeInsets.only(top: 60,bottom: 50),
               child: Text('新增任务',style: TextStyle(fontSize: 16,color: Color(0xFF0E7AE6)),textAlign: TextAlign.center,),
             ),
+            // date=1，今日
             GestureDetector(
               onTap: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>QListAddPage()));
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>QListAddPage(
+                  date:1,
+                )));
               },
               child: Container(
                 margin: EdgeInsets.only(bottom: 20,right: 20,left: 20),
@@ -63,9 +66,12 @@ class _QListChooseAddPageState extends State<QListChooseAddPage> {
                 ),
               ),
             ),
+            // date=2，明日
             GestureDetector(
               onTap: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>QListAddPage()));
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>QListAddPage(
+                  date:2,
+                )));
               },
               child: Container(
                 margin: EdgeInsets.only(bottom: 20,right: 20,left: 20),

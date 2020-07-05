@@ -1,3 +1,4 @@
+import 'package:ThumbSir/pages/broker/qlist/qlist_task_list_search_result_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:some_calendar/some_calendar.dart';
@@ -75,8 +76,10 @@ class _PastQListState extends State<PastQList>  with SingleTickerProviderStateMi
                 done: (date) {
                   setState(() {
                     selectedDate = date;
-//                    showSnackBar(selectedDate.toString());
                   });
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>QListTaskListSearchResultPage(
+                    chooseDate:selectedDate
+                  )));
                 },
                 labels: Labels(
                   dialogCancel: '取消',
@@ -89,9 +92,4 @@ class _PastQListState extends State<PastQList>  with SingleTickerProviderStateMi
       ),
     );
   }
-//  void showSnackBar(String x) {
-//    _scaffoldKey.currentState.showSnackBar(SnackBar(
-//      content: Text(x.substring(0,10)),
-//    ));
-//  }
 }

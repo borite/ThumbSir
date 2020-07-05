@@ -36,36 +36,42 @@ class Datum {
   Datum({
     this.id,
     this.taskName,
-    this.taskeCount,
     this.taskUnit,
+    this.defaultTaskId,
     this.stars,
     this.planningCount,
     this.planningStartTime,
     this.planningEndTime,
+    this.remark,
+    this.address,
     this.finishCount,
     this.finishRate,
   });
 
   int id;
   String taskName;
-  int taskeCount;
   String taskUnit;
+  int defaultTaskId;
   int stars;
   int planningCount;
   DateTime planningStartTime;
   DateTime planningEndTime;
+  dynamic remark;
+  String address;
   int finishCount;
   double finishRate;
 
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
   id: json["ID"] == null ? null : json["ID"],
   taskName: json["TaskName"] == null ? null : json["TaskName"],
-  taskeCount: json["TaskeCount"] == null ? null : json["TaskeCount"],
   taskUnit: json["TaskUnit"] == null ? null : json["TaskUnit"],
-  stars: json["Stars"] == null ? null : json["Stars"],
+  defaultTaskId: json["DefaultTaskID"] == null ? null : json["DefaultTaskID"],
+    stars: json["Stars"] == null ? null : json["Stars"],
     planningCount: json["PlanningCount"] == null ? null : json["PlanningCount"],
     planningStartTime: json["PlanningStartTime"] == null ? null : DateTime.parse(json["PlanningStartTime"]),
     planningEndTime: json["PlanningEndTime"] == null ? null : DateTime.parse(json["PlanningEndTime"]),
+    remark: json["Remark"],
+    address: json["Address"] == null ? null : json["Address"],
     finishCount: json["finishCount"] == null ? null : json["finishCount"],
     finishRate: json["finishRate"] == null ? null : json["finishRate"],
   );
@@ -73,12 +79,14 @@ class Datum {
   Map<String, dynamic> toJson() => {
     "ID": id == null ? null : id,
     "TaskName": taskName == null ? null : taskName,
-    "TaskeCount": taskeCount == null ? null : taskeCount,
     "TaskUnit": taskUnit == null ? null : taskUnit,
+    "DefaultTaskID": defaultTaskId == null ? null : defaultTaskId,
     "Stars": stars == null ? null : stars,
     "PlanningCount": planningCount == null ? null : planningCount,
     "PlanningStartTime": planningStartTime == null ? null : planningStartTime.toIso8601String(),
     "PlanningEndTime": planningEndTime == null ? null : planningEndTime.toIso8601String(),
+    "Remark": remark,
+    "Address": address == null ? null : address,
     "finishCount": finishCount == null ? null : finishCount,
     "finishRate": finishRate == null ? null : finishRate,
   };

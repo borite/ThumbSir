@@ -3,6 +3,8 @@ import 'package:ThumbSir/common/reg.dart';
 import 'package:ThumbSir/dao/get_default_task_dao.dart';
 import 'package:ThumbSir/dao/user_select_mission_dao.dart';
 import 'package:ThumbSir/model/choose_item_model.dart';
+import 'package:ThumbSir/pages/broker/qlist/qlist_page.dart';
+import 'package:ThumbSir/pages/manager/qlist/manager_qlist_page.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:ThumbSir/model/get_default_task_model.dart';
 import 'package:ThumbSir/model/login_result_data_model.dart';
@@ -13,6 +15,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:chips_choice/chips_choice.dart';
 
 class QListAddPage extends StatefulWidget {
+  final date;
+  QListAddPage({this.date});
   @override
   _QListAddPageState createState() => _QListAddPageState();
 }
@@ -21,7 +25,7 @@ class _QListAddPageState extends State<QListAddPage> {
   final TextEditingController remarkController=TextEditingController();
   RegExp remarkReg;
   bool remarkBool = false;
-  String chooseId = "0";
+  String chooseId = "-1";
   String chooseUnit = "";
 
   String tag = "1";
@@ -45,7 +49,6 @@ class _QListAddPageState extends State<QListAddPage> {
     if (taskList.code == 200) {
       setState(() {
         tasks = taskList.data;
-        _loading = false;
       });
     } else {
       _onLoadAlert(context);
@@ -56,7 +59,13 @@ class _QListAddPageState extends State<QListAddPage> {
   List<Datum> tasks = [];
   List<Widget> tasksShowList = [];
 
-  bool _loading = false;
+  DateTime startTime;
+  DateTime endTime;
+  int _starIndex = 0;
+  int itemCount = 1;
+  bool isRemark = false;
+
+  List taskList;
 
   @override
   void initState() {
@@ -64,15 +73,9 @@ class _QListAddPageState extends State<QListAddPage> {
     remarkReg = FeedBackReg;
     _getUserInfo();
     _load();
+    startTime = widget.date == 1 ? DateTime.now():DateTime.now().add(Duration(days: 1));
+    endTime = widget.date == 1 ? DateTime.now():DateTime.now().add(Duration(days: 1));
   }
-  
-  DateTime startTime = DateTime.now();
-  DateTime endTime = DateTime.now();
-  int _starIndex = 0;
-  int itemCount = 1;
-  bool isRemark = false;
-
-  List taskList;
 
   @override
   Widget build(BuildContext context) {
@@ -103,11 +106,13 @@ class _QListAddPageState extends State<QListAddPage> {
                           ),
                           Padding(
                             padding: EdgeInsets.only(left: 20),
-                            child: Text('添加明日任务',style: TextStyle(
-                              fontSize: 16,
-                              color: Color(0xFF0E7AE6),
-                              fontWeight: FontWeight.normal,
-                              decoration: TextDecoration.none,
+                            child: Text(
+                              widget.date == 1? '添加今日任务': '添加明日任务',
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: Color(0xFF0E7AE6),
+                                fontWeight: FontWeight.normal,
+                                decoration: TextDecoration.none,
                             ),),
                           )
                         ],
@@ -212,6 +217,25 @@ class _QListAddPageState extends State<QListAddPage> {
                         isWrapped: true,
                       ),
                     ),
+                    // 若选择其他描述必填提示
+                    chooseId == '12' ?
+                    Padding(
+                        padding: EdgeInsets.only(left: 20,bottom: 15),
+                        child: Row(
+                          children: <Widget>[
+                            Text('注意：若选择"其他"，任务描述为必填项',style: TextStyle(
+                              fontSize: 10,
+                              color: Color(0xFFF24848),
+                              fontWeight: FontWeight.normal,
+                              decoration: TextDecoration.none,
+                            )),
+                          ],
+                        )
+                    )
+                    :Container(width: 1,),
+                    chooseId == "13" || chooseId == "15" || chooseId == "16"?
+                    Container(width: 1,)
+                        :
                     Container(
                       width: 335,
                       margin: EdgeInsets.only(top: 10),
@@ -294,6 +318,9 @@ class _QListAddPageState extends State<QListAddPage> {
                     ),
 
                     // 重要性标注
+                    chooseId == "13" || chooseId == "15" || chooseId == "16"?
+                    Container(width: 1,)
+                        :
                     Padding(
                       padding: EdgeInsets.fromLTRB(20, 25, 20, 20),
                       child: Row(
@@ -329,6 +356,9 @@ class _QListAddPageState extends State<QListAddPage> {
                         ],
                       ),
                     ),
+                    chooseId == "13" || chooseId == "15" || chooseId == "16"?
+                    Container(width: 1,)
+                        :
                     Padding(
                       padding: EdgeInsets.only(left: 20),
                       child: Row(
@@ -427,6 +457,9 @@ class _QListAddPageState extends State<QListAddPage> {
                         ],
                       ),
                     ),
+                    chooseId == "13" || chooseId == "15" || chooseId == "16"?
+                    Container(width: 1,)
+                        :
                     Padding(
                         padding: EdgeInsets.only(left: 20,top: 15),
                         child: Row(
@@ -442,6 +475,9 @@ class _QListAddPageState extends State<QListAddPage> {
 
                     ),
                     // 时间
+                    chooseId == "13"?
+                    Container(width: 1,)
+                        :
                     Padding(
                       padding: EdgeInsets.fromLTRB(20, 25, 20, 5),
                       child: Row(
@@ -455,7 +491,8 @@ class _QListAddPageState extends State<QListAddPage> {
                               borderRadius: BorderRadius.circular(10),
                             ),
                             child: Text(
-                              '3',
+                              chooseId =="15" || chooseId=="16" ?
+                              '2':'3',
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 14,
@@ -477,20 +514,31 @@ class _QListAddPageState extends State<QListAddPage> {
                         ],
                       ),
                     ),
+                    chooseId == "13"?
+                    Container(width: 1,)
+                        :
                     Padding(
                         padding: EdgeInsets.only(left: 20,bottom: 5),
                         child: Row(
                           children: <Widget>[
-                            Text('明日可填写的时间段有11:00-12:00，18:30-20:00',style: TextStyle(
-                              fontSize: 10,
-                              color: Color(0xFF999999),
-                              fontWeight: FontWeight.normal,
-                              decoration: TextDecoration.none,
+                            Text(
+                              widget.date == 1?
+                              '今日可填写的时间段有11:00-12:00，18:30-20:00'
+                                  :
+                              '明日可填写的时间段有11:00-12:00，18:30-20:00',
+                              style: TextStyle(
+                                fontSize: 10,
+                                color: Color(0xFF999999),
+                                fontWeight: FontWeight.normal,
+                                decoration: TextDecoration.none,
                             )),
                           ],
                         )
 
                     ),
+                    chooseId == "13"?
+                    Container(width: 1,)
+                        :
                     Padding(
                         padding: EdgeInsets.only(left: 20,bottom: 20),
                         child: Row(
@@ -506,6 +554,9 @@ class _QListAddPageState extends State<QListAddPage> {
 
                     ),
                     // 开始时间
+                    chooseId == "13"?
+                    Container(width: 1,)
+                        :
                     Container(
                         padding: EdgeInsets.only(left: 20),
                         child: Stack(
@@ -554,6 +605,9 @@ class _QListAddPageState extends State<QListAddPage> {
 
                     ),
                     // 结束时间
+                    chooseId == "13"?
+                    Container(width: 1,)
+                        :
                     Container(
                         padding: EdgeInsets.only(left: 20,top: 10),
                         child: Stack(
@@ -601,6 +655,9 @@ class _QListAddPageState extends State<QListAddPage> {
                         )
                     ),
                     // 任务描述
+                    chooseId == "13"?
+                    Container(width: 1,)
+                        :
                     Padding(
                       padding: EdgeInsets.fromLTRB(20, 25, 20, 20),
                       child: Row(
@@ -614,7 +671,8 @@ class _QListAddPageState extends State<QListAddPage> {
                               borderRadius: BorderRadius.circular(10),
                             ),
                             child: Text(
-                              '4',
+                              chooseId =="15" || chooseId=="16" ?
+                              '3':'4',
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 14,
@@ -637,6 +695,9 @@ class _QListAddPageState extends State<QListAddPage> {
                       ),
                     ),
                     // 地址
+                    chooseId == "13"?
+                    Container(width: 1,)
+                        :
                     Container(
                       width: 335,
                       height: 32,
@@ -725,33 +786,136 @@ class _QListAddPageState extends State<QListAddPage> {
                     // 完成
                     GestureDetector(
                       onTap: ()async{
-                      await UserSelectMissionDao.selectMission(
-                          userData.companyId,
-                          userData.userPid,
-                          chooseId, // adminTaskId,
-                          userData.userLevel.substring(0,1),
-                          startTime.toIso8601String(),
-                          endTime.toIso8601String(),
-                          _starIndex.toString(),
-                          itemCount.toString(),
-                          '北京市', // address,
-                          remarkController.text,
-                      );
+                        if(chooseId == "15" || chooseId == "16"){
+                          var result1516 = await UserSelectMissionDao.selectMission(
+                            userData.companyId,
+                            userData.userPid,
+                            chooseId, // adminTaskId,
+                            userData.userLevel.substring(0,1),
+                            startTime.toIso8601String(),
+                            endTime.toIso8601String(),
+                            _starIndex.toString(),
+                            itemCount.toString(),
+                            '', // address,
+                            remarkController.text,
+                          );
+                          if(result1516.code == 200){
+                            if(userData.userLevel.substring(0,1)=="6"){
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=>QListPage()));
+                            }
+                            if(userData.userLevel.substring(0,1)=="4"||userData.userLevel.substring(0,1)=="5"){
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=>ManagerQListPage()));
+                            }
+                          }
+                        }
+                        if(chooseId == "13"){
+                          var result13 = await UserSelectMissionDao.selectMission(
+                            userData.companyId,
+                            userData.userPid,
+                            chooseId, // adminTaskId,
+                            userData.userLevel.substring(0,1),
+                            startTime.toIso8601String().substring(0,11)+'00:00:00.000000',
+                            endTime.toIso8601String().substring(0,11)+'23:59:59.000000',
+                            _starIndex.toString(),
+                            itemCount.toString(),
+                            '', // address,
+                            remarkController.text,
+                          );
+                          if(result13.code == 200){
+                            if(userData.userLevel.substring(0,1)=="6"){
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=>QListPage()));
+                            }
+                            if(userData.userLevel.substring(0,1)=="4"||userData.userLevel.substring(0,1)=="5"){
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=>ManagerQListPage()));
+                            }
+                          }
+                        }
+                        if(chooseId == "12" && isRemark == true && remarkController.text != ''){
+                          var result12 = await UserSelectMissionDao.selectMission(
+                            userData.companyId,
+                            userData.userPid,
+                            chooseId, // adminTaskId,
+                            userData.userLevel.substring(0,1),
+                            startTime.toIso8601String(),
+                            endTime.toIso8601String(),
+                            _starIndex.toString(),
+                            itemCount.toString(),
+                            '', // address,
+                            remarkController.text,
+                          );
+                          if(result12.code == 200){
+                            if(userData.userLevel.substring(0,1)=="6"){
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=>QListPage()));
+                            }
+                            if(userData.userLevel.substring(0,1)=="4"||userData.userLevel.substring(0,1)=="5"){
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=>ManagerQListPage()));
+                            }
+                          }
+                        }
+                        if(chooseId != "-1" && chooseId != "12" && chooseId != "13" &&chooseId != "15" &&chooseId != "16" &&_starIndex != 0){
+                          var resultOther = await UserSelectMissionDao.selectMission(
+                            userData.companyId,
+                            userData.userPid,
+                            chooseId, // adminTaskId,
+                            userData.userLevel.substring(0,1),
+                            startTime.toIso8601String(),
+                            endTime.toIso8601String(),
+                            _starIndex.toString(),
+                            itemCount.toString(),
+                            '', // address,
+                            remarkController.text,
+                          );
+                          if(resultOther.code == 200){
+                            if(userData.userLevel.substring(0,1)=="6"){
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=>QListPage()));
+                            }
+                            if(userData.userLevel.substring(0,1)=="4"||userData.userLevel.substring(0,1)=="5"){
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=>ManagerQListPage()));
+                            }
+                          }
+                        }else{}
                       },
                       child: Container(
                         width: 200,
                         height: 32,
                         padding: EdgeInsets.all(3),
                         margin: EdgeInsets.fromLTRB(0, 40, 0, 50),
-                        decoration: BoxDecoration(
-                          border: Border.all(width: 1,color: Color(0xFF93C0FB)),
+                        decoration: chooseId == "13" || chooseId == "15" || chooseId == "16" ?
+                        BoxDecoration(
+                            border: Border.all(width: 1, color: Color(0xFF0E7AE6)),
+                            borderRadius: BorderRadius.circular(5),
+                            color: Color(0xFF0E7AE6)
+                        )
+                        :chooseId == "12" && isRemark == true && remarkController.text != ''?
+                        BoxDecoration(
+                            border: Border.all(width: 1, color: Color(0xFF0E7AE6)),
+                            borderRadius: BorderRadius.circular(5),
+                            color: Color(0xFF0E7AE6)
+                        )
+                        :chooseId != "-1" && chooseId != "12" && chooseId != "13" &&chooseId != "15" &&chooseId != "16" &&_starIndex != 0 ?
+                        BoxDecoration(
+                          border: Border.all(width: 1, color: Color(0xFF0E7AE6)),
                           borderRadius: BorderRadius.circular(5),
+                          color: Color(0xFF0E7AE6)
+                        )
+                        :
+                        BoxDecoration(
+                          border: Border.all(width: 1, color: Color(0xFF93C0FB)),
+                          borderRadius: BorderRadius.circular(5),
+                          color: Colors.white
                         ),
-                        child: Text('完成',style: TextStyle(
-                          fontSize: 16,
-                          color: Color(0xFF93C0FB),
-                          fontWeight: FontWeight.normal,
-                          decoration: TextDecoration.none,
+                        child: Text(
+                          '完成',
+                          style: TextStyle(
+                            fontSize: 16,
+                            color:chooseId == "13" || chooseId == "15" || chooseId == "16" ?
+                            Colors.white
+                                :chooseId == "12" && isRemark == true && remarkController.text != ''?
+                            Colors.white
+                                :chooseId != "-1" && chooseId != "12" && chooseId != "13" &&chooseId != "15" &&chooseId != "16" &&_starIndex != 0 ?
+                            Colors.white: Color(0xFF93C0FB),
+                            fontWeight: FontWeight.normal,
+                            decoration: TextDecoration.none,
                         ),textAlign: TextAlign.center,),
                       ),
                     ),
@@ -783,9 +947,11 @@ class _QListAddPageState extends State<QListAddPage> {
       itemHeight: 40,
       isForce2Digits: true,
       onTimeChange: (time) {
-        print(time);
         setState(() {
-          startTime=time;
+          widget.date == 1 ?
+          startTime=time
+          :
+          startTime=time.add(Duration(days: 1));
         });
       },
     );
@@ -811,9 +977,11 @@ class _QListAddPageState extends State<QListAddPage> {
       itemHeight: 40,
       isForce2Digits: true,
       onTimeChange: (time) {
-        print(time);
         setState(() {
-          endTime=time;
+          widget.date == 1 ?
+          endTime=time
+              :
+          endTime=time.add(Duration(days: 1));
         });
       },
     );
@@ -838,9 +1006,6 @@ class _QListAddPageState extends State<QListAddPage> {
           ),
           onPressed: () {
             Navigator.pop(context);
-            setState(() {
-              _loading = false;
-            });
           },
           color: Color(0xFF5580EB),
         )
