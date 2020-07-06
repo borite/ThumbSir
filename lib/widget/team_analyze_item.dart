@@ -1,4 +1,4 @@
-import 'package:ThumbSir/pages/broker/qlist/analyze_detail_page.dart';
+import 'package:ThumbSir/pages/manager/qlist/analyze_detail_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';

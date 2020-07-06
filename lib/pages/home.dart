@@ -4,6 +4,7 @@ import 'package:ThumbSir/model/login_result_data_model.dart';
 import 'package:ThumbSir/pages/broker/qlist/qlist_page.dart';
 import 'package:ThumbSir/pages/major/qlist/major_qlist_page.dart';
 import 'package:ThumbSir/pages/manager/qlist/manager_qlist_page.dart';
+import 'package:ThumbSir/pages/manager/qlist/s_qlist_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ThumbSir/pages/mycenter/my_center_page.dart';
@@ -247,8 +248,11 @@ class QlistBtn extends AnimatedWidget{
               if(result.userLevel.substring(0,1)=="6"){
                 Navigator.push(context, MaterialPageRoute(builder: (context)=>QListPage()));
               }
-              if(result.userLevel.substring(0,1)=="4"||result.userLevel.substring(0,1)=="5"){
+              if(result.userLevel.substring(0,1)=="5"){
                 Navigator.push(context, MaterialPageRoute(builder: (context)=>ManagerQListPage()));
+              }
+              if(result.userLevel.substring(0,1)=="4"){
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>SQListPage()));
               }
               if(result.userLevel.substring(0,1)=="1"||result.userLevel.substring(0,1)=="2"||result.userLevel.substring(0,1)=="3"){
                 Navigator.push(context, MaterialPageRoute(builder: (context)=>MajorQListPage()));

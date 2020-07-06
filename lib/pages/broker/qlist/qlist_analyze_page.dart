@@ -16,8 +16,6 @@ class QListAnalyzePage extends StatefulWidget {
 }
 
 class _QListAnalyzePageState extends State<QListAnalyzePage> with SingleTickerProviderStateMixin{
-
-//  DateTime selectedDate = DateTime.now().toIso8601String();
   List<DateTime> selectedDates = List();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -83,7 +81,7 @@ class _QListAnalyzePageState extends State<QListAnalyzePage> with SingleTickerPr
     super.initState();
   }
 
-  // 下级成员列表
+  // 分析列表
   Widget analyzeItem(){
     Widget content;
     if(listResult != null){

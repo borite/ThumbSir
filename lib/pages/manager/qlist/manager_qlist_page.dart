@@ -1,4 +1,5 @@
 import 'package:ThumbSir/pages/broker/qlist/qlist_choose_add_page.dart';
+import 'package:ThumbSir/pages/manager/qlist/group_analyze_page.dart';
 import 'package:ThumbSir/pages/manager/qlist/team_analyze_page.dart';
 import 'package:ThumbSir/pages/manager/qlist/team_list_page.dart';
 import 'package:flutter/material.dart';
@@ -66,7 +67,7 @@ class _ManagerQListPageState extends State<ManagerQListPage> with SingleTickerPr
         : _currentIndex == 1? QListAnalyzePage()
         :_currentIndex == 2? QListChooseAddPage()
         :_currentIndex == 3? TeamListPage()
-        :TeamAnalyzePage()
+        :GroupAnalyzePage()
       );
   }
 }

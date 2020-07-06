@@ -9,7 +9,7 @@ import 'package:ThumbSir/utils/common_vars.dart';
 const String apiPerfix=CommonVars.apiPrefix;
 
 class GetNextLiangHuaDao {
-  static Future<GetNextLevelList> httpGetNextLevelList(
+  static Future<GetNextLevelList> httpGetNextLiangHua(
       String leaderID,
       String companyID,
       String leaderSection,

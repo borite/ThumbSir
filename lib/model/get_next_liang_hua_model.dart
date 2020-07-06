@@ -35,19 +35,23 @@ class GetNextLiangHua {
 class Data {
   Data({
     this.zonghe,
+    this.currentLevel,
     this.list,
   });
 
   Zonghe zonghe;
+  String currentLevel;
   List<ListElement> list;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
     zonghe: json["zonghe"] == null ? null : Zonghe.fromJson(json["zonghe"]),
+    currentLevel: json["currentLevel"] == null ? null : json["currentLevel"],
     list: json["list"] == null ? null : List<ListElement>.from(json["list"].map((x) => ListElement.fromJson(x))),
   );
 
   Map<String, dynamic> toJson() => {
     "zonghe": zonghe == null ? null : zonghe.toJson(),
+    "currentLevel": currentLevel == null ? null : currentLevel,
     "list": list == null ? null : List<dynamic>.from(list.map((x) => x.toJson())),
   };
 }
@@ -68,7 +72,7 @@ class ListElement {
   String nextLeaderId;
 
   factory ListElement.fromJson(Map<String, dynamic> json) => ListElement(
-  teamName: json["teamName"] == null ? null : json["teamName"],
+    teamName: json["teamName"] == null ? null : json["teamName"],
     planCount: json["planCount"] == null ? null : json["planCount"],
     finishCount: json["finishCount"] == null ? null : json["finishCount"],
     finishRate: json["finishRate"] == null ? null : json["finishRate"],
