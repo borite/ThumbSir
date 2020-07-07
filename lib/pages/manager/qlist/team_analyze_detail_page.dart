@@ -1,3 +1,4 @@
+import 'package:ThumbSir/dao/get_section_data_dao.dart';
 import 'package:ThumbSir/widget/team_analyze_item.dart';
 import 'package:flutter/material.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
@@ -7,6 +8,9 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:jiffy/jiffy.dart';
 
 class TeamAnalyzeDetailPage extends StatefulWidget {
+  final section;
+  final companyId;
+  TeamAnalyzeDetailPage({this.section,this.companyId});
   @override
   _TeamAnalyzeDetailPageState createState() => _TeamAnalyzeDetailPageState();
 }
@@ -18,11 +22,71 @@ class _TeamAnalyzeDetailPageState extends State<TeamAnalyzeDetailPage> with Sing
   List<DateTime> selectedDates = List();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
+  bool _loading = false;
+  var sumResult;
+  var listResult;
+  var startTime = DateTime.now();
+  var showEndTime = DateTime.now();
+  var endTime = DateTime.now();
+
+  List<Widget> showList = [];
+
+  _load()async{
+    var getDataResult = await GetSectionDataDao.httpGetSectionData(
+      widget.section,
+      widget.companyId,
+      startTime.toIso8601String().substring(0,11)+'00:00:00.000000',
+      endTime.toIso8601String().substring(0,11)+'23:59:59.000000',
+    );
+    if(getDataResult != null){
+      if(getDataResult.code == 200){
+        setState(() {
+          _loading =false;
+          sumResult = getDataResult.data.zonghe;
+          listResult = getDataResult.data.list;
+        });
+      }
+    }else{
+      setState(() {
+        _loading = false;
+      });
+    }
+  }
+
   @override
   void initState() {
+    _load();
     initializeDateFormatting();
     Intl.systemLocale = 'zh_Cn'; // to change the calendar format based on localization
     super.initState();
+  }
+
+  // 分析列表
+  Widget analyzeItem(){
+    Widget content;
+    if(listResult != null){
+      for(var item in listResult) {
+        showList.add(
+          TeamAnalyzeItem(
+            name: item.taskName,
+            sum:item.planCount.toString(),
+            finish: item.finishCount.toString(),
+            percent: item.finishRate*100,
+            timePersent :double.parse((item.timeProportion*100).toStringAsFixed(2)),
+            unit: item.taskUnit,
+            taskId:item.defaultTaskId.toString(),
+            section:widget.section,
+            companyId:widget.companyId,
+            startTime:startTime.toIso8601String().substring(0,11)+'00:00:00.000000',
+            endTime:endTime.toIso8601String().substring(0,11)+'23:59:59.000000',
+          ),
+        );
+      };
+    }
+    content =Column(
+      children:showList,
+    );
+    return content;
   }
 
 
@@ -43,46 +107,7 @@ class _TeamAnalyzeDetailPageState extends State<TeamAnalyzeDetailPage> with Sing
                         decoration: BoxDecoration(color: Colors.white),
                         child: Padding(
                           padding: EdgeInsets.only(top:240,bottom:25),
-                          child:Column(
-                            children: <Widget>[
-                              // 每一条量化
-                              TeamAnalyzeItem(
-                                name: "带看",
-                                sum:"3",
-                                finish: "2",
-                                percent: 80,
-                                timePersent :20,
-                              ),
-                              TeamAnalyzeItem(
-                                name: "打电话",
-                                sum:"3",
-                                finish: "2",
-                                percent: 100,
-                                timePersent :20,
-                              ),
-                              TeamAnalyzeItem(
-                                name: "实勘",
-                                sum:"3",
-                                finish: "2",
-                                percent: 100,
-                                timePersent :20,
-                              ),
-                              TeamAnalyzeItem(
-                                name: "面访业主",
-                                sum:"3",
-                                finish: "2",
-                                percent: 50,
-                                timePersent :20,
-                              ),
-                              TeamAnalyzeItem(
-                                name: "过户",
-                                sum:"3",
-                                finish: "2",
-                                percent: 80,
-                                timePersent :20,
-                              ),
-                            ],
-                          ),
+                          child:analyzeItem(),
                         )
                     )
                   ],
@@ -122,33 +147,37 @@ class _TeamAnalyzeDetailPageState extends State<TeamAnalyzeDetailPage> with Sing
                   child: GestureDetector(
                     onTap: ()async{
                       showDialog(
-                        context: context,
-                        builder: (_) => SomeCalendar(
-                          mode: SomeMode.Range,
-                          scrollDirection: Axis.horizontal,
-                          startDate: Jiffy().subtract(years: 3),
-                          lastDate: Jiffy().add(months: 1),
-                          primaryColor: Color(0xff93C0FB),
-                          textColor: Color(0xFF93C0FB),
-                          isWithoutDialog: false,
-                          selectedDates: selectedDates,
-                          labels: Labels(
-                            dialogCancel: '取消',
-                            dialogDone: '确定',
-                          ),
-                          done: (date) {
-                            setState(() {
-                              selectedDates = date;
-//                              showSnackBar(selectedDates.toString());
-                            });
-                          },
-                        )
+                          context: context,
+                          builder: (_) => SomeCalendar(
+                            mode: SomeMode.Range,
+                            scrollDirection: Axis.horizontal,
+                            startDate: Jiffy().subtract(years: 3),
+                            lastDate: Jiffy().add(months: 1),
+                            primaryColor: Color(0xff93C0FB),
+                            textColor: Color(0xFF93C0FB),
+                            isWithoutDialog: false,
+                            selectedDates: selectedDates,
+                            labels: Labels(
+                              dialogCancel: '取消',
+                              dialogDone: '确定',
+                            ),
+                            done: (date) {
+                              setState(() {
+                                selectedDates = date;
+                                startTime = date[0];
+                                showEndTime = date[date.length - 1];
+                                endTime = date[date.length-1];
+                                showList.clear();
+                                _load();
+                              });
+                            },
+                          )
                       );
                     },
                     child: Container(
                       width: 335,
                       height: 40,
-                      margin: EdgeInsets.only(top: 80),
+                      margin: EdgeInsets.only(top: 75),
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(12),
                           boxShadow: [BoxShadow(
@@ -169,7 +198,7 @@ class _TeamAnalyzeDetailPageState extends State<TeamAnalyzeDetailPage> with Sing
                                 child: Image(image: AssetImage('images/date.png')),
                               ),
                               Text(
-                                '2020-04-05至2020-05-05',
+                                startTime.toIso8601String().substring(0,10) +'至'+showEndTime.toIso8601String().substring(0,10),
                                 style: TextStyle(
                                   fontSize: 14,
                                   color: Color(0xFF0E7AE6),
@@ -177,24 +206,21 @@ class _TeamAnalyzeDetailPageState extends State<TeamAnalyzeDetailPage> with Sing
                               )
                             ],
                           ),
-                          GestureDetector(
-//                          onTap: () => _onDayPicker(context),
-                            child: Row(
-                              children: <Widget>[
-                                Text(
-                                  '日期',
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    color: Color(0xFF999999),
-                                  ),
+                          Row(
+                            children: <Widget>[
+                              Text(
+                                '日期',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Color(0xFF999999),
                                 ),
-                                Padding(
-                                  padding:EdgeInsets.only(left: 5,right: 8),
-                                  child: Image(image: AssetImage('images/next.png')),
-                                ),
-                              ],
-                            ),
-                          )
+                              ),
+                              Padding(
+                                padding:EdgeInsets.only(left: 5,right: 8),
+                                child: Image(image: AssetImage('images/next.png')),
+                              ),
+                            ],
+                          ),
                         ],
                       ),
                     ),
@@ -245,7 +271,7 @@ class _TeamAnalyzeDetailPageState extends State<TeamAnalyzeDetailPage> with Sing
                                   ),
                                   min: 0,
                                   max: 100,
-                                  initialValue: 80,
+                                  initialValue: sumResult != null ? sumResult.finishRate*100:0,
                                 ),
                               ),
                               Column(
@@ -270,7 +296,9 @@ class _TeamAnalyzeDetailPageState extends State<TeamAnalyzeDetailPage> with Sing
                                       child:Row(
                                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: <Widget>[
-                                          Text('计划：共6项',style: TextStyle(color: Color(0xFF666666),fontSize: 14),textAlign: TextAlign.left,),
+                                          Text(
+                                            sumResult != null ? '计划：共'+sumResult.planCount.toString()+'项':'计划：共0项',
+                                            style: TextStyle(color: Color(0xFF666666),fontSize: 14),textAlign: TextAlign.left,),
                                         ],
                                       )
                                   ),
@@ -280,7 +308,9 @@ class _TeamAnalyzeDetailPageState extends State<TeamAnalyzeDetailPage> with Sing
                                       child:Row(
                                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: <Widget>[
-                                          Text('已完成：4项',style: TextStyle(color: Color(0xFF666666),fontSize: 14),textAlign: TextAlign.left,),
+                                          Text(
+                                            sumResult != null ? '已完成：'+sumResult.finishCount.toString()+'项':'已完成：4项',
+                                            style: TextStyle(color: Color(0xFF666666),fontSize: 14),textAlign: TextAlign.left,),
                                         ],
                                       )
                                   ),
@@ -319,11 +349,13 @@ class _TeamAnalyzeDetailPageState extends State<TeamAnalyzeDetailPage> with Sing
                         ),
                         Padding(
                           padding: EdgeInsets.only(left: 10),
-                          child: Text('长河湾北门店团队分析',style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.white,
-                            fontWeight: FontWeight.normal,
-                            decoration: TextDecoration.none,
+                          child: Text(
+                            widget.section+'团队分析',
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.white,
+                              fontWeight: FontWeight.normal,
+                              decoration: TextDecoration.none,
                           ),),
                         )
                       ],
@@ -336,11 +368,6 @@ class _TeamAnalyzeDetailPageState extends State<TeamAnalyzeDetailPage> with Sing
       ),
     );
   }
-//  void showSnackBar(String x) {
-//    _scaffoldKey.currentState.showSnackBar(SnackBar(
-//      content: Text(x),
-//    ));
-//  }
 }
 
 // 导航区域下曲线

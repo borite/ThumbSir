@@ -293,7 +293,10 @@ class _GroupAnalyzePageState extends State<GroupAnalyzePage> {
                   // 头像
                   GestureDetector(
                     onTap: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=>TeamAnalyzeDetailPage()));
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=>TeamAnalyzeDetailPage(
+                        section: userData.section,
+                        companyId: userData.companyId,
+                      )));
                     },
                     child: Row(
                       children: <Widget>[
@@ -359,7 +362,7 @@ class _GroupAnalyzePageState extends State<GroupAnalyzePage> {
                                   child: Text(
                                     leaderResult != null?
                                     '今日总任务量：'+ leaderResult.planningCount.toString() +' , 已完成：'+leaderResult.finishCount.toString()
-                                        :'数据统计中……',
+                                        :'今日无计划',
                                     style: TextStyle(
                                       fontSize: 10,
                                       color: Color(0xFF24CC8E),

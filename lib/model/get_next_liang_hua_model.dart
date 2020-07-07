@@ -62,21 +62,21 @@ class ListElement {
     this.planCount,
     this.finishCount,
     this.finishRate,
-    this.nextLeaderId,
+    this.nextLeader,
   });
 
   String teamName;
   int planCount;
   int finishCount;
-  int finishRate;
-  String nextLeaderId;
+  double finishRate;
+  NextLeader nextLeader;
 
   factory ListElement.fromJson(Map<String, dynamic> json) => ListElement(
     teamName: json["teamName"] == null ? null : json["teamName"],
     planCount: json["planCount"] == null ? null : json["planCount"],
     finishCount: json["finishCount"] == null ? null : json["finishCount"],
-    finishRate: json["finishRate"] == null ? null : json["finishRate"],
-    nextLeaderId: json["nextLeaderID"] == null ? null : json["nextLeaderID"],
+    finishRate: json["finishRate"] == null ? null : json["finishRate"].toDouble(),
+    nextLeader: json["nextLeader"] == null ? null : NextLeader.fromJson(json["nextLeader"]),
   );
 
   Map<String, dynamic> toJson() => {
@@ -84,7 +84,27 @@ class ListElement {
     "planCount": planCount == null ? null : planCount,
     "finishCount": finishCount == null ? null : finishCount,
     "finishRate": finishRate == null ? null : finishRate,
-    "nextLeaderID": nextLeaderId == null ? null : nextLeaderId,
+    "nextLeader": nextLeader == null ? null : nextLeader.toJson(),
+  };
+}
+
+class NextLeader {
+  NextLeader({
+    this.userPid,
+    this.userName,
+  });
+
+  String userPid;
+  String userName;
+
+  factory NextLeader.fromJson(Map<String, dynamic> json) => NextLeader(
+    userPid: json["UserPID"] == null ? null : json["UserPID"],
+    userName: json["UserName"] == null ? null : json["UserName"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "UserPID": userPid == null ? null : userPid,
+    "UserName": userName == null ? null : userName,
   };
 }
 
@@ -97,17 +117,17 @@ class Zonghe {
 
   int planCount;
   int finishCount;
-  int finishRate;
+  double finishRate;
 
   factory Zonghe.fromJson(Map<String, dynamic> json) => Zonghe(
     planCount: json["planCount"] == null ? null : json["planCount"],
     finishCount: json["finishCount"] == null ? null : json["finishCount"],
-    finishRate: json["finishRate"] == null ? null : json["finishRate"],
+    finishRate: json["finishRate"] == null ? null : json["finishRate"].toDouble(),
   );
 
   Map<String, dynamic> toJson() => {
-    "planCount": planCount == null ? null : planCount,
-    "finishCount": finishCount == null ? null : finishCount,
+  "planCount": planCount == null ? null : planCount,
+  "finishCount": finishCount == null ? null : finishCount,
     "finishRate": finishRate == null ? null : finishRate,
   };
 }

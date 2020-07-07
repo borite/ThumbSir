@@ -9,7 +9,16 @@ class TeamAnalyzeItem extends StatefulWidget {
   final String finish;
   final double percent;
   final double timePersent;
-  const TeamAnalyzeItem({Key key,this.name,this.sum,this.finish,this.percent,this.timePersent});
+  final String unit;
+  final String taskId;
+  final String section;
+  final String companyId;
+  final startTime;
+  final endTime;
+  const TeamAnalyzeItem({Key key,
+    this.name,this.sum,this.finish,this.percent,this.timePersent,this.unit,
+    this.taskId,this.section,this.companyId,this.startTime,this.endTime
+  });
   @override
   _TeamAnalyzeItemState createState() => _TeamAnalyzeItemState();
 }
@@ -50,7 +59,13 @@ class _TeamAnalyzeItemState extends State<TeamAnalyzeItem> with SingleTickerProv
   Widget build(BuildContext context) {
     return GestureDetector(
         onTap:() async{
-          Navigator.push(context, MaterialPageRoute(builder: (context)=>AnalyzeDetailPage()));
+          Navigator.push(context, MaterialPageRoute(builder: (context)=>AnalyzeDetailPage(
+            section:widget.section,
+            companyId:widget.companyId,
+            taskId:widget.taskId.toString(),
+            startTime:widget.startTime.toString(),
+            endTime:widget.endTime.toString(),
+          )));
         },
         child: Container(
           width: 335,
@@ -139,9 +154,9 @@ class _TeamAnalyzeItemState extends State<TeamAnalyzeItem> with SingleTickerProv
                           width: 225,
                           child: Row(
                             children: <Widget>[
-                              Text('计划：共'+this.widget.sum+'套',style: TextStyle(fontSize: 12,color: Color(0xFF999999),),),
+                              Text('计划：共'+this.widget.sum+this.widget.unit,style: TextStyle(fontSize: 12,color: Color(0xFF999999),),),
                               Text('|',style: TextStyle(fontSize: 16,color: Color(0xFFCCCCCC),letterSpacing: 5),),
-                              Text('已完成 '+this.widget.finish+'套',style: TextStyle(fontSize: 12,color: Color(0xFF999999),),),
+                              Text('已完成 '+this.widget.finish+this.widget.unit,style: TextStyle(fontSize: 12,color: Color(0xFF999999),),),
                             ],
                           ),
                         )
@@ -182,9 +197,9 @@ class _TeamAnalyzeItemState extends State<TeamAnalyzeItem> with SingleTickerProv
                           width: 225,
                           child: Row(
                             children: <Widget>[
-                              Text('计划：共'+this.widget.sum+'套',style: TextStyle(fontSize: 12,color: Color(0xFFF24848),),),
+                              Text('计划：共'+this.widget.sum+this.widget.unit,style: TextStyle(fontSize: 12,color: Color(0xFFF24848),),),
                               Text('|',style: TextStyle(fontSize: 16,color: Color(0xFFCCCCCC),letterSpacing: 5),),
-                              Text('已完成 '+this.widget.finish+'套',style: TextStyle(fontSize: 12,color: Color(0xFFF24848),),),
+                              Text('已完成 '+this.widget.finish+this.widget.unit,style: TextStyle(fontSize: 12,color: Color(0xFFF24848),),),
                             ],
                           ),
                         )

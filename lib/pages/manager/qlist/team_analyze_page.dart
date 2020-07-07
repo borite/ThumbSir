@@ -137,7 +137,10 @@ class _TeamAnalyzePageState extends State<TeamAnalyzePage> {
                     ),
                     GestureDetector(
                       onTap: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>TeamAnalyzeDetailPage()));
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>TeamAnalyzeDetailPage(
+                            section:item.teamName,
+                            companyId:userData.companyId
+                        )));
                       },
                       child: Container(
                         margin: EdgeInsets.only(left: 20),
@@ -307,10 +310,13 @@ class _TeamAnalyzePageState extends State<TeamAnalyzePage> {
                               ],
                             )
                         ),
-                        // 头像
+                        // 本区数据
                         GestureDetector(
                           onTap: (){
-                            Navigator.push(context, MaterialPageRoute(builder: (context)=>TeamAnalyzeDetailPage()));
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=>TeamAnalyzeDetailPage(
+                              section:userData.section,
+                              companyId:userData.companyId
+                            )));
                           },
                           child: Row(
                             children: <Widget>[
@@ -367,8 +373,18 @@ class _TeamAnalyzePageState extends State<TeamAnalyzePage> {
                                     child: Container(
                                       height: 20,
                                       decoration: BoxDecoration(
-                                          border: Border.all(color: Color(0xFFFF9600),width: 1), // 商圈经理橘色
-//                                      border: Border.all(color: Color(0xFF9149EC),width: 1), // 总监紫色
+                                          border: userData != null ?
+                                          userData.userLevel.substring(0,1) == '1' ?
+                                          Border.all(color: Color(0xFF003273),width: 1) // 总经理深蓝色
+                                              :userData.userLevel.substring(0,1) == '2' ?
+                                          Border.all(color: Color(0xFF7412F2),width: 1) // 副总经理深紫色
+                                              :userData.userLevel.substring(0,1) == '3' ?
+                                          Border.all(color: Color(0xFF9149EC),width: 1) // 总监浅紫色
+                                              :userData.userLevel.substring(0,1) == '4' ?
+                                          Border.all(color: Color(0xFFFF9600),width: 1)// 商圈经理橘色
+                                              :
+                                          Border.all(color: Color(0xFF24CC8E),width: 1)
+                                              :Border.all(color: Colors.white,width: 1), // 店长绿色,
                                           color: Colors.white,
                                           borderRadius: BorderRadius.all(Radius.circular(5))
                                       ),
@@ -378,11 +394,20 @@ class _TeamAnalyzePageState extends State<TeamAnalyzePage> {
                                           leaderResult != null?
                                           '今日总任务量：'+ leaderResult.planCount.toString() +' , 已完成：'+leaderResult.finishCount.toString()
                                               :'数据统计中……',
-//                                      '总监',
                                           style: TextStyle(
                                             fontSize: 10,
-                                            color: Color(0xFFFF9600),  // 商圈经理橘色
-//                                        color: Color(0xFF9149EC), // 总监紫色
+                                            color: userData != null ?
+                                            userData.userLevel.substring(0,1) == '1' ?
+                                            Color(0xFF003273) // 总经理深蓝色
+                                                :userData.userLevel.substring(0,1) == '2' ?
+                                            Color(0xFF7412F2) // 副总经理深紫色
+                                                :userData.userLevel.substring(0,1) == '3' ?
+                                            Color(0xFF9149EC) // 总监浅紫色
+                                                :userData.userLevel.substring(0,1) == '4' ?
+                                            Color(0xFFFF9600)// 商圈经理橘色
+                                                :
+                                            Color(0xFF24CC8E)// 店长绿色,
+                                                :Colors.white, // 未加载白色
                                             fontWeight: FontWeight.normal,
                                             decoration: TextDecoration.none,
                                           ),
@@ -417,7 +442,7 @@ class _TeamAnalyzePageState extends State<TeamAnalyzePage> {
                                 ),
                               ),
                               Text(
-                                '提醒该成员添加下级成员吧！',
+                                '去个人中心——区域成员添加下级成员吧！',
                                 style: TextStyle(
                                   fontSize: 16,
                                   color: Color(0xFF999999),

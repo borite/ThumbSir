@@ -57,25 +57,29 @@ class ListElement {
     this.userPid,
     this.userName,
     this.headImg,
+    this.userLevel,
     this.missionData,
   });
 
   String userPid;
   String userName;
-  dynamic headImg;
+  String headImg;
+  String userLevel;
   Zonghe missionData;
 
   factory ListElement.fromJson(Map<String, dynamic> json) => ListElement(
   userPid: json["UserPID"] == null ? null : json["UserPID"],
-  userName: json["UserName"] == null ? null : json["UserName"],
-    headImg: json["HeadImg"],
+    userName: json["UserName"] == null ? null : json["UserName"],
+    headImg: json["HeadImg"] == null ? null : json["HeadImg"],
+    userLevel: json["UserLevel"] == null ? null : json["UserLevel"],
     missionData: json["missionData"] == null ? null : Zonghe.fromJson(json["missionData"]),
   );
 
   Map<String, dynamic> toJson() => {
     "UserPID": userPid == null ? null : userPid,
     "UserName": userName == null ? null : userName,
-    "HeadImg": headImg,
+    "HeadImg": headImg == null ? null : headImg,
+    "UserLevel": userLevel == null ? null : userLevel,
     "missionData": missionData == null ? null : missionData.toJson(),
   };
 }
@@ -94,7 +98,7 @@ class Zonghe {
   factory Zonghe.fromJson(Map<String, dynamic> json) => Zonghe(
     planningCount: json["PlanningCount"] == null ? null : json["PlanningCount"],
     finishCount: json["FinishCount"] == null ? null : json["FinishCount"],
-    finishRate: json["finishRate"] == null ? null : json["finishRate"],
+    finishRate: json["finishRate"] == null ? null : json["finishRate"].toDouble(),
   );
 
   Map<String, dynamic> toJson() => {

@@ -123,7 +123,7 @@ class _TeamAnalyzeGroupDetailPageState extends State<TeamAnalyzeGroupDetailPage>
                             border: Border.all(color: Color(0xFF93C0FB),width: 1)
                         ),
                         child:ClipRRect(
-                            borderRadius: BorderRadius.circular(40),
+                            borderRadius: BorderRadius.circular(30),
                             child:Image(
                               image: item.headImg != null ?
                               NetworkImage(item.headImg)

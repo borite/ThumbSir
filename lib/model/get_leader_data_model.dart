@@ -66,7 +66,7 @@ class LeaderCount {
   factory LeaderCount.fromJson(Map<String, dynamic> json) => LeaderCount(
   planningCount: json["PlanningCount"] == null ? null : json["PlanningCount"],
   finishCount: json["FinishCount"] == null ? null : json["FinishCount"],
-    finishRate: json["finishRate"] == null ? null : json["finishRate"],
+    finishRate: json["finishRate"] == null ? null : json["finishRate"].toDouble(),
   );
 
   Map<String, dynamic> toJson() => {
@@ -81,21 +81,25 @@ class LeaderInfo {
     this.userName,
     this.userLevel,
     this.headImg,
+    this.userPid,
   });
 
   String userName;
   String userLevel;
-  dynamic headImg;
+  String headImg;
+  String userPid;
 
   factory LeaderInfo.fromJson(Map<String, dynamic> json) => LeaderInfo(
     userName: json["UserName"] == null ? null : json["UserName"],
     userLevel: json["UserLevel"] == null ? null : json["UserLevel"],
-    headImg: json["HeadImg"],
+    headImg: json["HeadImg"] == null ? null : json["HeadImg"],
+    userPid: json["UserPID"] == null ? null : json["UserPID"],
   );
 
   Map<String, dynamic> toJson() => {
     "UserName": userName == null ? null : userName,
     "UserLevel": userLevel == null ? null : userLevel,
-    "HeadImg": headImg,
+    "HeadImg": headImg == null ? null : headImg,
+    "UserPID": userPid == null ? null : userPid,
   };
 }

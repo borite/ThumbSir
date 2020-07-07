@@ -193,7 +193,7 @@ class _TeamMemberAnalyzeDetailPageState extends State<TeamMemberAnalyzeDetailPag
                       );
                     },
                     child: Container(
-                      width: 310,
+                      width: 335,
                       height: 40,
                       margin: EdgeInsets.only(top: 75),
                       decoration: BoxDecoration(

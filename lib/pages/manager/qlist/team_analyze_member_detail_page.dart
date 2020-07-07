@@ -1,10 +1,10 @@
 import 'dart:convert';
-
 import 'package:ThumbSir/dao/get_leader_data_dao.dart';
 import 'package:ThumbSir/dao/get_next_level_list_dao.dart';
 import 'package:ThumbSir/model/login_result_data_model.dart';
 import 'package:ThumbSir/pages/manager/qlist/team_analyze_detail_page.dart';
 import 'package:ThumbSir/pages/manager/qlist/team_analyze_group_detail_page.dart';
+import 'package:ThumbSir/pages/manager/qlist/team_member_analyze_detail_page.dart';
 import 'package:ThumbSir/widget/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -78,6 +78,7 @@ class _TeamAnalyzeMemberDetailPageState extends State<TeamAnalyzeMemberDetailPag
       }else{
         setState(() {
           hasMember = false;
+          _loading = false;
         });
       }
     }else{
@@ -149,7 +150,10 @@ class _TeamAnalyzeMemberDetailPageState extends State<TeamAnalyzeMemberDetailPag
                     ),
                     GestureDetector(
                       onTap: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>TeamAnalyzeDetailPage()));
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>TeamAnalyzeDetailPage(
+                            section:item.teamName,
+                            companyId:userData.companyId
+                        )));
                       },
                       child: Container(
                         margin: EdgeInsets.only(left: 20),
@@ -433,7 +437,10 @@ class _TeamAnalyzeMemberDetailPageState extends State<TeamAnalyzeMemberDetailPag
                                       currentLevelResult!= null && currentLevelResult.substring(0,1) == '4'?
                                       GestureDetector(
                                         onTap: (){
-                                          Navigator.push(context, MaterialPageRoute(builder: (context)=>TeamAnalyzeDetailPage()));
+                                          Navigator.push(context, MaterialPageRoute(builder: (context)=>TeamMemberAnalyzeDetailPage(
+                                            name:widget.leaderName,
+                                            id:widget.leaderID,
+                                          )));
                                         },
                                         child: Padding(
                                           padding: EdgeInsets.only(right: 10),

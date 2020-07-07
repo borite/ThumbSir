@@ -3,7 +3,6 @@ import 'package:ThumbSir/dao/get_user_select_mission_dao.dart';
 import 'package:ThumbSir/model/get_user_select_mission_model.dart';
 import 'package:ThumbSir/model/login_result_data_model.dart';
 import 'package:ThumbSir/widget/qlist_check_item.dart';
-import 'package:ThumbSir/widget/qlist_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -197,6 +196,7 @@ class _QListTaskListSearchResultPageState extends State<QListTaskListSearchResul
                                       done: (date) {
                                         setState(() {
                                           selectedDate = date;
+                                          _load();
                                         });
                                       },
                                     ));

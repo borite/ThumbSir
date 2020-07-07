@@ -69,7 +69,7 @@ class ListElement {
 
   factory ListElement.fromJson(Map<String, dynamic> json) => ListElement(
     teamName: json["teamName"] == null ? null : json["teamName"],
-    teamRate: json["teamRate"] == null ? null : json["teamRate"],
+    teamRate: json["teamRate"] == null ? null : json["teamRate"].toDouble(),
     nextLeader: json["nextLeader"] == null ? null : NextLeader.fromJson(json["nextLeader"]),
   );
 
@@ -114,7 +114,7 @@ class Zonghe {
   factory Zonghe.fromJson(Map<String, dynamic> json) => Zonghe(
     planCount: json["planCount"] == null ? null : json["planCount"],
     finishCount: json["finishCount"] == null ? null : json["finishCount"],
-    finishRate: json["finishRate"] == null ? null : json["finishRate"],
+    finishRate: json["finishRate"] == null ? null : json["finishRate"].toDouble(),
   );
 
   Map<String, dynamic> toJson() => {
