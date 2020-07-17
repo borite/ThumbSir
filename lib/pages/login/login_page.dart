@@ -207,9 +207,17 @@ class _LoginPageState extends State<LoginPage> {
                                       ), (route) => route == null);
                                 } else if(result.code == 401){_on401AlertPressed(context);}
                                 else if(result.code == 412){_on412AlertPressed(context);}
-                                else if(result.code == 402){_on402AlertPressed(context);}
+                                else if(result.code == 402){
+                                  String dataStr=json.encode(result.data);
+                                  SharedPreferences prefs = await SharedPreferences.getInstance();
+                                  prefs.setString("userInfo", dataStr);
+                                  prefs.setString('userID', result.data.userPid);
+                                  _on402AlertPressed(context);
+                                }
                                 else{_on404AlertPressed(context);}
-                              }else{}
+                              }else{
+
+                              }
                             },
                             child: Container(
                                 width: 335,

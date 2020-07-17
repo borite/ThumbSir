@@ -38,16 +38,16 @@ class Data {
     this.list,
   });
 
-  List<int> minCount;
+  int minCount;
   List<ListElement> list;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-    minCount: json["minCount"] == null ? null : List<int>.from(json["minCount"].map((x) => x)),
+    minCount: json["minCount"] == null ? null : json["minCount"],
     list: json["list"] == null ? null : List<ListElement>.from(json["list"].map((x) => ListElement.fromJson(x))),
   );
 
   Map<String, dynamic> toJson() => {
-    "minCount": minCount == null ? null : List<dynamic>.from(minCount.map((x) => x)),
+    "minCount": minCount == null ? null : minCount,
     "list": list == null ? null : List<dynamic>.from(list.map((x) => x.toJson())),
   };
 }
@@ -65,14 +65,14 @@ class ListElement {
   int taskCount;
   String taskTitle;
   String taskUnit;
-  String taskContent;
+  dynamic taskContent;
 
   factory ListElement.fromJson(Map<String, dynamic> json) => ListElement(
     id: json["ID"] == null ? null : json["ID"],
     taskCount: json["TaskCount"] == null ? null : json["TaskCount"],
     taskTitle: json["TaskTitle"] == null ? null : json["TaskTitle"],
     taskUnit: json["TaskUnit"] == null ? null : json["TaskUnit"],
-    taskContent: json["TaskContent"] == null ? null : json["TaskContent"],
+    taskContent: json["TaskContent"],
   );
 
   Map<String, dynamic> toJson() => {
@@ -80,6 +80,6 @@ class ListElement {
     "TaskCount": taskCount == null ? null : taskCount,
     "TaskTitle": taskTitle == null ? null : taskTitle,
     "TaskUnit": taskUnit == null ? null : taskUnit,
-    "TaskContent": taskContent == null ? null : taskContent,
+    "TaskContent": taskContent,
   };
 }

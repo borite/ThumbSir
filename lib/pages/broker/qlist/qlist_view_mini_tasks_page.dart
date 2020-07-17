@@ -49,9 +49,8 @@ class _QListViewMiniTasksPageState extends State<QListViewMiniTasksPage> {
         setState(() {
           _loading =false;
           missionsResult = getMissionAResult.data;
-          print(missionsResult);
         });
-        if( getMissionAResult.data.length != 0){
+        if( getMissionAResult.data.list.length != 0){
           hasMission = true;
         }
       }else{
@@ -79,7 +78,7 @@ class _QListViewMiniTasksPageState extends State<QListViewMiniTasksPage> {
   Widget missionsItem(){
     Widget content;
     if(missionsResult != null){
-      for(var item in missionsResult) {
+      for(var item in missionsResult.list) {
         missions.add(
           Container(
             width: 335,
@@ -94,7 +93,7 @@ class _QListViewMiniTasksPageState extends State<QListViewMiniTasksPage> {
                 Padding(
                   padding: EdgeInsets.only(left: 10,right: 30),
                   child: Text(
-                    item.taskTittleA,
+                    item.taskTitle,
                     style: TextStyle(
                       color: Color(0xFF5580EB),
                       fontSize: 16,
@@ -105,7 +104,7 @@ class _QListViewMiniTasksPageState extends State<QListViewMiniTasksPage> {
                   ),
                 ),
                 Text(
-                  item.taskCountA.toString(),
+                  item.taskCount.toString(),
                   style: TextStyle(
                     color: Color(0xFF0E7AE6),
                     fontSize: 20,
@@ -190,7 +189,9 @@ class _QListViewMiniTasksPageState extends State<QListViewMiniTasksPage> {
                               child: Row(
                                 children: <Widget>[
                                   Text(
-                                    '完成以下任务中的任选 3 项',
+                                    missionsResult != null ?
+                                    '完成以下任务中的任选 '+missionsResult.minCount.toString()+' 项'
+                                    :'完成以下任务中的任选 0 项',
                                     style: TextStyle(
                                       color: Color(0xFF0E7AE6),
                                       fontSize: 20,

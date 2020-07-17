@@ -122,13 +122,61 @@ class _AboutUsPageState extends State<AboutUsPage> {
                               ),
                             ),
                             Container(
+//                              padding: EdgeInsets.only(bottom: 20),
+                              margin: EdgeInsets.only(bottom: 10),
+//                              decoration: BoxDecoration(
+//                                border: Border(bottom: BorderSide(color: Color(0xFFEBEBEB),width: 1))
+//                              ),
+                              child: Text(
+                                '拇指先生APP是一款为房地产经纪从业人员量身定做的工具类APP，目前开放了量化工具功能，后续会陆续上线客户维护功能、积分系统等功能。',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Color(0xFF666666),
+                                  fontWeight: FontWeight.normal,
+                                  decoration: TextDecoration.none,
+                                ),
+                              ),
+                            ),
+                            Container(
+//                              padding: EdgeInsets.only(bottom: 20),
+                              margin: EdgeInsets.only(bottom: 10),
+//                              decoration: BoxDecoration(
+//                                  border: Border(bottom: BorderSide(color: Color(0xFFEBEBEB),width: 1))
+//                              ),
+                              child: Text(
+                                '量化工具主要帮助经纪人、店长、商圈经理等职位的从业人员清晰规划一天的行程，其上级可以通过拇指先生实时追踪下级的量化进展，从结果考核转变为过程监控，从而提高管理效率。',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Color(0xFF666666),
+                                  fontWeight: FontWeight.normal,
+                                  decoration: TextDecoration.none,
+                                ),
+                              ),
+                            ),
+                            Container(
+//                              padding: EdgeInsets.only(bottom: 20),
+                              margin: EdgeInsets.only(bottom: 10),
+//                              decoration: BoxDecoration(
+//                                  border: Border(bottom: BorderSide(color: Color(0xFFEBEBEB),width: 1))
+//                              ),
+                              child: Text(
+                                '即将上线的客户维护系统致力于帮助从业人员深挖客户和业主的需求，并随时进行记录，提高客户维护效率；此外还有节日和生日提醒功能，帮助从业人员增加客户粘性，增加回头客。',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Color(0xFF666666),
+                                  fontWeight: FontWeight.normal,
+                                  decoration: TextDecoration.none,
+                                ),
+                              ),
+                            ),
+                            Container(
                               padding: EdgeInsets.only(bottom: 20),
                               margin: EdgeInsets.only(bottom: 10),
                               decoration: BoxDecoration(
-                                border: Border(bottom: BorderSide(color: Color(0xFFEBEBEB),width: 1))
+                                  border: Border(bottom: BorderSide(color: Color(0xFFEBEBEB),width: 1))
                               ),
                               child: Text(
-                                '拇指先生是一个致力于为房地产运营团队提供管理的APP。拇指先生是一个致力于为房地产运营团队提供管理的APP。拇指先生是一个致力于为房地产运营团队提供管理的APP。拇指先生是一个致力于为房地产运营团队提供管理的APP。拇指先生是一个致力于为房地产运营团队提供管理的APP。拇指先生是一个致力于为房地产运营团队提供管理的APP。',
+                                '如果您在使用过程中有任何的意见或者建议，请在个人中心的客服中心进行留言，如有必要，拇指先生客服会尽快与您联系，感谢您对拇指先生的支持，祝您使用愉快！',
                                 style: TextStyle(
                                   fontSize: 14,
                                   color: Color(0xFF666666),
@@ -163,52 +211,52 @@ class _AboutUsPageState extends State<AboutUsPage> {
                               ),
                             ),
                             // 隐私协议
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.push(context, MaterialPageRoute(
-                                    builder: (context) => PrivacyStatementPage()));
-                              },
-                              child: Container(
-                                height: 40,
-                                decoration: BoxDecoration(
-                                    border: Border(bottom: BorderSide(color: Color(0xFFEBEBEB),width: 1))
-                                ),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: <Widget>[
-                                    Text('隐私协议',style: TextStyle(
-                                      fontSize: 14,
-                                      color: Color(0xFF333333),
-                                      fontWeight: FontWeight.normal,
-                                      decoration: TextDecoration.none,
-                                    ),),
-                                    Image(image: AssetImage('images/next.png'),)
-                                  ],
-                                ),
-                              ),
-                            ),
-                            // 法律声明
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.push(context, MaterialPageRoute(
-                                    builder: (context) => LegalNoticePage()));
-                              },
-                              child: Container(
-                                height: 40,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: <Widget>[
-                                    Text('法律声明',style: TextStyle(
-                                      fontSize: 14,
-                                      color: Color(0xFF333333),
-                                      fontWeight: FontWeight.normal,
-                                      decoration: TextDecoration.none,
-                                    ),),
-                                    Image(image: AssetImage('images/next.png'),)
-                                  ],
-                                ),
-                              ),
-                            ),
+//                            GestureDetector(
+//                              onTap: () {
+//                                Navigator.push(context, MaterialPageRoute(
+//                                    builder: (context) => PrivacyStatementPage()));
+//                              },
+//                              child: Container(
+//                                height: 40,
+//                                decoration: BoxDecoration(
+//                                    border: Border(bottom: BorderSide(color: Color(0xFFEBEBEB),width: 1))
+//                                ),
+//                                child: Row(
+//                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                                  children: <Widget>[
+//                                    Text('隐私协议',style: TextStyle(
+//                                      fontSize: 14,
+//                                      color: Color(0xFF333333),
+//                                      fontWeight: FontWeight.normal,
+//                                      decoration: TextDecoration.none,
+//                                    ),),
+//                                    Image(image: AssetImage('images/next.png'),)
+//                                  ],
+//                                ),
+//                              ),
+//                            ),
+//                            // 法律声明
+//                            GestureDetector(
+//                              onTap: () {
+//                                Navigator.push(context, MaterialPageRoute(
+//                                    builder: (context) => LegalNoticePage()));
+//                              },
+//                              child: Container(
+//                                height: 40,
+//                                child: Row(
+//                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                                  children: <Widget>[
+//                                    Text('法律声明',style: TextStyle(
+//                                      fontSize: 14,
+//                                      color: Color(0xFF333333),
+//                                      fontWeight: FontWeight.normal,
+//                                      decoration: TextDecoration.none,
+//                                    ),),
+//                                    Image(image: AssetImage('images/next.png'),)
+//                                  ],
+//                                ),
+//                              ),
+//                            ),
                             Container(
                               padding: EdgeInsets.only(top: 40),
                               child: Text('拇指先生 版权所有',style: TextStyle(

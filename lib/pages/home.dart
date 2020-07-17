@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:ThumbSir/dao/get_message_dao.dart';
 import 'package:ThumbSir/model/login_result_data_model.dart';
+import 'package:ThumbSir/model/get_message_model.dart';
 import 'package:ThumbSir/pages/broker/qlist/qlist_page.dart';
 import 'package:ThumbSir/pages/major/qlist/major_qlist_page.dart';
 import 'package:ThumbSir/pages/manager/qlist/manager_qlist_page.dart';
@@ -8,9 +9,6 @@ import 'package:ThumbSir/pages/manager/qlist/s_qlist_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ThumbSir/pages/mycenter/my_center_page.dart';
-import 'package:ThumbSir/pages/broker/openclient/open_client_page.dart';
-import 'package:ThumbSir/pages/broker/openowner/open_owner_page.dart';
-import 'package:ThumbSir/pages/broker/traded/traded_page.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -20,129 +18,294 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> with SingleTickerProviderStateMixin{
-  var msgList;
+  int _dateTime = DateTime.now().millisecondsSinceEpoch; // 当前时间转时间戳
+  int exT;
+
+  List<Datum> msgList;
   List<Widget> msgShowList = [];
+  List<Widget> msgs=[];
+
+  LoginResultData userData;
+  String uinfo;
+  var result;
+
+  _getUserInfo() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    uinfo= prefs.getString("userInfo");
+    if(uinfo != null){
+      result =loginResultDataFromJson(uinfo);
+      this.setState(() {
+        userData=LoginResultData.fromJson(json.decode(uinfo));
+      });
+    }
+    if(userData == null || userData.companyId == null){
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.remove("userInfo");
+//      prefs.remove("userID");
+    }
+  }
 
   _load() async {
     var msgResult = await GetMessageDao.getMessage('1','1','1','5');
     if (msgResult.code == 200) {
+      msgList=msgResult.data;
+      if (msgList.length>0) {
+        for (var item in msgList) {
+          msgShowList.add(
+            _item('images/tie_big.png',
+                item.sendTime.toIso8601String().substring(0, 10),
+                item.msgTitle,
+                item.msgContent),
+          );
+        }
+      }
       setState(() {
-        msgList = msgResult.data;
+        msgs=msgShowList;
       });
     }
   }
 
-  Animation<double> animation;
-  AnimationController controller;
-
   @override
-  void initState() {
+  void initState(){
+    _getUserInfo();
     _load();
     super.initState();
-    controller = AnimationController(vsync:this,duration: Duration(seconds: 1));
-    animation = Tween<double>(begin: 200,end:20).animate(
-        CurvedAnimation(parent: controller,curve: Curves.easeInOut)
-    );
-    controller.forward();
   }
 
   @override
   void dispose(){
-    controller.dispose();
     super.dispose();
-  }
-  Widget msgItem() {
-    Widget content;
-    if (msgList != null) {
-      for (var item in msgList) {
-        msgShowList.add(
-          _item('images/tie_big.png',item.sendTime.toIso8601String().substring(0,10),item.msgTitle,item.msgContent),
-        );
-      }
-    }
-    content = PageView(
-      children: msgShowList,
-    );
-
-    return content;
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      // 背景
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [Color(0xFF003273),Color(0xFF0E7AE6)],
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-        ),
-        image: DecorationImage(
-          image:AssetImage('images/circle.png'),
-          fit: BoxFit.fitWidth,
-        ),
-      ),
-      child: ListView(
+    return Scaffold(
+      body: Stack(
         children: <Widget>[
-          Column(
-              children: <Widget>[
-                // 个人中心按钮
-                Padding(
-                    padding: EdgeInsets.only(left:300),
-                    child:RaisedButton(
-                      onPressed: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>MyCenterPage()));
-                      },
-                      color: Colors.transparent,
-                      elevation: 0,
-                      disabledElevation: 0,
-                      highlightColor: Colors.transparent,
-                      highlightElevation: 0,
-                      splashColor: Colors.transparent,
-                      disabledColor: Colors.transparent,
-                      child: ClipOval(
-                        child: Container(
-                            decoration: BoxDecoration(color: Colors.white),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.all(Radius.circular(10)),
-                              child:Image(
-                                width: 26,
-                                height:26,
-                                image: AssetImage('images/my.png'),
-                              ),
-                            )
-                        ),
+          Container(
+              margin: EdgeInsets.only(top: 460),
+              child: Column(
+                children: <Widget>[
+                  Row(
+                    children: <Widget>[
+                      Container(
+                        width: 20,
+                        height: 20,
+                        margin: EdgeInsets.only(right: 6,left: 40),
+                        child: Image(image: AssetImage('images/client.png'),),
                       ),
-                    )
-                ),
-
-                // 轮播图
-                Container(
-                    height: 100,
-                    width: 335,
-                    margin: EdgeInsets.only(bottom: 25),
-                    child:Container(
+                      Text('我的客户',style: TextStyle(
+                        fontSize: 20,
+                        color: Color(0xFF5580EB)
+                      ),),
+                    ],
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(top: 20),
+                    child: Text('暂未开放，敬请期待',style: TextStyle(
+                        fontSize: 16,
+                        color: Color(0xFF999999)
+                    ),),
+                  )
+                ],
+              )
+          ),
+          // 顶部导航区域
+          Positioned(
+            child: Column(
+                children: <Widget>[
+                  FractionallySizedBox(
+                    widthFactor: 1,
+                    child: ClipPath(
+                      clipper: BottomClipper(),
                       child:
-                      msgItem(),
-//                      PageView(
-//                        children: <Widget>[
-//                          // 每一条轮播
-//                          _item('images/tie_big.png','2020年3月24日','拇指先生正式上线啦！','邀请好友一起用起来吧~'),
-//                          _item('images/tie_big.png','2020年3月24日','客户维护相关功能暂未开放','敬请期待！'),
-//                        ],
-//                      ),
-                    )
-                ),
-
-                // 入口
-                QlistBtn(animation: animation,),
-                OpenClientBtn(animation: animation,),
-                OpenOwnerBtn(animation: animation,),
-                TradedBtn(animation: animation,),
-              ])
+                      //  背景
+                      Container(
+                          height: 460,
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [Color(0xFF0E7AE6),Color(0xFF93C0FB)],
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                            ),
+                            image: DecorationImage(
+                              image:AssetImage('images/circle_r.png'),
+                              fit: BoxFit.fitWidth,
+                            ),
+                          ),
+                          child:Column(
+                            children: <Widget>[
+                              // 顶部个人中心按钮
+                              Container(
+                                width: 335,
+                                margin: EdgeInsets.only(top: 70),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    Text(
+                                      userData == null ?
+                                      '你好！请登录':'你好！'+userData.userName,
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    // 头像按钮
+                                    GestureDetector(
+                                      onTap: () {
+                                          Navigator.push(context, MaterialPageRoute(builder: (context)=>MyCenterPage()));
+                                      },
+                                      child: Container(
+                                        margin: EdgeInsets.only(right: 20),
+                                        child: Column(
+                                          children: <Widget>[
+                                            Row(
+                                              children: <Widget>[
+                                                Container(
+                                                  width: 90,
+                                                  height: 90,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius: BorderRadius.all(Radius.circular(45)),
+                                                    color: Colors.white,
+                                                    boxShadow: [BoxShadow(
+                                                        color: Color(0x99333333),
+                                                        offset: Offset(0.0, 3.0),
+                                                        blurRadius: 10.0,
+                                                        spreadRadius: 2.0
+                                                    )],
+                                                  ),
+                                                  child:ClipRRect(
+                                                    borderRadius: BorderRadius.circular(45),
+                                                    child: userData == null?
+                                                    Image(image: AssetImage('images/my_big.png'),)
+                                                        :userData.headImg != null ?
+                                                    Image(image:NetworkImage(userData.headImg))
+                                                        :Image(image: AssetImage('images/my_big.png'),),
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              // 轮播图
+                              Container(
+                                  height: 100,
+                                  width: 335,
+                                  margin: EdgeInsets.only(bottom: 25,top: 10),
+                                  child:Container(
+                                    child:
+                                      PageView.builder(
+                                        itemBuilder: (BuildContext buildContext,int index)=>msgs[index],
+                                        itemCount: msgs.length,
+                                      )
+              //                      PageView(
+              //                        children: <Widget>[
+              //                          //每一条轮播
+              //                          _item('images/tie_big.png','2020年3月24日','拇指先生正式上线啦！','邀请好友一起用起来吧~'),
+              //                          _item('images/tie_big.png','2020年3月24日','客户维护相关功能暂未开放','敬请期待！'),
+              //                        ],
+              //                      ),
+                                  )
+                              ),
+                              // 入口
+                              Container(
+                                width: 335,
+                                margin: EdgeInsets.only(top: 10),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    // 量化
+                                    Container(
+                                      width: 160,
+                                      height: 80,
+                                      decoration: BoxDecoration(
+                                        boxShadow: [BoxShadow(
+                                            color: Color(0x50999999),
+                                            offset: Offset(0.0, 3.0),
+                                            blurRadius: 10.0,
+                                            spreadRadius: 2.0
+                                        )],
+                                      ),
+                                      child:GestureDetector(
+                                        onTap: () async {
+                                          if(uinfo!=null){
+                                            exT = result.exTokenTime.millisecondsSinceEpoch;
+                                            // token时间转时间戳
+                                            if(exT >= _dateTime){
+                                              if(result.userLevel.substring(0,1)=="6"){
+                                                Navigator.push(context, MaterialPageRoute(builder: (context)=>QListPage()));
+                                              }
+                                              if(result.userLevel.substring(0,1)=="5"){
+                                                Navigator.push(context, MaterialPageRoute(builder: (context)=>ManagerQListPage()));
+                                              }
+                                              if(result.userLevel.substring(0,1)=="4"){
+                                                Navigator.push(context, MaterialPageRoute(builder: (context)=>SQListPage()));
+                                              }
+                                              if(result.userLevel.substring(0,1)=="1"||result.userLevel.substring(0,1)=="2"||result.userLevel.substring(0,1)=="3"){
+                                                Navigator.push(context, MaterialPageRoute(builder: (context)=>MajorQListPage()));
+                                              }
+                                            }else{
+                                              _onLoginAlertPressed(context);
+                                            }
+                                          }else{
+                                            _onLoginAlertPressed(context);
+                                          }
+                                        },
+                                        child: ClipRRect(
+                                          borderRadius: BorderRadius.all(Radius.circular(12)),
+                                          child:Image(
+                                              width: 160,
+                                              height: 80,
+                                              image: AssetImage('images/list.png'),
+                                              fit:BoxFit.fitHeight
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    // 客户维护
+                                    Container(
+                                        width: 160,
+                                        height: 80,
+                                        decoration: BoxDecoration(
+                                          boxShadow: [BoxShadow(
+                                              color: Color(0x50999999),
+                                              offset: Offset(0.0, 3.0),
+                                              blurRadius: 10.0,
+                                              spreadRadius: 2.0
+                                          )],
+                                        ),
+                                        child:GestureDetector(
+                                            onTap: (){
+//                                          Navigator.push(context, MaterialPageRoute(builder: (context)=>OpenOwnerPage()));
+                                              _onCloseAlertPressed(context);
+                                            },
+                                            child: ClipRRect(
+                                              borderRadius: BorderRadius.all(Radius.circular(12)),
+                                              child:Image(
+                                                  image: AssetImage('images/traded.png'),
+                                                  fit:BoxFit.cover
+                                              ),
+                                            )
+                                        )
+                                    )
+                                  ],
+                                ),
+                              )
+                            ],
+                          )
+                      ),
+                    ),
+                  )
+                ]
+            ),
+          ),
         ],
-      )
-
+      ),
     );
   }
 
@@ -222,67 +385,6 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin{
       ],
     );
   }
-}
-
-class QlistBtn extends AnimatedWidget{
-  int _dateTime = DateTime.now().millisecondsSinceEpoch; // 当前时间转时间戳
-  int exT;
-  String uinfo;
-  var result;
-  QlistBtn({Key key,Animation<double> animation}):super(key:key,listenable: animation);
-  @override
-  Widget build(BuildContext context) {
-    final Animation<double> animation = listenable;
-    return Container(
-      margin: EdgeInsets.only(top: animation.value),
-      child:RaisedButton(
-        onPressed: () async {
-          //类比获取整个redux
-          SharedPreferences prefs = await SharedPreferences.getInstance();
-          uinfo= prefs.getString("userInfo");
-          if(uinfo!=null){
-            result=LoginResultData.fromJson(json.decode(uinfo));
-            exT = result.exTokenTime.millisecondsSinceEpoch;
-            // token时间转时间戳
-            if(exT >= _dateTime){
-              if(result.userLevel.substring(0,1)=="6"){
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>QListPage()));
-              }
-              if(result.userLevel.substring(0,1)=="5"){
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>ManagerQListPage()));
-              }
-              if(result.userLevel.substring(0,1)=="4"){
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>SQListPage()));
-              }
-              if(result.userLevel.substring(0,1)=="1"||result.userLevel.substring(0,1)=="2"||result.userLevel.substring(0,1)=="3"){
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>MajorQListPage()));
-              }
-            }else{
-              _onLoginAlertPressed(context);
-            }
-          }else{
-            _onLoginAlertPressed(context);
-          }
-        },
-        color: Colors.transparent,
-        elevation: 0,
-        disabledElevation: 0,
-        highlightColor: Colors.transparent,
-        highlightElevation: 0,
-        splashColor: Colors.transparent,
-        disabledColor: Colors.transparent,
-        child: ClipRRect(
-          borderRadius: BorderRadius.all(Radius.circular(12)),
-          child:Image(
-              width: 353,
-              height:110,
-              image: AssetImage('images/list.png'),
-              fit:BoxFit.cover
-          ),
-        ),
-      ),
-    );
-  }
   _onLoginAlertPressed(context) {
     Alert(
       context: context,
@@ -308,38 +410,6 @@ class QlistBtn extends AnimatedWidget{
       ],
     ).show();
   }
-}
-class OpenClientBtn extends AnimatedWidget{
-  OpenClientBtn({Key key,Animation<double> animation}):super(key:key,listenable: animation);
-  @override
-  Widget build(BuildContext context) {
-    final Animation<double> animation = listenable;
-    return Container(
-        margin: EdgeInsets.only(top: animation.value),
-        child:RaisedButton(
-            onPressed: (){
-              _onCloseAlertPressed(context);
-//              Navigator.push(context, MaterialPageRoute(builder: (context)=>OpenClientPage()));
-            },
-            color: Colors.transparent,
-            elevation: 0,
-            disabledElevation: 0,
-            highlightColor: Colors.transparent,
-            highlightElevation: 0,
-            splashColor: Colors.transparent,
-            disabledColor: Colors.transparent,
-            child: ClipRRect(
-              borderRadius: BorderRadius.all(Radius.circular(12)),
-              child:Image(
-                  width: 353,
-                  height:110,
-                  image: AssetImage('images/openclient.png'),
-                  fit:BoxFit.cover
-              ),
-            )
-        )
-    );
-  }
   _onCloseAlertPressed(context) {
     Alert(
       context: context,
@@ -362,108 +432,29 @@ class OpenClientBtn extends AnimatedWidget{
   }
 }
 
-class OpenOwnerBtn extends AnimatedWidget{
-  OpenOwnerBtn({Key key,Animation<double> animation}):super(key:key,listenable: animation);
-  @override
-  Widget build(BuildContext context) {
-    final Animation<double> animation = listenable;
-    return Container(
-        margin: EdgeInsets.only(top: animation.value),
-        child:RaisedButton(
-            onPressed: (){
-              _onCloseAlertPressed(context);
-//              Navigator.push(context, MaterialPageRoute(builder: (context)=>OpenOwnerPage()));
-            },
-            color: Colors.transparent,
-            elevation: 0,
-            disabledElevation: 0,
-            highlightColor: Colors.transparent,
-            highlightElevation: 0,
-            splashColor: Colors.transparent,
-            disabledColor: Colors.transparent,
-            child: ClipRRect(
-              borderRadius: BorderRadius.all(Radius.circular(12)),
-              child:Image(
-                  width: 353,
-                  height:110,
-                  image: AssetImage('images/openowner.png'),
-                  fit:BoxFit.cover
-              ),
-            )
-        )
-    );
-  }
-  _onCloseAlertPressed(context) {
-    Alert(
-      context: context,
-      title: "暂未开放，敬请期待!",
-      content: Padding(
-        padding: EdgeInsets.only(top: 10),
-        child: Image(image: AssetImage('images/wait.png'),),
-      ),
-      buttons: [
-        DialogButton(
-          child: Text(
-            "知道啦",
-            style: TextStyle(color: Colors.white, fontSize: 20),
-          ),
-          onPressed: () => Navigator.pop(context),
-          color: Color(0xFF5580EB),
-        ),
-      ],
-    ).show();
-  }
-}
 
-class TradedBtn extends AnimatedWidget{
-  TradedBtn({Key key,Animation<double> animation}):super(key:key,listenable: animation);
+// 导航区域下曲线
+class BottomClipper extends CustomClipper<Path>{
   @override
-  Widget build(BuildContext context) {
-    final Animation<double> animation = listenable;
-    return Container(
-        margin: EdgeInsets.only(top: animation.value),
-        child:RaisedButton(
-            onPressed: (){
-//              Navigator.push(context, MaterialPageRoute(builder: (context)=>OpenOwnerPage()));
-              _onCloseAlertPressed(context);
-            },
-            color: Colors.transparent,
-            elevation: 0,
-            disabledElevation: 0,
-            highlightColor: Colors.transparent,
-            highlightElevation: 0,
-            splashColor: Colors.transparent,
-            disabledColor: Colors.transparent,
-            child: ClipRRect(
-              borderRadius: BorderRadius.all(Radius.circular(12)),
-              child:Image(
-                  width: 353,
-                  height:110,
-                  image: AssetImage('images/traded.png'),
-                  fit:BoxFit.cover
-              ),
-            )
-        )
+  Path getClip(Size size){
+    var path = Path();
+    path.lineTo(0, 0); //第1个点
+    path.lineTo(0, size.height-70.0); //第2个点
+    var firstControlPoint = Offset(size.width/2, size.height);
+    var firstEdnPoint = Offset(size.width, size.height-70.0);
+    path.quadraticBezierTo(
+        firstControlPoint.dx,
+        firstControlPoint.dy,
+        firstEdnPoint.dx,
+        firstEdnPoint.dy
     );
+    path.lineTo(size.width, size.height-50.0); //第3个点
+    path.lineTo(size.width, 0); //第4个点
+
+    return path;
   }
-  _onCloseAlertPressed(context) {
-    Alert(
-      context: context,
-      title: "暂未开放，敬请期待!",
-      content: Padding(
-        padding: EdgeInsets.only(top: 10),
-        child: Image(image: AssetImage('images/wait.png'),),
-      ),
-      buttons: [
-        DialogButton(
-          child: Text(
-            "知道啦",
-            style: TextStyle(color: Colors.white, fontSize: 20),
-          ),
-          onPressed: () => Navigator.pop(context),
-          color: Color(0xFF5580EB),
-        ),
-      ],
-    ).show();
+  @override
+  bool shouldReclip(CustomClipper<Path> oldClipper) {
+    return false;
   }
 }

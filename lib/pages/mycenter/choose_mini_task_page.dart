@@ -154,7 +154,7 @@ class _ChooseMiniTaskPageState extends State<ChooseMiniTaskPage> {
                               options:  ChipsChoiceOption.listFrom<String,Datum>(
                                 source: tasks,
                                 // 存储形式
-                                value:(index,item)=>'{"id":"'+item.id.toString()+'","TaskTitle":"'+item.taskName+'","TaskUnit":"'+item.taskUnit+'"}',
+                                value:(index,item)=>'{"ID":"'+item.id.toString()+'","TaskTitle":"'+item.taskName+'","TaskUnit":"'+item.taskUnit+'"}',
                                 // 展示形式
                                 label: (index,item)=>item.taskName
                             ),
@@ -164,8 +164,10 @@ class _ChooseMiniTaskPageState extends State<ChooseMiniTaskPage> {
                                 String ids="";
                                 val.forEach((element) {
                                   var item=selectItemFromJson(element);
-                                  ids+=item.id+",";
+                                  print(item);
+                                  ids+=item.id+',';
                                   selectTaskIDs = ids;
+                                  print(selectTaskIDs);
                                   if(state.value != null){
                                     setState(() {
                                       itemLength = state.value.length;

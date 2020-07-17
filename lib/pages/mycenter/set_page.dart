@@ -367,6 +367,7 @@ class _SetPageState extends State<SetPage> {
           onPressed: () async {
             SharedPreferences prefs = await SharedPreferences.getInstance();
             prefs.remove("userInfo");
+            prefs.remove("userID");
             Navigator.of(context).pushAndRemoveUntil(
                 new MaterialPageRoute(builder: (context) => new Home()
                 ), (route) => route == null

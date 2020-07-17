@@ -372,63 +372,63 @@ class _VipPageState extends State<VipPage> {
                     )
                   ),
                     // 协议
-                    Container(
-                      width: 335,
-                      height:60,
-                      margin: EdgeInsets.only(top: 20,bottom: 20),
-                      decoration: BoxDecoration(
-                        border: Border(bottom: BorderSide(color: Color(0xFFF2F2F2),width: 1))
-                      ),
-                      child: Row(
-                        children: <Widget>[
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.push(context, MaterialPageRoute(
-                                  builder: (context) => ServiceAgreementPage()));
-                            },
-                            child: Container(
-                              width: 167.4,
-                              decoration: BoxDecoration(
-                                  border: Border(right: BorderSide(color: Color(0xFFCCCCCC),width: 1))
-                              ),
-                              child: Row(
-                                children: <Widget>[
-                                  Padding(
-                                    padding: EdgeInsets.only(left: 25,right: 10),
-                                    child: Text('会员服务协议',style: TextStyle(
-                                        fontSize: 14,
-                                        color: Color(0xFF666666)
-                                    ),),
-                                  ),
-                                  Image(image: AssetImage('images/next.png'),)
-                                ],
-                              ),
-                            ),
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.push(context, MaterialPageRoute(
-                                  builder: (context) => PrivacyStatementPage()));
-                            },
-                            child: Container(
-                              width: 167.4,
-                              child: Row(
-                                children: <Widget>[
-                                  Padding(
-                                    padding: EdgeInsets.only(left: 35,right: 10),
-                                    child: Text('会员隐私协议',style: TextStyle(
-                                        fontSize: 14,
-                                        color: Color(0xFF666666)
-                                    ),),
-                                  ),
-                                  Image(image: AssetImage('images/next.png'),)
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+//                    Container(
+//                      width: 335,
+//                      height:60,
+//                      margin: EdgeInsets.only(top: 20,bottom: 20),
+//                      decoration: BoxDecoration(
+//                        border: Border(bottom: BorderSide(color: Color(0xFFF2F2F2),width: 1))
+//                      ),
+//                      child: Row(
+//                        children: <Widget>[
+//                          GestureDetector(
+//                            onTap: () {
+//                              Navigator.push(context, MaterialPageRoute(
+//                                  builder: (context) => ServiceAgreementPage()));
+//                            },
+//                            child: Container(
+//                              width: 167.4,
+//                              decoration: BoxDecoration(
+//                                  border: Border(right: BorderSide(color: Color(0xFFCCCCCC),width: 1))
+//                              ),
+//                              child: Row(
+//                                children: <Widget>[
+//                                  Padding(
+//                                    padding: EdgeInsets.only(left: 25,right: 10),
+//                                    child: Text('会员服务协议',style: TextStyle(
+//                                        fontSize: 14,
+//                                        color: Color(0xFF666666)
+//                                    ),),
+//                                  ),
+//                                  Image(image: AssetImage('images/next.png'),)
+//                                ],
+//                              ),
+//                            ),
+//                          ),
+//                          GestureDetector(
+//                            onTap: () {
+//                              Navigator.push(context, MaterialPageRoute(
+//                                  builder: (context) => PrivacyStatementPage()));
+//                            },
+//                            child: Container(
+//                              width: 167.4,
+//                              child: Row(
+//                                children: <Widget>[
+//                                  Padding(
+//                                    padding: EdgeInsets.only(left: 35,right: 10),
+//                                    child: Text('会员隐私协议',style: TextStyle(
+//                                        fontSize: 14,
+//                                        color: Color(0xFF666666)
+//                                    ),),
+//                                  ),
+//                                  Image(image: AssetImage('images/next.png'),)
+//                                ],
+//                              ),
+//                            ),
+//                          ),
+//                        ],
+//                      ),
+//                    ),
                     // 会员特权
                     GestureDetector(
                       onTap: () {
@@ -438,6 +438,7 @@ class _VipPageState extends State<VipPage> {
                       child: Container(
                         width: 335,
                         height:40,
+                        margin: EdgeInsets.only(top: 30),
                         decoration: BoxDecoration(
                             border: Border(bottom: BorderSide(color: Color(0xFFF2F2F2),width: 1))
                         ),

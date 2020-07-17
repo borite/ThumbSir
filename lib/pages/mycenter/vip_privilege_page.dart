@@ -57,7 +57,7 @@ class _VipPrivilegePageState extends State<VipPrivilegePage> {
                   // 内容
                   Container(
                     padding: EdgeInsets.fromLTRB(20, 30, 20, 0),
-                    child: Text('拇指先生MZXS2.01版本是拇指先生上线后的第一版，感谢您的支持！',style: TextStyle(
+                    child: Text('您目前使用的是拇指先生上线后的第一版，感谢您的支持！',style: TextStyle(
                       fontSize: 14,
                       color: Color(0xFF666666),
                       fontWeight: FontWeight.normal,
@@ -66,7 +66,7 @@ class _VipPrivilegePageState extends State<VipPrivilegePage> {
                   ),
                   Container(
                     padding: EdgeInsets.fromLTRB(20, 5, 20, 0),
-                    child: Text('本版本主要为量化功能，经纪人、组长、商圈经理可以添加、修改、删除、查看每日量化详情和分析。通过上传或拍摄照片，系统会自动判断完成情况。组长及以上职位还可以查看下级的量化详情和分析。',style: TextStyle(
+                    child: Text('推广期免费开放拇指先生的量化工具和即将上线的客户维护系统的所有功能。',style: TextStyle(
                       fontSize: 14,
                       color: Color(0xFF666666),
                       fontWeight: FontWeight.normal,
@@ -75,7 +75,7 @@ class _VipPrivilegePageState extends State<VipPrivilegePage> {
                   ),
                   Container(
                     padding: EdgeInsets.fromLTRB(20, 5, 20, 0),
-                    child: Text('为方便用户寻找上下级，注册后须先选择公司、职位、区域，如果所在公司不存在须先创建公司。',style: TextStyle(
+                    child: Text('如果您在使用过程中有任何的意见或者建议，请在个人中心的客服中心进行留言，拇指先生客服会尽快与您联系，感谢您对拇指先生的支持，祝您使用愉快！',style: TextStyle(
                       fontSize: 14,
                       color: Color(0xFF666666),
                       fontWeight: FontWeight.normal,

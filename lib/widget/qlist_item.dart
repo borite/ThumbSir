@@ -13,10 +13,22 @@ class QListItem extends StatefulWidget {
   final String remark;
   final String address;
   final String currentAddress;
+  final String taskId;
+  final String unit;
+  final String defaultId;
+  final startTime;
+  final endTime;
+  final int planCount;
+  final int date;
   int pageIndex;
   int tabIndex;
   final callBack;
-  QListItem({Key key,this.name,this.number,this.time,this.star,this.percent,this.remark,this.address,this.currentAddress,this.tabIndex,this.pageIndex,this.callBack}):super(key:key);
+  QListItem({Key key,
+    this.name,this.number,this.time,this.star,this.defaultId,this.planCount,this.date,
+    this.percent,this.remark,this.address,this.currentAddress,this.taskId,this.unit,
+    this.startTime,this.endTime,
+    this.tabIndex,this.pageIndex,this.callBack
+  }):super(key:key);
   @override
   _QListItemState createState() => _QListItemState();
 }
@@ -46,7 +58,6 @@ class _QListItemState extends State<QListItem> with SingleTickerProviderStateMix
               });
             })
     );
-
     controller.forward();
   }
 
@@ -440,7 +451,19 @@ class _QListItemState extends State<QListItem> with SingleTickerProviderStateMix
                           GestureDetector(
                             onTap: () {
                               Navigator.push(context, MaterialPageRoute(
-                                  builder: (context) => QListChangePage()));
+                                  builder: (context) => QListChangePage(
+                                    id: widget.taskId,
+                                    taskName: widget.name,
+                                    taskUnit: widget.unit,
+                                    defaultTaskID: widget.defaultId,
+                                    stars: widget.star,
+                                    planningCount: widget.planCount,
+                                    planningStartTime: widget.startTime,
+                                    planningEndTime: widget.endTime,
+                                    remark: widget.remark,
+                                    address: widget.address,
+                                    date: widget.date,
+                                  )));
                             },
                             child: Container(
                               width: 24,

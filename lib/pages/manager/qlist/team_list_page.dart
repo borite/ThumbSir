@@ -3,6 +3,7 @@ import 'package:ThumbSir/dao/get_next_liang_hua_dao.dart';
 import 'package:ThumbSir/model/login_result_data_model.dart';
 import 'package:ThumbSir/pages/manager/qlist/group_list_detail_page.dart';
 import 'package:ThumbSir/pages/manager/qlist/team_list_detail_page.dart';
+import 'package:ThumbSir/pages/mycenter/choose_mini_task_page.dart';
 import 'package:ThumbSir/pages/mycenter/my_center_page.dart';
 import 'package:ThumbSir/pages/tips/qlist_tips_page.dart';
 import 'package:flutter/material.dart';
@@ -425,6 +426,38 @@ class _TeamListPageState extends State<TeamListPage> {
                       )
                     ],
                   ),
+                  // 制定任务
+                  userData.userLevel.substring(0,1) == '3' || userData.userLevel.substring(0,1) == '4'?
+                  Container(
+                    width: 335,
+                    height: 50,
+                    margin: EdgeInsets.only(top: 30),
+                    padding: EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      border: Border.all(color: Color(0xFF5580EB),width: 1),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: GestureDetector(
+                      onTap: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>ChooseMiniTaskPage()));
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Text('为下级设置每日最低任务量',style:TextStyle(
+                            fontSize: 14,
+                            color: Color(0xFF5580EB),
+                            fontWeight: FontWeight.normal,
+                            decoration: TextDecoration.none,
+                          ),),
+                          Image(image: AssetImage('images/next.png'),)
+                        ],
+                      ),
+                    ),
+                  )
+                  :
+                  Container(width: 1,),
                   // 成员列表
                   Padding(
                     padding: EdgeInsets.only(top: 40,bottom: 40),

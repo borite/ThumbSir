@@ -124,7 +124,7 @@ class _ChangeNamePageState extends State<ChangeNamePage> {
                                 prefs.setString("userInfo", dataStr);
                                 Navigator.of(context).pop(dataStr);
                               }
-                            }else{}
+                            }else if(result.code == 430){_on430AlertPressed(context);}else{}
                           }else{}
                         },
                         child: Container(
@@ -195,6 +195,26 @@ class _ChangeNamePageState extends State<ChangeNamePage> {
                 new MaterialPageRoute(builder: (context) => new Home()
                 ), (route) => route == null
             );
+          },
+          color: Color(0xFF5580EB),
+        ),
+      ],
+    ).show();
+  }
+  _on430AlertPressed(context) {
+    Alert(
+      context: context,
+      type: AlertType.error,
+      title: "您的姓名已被使用",
+      desc: "建议为姓名加特殊标识，如张三001",
+      buttons: [
+        DialogButton(
+          child: Text(
+            "去修改",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () async {
+            Navigator.pop(context);
           },
           color: Color(0xFF5580EB),
         ),

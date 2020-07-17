@@ -5,6 +5,7 @@ import 'package:ThumbSir/dao/user_select_mission_dao.dart';
 import 'package:ThumbSir/model/choose_item_model.dart';
 import 'package:ThumbSir/pages/broker/qlist/qlist_page.dart';
 import 'package:ThumbSir/pages/manager/qlist/manager_qlist_page.dart';
+import 'package:ThumbSir/pages/manager/qlist/s_qlist_page.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:ThumbSir/model/get_default_task_model.dart';
 import 'package:ThumbSir/model/login_result_data_model.dart';
@@ -803,7 +804,10 @@ class _QListAddPageState extends State<QListAddPage> {
                             if(userData.userLevel.substring(0,1)=="6"){
                               Navigator.push(context, MaterialPageRoute(builder: (context)=>QListPage()));
                             }
-                            if(userData.userLevel.substring(0,1)=="4"||userData.userLevel.substring(0,1)=="5"){
+                            if(userData.userLevel.substring(0,1)=="4"){
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=>SQListPage()));
+                            }
+                            if(userData.userLevel.substring(0,1)=="5"){
                               Navigator.push(context, MaterialPageRoute(builder: (context)=>ManagerQListPage()));
                             }
                           }
@@ -825,7 +829,10 @@ class _QListAddPageState extends State<QListAddPage> {
                             if(userData.userLevel.substring(0,1)=="6"){
                               Navigator.push(context, MaterialPageRoute(builder: (context)=>QListPage()));
                             }
-                            if(userData.userLevel.substring(0,1)=="4"||userData.userLevel.substring(0,1)=="5"){
+                            if(userData.userLevel.substring(0,1)=="4"){
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=>SQListPage()));
+                            }
+                            if(userData.userLevel.substring(0,1)=="5"){
                               Navigator.push(context, MaterialPageRoute(builder: (context)=>ManagerQListPage()));
                             }
                           }
@@ -847,7 +854,10 @@ class _QListAddPageState extends State<QListAddPage> {
                             if(userData.userLevel.substring(0,1)=="6"){
                               Navigator.push(context, MaterialPageRoute(builder: (context)=>QListPage()));
                             }
-                            if(userData.userLevel.substring(0,1)=="4"||userData.userLevel.substring(0,1)=="5"){
+                            if(userData.userLevel.substring(0,1)=="4"){
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=>SQListPage()));
+                            }
+                            if(userData.userLevel.substring(0,1)=="5"){
                               Navigator.push(context, MaterialPageRoute(builder: (context)=>ManagerQListPage()));
                             }
                           }
@@ -869,7 +879,10 @@ class _QListAddPageState extends State<QListAddPage> {
                             if(userData.userLevel.substring(0,1)=="6"){
                               Navigator.push(context, MaterialPageRoute(builder: (context)=>QListPage()));
                             }
-                            if(userData.userLevel.substring(0,1)=="4"||userData.userLevel.substring(0,1)=="5"){
+                            if(userData.userLevel.substring(0,1)=="4"){
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=>SQListPage()));
+                            }
+                            if(userData.userLevel.substring(0,1)=="5"){
                               Navigator.push(context, MaterialPageRoute(builder: (context)=>ManagerQListPage()));
                             }
                           }

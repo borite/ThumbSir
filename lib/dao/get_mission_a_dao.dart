@@ -8,7 +8,7 @@ const String apiPerfix=CommonVars.apiPrefix;
 
 class GetMissionADao {
   static Future<GetMissionA> getMissionA(String userId, String leaderId,String userLevel,String companyId,) async {
-    final response = await http.get(apiPerfix+'api/mission/GetMissionS?UserID='+userId+'LeaderID='+leaderId+'UserLevel='+userLevel+'&CompanyID='+companyId);
+    final response = await http.get(apiPerfix+'api/mission/GetMissionA?UserID='+userId+'&LeaderID='+leaderId+'&UserLevel='+userLevel+'&CompanyID='+companyId);
     //Utf8Decoder utf8decoder = Utf8Decoder();  // 修复中文乱码
     //var result = json.decode(utf8decoder.convert(response.bodyBytes));
     if(response.statusCode == 200){

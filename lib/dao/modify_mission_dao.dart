@@ -21,7 +21,7 @@ class ModifyMissionDao {
       String address,
       String remark,
       ) async {
-    final response = await http.post(apiPerfix+'api/mission/UserSelectMission',body: {
+    final response = await http.post(apiPerfix+'api/mission/ModifyMission',body: {
       "OldMissionID":oldMissionId,
       "CompanyID": companyId,
       "userID": userId,

@@ -1,9 +1,11 @@
 import 'dart:convert';
 import 'package:ThumbSir/dao/get_mission_s_dao.dart';
 import 'package:ThumbSir/model/login_result_data_model.dart';
+import 'package:ThumbSir/pages/home.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:ThumbSir/dao/set_mission_mini_number.dart';
 
 class ChooseMiniTaskNumberPage extends StatefulWidget {
   @override
@@ -11,7 +13,6 @@ class ChooseMiniTaskNumberPage extends StatefulWidget {
 }
 
 class _ChooseMiniTaskNumberPageState extends State<ChooseMiniTaskNumberPage> {
-  int itemCount = 1;
   bool _loading = false;
   var taskListResult;
   List<Widget> taskList = [];
@@ -19,6 +20,7 @@ class _ChooseMiniTaskNumberPageState extends State<ChooseMiniTaskNumberPage> {
   LoginResultData userData;
   String uinfo;
   var result;
+  List taskListR;
 
 
   _getUserInfo() async {
@@ -38,6 +40,7 @@ class _ChooseMiniTaskNumberPageState extends State<ChooseMiniTaskNumberPage> {
       if (taskListResult.code == 200) {
         setState(() {
           _loading = false;
+          taskListR = taskListResult.data;
         });
       } else {
         _onLoadAlert(context);
@@ -54,8 +57,9 @@ class _ChooseMiniTaskNumberPageState extends State<ChooseMiniTaskNumberPage> {
   // 下级成员列表
   Widget taskListItem(){
     Widget content;
-    if( taskListResult.data != null){
-      for(var item in taskListResult.data) {
+    if(taskListR != null){
+      for(var item in taskListR) {
+
         taskList.add(
           Container(
             width: 335,
@@ -83,11 +87,11 @@ class _ChooseMiniTaskNumberPageState extends State<ChooseMiniTaskNumberPage> {
                       Text(
                         item.taskTitle != null ? item.taskTitle: '无',
                         style: TextStyle(
-                        color: Color(0xFF5580EB),
-                        fontSize: 16,
-                        fontWeight: FontWeight.normal,
-                        decoration: TextDecoration.none,
-                      ),),
+                          color: Color(0xFF5580EB),
+                          fontSize: 16,
+                          fontWeight: FontWeight.normal,
+                          decoration: TextDecoration.none,
+                        ),),
                     ],
                   ),
                   Row(
@@ -102,11 +106,12 @@ class _ChooseMiniTaskNumberPageState extends State<ChooseMiniTaskNumberPage> {
                         ),
                         child: GestureDetector(
                           onTap: (){
-                            if(itemCount >= 2){
                               setState(() {
-                                itemCount = itemCount - 1;
-                              });
-                            }else{}
+                                taskList=[];
+                                if(item.taskCount>1) {
+                                  item.taskCount -= 1;
+                                }
+                            });
                           },
                           child: Text('-',style: TextStyle(
                             color: Color(0xFF5580EB),
@@ -117,7 +122,7 @@ class _ChooseMiniTaskNumberPageState extends State<ChooseMiniTaskNumberPage> {
                         ),
                       ),
                       Text(
-                        item.taskCount,
+                        item.taskCount.toString(),
                         style: TextStyle(
                           color: Color(0xFF5580EB),
                           fontSize: 20,
@@ -135,8 +140,9 @@ class _ChooseMiniTaskNumberPageState extends State<ChooseMiniTaskNumberPage> {
                         child: GestureDetector(
                           onTap: (){
                             setState(() {
-                              itemCount = itemCount + 1;
-                              item.taskCount = itemCount.toString();
+                              taskList=[];
+                              //taskListR=null;
+                              item.taskCount +=1;
                             });
                           },
                           child: Text('+',style: TextStyle(
@@ -156,7 +162,7 @@ class _ChooseMiniTaskNumberPageState extends State<ChooseMiniTaskNumberPage> {
                             fontSize: 10,
                             fontWeight: FontWeight.normal,
                             decoration: TextDecoration.none,
-                        ),),
+                          ),),
                       ),
                     ],
                   )
@@ -166,6 +172,7 @@ class _ChooseMiniTaskNumberPageState extends State<ChooseMiniTaskNumberPage> {
       };
     }
 
+    print(taskListR);
     content =Column(
       children: taskList,
     );
@@ -247,7 +254,7 @@ class _ChooseMiniTaskNumberPageState extends State<ChooseMiniTaskNumberPage> {
                       )
                   ),
                   // 每一项
-                  taskList == [] ?
+                  taskListR != [] ?
                   taskListItem()
                   :
                   Padding(
@@ -277,8 +284,17 @@ class _ChooseMiniTaskNumberPageState extends State<ChooseMiniTaskNumberPage> {
                       child: Padding(
                           padding: EdgeInsets.only(top: 4),
                           child: GestureDetector(
-                            onTap: (){
-//                              Navigator.push(context, MaterialPageRoute(builder: (context)=>SigninChooseCompanyPage()));
+                            onTap: () async{
+                              print(userData);
+                              print(taskListR);
+                              List<MiniNumber> bb=new List<MiniNumber>();
+                              taskListR.forEach((element) {
+                                bb.add(new MiniNumber(taskId: element.id,missionCount: element.taskCount));
+                              });
+                              var setMiniTaskCount = await SetMissionMiniNumberDao.setMiniTaskCount(userData.userLevel.substring(0,1), bb);
+                              if(setMiniTaskCount.code==200){
+                                Navigator.push(context, MaterialPageRoute(builder: (context)=>Home()));
+                              }
                             },
                             child: Text('完成',style: TextStyle(
                               fontSize: 14,
