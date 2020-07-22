@@ -27,6 +27,7 @@ class _QListAnalyzePageState extends State<QListAnalyzePage> with SingleTickerPr
   var endTime = DateTime.now();
 
   List<Widget> showList = [];
+  List<Widget> msgs=[];
 
   LoginResultData userData;
   String uinfo;
@@ -59,11 +60,26 @@ class _QListAnalyzePageState extends State<QListAnalyzePage> with SingleTickerPr
     );
     if(getDataResult != null){
       if(getDataResult.code == 200){
-        setState(() {
           _loading =false;
           sumResult = getDataResult.data.zonghe;
           listResult = getDataResult.data.list;
-        });
+          if (listResult.length>0) {
+            for(var item in listResult) {
+              showList.add(
+                UserAnalyzeItem(
+                  name: item.taskName,
+                  sum:item.planCount.toString(),
+                  finish: item.finishCount.toString(),
+                  percent: item.finishRate*100,
+                  timePercent: double.parse((item.timeProportion*100).toStringAsFixed(2)),
+                  unit: item.taskUnit,
+                ),
+              );
+            };
+          }
+          setState(() {
+            msgs=showList;
+          });
       }
     }else{
       setState(() {
@@ -81,29 +97,6 @@ class _QListAnalyzePageState extends State<QListAnalyzePage> with SingleTickerPr
     super.initState();
   }
 
-  // 分析列表
-  Widget analyzeItem(){
-    Widget content;
-    if(listResult != null){
-      for(var item in listResult) {
-        showList.add(
-          UserAnalyzeItem(
-            name: item.taskName,
-            sum:item.planCount.toString(),
-            finish: item.finishCount.toString(),
-            percent: item.finishRate*100,
-            timePercent: double.parse((item.timeProportion*100).toStringAsFixed(2)),
-            unit: item.taskUnit,
-          ),
-        );
-      };
-    }
-    content =Column(
-      children:showList,
-    );
-    return content;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -117,8 +110,13 @@ class _QListAnalyzePageState extends State<QListAnalyzePage> with SingleTickerPr
                 Container(
                     decoration: BoxDecoration(color: Colors.white),
                     child: Padding(
-                      padding: EdgeInsets.only(top:250,bottom:25),
-                      child:analyzeItem()
+                      padding: EdgeInsets.only(top:250,bottom:40),
+                        child: msgs != [] ?
+                        Column(
+                          children: msgs,
+                        )
+                            :
+                            Container(width: 1,)
                     )
                 )
               ],

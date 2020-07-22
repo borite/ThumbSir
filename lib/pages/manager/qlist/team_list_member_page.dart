@@ -27,6 +27,7 @@ class _TeamListMemberPageState extends State<TeamListMemberPage> {
 
   List<Datum> missions = [];
   List<Widget> missionsMorningShowList = [];
+  List<Widget> msgs=[];
 
   _load() async {
     var missionList = await GetUserSelectMissionDao.getMissions(
@@ -35,9 +36,26 @@ class _TeamListMemberPageState extends State<TeamListMemberPage> {
       selectedDate.toIso8601String().substring(0,10),
     );
     if (missionList.code == 200) {
-      setState(() {
         missions = missionList.data;
-      });
+        if (missions.length>0) {
+          for (var item in missions) {
+            missionsMorningShowList.add(
+              QListCheckItem(
+                name: item.taskName,
+                number: item.defaultTaskId == 15 || item.defaultTaskId == 16 || item.defaultTaskId == 13? "":item.planningCount.toString()+item.taskUnit,
+                time: item.planningStartTime.toIso8601String().substring(11,16)+'~'+item.planningEndTime.toIso8601String().substring(11,16),
+                star: item.stars,
+                percent: item.finishRate,
+                remark: item.remark == null ? '暂无描述':item.remark,
+                address: item.address == null ? '暂未标注地点':item.address,
+                currentAddress: '北京市海淀区',
+              ),
+            );
+          }
+        }
+        setState(() {
+          msgs=missionsMorningShowList;
+        });
     } else {
       _onLoadAlert(context);
     }
@@ -48,31 +66,6 @@ class _TeamListMemberPageState extends State<TeamListMemberPage> {
     initializeDateFormatting();
     Intl.systemLocale = 'zh_Cn';
     super.initState();
-  }
-
-  Widget taskItem() {
-    Widget content;
-    if (missions != null) {
-      for (var item in missions) {
-        missionsMorningShowList.add(
-          QListCheckItem(
-            name: item.taskName,
-            number: item.defaultTaskId == 15 || item.defaultTaskId == 16 || item.defaultTaskId == 13? "":item.planningCount.toString()+item.taskUnit,
-            time: item.planningStartTime.toIso8601String().substring(11,16)+'~'+item.planningEndTime.toIso8601String().substring(11,16),
-            star: item.stars,
-            percent: item.finishRate,
-            remark: item.remark == null ? '暂无描述':item.remark,
-            address: item.address == null ? '暂未标注地点':item.address,
-            currentAddress: '北京市海淀区',
-          ),
-        );
-      }
-    }
-    content = Column(
-      children: missionsMorningShowList,
-    );
-
-    return content;
   }
 
   @override
@@ -177,6 +170,7 @@ class _TeamListMemberPageState extends State<TeamListMemberPage> {
                                       done: (date) {
                                         setState(() {
                                           selectedDate = date;
+                                          missionsMorningShowList = [];
                                           _load();
                                         });
                                       },
@@ -207,8 +201,10 @@ class _TeamListMemberPageState extends State<TeamListMemberPage> {
                     // 量化列表
                     Padding(
                       padding: EdgeInsets.only(top:30,bottom:25),
-                      child: missions.length != 0 ?
-                      taskItem()
+                      child: missions.length != 0  && msgs != [] ?
+                      Column(
+                      children: msgs,
+                    )
                           :
                       Container(
                           margin: EdgeInsets.only(top: 25),

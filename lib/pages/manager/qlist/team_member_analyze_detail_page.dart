@@ -30,6 +30,7 @@ class _TeamMemberAnalyzeDetailPageState extends State<TeamMemberAnalyzeDetailPag
   var endTime = DateTime.now();
 
   List<Widget> showList = [];
+  List<Widget> msgs=[];
 
   LoginResultData userData;
   String uinfo;
@@ -62,11 +63,26 @@ class _TeamMemberAnalyzeDetailPageState extends State<TeamMemberAnalyzeDetailPag
     );
     if(getDataResult != null){
       if(getDataResult.code == 200){
-        setState(() {
           _loading =false;
           sumResult = getDataResult.data.zonghe;
           listResult = getDataResult.data.list;
-        });
+          if (listResult.length>0) {
+            for(var item in listResult) {
+              showList.add(
+                UserAnalyzeItem(
+                  name: item.taskName,
+                  sum:item.planCount.toString(),
+                  finish: item.finishCount.toString(),
+                  percent: item.finishRate*100,
+                  timePercent: double.parse((item.timeProportion*100).toStringAsFixed(2)),
+                  unit: item.taskUnit,
+                ),
+              );
+            };
+          }
+          setState(() {
+            msgs=showList;
+          });
       }
     }else{
       setState(() {
@@ -83,29 +99,6 @@ class _TeamMemberAnalyzeDetailPageState extends State<TeamMemberAnalyzeDetailPag
     initializeDateFormatting();
     Intl.systemLocale = 'zh_Cn'; // to change the calendar format based on localization
     super.initState();
-  }
-
-  // 分析列表
-  Widget analyzeItem(){
-    Widget content;
-    if(listResult != null){
-      for(var item in listResult) {
-        showList.add(
-          UserAnalyzeItem(
-            name: item.taskName,
-            sum:item.planCount.toString(),
-            finish: item.finishCount.toString(),
-            percent: item.finishRate*100,
-            timePercent: double.parse((item.timeProportion*100).toStringAsFixed(2)),
-            unit: item.taskUnit,
-          ),
-        );
-      };
-    }
-    content =Column(
-      children:showList,
-    );
-    return content;
   }
 
   @override
@@ -125,7 +118,11 @@ class _TeamMemberAnalyzeDetailPageState extends State<TeamMemberAnalyzeDetailPag
                         decoration: BoxDecoration(color: Colors.white),
                         child: Padding(
                           padding: EdgeInsets.only(top:240,bottom:25),
-                          child:analyzeItem(),
+                            child: msgs != [] ?
+                            Column(
+                              children: msgs,
+                            )
+                                :Container(width: 1,)
                         )
                     )
                   ],

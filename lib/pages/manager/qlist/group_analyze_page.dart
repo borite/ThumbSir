@@ -22,6 +22,7 @@ class _GroupAnalyzePageState extends State<GroupAnalyzePage> {
   bool hasMember = false;
   var dateTime = DateTime.now().toIso8601String().substring(0,10);
   List<Widget> showList = [];
+  List<Widget> msgs=[];
 
   LoginResultData userData;
   String uinfo;
@@ -53,11 +54,95 @@ class _GroupAnalyzePageState extends State<GroupAnalyzePage> {
     );
     if(getMemberListResult != null){
       if(getMemberListResult.code == 200){
-        setState(() {
           _loading =false;
           leaderResult = getMemberListResult.data.zonghe;
           listResult = getMemberListResult.data.list;
-        });
+          if (listResult.length>0) {
+            for(var item in listResult) {
+              showList.add(
+                GestureDetector(
+                  onTap: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>TeamMemberAnalyzeDetailPage(
+                      name:item.userName,
+                      id:item.userPid,
+                    )));
+                  },
+                  child: Container(
+                    margin: EdgeInsets.fromLTRB(5, 0, 0, 20),
+                    width: 335,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Row(
+                          children: <Widget>[
+                            Container(
+                              width: 60,
+                              height: 60,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.all(Radius.circular(45)),
+                                  color: Colors.white,
+                                  border: Border.all(color: Color(0xFF93C0FB),width: 1)
+                              ),
+                              child:ClipRRect(
+                                  borderRadius: BorderRadius.circular(40),
+                                  child:Image(
+                                    image: item.headImg != null ?
+                                    NetworkImage(item.headImg)
+                                        :
+                                    AssetImage('images/my_big.png'),
+                                  )
+                              ),
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(left: 20),
+                              width: 150,
+                              child: Column(
+                                children: <Widget>[
+                                  Row(
+                                    children: <Widget>[
+                                      Text(
+                                        item.userName,
+                                        style:TextStyle(
+                                          fontSize: 14,
+                                          color: Color(0xFF333333),
+                                          fontWeight: FontWeight.normal,
+                                          decoration: TextDecoration.none,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Container(
+                                    width: 150,
+                                    padding: EdgeInsets.only(top: 8),
+                                    child: Text(item.missionData != null ?
+                                    '今日综合完成度：'+((item.missionData.finishRate)*100).toString()+'%':'今日无计划',
+                                      style:TextStyle(
+                                        fontSize: 12,
+                                        color: Color(0xFF999999),
+                                        fontWeight: FontWeight.normal,
+                                        decoration: TextDecoration.none,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(right: 10),
+                          child: Image(image: AssetImage('images/next.png'),),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              );
+            };
+          }
+          setState(() {
+            msgs=showList;
+          });
         if(listResult != []){
           setState(() {
             hasMember = true;
@@ -80,98 +165,6 @@ class _GroupAnalyzePageState extends State<GroupAnalyzePage> {
     _getUserInfo();
     _onRefresh();
     super.initState();
-  }
-
-  // 下级成员列表
-  Widget memberItem(){
-    Widget content;
-    if(listResult != null){
-      for(var item in listResult) {
-        showList.add(
-          GestureDetector(
-            onTap: (){
-              Navigator.push(context, MaterialPageRoute(builder: (context)=>TeamMemberAnalyzeDetailPage(
-                name:item.userName,
-                id:item.userPid,
-              )));
-            },
-            child: Container(
-              margin: EdgeInsets.fromLTRB(5, 0, 0, 20),
-              width: 335,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Row(
-                    children: <Widget>[
-                      Container(
-                        width: 60,
-                        height: 60,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(45)),
-                            color: Colors.white,
-                            border: Border.all(color: Color(0xFF93C0FB),width: 1)
-                        ),
-                        child:ClipRRect(
-                            borderRadius: BorderRadius.circular(40),
-                            child:Image(
-                              image: item.headImg != null ?
-                              NetworkImage(item.headImg)
-                                  :
-                              AssetImage('images/my_big.png'),
-                            )
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(left: 20),
-                        width: 150,
-                        child: Column(
-                          children: <Widget>[
-                            Row(
-                              children: <Widget>[
-                                Text(
-                                  item.userName,
-                                  style:TextStyle(
-                                    fontSize: 14,
-                                    color: Color(0xFF333333),
-                                    fontWeight: FontWeight.normal,
-                                    decoration: TextDecoration.none,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Container(
-                              width: 150,
-                              padding: EdgeInsets.only(top: 8),
-                              child: Text(item.missionData != null ?
-                              '今日综合完成度：'+((item.missionData.finishRate)*100).toString()+'%':'今日无计划',
-                                style:TextStyle(
-                                  fontSize: 12,
-                                  color: Color(0xFF999999),
-                                  fontWeight: FontWeight.normal,
-                                  decoration: TextDecoration.none,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(right: 10),
-                    child: Image(image: AssetImage('images/next.png'),),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        );
-      };
-    }
-    content =Column(
-      children:showList,
-    );
-    return content;
   }
 
   @override
@@ -382,8 +375,10 @@ class _GroupAnalyzePageState extends State<GroupAnalyzePage> {
                   // 成员列表
                   Padding(
                     padding: EdgeInsets.only(top: 40,bottom: 40),
-                    child: hasMember == true ?
-                    memberItem()
+                    child: hasMember == true && msgs != [] ?
+                    Column(
+                      children: msgs,
+                    )
                     :
                     Column(
                       children: <Widget>[

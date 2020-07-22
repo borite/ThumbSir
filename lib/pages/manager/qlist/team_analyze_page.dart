@@ -24,6 +24,7 @@ class _TeamAnalyzePageState extends State<TeamAnalyzePage> {
   bool hasMember = false;
   var dateTime = DateTime.now().toIso8601String().substring(0,10);
   List<Widget> showList = [];
+  List<Widget> msgs=[];
 
   LoginResultData userData;
   String uinfo;
@@ -56,13 +57,113 @@ class _TeamAnalyzePageState extends State<TeamAnalyzePage> {
     );
     if(getMemberListResult != null){
       if(getMemberListResult.code == 200){
-        setState(() {
           hasMember = true;
           _loading =false;
           leaderResult = getMemberListResult.data.zonghe;
           listResult = getMemberListResult.data.list;
           currentLevelResult = getMemberListResult.data.currentLevel.substring(0,1);
-        });
+          if (listResult.length>0) {
+            for(var item in listResult) {
+              showList.add(
+                Container(
+                  margin: EdgeInsets.only(bottom: 25),
+                  padding: EdgeInsets.only(right: 15),
+                  width: 335,
+                  height: 60,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    boxShadow: [BoxShadow(
+                        color: Color(0xFFcccccc),
+                        offset: Offset(0.0, 3.0),
+                        blurRadius: 10.0,
+                        spreadRadius: 2.0
+                    )],
+                    color: Colors.white,
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Row(
+                        children: <Widget>[
+                          Container(
+                            width: 60,
+                            height: 60,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.only(
+                                topRight: Radius.circular(30),
+                                bottomRight: Radius.circular(30),
+                                topLeft: Radius.circular(12),
+                                bottomLeft: Radius.circular(12),
+                              ),
+                              color: Color(0xFF93C0FB),
+                              border: Border.all(color: Color(0xFFCCCCCC),width: 1),
+                            ),
+                            child:Padding(
+                              padding: EdgeInsets.only(top:16),
+                              child: Text(
+                                ((item.teamRate)*100).toString()+'%',
+                                style:TextStyle(
+                                  fontSize: 20,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.normal,
+                                  decoration: TextDecoration.none,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: (){
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=>TeamAnalyzeDetailPage(
+                                  section:item.teamName,
+                                  companyId:userData.companyId
+                              )));
+                            },
+                            child: Container(
+                              margin: EdgeInsets.only(left: 20),
+                              width: 200,
+                              child: Text(
+                                item.teamName+' （ '+ item.nextLeader.userName +' ）',
+                                style:TextStyle(
+                                  fontSize: 14,
+                                  color: Color(0xFF666666),
+                                  fontWeight: FontWeight.normal,
+                                  decoration: TextDecoration.none,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      GestureDetector(
+                        onTap: (){
+                          if(currentLevelResult == '4'){
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=>TeamAnalyzeGroupDetailPage(
+                                leaderArea : item.teamName,
+                                leaderAreaRate : item.teamRate,
+                                leaderName : item.nextLeader.userName,
+                                leaderID : item.nextLeader.userPid
+                            )));
+                          }else{
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=>TeamAnalyzeMemberDetailPage(
+                                leaderArea : item.teamName,
+                                leaderAreaRate : item.teamRate,
+                                leaderName : item.nextLeader.userName,
+                                leaderID : item.nextLeader.userPid
+                            )));
+                          }
+                        },
+                        child: Image(image: AssetImage('images/next.png'),),
+                      )
+                    ],
+                  ),
+                ),
+              );
+            };
+          }
+          setState(() {
+            msgs=showList;
+          });
       }else{
         setState(() {
           hasMember = false;
@@ -80,114 +181,6 @@ class _TeamAnalyzePageState extends State<TeamAnalyzePage> {
     _getUserInfo();
     _onRefresh();
     super.initState();
-  }
-
-  // 下级成员列表
-  Widget teamItem(){
-    Widget content;
-    if(listResult != null){
-      for(var item in listResult) {
-        showList.add(
-          Container(
-            margin: EdgeInsets.only(bottom: 25),
-            padding: EdgeInsets.only(right: 15),
-            width: 335,
-            height: 60,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(12),
-              boxShadow: [BoxShadow(
-                  color: Color(0xFFcccccc),
-                  offset: Offset(0.0, 3.0),
-                  blurRadius: 10.0,
-                  spreadRadius: 2.0
-              )],
-              color: Colors.white,
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Row(
-                  children: <Widget>[
-                    Container(
-                      width: 60,
-                      height: 60,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.only(
-                          topRight: Radius.circular(30),
-                          bottomRight: Radius.circular(30),
-                          topLeft: Radius.circular(12),
-                          bottomLeft: Radius.circular(12),
-                        ),
-                        color: Color(0xFF93C0FB),
-                        border: Border.all(color: Color(0xFFCCCCCC),width: 1),
-                      ),
-                      child:Padding(
-                        padding: EdgeInsets.only(top:16),
-                        child: Text(
-                          ((item.teamRate)*100).toString()+'%',
-                          style:TextStyle(
-                            fontSize: 20,
-                            color: Colors.white,
-                            fontWeight: FontWeight.normal,
-                            decoration: TextDecoration.none,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>TeamAnalyzeDetailPage(
-                            section:item.teamName,
-                            companyId:userData.companyId
-                        )));
-                      },
-                      child: Container(
-                        margin: EdgeInsets.only(left: 20),
-                        width: 200,
-                        child: Text(
-                          item.teamName+' （ '+ item.nextLeader.userName +' ）',
-                          style:TextStyle(
-                            fontSize: 14,
-                            color: Color(0xFF666666),
-                            fontWeight: FontWeight.normal,
-                            decoration: TextDecoration.none,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                GestureDetector(
-                  onTap: (){
-                    if(currentLevelResult == '4'){
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=>TeamAnalyzeGroupDetailPage(
-                        leaderArea : item.teamName,
-                        leaderAreaRate : item.teamRate,
-                        leaderName : item.nextLeader.userName,
-                        leaderID : item.nextLeader.userPid
-                      )));
-                    }else{
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=>TeamAnalyzeMemberDetailPage(
-                          leaderArea : item.teamName,
-                          leaderAreaRate : item.teamRate,
-                          leaderName : item.nextLeader.userName,
-                          leaderID : item.nextLeader.userPid
-                      )));
-                    }
-                  },
-                  child: Image(image: AssetImage('images/next.png'),),
-                )
-              ],
-            ),
-          ),
-        );
-      };
-    }
-    content =Column(
-      children:showList,
-    );
-    return content;
   }
 
   @override
@@ -424,8 +417,10 @@ class _TeamAnalyzePageState extends State<TeamAnalyzePage> {
                         // 成员列表
                         Padding(
                           padding: EdgeInsets.only(top: 40,bottom: 40),
-                          child: hasMember == true ?
-                          teamItem()
+                          child: hasMember == true && msgs != [] ?
+                          Column(
+                            children: msgs,
+                          )
                               :
                           Column(
                             children: <Widget>[

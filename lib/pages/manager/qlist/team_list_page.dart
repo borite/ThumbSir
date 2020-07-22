@@ -23,6 +23,7 @@ class _TeamListPageState extends State<TeamListPage> {
   bool hasMember = false;
   var dateTime = DateTime.now().toIso8601String().substring(0,10);
   List<Widget> showList = [];
+  List<Widget> msgs=[];
 
   LoginResultData userData;
   String uinfo;
@@ -55,13 +56,127 @@ class _TeamListPageState extends State<TeamListPage> {
     );
     if(getMemberListResult != null){
       if(getMemberListResult.code == 200){
-        setState(() {
           hasMember = true;
           _loading =false;
           leaderResult = getMemberListResult.data.zonghe;
           listResult = getMemberListResult.data.list;
           currentLevelResult = getMemberListResult.data.currentLevel.substring(0,1);
-        });
+          if (listResult.length>0) {
+            for(var item in listResult) {
+              showList.add(
+                GestureDetector(
+                  onTap: (){
+                    if(currentLevelResult == '4'){
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=>GroupListDetailPage(
+                          leaderArea : item.teamName,
+                          leaderAreaRate : item.finishRate,
+                          leaderName : item.nextLeader.userName,
+                          leaderID : item.nextLeader.userPid
+                      )));
+                    }else{
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=>TeamListDetailPage(
+                          leaderArea : item.teamName,
+                          leaderAreaRate : item.finishRate,
+                          leaderName : item.nextLeader.userName,
+                          leaderID : item.nextLeader.userPid
+                      )));
+                    }
+                  },
+                  child: Container(
+                    margin: EdgeInsets.only(bottom: 25),
+                    padding: EdgeInsets.only(right: 15),
+                    width: 335,
+                    height: 60,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12),
+                      boxShadow: [BoxShadow(
+                          color: Color(0xFFcccccc),
+                          offset: Offset(0.0, 3.0),
+                          blurRadius: 10.0,
+                          spreadRadius: 2.0
+                      )],
+                      color: Colors.white,
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Row(
+                          children: <Widget>[
+                            Container(
+                              width: 60,
+                              height: 60,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.only(
+                                  topRight: Radius.circular(30),
+                                  bottomRight: Radius.circular(30),
+                                  topLeft: Radius.circular(12),
+                                  bottomLeft: Radius.circular(12),
+                                ),
+                                color: Color(0xFF93C0FB),
+                                border: Border.all(color: Color(0xFFCCCCCC),width: 1),
+                              ),
+                              child:Padding(
+                                padding: EdgeInsets.only(top:16),
+                                child: Text(
+                                  (listResult.indexOf(item)+1).toString(),
+                                  style:TextStyle(
+                                    fontSize: 20,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.normal,
+                                    decoration: TextDecoration.none,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(left: 20),
+                              width: 200,
+                              child: Column(
+                                children: <Widget>[
+                                  Container(
+                                    width: 200,
+                                    padding: EdgeInsets.only(top: 8,bottom: 5),
+                                    child: Text(
+                                      item.teamName+' （ '+ item.nextLeader.userName +' ）',
+                                      style:TextStyle(
+                                        fontSize: 14,
+                                        color: Color(0xFF666666),
+                                        fontWeight: FontWeight.normal,
+                                        decoration: TextDecoration.none,
+                                      ),
+                                      textAlign: TextAlign.left,
+                                    ),
+                                  ),
+                                  Container(
+                                    width: 200,
+                                    child: Text(
+                                      '今日计划：'+ item.planCount.toString() +'，已完成：'+item.finishCount.toString(),
+                                      style:TextStyle(
+                                        fontSize: 12,
+                                        color: Color(0xFF999999),
+                                        fontWeight: FontWeight.normal,
+                                        decoration: TextDecoration.none,
+                                      ),
+                                      textAlign: TextAlign.left,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                        Image(image: AssetImage('images/next.png'),),
+                      ],
+                    ),
+                  ),
+                ),
+              );
+            };
+          }
+          setState(() {
+            msgs=showList;
+          });
       }else{
         setState(() {
           hasMember = false;
@@ -79,128 +194,6 @@ class _TeamListPageState extends State<TeamListPage> {
     _getUserInfo();
     _onRefresh();
     super.initState();
-  }
-
-  // 下级成员列表
-  Widget teamItem(){
-    Widget content;
-    if(listResult != null){
-      for(var item in listResult) {
-        showList.add(
-          GestureDetector(
-            onTap: (){
-              if(currentLevelResult == '4'){
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>GroupListDetailPage(
-                    leaderArea : item.teamName,
-                    leaderAreaRate : item.finishRate,
-                    leaderName : item.nextLeader.userName,
-                    leaderID : item.nextLeader.userPid
-                )));
-              }else{
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>TeamListDetailPage(
-                    leaderArea : item.teamName,
-                    leaderAreaRate : item.finishRate,
-                    leaderName : item.nextLeader.userName,
-                    leaderID : item.nextLeader.userPid
-                )));
-              }
-            },
-            child: Container(
-              margin: EdgeInsets.only(bottom: 25),
-              padding: EdgeInsets.only(right: 15),
-              width: 335,
-              height: 60,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12),
-                boxShadow: [BoxShadow(
-                    color: Color(0xFFcccccc),
-                    offset: Offset(0.0, 3.0),
-                    blurRadius: 10.0,
-                    spreadRadius: 2.0
-                )],
-                color: Colors.white,
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Row(
-                    children: <Widget>[
-                      Container(
-                        width: 60,
-                        height: 60,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.only(
-                            topRight: Radius.circular(30),
-                            bottomRight: Radius.circular(30),
-                            topLeft: Radius.circular(12),
-                            bottomLeft: Radius.circular(12),
-                          ),
-                          color: Color(0xFF93C0FB),
-                          border: Border.all(color: Color(0xFFCCCCCC),width: 1),
-                        ),
-                        child:Padding(
-                          padding: EdgeInsets.only(top:16),
-                          child: Text(
-                            (listResult.indexOf(item)+1).toString(),
-                            style:TextStyle(
-                              fontSize: 20,
-                              color: Colors.white,
-                              fontWeight: FontWeight.normal,
-                              decoration: TextDecoration.none,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(left: 20),
-                        width: 200,
-                        child: Column(
-                          children: <Widget>[
-                            Container(
-                              width: 200,
-                              padding: EdgeInsets.only(top: 8,bottom: 5),
-                              child: Text(
-                                item.teamName+' （ '+ item.nextLeader.userName +' ）',
-                                style:TextStyle(
-                                  fontSize: 14,
-                                  color: Color(0xFF666666),
-                                  fontWeight: FontWeight.normal,
-                                  decoration: TextDecoration.none,
-                                ),
-                                textAlign: TextAlign.left,
-                              ),
-                            ),
-                            Container(
-                              width: 200,
-                              child: Text(
-                                '今日计划：'+ item.planCount.toString() +'，已完成：'+item.finishCount.toString(),
-                                style:TextStyle(
-                                  fontSize: 12,
-                                  color: Color(0xFF999999),
-                                  fontWeight: FontWeight.normal,
-                                  decoration: TextDecoration.none,
-                                ),
-                                textAlign: TextAlign.left,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                  Image(image: AssetImage('images/next.png'),),
-                ],
-              ),
-            ),
-          ),
-        );
-      };
-    }
-    content =Column(
-      children:showList,
-    );
-    return content;
   }
 
   @override
@@ -427,6 +420,7 @@ class _TeamListPageState extends State<TeamListPage> {
                     ],
                   ),
                   // 制定任务
+                  userData != null ?
                   userData.userLevel.substring(0,1) == '3' || userData.userLevel.substring(0,1) == '4'?
                   Container(
                     width: 335,
@@ -457,12 +451,14 @@ class _TeamListPageState extends State<TeamListPage> {
                     ),
                   )
                   :
-                  Container(width: 1,),
+                  Container(width: 1,):Container(width: 1,),
                   // 成员列表
                   Padding(
                     padding: EdgeInsets.only(top: 40,bottom: 40),
-                    child: hasMember == true ?
-                    teamItem()
+                    child: hasMember == true && msgs != [] ?
+                    Column(
+                      children: msgs,
+                    )
                         :
                     Column(
                       children: <Widget>[

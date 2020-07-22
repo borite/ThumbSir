@@ -30,6 +30,7 @@ class _TeamAnalyzeDetailPageState extends State<TeamAnalyzeDetailPage> with Sing
   var endTime = DateTime.now();
 
   List<Widget> showList = [];
+  List<Widget> msgs=[];
 
   _load()async{
     var getDataResult = await GetSectionDataDao.httpGetSectionData(
@@ -40,11 +41,31 @@ class _TeamAnalyzeDetailPageState extends State<TeamAnalyzeDetailPage> with Sing
     );
     if(getDataResult != null){
       if(getDataResult.code == 200){
-        setState(() {
           _loading =false;
           sumResult = getDataResult.data.zonghe;
           listResult = getDataResult.data.list;
-        });
+          if (listResult.length>0) {
+            for(var item in listResult) {
+              showList.add(
+                TeamAnalyzeItem(
+                  name: item.taskName,
+                  sum:item.planCount.toString(),
+                  finish: item.finishCount.toString(),
+                  percent: item.finishRate*100,
+                  timePersent :double.parse((item.timeProportion*100).toStringAsFixed(2)),
+                  unit: item.taskUnit,
+                  taskId:item.defaultTaskId.toString(),
+                  section:widget.section,
+                  companyId:widget.companyId,
+                  startTime:startTime.toIso8601String().substring(0,11)+'00:00:00.000000',
+                  endTime:endTime.toIso8601String().substring(0,11)+'23:59:59.000000',
+                ),
+              );
+            };
+          }
+          setState(() {
+            msgs=showList;
+          });
       }
     }else{
       setState(() {
@@ -60,35 +81,6 @@ class _TeamAnalyzeDetailPageState extends State<TeamAnalyzeDetailPage> with Sing
     Intl.systemLocale = 'zh_Cn'; // to change the calendar format based on localization
     super.initState();
   }
-
-  // 分析列表
-  Widget analyzeItem(){
-    Widget content;
-    if(listResult != null){
-      for(var item in listResult) {
-        showList.add(
-          TeamAnalyzeItem(
-            name: item.taskName,
-            sum:item.planCount.toString(),
-            finish: item.finishCount.toString(),
-            percent: item.finishRate*100,
-            timePersent :double.parse((item.timeProportion*100).toStringAsFixed(2)),
-            unit: item.taskUnit,
-            taskId:item.defaultTaskId.toString(),
-            section:widget.section,
-            companyId:widget.companyId,
-            startTime:startTime.toIso8601String().substring(0,11)+'00:00:00.000000',
-            endTime:endTime.toIso8601String().substring(0,11)+'23:59:59.000000',
-          ),
-        );
-      };
-    }
-    content =Column(
-      children:showList,
-    );
-    return content;
-  }
-
 
   @override
   Widget build(BuildContext context) {
@@ -107,7 +99,11 @@ class _TeamAnalyzeDetailPageState extends State<TeamAnalyzeDetailPage> with Sing
                         decoration: BoxDecoration(color: Colors.white),
                         child: Padding(
                           padding: EdgeInsets.only(top:240,bottom:25),
-                          child:analyzeItem(),
+                            child: msgs != [] ?
+                            Column(
+                              children: msgs,
+                            )
+                                :Container(width: 1,)
                         )
                     )
                   ],

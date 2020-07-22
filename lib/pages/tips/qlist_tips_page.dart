@@ -1,7 +1,8 @@
+import 'package:ThumbSir/dao/delete_message_dao.dart';
 import 'package:ThumbSir/dao/get_message_dao.dart';
 import 'package:ThumbSir/dao/update_message_state_dao.dart';
 import 'package:ThumbSir/pages/tips/agree_invitation_page.dart';
-import 'package:ThumbSir/widget/auto_complete_input.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -26,9 +27,22 @@ class _QListTipsPageState extends State<QListTipsPage> with SingleTickerProvider
       if (msgResult.code == 200) {
         msgList=msgResult.data;
         if (msgList.length>0) {
+//          for (var item in msgList) {
+//            msgShowList.add(
+//              _item('images/tie_big.png',item.sendTime.toIso8601String().substring(0,10),item.msgTitle,item.msgContent,item.state.toString()),
+//            );
+//          }
           for (var item in msgList) {
             msgShowList.add(
-              _item('images/tie_big.png',item.sendTime.toIso8601String().substring(0,10),item.msgTitle,item.msgContent,item.state.toString()),
+              GestureDetector(
+                onTap: ()async{
+                  await UpdateMessageStateDao.updateState(item.id.toString(), '2');
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>AgreeInvitationPage(
+                    item:item,
+                  )));
+                },
+                child: _item(item.id,'images/tie_big.png',item.sendTime.toIso8601String().substring(0,10),item.msgTitle,item.msgContent,item.state.toString()),
+              ),
             );
           }
         }
@@ -41,42 +55,21 @@ class _QListTipsPageState extends State<QListTipsPage> with SingleTickerProvider
   }
 
   _loadMore()async{
-    // 延迟200毫秒
-    await Future.delayed(Duration(milliseconds: 200));
+    // 延迟100毫秒
+    await Future.delayed(Duration(milliseconds: 100));
     setState(() {
       // 复制数组
-      List<String>list = List<String>.from(msgList);
+      List list = List.from(msgList);
       list.addAll(msgList);
       msgList = list;
     });
   }
 
-  Animation<double> animation;
-  AnimationController controller;
-  AnimationStatus animationStatus;
-  double animationValue;
-
-  bool isCheck = false; // 复选框是否被选中
-  int checkBoxState = 0;  // 复选框是否出现，0为未出现，1为出现
-
   @override
   void initState() {
     _load();
     super.initState();
-    controller = AnimationController(vsync:this,duration: Duration(milliseconds: 800));
-    animation = Tween<double>(begin: 0,end:30).animate(
-        CurvedAnimation(parent: controller,curve: Curves.easeInOut)
-          ..addListener(() {
-            setState(() {
-              animationValue = animation.value;
-            });
-          })
-          ..addStatusListener((AnimationStatus state) {
-            setState(() {
-              animationStatus = state;
-            });
-          })
-    );
+
     _scrollController.addListener(() {
       // 如果滚动位置到了可滚动的最大距离，就加载更多
       if(_scrollController.position.pixels == _scrollController.position.maxScrollExtent){
@@ -87,41 +80,16 @@ class _QListTipsPageState extends State<QListTipsPage> with SingleTickerProvider
 
   @override
   void dispose(){
-    controller.dispose();
     _scrollController.dispose();
     super.dispose();
   }
-
-//  ListView msgItem() {
-//    Widget content;
-//    if (msgs != null) {
-//      for (var item in msgs) {
-//        msgShowList.add(
-//          GestureDetector(
-//            onTap: ()async{
-//              await UpdateMessageStateDao.updateState(item.id.toString(), '2');
-//              Navigator.push(context, MaterialPageRoute(builder: (context)=>AgreeInvitationPage(
-//                item:item,
-//              )));
-//            },
-//            child: _item('images/tie_big.png',item.sendTime.toIso8601String().substring(0,10),item.msgTitle,item.msgContent,item.state.toString()),
-//          ),
-//        );
-//      }
-//    }
-//    content = Column(
-//      children: msgShowList,
-//    );
-//
-//    return content;
-//  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
+        margin: EdgeInsets.only(top: 30),
         // 背景
-        padding: EdgeInsets.only(top: 30),
           decoration: BoxDecoration(
             color: Colors.white,
             image: DecorationImage(
@@ -133,7 +101,7 @@ class _QListTipsPageState extends State<QListTipsPage> with SingleTickerProvider
               children: <Widget>[
                 // 导航栏
                 Padding(
-                    padding: EdgeInsets.only(top: 15,left: 15,right: 15,bottom: 5),
+                    padding: EdgeInsets.only(top:15,left: 15,right: 15,bottom: 5),
                     child:Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
@@ -160,62 +128,7 @@ class _QListTipsPageState extends State<QListTipsPage> with SingleTickerProvider
                             ],
                           ),
                         ),
-                        isCheck == true && checkBoxState == 1?
-                        GestureDetector(
-                          onTap: (){
-                            controller.reverse();
-                            setState(() {
-                              checkBoxState = 0;
-                            });
-                          },
-                          child: Text(
-                            '删除',
-                            style:TextStyle(
-                              color: Color(0xFFF24848),
-                              fontSize: 14,
-                              fontWeight: FontWeight.normal,
-                              decoration: TextDecoration.none,
-                            ),
-                          ),
-                        )
-                            :
-                        isCheck == false && checkBoxState == 1?
-                        GestureDetector(
-                          onTap: (){
-                            controller.reverse();
-                            setState(() {
-                              checkBoxState = 0;
-                            });
-                          },
-                          child: Text(
-                            '取消',
-                            style:TextStyle(
-                              color: Color(0xFF0E7AE6),
-                              fontSize: 14,
-                              fontWeight: FontWeight.normal,
-                              decoration: TextDecoration.none,
-                            ),
-                          ),
-                        )
-                            :
-                        GestureDetector(
-                          onTap: (){
-                            controller.forward();
-                            setState(() {
-                              checkBoxState = 1;
-                            });
-                          },
-                          child: Text(
-                            '编辑',
-                            style:TextStyle(
-                              color: Color(0xFF0E7AE6),
-                              fontSize: 14,
-                              fontWeight: FontWeight.normal,
-                              decoration: TextDecoration.none,
-                            ),
-                          ),
-                        )
-                        ,
+                        Container(width: 30,),
                       ],
                     )
                 ),
@@ -224,18 +137,11 @@ class _QListTipsPageState extends State<QListTipsPage> with SingleTickerProvider
                 Expanded(
                     child: msgs != [] ?
                       new ListView(
-                        padding: EdgeInsets.only(top: 20),
+                        controller: _scrollController,
+                        padding: EdgeInsets.only(top: 20,bottom: 30),
                         shrinkWrap: true,
                         children: msgs,
                       )
-//                    ListView.builder(
-////                      shrinkWrap: true,
-////                      children:msgs,
-//                         itemCount: 3,
-//                        itemBuilder: (BuildContext context,int index){
-//                           return Text("aaa $index");
-//                        },
-//                    )
                         :Padding(
                       padding: EdgeInsets.only(top: 30),
                       child: Text(
@@ -261,137 +167,152 @@ class _QListTipsPageState extends State<QListTipsPage> with SingleTickerProvider
     );
   }
 
-  _item(var image,String date,String content,String tip,String state){
+  _item(var id,var image,String date,String content,String tip,String state){
     //return Text(content);
     bool check = false;
     return Container(
-        width: 335,
         alignment: Alignment.center,
-        child: Stack(
-          children: <Widget>[
-            Container(
-              margin: EdgeInsets.only(left: 2,top: 25),
-              child: Checkbox(
-                value: check,
-                activeColor: Color(0xFF0E7AE6),
-                onChanged: (bool val) {
-                  // val 是布尔值
-                  setState(() {
-                    check = !check;
-                  });
-                  if(check == true){
-                    setState(() {
-                      isCheck = true;
-                    });
-                  }else{
-                    setState(() {
-                      isCheck = false;
-                    });
-                  }
-                },
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(left: animation.value),
-              child: Stack(
-                children: <Widget>[
-                  Container(
-                      height: 102,
-                      padding: EdgeInsets.only(bottom: 15),
-                      decoration: BoxDecoration(
-                        color: Colors.transparent,
-                      ),
-                      child: Container(
-                        height: 80,
-                        width: 335,
-                        margin: EdgeInsets.only(top: 10),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(12),
-                          boxShadow: [BoxShadow(
-                              color: Color(0xFFcccccc),
-                              offset: Offset(0.0, 3.0),
-                              blurRadius: 10.0,
-                              spreadRadius: 2.0
-                          )],
-                        ),
-                        child:Container(
-                            padding: EdgeInsets.only(left: 100),
-                            child:Column(
-                              children: <Widget>[
-                                Container(
-                                  width: 220,
-                                  margin: EdgeInsets.only(bottom: 5),
-                                  child: Text(
-                                    date,
-                                    style:TextStyle(
-                                      fontSize: 12,
-                                      color: Color(0xFF999999),
-                                      fontWeight: FontWeight.normal,
-                                      decoration: TextDecoration.none,
-                                      height: 2,
-                                    ),
-                                  ),
+        child: // 提醒条目
+        Container(
+          child: Stack(
+            children: <Widget>[
+              // 消息主体
+              Container(
+                  height: 102,
+                  padding: EdgeInsets.only(bottom: 15),
+                  decoration: BoxDecoration(
+                    color: Colors.transparent,
+                  ),
+                  child: Container(
+                    height: 80,
+                    width: 335,
+                    margin: EdgeInsets.only(top: 10),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12),
+                      boxShadow: [BoxShadow(
+                          color: Color(0xFFcccccc),
+                          offset: Offset(0.0, 3.0),
+                          blurRadius: 10.0,
+                          spreadRadius: 2.0
+                      )],
+                    ),
+                    child:Container(
+                        padding: EdgeInsets.only(left: 100),
+                        child:Column(
+                          children: <Widget>[
+                            Container(
+                              width: 220,
+                              margin: EdgeInsets.only(bottom: 5),
+                              child: Text(
+                                date,
+                                style:TextStyle(
+                                  fontSize: 12,
+                                  color: Color(0xFF999999),
+                                  fontWeight: FontWeight.normal,
+                                  decoration: TextDecoration.none,
+                                  height: 2,
                                 ),
-                                Container(
-                                  width: 220,
-                                  child: Text(
-                                    content,
-                                    style:TextStyle(
-                                        fontSize: 14,
-                                        color: Color(0xFFF67419),
-                                        decoration: TextDecoration.none,
-                                        fontWeight: FontWeight.normal,
-                                        height: 1.5
-                                    ),
-                                  ),
+                              ),
+                            ),
+                            Container(
+                              width: 220,
+                              child: Text(
+                                content,
+                                style:TextStyle(
+                                    fontSize: 14,
+                                    color: Color(0xFFF67419),
+                                    decoration: TextDecoration.none,
+                                    fontWeight: FontWeight.normal,
+                                    height: 1.5
                                 ),
-                                Container(
-                                  width: 220,
-                                  child: Text(
-                                    tip,
-                                    style:TextStyle(
-                                      fontSize: 14,
-                                      color: Color(0xFFF67419),
-                                      fontWeight: FontWeight.normal,
-                                      decoration: TextDecoration.none,
-                                    ),
-                                  ),
-                                )
-                              ],
+                              ),
+                            ),
+                            Container(
+                              width: 220,
+                              child: Text(
+                                tip,
+                                style:TextStyle(
+                                  fontSize: 14,
+                                  color: Color(0xFFF67419),
+                                  fontWeight: FontWeight.normal,
+                                  decoration: TextDecoration.none,
+                                ),
+                              ),
                             )
-                        ),
-                      )
-                  ),
-                  Positioned(
-                    left: 5,
-                    child: Container(
-                      width: 90,
-                      height: 90,
-                      child: Image(
-                        image:AssetImage(image),fit: BoxFit.fitHeight,
-                      ),
+                          ],
+                        )
                     ),
-                  ),
-                  state == '2' ?Container(width: 1,)
-                      :Positioned(
-                    top: -15,
-                    left: 320,
-                    child: Text(
-                      '.',
-                      style: TextStyle(
-                        fontSize: 50,
-                        color: Colors.red,
-                        decoration: TextDecoration.none,
-                      ),
-                    ),
-                  ),
-                ],
+                  )
               ),
-            ),
-
-          ],
-        )
+              // 左边的图
+              Positioned(
+                left: 5,
+                child: Container(
+                  width: 90,
+                  height: 90,
+                  child: Image(
+                    image:AssetImage(image),fit: BoxFit.fitHeight,
+                  ),
+                ),
+              ),
+              state == '2' ?
+                  // 已读显示删除按钮
+              GestureDetector(
+                onTap: (){
+                  _onDeleteAlertPressed(id);
+                },
+                child: Container(
+                  width: 50,
+                  height: 50,
+                  margin: EdgeInsets.only(left: 290,top: 5),
+                  child: Image(image: AssetImage('images/delete_blue.png'),),
+                ),
+              )
+                  :
+                  // 未读显示小红点
+              Container(
+                margin: EdgeInsets.only(left: 310,top: 20),
+                height: 20,
+                child: Image(image: AssetImage('images/red_dot.png'),),
+              ),
+            ],
+          ),
+        ),
     );
-}
+  }
+
+  _onDeleteAlertPressed(id) {
+    Alert(
+      context: context,
+      type: AlertType.warning,
+      title: "是否删除此条消息？",
+      buttons: [
+        DialogButton(
+          child: Text(
+            "确定",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: ()async{
+            var deleteResult = await DeleteMessageDao.deleteMessage(id.toString());
+            if(deleteResult.code == 200){
+//              msgList = [];
+//              msgs=[];
+              _load();
+              Navigator.pop(context);
+            }
+          },
+          color: Color(0xFF5580EB),
+        ),
+        DialogButton(
+          child: Text(
+            "取消",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () => Navigator.pop(context),
+          color: Color(0xFFCCCCCC),
+        ),
+      ],
+    ).show();
+  }
 }
