@@ -978,13 +978,13 @@ class _QListAddPageState extends State<QListAddPage> {
   Widget StartTime(){
     return TimePickerSpinner(
       normalTextStyle: TextStyle(
-        fontSize: 16,
+        fontSize: 20,
         color: Color(0xFF666666),
         fontWeight: FontWeight.normal,
         decoration: TextDecoration.none,
       ),
       highlightedTextStyle: TextStyle(
-        fontSize: 20,
+        fontSize: 24,
         color: Color(0xFF0E7AE6),
         decoration: TextDecoration.underline,
         decorationColor: Color(0xFF0E7AE6),
@@ -1008,13 +1008,13 @@ class _QListAddPageState extends State<QListAddPage> {
   Widget EndTime(){
     return TimePickerSpinner(
       normalTextStyle: TextStyle(
-        fontSize: 16,
+        fontSize: 20,
         color: Color(0xFF666666),
         fontWeight: FontWeight.normal,
         decoration: TextDecoration.none,
       ),
       highlightedTextStyle: TextStyle(
-        fontSize: 20,
+        fontSize: 24,
         color: Color(0xFF0E7AE6),
         decoration: TextDecoration.underline,
         decorationColor: Color(0xFF0E7AE6),
