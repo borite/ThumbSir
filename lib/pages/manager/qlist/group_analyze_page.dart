@@ -146,11 +146,13 @@ class _GroupAnalyzePageState extends State<GroupAnalyzePage> {
         if(listResult != []){
           setState(() {
             hasMember = true;
+            _loading = false;
           });
         }
       }else{
         setState(() {
           hasMember = false;
+          _loading = false;
         });
       }
     }else{

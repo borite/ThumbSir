@@ -141,7 +141,7 @@ class _ChoosePortraitPageState extends State<ChoosePortraitPage> {
                                         "file":await MultipartFile.fromFile(portrait.path,filename: fName)
                                       });
                                       try {
-                                        Response res = await dio.post('http://thumbsir.oss-cn-beijing.aliyuncs.com',data: formData);
+                                        Response res = await dio.post('http://thumb-sir.oss-cn-shanghai.aliyuncs.com',data: formData);
                                         if(res.statusCode==200){
                                           SharedPreferences prefs = await SharedPreferences.getInstance();
                                           var userId= prefs.getString("userID");

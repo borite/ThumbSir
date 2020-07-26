@@ -790,7 +790,18 @@ class _QListItemState extends State<QListItem> with SingleTickerProviderStateMix
                           children: <Widget>[
                             GestureDetector(
                               onTap: () {
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => QListUploadPage()));
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => QListUploadPage(
+                                name : widget.name,
+                                star : widget.star,
+                                percent : widget.percent,
+                                currentAddress : widget.currentAddress,
+                                taskId : widget.taskId,
+                                unit : widget.unit,
+                                defaultId : widget.defaultId,
+                                startTime : widget.startTime,
+                                endTime : widget.endTime,
+                                planCount : widget.planCount,
+                                )));
                               },
                               child: Container(
                                 width: 90,

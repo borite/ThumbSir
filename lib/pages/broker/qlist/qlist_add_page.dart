@@ -26,6 +26,9 @@ class _QListAddPageState extends State<QListAddPage> {
   final TextEditingController remarkController=TextEditingController();
   RegExp remarkReg;
   bool remarkBool = false;
+  final TextEditingController mapController=TextEditingController();
+  RegExp mapReg;
+  bool mapBool = false;
   String chooseId = "-1";
   String chooseUnit = "";
 
@@ -65,13 +68,14 @@ class _QListAddPageState extends State<QListAddPage> {
   int _starIndex = 0;
   int itemCount = 1;
   bool isRemark = false;
-
+  bool isMap = false;
   List taskList;
 
   @override
   void initState() {
     super.initState();
     remarkReg = FeedBackReg;
+    mapReg = FeedBackReg;
     _getUserInfo();
     _load();
     startTime = widget.date == 1 ? DateTime.now():DateTime.now().add(Duration(days: 1));
@@ -181,12 +185,6 @@ class _QListAddPageState extends State<QListAddPage> {
                               ),
                             ],
                           ),
-                          Text('修改',style: TextStyle(
-                            color: Color(0xFF5580EB),
-                            fontSize: 16,
-                            fontWeight: FontWeight.normal,
-                            decoration: TextDecoration.none,
-                          ),)
                         ],
                       ),
                     ),
@@ -251,22 +249,22 @@ class _QListAddPageState extends State<QListAddPage> {
                               decoration: TextDecoration.none,
                             ),),
                           ),
-                          Container(
-                            width: 20,
-                            height: 20,
-                            margin: EdgeInsets.only(right: 15),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              border: Border.all(color: Color(0xFF5580EB),width: 1),
-                            ),
-                            child: GestureDetector(
-                              onTap: (){
-                                if(itemCount >= 2){
-                                  setState(() {
-                                    itemCount = itemCount - 1;
-                                  });
-                                }else{}
-                              },
+                          GestureDetector(
+                            onTap: (){
+                              if(itemCount >= 2){
+                                setState(() {
+                                  itemCount = itemCount - 1;
+                                });
+                              }else{}
+                            },
+                            child: Container(
+                              width: 40,
+                              height: 20,
+                              margin: EdgeInsets.only(right: 15),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                border: Border.all(color: Color(0xFF5580EB),width: 1),
+                              ),
                               child: Text('-',style: TextStyle(
                                 color: Color(0xFF5580EB),
                                 fontSize: 14,
@@ -283,20 +281,20 @@ class _QListAddPageState extends State<QListAddPage> {
                               fontWeight: FontWeight.normal,
                               decoration: TextDecoration.none,
                             ),),
-                          Container(
-                            width: 20,
-                            height: 20,
-                            margin: EdgeInsets.only(left: 15,right: 20),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              border: Border.all(color: Color(0xFF5580EB),width: 1),
-                            ),
-                            child: GestureDetector(
-                              onTap: (){
-                                setState(() {
-                                  itemCount = itemCount + 1;
-                                });
-                              },
+                          GestureDetector(
+                            onTap: (){
+                              setState(() {
+                                itemCount = itemCount + 1;
+                              });
+                            },
+                            child: Container(
+                              width: 40,
+                              height: 20,
+                              margin: EdgeInsets.only(left: 15,right: 20),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                border: Border.all(color: Color(0xFF5580EB),width: 1),
+                              ),
                               child: Text('+',style: TextStyle(
                                 color: Color(0xFF5580EB),
                                 fontSize: 14,
@@ -695,26 +693,64 @@ class _QListAddPageState extends State<QListAddPage> {
                         ],
                       ),
                     ),
+
                     // 地址
                     chooseId == "13"?
                     Container(width: 1,)
                         :
-                    Container(
-                      width: 335,
-                      height: 32,
-                      padding: EdgeInsets.all(4),
-                      margin: EdgeInsets.only(bottom: 20),
-                      decoration: BoxDecoration(
-                        border: Border.all(width: 1,color: Color(0xFF93C0FB)),
-                        borderRadius: BorderRadius.circular(5),
+                    chooseId != "13" && isMap == false ?
+                    GestureDetector(
+                      onTap: (){
+                        setState(() {
+                          isMap = true;
+                        });
+                      },
+                      child: Container(
+                        width: 335,
+                        height: 32,
+                        padding: EdgeInsets.all(4),
+                        margin: EdgeInsets.only(bottom: 20),
+                        decoration: BoxDecoration(
+                          border: Border.all(width: 1,color: Color(0xFF93C0FB)),
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        child: Text('+ 添加地址',style: TextStyle(
+                          fontSize: 14,
+                          color: Color(0xFF0E7AE6),
+                          fontWeight: FontWeight.normal,
+                          decoration: TextDecoration.none,
+                        ),textAlign: TextAlign.center,),
                       ),
-                      child: Text('+ 添加地址',style: TextStyle(
-                        fontSize: 14,
-                        color: Color(0xFF0E7AE6),
-                        fontWeight: FontWeight.normal,
-                        decoration: TextDecoration.none,
-                      ),textAlign: TextAlign.center,),
+                    )
+                        :
+                    Container(
+                      height: 100,
+                      margin: EdgeInsets.only(top: 15,left: 30,right: 30,bottom: 50),
+                      decoration: BoxDecoration(
+                        border: Border.all(width: 1,color: Color(0xFF5580EB)),
+                        borderRadius: BorderRadius.circular(8),
+                        color: Colors.white,
+                      ),
+                      child: TextField(
+                        controller: mapController,
+                        autofocus: false,
+                        keyboardType: TextInputType.multiline,
+                        onChanged: _onMapChanged,
+                        maxLines: null,
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Color(0xFF999999),
+                          fontWeight: FontWeight.normal,
+                          decoration: TextDecoration.none,
+                        ),
+                        decoration: InputDecoration(
+                          hintText:'添加地址',
+                          contentPadding: EdgeInsets.all(10),
+                          border: InputBorder.none,
+                        ),
+                      ),
                     ),
+
                     // 添加备注
                     isRemark == false ?
                     GestureDetector(
@@ -797,7 +833,7 @@ class _QListAddPageState extends State<QListAddPage> {
                             endTime.toIso8601String(),
                             _starIndex.toString(),
                             itemCount.toString(),
-                            '', // address,
+                            mapController.text, // address,
                             remarkController.text,
                           );
                           if(result1516.code == 200){
@@ -822,7 +858,7 @@ class _QListAddPageState extends State<QListAddPage> {
                             endTime.toIso8601String().substring(0,11)+'23:59:59.000000',
                             _starIndex.toString(),
                             itemCount.toString(),
-                            '', // address,
+                            mapController.text, // address,
                             remarkController.text,
                           );
                           if(result13.code == 200){
@@ -847,7 +883,7 @@ class _QListAddPageState extends State<QListAddPage> {
                             endTime.toIso8601String(),
                             _starIndex.toString(),
                             itemCount.toString(),
-                            '', // address,
+                            mapController.text, // address,
                             remarkController.text,
                           );
                           if(result12.code == 200){
@@ -872,7 +908,7 @@ class _QListAddPageState extends State<QListAddPage> {
                             endTime.toIso8601String(),
                             _starIndex.toString(),
                             itemCount.toString(),
-                            '', // address,
+                            mapController.text, // address,
                             remarkController.text,
                           );
                           if(resultOther.code == 200){
@@ -1006,6 +1042,14 @@ class _QListAddPageState extends State<QListAddPage> {
       });
     }
   }
+  _onMapChanged(String text){
+    if(text != null){
+      setState(() {
+        mapBool = mapReg.hasMatch(mapController.text);
+      });
+    }
+  }
+
   _onLoadAlert(context) {
     Alert(
       context: context,

@@ -5,8 +5,6 @@ import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:ThumbSir/model/login_result_data_model.dart';
 import 'package:ThumbSir/pages/home.dart';
 import 'package:ThumbSir/pages/mycenter/add_member_page.dart';
-import 'package:ThumbSir/pages/mycenter/add_task_page.dart';
-import 'package:ThumbSir/pages/mycenter/choose_mini_task_page.dart';
 import 'package:ThumbSir/pages/mycenter/s_center_group_detail_page.dart';
 import 'package:ThumbSir/pages/mycenter/z_center_group_detail_page.dart';
 import 'package:flutter/material.dart';

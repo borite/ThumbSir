@@ -1,18 +1,33 @@
 import 'dart:io';
-
-import 'package:ThumbSir/pages/broker/qlist/img_view_page.dart';
-import 'package:ThumbSir/pages/broker/qlist/qlist_change_page.dart';
 import 'package:flutter/material.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:dio/dio.dart';
+import 'package:ThumbSir/dao/get_direct_sgin_dao.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 class QListUploadPage extends StatefulWidget {
+  final String name;
+  final int star;
+  final double percent;
+  final String currentAddress;
+  final String taskId;
+  final String unit;
+  final String defaultId;
+  final startTime;
+  final endTime;
+  final int planCount;
+  QListUploadPage({Key key,
+    this.name,this.star,this.defaultId,this.planCount,
+    this.percent,this.currentAddress,this.taskId,this.unit,
+    this.startTime,this.endTime,
+  }):super(key:key);
   @override
   _QListUploadPageState createState() => _QListUploadPageState();
 }
 
 class _QListUploadPageState extends State<QListUploadPage> {
-  int _starIndex=3;
+  int _starIndex=0;
   List _images=[];
   final _picker = ImagePicker();
   Future pickImage(bool isTakePhoto) async {
@@ -36,6 +51,12 @@ class _QListUploadPageState extends State<QListUploadPage> {
         ],
       ),
     ));
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _starIndex = widget.star;
   }
 
   _item(String title,bool isTakePhoto){
@@ -112,7 +133,7 @@ class _QListUploadPageState extends State<QListUploadPage> {
                       ),
                       min: 0,
                       max: 100,
-                      initialValue: 70,
+                      initialValue: widget.percent,
                     ),
                   ),
                   // 重要度星星
@@ -185,7 +206,7 @@ class _QListUploadPageState extends State<QListUploadPage> {
                     padding: EdgeInsets.only(left: 20,right: 20),
                     child: Row(
                       children: <Widget>[
-                        Text('带看',style: TextStyle(
+                        Text(widget.name,style: TextStyle(
                           fontSize: 20,
                           color: Color(0xFF0E7AE6),
                           fontWeight: FontWeight.normal,
@@ -193,10 +214,12 @@ class _QListUploadPageState extends State<QListUploadPage> {
                         ),),
                         Padding(
                           padding: EdgeInsets.only(left: 10,top: 5),
-                          child: Text('3套',style: TextStyle(
-                            fontSize: 16,
-                            color: Color(0xFF0E7AE6),
-                            fontWeight: FontWeight.normal,
+                          child: Text(
+                            widget.planCount.toString()+widget.unit,
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: Color(0xFF0E7AE6),
+                              fontWeight: FontWeight.normal,
                             decoration: TextDecoration.none,
                           ),),
                         )
@@ -208,11 +231,13 @@ class _QListUploadPageState extends State<QListUploadPage> {
                     padding: EdgeInsets.only(left: 20,top: 20),
                     child: Row(
                       children: <Widget>[
-                        Text('10:00-11:00',style: TextStyle(
-                          fontSize: 20,
-                          color: Color(0xFF0E7AE6),
-                          fontWeight: FontWeight.normal,
-                          decoration: TextDecoration.none,
+                        Text(
+                          widget.startTime.toString().substring(10,16)+'-'+widget.endTime.toString().substring(10,16),
+                          style: TextStyle(
+                            fontSize: 20,
+                            color: Color(0xFF0E7AE6),
+                            fontWeight: FontWeight.normal,
+                            decoration: TextDecoration.none,
                           ),textAlign: TextAlign.left,),
                         ],
                     )
@@ -228,12 +253,14 @@ class _QListUploadPageState extends State<QListUploadPage> {
                               padding: EdgeInsets.only(right: 5),
                               child: Image(image: AssetImage('images/site_small.png'),),
                             ),
-                            Text('惠明小区4号楼',style: TextStyle(
-                              fontSize: 16,
-                              color: Color(0xFF0E7AE6),
-                              fontWeight: FontWeight.normal,
-                              decoration: TextDecoration.none,
-                            ),),
+                            Text(
+                              widget.currentAddress != null ? widget.currentAddress : '暂未识别地点',
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: Color(0xFF0E7AE6),
+                                fontWeight: FontWeight.normal,
+                                decoration: TextDecoration.none,
+                              ),),
                           ],
                         ),
                       ),
@@ -256,7 +283,11 @@ class _QListUploadPageState extends State<QListUploadPage> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
                             GestureDetector(
-                              onTap: _pickImage,
+                              onTap:widget.defaultId == "1" || widget.defaultId == "3" || widget.defaultId == "4" ?
+                              // 是打电话相关先判断机型是否为苹果
+                              _onChooseIsIPhonePressed(context)
+                                  :
+                                  _pickImage,
                               child: Container(
                                 width: 90,
                                 height: 90,
@@ -351,26 +382,122 @@ class _QListUploadPageState extends State<QListUploadPage> {
                     ),),
                   ),
                   // 完成
-                  Container(
-                    width: 200,
-                    height: 32,
-                    padding: EdgeInsets.all(3),
-                    margin: EdgeInsets.fromLTRB(0, 40, 0, 80),
-                    decoration: BoxDecoration(
-                      border: Border.all(width: 1,color: Color(0xFF93C0FB)),
-                      borderRadius: BorderRadius.circular(5),
+                  GestureDetector(
+                    onTap: () async{
+                      print(_images);
+
+                      if(_images.length>0) {
+                        Dio dio=new Dio();
+                        // dio.options.contentType="multipart/form-data";
+                        //dio.options.responseType=ResponseType.plain;
+                        _images.forEach((imgFile) async {
+                            String fName=imgFile.toString().split('/').last;
+                            print(fName);
+                            //文件名去除连接符
+                            fName=fName.replaceAll('-', '');
+                            //文件名去除单引号
+                            fName=fName.replaceAll("'", '');
+                            //文件名转化为小写
+                            fName=fName.toLowerCase();
+                            var sign= await GetDirectSignDao.httpGetSign(fName, '2');
+                            print(sign);
+                            if(sign.code==200){
+                              FormData formData=new FormData.fromMap({
+                                "OSSAccessKeyId":sign.data.accessId,
+                                "policy":sign.data.policy,
+                                "signature":sign.data.signature,
+                                "key":sign.data.dir+fName,
+                                "success_action_status":"200",
+                                "file":await MultipartFile.fromFile(imgFile.path,filename: fName)
+                              });
+                              try{
+                                  Response res = await dio.post('http://thumb-sir.oss-cn-shanghai.aliyuncs.com',data: formData);
+                                  if(res.statusCode==200){
+                                    print(sign.data.finalUrl);
+                                    //Response myres=await dio.post('')
+                                  }
+  //                                if(res.statusCode==200){
+  //                                  SharedPreferences prefs = await SharedPreferences.getInstance();
+  //                                  var userId= prefs.getString("userID");
+  //                                  var modifyHeadResult = await ModifyHeadDao.modifyHead(sign.data.finalUrl, userId);
+  //                                  if(modifyHeadResult.code == 200){
+  //                                    // 更新token
+  //                                    var tokenResult = await TokenCheckDao.tokenCheck(userData.token);
+  //                                    if(tokenResult.code == 200){
+  //                                      String dataStr=json.encode(tokenResult.data);
+  //                                      prefs.setString("userInfo", dataStr);
+  //                                      Navigator.of(context).pop(portrait);
+  //                                    }
+  //                                  }else{_onNetAlertPressed(context);}
+  //                                }else{_onNetAlertPressed(context);}
+  //                              } on DioError catch(e){
+  //                                print(e.message);
+  //                                print(e.response.data);
+  //                                print(e.response.headers);
+  //                                print(e.response.request);
+  //                              }
+                                }on DioError catch(e){
+
+                                }
+                            }
+                        });
+//                        String fName=portrait.toString().split('/').last;
+//                        //文件名去除连接符
+//                        fName=fName.replaceAll('-', '');
+//                        //文件名去除单引号
+//                        fName=fName.replaceAll("'", '');
+//                        //文件名转化为小写
+//                        fName=fName.toLowerCase();
+                      }
+
+                    },
+                    child: Container(
+                      width: 200,
+                      height: 32,
+                      padding: EdgeInsets.all(3),
+                      margin: EdgeInsets.fromLTRB(0, 40, 0, 80),
+
+                      decoration: BoxDecoration(
+                        border: Border.all(width: 1,color: Color(0xFF93C0FB)),
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      child: Text('完成',style: TextStyle(
+                        fontSize: 16,
+                        color: Color(0xFF93C0FB),
+                        fontWeight: FontWeight.normal,
+                        decoration: TextDecoration.none,
+                      ),textAlign: TextAlign.center,),
                     ),
-                    child: Text('完成',style: TextStyle(
-                      fontSize: 16,
-                      color: Color(0xFF93C0FB),
-                      fontWeight: FontWeight.normal,
-                      decoration: TextDecoration.none,
-                    ),textAlign: TextAlign.center,),
                   ),
+
                 ]
             )
           ],
         )
     );
+  }
+  _onChooseIsIPhonePressed(context) {
+    Alert(
+      context: context,
+      title: "您打电话使用的手机是否为苹果手机？",
+      buttons: [
+        DialogButton(
+          child: Text(
+            "是的",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () => _pickImage,
+          color: Color(0xFF5580EB),
+        ),
+        DialogButton(
+          child: Text(
+            "不是",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () => _pickImage,
+          color: Color(0xFF5580EB),
+        )
+      ],
+    ).show();
   }
 }

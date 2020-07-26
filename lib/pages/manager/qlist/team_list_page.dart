@@ -390,7 +390,7 @@ class _TeamListPageState extends State<TeamListPage> {
                                     child: Text(
                                       leaderResult != null?
                                       '今日总任务量：'+ leaderResult.planCount.toString() +' , 已完成：'+leaderResult.finishCount.toString()
-                                          :'数据统计中……',
+                                          :'今日无计划',
                                       style: TextStyle(
                                         fontSize: 10,
                                         color: userData != null ?

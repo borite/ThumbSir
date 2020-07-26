@@ -96,23 +96,23 @@ class _ChooseMiniTaskNumberPageState extends State<ChooseMiniTaskNumberPage> {
                   ),
                   Row(
                     children: <Widget>[
-                      Container(
-                        width: 20,
-                        height: 20,
-                        margin: EdgeInsets.only(right: 15),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all(color: Color(0xFF5580EB),width: 1),
-                        ),
-                        child: GestureDetector(
-                          onTap: (){
-                              setState(() {
-                                taskList=[];
-                                if(item.taskCount>1) {
-                                  item.taskCount -= 1;
-                                }
-                            });
-                          },
+                      GestureDetector(
+                        onTap: (){
+                          setState(() {
+                            taskList=[];
+                            if(item.taskCount>1) {
+                              item.taskCount -= 1;
+                            }
+                          });
+                        },
+                        child: Container(
+                          width: 20,
+                          height: 20,
+                          margin: EdgeInsets.only(right: 15),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            border: Border.all(color: Color(0xFF5580EB),width: 1),
+                          ),
                           child: Text('-',style: TextStyle(
                             color: Color(0xFF5580EB),
                             fontSize: 14,
@@ -129,22 +129,22 @@ class _ChooseMiniTaskNumberPageState extends State<ChooseMiniTaskNumberPage> {
                           fontWeight: FontWeight.normal,
                           decoration: TextDecoration.none,
                         ),),
-                      Container(
-                        width: 20,
-                        height: 20,
-                        margin: EdgeInsets.only(left: 15,right: 20),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all(color: Color(0xFF5580EB),width: 1),
-                        ),
-                        child: GestureDetector(
-                          onTap: (){
-                            setState(() {
-                              taskList=[];
-                              //taskListR=null;
-                              item.taskCount +=1;
-                            });
-                          },
+                      GestureDetector(
+                        onTap: (){
+                          setState(() {
+                            taskList=[];
+                            //taskListR=null;
+                            item.taskCount +=1;
+                          });
+                        },
+                        child: Container(
+                          width: 20,
+                          height: 20,
+                          margin: EdgeInsets.only(left: 15,right: 20),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            border: Border.all(color: Color(0xFF5580EB),width: 1),
+                          ),
                           child: Text('+',style: TextStyle(
                             color: Color(0xFF5580EB),
                             fontSize: 14,

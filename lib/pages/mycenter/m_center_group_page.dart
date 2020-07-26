@@ -5,8 +5,6 @@ import 'package:ThumbSir/widget/loading.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:ThumbSir/model/login_result_data_model.dart';
 import 'package:ThumbSir/pages/mycenter/add_member_page.dart';
-import 'package:ThumbSir/pages/mycenter/add_task_page.dart';
-import 'package:ThumbSir/pages/mycenter/choose_mini_task_page.dart';
 import 'package:ThumbSir/pages/mycenter/delete_member_page.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
