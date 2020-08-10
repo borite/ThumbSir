@@ -46,11 +46,28 @@ class _QListItemState extends State<QListItem> with SingleTickerProviderStateMix
   List _images=[];
   int page = 0;
 
+  DateTime now = new DateTime.now();
+
 
   @override
   void initState() {
     super.initState();
+//    setState(() {
+//      if(widget.imgs!=""){
+//        print(widget.imgs);
+//        //var sss=widget.imgs.split(',');
+//        for(String imgUrl in widget.imgs.split(',')){
+//          if(imgUrl!=""){
+//            _images.add(imgUrl);
+//          }
+//        }
+//        print(_images);
+//      }
+//    });
 
+    print(widget.name);
+    print(widget.imgs);
+    print(widget.unit);
     if(widget.imgs!=""){
       print(widget.imgs);
       //var sss=widget.imgs.split(',');
@@ -61,6 +78,7 @@ class _QListItemState extends State<QListItem> with SingleTickerProviderStateMix
       }
       print(_images);
     }
+
     controller = AnimationController(vsync:this,duration: Duration(seconds: 1));
     animation = Tween<double>(begin: 500,end:25).animate(
         CurvedAnimation(parent: controller,curve: Curves.easeInOut)
@@ -473,6 +491,7 @@ class _QListItemState extends State<QListItem> with SingleTickerProviderStateMix
                             GestureDetector(
                               onTap: () {
                                 // 如果是今日且任务时间结束，不可修改
+                                // now.difference(widget.endTime)
                                 if(widget.date == 1){
                                   _onEditorAlert(context);
                                 }else{

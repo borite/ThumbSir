@@ -125,15 +125,101 @@ class _IntroduceVersionPageState extends State<IntroduceVersionPage> {
                         ),
                         // 内容
                         Container(
-                          padding: EdgeInsets.fromLTRB(20, 40, 20, 0),
-                          child: Text(
-                            versionMsg != null ? versionMsg.versionDes :'',
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Color(0xFF666666),
-                              fontWeight: FontWeight.normal,
-                              decoration: TextDecoration.none,
-                          ),textAlign: TextAlign.left,),
+                          padding: EdgeInsets.only(top:40),
+                          width: 335,
+                          child:
+//                          Text(
+//                            versionMsg != null ? versionMsg.versionDes :'',
+//                            style: TextStyle(
+//                              fontSize: 14,
+//                              color: Color(0xFF666666),
+//                              fontWeight: FontWeight.normal,
+//                              decoration: TextDecoration.none,
+//                          ),textAlign: TextAlign.left,),
+                          Column(
+                            children: <Widget>[
+                              Text(
+                                '量化工具主要功能包括：添加个人量化任务，个人量化任务列表，个人量化分析，团队量化任务列表，团队量化分析，根据注册时选择的职级开放其中的2~5个功能。',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Color(0xFF666666),
+                                  fontWeight: FontWeight.normal,
+                                  decoration: TextDecoration.none,
+                              ),textAlign: TextAlign.left,),
+                              Container(
+                                width: 335,
+                                padding: EdgeInsets.only(top: 10),
+                                child: Text(
+                                  '产品亮点：',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: Color(0xFF666666),
+                                    fontWeight: FontWeight.normal,
+                                    decoration: TextDecoration.none,
+                                  ),textAlign: TextAlign.left,),
+                              ),
+                              Container(
+                                width: 335,
+                                padding: EdgeInsets.only(top: 10),
+                                child: Text(
+                                  '（1）量化任务完成度根据上传或拍摄的交付物由系统智能分析，实时体现在个人量化分析和团队量化分析中，结果准确且方便查询；',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: Color(0xFF666666),
+                                    fontWeight: FontWeight.normal,
+                                    decoration: TextDecoration.none,
+                                  ),textAlign: TextAlign.left,),
+                              ),
+                              Container(
+                                width: 335,
+                                padding: EdgeInsets.only(top: 10),
+                                child: Text(
+                                  '（2）拍摄照片自动添加时间和地点水印，并将拍摄照片时的地点体现在量化任务列表中，降低作弊成本且结果直观显示；',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: Color(0xFF666666),
+                                    fontWeight: FontWeight.normal,
+                                    decoration: TextDecoration.none,
+                                  ),textAlign: TextAlign.left,),
+                              ),
+                              Container(
+                                width: 335,
+                                padding: EdgeInsets.only(top: 10),
+                                child: Text(
+                                  '（3）上级可以为下级设置最低任务量，协助上级找准KPI并准确下达；',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: Color(0xFF666666),
+                                    fontWeight: FontWeight.normal,
+                                    decoration: TextDecoration.none,
+                                  ),textAlign: TextAlign.left,),
+                              ),
+                              Container(
+                                width: 335,
+                                padding: EdgeInsets.only(top: 10),
+                                child: Text(
+                                  '（4）时间分布分析，根据任务规划，分析工作时间各个量化任务的时间占比，准确把握时间流向，快速找到影响业绩的关键指标。',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: Color(0xFF666666),
+                                    fontWeight: FontWeight.normal,
+                                    decoration: TextDecoration.none,
+                                  ),textAlign: TextAlign.left,),
+                              ),
+                              Container(
+                                width: 335,
+                                padding: EdgeInsets.only(top: 10),
+                                child: Text(
+                                  '如果您在使用过程中有任何的意见或者建议，请在个人中心的客服中心进行留言，拇指先生客服会尽快与您联系，我们将持续更新和改进，感谢您对拇指先生的支持，祝您使用愉快！',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: Color(0xFF666666),
+                                    fontWeight: FontWeight.normal,
+                                    decoration: TextDecoration.none,
+                                  ),textAlign: TextAlign.left,),
+                              ),
+                            ],
+                          )
                         ),
                       ]
                   )

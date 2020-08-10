@@ -294,6 +294,8 @@ class _QListListPageState extends State<QListListPage> with TickerProviderStateM
                                               setState(() {
                                                 pageIndex = 0;
                                               });
+                                              animationController.reset();
+                                              animationController.forward();
                                             },
                                           )
                                       ),
@@ -305,10 +307,10 @@ class _QListListPageState extends State<QListListPage> with TickerProviderStateM
                                             style: TextStyle(fontSize: 14,color: Colors.white,decoration: TextDecoration.none,fontWeight: FontWeight.normal,),
                                           ),
                                           onTap: (){
-                                            pageIndex=1;
-//                                            setState(() {
-//                                              pageIndex = 1;
-//                                            });
+                                            //pageIndex=1;
+                                            setState(() {
+                                              pageIndex = 1;
+                                            });
                                             animationController.reset();
                                             animationController.forward();
                                           },
@@ -908,11 +910,9 @@ class _QListListPageState extends State<QListListPage> with TickerProviderStateM
                                           style: TextStyle(fontSize: 14,color: Colors.white,decoration: TextDecoration.none,fontWeight: FontWeight.normal,),
                                         ),
                                         onTap: (){
-                                          setState(() {
-                                            pageIndex = 0;
-                                          });
-                                          animationController.reset();
-                                          animationController.forward();
+                                          pageIndex = 0;
+                                          //animationController.reset();
+                                          //animationController.forward();
                                         },
                                       ),
                                     ),

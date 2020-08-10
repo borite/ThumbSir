@@ -89,12 +89,12 @@ class _TodayQListState extends State<TodayQList> with SingleTickerProviderStateM
         if (missions.length>0) {
 
           for (var item in missions) {
-            //上午任务
-            //获取用户已经完成的任务记录，含图片和位置记录，并对图片进行水印标注
-            GetMissionRecord m_record= await UserSelectMissionDao.missionRecord(userData.userPid,item.id.toString(),userData.userLevel.substring(0,1));
-            print(m_record);
-
             if(int.parse(item.planningEndTime.toIso8601String().substring(11,13)) <= 12){
+              //上午任务
+              //获取用户已经完成的任务记录，含图片和位置记录，并对图片进行水印标注
+              GetMissionRecord m_record= await UserSelectMissionDao.missionRecord(userData.userPid,item.id.toString(),userData.userLevel.substring(0,1));
+              print(m_record);
+
               missionsMorningShowList.add(
                 QListItem(
                   name: item.taskName,
@@ -122,6 +122,7 @@ class _TodayQListState extends State<TodayQList> with SingleTickerProviderStateM
             //下午任务
             if( int.parse(item.planningEndTime.toIso8601String().substring(11,13))>12 && int.parse(item.planningEndTime.toIso8601String().substring(11,13))<=18){
               //获取用户已经完成的任务记录，含图片和位置记录，并对图片进行水印标注
+              print(item.id);
               GetMissionRecord m_record= await UserSelectMissionDao.missionRecord(userData.userPid,item.id.toString(),userData.userLevel.substring(0,1));
               print(m_record);
               missionsNoonShowList.add(
@@ -180,6 +181,11 @@ class _TodayQListState extends State<TodayQList> with SingleTickerProviderStateM
                 ),
               );
             }
+
+            print(missionsMorningShowList);
+            print(missionsNoonShowList);
+            print(missionsEveningShowList);
+
           }
         }
         setState(() {
