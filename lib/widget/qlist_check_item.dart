@@ -93,7 +93,7 @@ class _QListCheckItemState extends State<QListCheckItem> with SingleTickerProvid
                     child: Column(
                       children: <Widget>[
                         // 项目和数量
-                        this.widget.percent == 100 ?
+                        this.widget.percent == 1 ?
                         Container(
                           width: 270,
                           padding: EdgeInsets.only(top: 12),
@@ -259,7 +259,7 @@ class _QListCheckItemState extends State<QListCheckItem> with SingleTickerProvid
             ),
 
             // 圆形进度条
-            this.widget.percent == 100 ?
+            this.widget.percent == 1 ?
             Positioned(
               left: 260,
               top: 14,
@@ -325,7 +325,7 @@ class _QListCheckItemState extends State<QListCheckItem> with SingleTickerProvid
                   ),
                   min: 0,
                   max: 100,
-                  initialValue: this.widget.percent,
+                  initialValue: this.widget.percent*100,
                 ),
               ),
             )
@@ -366,7 +366,7 @@ class _QListCheckItemState extends State<QListCheckItem> with SingleTickerProvid
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-                          this.widget.percent == 100 ?
+                          this.widget.percent == 1 ?
                           Row(
                             children: <Widget>[
                               GestureDetector(
@@ -703,8 +703,8 @@ class _QListCheckItemState extends State<QListCheckItem> with SingleTickerProvid
                                       'images/site_small.png'),),
                                 ),
                                 Text(
-                                  '海淀区',
-//                                  widget.currentAddress,
+                                  //'海淀区',
+                                  widget.currentAddress,
                                   style: TextStyle(
                                     fontSize: 14,
                                     color: Color(0xFF0E7AE6),
@@ -796,7 +796,7 @@ class _QListCheckItemState extends State<QListCheckItem> with SingleTickerProvid
         ),
 
         // 圆形进度条
-        this.widget.percent == 100 ?
+        this.widget.percent == 1 ?
         Positioned(
           top: 80,
           left: 112,
@@ -837,7 +837,7 @@ class _QListCheckItemState extends State<QListCheckItem> with SingleTickerProvid
               ),
               min: 0,
               max: 100,
-              initialValue: this.widget.percent,
+              initialValue: this.widget.percent*100,
             ),
           ),
         )

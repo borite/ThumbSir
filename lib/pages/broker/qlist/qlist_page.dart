@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:ThumbSir/pages/broker/qlist/qlist_analyze_page.dart';
 import 'package:ThumbSir/pages/broker/qlist/qlist_list_page.dart';
 
+
 class QListPage extends StatefulWidget {
   @override
   _QListPageState createState() => _QListPageState();

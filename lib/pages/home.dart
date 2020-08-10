@@ -6,6 +6,7 @@ import 'package:ThumbSir/pages/broker/qlist/qlist_page.dart';
 import 'package:ThumbSir/pages/major/qlist/major_qlist_page.dart';
 import 'package:ThumbSir/pages/manager/qlist/manager_qlist_page.dart';
 import 'package:ThumbSir/pages/manager/qlist/s_qlist_page.dart';
+import 'package:ThumbSir/pages/testlocation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ThumbSir/pages/mycenter/my_center_page.dart';
@@ -100,12 +101,17 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin{
                       ),),
                     ],
                   ),
-                  Padding(
-                    padding: EdgeInsets.only(top: 20),
-                    child: Text('暂未开放，敬请期待',style: TextStyle(
-                        fontSize: 16,
-                        color: Color(0xFF999999)
-                    ),),
+                  GestureDetector(
+                    onTap: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=>MapLocation()));
+                    },
+                    child: Padding(
+                      padding: EdgeInsets.only(top: 20),
+                      child: Text('暂未开放，敬请期待',style: TextStyle(
+                          fontSize: 16,
+                          color: Color(0xFF999999)
+                      ),),
+                    ),
                   )
                 ],
               )
@@ -178,7 +184,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin{
                                                     borderRadius: BorderRadius.circular(45),
                                                     child: userData == null?
                                                     Image(image: AssetImage('images/my_big.png'),)
-                                                        :userData.headImg != null ?
+                                                        :userData != null && userData.headImg != null ?
                                                     Image(image:NetworkImage(userData.headImg))
                                                         :Image(image: AssetImage('images/my_big.png'),),
                                                   ),

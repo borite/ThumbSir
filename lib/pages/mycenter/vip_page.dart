@@ -1,3 +1,7 @@
+import 'dart:convert';
+
+import 'package:ThumbSir/model/login_result_data_model.dart';
+import 'package:ThumbSir/pages/home.dart';
 import 'package:ThumbSir/pages/mycenter/invitation_code_page.dart';
 import 'package:ThumbSir/pages/mycenter/privacy_statement_page.dart';
 import 'package:ThumbSir/pages/mycenter/service_agreement_page.dart';
@@ -5,6 +9,7 @@ import 'package:ThumbSir/pages/mycenter/vip_privilege_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class VipPage extends StatefulWidget {
   @override
@@ -15,6 +20,35 @@ class _VipPageState extends State<VipPage> {
   final TextEditingController phoneNumController=TextEditingController();
   final TextEditingController passwordController=TextEditingController();
   int viptap = 2;
+
+  LoginResultData userData;
+  int _dateTime = DateTime.now().millisecondsSinceEpoch; // 当前时间转时间戳
+  int exT;
+  String uinfo;
+  var result;
+
+  _getUserInfo() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    uinfo= prefs.getString("userInfo");
+    if(uinfo != null){
+      result =loginResultDataFromJson(uinfo);
+      exT = result.exTokenTime.millisecondsSinceEpoch; // token时间转时间戳
+      if(exT >= _dateTime){
+        this.setState(() {
+          userData=LoginResultData.fromJson(json.decode(uinfo));
+        });
+      }else{
+        _onLogoutAlertPressed(context);
+      }
+    }
+  }
+
+  @override
+  void initState() {
+    _getUserInfo();
+    super.initState();
+  }
+
   @override
     Widget build(BuildContext context) {
       return Scaffold(
@@ -81,15 +115,20 @@ class _VipPageState extends State<VipPage> {
                                           spreadRadius: 2.0
                                       )],
                                     ),
-                                    child:Image(
-                                      image: AssetImage('images/my_big.png'),
+                                    child:ClipRRect(
+                                      borderRadius: BorderRadius.circular(45),
+                                      child: userData == null?
+                                      Image(image: AssetImage('images/my_big.png'),)
+                                          :userData != null && userData.headImg != null ?
+                                      Image(image:NetworkImage(userData.headImg))
+                                          :Image(image: AssetImage('images/my_big.png'),),
                                     ),
                                   ),
                                 ),
                                 Container(
                                   margin: EdgeInsets.only(top: 20,bottom: 10),
                                   child: Text(
-                                    '马思唯',
+                                    userData != null ? userData.userName :'',
                                     style:TextStyle(
                                       fontSize: 20,
                                       color: Colors.white,
@@ -501,6 +540,31 @@ class _VipPageState extends State<VipPage> {
             style: TextStyle(color: Colors.white, fontSize: 20),
           ),
           onPressed: () => Navigator.pop(context),
+          color: Color(0xFF5580EB),
+        ),
+      ],
+    ).show();
+  }
+
+  _onLogoutAlertPressed(context) {
+    Alert(
+      context: context,
+      title: "需要重新登录",
+      desc: "长时间未进行登录操作，需要重新登录验证",
+      buttons: [
+        DialogButton(
+          child: Text(
+            "确定",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () async {
+            SharedPreferences prefs = await SharedPreferences.getInstance();
+            prefs.remove("userInfo");
+            Navigator.of(context).pushAndRemoveUntil(
+                new MaterialPageRoute(builder: (context) => new Home()
+                ), (route) => route == null
+            );
+          },
           color: Color(0xFF5580EB),
         ),
       ],

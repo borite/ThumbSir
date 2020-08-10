@@ -1,8 +1,10 @@
+import 'package:ThumbSir/pages/broker/qlist/img_view_page.dart';
 import 'package:ThumbSir/pages/broker/qlist/qlist_change_page.dart';
 import 'package:ThumbSir/pages/broker/qlist/qlist_upload_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 class QListItem extends StatefulWidget {
   final String name;
@@ -20,10 +22,12 @@ class QListItem extends StatefulWidget {
   final endTime;
   final int planCount;
   final int date;
+  final String imgs;
   int pageIndex;
   int tabIndex;
   final callBack;
   QListItem({Key key,
+    this.imgs,
     this.name,this.number,this.time,this.star,this.defaultId,this.planCount,this.date,
     this.percent,this.remark,this.address,this.currentAddress,this.taskId,this.unit,
     this.startTime,this.endTime,
@@ -39,11 +43,24 @@ class _QListItemState extends State<QListItem> with SingleTickerProviderStateMix
   AnimationController controller;
   AnimationStatus animationStatus;
   double animationValue;
+  List _images=[];
   int page = 0;
+
 
   @override
   void initState() {
     super.initState();
+
+    if(widget.imgs!=""){
+      print(widget.imgs);
+      //var sss=widget.imgs.split(',');
+      for(String imgUrl in widget.imgs.split(',')){
+         if(imgUrl!=""){
+           _images.add(imgUrl);
+         }
+      }
+      print(_images);
+    }
     controller = AnimationController(vsync:this,duration: Duration(seconds: 1));
     animation = Tween<double>(begin: 500,end:25).animate(
         CurvedAnimation(parent: controller,curve: Curves.easeInOut)
@@ -106,7 +123,7 @@ class _QListItemState extends State<QListItem> with SingleTickerProviderStateMix
                     child: Column(
                       children: <Widget>[
                         // 项目和数量
-                        this.widget.percent == 100 ?
+                        this.widget.percent == 1 ?
                         Container(
                           width: 270,
                           padding: EdgeInsets.only(top: 12),
@@ -272,7 +289,7 @@ class _QListItemState extends State<QListItem> with SingleTickerProviderStateMix
             ),
 
             // 圆形进度条
-            this.widget.percent == 100 ?
+            this.widget.percent == 1?
             Positioned(
               left: 260,
               top: 14,
@@ -338,7 +355,7 @@ class _QListItemState extends State<QListItem> with SingleTickerProviderStateMix
                   ),
                   min: 0,
                   max: 100,
-                  initialValue: this.widget.percent,
+                  initialValue: this.widget.percent*100,
                 ),
               ),
             )
@@ -382,7 +399,7 @@ class _QListItemState extends State<QListItem> with SingleTickerProviderStateMix
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
-                            this.widget.percent == 100 ?
+                            this.widget.percent == 1 ?
                             Row(
                               children: <Widget>[
                                 GestureDetector(
@@ -455,20 +472,27 @@ class _QListItemState extends State<QListItem> with SingleTickerProviderStateMix
                             ),
                             GestureDetector(
                               onTap: () {
-                                Navigator.push(context, MaterialPageRoute(
-                                    builder: (context) => QListChangePage(
-                                      id: widget.taskId,
-                                      taskName: widget.name,
-                                      taskUnit: widget.unit,
-                                      defaultTaskID: widget.defaultId,
-                                      stars: widget.star,
-                                      planningCount: widget.planCount,
-                                      planningStartTime: widget.startTime,
-                                      planningEndTime: widget.endTime,
-                                      remark: widget.remark,
-                                      address: widget.address,
-                                      date: widget.date,
-                                    )));
+                                // 如果是今日且任务时间结束，不可修改
+                                if(widget.date == 1){
+                                  _onEditorAlert(context);
+                                }else{
+                                  // 可以修改
+                                  Navigator.push(context, MaterialPageRoute(
+                                      builder: (context) => QListChangePage(
+                                        id: widget.taskId,
+                                        taskName: widget.name,
+                                        taskUnit: widget.unit,
+                                        defaultTaskID: widget.defaultId,
+                                        stars: widget.star,
+                                        planningCount: widget.planCount,
+                                        planningStartTime: widget.startTime,
+                                        planningEndTime: widget.endTime,
+                                        remark: widget.remark,
+                                        address: widget.address,
+                                        date: widget.date,
+                                      )));
+                                }
+
                               },
                               child: Container(
                                 width: 24,
@@ -659,21 +683,21 @@ class _QListItemState extends State<QListItem> with SingleTickerProviderStateMix
                       ),
                       // 任务描述详情
                       Container(
-                          width: 335,
-                          child:
-                          Padding(
-                            padding: EdgeInsets.only(
-                                left: 20, right: 20, bottom: 10, top: 10),
-                            child: Text(
-                              widget.remark,
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Color(0xFF999999),
-                                decoration: TextDecoration.none,
-                                fontWeight: FontWeight.normal,
-                              ),
+                        width: 335,
+                        padding: EdgeInsets.only(
+                            left: 20, right: 20, bottom: 10, top: 10),
+                        child: Expanded(
+                          child: Text(
+                            widget.remark,
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Color(0xFF999999),
+                              decoration: TextDecoration.none,
+                              fontWeight: FontWeight.normal,
                             ),
-                          )
+                          ),
+                        ),
+
                       ),
                       // 定位
                       Container(
@@ -696,7 +720,7 @@ class _QListItemState extends State<QListItem> with SingleTickerProviderStateMix
                                   ),
                                 )
                             ),
-                            Padding(
+                            Container(
                               padding: EdgeInsets.only(bottom: 10),
                               child: Row(
                                 children: <Widget>[
@@ -705,13 +729,17 @@ class _QListItemState extends State<QListItem> with SingleTickerProviderStateMix
                                     child: Image(image: AssetImage(
                                         'images/site_small.png'),),
                                   ),
-                                  Text(
-                                    widget.address,
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                      color: Color(0xFF0E7AE6),
-                                      decoration: TextDecoration.none,
-                                      fontWeight: FontWeight.normal,
+                                  Container(
+                                    child: Expanded(
+                                      child: Text(
+                                        widget.address,
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          color: Color(0xFF0E7AE6),
+                                          decoration: TextDecoration.none,
+                                          fontWeight: FontWeight.normal,
+                                        ),
+                                      ),
                                     ),
                                   )
                                 ],
@@ -732,7 +760,7 @@ class _QListItemState extends State<QListItem> with SingleTickerProviderStateMix
                                   ),
                                 )
                             ),
-                            Padding(
+                            Container(
                               padding: EdgeInsets.only(bottom: 10),
                               child: Row(
                                 children: <Widget>[
@@ -741,14 +769,18 @@ class _QListItemState extends State<QListItem> with SingleTickerProviderStateMix
                                     child: Image(image: AssetImage(
                                         'images/site_small.png'),),
                                   ),
-                                  Text(
-                                    '海淀区',
+                                  Container(
+                                    child: Expanded(
+                                      child: Text(
+                                        widget.currentAddress,
 //                                  widget.currentAddress,
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                      color: Color(0xFF0E7AE6),
-                                      decoration: TextDecoration.none,
-                                      fontWeight: FontWeight.normal,
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          color: Color(0xFF0E7AE6),
+                                          decoration: TextDecoration.none,
+                                          fontWeight: FontWeight.normal,
+                                        ),
+                                      ),
                                     ),
                                   )
                                 ],
@@ -788,20 +820,28 @@ class _QListItemState extends State<QListItem> with SingleTickerProviderStateMix
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
+                            // 左边上传按钮
                             GestureDetector(
                               onTap: () {
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => QListUploadPage(
-                                name : widget.name,
-                                star : widget.star,
-                                percent : widget.percent,
-                                currentAddress : widget.currentAddress,
-                                taskId : widget.taskId,
-                                unit : widget.unit,
-                                defaultId : widget.defaultId,
-                                startTime : widget.startTime,
-                                endTime : widget.endTime,
-                                planCount : widget.planCount,
-                                )));
+                                // 今日且任务时间已经开始且没过1小时，可以上传
+                                if(widget.date == 1){
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => QListUploadPage(
+                                      name : widget.name,
+                                      star : widget.star,
+                                      percent : widget.percent,
+                                      currentAddress : widget.currentAddress,
+                                      taskId : widget.taskId,
+                                      unit : widget.unit,
+                                      defaultId : widget.defaultId,
+                                      startTime : widget.startTime,
+                                      endTime : widget.endTime,
+                                      planCount : widget.planCount,
+                                      uploadImgs:widget.imgs
+                                  ))).then((value) => setState((){}));
+                                }else{
+                                  // 不可上传
+                                  _onUploadAlert(context);
+                                }
                               },
                               child: Container(
                                 width: 90,
@@ -825,15 +865,63 @@ class _QListItemState extends State<QListItem> with SingleTickerProviderStateMix
                                 ),
                               ),
                             ),
-                            Container(
-                              width: 90,
-                              height: 90,
-                              color: Colors.blue,
+                            // 中间图片
+                            GestureDetector(
+                              onTap: (){
+                                if(_images.length != 0 ){
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => ImgViewPage()));
+                                }
+                              },
+                              child: Container(
+                                width: 90,
+                                height: 90,
+                                decoration: BoxDecoration(
+                                    image: DecorationImage(image: AssetImage('images/imgbg.png'))
+                                ),
+                                child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(6),
+                                    child: _images.length == 0 ? Image(image: AssetImage('images/camera.png')) :
+                                    Image(image: NetworkImage(_images[0]),fit: BoxFit.fill,)
+
+                                ),
+                              ),
                             ),
+                            // 右边图片或图片集合
                             Container(
                               width: 90,
                               height: 90,
-                              color: Colors.blue,
+                              decoration: BoxDecoration(
+                                  image: DecorationImage(image: AssetImage('images/imgbg.png'))
+                              ),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(6),
+                                child: _images.length == 0 ?
+                                Image(image: AssetImage('images/camera.png'),)
+                                    : _images.length == 1 ?
+                                Image(image: AssetImage('images/camera.png'),)
+                                    :_images.length == 2 ?
+                                Image(image: NetworkImage(_images[1]),fit: BoxFit.fill,)
+                                    :
+                                Container(
+                                  width: 90,
+                                  height: 90,
+                                  child: Stack(
+                                    alignment: Alignment.center,
+                                    children: <Widget>[
+                                      Image(image: NetworkImage(_images[1]),fit: BoxFit.fill,),
+                                      Container(width: 90,height: 90,color: Colors.black45,),
+                                      Text("+"+(_images.length-1).toString(),
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.normal,
+                                          decoration: TextDecoration.none,
+                                        ),
+                                        textAlign: TextAlign.center,)
+                                    ],
+                                  ),
+                                ),
+                              ),
                             ),
                           ],
                         ),
@@ -862,7 +950,7 @@ class _QListItemState extends State<QListItem> with SingleTickerProviderStateMix
           ),
 
           // 圆形进度条
-          this.widget.percent == 100 ?
+          this.widget.percent == 1 ?
           Positioned(
             top: 80,
             left: 112,
@@ -903,13 +991,52 @@ class _QListItemState extends State<QListItem> with SingleTickerProviderStateMix
                 ),
                 min: 0,
                 max: 100,
-                initialValue: this.widget.percent,
+                initialValue: this.widget.percent*100,
               ),
             ),
           )
         ],
       ),
     );
+  }
+  _onEditorAlert(context) {
+    Alert(
+      context: context,
+      type: AlertType.error,
+      title: "任务已经结束了，无法修改",
+      buttons: [
+        DialogButton(
+          child: Text(
+            "确定",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          color: Color(0xFF5580EB),
+        )
+      ],
+    ).show();
+  }
+  _onUploadAlert(context) {
+    Alert(
+      context: context,
+      type: AlertType.error,
+      title: "当前时间不可上传",
+      desc: "任务开始后至任务结束一小时前可以上传图片凭证，其余时间不可上传",
+      buttons: [
+        DialogButton(
+          child: Text(
+            "确定",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          color: Color(0xFF5580EB),
+        )
+      ],
+    ).show();
   }
 }
 

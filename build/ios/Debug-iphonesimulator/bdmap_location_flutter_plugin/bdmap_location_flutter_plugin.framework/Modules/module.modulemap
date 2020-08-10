@@ -1,0 +1,11 @@
+framework module bdmap_location_flutter_plugin {
+  umbrella header "bdmap_location_flutter_plugin-umbrella.h"
+
+  export *
+  module * { export * }
+}
+
+module bdmap_location_flutter_plugin.Swift {
+    header "bdmap_location_flutter_plugin-Swift.h"
+    requires objc
+}

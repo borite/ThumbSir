@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:ThumbSir/pages/mycenter/my_center_page.dart';
 import 'package:ThumbSir/pages/tips/qlist_tips_page.dart';
 import 'package:ThumbSir/widget/past_qlist.dart';
@@ -7,6 +9,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ThumbSir/pages/broker/qlist/qlist_add_page.dart';
 
+
 class QListListPage extends StatefulWidget {
   @override
   _QListListPageState createState() => _QListListPageState();
@@ -14,7 +17,6 @@ class QListListPage extends StatefulWidget {
 
 class _QListListPageState extends State<QListListPage> with TickerProviderStateMixin {
   TabController _controller;
-
   //0今天，1明天，2往期的Tab Index
   int tabIndex=0;
   var tabs = [];
@@ -32,6 +34,8 @@ class _QListListPageState extends State<QListListPage> with TickerProviderStateM
   AnimationController animationController;
   AnimationStatus animationStatus;
   double animationValue;
+
+
 
   @override
   void initState() {
@@ -961,6 +965,8 @@ class _QListListPageState extends State<QListListPage> with TickerProviderStateM
       ),
     );
   }
+
+
 }
 
 

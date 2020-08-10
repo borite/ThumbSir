@@ -65,8 +65,8 @@ class _QListTaskListSearchResultPageState extends State<QListTaskListSearchResul
                 time: item.planningStartTime.toIso8601String().substring(11,16)+'~'+item.planningEndTime.toIso8601String().substring(11,16),
                 star: item.stars,
                 percent: item.finishRate,
-                remark: item.remark == null ? '暂无描述':item.remark,
-                address: item.address == null ? '暂未标注地点':item.address,
+                remark: item.remark == null ? '暂无描述123':item.remark,
+                address: item.address == null ? '暂未标注地点123':item.address,
                 currentAddress: '北京市海淀区',
               ),
             );

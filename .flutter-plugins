@@ -1,8 +1,12 @@
 # This is a generated file; do not edit or check into version control.
+bdmap_location_flutter_plugin=/Users/jiaozhengying/Desktop/ThumbSirGit/ThumbSir/plugins/bdmap_location_flutter_plugin/
 flutter_plugin_android_lifecycle=/Users/jiaozhengying/flutter/.pub-cache/hosted/pub.flutter-io.cn/flutter_plugin_android_lifecycle-1.0.8/
-image_picker=/Users/jiaozhengying/flutter/.pub-cache/hosted/pub.flutter-io.cn/image_picker-0.6.7/
+image_picker=/Users/jiaozhengying/flutter/.pub-cache/hosted/pub.flutter-io.cn/image_picker-0.6.7+4/
 package_info=/Users/jiaozhengying/flutter/.pub-cache/hosted/pub.flutter-io.cn/package_info-0.4.1/
-shared_preferences=/Users/jiaozhengying/flutter/.pub-cache/hosted/pub.flutter-io.cn/shared_preferences-0.5.7+3/
-shared_preferences_macos=/Users/jiaozhengying/flutter/.pub-cache/hosted/pub.flutter-io.cn/shared_preferences_macos-0.0.1+8/
-shared_preferences_web=/Users/jiaozhengying/flutter/.pub-cache/hosted/pub.flutter-io.cn/shared_preferences_web-0.1.2+5/
+path_provider_linux=/Users/jiaozhengying/flutter/.pub-cache/hosted/pub.flutter-io.cn/path_provider_linux-0.0.1+2/
+permission_handler=/Users/jiaozhengying/flutter/.pub-cache/hosted/pub.flutter-io.cn/permission_handler-4.4.0+hotfix.4/
+shared_preferences=/Users/jiaozhengying/flutter/.pub-cache/hosted/pub.flutter-io.cn/shared_preferences-0.5.8/
+shared_preferences_linux=/Users/jiaozhengying/flutter/.pub-cache/hosted/pub.flutter-io.cn/shared_preferences_linux-0.0.2+1/
+shared_preferences_macos=/Users/jiaozhengying/flutter/.pub-cache/hosted/pub.flutter-io.cn/shared_preferences_macos-0.0.1+10/
+shared_preferences_web=/Users/jiaozhengying/flutter/.pub-cache/hosted/pub.flutter-io.cn/shared_preferences_web-0.1.2+7/
 simple_image_crop=/Users/jiaozhengying/flutter/.pub-cache/hosted/pub.flutter-io.cn/simple_image_crop-0.1.3/

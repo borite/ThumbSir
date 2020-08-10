@@ -1,4 +1,4 @@
-com.example.lianghuaandkeweiapp
+com.bigxia.lianghuaandkeweiapp
 attr alpha
 attr font
 attr fontProviderAuthority

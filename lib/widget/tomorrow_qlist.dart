@@ -6,6 +6,8 @@ import 'package:ThumbSir/dao/get_user_select_mission_dao.dart';
 import 'package:ThumbSir/model/get_user_select_mission_model.dart';
 import 'package:ThumbSir/model/login_result_data_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:ThumbSir/model/mission_record_model.dart';
+import 'package:ThumbSir/dao/get_user_mission_records_dao.dart';
 
 class TomorrowQList extends StatefulWidget {
   TomorrowQList({Key key,this.pageIndex,this.tabIndex,this.callBack }):super(key:key);
@@ -83,6 +85,12 @@ class _TomorrowQListState extends State<TomorrowQList>  with SingleTickerProvide
           missions = missionList.data;
           if (missions.length>0) {
             for (var item in missions) {
+
+              //上午任务
+              //获取用户已经完成的任务记录，含图片和位置记录，并对图片进行水印标注
+              GetMissionRecord m_record= await UserSelectMissionDao.missionRecord(userData.userPid,item.id.toString(),userData.userLevel.substring(0,1));
+              print(m_record);
+
               if(int.parse(item.planningEndTime.toIso8601String().substring(11,13)) <= 12){
                 missionsMorningShowList.add(
                   QListItem(
@@ -93,13 +101,14 @@ class _TomorrowQListState extends State<TomorrowQList>  with SingleTickerProvide
                     percent: item.finishRate,
                     remark: item.remark == null ? '暂无描述':item.remark,
                     address: item.address == null ? '暂未标注地点':item.address,
-                    currentAddress: '北京市海淀区',
+                    currentAddress:m_record.data==null?"还未上传":m_record.data.address,
                     taskId:item.id.toString(),
                     unit:item.taskUnit,
                     defaultId: item.defaultTaskId.toString(),
                     planCount:item.planningCount,
                     startTime: item.planningStartTime,
                     endTime: item.planningEndTime,
+                    imgs:m_record.data==null?"":m_record.data.missionImgs,
                     date: 2,
                     pageIndex: this.widget.pageIndex,
                     tabIndex: this.widget.tabIndex,
@@ -123,6 +132,8 @@ class _TomorrowQListState extends State<TomorrowQList>  with SingleTickerProvide
                     date: 2,
                     startTime: item.planningStartTime,
                     endTime: item.planningEndTime,
+                    imgs:m_record.data==null?"":m_record.data.missionImgs,
+                    currentAddress:m_record.data==null?"还未上传":m_record.data.address,
                     pageIndex: this.widget.pageIndex,
                     tabIndex: this.widget.tabIndex,
                     address: item.address == null ? '暂未标注地点':item.address,
@@ -146,6 +157,8 @@ class _TomorrowQListState extends State<TomorrowQList>  with SingleTickerProvide
                     date: 2,
                     startTime: item.planningStartTime,
                     endTime: item.planningEndTime,
+                    imgs:m_record.data==null?"":m_record.data.missionImgs,
+                    currentAddress:m_record.data==null?"还未上传":m_record.data.address,
                     pageIndex: this.widget.pageIndex,
                     tabIndex: this.widget.tabIndex,
                     address: item.address == null ? '暂未标注地点':item.address,
