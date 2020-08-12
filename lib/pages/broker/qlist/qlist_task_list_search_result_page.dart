@@ -11,6 +11,8 @@ import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:ThumbSir/model/mission_record_model.dart';
+import 'package:ThumbSir/dao/get_user_mission_records_dao.dart';
 
 class QListTaskListSearchResultPage extends StatefulWidget {
   final chooseDate;
@@ -57,17 +59,39 @@ class _QListTaskListSearchResultPageState extends State<QListTaskListSearchResul
       if (missionList.code == 200) {
         missions = missionList.data;
         if (missions.length>0) {
+
           for (var item in missions) {
+            GetMissionRecord m_record= await UserSelectMissionDao.missionRecord(userData.userPid,item.id.toString(),userData.userLevel.substring(0,1));
             missionsMorningShowList.add(
+//              name: item.taskName,
+//              number: item.defaultTaskId == 15 || item.defaultTaskId == 16 || item.defaultTaskId == 13? "":item.planningCount.toString()+item.taskUnit,
+//              time: item.planningStartTime.toIso8601String().substring(11,16)+'~'+item.planningEndTime.toIso8601String().substring(11,16),
+//              star: item.stars,
+//              percent: item.finishRate,
+//              remark: item.remark == null ? '暂无描述':item.remark,
+//              address: item.address == null ? '暂未标注地点':item.address,
+//              currentAddress: m_record.data==null?"还未上传":m_record.data.address,
+//              taskId:item.id.toString(),
+//              defaultId: item.defaultTaskId.toString(),
+//              planCount:item.planningCount,
+//              unit:item.taskUnit,
+//              date: 1,
+//              imgs:m_record.data==null?"":m_record.data.missionImgs,
+//              startTime: item.planningStartTime,
+//              endTime: item.planningEndTime,
+//              pageIndex: this.widget.pageIndex,
+//              tabIndex: this.widget.tabIndex,
+//              callBack: ()=>onChange(this.widget.pageIndex,this.widget.tabIndex),
               QListCheckItem(
                 name: item.taskName,
                 number: item.defaultTaskId == 15 || item.defaultTaskId == 16 || item.defaultTaskId == 13? "":item.planningCount.toString()+item.taskUnit,
                 time: item.planningStartTime.toIso8601String().substring(11,16)+'~'+item.planningEndTime.toIso8601String().substring(11,16),
                 star: item.stars,
                 percent: item.finishRate,
-                remark: item.remark == null ? '暂无描述123':item.remark,
-                address: item.address == null ? '暂未标注地点123':item.address,
-                currentAddress: '北京市海淀区',
+                remark: item.remark == null ? '暂无描述':item.remark,
+                address: item.address == null ? '暂未标注地点':item.address,
+                currentAddress: m_record.data==null?"还未上传":m_record.data.address,
+                imgs:m_record.data==null?"":m_record.data.missionImgs
               ),
             );
           }

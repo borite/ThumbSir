@@ -46,7 +46,7 @@ class _QListItemState extends State<QListItem> with SingleTickerProviderStateMix
   List _images=[];
   int page = 0;
 
-  DateTime now = new DateTime.now();
+
 
 
   @override
@@ -65,13 +65,11 @@ class _QListItemState extends State<QListItem> with SingleTickerProviderStateMix
 //      }
 //    });
 
-    print(widget.name);
-    print(widget.imgs);
-    print(widget.unit);
     if(widget.imgs!=""){
+
       print(widget.imgs);
       //var sss=widget.imgs.split(',');
-      for(String imgUrl in widget.imgs.split(',')){
+      for(String imgUrl in widget.imgs.split('|')){
          if(imgUrl!=""){
            _images.add(imgUrl);
          }
@@ -490,13 +488,17 @@ class _QListItemState extends State<QListItem> with SingleTickerProviderStateMix
                             ),
                             GestureDetector(
                               onTap: () {
+                                DateTime now = new DateTime.now();
                                 // 如果是今日且任务时间结束，不可修改
-                                // now.difference(widget.endTime)
-                                if(widget.date == 1){
-                                  _onEditorAlert(context);
-                                }else{
-                                  // 可以修改
-                                  Navigator.push(context, MaterialPageRoute(
+                                 var aa= now.difference(widget.endTime);
+                                 print(aa);
+                                 print(aa.inHours);
+                                 if(aa.inSeconds>0){
+                                   print("已经过期了");
+                                   _onEditorAlert(context);
+                                 }else{
+                                   print("可以修改");
+                                   Navigator.push(context, MaterialPageRoute(
                                       builder: (context) => QListChangePage(
                                         id: widget.taskId,
                                         taskName: widget.name,
@@ -509,9 +511,9 @@ class _QListItemState extends State<QListItem> with SingleTickerProviderStateMix
                                         remark: widget.remark,
                                         address: widget.address,
                                         date: widget.date,
-                                      )));
-                                }
-
+                                      ))
+                                   );
+                                 }
                               },
                               child: Container(
                                 width: 24,
@@ -842,8 +844,14 @@ class _QListItemState extends State<QListItem> with SingleTickerProviderStateMix
                             // 左边上传按钮
                             GestureDetector(
                               onTap: () {
+                                DateTime now = new DateTime.now();
                                 // 今日且任务时间已经开始且没过1小时，可以上传
-                                if(widget.date == 1){
+                                var aa= now.difference(widget.endTime);
+                                print("图片修改@~");
+                                print(aa.inHours);
+
+                                if(aa.inHours<1 && now.isAfter(widget.startTime)){
+                                  print("可以修改图片");
                                   Navigator.push(context, MaterialPageRoute(builder: (context) => QListUploadPage(
                                       name : widget.name,
                                       star : widget.star,
@@ -856,9 +864,12 @@ class _QListItemState extends State<QListItem> with SingleTickerProviderStateMix
                                       endTime : widget.endTime,
                                       planCount : widget.planCount,
                                       uploadImgs:widget.imgs
-                                  ))).then((value) => setState((){}));
+                                  ))).then((x) => setState((){
+                                    _extend=true;
+                                  }));
                                 }else{
                                   // 不可上传
+                                  print("不可以上传图片");
                                   _onUploadAlert(context);
                                 }
                               },
@@ -888,7 +899,10 @@ class _QListItemState extends State<QListItem> with SingleTickerProviderStateMix
                             GestureDetector(
                               onTap: (){
                                 if(_images.length != 0 ){
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) => ImgViewPage()));
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => ImgViewPage(
+                                    imglist:_images,
+                                    canDel: true,
+                                  )));
                                 }
                               },
                               child: Container(
@@ -906,38 +920,48 @@ class _QListItemState extends State<QListItem> with SingleTickerProviderStateMix
                               ),
                             ),
                             // 右边图片或图片集合
-                            Container(
-                              width: 90,
-                              height: 90,
-                              decoration: BoxDecoration(
-                                  image: DecorationImage(image: AssetImage('images/imgbg.png'))
-                              ),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(6),
-                                child: _images.length == 0 ?
-                                Image(image: AssetImage('images/camera.png'),)
-                                    : _images.length == 1 ?
-                                Image(image: AssetImage('images/camera.png'),)
-                                    :_images.length == 2 ?
-                                Image(image: NetworkImage(_images[1]),fit: BoxFit.fill,)
-                                    :
-                                Container(
-                                  width: 90,
-                                  height: 90,
-                                  child: Stack(
-                                    alignment: Alignment.center,
-                                    children: <Widget>[
-                                      Image(image: NetworkImage(_images[1]),fit: BoxFit.fill,),
-                                      Container(width: 90,height: 90,color: Colors.black45,),
-                                      Text("+"+(_images.length-1).toString(),
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.normal,
-                                          decoration: TextDecoration.none,
-                                        ),
-                                        textAlign: TextAlign.center,)
-                                    ],
+                            GestureDetector(
+                              onTap: (){
+                                if(_images.length >= 2 ){
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => ImgViewPage(
+                                    imglist:_images,
+                                    canDel: true,
+                                  )));
+                                }
+                              },
+                              child: Container(
+                                width: 90,
+                                height: 90,
+                                decoration: BoxDecoration(
+                                    image: DecorationImage(image: AssetImage('images/imgbg.png'))
+                                ),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(6),
+                                  child: _images.length == 0 ?
+                                  Image(image: AssetImage('images/camera.png'),)
+                                      : _images.length == 1 ?
+                                  Image(image: AssetImage('images/camera.png'),)
+                                      :_images.length == 2 ?
+                                  Image(image: NetworkImage(_images[1]),fit: BoxFit.fill,)
+                                      :
+                                  Container(
+                                    width: 90,
+                                    height: 90,
+                                    child: Stack(
+                                      alignment: Alignment.center,
+                                      children: <Widget>[
+                                        Image(image: NetworkImage(_images[1]),fit: BoxFit.fill,),
+                                        Container(width: 90,height: 90,color: Colors.black45,),
+                                        Text("+"+(_images.length-1).toString(),
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.normal,
+                                            decoration: TextDecoration.none,
+                                          ),
+                                          textAlign: TextAlign.center,)
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),

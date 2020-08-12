@@ -94,12 +94,12 @@ class _QListUploadPageState extends State<QListUploadPage> {
     _taskID=widget.taskId;
 
     // 这里应该放在onTap里，然后在点击的时候，上传新的图片，获取链接后存入inImgs，然后再整体上传。
-//    for(var s in widget.uploadImgs.split(',')){
-//      if(s!="") {
-//        inImgs.add(s);
-//        _images.add(s);
-//      }
-//    }
+    for(var s in widget.uploadImgs.split(',')){
+      if(s!="") {
+        inImgs.add(s);
+        _images.add(s);
+      }
+    }
 
 
     //初始化定位
@@ -113,7 +113,7 @@ class _QListUploadPageState extends State<QListUploadPage> {
             _loationResult = result;
             try {
               _baiduLocation = BaiduLocation.fromMap(result); // 将原生端返回的定位结果信息存储在定位结果类中
-              //print(_baiduLocation);
+              print(_baiduLocation);
               if(Platform.isIOS){
                 gps_place=_baiduLocation.province+","+_baiduLocation.city+","+_baiduLocation.street;
               }else{
@@ -400,7 +400,7 @@ class _QListUploadPageState extends State<QListUploadPage> {
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(6),
                                 child: _images.length == 0 && inImgs.length==0 ? Image(image: AssetImage('images/camera.png'),) :
-                                       inImgs.length >= 1?Image(image: NetworkImage(inImgs[0]),fit: BoxFit.fill):
+                                        inImgs.length >= 1?Image(image: NetworkImage(inImgs[0]),fit: BoxFit.fill):
                                        _images.length>=1?Image.file(_images[0],fit: BoxFit.fill,)
                                            :Image.file(_images[0],fit: BoxFit.fill,)
                               ),
@@ -470,136 +470,265 @@ class _QListUploadPageState extends State<QListUploadPage> {
                   // 完成
                   GestureDetector(
                     onTap: () async{
-                      if (_images.length==0){
-                          print("没有");
-                          Navigator.pop(context);
-                      }else {
-                        print("这里是点击完成按钮");
-                        print(_images);
-                        print(_defaultTaskID);
-                        print(_taskID);
-                        List<RecordMission> recordMission = new List();
-                        if (_images.length > 0) {
-                          Dio dio = new Dio();
-                          for (var imgFile in _images) {
-                            String fName = imgFile
-                                .toString()
-                                .split('/')
-                                .last;
-                            print(fName);
-                            //文件名去除连接符
-                            fName = fName.replaceAll('-', '');
-                            //文件名去除单引号
-                            fName = fName.replaceAll("'", '');
-                            //文件名转化为小写
-                            fName = fName.toLowerCase();
-                            var sign = await GetDirectSignDao.httpGetSign(
+                       print("传入的图片");
+                       print(inImgs);
+                       print("添加的");
+                       print(_images);
+                       print(_taskID);
+                       var upTime=DateTime.now();
+                       String picTime=upTime.toString().split('.')[0];
+                       print(picTime);
+
+                       //传入的图片个数大于0,说明是编辑状态
+
+                       if(inImgs.length>0){
+                         List newAdd=[];
+                         for(var newAddImg in _images){
+                           if(newAddImg is File){
+                             print("这里是新加入的");
+                             newAdd.add(newAddImg);
+                           }
+                         }
+
+                         List<RecordMission> recordMission = new List();
+                        //新加入的图片数组
+                         if(newAdd.length>0){
+                           Dio dio = new Dio();
+                           //遍历重新上传的图片
+                           for (var imgFile in newAdd) {
+                                String fName = imgFile
+                                    .toString()
+                                    .split('/')
+                                    .last;
+                                print(fName);
+                                //文件名去除连接符
+                                fName = fName.replaceAll('-', '');
+                                //文件名去除单引号
+                                fName = fName.replaceAll("'", '');
+                                //文件名转化为小写
+                                fName = fName.toLowerCase();
+                                var sign = await GetDirectSignDao.httpGetSign(
                                 fName, '2');
-                            print("获取上传签名");
-                            print(sign);
-                            if (sign.code == 200) {
-                              FormData formData = new FormData.fromMap({
-                                "OSSAccessKeyId": sign.data.accessId,
-                                "policy": sign.data.policy,
-                                "signature": sign.data.signature,
-                                "key": sign.data.dir + fName,
-                                "success_action_status": "200",
-                                "file": await MultipartFile.fromFile(
-                                    imgFile.path, filename: fName)
-                              });
-                              try {
-                                Response res = await dio.post(
-                                    'http://thumb-sir.oss-cn-shanghai.aliyuncs.com',
-                                    data: formData);
-                                if (res.statusCode == 200) {
-                                  print("上传照片成功");
-                                  print("照片链接：" + sign.data.finalUrl);
-                                  print(_defaultTaskID);
-                                  //默认打电话任务
-                                  if (_defaultTaskID == "1" ||
-                                      _defaultTaskID == "3" ||
-                                      _defaultTaskID == "4") {
-                                    print("正在进行AI分析");
-                                    //进行VI识别，并传入是否为Iphone截图
-                                    var vi_result = await TestVIDao.doVI(
-                                        sign.data.finalUrl, isApplePhone);
-                                    //识别成功
-                                    if (vi_result.code == 200) {
-                                      SharedPreferences prefs = await SharedPreferences
-                                          .getInstance();
-                                      //var userId= prefs.getString("userID");
-                                      var userinfo = prefs.getString(
-                                          "userInfo");
-                                      var uinfo = loginResultDataFromJson(
-                                          userinfo);
-                                      print("电话识别成功，组织上传数据");
-                                      //var recordBody=json.encode();
-                                      RecordMission r = new RecordMission(
-                                          userLevels: uinfo.userLevel.substring(
-                                              0, 1),
-                                          userPid: uinfo.userPid,
-                                          img: sign.data.finalUrl,
-                                          phoneNum: uinfo.phone,
-                                          selectMissionId: widget.taskId,
-                                          gpsLocation: gps_place
-                                      );
-                                      print("向数组中加入元素");
-                                      recordMission.add(r);
-                                    } else {
-                                      print("没有什么能够阻挡,没有识别成功！");
+                                print("获取上传签名");
+                                print(sign);
+                                if (sign.code == 200) {
+                                    FormData formData = new FormData.fromMap({
+                                      "OSSAccessKeyId": sign.data.accessId,
+                                      "policy": sign.data.policy,
+                                      "signature": sign.data.signature,
+                                      "key": sign.data.dir + fName,
+                                      "success_action_status": "200",
+                                      "file": await MultipartFile.fromFile(
+                                      imgFile.path, filename: fName)
+                                    });
+                                    try {
+                                      Response res = await dio.post(
+                                          'http://thumb-sir.oss-cn-shanghai.aliyuncs.com',
+                                          data: formData);
+                                      if (res.statusCode == 200) {
+                                        print("上传照片成功");
+                                        print("照片链接：" + sign.data.finalUrl);
+                                        print(_defaultTaskID);
+                                        //默认打电话任务
+                                        if (_defaultTaskID == "1" ||
+                                            _defaultTaskID == "3" ||
+                                            _defaultTaskID == "4") {
+                                          print("正在进行AI分析");
+                                          //进行VI识别，并传入是否为Iphone截图
+                                          var vi_result = await TestVIDao.doVI(
+                                              sign.data.finalUrl, isApplePhone);
+                                          //识别成功
+                                          if (vi_result.code == 200) {
+                                            SharedPreferences prefs = await SharedPreferences
+                                                .getInstance();
+                                            //var userId= prefs.getString("userID");
+                                            var userinfo = prefs.getString(
+                                                "userInfo");
+                                            var uinfo = loginResultDataFromJson(
+                                                userinfo);
+                                            print("电话识别成功，组织上传数据");
+                                            //var recordBody=json.encode();
+                                            RecordMission r = new RecordMission(
+                                                userLevels: uinfo.userLevel.substring(0, 1),
+                                                userPid: uinfo.userPid,
+                                                img: imgUrlWithLocation(sign.data.finalUrl, gps_place, _baiduLocation.longitude.toString(), _baiduLocation.latitude.toString(), picTime),
+                                                phoneNum: uinfo.phone,
+                                                selectMissionId: widget.taskId,
+                                                gpsLocation: gps_place
+                                            );
+                                            print("向数组中加入元素");
+                                            recordMission.add(r);
+                                          } else {
+                                            print("没有什么能够阻挡,没有识别成功！");
+                                          }
+                                        } else { //非打电话任务
+                                          SharedPreferences prefs = await SharedPreferences.getInstance();
+                                          //var userId= prefs.getString("userID");
+                                          var userinfo = prefs.getString("userInfo");
+                                          var uinfo = loginResultDataFromJson(
+                                              userinfo);
+                                          print("非电话类任务，组织上传数据");
+                                          //var recordBody=json.encode();
+                                          RecordMission r = new RecordMission(
+                                              userLevels: uinfo.userLevel.substring(0, 1),
+                                              userPid: uinfo.userPid,
+                                              img: imgUrlWithLocation(sign.data.finalUrl, gps_place, _baiduLocation.longitude.toString(), _baiduLocation.latitude.toString(), picTime),
+                                              phoneNum: '-1',
+                                              selectMissionId: widget.taskId,
+                                              gpsLocation: gps_place
+                                          );
+                                          print("向数组中加入元素");
+                                          recordMission.add(r);
+                                        }
+                                      }
+
+                                    } on DioError catch (e) {
+                                      print(e);
                                     }
-                                  } else { //非打电话任务
-
-                                    SharedPreferences prefs = await SharedPreferences
-                                        .getInstance();
-                                    //var userId= prefs.getString("userID");
-                                    var userinfo = prefs.getString("userInfo");
-                                    var uinfo = loginResultDataFromJson(
-                                        userinfo);
-                                    print("非电话类任务，组织上传数据");
-                                    //var recordBody=json.encode();
-                                    RecordMission r = new RecordMission(
-                                        userLevels: uinfo.userLevel.substring(
-                                            0, 1),
-                                        userPid: uinfo.userPid,
-                                        img: sign.data.finalUrl,
-                                        phoneNum: '-1',
-                                        selectMissionId: widget.taskId,
-                                        gpsLocation: gps_place
-                                    );
-                                    print("向数组中加入元素");
-                                    recordMission.add(r);
-                                  }
                                 }
-//                                  var recordBody=convert.json.encode(recordMission);
-//                                  var recordMissionImg=await dio.post("http://47.104.20.6:10086/api/api/mission/UploadPhone",data: recordBody);
-////                                      var recordMissionImg=await http.post("http://47.104.20.6:10086/api/api/mission/UploadPhone"
-////                                          ,headers: {'Content-type': 'application/json'}
-////                                          ,body:recordBody);
-//                                print(recordMissionImg);
+                           }//for循环完成
 
-                              } on DioError catch (e) {
-                                print(e);
-                              }
-                            }
-                          }
-                          print(recordMission);
-                          if (recordMission.length > 0) {
-                            var recordBody = convert.json.encode(recordMission);
-                            var recordMissionImg = await dio.post(
-                                "http://47.104.20.6:10086/api/api/mission/UploadPhone",
-                                data: recordBody);
-                            var rrr = commonResultFromJson(
-                                recordMissionImg.toString());
-                            if (rrr.code == 200) {
-                              print("完成一个任务记录");
-                              Navigator.pop(context);
-                            }
-                          }
-                        } else {
+                           print(recordMission);
+                           if (recordMission.length > 0) {
+                             var recordBody = convert.json.encode(recordMission);
+                             var recordMissionImg = await dio.post(
+                                 "http://47.104.20.6:10086/api/api/mission/UploadPhone",
+                                 data: recordBody);
+                             var rrr = commonResultFromJson(
+                                 recordMissionImg.toString());
+                             if (rrr.code == 200) {
+                               print("完成一个任务记录更新");
+                               Navigator.pop(context);
+                             }
+                           }
 
-                        }
-                      }
+                         }
+                       }
+                       //初次加入图片
+                       else {
+                         print("这里是点击完成按钮");
+                         print(_images);
+                         print(_defaultTaskID);
+                         print(_taskID);
+                         List<RecordMission> recordMission = new List();
+                         if (_images.length > 0) {
+                           Dio dio = new Dio();
+                           for (var imgFile in _images) {
+                             String fName = imgFile
+                                 .toString()
+                                 .split('/')
+                                 .last;
+                             print(fName);
+                             //文件名去除连接符
+                             fName = fName.replaceAll('-', '');
+                             //文件名去除单引号
+                             fName = fName.replaceAll("'", '');
+                             //文件名转化为小写
+                             fName = fName.toLowerCase();
+                             var sign = await GetDirectSignDao.httpGetSign(
+                                 fName, '2');
+                             print("获取上传签名");
+                             print(sign);
+                             if (sign.code == 200) {
+                               FormData formData = new FormData.fromMap({
+                                 "OSSAccessKeyId": sign.data.accessId,
+                                 "policy": sign.data.policy,
+                                 "signature": sign.data.signature,
+                                 "key": sign.data.dir + fName,
+                                 "success_action_status": "200",
+                                 "file": await MultipartFile.fromFile(
+                                     imgFile.path, filename: fName)
+                               });
+                               try {
+                                 Response res = await dio.post(
+                                     'http://thumb-sir.oss-cn-shanghai.aliyuncs.com',
+                                     data: formData);
+                                 if (res.statusCode == 200) {
+                                   print("上传照片成功");
+                                   print("照片链接：" + sign.data.finalUrl);
+                                   print(_defaultTaskID);
+                                   //默认打电话任务
+                                   if (_defaultTaskID == "1" ||
+                                       _defaultTaskID == "3" ||
+                                       _defaultTaskID == "4") {
+                                     print("正在进行AI分析");
+                                     //进行VI识别，并传入是否为Iphone截图
+                                     var vi_result = await TestVIDao.doVI(
+                                         sign.data.finalUrl, isApplePhone);
+                                     //识别成功
+                                     if (vi_result.code == 200) {
+                                       SharedPreferences prefs = await SharedPreferences
+                                           .getInstance();
+                                       //var userId= prefs.getString("userID");
+                                       var userinfo = prefs.getString(
+                                           "userInfo");
+                                       var uinfo = loginResultDataFromJson(
+                                           userinfo);
+                                       print("电话识别成功，组织上传数据");
+                                       //var recordBody=json.encode();
+                                       RecordMission r = new RecordMission(
+                                           userLevels: uinfo.userLevel.substring(
+                                               0, 1),
+                                           userPid: uinfo.userPid,
+                                           img: imgUrlWithLocation(sign.data.finalUrl, gps_place, _baiduLocation.longitude.toString(), _baiduLocation.latitude.toString(), picTime),
+                                           phoneNum: uinfo.phone,
+                                           selectMissionId: widget.taskId,
+                                           gpsLocation: gps_place
+                                       );
+                                       print("向数组中加入元素");
+                                       recordMission.add(r);
+                                     } else {
+                                       print("没有什么能够阻挡,没有识别成功！");
+                                     }
+                                   } else { //非打电话任务
+
+                                     SharedPreferences prefs = await SharedPreferences
+                                         .getInstance();
+                                     //var userId= prefs.getString("userID");
+                                     var userinfo = prefs.getString("userInfo");
+                                     var uinfo = loginResultDataFromJson(
+                                         userinfo);
+                                     print("非电话类任务，组织上传数据");
+                                     print(sign.data.finalUrl);
+                                     //var recordBody=json.encode();
+                                     RecordMission r = new RecordMission(
+                                         userLevels: uinfo.userLevel.substring(
+                                             0, 1),
+                                         userPid: uinfo.userPid,
+                                         img: imgUrlWithLocation(sign.data.finalUrl, gps_place, _baiduLocation.longitude.toString(), _baiduLocation.latitude.toString(), picTime),
+                                         phoneNum: '-1',
+                                         selectMissionId: widget.taskId,
+                                         gpsLocation: gps_place
+                                     );
+                                     print("向数组中加入元素");
+                                     recordMission.add(r);
+                                   }
+                                 }
+                               } on DioError catch (e) {
+                                 print(e);
+                               }
+                             }
+                           }
+                           print(recordMission);
+                           if (recordMission.length > 0) {
+                             var recordBody = convert.json.encode(recordMission);
+                             var recordMissionImg = await dio.post(
+                                 "http://47.104.20.6:10086/api/api/mission/UploadPhone",
+                                 data: recordBody);
+                             var rrr = commonResultFromJson(
+                                 recordMissionImg.toString());
+                             if (rrr.code == 200) {
+                               print("完成一个任务记录");
+                               Navigator.pop(context);
+                             }
+                           }
+                         } else {
+
+                         }
+
+                       }
+
+
                     },
                     child: Container(
                       width: 200,
@@ -607,8 +736,8 @@ class _QListUploadPageState extends State<QListUploadPage> {
                       padding: EdgeInsets.all(3),
                       margin: EdgeInsets.fromLTRB(0, 40, 0, 80),
                       decoration: BoxDecoration(
-                        color: _images.length==0 ?Colors.transparent: Color(0xFF5580EB),
-                        border: _images.length==0?Border.all(width: 1,color: Color(0xFF93C0FB)):Border.all(width: 1,color: Color(0xFF5580EB)),
+                        color: _images.length==0 ? Colors.transparent: Color(0xFF5580EB),
+                        border: _images.length==0 ? Border.all(width: 1,color: Color(0xFF93C0FB)):Border.all(width: 1,color: Color(0xFF5580EB)),
                         borderRadius: BorderRadius.circular(5),
                       ),
                       child: Text('完成',style: TextStyle(
@@ -666,8 +795,22 @@ class _QListUploadPageState extends State<QListUploadPage> {
   static String base64Encode(String data){
     var content = convert.utf8.encode(data);
     var digest = convert.base64Encode(content);
+    digest.replaceAll('+', '-');
+    digest.replaceAll('/', '_');
     return digest;
   }
+
+
+  //设置图片后缀水印
+ String imgUrlWithLocation(String imgUrl,String gpsLocation,String longitude,String latitude,String picTime){
+      String base64GPS=base64Encode(gpsLocation);
+      String base64JingDu=base64Encode("经度："+longitude);
+      String base64WeiDu=base64Encode("纬度："+latitude);
+      String base64PicTime=base64Encode(picTime);
+      String newUrl="${imgUrl}?x-oss-process=image/watermark,image_aW1ncy9vdGhlcnMvd2F0ZXJsb2dvLnBuZw==,g_se,x_40,y_40,P_20/watermark,text_${base64GPS},color_ffffff,size_25,g_sw,x_50,y_135,shadow_80/watermark,text_${base64PicTime},color_ffffff,size_25,g_sw,x_50,y_105,shadow_80/watermark,text_${base64JingDu},color_ffffff,size_25,g_sw,x_50,y_75,shadow_80/watermark,text_${base64WeiDu},color_ffffff,size_25,g_sw,x_50,y_45,shadow_80";
+      return newUrl;
+  }
+
 
   /// 设置android端和ios端定位参数
   void _setLocOption() {

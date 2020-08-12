@@ -1,3 +1,4 @@
+import 'package:ThumbSir/pages/broker/qlist/img_view_page.dart';
 import 'package:ThumbSir/pages/broker/qlist/qlist_change_page.dart';
 import 'package:ThumbSir/pages/broker/qlist/qlist_upload_page.dart';
 import 'package:flutter/cupertino.dart';
@@ -16,7 +17,8 @@ class QListCheckItem extends StatefulWidget {
   int pageIndex;
   int tabIndex;
   final callBack;
-  QListCheckItem({Key key,this.name,this.number,this.time,this.star,this.percent,this.remark,this.address,this.currentAddress,this.tabIndex,this.pageIndex,this.callBack}):super(key:key);
+  final String imgs;
+  QListCheckItem({Key key,this.imgs,this.name,this.number,this.time,this.star,this.percent,this.remark,this.address,this.currentAddress,this.tabIndex,this.pageIndex,this.callBack}):super(key:key);
   @override
   _QListCheckItemState createState() => _QListCheckItemState();
 }
@@ -28,10 +30,24 @@ class _QListCheckItemState extends State<QListCheckItem> with SingleTickerProvid
   AnimationStatus animationStatus;
   double animationValue;
   int page = 0;
+  List _images=[];
 
   @override
   void initState() {
     super.initState();
+
+    if(widget.imgs!=""){
+
+      print(widget.imgs);
+      //var sss=widget.imgs.split(',');
+      for(String imgUrl in widget.imgs.split('|')){
+        if(imgUrl!=""){
+          _images.add(imgUrl);
+        }
+      }
+      print(_images);
+    }
+
     controller = AnimationController(vsync:this,duration: Duration(seconds: 1));
     animation = Tween<double>(begin: 500,end:25).animate(
         CurvedAnimation(parent: controller,curve: Curves.easeInOut)
@@ -750,24 +766,100 @@ class _QListCheckItemState extends State<QListCheckItem> with SingleTickerProvid
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           GestureDetector(
-                            onTap: () {
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => QListUploadPage()));
+                            onTap: (){
+                              if(_images.length != 0 ){
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => ImgViewPage(
+                                    imglist:_images,
+                                  canDel: false,
+                                )));
+                              }
                             },
                             child: Container(
                               width: 90,
                               height: 90,
-                              color: Colors.blue,
+                              decoration: BoxDecoration(
+                                  image: DecorationImage(image: AssetImage('images/imgbg.png'))
+                              ),
+                              child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(6),
+                                  child: _images.length == 0 ? Image(image: AssetImage('images/camera.png')) :
+                                  Image(image: NetworkImage(_images[0]),fit: BoxFit.fill,)
+
+                              ),
                             ),
                           ),
-                          Container(
-                            width: 90,
-                            height: 90,
-                            color: Colors.blue,
+                          // 中间图片
+                          GestureDetector(
+                            onTap: (){
+                              if(_images.length >= 2 ){
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => ImgViewPage(
+                                    imglist:_images,
+                                  canDel: false,
+                                )));
+                              }
+                            },
+                            child: Container(
+                              width: 90,
+                              height: 90,
+                              decoration: BoxDecoration(
+                                  image: DecorationImage(image: AssetImage('images/imgbg.png'))
+                              ),
+                              child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(6),
+                                  child: _images.length >0 ?Image(image: NetworkImage(_images[1]),fit: BoxFit.fill,): Image(image: AssetImage('images/camera.png'))
+
+
+                              ),
+                            ),
                           ),
-                          Container(
-                            width: 90,
-                            height: 90,
-                            color: Colors.blue,
+                          // 右边图片或图片集合
+                          GestureDetector(
+                            onTap: (){
+                              if(_images.length >= 3 ){
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => ImgViewPage(
+                                  imglist:_images,
+                                  canDel: false,
+                                )));
+                              }
+                            },
+                            child: Container(
+                              width: 90,
+                              height: 90,
+                              decoration: BoxDecoration(
+                                  image: DecorationImage(image: AssetImage('images/imgbg.png'))
+                              ),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(6),
+                                child: _images.length == 0 ?
+                                Image(image: AssetImage('images/camera.png'),)
+                                    : _images.length == 1 ?
+                                Image(image: AssetImage('images/camera.png'),)
+                                    :_images.length == 2 ?
+                                Image(image: AssetImage('images/camera.png'),)
+                                    :_images.length==3?
+                                Image(image: NetworkImage(_images[2]),fit: BoxFit.fill,)
+                                    :
+                                Container(
+                                  width: 90,
+                                  height: 90,
+                                  child: Stack(
+                                    alignment: Alignment.center,
+                                    children: <Widget>[
+                                      Image(image: NetworkImage(_images[1]),fit: BoxFit.fill,),
+                                      Container(width: 90,height: 90,color: Colors.black45,),
+                                      Text("+"+(_images.length-1).toString(),
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.normal,
+                                          decoration: TextDecoration.none,
+                                        ),
+                                        textAlign: TextAlign.center,)
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
                           ),
                         ],
                       ),

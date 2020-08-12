@@ -8,6 +8,8 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:ThumbSir/model/get_user_select_mission_model.dart';
+import 'package:ThumbSir/model/mission_record_model.dart';
+import 'package:ThumbSir/dao/get_user_mission_records_dao.dart';
 
 class TeamListMemberPage extends StatefulWidget {
   final userId;
@@ -39,16 +41,19 @@ class _TeamListMemberPageState extends State<TeamListMemberPage> {
         missions = missionList.data;
         if (missions.length>0) {
           for (var item in missions) {
+            GetMissionRecord m_record= await UserSelectMissionDao.missionRecord(widget.userId,item.id.toString(),widget.userLevel.substring(0,1));
+            print(m_record);
             missionsMorningShowList.add(
               QListCheckItem(
-                name: item.taskName,
-                number: item.defaultTaskId == 15 || item.defaultTaskId == 16 || item.defaultTaskId == 13? "":item.planningCount.toString()+item.taskUnit,
-                time: item.planningStartTime.toIso8601String().substring(11,16)+'~'+item.planningEndTime.toIso8601String().substring(11,16),
-                star: item.stars,
-                percent: item.finishRate,
-                remark: item.remark == null ? '暂无描述':item.remark,
-                address: item.address == null ? '暂未标注地点':item.address,
-                currentAddress: '北京市海淀区',
+                  name: item.taskName,
+                  number: item.defaultTaskId == 15 || item.defaultTaskId == 16 || item.defaultTaskId == 13? "":item.planningCount.toString()+item.taskUnit,
+                  time: item.planningStartTime.toIso8601String().substring(11,16)+'~'+item.planningEndTime.toIso8601String().substring(11,16),
+                  star: item.stars,
+                  percent: item.finishRate,
+                  remark: item.remark == null ? '暂无描述':item.remark,
+                  address: item.address == null ? '暂未标注地点':item.address,
+                  currentAddress: m_record.data==null?"还未上传":m_record.data.address,
+                  imgs:m_record.data==null?"":m_record.data.missionImgs
               ),
             );
           }
