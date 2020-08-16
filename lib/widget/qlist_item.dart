@@ -19,6 +19,7 @@ class QListItem extends StatefulWidget {
   final String unit;
   final String defaultId;
   final startTime;
+  final userID,userLevel;
   final endTime;
   final int planCount;
   final int date;
@@ -27,7 +28,7 @@ class QListItem extends StatefulWidget {
   int tabIndex;
   final callBack;
   QListItem({Key key,
-    this.imgs,
+    this.imgs,this.userID,this.userLevel,
     this.name,this.number,this.time,this.star,this.defaultId,this.planCount,this.date,
     this.percent,this.remark,this.address,this.currentAddress,this.taskId,this.unit,
     this.startTime,this.endTime,
@@ -47,11 +48,10 @@ class _QListItemState extends State<QListItem> with SingleTickerProviderStateMix
   int page = 0;
 
 
-
-
   @override
   void initState() {
     super.initState();
+    print(widget.userLevel);
 //    setState(() {
 //      if(widget.imgs!=""){
 //        print(widget.imgs);
@@ -71,7 +71,9 @@ class _QListItemState extends State<QListItem> with SingleTickerProviderStateMix
       //var sss=widget.imgs.split(',');
       for(String imgUrl in widget.imgs.split('|')){
          if(imgUrl!=""){
-           _images.add(imgUrl);
+           setState(() {
+             _images.add(imgUrl);
+           });
          }
       }
       print(_images);
@@ -154,7 +156,7 @@ class _QListItemState extends State<QListItem> with SingleTickerProviderStateMix
                                   fontWeight: FontWeight.normal,
                                 ),
                               ),
-                              Padding(
+                              Container(
                                 padding: EdgeInsets.only(left: 4, top: 3),
                                 child: Text(
                                   this.widget.number,
@@ -176,7 +178,7 @@ class _QListItemState extends State<QListItem> with SingleTickerProviderStateMix
                           child: Row(
                             children: <Widget>[
                               Image(image: AssetImage('images/time.png'),),
-                              Padding(
+                              Container(
                                 padding: EdgeInsets.only(left: 4),
                                 child: Text(
                                   this.widget.name,
@@ -188,7 +190,7 @@ class _QListItemState extends State<QListItem> with SingleTickerProviderStateMix
                                   ),
                                 ),
                               ),
-                              Padding(
+                              Container(
                                 padding: EdgeInsets.only(left: 4, top: 3),
                                 child: Text(
                                   this.widget.number,
@@ -434,7 +436,7 @@ class _QListItemState extends State<QListItem> with SingleTickerProviderStateMix
                                     ),
                                   ),
                                 ),
-                                Padding(
+                                Container(
                                   padding: EdgeInsets.only(left: 4, top: 3),
                                   child: Text(
                                     this.widget.number,
@@ -457,7 +459,7 @@ class _QListItemState extends State<QListItem> with SingleTickerProviderStateMix
                               },
                               child: Row(
                                 children: <Widget>[
-                                  Padding(
+                                  Container(
                                     padding: EdgeInsets.only(right: 4),
                                     child: Image(
                                       image: AssetImage('images/time.png'),),
@@ -471,7 +473,7 @@ class _QListItemState extends State<QListItem> with SingleTickerProviderStateMix
                                       fontWeight: FontWeight.normal,
                                     ),
                                   ),
-                                  Padding(
+                                  Container(
                                     padding: EdgeInsets.only(left: 4, top: 3),
                                     child: Text(
                                       this.widget.number,
@@ -490,7 +492,7 @@ class _QListItemState extends State<QListItem> with SingleTickerProviderStateMix
                               onTap: () {
                                 DateTime now = new DateTime.now();
                                 // 如果是今日且任务时间结束，不可修改
-                                 var aa= now.difference(widget.endTime);
+                                 var aa = now.difference(widget.endTime);
                                  print(aa);
                                  print(aa.inHours);
                                  if(aa.inSeconds>0){
@@ -546,7 +548,7 @@ class _QListItemState extends State<QListItem> with SingleTickerProviderStateMix
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
-                            Padding(
+                            Container(
                               padding: EdgeInsets.only(left: 20, right: 45),
                               child: Text(
                                 '重要性',
@@ -662,7 +664,7 @@ class _QListItemState extends State<QListItem> with SingleTickerProviderStateMix
                           padding: EdgeInsets.only(bottom: 20),
                           child: Row(
                             children: <Widget>[
-                              Padding(
+                              Container(
                                 padding: EdgeInsets.only(left: 20, right: 83),
                                 child: Text(
                                   '时间',
@@ -689,7 +691,7 @@ class _QListItemState extends State<QListItem> with SingleTickerProviderStateMix
                       // 任务描述
                       Container(
                           width: 335,
-                          child: Padding(
+                          child: Container(
                             padding: EdgeInsets.only(left: 20),
                             child: Text(
                               '任务描述',
@@ -728,7 +730,7 @@ class _QListItemState extends State<QListItem> with SingleTickerProviderStateMix
                             // 每一条定位
                             Container(
                                 width: 335,
-                                child: Padding(
+                                child: Container(
                                   padding: EdgeInsets.only(top: 10,bottom: 10),
                                   child: Text(
                                     '计划地点',
@@ -745,7 +747,7 @@ class _QListItemState extends State<QListItem> with SingleTickerProviderStateMix
                               padding: EdgeInsets.only(bottom: 10),
                               child: Row(
                                 children: <Widget>[
-                                  Padding(
+                                  Container(
                                     padding: EdgeInsets.only(right: 5),
                                     child: Image(image: AssetImage(
                                         'images/site_small.png'),),
@@ -768,7 +770,7 @@ class _QListItemState extends State<QListItem> with SingleTickerProviderStateMix
                             ),
                             Container(
                                 width: 335,
-                                child: Padding(
+                                child: Container(
                                   padding: EdgeInsets.only(top: 10,bottom: 10),
                                   child: Text(
                                     '上传凭证地点',
@@ -785,7 +787,7 @@ class _QListItemState extends State<QListItem> with SingleTickerProviderStateMix
                               padding: EdgeInsets.only(bottom: 10),
                               child: Row(
                                 children: <Widget>[
-                                  Padding(
+                                  Container(
                                     padding: EdgeInsets.only(right: 5),
                                     child: Image(image: AssetImage(
                                         'images/site_small.png'),),
@@ -814,7 +816,7 @@ class _QListItemState extends State<QListItem> with SingleTickerProviderStateMix
                       Container(
                           width: 335,
                           child:
-                          Padding(
+                          Container(
                             padding: EdgeInsets.only(
                                 left: 20, top: 10, bottom: 20, right: 20),
                             child: Row(
@@ -835,7 +837,7 @@ class _QListItemState extends State<QListItem> with SingleTickerProviderStateMix
                           )
                       ),
                       // 图片
-                      Padding(
+                      Container(
                         padding: EdgeInsets.only(
                             left: 20, right: 20, bottom: 20),
                         child: Row(
@@ -864,6 +866,7 @@ class _QListItemState extends State<QListItem> with SingleTickerProviderStateMix
                                       endTime : widget.endTime,
                                       planCount : widget.planCount,
                                       uploadImgs:widget.imgs
+
                                   ))).then((x) => setState((){
                                     _extend=true;
                                   }));
@@ -881,7 +884,7 @@ class _QListItemState extends State<QListItem> with SingleTickerProviderStateMix
                                 ),
                                 child: Column(
                                   children: <Widget>[
-                                    Padding(
+                                    Container(
                                       padding: EdgeInsets.only(top: 25,bottom: 5),
                                       child: Image(image: AssetImage('images/camera.png'),),
                                     ),
@@ -898,10 +901,18 @@ class _QListItemState extends State<QListItem> with SingleTickerProviderStateMix
                             // 中间图片
                             GestureDetector(
                               onTap: (){
+                                DateTime now = new DateTime.now();
+                                // 今日且任务时间已经开始且没过1小时，可以上传
+                                var aa= now.difference(widget.endTime);
+                                print("图片修改@~");
+                                print(aa.inHours);
                                 if(_images.length != 0 ){
                                   Navigator.push(context, MaterialPageRoute(builder: (context) => ImgViewPage(
                                     imglist:_images,
-                                    canDel: true,
+                                    userid:widget.userID,
+                                    userlevel:widget.userLevel,
+                                    taskid:widget.taskId,
+                                    canDel: aa.inHours<1 && now.isAfter(widget.startTime)==true?true:false,
                                   )));
                                 }
                               },

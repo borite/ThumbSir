@@ -1,10 +1,18 @@
+import 'package:ThumbSir/dao/get_user_mission_records_dao.dart';
+import 'package:ThumbSir/model/common_result_model.dart';
+import 'package:ThumbSir/model/mission_record_model.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:ThumbSir/dao/delete_single_mission_pic_dao.dart';
+import 'package:ThumbSir/widget/today_qlist.dart';
+import 'package:ThumbSir/pages/broker/qlist/qlist_page.dart';
 
 class ImgViewPage extends StatefulWidget {
   final imglist;
   final bool canDel;
-  ImgViewPage({Key key,this.imglist,this.canDel }):super(key:key);
+  final userid,taskid;
+  final userlevel;
+  ImgViewPage({Key key,this.imglist,this.canDel,this.userid,this.userlevel,this.taskid }):super(key:key);
   @override
   _ImgViewPageState createState() => _ImgViewPageState();
 }
@@ -14,12 +22,15 @@ class _ImgViewPageState extends State<ImgViewPage> {
 
   int pageIndex=1;
 
-  final List<String> imgList = [];
+  final String current_img_url="";
+  List<String> imgList = [];
 
   @override
   void initState() {
     super.initState();
+    print(widget.userid);
     for(String url in widget.imglist){
+      print("abcdef");
       imgList.add(url);
     }
   }
@@ -91,10 +102,40 @@ class _ImgViewPageState extends State<ImgViewPage> {
                         color: Colors.white,
                       ),textAlign: TextAlign.center,),
                     ),
-
                     widget.canDel==true?
                     GestureDetector(
-                      onTap: (){},
+                      onTap: () async{
+                        String currentImgUrl=imgList[pageIndex-1];
+                        //print(currentImgUrl);
+                        print("当前用户级别");
+                        //print(widget.userlevel);
+                        CommonResult m_record= await DeleteMissionPicDao.deleteSingleMissionPic(widget.taskid, widget.userid, widget.userlevel.substring(0,1), currentImgUrl);
+
+                        if(m_record.code==200) {
+                          print("单个删除图片成功");
+                          GetMissionRecord mr= await UserSelectMissionDao.missionRecord(widget.userid,widget.taskid,widget.userlevel.substring(0,1));
+                          if(mr.code==200){
+                            print("重新获取任务记录");
+                            List<String> leftImg=[];
+                            if(mr.data==null){
+                                print("已全部删除");
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => QListPage()));
+                            }else{
+                              for(String missImg in mr.data.missionImgs.split('|')){
+                                if(missImg!="") {
+                                  leftImg.add(missImg);
+                                }
+                              }
+                              setState(() {
+                                pageIndex=1;
+                                imgList=leftImg;
+                              });
+                              print("还有"+leftImg.length.toString()+"张图片");
+                            }
+
+                          }
+                        }
+                      },
                       child: Container(
                         width: 50,
                         height: 30,

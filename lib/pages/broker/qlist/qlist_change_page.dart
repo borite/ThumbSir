@@ -869,6 +869,8 @@ class _QListChangePageState extends State<QListChangePage> {
                             if(userData.userLevel.substring(0,1)=="5"){
                               Navigator.push(context, MaterialPageRoute(builder: (context)=>ManagerQListPage()));
                             }
+                          }else{
+                            _onTimeAlertPressed(context);
                           }
                         }
                         if(chooseId == "13"){
@@ -895,6 +897,8 @@ class _QListChangePageState extends State<QListChangePage> {
                             if(userData.userLevel.substring(0,1)=="5"){
                               Navigator.push(context, MaterialPageRoute(builder: (context)=>ManagerQListPage()));
                             }
+                          }else{
+                            _onTimeAlertPressed(context);
                           }
                         }
                         if(chooseId == "12" && isRemark == true && remarkController.text != ''){
@@ -921,6 +925,8 @@ class _QListChangePageState extends State<QListChangePage> {
                             if(userData.userLevel.substring(0,1)=="5"){
                               Navigator.push(context, MaterialPageRoute(builder: (context)=>ManagerQListPage()));
                             }
+                          }else{
+                            _onTimeAlertPressed(context);
                           }
                         }
                         if(chooseId != "-1" && chooseId != "12" && chooseId != "13" &&chooseId != "15" &&chooseId != "16" &&_starIndex != 0){
@@ -948,6 +954,8 @@ class _QListChangePageState extends State<QListChangePage> {
                             if(userData.userLevel.substring(0,1)=="5"){
                               Navigator.push(context, MaterialPageRoute(builder: (context)=>ManagerQListPage()));
                             }
+                          }else{
+                            _onTimeAlertPressed(context);
                           }
                         }else{}
                       },
@@ -1035,6 +1043,26 @@ class _QListChangePageState extends State<QListChangePage> {
       ],
     ).show();
   }
+
+  _onTimeAlertPressed(context) {
+    Alert(
+      context: context,
+      type: AlertType.error,
+      title: "当前时间与已有任务时间冲突",
+      desc: "请选择其它时间，各任务的计划时间不可重复",
+      buttons: [
+        DialogButton(
+          child: Text(
+            "确定",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () => Navigator.pop(context),
+          color: Color(0xFF5580EB),
+        ),
+      ],
+    ).show();
+  }
+
   Widget StartTime(){
     return TimePickerSpinner(
       normalTextStyle: TextStyle(

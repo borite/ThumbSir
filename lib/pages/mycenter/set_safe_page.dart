@@ -126,7 +126,7 @@ class _SetSafePageState extends State<SetSafePage> {
                             Container(
                               width: 100,
                               child: Text(
-                                '登录密码',
+                                '修改登录密码',
                                 style:TextStyle(
                                   fontSize: 16,
                                   color: Color(0xFF666666),

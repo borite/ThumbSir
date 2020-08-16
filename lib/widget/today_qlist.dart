@@ -10,6 +10,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ThumbSir/model/mission_record_model.dart';
 import 'package:ThumbSir/dao/get_user_mission_records_dao.dart';
 
+
 class TodayQList extends StatefulWidget {
   TodayQList({Key key,this.pageIndex,this.tabIndex,this.callBack }):super(key:key);
   int pageIndex;
@@ -110,6 +111,8 @@ class _TodayQListState extends State<TodayQList> with SingleTickerProviderStateM
                   planCount:item.planningCount,
                   unit:item.taskUnit,
                   date: 1,
+                  userID:userData.userPid,
+                  userLevel:userData.userLevel,
                   imgs:m_record.data==null?"":m_record.data.missionImgs,
                   startTime: item.planningStartTime,
                   endTime: item.planningEndTime,
@@ -137,6 +140,8 @@ class _TodayQListState extends State<TodayQList> with SingleTickerProviderStateM
                   pageIndex: this.widget.pageIndex,
                   tabIndex: this.widget.tabIndex,
                   taskId:item.id.toString(),
+                  userID:userData.userPid,
+                  userLevel:userData.userLevel,
                   defaultId: item.defaultTaskId.toString(),
                   planCount:item.planningCount,
                   startTime: item.planningStartTime,
@@ -170,6 +175,8 @@ class _TodayQListState extends State<TodayQList> with SingleTickerProviderStateM
                   defaultId: item.defaultTaskId.toString(),
                   planCount:item.planningCount,
                   currentAddress:m_record.data==null?"还未上传":m_record.data.address,
+                  userID:userData.userPid,
+                  userLevel:userData.userLevel,
                   date: 1,
                   imgs:m_record.data==null?"":m_record.data.missionImgs,
                   startTime: item.planningStartTime,

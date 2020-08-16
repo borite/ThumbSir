@@ -17,65 +17,58 @@ class _QListTipsPageState extends State<QListTipsPage> with SingleTickerProvider
   var msgList;
   List<Widget> msgShowList = [];
   List<Widget> msgs=[];
-
+  var pageindex=0;
+  var userID;
 
   _load() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String userId= prefs.getString("userID");
-    if(userId != null){
-      var msgResult = await GetMessageDao.getMessage(userId,'2','1','20');
+    userID=prefs.get("userID");
+    //String userId= prefs.getString("userID");
+    if(userID != null){
+      pageindex++;
+      var msgResult = await GetMessageDao.getMessage(userID,'2',pageindex.toString(),'10');
       if (msgResult.code == 200) {
         msgList=msgResult.data;
         if (msgList.length>0) {
-//          for (var item in msgList) {
-//            msgShowList.add(
-//              _item('images/tie_big.png',item.sendTime.toIso8601String().substring(0,10),item.msgTitle,item.msgContent,item.state.toString()),
-//            );
-//          }
-          for (var item in msgList) {
-            msgShowList.add(
-              GestureDetector(
-                onTap: ()async{
-                  await UpdateMessageStateDao.updateState(item.id.toString(), '2');
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=>AgreeInvitationPage(
-                    item:item,
-                  )));
-                },
-                child: _item(item.id,'images/tie_big.png',item.sendTime.toIso8601String().substring(0,10),item.msgTitle,item.msgContent,item.state.toString()),
-              ),
-            );
-          }
+          setState(() {
+            for (var item in msgList) {
+              msgs.add(
+                GestureDetector(
+                  onTap: ()async{
+                    await UpdateMessageStateDao.updateState(item.id.toString(), '2');
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>AgreeInvitationPage(
+                      item:item,
+                    )));
+                  },
+                  child: _item(item.id,'images/tie_big.png',item.sendTime.toIso8601String().substring(0,10),item.msgTitle,item.msgContent,item.state.toString()),
+                ),
+              );
+            }
+          });
+
         }
-        setState(() {
-          msgs=msgShowList;
-        });
+
+        print(msgs);
+
 //        msgList = msgResult.data;
       }
     }
   }
 
-  _loadMore()async{
-    // 延迟100毫秒
-    await Future.delayed(Duration(milliseconds: 100));
-    setState(() {
-      // 复制数组
-      List list = List.from(msgList);
-      list.addAll(msgList);
-      msgList = list;
-    });
-  }
-
   @override
   void initState() {
-    _load();
     super.initState();
-
+    _load();
     _scrollController.addListener(() {
       // 如果滚动位置到了可滚动的最大距离，就加载更多
+      //print("1234");
       if(_scrollController.position.pixels == _scrollController.position.maxScrollExtent){
-        _loadMore();
+        print("可以加载了");
+
+        _load();
       }
     });
+
   }
 
   @override
@@ -135,12 +128,16 @@ class _QListTipsPageState extends State<QListTipsPage> with SingleTickerProvider
 
                 // 消息提醒
                 Expanded(
-                    child: msgs != [] ?
-                      new ListView(
+                    child: msgs.length>0 ?
+                      ListView.builder(
                         controller: _scrollController,
                         padding: EdgeInsets.only(top: 20,bottom: 30),
                         shrinkWrap: true,
-                        children: msgs,
+                        itemCount: msgs.length,
+                        //children: msgs,
+                        itemBuilder: (BuildContext context,int index){
+                          return msgs[index];
+                        },
                       )
                         :Padding(
                       padding: EdgeInsets.only(top: 30),

@@ -17,9 +17,11 @@ class QListListPage extends StatefulWidget {
 
 class _QListListPageState extends State<QListListPage> with TickerProviderStateMixin {
   TabController _controller;
+  TabController _timeController;
   //0今天，1明天，2往期的Tab Index
   int tabIndex=0;
   var tabs = [];
+  var timeTabs = [];
 
   //0上午，1下午，2晚上的Index
   int pageIndex = 0;
@@ -41,11 +43,17 @@ class _QListListPageState extends State<QListListPage> with TickerProviderStateM
   void initState() {
     super.initState();
     _controller = TabController(length: 3,vsync: this);
+    _timeController = TabController(length: 3,vsync: this);
     animationController = AnimationController(vsync:this,duration: Duration(seconds: 1));
     tabs = <Tab>[
       Tab(text: '今日计划',),
       Tab(text: '明日计划',),
       Tab(text: '往期计划',),
+    ];
+    timeTabs = <Tab>[
+      Tab(text: '上午',),
+      Tab(text: '下午',),
+      Tab(text: '晚上',),
     ];
     pageIndex = 0;
     animation = Tween<double>(begin: 0,end:300).animate(
@@ -910,7 +918,9 @@ class _QListListPageState extends State<QListListPage> with TickerProviderStateM
                                           style: TextStyle(fontSize: 14,color: Colors.white,decoration: TextDecoration.none,fontWeight: FontWeight.normal,),
                                         ),
                                         onTap: (){
-                                          pageIndex = 0;
+                                          setState(() {
+                                            pageIndex = 0;
+                                          });
                                           //animationController.reset();
                                           //animationController.forward();
                                         },

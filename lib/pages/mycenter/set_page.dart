@@ -265,7 +265,7 @@ class _SetPageState extends State<SetPage> {
                                     Container(
                                       width: 250,
                                       child: Text(
-                                        '拇指先生介绍、服务协议、隐私协议等',
+                                        '拇指先生介绍、服务协议等',
                                         style:TextStyle(
                                           fontSize: 12,
                                           color: Color(0xFF999999),

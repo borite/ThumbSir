@@ -64,7 +64,8 @@ class _ServicePageState extends State<ServicePage> {
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
                                   Text(
-                                    '小莹 15012345678',
+//                                    '小莹 15012345678',
+                                  '拇指先生客服',
                                     style:TextStyle(
                                       fontSize: 14,
                                       color: Color(0xFF666666),
@@ -86,7 +87,8 @@ class _ServicePageState extends State<ServicePage> {
                                   child: Column(
                                     children: <Widget>[
                                       Text(
-                                        '您好，我是您的专属客服小莹，电话与微信同号，您有任何问题都可以随时联系我，小莹随时恭候哦~',
+//                                        '您好，我是您的专属客服小莹，电话与微信同号，您有任何问题都可以随时联系我，小莹随时恭候哦~',
+                                      '你好，拇指先生客服热线系统还在搭建中，我们会尽快完善，感谢您的支持！',
                                         style:TextStyle(
                                           fontSize: 14,
                                           color: Color(0xFF5580EB),

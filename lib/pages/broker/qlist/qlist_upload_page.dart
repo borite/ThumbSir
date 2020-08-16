@@ -94,7 +94,7 @@ class _QListUploadPageState extends State<QListUploadPage> {
     _taskID=widget.taskId;
 
     // 这里应该放在onTap里，然后在点击的时候，上传新的图片，获取链接后存入inImgs，然后再整体上传。
-    for(var s in widget.uploadImgs.split(',')){
+    for(var s in widget.uploadImgs.split('|')){
       if(s!="") {
         inImgs.add(s);
         _images.add(s);
@@ -162,7 +162,7 @@ class _QListUploadPageState extends State<QListUploadPage> {
             Column(
                 children: <Widget>[
                   // 导航栏
-                  Padding(
+                  Container(
                       padding: EdgeInsets.all(15),
                       child:Row(
                         children: <Widget>[
@@ -172,7 +172,7 @@ class _QListUploadPageState extends State<QListUploadPage> {
                             },
                             child: Image(image: AssetImage('images/back.png'),),
                           ),
-                          Padding(
+                          Container(
                             padding: EdgeInsets.only(left: 20),
                             child: Text('上传任务交付物照片',style: TextStyle(
                               fontSize: 16,
@@ -279,7 +279,7 @@ class _QListUploadPageState extends State<QListUploadPage> {
                     ),
                   ),
                   // 任务名称
-                  Padding(
+                  Container(
                     padding: EdgeInsets.only(left: 20,right: 20),
                     child: Row(
                       children: <Widget>[
@@ -289,7 +289,7 @@ class _QListUploadPageState extends State<QListUploadPage> {
                           fontWeight: FontWeight.normal,
                           decoration: TextDecoration.none,
                         ),),
-                        Padding(
+                        Container(
                           padding: EdgeInsets.only(left: 10,top: 5),
                           child: Text(
                             widget.planCount.toString()+widget.unit,
@@ -326,7 +326,7 @@ class _QListUploadPageState extends State<QListUploadPage> {
                         padding: EdgeInsets.fromLTRB(20, 30, 20, 10),
                         child: Row(
                           children: <Widget>[
-                            Padding(
+                            Container(
                               padding: EdgeInsets.only(right: 5),
                               child: Image(image: AssetImage('images/site_small.png'),),
                             ),
@@ -344,7 +344,7 @@ class _QListUploadPageState extends State<QListUploadPage> {
                           ],
                         ),
                       ),
-                      Padding(
+                      Container(
                         padding: EdgeInsets.only(left: 20),
                         child: Row(
                           children: <Widget>[
@@ -357,18 +357,22 @@ class _QListUploadPageState extends State<QListUploadPage> {
                           ],
                         )
                       ),
-                      Padding(
+                      Container(
                         padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
                             GestureDetector(
-                              onTap:()=>_pickImage(),
-//                              widget.defaultId == "1" || widget.defaultId == "3" || widget.defaultId == "4" ?
-//                              // 是打电话相关先判断机型是否为苹果
-//                              (){_onChooseIsIPhonePressed(context);}
-//                                  :
-//                              (){_pickImage();},
+                              onTap:() {
+                                //_pickImage(),
+                                widget.defaultId == "1" ||
+                                    widget.defaultId == "3" || widget
+                                    .defaultId == "4" ?
+                                // 是打电话相关先判断机型是否为苹果
+                                  _onChooseIsIPhonePressed(context)
+                                    :
+                                  _pickImage();
+                              },
                               child: Container(
                                 width: 90,
                                 height: 90,
@@ -377,7 +381,7 @@ class _QListUploadPageState extends State<QListUploadPage> {
                                 ),
                                 child: Column(
                                   children: <Widget>[
-                                    Padding(
+                                    Container(
                                       padding: EdgeInsets.only(top: 25,bottom: 5),
                                       child: Image(image: AssetImage('images/camera.png'),),
                                     ),
@@ -449,7 +453,7 @@ class _QListUploadPageState extends State<QListUploadPage> {
                     ],
                   ),
                   // 备注
-                  Padding(
+                  Container(
                     padding: EdgeInsets.only(top: 50),
                     child: Text('注意!',style: TextStyle(
                       fontSize: 14,
@@ -470,22 +474,15 @@ class _QListUploadPageState extends State<QListUploadPage> {
                   // 完成
                   GestureDetector(
                     onTap: () async{
-                       print("传入的图片");
-                       print(inImgs);
-                       print("添加的");
-                       print(_images);
-                       print(_taskID);
                        var upTime=DateTime.now();
                        String picTime=upTime.toString().split('.')[0];
                        print(picTime);
 
                        //传入的图片个数大于0,说明是编辑状态
-
                        if(inImgs.length>0){
                          List newAdd=[];
                          for(var newAddImg in _images){
                            if(newAddImg is File){
-                             print("这里是新加入的");
                              newAdd.add(newAddImg);
                            }
                          }
@@ -606,10 +603,6 @@ class _QListUploadPageState extends State<QListUploadPage> {
                        }
                        //初次加入图片
                        else {
-                         print("这里是点击完成按钮");
-                         print(_images);
-                         print(_defaultTaskID);
-                         print(_taskID);
                          List<RecordMission> recordMission = new List();
                          if (_images.length > 0) {
                            Dio dio = new Dio();
@@ -760,10 +753,35 @@ class _QListUploadPageState extends State<QListUploadPage> {
     Alert(
       context: context,
       title: "您打电话使用的手机是否为苹果手机？",
+      desc:"温馨提示：请逐页上传通话详情页（示例见下图）",
+      content: Column(
+        children: <Widget>[
+          Text(
+            "需要包含的信息有：电话号码、拨打时间、呼入或呼出的标识、通话时长。电话号码和时间不可涂抹。",
+            style: TextStyle(
+              fontSize: 12,
+              color: Color(0xFF999999)
+            ),
+          ),
+          Text(
+            "识别规则：电话接通记为有效，电话号码如有重复仅计算一次。如遇识别不准的情况请在个人中心-客服中心反馈。我们将不断优化，感谢您的配合~",
+            style: TextStyle(
+                fontSize: 12,
+                color: Color(0xFF999999)
+            ),
+          ),
+          Container(
+            padding: EdgeInsets.only(top: 10),
+            width: 300,
+            height: 400,
+            child: Image(image: AssetImage('images/phone_ex.jpg'),fit: BoxFit.fitHeight,),
+          ),
+        ],
+      ),
       buttons: [
         DialogButton(
           child: Text(
-            "是的",
+            "是苹果手机",
             style: TextStyle(color: Colors.white, fontSize: 20),
           ),
           onPressed: (){
@@ -775,7 +793,7 @@ class _QListUploadPageState extends State<QListUploadPage> {
         ),
         DialogButton(
           child: Text(
-            "不是",
+            "不是苹果手机",
             style: TextStyle(color: Colors.white, fontSize: 20),
           ),
           onPressed: (){
