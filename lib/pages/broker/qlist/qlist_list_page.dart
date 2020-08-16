@@ -139,54 +139,14 @@ class _QListListPageState extends State<QListListPage> with TickerProviderStateM
                                   child:Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: <Widget>[
-                                      Row(
-                                        children: <Widget>[
-                                          GestureDetector(
-                                            onTap: (){
-                                              Navigator.pop(context);
-                                            },
-                                            child: Container(
-                                              padding: EdgeInsets.only(left: 15,top: 3),
-                                              child: Image(image: AssetImage('images/back_white.png'),),
-                                            ),
-                                          ),
-                                          Container(
-                                            margin:EdgeInsets.only(top: 3,left:10),
-                                            child: Text(
-                                              '共10个计划',
-                                              style: TextStyle(
-                                                  fontSize: 14,
-                                                  color: Color(0xFF93C0FB),
-                                                  decoration: TextDecoration.none,
-                                                  fontWeight: FontWeight.normal
-                                              ),
-                                            ),
-                                          ),
-                                          Container(
-                                            margin:EdgeInsets.only(left:3,right: 3),
-                                            child: Text(
-                                              '|',
-                                              style: TextStyle(
-                                                fontSize: 18,
-                                                color: Color(0xFF93C0FB),
-                                                decoration: TextDecoration.none,
-                                                fontWeight: FontWeight.normal,
-                                              ),
-                                            ),
-                                          ),
-                                          Container(
-                                            margin:EdgeInsets.only(top: 3),
-                                            child: Text(
-                                              '已完成9个',
-                                              style: TextStyle(
-                                                  fontSize: 14,
-                                                  color: Color(0xFF93C0FB),
-                                                  decoration: TextDecoration.none,
-                                                  fontWeight: FontWeight.normal
-                                              ),
-                                            ),
-                                          ),
-                                        ],
+                                      GestureDetector(
+                                        onTap: (){
+                                          Navigator.pop(context);
+                                        },
+                                        child: Container(
+                                          padding: EdgeInsets.only(left: 15,top: 3),
+                                          child: Image(image: AssetImage('images/back_white.png'),),
+                                        ),
                                       ),
                                       // 消息提醒和个人中心按钮
                                       Row(
@@ -448,54 +408,14 @@ class _QListListPageState extends State<QListListPage> with TickerProviderStateM
                                 child:Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
-                                    Row(
-                                      children: <Widget>[
-                                        GestureDetector(
-                                          onTap: (){
-                                            Navigator.pop(context);
-                                          },
-                                          child: Container(
-                                            padding: EdgeInsets.only(left: 15,top: 3),
-                                            child: Image(image: AssetImage('images/back_white.png'),),
-                                          ),
-                                        ),
-                                        Container(
-                                          margin:EdgeInsets.only(top: 3,left:10),
-                                          child: Text(
-                                            '共10个计划',
-                                            style: TextStyle(
-                                                fontSize: 14,
-                                                color: Color(0xFFF67818),
-                                                decoration: TextDecoration.none,
-                                                fontWeight: FontWeight.normal
-                                            ),
-                                          ),
-                                        ),
-                                        Container(
-                                          margin:EdgeInsets.only(left:3,right: 3),
-                                          child: Text(
-                                            '|',
-                                            style: TextStyle(
-                                              fontSize: 18,
-                                              color: Color(0xFFF67818),
-                                              decoration: TextDecoration.none,
-                                              fontWeight: FontWeight.normal,
-                                            ),
-                                          ),
-                                        ),
-                                        Container(
-                                          margin:EdgeInsets.only(top: 3),
-                                          child: Text(
-                                            '已完成9个',
-                                            style: TextStyle(
-                                                fontSize: 14,
-                                                color: Color(0xFFF67818),
-                                                decoration: TextDecoration.none,
-                                                fontWeight: FontWeight.normal
-                                            ),
-                                          ),
-                                        ),
-                                      ],
+                                    GestureDetector(
+                                      onTap: (){
+                                        Navigator.pop(context);
+                                      },
+                                      child: Container(
+                                        padding: EdgeInsets.only(left: 15,top: 3),
+                                        child: Image(image: AssetImage('images/back_white.png'),),
+                                      ),
                                     ),
                                     // 消息提醒和个人中心按钮
                                     Row(
@@ -760,54 +680,14 @@ class _QListListPageState extends State<QListListPage> with TickerProviderStateM
                                 child:Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
-                                    Row(
-                                      children: <Widget>[
-                                        GestureDetector(
-                                          onTap: (){
-                                            Navigator.pop(context);
-                                          },
-                                          child: Container(
-                                            padding: EdgeInsets.only(left: 15,top: 3),
-                                            child: Image(image: AssetImage('images/back_white.png'),),
-                                          ),
-                                        ),
-                                        Container(
-                                          margin:EdgeInsets.only(top: 3,left:10),
-                                          child: Text(
-                                            '共10个计划',
-                                            style: TextStyle(
-                                                fontSize: 14,
-                                                color: Color(0xFF7412F2),
-                                                decoration: TextDecoration.none,
-                                                fontWeight: FontWeight.normal
-                                            ),
-                                          ),
-                                        ),
-                                        Container(
-                                          margin:EdgeInsets.only(left:3,right: 3),
-                                          child: Text(
-                                            '|',
-                                            style: TextStyle(
-                                              fontSize: 18,
-                                              color: Color(0xFF7412F2),
-                                              decoration: TextDecoration.none,
-                                              fontWeight: FontWeight.normal,
-                                            ),
-                                          ),
-                                        ),
-                                        Container(
-                                          margin:EdgeInsets.only(top: 3),
-                                          child: Text(
-                                            '已完成9个',
-                                            style: TextStyle(
-                                                fontSize: 14,
-                                                color: Color(0xFF7412F2),
-                                                decoration: TextDecoration.none,
-                                                fontWeight: FontWeight.normal
-                                            ),
-                                          ),
-                                        ),
-                                      ],
+                                    GestureDetector(
+                                      onTap: (){
+                                        Navigator.pop(context);
+                                      },
+                                      child: Container(
+                                        padding: EdgeInsets.only(left: 15,top: 3),
+                                        child: Image(image: AssetImage('images/back_white.png'),),
+                                      ),
                                     ),
                                     // 消息提醒和个人中心按钮
                                     Row(

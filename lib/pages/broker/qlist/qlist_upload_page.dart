@@ -757,7 +757,7 @@ class _QListUploadPageState extends State<QListUploadPage> {
       content: Column(
         children: <Widget>[
           Text(
-            "需要包含的信息有：电话号码、拨打时间、呼入或呼出的标识、通话时长。电话号码和时间不可涂抹。",
+            "需要包含的信息有：电话号码、拨打时间、呼入或呼出的标识、通话时长。以上信息均不可涂抹。",
             style: TextStyle(
               fontSize: 12,
               color: Color(0xFF999999)
@@ -803,6 +803,44 @@ class _QListUploadPageState extends State<QListUploadPage> {
           },
           color: Color(0xFF5580EB),
         )
+      ],
+    ).show();
+  }
+
+  _onNotPhoneImgPressed(context) {
+    Alert(
+      context: context,
+      type: AlertType.error,
+      title: "您上传的部分图片不符合识别规则",
+      desc:"温馨提示：请逐页上传通话详情页（示例见下图）",
+      content: Column(
+        children: <Widget>[
+          Text(
+            "需要包含的信息有：电话号码、拨打时间、呼入或呼出的标识、通话时长。以上信息均不可涂抹。",
+            style: TextStyle(
+                fontSize: 12,
+                color: Color(0xFF999999)
+            ),
+          ),
+          Container(
+            padding: EdgeInsets.only(top: 10),
+            width: 300,
+            height: 400,
+            child: Image(image: AssetImage('images/phone_ex.jpg'),fit: BoxFit.fitHeight,),
+          ),
+        ],
+      ),
+      buttons: [
+        DialogButton(
+          child: Text(
+            "确定",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: (){
+            Navigator.pop(context);
+          },
+          color: Color(0xFF5580EB),
+        ),
       ],
     ).show();
   }
