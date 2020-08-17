@@ -1074,7 +1074,7 @@ class _QListItemState extends State<QListItem> with SingleTickerProviderStateMix
     Alert(
       context: context,
       type: AlertType.error,
-      title: "当前时间不可上传",
+      title: "当前任务不可上传",
       desc: "任务开始后至任务结束一小时前可以上传图片凭证，其余时间不可上传",
       buttons: [
         DialogButton(

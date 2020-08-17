@@ -522,9 +522,9 @@ class _QListAddPageState extends State<QListAddPage> {
                           children: <Widget>[
                             Text(
                               widget.date == 1?
-                              '今日可填写的时间段有11:00-12:00，18:30-20:00'
+                              '各项任务的时间不可重叠'
                                   :
-                              '明日可填写的时间段有11:00-12:00，18:30-20:00',
+                              '各项任务的时间不可重叠',
                               style: TextStyle(
                                 fontSize: 10,
                                 color: Color(0xFF999999),
@@ -542,7 +542,7 @@ class _QListAddPageState extends State<QListAddPage> {
                         padding: EdgeInsets.only(left: 20,bottom: 20),
                         child: Row(
                           children: <Widget>[
-                            Text('建议10:00~20:00的所有时间线连续，若不连续，未安排的时间段会填补为"未知"',style: TextStyle(
+                            Text('建议10:00~20:00的所有时间线连续，使分析结果更准确',style: TextStyle(
                               fontSize: 10,
                               color: Color(0xFF999999),
                               fontWeight: FontWeight.normal,
@@ -1084,7 +1084,7 @@ _onTimeAlertPressed(context) {
     context: context,
     type: AlertType.error,
     title: "当前时间与已有任务时间冲突",
-    desc: "请选择其它时间，各任务的计划时间不可重复",
+    desc: "请选择其它时间，各项任务的时间不可重复",
     buttons: [
       DialogButton(
         child: Text(
