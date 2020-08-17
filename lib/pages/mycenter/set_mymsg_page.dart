@@ -193,7 +193,7 @@ class _SetMyMsgPageState extends State<SetMyMsgPage> {
                                 Column(
                                   children: <Widget>[
                                     Container(
-                                      width: 330,
+                                      width: 300,
                                       padding: EdgeInsets.only(
                                           top: 8, bottom: 5),
                                       child: Text(
@@ -208,7 +208,7 @@ class _SetMyMsgPageState extends State<SetMyMsgPage> {
                                       ),
                                     ),
                                     Container(
-                                      width: 330,
+                                      width: 300,
                                       child: Text(
                                         userData == null ?'':userData.companyName,
                                         style: TextStyle(
@@ -246,7 +246,7 @@ class _SetMyMsgPageState extends State<SetMyMsgPage> {
                                 Column(
                                   children: <Widget>[
                                     Container(
-                                      width: 330,
+                                      width: 300,
                                       padding: EdgeInsets.only(
                                           top: 8, bottom: 5),
                                       child: Text(
@@ -261,7 +261,7 @@ class _SetMyMsgPageState extends State<SetMyMsgPage> {
                                       ),
                                     ),
                                     Container(
-                                      width: 330,
+                                      width: 300,
                                       child: Text(
                                         userData == null ?'':userData.province +" - "+ userData.city +" - "+ userData.section +" - "+ userData.userLevel.substring(2,),
 //                                        '北京-京中大部-白石桥大区-长河湾北门店-买卖1组',

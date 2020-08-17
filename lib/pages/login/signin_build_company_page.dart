@@ -173,7 +173,7 @@ class _SigninBuildCompanyPageState extends State<SigninBuildCompanyPage> {
                           Input(
                             hintText: "公司名称",
                             tipText: "请输入完整的公司名称",
-                            errorTipText: "请输入格式正确的手机号码",
+                            errorTipText: "请输入完整的公司名称",
                             rightText: "公司名称格式正确",
                             controller: companyNameController,
                             inputType: TextInputType.text,
@@ -202,38 +202,38 @@ class _SigninBuildCompanyPageState extends State<SigninBuildCompanyPage> {
                             },
                           ),
                           // 选择省市
-                          Container(
-                            width: 335,
-                            height: 40,
-                            margin: EdgeInsets.only(top: 10),
-                            decoration: BoxDecoration(
-                              border: Border.all(width: 1,color: Color(0xFF2692FD)),
-                              borderRadius: BorderRadius.circular(8),
-                              color: Colors.white,
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                Padding(
-                                  padding:EdgeInsets.only(left: 10),
-                                  child: Text(
-                                    text ?? "选择省市",
-                                    style:TextStyle(
-                                      fontSize: 14,
-                                      color: Color(0xFF999999),
-                                      fontWeight: FontWeight.normal,
-                                      decoration: TextDecoration.none,
+                          GestureDetector(
+                            onTap: _incrementCounter,
+                            child: Container(
+                              width: 335,
+                              height: 40,
+                              margin: EdgeInsets.only(top: 10),
+                              decoration: BoxDecoration(
+                                border: Border.all(width: 1,color: Color(0xFF2692FD)),
+                                borderRadius: BorderRadius.circular(8),
+                                color: Colors.white,
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  Padding(
+                                    padding:EdgeInsets.only(left: 10),
+                                    child: Text(
+                                      text ?? "选择省市",
+                                      style:TextStyle(
+                                        fontSize: 14,
+                                        color: Color(0xFF999999),
+                                        fontWeight: FontWeight.normal,
+                                        decoration: TextDecoration.none,
+                                      ),
                                     ),
                                   ),
-                                ),
-                                Padding(
-                                  padding:EdgeInsets.only(right: 10),
-                                  child: GestureDetector(
-                                    onTap: _incrementCounter,
+                                  Padding(
+                                    padding:EdgeInsets.only(right: 10),
                                     child: Icon(Icons.arrow_drop_down),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),// This trailing comma makes auto-formatting nicer for build methods.
                           // 创建职级

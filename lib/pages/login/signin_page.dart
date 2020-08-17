@@ -3,6 +3,7 @@ import 'package:ThumbSir/pages/login/login_page.dart';
 import 'package:ThumbSir/pages/login/signin_choose_company_page.dart';
 import 'package:ThumbSir/pages/mycenter/legal_notice_page.dart';
 import 'package:ThumbSir/pages/mycenter/privacy_statement_page.dart';
+import 'package:ThumbSir/pages/mycenter/service_agreement_page.dart';
 import 'package:ThumbSir/widget/input.dart';
 import 'package:ThumbSir/widget/loading.dart';
 import 'package:ThumbSir/widget/yzminput.dart';
@@ -260,21 +261,9 @@ class _SigninNameAndPhonePageState extends State<SigninNameAndPhonePage> {
                                       GestureDetector(
                                         onTap: () {
                                           Navigator.push(context, MaterialPageRoute(
-                                              builder: (context) => PrivacyStatementPage()));
+                                              builder: (context) => ServiceAgreementPage()));
                                         },
-                                        child: Text('《拇指先生用户隐私政策》',style: TextStyle(
-                                          fontSize: 14,
-                                          color: checkBox == 0 ? Color(0xFF5580EB) : Color(0xFFF24848),
-                                          fontWeight: FontWeight.normal,
-                                          decoration: TextDecoration.none,
-                                        ),textAlign: TextAlign.left,),
-                                      ),
-                                      GestureDetector(
-                                        onTap: () {
-                                          Navigator.push(context, MaterialPageRoute(
-                                              builder: (context) => LegalNoticePage()));
-                                        },
-                                        child: Text('《法律声明》',style: TextStyle(
+                                        child: Text('《拇指先生服务协议》',style: TextStyle(
                                           fontSize: 14,
                                           color: checkBox == 0 ? Color(0xFF5580EB) : Color(0xFFF24848),
                                           fontWeight: FontWeight.normal,

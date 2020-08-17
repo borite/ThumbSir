@@ -119,7 +119,7 @@ class _UpdateVersionPageState extends State<UpdateVersionPage> {
                       Padding(
                         padding: EdgeInsets.only(top: 15),
                         child: Text(
-                          _packageInfo.version != versionMsg.version ?
+                          versionMsg != null && _packageInfo != null && _packageInfo.version != versionMsg.version ?
                           '请更新最新版本：':'当前已经是最新版本：',
 //                        '已更新至最新版本：',
                           style: TextStyle(
@@ -141,7 +141,9 @@ class _UpdateVersionPageState extends State<UpdateVersionPage> {
                                 fontWeight: FontWeight.normal,
                                 decoration: TextDecoration.none,
                               ),),
-                              Text(versionMsg.version,style: TextStyle(
+                              Text(
+                                versionMsg != null ? versionMsg.version:'',
+                                style: TextStyle(
                                 fontSize: 20,
                                 color: Color(0xFF5580EB),
                                 fontWeight: FontWeight.normal,
@@ -157,20 +159,33 @@ class _UpdateVersionPageState extends State<UpdateVersionPage> {
                           )
                       ),
                       // 更新
-                      _packageInfo.version != versionMsg.version ?
+                      versionMsg != null && _packageInfo != null && _packageInfo.version != versionMsg.version ?
+                     // 更新按钮
+//                      Container(
+//                        width: 335,
+//                        height: 40,
+//                        padding: EdgeInsets.all(7),
+//                        margin: EdgeInsets.fromLTRB(0, 60, 0, 80),
+//                        decoration: BoxDecoration(
+//                            border: Border.all(width: 1,color: Color(0xFF5580EB)),
+//                            borderRadius: BorderRadius.circular(8),
+//                            color: Color(0xFF5580EB)
+//                        ),
+//                        child: Text('更新',style: TextStyle(
+//                          fontSize: 16,
+//                          color: Colors.white,
+//                          fontWeight: FontWeight.normal,
+//                          decoration: TextDecoration.none,
+//                        ),textAlign: TextAlign.center,),
+//                      )
                       Container(
                         width: 335,
                         height: 40,
                         padding: EdgeInsets.all(7),
                         margin: EdgeInsets.fromLTRB(0, 60, 0, 80),
-                        decoration: BoxDecoration(
-                            border: Border.all(width: 1,color: Color(0xFF5580EB)),
-                            borderRadius: BorderRadius.circular(8),
-                            color: Color(0xFF5580EB)
-                        ),
-                        child: Text('更新',style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.white,
+                        child: Text('请前往应用商店进行更新',style: TextStyle(
+                          fontSize: 20,
+                          color: Color(0xFF5580EB),
                           fontWeight: FontWeight.normal,
                           decoration: TextDecoration.none,
                         ),textAlign: TextAlign.center,),

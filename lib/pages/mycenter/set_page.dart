@@ -356,6 +356,7 @@ class _SetPageState extends State<SetPage> {
   _onLogoutAlertPressed(context) {
     Alert(
       context: context,
+      type: AlertType.warning,
       title: "是否退出登录？",
       desc: "退出登录后不会删除任何历史数据，下次登录依然可以使用本账号。",
       buttons: [

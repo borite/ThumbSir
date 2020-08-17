@@ -266,14 +266,6 @@ class _AboutUsPageState extends State<AboutUsPage> {
                                 decoration: TextDecoration.none,
                               ),)
                             ),
-                            Container(
-                              child: Text('京ICP证060716号 | 京ICP备12345677号-1',style: TextStyle(
-                                fontSize: 10,
-                                color: Color(0xFF666666),
-                                fontWeight: FontWeight.normal,
-                                decoration: TextDecoration.none,
-                              ),)
-                            )
                           ]
                         )
                       )

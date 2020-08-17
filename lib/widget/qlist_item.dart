@@ -849,8 +849,6 @@ class _QListItemState extends State<QListItem> with SingleTickerProviderStateMix
                                 DateTime now = new DateTime.now();
                                 // 今日且任务时间已经开始且没过1小时，可以上传
                                 var aa= now.difference(widget.endTime);
-                                print("图片修改@~");
-                                print(aa.inHours);
 
                                 if(aa.inHours<1 && now.isAfter(widget.startTime)){
                                   print("可以修改图片");

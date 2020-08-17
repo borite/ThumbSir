@@ -806,7 +806,10 @@ class _QListCheckItemState extends State<QListCheckItem> with SingleTickerProvid
                               ),
                               child: ClipRRect(
                                   borderRadius: BorderRadius.circular(6),
-                                  child: _images.length >0 ?Image(image: NetworkImage(_images[1]),fit: BoxFit.fill,): Image(image: AssetImage('images/camera.png'))
+                                  child: _images.length >= 2 ?
+                                  Image(image: NetworkImage(_images[1]),fit: BoxFit.fill,)
+                                      :
+                                  Image(image: AssetImage('images/camera.png'))
 
 
                               ),

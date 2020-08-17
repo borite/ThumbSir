@@ -17,6 +17,8 @@ import 'package:bdmap_location_flutter_plugin/flutter_baidu_location_android_opt
 import 'package:bdmap_location_flutter_plugin/flutter_baidu_location_ios_option.dart';
 import 'package:ThumbSir/dao/test_vi_dao.dart';
 import 'package:ThumbSir/model/common_result_model.dart';
+import 'package:image/image.dart' as IMG;
+import 'package:path_provider/path_provider.dart';
 
 class QListUploadPage extends StatefulWidget {
   final String name;
@@ -476,7 +478,6 @@ class _QListUploadPageState extends State<QListUploadPage> {
                     onTap: () async{
                        var upTime=DateTime.now();
                        String picTime=upTime.toString().split('.')[0];
-                       print(picTime);
 
                        //传入的图片个数大于0,说明是编辑状态
                        if(inImgs.length>0){
@@ -498,6 +499,18 @@ class _QListUploadPageState extends State<QListUploadPage> {
                                     .split('/')
                                     .last;
                                 print(fName);
+
+                                final tempDir=await getTemporaryDirectory();
+                                final path=tempDir.path;
+
+                                //压缩图片开始
+
+                                IMG.Image compressImg=IMG.decodeImage(imgFile.readAsBytesSync());
+                                IMG.Image smallerImg=IMG.copyResize(compressImg,height: 1280);
+                                final compressedImageFile=new File("$path/$fName")..writeAsBytesSync(IMG.encodeJpg(smallerImg,quality: 85));
+                                print(compressedImageFile);
+                                //压缩图片结束
+
                                 //文件名去除连接符
                                 fName = fName.replaceAll('-', '');
                                 //文件名去除单引号
@@ -607,19 +620,31 @@ class _QListUploadPageState extends State<QListUploadPage> {
                          if (_images.length > 0) {
                            Dio dio = new Dio();
                            for (var imgFile in _images) {
+
                              String fName = imgFile
                                  .toString()
                                  .split('/')
                                  .last;
-                             print(fName);
+
+                             final tempDir=await getTemporaryDirectory();
+                             final path=tempDir.path;
+
+                             //压缩图片开始
+
+                             IMG.Image compressImg=IMG.decodeImage(imgFile.readAsBytesSync());
+                             IMG.Image smallerImg=IMG.copyResize(compressImg,height: 1280);
+                             final compressedImageFile=new File("$path/$fName")..writeAsBytesSync(IMG.encodeJpg(smallerImg,quality: 85));
+                             print(compressedImageFile);
+                             //压缩图片结束
+
+
                              //文件名去除连接符
                              fName = fName.replaceAll('-', '');
                              //文件名去除单引号
                              fName = fName.replaceAll("'", '');
                              //文件名转化为小写
                              fName = fName.toLowerCase();
-                             var sign = await GetDirectSignDao.httpGetSign(
-                                 fName, '2');
+                             var sign = await GetDirectSignDao.httpGetSign(fName, '2');
                              print("获取上传签名");
                              print(sign);
                              if (sign.code == 200) {
@@ -630,7 +655,7 @@ class _QListUploadPageState extends State<QListUploadPage> {
                                  "key": sign.data.dir + fName,
                                  "success_action_status": "200",
                                  "file": await MultipartFile.fromFile(
-                                     imgFile.path, filename: fName)
+                                     compressedImageFile.path, filename: fName)
                                });
                                try {
                                  Response res = await dio.post(
@@ -672,6 +697,7 @@ class _QListUploadPageState extends State<QListUploadPage> {
                                        recordMission.add(r);
                                      } else {
                                        print("没有什么能够阻挡,没有识别成功！");
+                                       _onNotPhoneImgPressed(context);
                                      }
                                    } else { //非打电话任务
 
