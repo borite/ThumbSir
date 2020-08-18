@@ -112,7 +112,7 @@ class _ChoosePortraitPageState extends State<ChoosePortraitPage> {
                 children: <Widget>[
                   // 导航栏
                   Padding(
-                      padding: EdgeInsets.all(15),
+                      padding: EdgeInsets.only(bottom: 15),
                       child:Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
@@ -168,7 +168,10 @@ class _ChoosePortraitPageState extends State<ChoosePortraitPage> {
                                   }
 
                                 },
-                                child: Image(image: AssetImage('images/back.png'),),
+                                child: Container(
+                                  width: 50,
+                                  child: Image(image: AssetImage('images/back.png'),),
+                                ),
                               ),
                               Text('个人头像',style: TextStyle(
                                 fontSize: 16,
@@ -176,7 +179,7 @@ class _ChoosePortraitPageState extends State<ChoosePortraitPage> {
                                 fontWeight: FontWeight.normal,
                                 decoration: TextDecoration.none,
                               ),),
-                              Container(width: 20,)
+                              Container(width: 50,)
                             ],
                           ),
                   ),

@@ -1,6 +1,9 @@
 import 'package:ThumbSir/dao/get_user_mission_records_dao.dart';
 import 'package:ThumbSir/model/common_result_model.dart';
 import 'package:ThumbSir/model/mission_record_model.dart';
+import 'package:ThumbSir/pages/major/qlist/major_qlist_page.dart';
+import 'package:ThumbSir/pages/manager/qlist/manager_qlist_page.dart';
+import 'package:ThumbSir/pages/manager/qlist/s_qlist_page.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:ThumbSir/dao/delete_single_mission_pic_dao.dart';
@@ -119,7 +122,18 @@ class _ImgViewPageState extends State<ImgViewPage> {
                             List<String> leftImg=[];
                             if(mr.data==null){
                                 print("已全部删除");
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => QListPage()));
+                                if(widget.userlevel.substring(0,1)=="6"){
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>QListPage()));
+                                }
+                                if(widget.userlevel.substring(0,1)=="5"){
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>ManagerQListPage()));
+                                }
+                                if(widget.userlevel.substring(0,1)=="4"){
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>SQListPage()));
+                                }
+                                if(widget.userlevel.substring(0,1)=="1"||widget.userlevel.substring(0,1)=="2"||widget.userlevel.substring(0,1)=="3"){
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>MajorQListPage()));
+                                }
                             }else{
                               for(String missImg in mr.data.missionImgs.split('|')){
                                 if(missImg!="") {

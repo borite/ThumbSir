@@ -682,13 +682,18 @@ class _QListCheckItemState extends State<QListCheckItem> with SingleTickerProvid
                                   child: Image(image: AssetImage(
                                       'images/site_small.png'),),
                                 ),
-                                Text(
-                                  widget.address,
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    color: Color(0xFF0E7AE6),
-                                    decoration: TextDecoration.none,
-                                    fontWeight: FontWeight.normal,
+                                Container(
+                                  child: Expanded(
+                                    child: Text(
+                                      widget.address,
+//                                  widget.currentAddress,
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        color: Color(0xFF0E7AE6),
+                                        decoration: TextDecoration.none,
+                                        fontWeight: FontWeight.normal,
+                                      ),
+                                    ),
                                   ),
                                 )
                               ],
@@ -709,23 +714,27 @@ class _QListCheckItemState extends State<QListCheckItem> with SingleTickerProvid
                                 ),
                               )
                           ),
-                          Padding(
+                          Container(
                             padding: EdgeInsets.only(bottom: 10),
                             child: Row(
                               children: <Widget>[
-                                Padding(
+                                Container(
                                   padding: EdgeInsets.only(right: 5),
                                   child: Image(image: AssetImage(
                                       'images/site_small.png'),),
                                 ),
-                                Text(
-                                  //'海淀区',
-                                  widget.currentAddress,
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    color: Color(0xFF0E7AE6),
-                                    decoration: TextDecoration.none,
-                                    fontWeight: FontWeight.normal,
+                                Container(
+                                  child: Expanded(
+                                    child: Text(
+                                      widget.currentAddress,
+//                                  widget.currentAddress,
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        color: Color(0xFF0E7AE6),
+                                        decoration: TextDecoration.none,
+                                        fontWeight: FontWeight.normal,
+                                      ),
+                                    ),
                                   ),
                                 )
                               ],

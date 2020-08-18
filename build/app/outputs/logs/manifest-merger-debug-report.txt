@@ -11,6 +11,7 @@ MERGED from [:simple_image_crop] /Users/jiaozhengying/Desktop/ThumbSirGit/ThumbS
 MERGED from [:permission_handler] /Users/jiaozhengying/Desktop/ThumbSirGit/ThumbSir/build/permission_handler/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-7:12
 MERGED from [:image_picker] /Users/jiaozhengying/Desktop/ThumbSirGit/ThumbSir/build/image_picker/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-22:12
 MERGED from [:flutter_plugin_android_lifecycle] /Users/jiaozhengying/Desktop/ThumbSirGit/ThumbSir/build/flutter_plugin_android_lifecycle/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-7:12
+MERGED from [:path_provider] /Users/jiaozhengying/Desktop/ThumbSirGit/ThumbSir/build/path_provider/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-7:12
 MERGED from [:package_info] /Users/jiaozhengying/Desktop/ThumbSirGit/ThumbSir/build/package_info/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.fragment:fragment:1.1.0] /Users/jiaozhengying/.gradle/caches/transforms-2/files-2.1/0986d0d74b8a2c7da8161f6370fc7744/fragment-1.1.0/AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.viewpager:viewpager:1.0.0] /Users/jiaozhengying/.gradle/caches/transforms-2/files-2.1/28d99d5113324aa067757f8ca41a426f/viewpager-1.0.0/AndroidManifest.xml:17:1-22:12
@@ -113,6 +114,8 @@ MERGED from [:image_picker] /Users/jiaozhengying/Desktop/ThumbSirGit/ThumbSir/bu
 MERGED from [:image_picker] /Users/jiaozhengying/Desktop/ThumbSirGit/ThumbSir/build/image_picker/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
 MERGED from [:flutter_plugin_android_lifecycle] /Users/jiaozhengying/Desktop/ThumbSirGit/ThumbSir/build/flutter_plugin_android_lifecycle/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
 MERGED from [:flutter_plugin_android_lifecycle] /Users/jiaozhengying/Desktop/ThumbSirGit/ThumbSir/build/flutter_plugin_android_lifecycle/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
+MERGED from [:path_provider] /Users/jiaozhengying/Desktop/ThumbSirGit/ThumbSir/build/path_provider/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
+MERGED from [:path_provider] /Users/jiaozhengying/Desktop/ThumbSirGit/ThumbSir/build/path_provider/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
 MERGED from [:package_info] /Users/jiaozhengying/Desktop/ThumbSirGit/ThumbSir/build/package_info/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
 MERGED from [:package_info] /Users/jiaozhengying/Desktop/ThumbSirGit/ThumbSir/build/package_info/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
 MERGED from [androidx.fragment:fragment:1.1.0] /Users/jiaozhengying/.gradle/caches/transforms-2/files-2.1/0986d0d74b8a2c7da8161f6370fc7744/fragment-1.1.0/AndroidManifest.xml:20:5-22:41

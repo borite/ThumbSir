@@ -38,7 +38,7 @@ class _AgreeInvitationPageState extends State<AgreeInvitationPage> {
                             children: <Widget>[
                               GestureDetector(
                                 onTap: (){
-                                  Navigator.of(context).pop();
+                                  Navigator.popAndPushNamed(context, 'tips');
                                 },
                                 child: Image(image: AssetImage('images/back_white.png'),),
                               ),

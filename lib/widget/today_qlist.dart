@@ -12,8 +12,7 @@ import 'package:ThumbSir/dao/get_user_mission_records_dao.dart';
 
 
 class TodayQList extends StatefulWidget {
-  TodayQList({Key key,this.pageIndex,this.tabIndex,this.callBack }):super(key:key);
-  int pageIndex;
+  TodayQList({Key key,this.tabIndex,this.callBack }):super(key:key);
   int tabIndex;
   final callBack;
   @override
@@ -31,7 +30,7 @@ class _TodayQListState extends State<TodayQList> with SingleTickerProviderStateM
 
     _getUserInfo();
     controller = AnimationController(vsync:this,duration: Duration(seconds: 1));
-    animation = Tween<double>(begin: 500,end:25).animate(
+    animation = Tween<double>(begin: 700,end:25).animate(
         CurvedAnimation(parent: controller,curve: Curves.easeInOut)
           ..addListener(() {
             setState(() {
@@ -53,13 +52,9 @@ class _TodayQListState extends State<TodayQList> with SingleTickerProviderStateM
   var missionList;
 
   List<Datum> missions = [];
-  List<Widget> missionsMorningShowList = [];
-  List<Widget> missionsNoonShowList = [];
-  List<Widget> missionsEveningShowList = [];
+  List<Widget> missionsShowList = [];
 
-  List<Widget> morningMsgs=[];
-  List<Widget> noonMsgs=[];
-  List<Widget> eveningMsgs=[];
+  List<Widget> Msgs=[];
 
   LoginResultData userData;
   String uinfo;
@@ -90,115 +85,38 @@ class _TodayQListState extends State<TodayQList> with SingleTickerProviderStateM
         if (missions.length>0) {
 
           for (var item in missions) {
-            if(int.parse(item.planningEndTime.toIso8601String().substring(11,13)) <= 12){
-              //上午任务
-              //获取用户已经完成的任务记录，含图片和位置记录，并对图片进行水印标注
-              GetMissionRecord m_record= await UserSelectMissionDao.missionRecord(userData.userPid,item.id.toString(),userData.userLevel.substring(0,1));
-              print(m_record);
+            GetMissionRecord m_record= await UserSelectMissionDao.missionRecord(userData.userPid,item.id.toString(),userData.userLevel.substring(0,1));
+            print(m_record);
 
-              missionsMorningShowList.add(
-                QListItem(
-                  name: item.taskName,
-                  number: item.defaultTaskId == 15 || item.defaultTaskId == 16 || item.defaultTaskId == 13? "":item.planningCount.toString()+item.taskUnit,
-                  time: item.planningStartTime.toIso8601String().substring(11,16)+'~'+item.planningEndTime.toIso8601String().substring(11,16),
-                  star: item.stars,
-                  percent: item.finishRate,
-                  remark: item.remark == null ? '暂无描述':item.remark,
-                  address: item.address == null ? '暂未标注地点':item.address,
-                  currentAddress: m_record.data==null?"还未上传":m_record.data.address,
-                  taskId:item.id.toString(),
-                  defaultId: item.defaultTaskId.toString(),
-                  planCount:item.planningCount,
-                  unit:item.taskUnit,
-                  date: 1,
-                  userID:userData.userPid,
-                  userLevel:userData.userLevel,
-                  imgs:m_record.data==null?"":m_record.data.missionImgs,
-                  startTime: item.planningStartTime,
-                  endTime: item.planningEndTime,
-                  pageIndex: this.widget.pageIndex,
-                  tabIndex: this.widget.tabIndex,
-                  callBack: ()=>onChange(this.widget.pageIndex,this.widget.tabIndex),
-                ),
-              );
-            }
-            //下午任务
-            if( int.parse(item.planningEndTime.toIso8601String().substring(11,13))>12 && int.parse(item.planningEndTime.toIso8601String().substring(11,13))<=18){
-              //获取用户已经完成的任务记录，含图片和位置记录，并对图片进行水印标注
-              print(item.id);
-              GetMissionRecord m_record= await UserSelectMissionDao.missionRecord(userData.userPid,item.id.toString(),userData.userLevel.substring(0,1));
-              print(m_record);
-              missionsNoonShowList.add(
-                QListItem(
-                  name: item.taskName,
-                  number: item.defaultTaskId == 15 || item.defaultTaskId == 16 || item.defaultTaskId == 13? "":item.planningCount.toString()+item.taskUnit,
-                  time: item.planningStartTime.toIso8601String().substring(11,16)+'~'+item.planningEndTime.toIso8601String().substring(11,16),
-                  star: item.stars,
-                  percent: item.finishRate,
-                  remark: item.remark == null ? '暂无描述':item.remark,
-                  unit:item.taskUnit,
-                  pageIndex: this.widget.pageIndex,
-                  tabIndex: this.widget.tabIndex,
-                  taskId:item.id.toString(),
-                  userID:userData.userPid,
-                  userLevel:userData.userLevel,
-                  defaultId: item.defaultTaskId.toString(),
-                  planCount:item.planningCount,
-                  startTime: item.planningStartTime,
-                  endTime: item.planningEndTime,
-                  currentAddress:m_record.data==null?"还未上传":m_record.data.address,
-                  date: 1,
-                  imgs:m_record.data==null?"":m_record.data.missionImgs,
-                  address: item.address == null ? '暂未标注地点':item.address,
-                  callBack: ()=>onChange(this.widget.pageIndex,this.widget.tabIndex),
-                ),
-              );
-            }
-
-            //晚间任务
-            if(int.parse(item.planningEndTime.toIso8601String().substring(11,13)) > 18){
-
-              //获取用户已经完成的任务记录，含图片和位置记录，并对图片进行水印标注
-              GetMissionRecord m_record= await UserSelectMissionDao.missionRecord(userData.userPid,item.id.toString(),userData.userLevel.substring(0,1));
-              print(m_record);
-
-              missionsEveningShowList.add(
-                QListItem(
-                  name: item.taskName,
-                  number: item.defaultTaskId == 15 || item.defaultTaskId == 16 || item.defaultTaskId == 13? "":item.planningCount.toString()+item.taskUnit,
-                  time: item.planningStartTime.toIso8601String().substring(11,16)+'~'+item.planningEndTime.toIso8601String().substring(11,16),
-                  star: item.stars,
-                  percent: item.finishRate,
-                  remark: item.remark == null ? '暂无描述':item.remark,
-                  taskId:item.id.toString(),
-                  unit:item.taskUnit,
-                  defaultId: item.defaultTaskId.toString(),
-                  planCount:item.planningCount,
-                  currentAddress:m_record.data==null?"还未上传":m_record.data.address,
-                  userID:userData.userPid,
-                  userLevel:userData.userLevel,
-                  date: 1,
-                  imgs:m_record.data==null?"":m_record.data.missionImgs,
-                  startTime: item.planningStartTime,
-                  endTime: item.planningEndTime,
-                  pageIndex: this.widget.pageIndex,
-                  tabIndex: this.widget.tabIndex,
-                  address: item.address == null ? '暂未标注地点':item.address,
-                  callBack: ()=>onChange(this.widget.pageIndex,this.widget.tabIndex),
-                ),
-              );
-            }
-
-            print(missionsMorningShowList);
-            print(missionsNoonShowList);
-            print(missionsEveningShowList);
+            missionsShowList.add(
+              QListItem(
+                name: item.taskName,
+                number: item.defaultTaskId == 15 || item.defaultTaskId == 16 || item.defaultTaskId == 13? "":item.planningCount.toString()+item.taskUnit,
+                time: item.planningStartTime.toIso8601String().substring(11,16)+'~'+item.planningEndTime.toIso8601String().substring(11,16),
+                star: item.stars,
+                percent: item.finishRate,
+                remark: item.remark == null ? '暂无描述':item.remark,
+                address: item.address == null ? '暂未标注地点':item.address,
+                currentAddress: m_record.data==null?"还未上传":m_record.data.address,
+                taskId:item.id.toString(),
+                defaultId: item.defaultTaskId.toString(),
+                planCount:item.planningCount,
+                unit:item.taskUnit,
+                date: 1,
+                userID:userData.userPid,
+                userLevel:userData.userLevel,
+                imgs:m_record.data==null?"":m_record.data.missionImgs,
+                startTime: item.planningStartTime,
+                endTime: item.planningEndTime,
+                tabIndex: this.widget.tabIndex,
+                callBack: ()=>onChange(this.widget.tabIndex),
+              ),
+            );
 
           }
         }
         setState(() {
-          morningMsgs=missionsMorningShowList;
-          noonMsgs=missionsNoonShowList;
-          eveningMsgs = missionsEveningShowList;
+          Msgs=missionsShowList;
         });
       } else {
         _onLoadAlert(context);
@@ -206,17 +124,14 @@ class _TodayQListState extends State<TodayQList> with SingleTickerProviderStateM
     }
   }
 
-  int p;
   int t;
-  void onChange(pIndex,tIndex){
+  void onChange(tIndex){
     setState(() {
-      p = pIndex;
       t = tIndex;
     });
   }
   @override
   Widget build(BuildContext context) {
-    p = widget.pageIndex;
     t = widget.tabIndex;
     return Scaffold(
       body: ListView(
@@ -228,18 +143,10 @@ class _TodayQListState extends State<TodayQList> with SingleTickerProviderStateM
               decoration: BoxDecoration(color: Colors.white),
               child:Container(
                   width: 335,
-                  padding: EdgeInsets.only(top:240,bottom:50),
-                  child: missions.length !=0 && morningMsgs != [] && widget.pageIndex == 0?
+                  padding: EdgeInsets.only(top:140,bottom:50),
+                  child: missions.length !=0 && Msgs != []?
                   Column(
-                    children: morningMsgs,
-                  )
-                      :missions.length !=0 && noonMsgs != [] && widget.pageIndex == 1?
-                  Column(
-                    children: noonMsgs,
-                  )
-                      :missions.length !=0 && eveningMsgs != [] && widget.pageIndex == 2?
-                  Column(
-                    children: eveningMsgs,
+                    children: Msgs,
                   )
                       :
                   Container(

@@ -24,7 +24,7 @@ class _PastQListState extends State<PastQList>  with SingleTickerProviderStateMi
     initializeDateFormatting();
     Intl.systemLocale = 'zh_Cn'; // to change the calendar format based on localization
     controller = AnimationController(vsync:this,duration: Duration(seconds: 1));
-    animation = Tween<double>(begin: 780,end:280).animate(
+    animation = Tween<double>(begin: 980,end:180).animate(
         CurvedAnimation(parent: controller,curve: Curves.easeInOut)
           ..addListener(() {
             setState(() {

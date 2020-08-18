@@ -116,7 +116,7 @@ class _ServicePageState extends State<ServicePage> {
                   ),
                   Container(
                     margin: EdgeInsets.only(left: 30,top: 40),
-                    child: Text('请输入您的问题、意见或建议：',style: TextStyle(
+                    child: Text('请输入您的问题、意见或建议 (5~300字) ：',style: TextStyle(
                       fontSize: 14,
                       color: Color(0xFF666666),
                       fontWeight: FontWeight.normal,

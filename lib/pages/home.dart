@@ -101,18 +101,13 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin{
                       ),),
                     ],
                   ),
-                  GestureDetector(
-                    onTap: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=>MapLocation()));
-                    },
-                    child: Padding(
-                      padding: EdgeInsets.only(top: 20),
-                      child: Text('暂未开放，敬请期待',style: TextStyle(
-                          fontSize: 16,
-                          color: Color(0xFF999999)
-                      ),),
-                    ),
-                  )
+                  Padding(
+                    padding: EdgeInsets.only(top: 20),
+                    child: Text('暂未开放，敬请期待',style: TextStyle(
+                        fontSize: 16,
+                        color: Color(0xFF999999)
+                    ),),
+                  ),
                 ],
               )
           ),

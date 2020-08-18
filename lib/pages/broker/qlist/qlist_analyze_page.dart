@@ -141,7 +141,7 @@ class _QListAnalyzePageState extends State<QListAnalyzePage> with SingleTickerPr
                             ),
                             image: DecorationImage(
                               image:AssetImage('images/circle_s.png'),
-                              fit: BoxFit.fitHeight,
+                              fit: BoxFit.fitWidth,
                             ),
                           ),
                         ),
@@ -162,7 +162,10 @@ class _QListAnalyzePageState extends State<QListAnalyzePage> with SingleTickerPr
                       onTap: (){
                         Navigator.pop(context);
                       },
-                    child: Image(image: AssetImage('images/back_white.png'),),
+                    child: Container(
+                      width: 28,
+                      child: Image(image: AssetImage('images/home_w.png'),),
+                    ),
                   ),
                   // 日期
                   GestureDetector(
@@ -196,7 +199,7 @@ class _QListAnalyzePageState extends State<QListAnalyzePage> with SingleTickerPr
                       );
                     },
                     child: Container(
-                      width: 310,
+                      width: 300,
                       height: 40,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(12),

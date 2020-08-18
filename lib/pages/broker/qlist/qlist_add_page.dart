@@ -99,15 +99,18 @@ class _QListAddPageState extends State<QListAddPage> {
               Column(
                   children: <Widget>[
                     // 导航栏
-                    Padding(
-                      padding: EdgeInsets.all(15),
+                    Container(
+//                      padding: EdgeInsets.all(15),
                       child:Row(
                         children: <Widget>[
                           GestureDetector(
                             onTap: (){
                               Navigator.pop(context);
                             },
-                            child: Image(image: AssetImage('images/back.png'),),
+                            child: Container(
+                              width: 50,
+                              child: Image(image: AssetImage('images/back.png'),),
+                            ),
                           ),
                           Padding(
                             padding: EdgeInsets.only(left: 20),
@@ -822,115 +825,150 @@ class _QListAddPageState extends State<QListAddPage> {
                     ),
                     // 完成
                     GestureDetector(
-                      onTap: ()async{
-                        if(chooseId == "15" || chooseId == "16"){
-                          var result1516 = await UserSelectMissionDao.selectMission(
-                            userData.companyId,
-                            userData.userPid,
-                            chooseId, // adminTaskId,
-                            userData.userLevel.substring(0,1),
-                            startTime.toIso8601String(),
-                            endTime.toIso8601String(),
-                            _starIndex.toString(),
-                            itemCount.toString(),
-                            mapController.text, // address,
-                            remarkController.text,
-                          );
-                          if(result1516.code == 200){
-                            if(userData.userLevel.substring(0,1)=="6"){
-                              Navigator.push(context, MaterialPageRoute(builder: (context)=>QListPage()));
+                      onTap: ()async {
+                        if (endTime
+                            .difference(startTime)
+                            .inMinutes <= 0) {
+                          _onTimeWrong(context);
+                        } else {
+                          if (chooseId == "15" || chooseId == "16") {
+                            var result1516 = await UserSelectMissionDao
+                                .selectMission(
+                              userData.companyId,
+                              userData.userPid,
+                              chooseId,
+                              // adminTaskId,
+                              userData.userLevel.substring(0, 1),
+                              startTime.toIso8601String(),
+                              endTime.toIso8601String(),
+                              _starIndex.toString(),
+                              itemCount.toString(),
+                              mapController.text,
+                              // address,
+                              remarkController.text,
+                            );
+                            if (result1516.code == 200) {
+                              if (userData.userLevel.substring(0, 1) == "6") {
+                                Navigator.push(context, MaterialPageRoute(
+                                    builder: (context) => QListPage()));
+                              }
+                              if (userData.userLevel.substring(0, 1) == "4") {
+                                Navigator.push(context, MaterialPageRoute(
+                                    builder: (context) => SQListPage()));
+                              }
+                              if (userData.userLevel.substring(0, 1) == "5") {
+                                Navigator.push(context, MaterialPageRoute(
+                                    builder: (context) => ManagerQListPage()));
+                              }
+                            } else {
+                              _onTimeAlertPressed(context);
                             }
-                            if(userData.userLevel.substring(0,1)=="4"){
-                              Navigator.push(context, MaterialPageRoute(builder: (context)=>SQListPage()));
-                            }
-                            if(userData.userLevel.substring(0,1)=="5"){
-                              Navigator.push(context, MaterialPageRoute(builder: (context)=>ManagerQListPage()));
-                            }
-                          }else{
-                            _onTimeAlertPressed(context);
                           }
+                          if (chooseId == "13") {
+                            var result13 = await UserSelectMissionDao
+                                .selectMission(
+                              userData.companyId,
+                              userData.userPid,
+                              chooseId,
+                              // adminTaskId,
+                              userData.userLevel.substring(0, 1),
+                              startTime.toIso8601String().substring(0, 11) +
+                                  '00:00:00.000000',
+                              endTime.toIso8601String().substring(0, 11) +
+                                  '23:59:59.000000',
+                              _starIndex.toString(),
+                              itemCount.toString(),
+                              mapController.text,
+                              // address,
+                              remarkController.text,
+                            );
+                            if (result13.code == 200) {
+                              if (userData.userLevel.substring(0, 1) == "6") {
+                                Navigator.push(context, MaterialPageRoute(
+                                    builder: (context) => QListPage()));
+                              }
+                              if (userData.userLevel.substring(0, 1) == "4") {
+                                Navigator.push(context, MaterialPageRoute(
+                                    builder: (context) => SQListPage()));
+                              }
+                              if (userData.userLevel.substring(0, 1) == "5") {
+                                Navigator.push(context, MaterialPageRoute(
+                                    builder: (context) => ManagerQListPage()));
+                              }
+                            } else {
+                              _onTimeAlertPressed(context);
+                            }
+                          }
+                          if (chooseId == "12" && isRemark == true &&
+                              remarkController.text != '') {
+                            var result12 = await UserSelectMissionDao
+                                .selectMission(
+                              userData.companyId,
+                              userData.userPid,
+                              chooseId,
+                              // adminTaskId,
+                              userData.userLevel.substring(0, 1),
+                              startTime.toIso8601String(),
+                              endTime.toIso8601String(),
+                              _starIndex.toString(),
+                              itemCount.toString(),
+                              mapController.text,
+                              // address,
+                              remarkController.text,
+                            );
+                            if (result12.code == 200) {
+                              if (userData.userLevel.substring(0, 1) == "6") {
+                                Navigator.push(context, MaterialPageRoute(
+                                    builder: (context) => QListPage()));
+                              }
+                              if (userData.userLevel.substring(0, 1) == "4") {
+                                Navigator.push(context, MaterialPageRoute(
+                                    builder: (context) => SQListPage()));
+                              }
+                              if (userData.userLevel.substring(0, 1) == "5") {
+                                Navigator.push(context, MaterialPageRoute(
+                                    builder: (context) => ManagerQListPage()));
+                              }
+                            } else {
+                              _onTimeAlertPressed(context);
+                            }
+                          }
+                          if (chooseId != "-1" && chooseId != "12" &&
+                              chooseId != "13" && chooseId != "15" &&
+                              chooseId != "16" && _starIndex != 0) {
+                            var resultOther = await UserSelectMissionDao
+                                .selectMission(
+                              userData.companyId,
+                              userData.userPid,
+                              chooseId,
+                              // adminTaskId,
+                              userData.userLevel.substring(0, 1),
+                              startTime.toIso8601String(),
+                              endTime.toIso8601String(),
+                              _starIndex.toString(),
+                              itemCount.toString(),
+                              mapController.text,
+                              // address,
+                              remarkController.text,
+                            );
+                            if (resultOther.code == 200) {
+                              if (userData.userLevel.substring(0, 1) == "6") {
+                                Navigator.push(context, MaterialPageRoute(
+                                    builder: (context) => QListPage()));
+                              }
+                              if (userData.userLevel.substring(0, 1) == "4") {
+                                Navigator.push(context, MaterialPageRoute(
+                                    builder: (context) => SQListPage()));
+                              }
+                              if (userData.userLevel.substring(0, 1) == "5") {
+                                Navigator.push(context, MaterialPageRoute(
+                                    builder: (context) => ManagerQListPage()));
+                              }
+                            } else {
+                              _onTimeAlertPressed(context);
+                            }
+                          } else {}
                         }
-                        if(chooseId == "13"){
-                          var result13 = await UserSelectMissionDao.selectMission(
-                            userData.companyId,
-                            userData.userPid,
-                            chooseId, // adminTaskId,
-                            userData.userLevel.substring(0,1),
-                            startTime.toIso8601String().substring(0,11)+'00:00:00.000000',
-                            endTime.toIso8601String().substring(0,11)+'23:59:59.000000',
-                            _starIndex.toString(),
-                            itemCount.toString(),
-                            mapController.text, // address,
-                            remarkController.text,
-                          );
-                          if(result13.code == 200){
-                            if(userData.userLevel.substring(0,1)=="6"){
-                              Navigator.push(context, MaterialPageRoute(builder: (context)=>QListPage()));
-                            }
-                            if(userData.userLevel.substring(0,1)=="4"){
-                              Navigator.push(context, MaterialPageRoute(builder: (context)=>SQListPage()));
-                            }
-                            if(userData.userLevel.substring(0,1)=="5"){
-                              Navigator.push(context, MaterialPageRoute(builder: (context)=>ManagerQListPage()));
-                            }
-                          }else{
-                            _onTimeAlertPressed(context);
-                          }
-                        }
-                        if(chooseId == "12" && isRemark == true && remarkController.text != ''){
-                          var result12 = await UserSelectMissionDao.selectMission(
-                            userData.companyId,
-                            userData.userPid,
-                            chooseId, // adminTaskId,
-                            userData.userLevel.substring(0,1),
-                            startTime.toIso8601String(),
-                            endTime.toIso8601String(),
-                            _starIndex.toString(),
-                            itemCount.toString(),
-                            mapController.text, // address,
-                            remarkController.text,
-                          );
-                          if(result12.code == 200){
-                            if(userData.userLevel.substring(0,1)=="6"){
-                              Navigator.push(context, MaterialPageRoute(builder: (context)=>QListPage()));
-                            }
-                            if(userData.userLevel.substring(0,1)=="4"){
-                              Navigator.push(context, MaterialPageRoute(builder: (context)=>SQListPage()));
-                            }
-                            if(userData.userLevel.substring(0,1)=="5"){
-                              Navigator.push(context, MaterialPageRoute(builder: (context)=>ManagerQListPage()));
-                            }
-                          }else{
-                            _onTimeAlertPressed(context);
-                          }
-                        }
-                        if(chooseId != "-1" && chooseId != "12" && chooseId != "13" &&chooseId != "15" &&chooseId != "16" &&_starIndex != 0){
-                          var resultOther = await UserSelectMissionDao.selectMission(
-                            userData.companyId,
-                            userData.userPid,
-                            chooseId, // adminTaskId,
-                            userData.userLevel.substring(0,1),
-                            startTime.toIso8601String(),
-                            endTime.toIso8601String(),
-                            _starIndex.toString(),
-                            itemCount.toString(),
-                            mapController.text, // address,
-                            remarkController.text,
-                          );
-                          if(resultOther.code == 200){
-                            if(userData.userLevel.substring(0,1)=="6"){
-                              Navigator.push(context, MaterialPageRoute(builder: (context)=>QListPage()));
-                            }
-                            if(userData.userLevel.substring(0,1)=="4"){
-                              Navigator.push(context, MaterialPageRoute(builder: (context)=>SQListPage()));
-                            }
-                            if(userData.userLevel.substring(0,1)=="5"){
-                              Navigator.push(context, MaterialPageRoute(builder: (context)=>ManagerQListPage()));
-                            }
-                          }else{
-                            _onTimeAlertPressed(context);
-                          }
-                        }else{}
                       },
                       child: Container(
                         width: 200,
@@ -1085,6 +1123,25 @@ _onTimeAlertPressed(context) {
     type: AlertType.error,
     title: "当前时间与已有任务时间冲突",
     desc: "请选择其它时间，各项任务的时间不可重复",
+    buttons: [
+      DialogButton(
+        child: Text(
+          "确定",
+          style: TextStyle(color: Colors.white, fontSize: 20),
+        ),
+        onPressed: () => Navigator.pop(context),
+        color: Color(0xFF5580EB),
+      ),
+    ],
+  ).show();
+}
+
+_onTimeWrong(context) {
+  Alert(
+    context: context,
+    type: AlertType.error,
+    title: "结束时间不得早于开始时间",
+    desc: "请重新选择结束时间",
     buttons: [
       DialogButton(
         child: Text(

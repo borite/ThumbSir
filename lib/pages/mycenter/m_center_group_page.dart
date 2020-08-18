@@ -193,24 +193,23 @@ class _MCenterGroupPageState extends State<MCenterGroupPage> {
                           child:Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
-                              Row(
-                                children: <Widget>[
-                                  GestureDetector(
-                                    onTap: (){
-                                      Navigator.pop(context);
-                                    },
-                                    child: Image(image: AssetImage('images/back.png'),),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(left: 10),
-                                    child: Text('小组成员',style: TextStyle(
-                                      fontSize: 16,
-                                      color: Color(0xFF5580EB),
-                                      fontWeight: FontWeight.normal,
-                                      decoration: TextDecoration.none,
-                                    ),),
-                                  )
-                                ],
+                              GestureDetector(
+                                onTap: (){
+                                  Navigator.pop(context);
+                                },
+                                child:Row(
+                                  children: <Widget>[
+                                      Image(image: AssetImage('images/back.png'),),
+                                      Padding(
+                                        padding: EdgeInsets.only(left: 10),
+                                        child: Text('小组成员',style: TextStyle(
+                                          fontSize: 16,
+                                          color: Color(0xFF5580EB),
+                                          fontWeight: FontWeight.normal,
+                                          decoration: TextDecoration.none,
+                                        ),),
+                                      )]
+                                ),
                               ),
                               GestureDetector(
                                 onTap: (){

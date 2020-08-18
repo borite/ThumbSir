@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:ThumbSir/dao/delete_message_dao.dart';
 import 'package:ThumbSir/dao/get_message_dao.dart';
 import 'package:ThumbSir/dao/update_message_state_dao.dart';
+import 'package:ThumbSir/model/login_result_data_model.dart';
 import 'package:ThumbSir/pages/tips/agree_invitation_page.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:flutter/cupertino.dart';
@@ -19,6 +22,26 @@ class _QListTipsPageState extends State<QListTipsPage> with SingleTickerProvider
   List<Widget> msgs=[];
   var pageindex=0;
   var userID;
+
+  LoginResultData userData;
+  String uinfo;
+  var result;
+
+  _getUserInfo() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    uinfo= prefs.getString("userInfo");
+    if(uinfo != null){
+      result =loginResultDataFromJson(uinfo);
+      this.setState(() {
+        userData=LoginResultData.fromJson(json.decode(uinfo));
+      });
+    }
+    if(userData == null || userData.companyId == null){
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.remove("userInfo");
+//      prefs.remove("userID");
+    }
+  }
 
   _load() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -58,6 +81,7 @@ class _QListTipsPageState extends State<QListTipsPage> with SingleTickerProvider
   @override
   void initState() {
     super.initState();
+    _getUserInfo();
     _load();
     _scrollController.addListener(() {
       // 如果滚动位置到了可滚动的最大距离，就加载更多
@@ -81,7 +105,6 @@ class _QListTipsPageState extends State<QListTipsPage> with SingleTickerProvider
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        margin: EdgeInsets.only(top: 30),
         // 背景
           decoration: BoxDecoration(
             color: Colors.white,
@@ -94,15 +117,29 @@ class _QListTipsPageState extends State<QListTipsPage> with SingleTickerProvider
               children: <Widget>[
                 // 导航栏
                 Padding(
-                    padding: EdgeInsets.only(top:15,left: 15,right: 15,bottom: 5),
+                    padding: EdgeInsets.only(top:30,left: 0,right: 15,bottom: 0),
                     child:Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
                         GestureDetector(
                           onTap: (){
-                            Navigator.pop(context);
+                            if(userData.userLevel.substring(0,1)=="6"){
+                              Navigator.popAndPushNamed(context, 'a_q_list');
+                            }
+                            if(userData.userLevel.substring(0,1)=="5"){
+                              Navigator.popAndPushNamed(context, 'm_q_list');
+                            }
+                            if(userData.userLevel.substring(0,1)=="4"){
+                              Navigator.popAndPushNamed(context, 's_q_list');
+                            }
+                            if(userData.userLevel.substring(0,1)=="1"||result.userLevel.substring(0,1)=="2"||result.userLevel.substring(0,1)=="3"){
+                              Navigator.popAndPushNamed(context, 'l_q_list');
+                            }
                           },
-                          child: Image(image: AssetImage('images/back.png'),),
+                          child: Container(
+                            width: 50,
+                            child: Image(image: AssetImage('images/back.png'),),
+                          ),
                         ),
                         Padding(
                           padding: EdgeInsets.only(top: 3),
@@ -121,7 +158,7 @@ class _QListTipsPageState extends State<QListTipsPage> with SingleTickerProvider
                             ],
                           ),
                         ),
-                        Container(width: 30,),
+                        Container(width: 50,),
                       ],
                     )
                 ),

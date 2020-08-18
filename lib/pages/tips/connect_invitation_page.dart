@@ -33,7 +33,7 @@ class _ConnectInvitationPageState extends State<ConnectInvitationPage> {
                             children: <Widget>[
                               GestureDetector(
                                 onTap: (){
-                                  Navigator.pop(context);
+                                  Navigator.popAndPushNamed(context, 'tips');
                                 },
                                 child: Image(image: AssetImage('images/back_white.png'),),
                               ),

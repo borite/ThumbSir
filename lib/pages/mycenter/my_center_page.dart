@@ -61,16 +61,21 @@ class _MyCenterPageState extends State<MyCenterPage> {
               Column(
                   children: <Widget>[
                     // 导航栏
-                    Padding(
-                        padding: EdgeInsets.all(15),
+                    Container(
+                        padding: EdgeInsets.only(right: 15),
                         child:Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
                             GestureDetector(
                               onTap: (){
-                                Navigator.pop(context);
+                                Navigator.of(context).popUntil(ModalRoute.withName('/'));
+                                Navigator.popAndPushNamed(context, '/');
+
                               },
-                              child: Image(image: AssetImage('images/back.png'),),
+                              child: Container(
+                                width: 50,
+                                child: Image(image: AssetImage('images/back.png'),),
+                              ),
                             ),
                             userData != null ?
                             GestureDetector(

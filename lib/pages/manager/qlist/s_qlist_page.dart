@@ -1,5 +1,4 @@
 import 'package:ThumbSir/pages/broker/qlist/qlist_choose_add_page.dart';
-import 'package:ThumbSir/pages/broker/qlist/qlist_list_test_page.dart';
 import 'package:ThumbSir/pages/manager/qlist/team_analyze_page.dart';
 import 'package:ThumbSir/pages/manager/qlist/team_list_page.dart';
 import 'package:flutter/material.dart';
@@ -64,7 +63,6 @@ class _SQListPageState extends State<SQListPage> with SingleTickerProviderStateM
           ],
         ),
         body:
-//        _currentIndex == 0? QListListTestPage()
         _currentIndex == 0? QListListPage()
         : _currentIndex == 1? QListAnalyzePage()
         :_currentIndex == 2? QListChooseAddPage()

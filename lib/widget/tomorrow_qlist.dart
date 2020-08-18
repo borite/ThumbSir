@@ -10,8 +10,7 @@ import 'package:ThumbSir/model/mission_record_model.dart';
 import 'package:ThumbSir/dao/get_user_mission_records_dao.dart';
 
 class TomorrowQList extends StatefulWidget {
-  TomorrowQList({Key key,this.pageIndex,this.tabIndex,this.callBack }):super(key:key);
-  int pageIndex;
+  TomorrowQList({Key key,this.tabIndex,this.callBack }):super(key:key);
   int tabIndex;
   final callBack;
   @override
@@ -28,7 +27,7 @@ class _TomorrowQListState extends State<TomorrowQList>  with SingleTickerProvide
   void initState(){
     _getUserInfo();
     animationcController = AnimationController(vsync:this,duration: Duration(seconds: 1));
-    animation = Tween<double>(begin: 500,end:25).animate(
+    animation = Tween<double>(begin: 700,end:25).animate(
         CurvedAnimation(parent: animationcController,curve: Curves.easeInOut)
           ..addListener(() {
             setState(() {
@@ -50,13 +49,9 @@ class _TomorrowQListState extends State<TomorrowQList>  with SingleTickerProvide
   var missionList;
 
   List<Datum> missions = [];
-  List<Widget> missionsMorningShowList = [];
-  List<Widget> missionsNoonShowList = [];
-  List<Widget> missionsEveningShowList = [];
+  List<Widget> missionsShowList = [];
 
-  List<Widget> morningMsgs=[];
-  List<Widget> noonMsgs=[];
-  List<Widget> eveningMsgs=[];
+  List<Widget> Msgs=[];
 
   LoginResultData userData;
   String uinfo;
@@ -91,97 +86,40 @@ class _TomorrowQListState extends State<TomorrowQList>  with SingleTickerProvide
               GetMissionRecord m_record= await UserSelectMissionDao.missionRecord(userData.userPid,item.id.toString(),userData.userLevel.substring(0,1));
               print(m_record);
 
-              if(int.parse(item.planningEndTime.toIso8601String().substring(11,13)) <= 12){
-                missionsMorningShowList.add(
-                  QListItem(
-                    name: item.taskName,
-                    number: item.defaultTaskId == 15 || item.defaultTaskId == 16 || item.defaultTaskId == 13? "":item.planningCount.toString()+item.taskUnit,
-                    time: item.planningStartTime.toIso8601String().substring(11,16)+'~'+item.planningEndTime.toIso8601String().substring(11,16),
-                    star: item.stars,
-                    percent: item.finishRate,
-                    remark: item.remark == null ? '暂无描述':item.remark,
-                    address: item.address == null ? '暂未标注地点':item.address,
-                    currentAddress:m_record.data==null?"还未上传":m_record.data.address,
-                    taskId:item.id.toString(),
-                    unit:item.taskUnit,
-                    defaultId: item.defaultTaskId.toString(),
-                    planCount:item.planningCount,
-                    startTime: item.planningStartTime,
-                    endTime: item.planningEndTime,
-                    imgs:m_record.data==null?"":m_record.data.missionImgs,
-                    date: 2,
-                    pageIndex: this.widget.pageIndex,
-                    tabIndex: this.widget.tabIndex,
-                    callBack: ()=>onChange(this.widget.pageIndex,this.widget.tabIndex),
-                  ),
-                );
-              }
-              if( int.parse(item.planningEndTime.toIso8601String().substring(11,13))>12 && int.parse(item.planningEndTime.toIso8601String().substring(11,13))<=18){
-                missionsNoonShowList.add(
-                  QListItem(
-                    name: item.taskName,
-                    number: item.defaultTaskId == 15 || item.defaultTaskId == 16 || item.defaultTaskId == 13? "":item.planningCount.toString()+item.taskUnit,
-                    time: item.planningStartTime.toIso8601String().substring(11,16)+'~'+item.planningEndTime.toIso8601String().substring(11,16),
-                    star: item.stars,
-                    percent: item.finishRate,
-                    remark: item.remark == null ? '暂无描述':item.remark,
-                    taskId:item.id.toString(),
-                    unit:item.taskUnit,
-                    defaultId: item.defaultTaskId.toString(),
-                    planCount:item.planningCount,
-                    date: 2,
-                    startTime: item.planningStartTime,
-                    endTime: item.planningEndTime,
-                    imgs:m_record.data==null?"":m_record.data.missionImgs,
-                    currentAddress:m_record.data==null?"还未上传":m_record.data.address,
-                    pageIndex: this.widget.pageIndex,
-                    tabIndex: this.widget.tabIndex,
-                    address: item.address == null ? '暂未标注地点':item.address,
-                    callBack: ()=>onChange(this.widget.pageIndex,this.widget.tabIndex),
-                  ),
-                );
-              }
-              if(int.parse(item.planningEndTime.toIso8601String().substring(11,13)) > 18){
-                missionsEveningShowList.add(
-                  QListItem(
-                    name: item.taskName,
-                    number: item.defaultTaskId == 15 || item.defaultTaskId == 16 || item.defaultTaskId == 13? "":item.planningCount.toString()+item.taskUnit,
-                    time: item.planningStartTime.toIso8601String().substring(11,16)+'~'+item.planningEndTime.toIso8601String().substring(11,16),
-                    star: item.stars,
-                    percent: item.finishRate,
-                    remark: item.remark == null ? '暂无描述':item.remark,
-                    taskId:item.id.toString(),
-                    unit:item.taskUnit,
-                    defaultId: item.defaultTaskId.toString(),
-                    planCount:item.planningCount,
-                    date: 2,
-                    startTime: item.planningStartTime,
-                    endTime: item.planningEndTime,
-                    imgs:m_record.data==null?"":m_record.data.missionImgs,
-                    currentAddress:m_record.data==null?"还未上传":m_record.data.address,
-                    pageIndex: this.widget.pageIndex,
-                    tabIndex: this.widget.tabIndex,
-                    address: item.address == null ? '暂未标注地点':item.address,
-                    callBack: ()=>onChange(this.widget.pageIndex,this.widget.tabIndex),
-                  ),
-                );
-              }
+              missionsShowList.add(
+                QListItem(
+                  name: item.taskName,
+                  number: item.defaultTaskId == 15 || item.defaultTaskId == 16 || item.defaultTaskId == 13? "":item.planningCount.toString()+item.taskUnit,
+                  time: item.planningStartTime.toIso8601String().substring(11,16)+'~'+item.planningEndTime.toIso8601String().substring(11,16),
+                  star: item.stars,
+                  percent: item.finishRate,
+                  remark: item.remark == null ? '暂无描述':item.remark,
+                  address: item.address == null ? '暂未标注地点':item.address,
+                  currentAddress:m_record.data==null?"还未上传":m_record.data.address,
+                  taskId:item.id.toString(),
+                  unit:item.taskUnit,
+                  defaultId: item.defaultTaskId.toString(),
+                  planCount:item.planningCount,
+                  startTime: item.planningStartTime,
+                  endTime: item.planningEndTime,
+                  imgs:m_record.data==null?"":m_record.data.missionImgs,
+                  date: 2,
+                  tabIndex: this.widget.tabIndex,
+                  callBack: ()=>onChange(this.widget.tabIndex),
+                ),
+              );
             }
           }
           setState(() {
-            morningMsgs=missionsMorningShowList;
-            noonMsgs=missionsNoonShowList;
-            eveningMsgs = missionsEveningShowList;
+            Msgs=missionsShowList;
           });
       }
     }
   }
 
-  int p;
   int t;
-  void onChange(pIndex,tIndex){
+  void onChange(tIndex){
     setState(() {
-      p = pIndex;
       t = tIndex;
     });
   }
@@ -196,18 +134,10 @@ class _TomorrowQListState extends State<TomorrowQList>  with SingleTickerProvide
               ),
               decoration: BoxDecoration(color: Colors.white),
               child:Padding(
-                padding: EdgeInsets.only(top:240,bottom:25),
-                child: missions.length !=0 && morningMsgs != [] && widget.pageIndex == 0?
+                padding: EdgeInsets.only(top:140,bottom:25),
+                child: missions.length !=0 && Msgs != []?
                 Column(
-                  children: morningMsgs,
-                )
-                    :missions.length !=0 && noonMsgs != [] && widget.pageIndex == 1?
-                Column(
-                  children: noonMsgs,
-                )
-                    :missions.length !=0 && eveningMsgs != [] && widget.pageIndex == 2?
-                Column(
-                  children: eveningMsgs,
+                  children: Msgs,
                 )
                     :
                 Container(

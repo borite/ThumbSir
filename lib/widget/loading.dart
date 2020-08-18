@@ -58,7 +58,12 @@ class ProgressDialog extends StatelessWidget {
                   padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0),
                   child: Text(
                     msg,
-                    style: TextStyle(color: textColor, fontSize: 16.0),
+                    style: TextStyle(
+                      color: textColor,
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.normal,
+                      decoration: TextDecoration.none,
+                    ),
                   ),
                 )
               ],
