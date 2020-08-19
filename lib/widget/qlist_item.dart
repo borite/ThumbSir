@@ -849,7 +849,6 @@ class _QListItemState extends State<QListItem> with SingleTickerProviderStateMix
                                 DateTime now = new DateTime.now();
                                 // 今日且任务时间已经开始且没过1小时，可以上传
                                 var aa= now.difference(widget.endTime);
-
                                 if(aa.inHours<1 && now.isAfter(widget.startTime)){
                                   print("可以修改图片");
                                   Navigator.push(context, MaterialPageRoute(builder: (context) => QListUploadPage(
@@ -864,7 +863,6 @@ class _QListItemState extends State<QListItem> with SingleTickerProviderStateMix
                                       endTime : widget.endTime,
                                       planCount : widget.planCount,
                                       uploadImgs:widget.imgs
-
                                   ))).then((x) => setState((){
                                     _extend=true;
                                   }));

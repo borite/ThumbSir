@@ -458,7 +458,9 @@ class _QListUploadPageState extends State<QListUploadPage> {
                                   Image(image: AssetImage('images/camera.png'),)
                                       : _images.length == 1 ?
                                   Image(image: AssetImage('images/camera.png'),)
-                                      :_images.length == 2 ?
+                                      :_images.length == 2 && _images[1].toString().contains('https')?
+                                  Image(image: NetworkImage(_images[1]),fit:BoxFit.fill,)
+                                      : _images[1] is File && _images.length==2 ?
                                   Image.file(_images[1],fit: BoxFit.fill,)
                                       :
                                   Container(
@@ -511,6 +513,10 @@ class _QListUploadPageState extends State<QListUploadPage> {
                     // 完成
                     GestureDetector(
                       onTap: () async{
+                        if(gps_place=="正在定位..."){
+                          _onNotGPS(context);
+                          return;
+                        }
                         var upTime=DateTime.now();
                         String picTime=upTime.toString().split('.')[0];
 
@@ -832,7 +838,6 @@ class _QListUploadPageState extends State<QListUploadPage> {
                           } else {}
                         }
 
-
                       },
                       child: Container(
                         width: 200,
@@ -915,6 +920,27 @@ class _QListUploadPageState extends State<QListUploadPage> {
           },
           color: Color(0xFF5580EB),
         )
+      ],
+    ).show();
+  }
+
+  _onNotGPS(context) {
+    Alert(
+      context: context,
+      type: AlertType.error,
+      title: "您还没有获取到定位信息",
+      desc:"请确认GPS服务开启。如果没有开启，请在设置中开启。如果已开启，请稍等...",
+      buttons: [
+        DialogButton(
+          child: Text(
+            "确定",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: (){
+            Navigator.pop(context);
+          },
+          color: Color(0xFF5580EB),
+        ),
       ],
     ).show();
   }
