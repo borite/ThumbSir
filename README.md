@@ -1,16 +1,12 @@
-# lianghuaandkeweiapp
+# 拇指先生APP
 
-A new Flutter application.
+拇指先生APP是一款为房地产经纪从业人员量身定做的工具类APP，目前开放了量化工具功能，后续会陆续上线客户维护功能、积分系统等功能。
+量化工具主要帮助经纪人、店长、商圈经理等职位的从业人员清晰规划一天的行程，其上级可以通过拇指先生实时追踪下级的量化进展，从结果考核转变为过程监控，从而提高管理效率。
+即将上线的客户维护系统致力于帮助从业人员深挖客户和业主的需求，并随时进行记录，提高客户维护效率；此外还有节日和生日提醒功能，帮助从业人员增加客户粘性，增加回头客。
+如果您在使用过程中有任何的意见或者建议，请在个人中心的客服中心进行留言，拇指先生客服会尽快与您联系，感谢您对拇指先生的支持，祝您使用愉快！
 
-## Getting Started
+如果在使用过程中有任何问题，请发送邮件至：davidzheng@bigxia.cn
+感谢您支持拇指先生
 
-This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+大侠工作室旗下APP
