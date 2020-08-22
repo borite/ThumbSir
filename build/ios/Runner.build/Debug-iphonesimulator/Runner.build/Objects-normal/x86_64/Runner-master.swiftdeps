@@ -1,0 +1,5 @@
+version: "Apple Swift version 5.2.4 (swiftlang-1103.0.32.9 clang-1103.0.32.53)"
+options: "17dd2436381ea119cbb3bef3d6d04018"
+build_time: [1598131078, 955915000]
+inputs:
+  "/Users/jiaozhengying/Desktop/ThumbSirGit/ThumbSir/ios/Runner/AppDelegate.swift": [1581458976, 0]

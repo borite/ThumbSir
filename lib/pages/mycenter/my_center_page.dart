@@ -68,9 +68,9 @@ class _MyCenterPageState extends State<MyCenterPage> {
                           children: <Widget>[
                             GestureDetector(
                               onTap: (){
-                                Navigator.of(context).popUntil(ModalRoute.withName('/'));
-                                Navigator.popAndPushNamed(context, '/');
-
+                                Navigator.of(context).pushAndRemoveUntil(
+                                    new MaterialPageRoute(builder: (context) => new Home( )
+                                    ), (route) => route == null);
                               },
                               child: Container(
                                 width: 50,

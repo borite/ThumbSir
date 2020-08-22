@@ -139,8 +139,8 @@ class _QListListPageState extends State<QListListPage> with TickerProviderStateM
 //                                              new MaterialPageRoute(builder: (context) => new Home( )
 //                                              ), (route) => route == null);
 //                                          Navigator.pop(context);
-//                                        Navigator.popAndPushNamed(context, '/');
-                                        Navigator.of(context).popUntil(ModalRoute.withName('/'));
+                                        Navigator.popAndPushNamed(context, '/');
+//                                        Navigator.of(context).popUntil(ModalRoute.withName('/'));
                                       },
                                       child: Container(
                                         width: 28,

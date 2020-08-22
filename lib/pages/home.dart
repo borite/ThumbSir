@@ -6,7 +6,6 @@ import 'package:ThumbSir/pages/broker/qlist/qlist_page.dart';
 import 'package:ThumbSir/pages/major/qlist/major_qlist_page.dart';
 import 'package:ThumbSir/pages/manager/qlist/manager_qlist_page.dart';
 import 'package:ThumbSir/pages/manager/qlist/s_qlist_page.dart';
-import 'package:ThumbSir/pages/testlocation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ThumbSir/pages/mycenter/my_center_page.dart';
