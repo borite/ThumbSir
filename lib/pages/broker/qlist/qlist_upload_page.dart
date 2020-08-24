@@ -13,14 +13,14 @@ import 'package:image_picker/image_picker.dart';
 import 'package:dio/dio.dart';
 import 'package:ThumbSir/dao/get_direct_sgin_dao.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
-import 'package:bdmap_location_flutter_plugin/bdmap_location_flutter_plugin.dart';
-import 'package:bdmap_location_flutter_plugin/flutter_baidu_location.dart';
-import 'package:bdmap_location_flutter_plugin/flutter_baidu_location_android_option.dart';
-import 'package:bdmap_location_flutter_plugin/flutter_baidu_location_ios_option.dart';
 import 'package:ThumbSir/dao/test_vi_dao.dart';
 import 'package:ThumbSir/model/common_result_model.dart';
 import 'package:image/image.dart' as IMG;
 import 'package:path_provider/path_provider.dart';
+import 'package:flutter_bmflocation/bdmap_location_flutter_plugin.dart';
+import 'package:flutter_bmflocation/flutter_baidu_location.dart';
+import 'package:flutter_bmflocation/flutter_baidu_location_android_option.dart';
+import 'package:flutter_bmflocation/flutter_baidu_location_ios_option.dart';
 
 class QListUploadPage extends StatefulWidget {
   final String name;
@@ -346,7 +346,7 @@ class _QListUploadPageState extends State<QListUploadPage> {
                         child: Row(
                           children: <Widget>[
                             Text(
-                              widget.startTime.toString().substring(10,16)+'-'+widget.endTime.toString().substring(10,16),
+                              widget.startTime.toString().substring(10,16)+' -'+widget.endTime.toString().substring(10,16),
                               style: TextStyle(
                                 fontSize: 20,
                                 color: Color(0xFF0E7AE6),
@@ -928,8 +928,8 @@ class _QListUploadPageState extends State<QListUploadPage> {
     Alert(
       context: context,
       type: AlertType.error,
-      title: "您还没有获取到定位信息",
-      desc:"请确认GPS服务开启。如果没有开启，请在设置中开启。如果已开启，请稍等...",
+      title: "还没有获取到定位信息",
+      desc:"请确认GPS定位服务已开启。如果没有开启，请在设置中开启。如果已开启，请稍等...",
       buttons: [
         DialogButton(
           child: Text(

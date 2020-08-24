@@ -80,232 +80,238 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: <Widget>[
-          Container(
-              margin: EdgeInsets.only(top: 460),
-              child: Column(
-                children: <Widget>[
-                  Row(
+      body: MediaQuery.removePadding(
+        context: context,
+        removeTop: true,
+        child: ListView(
+          children: <Widget>[
+            Stack(
+              children: <Widget>[
+                Container(
+                    margin: EdgeInsets.only(top: 460),
+                    child: Column(
+                      children: <Widget>[
+                        Row(
+                          children: <Widget>[
+                            Container(
+                              width: 20,
+                              height: 20,
+                              margin: EdgeInsets.only(right: 6,left: 40),
+                              child: Image(image: AssetImage('images/client.png'),),
+                            ),
+                            Text('我的客户',style: TextStyle(
+                                fontSize: 20,
+                                color: Color(0xFF5580EB)
+                            ),),
+                          ],
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(top: 20),
+                          child: Text('暂未开放，敬请期待',style: TextStyle(
+                              fontSize: 16,
+                              color: Color(0xFF999999)
+                          ),),
+                        ),
+                      ],
+                    )
+                ),
+                // 顶部导航区域
+                Column(
                     children: <Widget>[
-                      Container(
-                        width: 20,
-                        height: 20,
-                        margin: EdgeInsets.only(right: 6,left: 40),
-                        child: Image(image: AssetImage('images/client.png'),),
-                      ),
-                      Text('我的客户',style: TextStyle(
-                        fontSize: 20,
-                        color: Color(0xFF5580EB)
-                      ),),
-                    ],
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(top: 20),
-                    child: Text('暂未开放，敬请期待',style: TextStyle(
-                        fontSize: 16,
-                        color: Color(0xFF999999)
-                    ),),
-                  ),
-                ],
-              )
-          ),
-          // 顶部导航区域
-          Positioned(
-            child: Column(
-                children: <Widget>[
-                  FractionallySizedBox(
-                    widthFactor: 1,
-                    child: ClipPath(
-                      clipper: BottomClipper(),
-                      child:
-                      //  背景
-                      Container(
-                          height: 460,
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: [Color(0xFF0E7AE6),Color(0xFF93C0FB)],
-                              begin: Alignment.topCenter,
-                              end: Alignment.bottomCenter,
-                            ),
-                            image: DecorationImage(
-                              image:AssetImage('images/circle_r.png'),
-                              fit: BoxFit.fitWidth,
-                            ),
-                          ),
-                          child:Column(
-                            children: <Widget>[
-                              // 顶部个人中心按钮
-                              Container(
-                                width: 335,
-                                margin: EdgeInsets.only(top: 70),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: <Widget>[
-                                    Text(
-                                      userData == null ?
-                                      '你好！请登录':'你好！'+userData.userName,
-                                      style: TextStyle(
-                                        fontSize: 20,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                    // 头像按钮
-                                    GestureDetector(
-                                      onTap: () {
-                                          Navigator.push(context, MaterialPageRoute(builder: (context)=>MyCenterPage()));
-                                      },
-                                      child: Container(
-                                        margin: EdgeInsets.only(right: 20),
-                                        child: Column(
-                                          children: <Widget>[
-                                            Row(
-                                              children: <Widget>[
-                                                Container(
-                                                  width: 90,
-                                                  height: 90,
-                                                  decoration: BoxDecoration(
-                                                    borderRadius: BorderRadius.all(Radius.circular(45)),
-                                                    color: Colors.white,
-                                                    boxShadow: [BoxShadow(
-                                                        color: Color(0x99333333),
-                                                        offset: Offset(0.0, 3.0),
-                                                        blurRadius: 10.0,
-                                                        spreadRadius: 2.0
-                                                    )],
-                                                  ),
-                                                  child:ClipRRect(
-                                                    borderRadius: BorderRadius.circular(45),
-                                                    child: userData == null?
-                                                    Image(image: AssetImage('images/my_big.png'),)
-                                                        :userData != null && userData.headImg != null ?
-                                                    Image(image:NetworkImage(userData.headImg))
-                                                        :Image(image: AssetImage('images/my_big.png'),),
-                                                  ),
-                                                )
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ],
+                      FractionallySizedBox(
+                        widthFactor: 1,
+                        child: ClipPath(
+                          clipper: BottomClipper(),
+                          child:
+                          //  背景
+                          Container(
+                              height: 460,
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  colors: [Color(0xFF0E7AE6),Color(0xFF93C0FB)],
+                                  begin: Alignment.topCenter,
+                                  end: Alignment.bottomCenter,
+                                ),
+                                image: DecorationImage(
+                                  image:AssetImage('images/circle_r.png'),
+                                  fit: BoxFit.fitWidth,
                                 ),
                               ),
-                              // 轮播图
-                              Container(
-                                  height: 100,
-                                  width: 335,
-                                  margin: EdgeInsets.only(bottom: 25,top: 10),
-                                  child:Container(
-                                    child:
-                                      PageView.builder(
-                                        itemBuilder: (BuildContext buildContext,int index)=>msgs[index],
-                                        itemCount: msgs.length,
-                                      )
-              //                      PageView(
-              //                        children: <Widget>[
-              //                          //每一条轮播
-              //                          _item('images/tie_big.png','2020年3月24日','拇指先生正式上线啦！','邀请好友一起用起来吧~'),
-              //                          _item('images/tie_big.png','2020年3月24日','客户维护相关功能暂未开放','敬请期待！'),
-              //                        ],
-              //                      ),
-                                  )
-                              ),
-                              // 入口
-                              Container(
-                                width: 335,
-                                margin: EdgeInsets.only(top: 10),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: <Widget>[
-                                    // 量化
-                                    Container(
-                                      width: 160,
-                                      height: 80,
-                                      decoration: BoxDecoration(
-                                        boxShadow: [BoxShadow(
-                                            color: Color(0x50999999),
-                                            offset: Offset(0.0, 3.0),
-                                            blurRadius: 10.0,
-                                            spreadRadius: 2.0
-                                        )],
-                                      ),
-                                      child:GestureDetector(
-                                        onTap: () async {
-                                          if(uinfo!=null){
-                                            exT = result.exTokenTime.millisecondsSinceEpoch;
-                                            // token时间转时间戳
-                                            if(exT >= _dateTime){
-                                              if(result.userLevel.substring(0,1)=="6"){
-                                                Navigator.push(context, MaterialPageRoute(builder: (context)=>QListPage()));
-                                              }
-                                              if(result.userLevel.substring(0,1)=="5"){
-                                                Navigator.push(context, MaterialPageRoute(builder: (context)=>ManagerQListPage()));
-                                              }
-                                              if(result.userLevel.substring(0,1)=="4"){
-                                                Navigator.push(context, MaterialPageRoute(builder: (context)=>SQListPage()));
-                                              }
-                                              if(result.userLevel.substring(0,1)=="1"||result.userLevel.substring(0,1)=="2"||result.userLevel.substring(0,1)=="3"){
-                                                Navigator.push(context, MaterialPageRoute(builder: (context)=>MajorQListPage()));
-                                              }
-                                            }else{
-                                              _onLoginAlertPressed(context);
-                                            }
-                                          }else{
-                                            _onLoginAlertPressed(context);
-                                          }
-                                        },
-                                        child: ClipRRect(
-                                          borderRadius: BorderRadius.all(Radius.circular(12)),
-                                          child:Image(
-                                              width: 160,
-                                              height: 80,
-                                              image: AssetImage('images/list.png'),
-                                              fit:BoxFit.fitHeight
+                              child:Column(
+                                children: <Widget>[
+                                  // 顶部个人中心按钮
+                                  Container(
+                                    width: 335,
+                                    margin: EdgeInsets.only(top: 70),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: <Widget>[
+                                        Text(
+                                          userData == null ?
+                                          '你好！请登录':'你好！'+userData.userName,
+                                          style: TextStyle(
+                                            fontSize: 20,
+                                            color: Colors.white,
                                           ),
                                         ),
-                                      ),
-                                    ),
-                                    // 客户维护
-                                    Container(
-                                        width: 160,
-                                        height: 80,
-                                        decoration: BoxDecoration(
-                                          boxShadow: [BoxShadow(
-                                              color: Color(0x50999999),
-                                              offset: Offset(0.0, 3.0),
-                                              blurRadius: 10.0,
-                                              spreadRadius: 2.0
-                                          )],
+                                        // 头像按钮
+                                        GestureDetector(
+                                          onTap: () {
+                                            Navigator.push(context, MaterialPageRoute(builder: (context)=>MyCenterPage()));
+                                          },
+                                          child: Container(
+                                            margin: EdgeInsets.only(right: 20),
+                                            child: Column(
+                                              children: <Widget>[
+                                                Row(
+                                                  children: <Widget>[
+                                                    Container(
+                                                      width: 90,
+                                                      height: 90,
+                                                      decoration: BoxDecoration(
+                                                        borderRadius: BorderRadius.all(Radius.circular(45)),
+                                                        color: Colors.white,
+                                                        boxShadow: [BoxShadow(
+                                                            color: Color(0x99333333),
+                                                            offset: Offset(0.0, 3.0),
+                                                            blurRadius: 10.0,
+                                                            spreadRadius: 2.0
+                                                        )],
+                                                      ),
+                                                      child:ClipRRect(
+                                                        borderRadius: BorderRadius.circular(45),
+                                                        child: userData == null?
+                                                        Image(image: AssetImage('images/my_big.png'),)
+                                                            :userData != null && userData.headImg != null ?
+                                                        Image(image:NetworkImage(userData.headImg))
+                                                            :Image(image: AssetImage('images/my_big.png'),),
+                                                      ),
+                                                    )
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                          ),
                                         ),
-                                        child:GestureDetector(
-                                            onTap: (){
-//                                          Navigator.push(context, MaterialPageRoute(builder: (context)=>OpenOwnerPage()));
-                                              _onCloseAlertPressed(context);
+                                      ],
+                                    ),
+                                  ),
+                                  // 轮播图
+                                  Container(
+                                      height: 100,
+                                      width: 335,
+                                      margin: EdgeInsets.only(bottom: 25,top: 10),
+                                      child:Container(
+                                          child:
+                                          PageView.builder(
+                                            itemBuilder: (BuildContext buildContext,int index)=>msgs[index],
+                                            itemCount: msgs.length,
+                                          )
+                                        //                      PageView(
+                                        //                        children: <Widget>[
+                                        //                          //每一条轮播
+                                        //                          _item('images/tie_big.png','2020年3月24日','拇指先生正式上线啦！','邀请好友一起用起来吧~'),
+                                        //                          _item('images/tie_big.png','2020年3月24日','客户维护相关功能暂未开放','敬请期待！'),
+                                        //                        ],
+                                        //                      ),
+                                      )
+                                  ),
+                                  // 入口
+                                  Container(
+                                    width: 335,
+                                    margin: EdgeInsets.only(top: 10),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: <Widget>[
+                                        // 量化
+                                        Container(
+                                          width: 160,
+                                          height: 80,
+                                          decoration: BoxDecoration(
+                                            boxShadow: [BoxShadow(
+                                                color: Color(0x50999999),
+                                                offset: Offset(0.0, 3.0),
+                                                blurRadius: 10.0,
+                                                spreadRadius: 2.0
+                                            )],
+                                          ),
+                                          child:GestureDetector(
+                                            onTap: () async {
+                                              if(uinfo!=null){
+                                                exT = result.exTokenTime.millisecondsSinceEpoch;
+                                                // token时间转时间戳
+                                                if(exT >= _dateTime){
+                                                  if(result.userLevel.substring(0,1)=="6"){
+                                                    Navigator.push(context, MaterialPageRoute(builder: (context)=>QListPage()));
+                                                  }
+                                                  if(result.userLevel.substring(0,1)=="5"){
+                                                    Navigator.push(context, MaterialPageRoute(builder: (context)=>ManagerQListPage()));
+                                                  }
+                                                  if(result.userLevel.substring(0,1)=="4"){
+                                                    Navigator.push(context, MaterialPageRoute(builder: (context)=>SQListPage()));
+                                                  }
+                                                  if(result.userLevel.substring(0,1)=="1"||result.userLevel.substring(0,1)=="2"||result.userLevel.substring(0,1)=="3"){
+                                                    Navigator.push(context, MaterialPageRoute(builder: (context)=>MajorQListPage()));
+                                                  }
+                                                }else{
+                                                  _onLoginAlertPressed(context);
+                                                }
+                                              }else{
+                                                _onLoginAlertPressed(context);
+                                              }
                                             },
                                             child: ClipRRect(
                                               borderRadius: BorderRadius.all(Radius.circular(12)),
                                               child:Image(
-                                                  image: AssetImage('images/traded.png'),
-                                                  fit:BoxFit.cover
+                                                  width: 160,
+                                                  height: 80,
+                                                  image: AssetImage('images/list.png'),
+                                                  fit:BoxFit.fitHeight
                                               ),
+                                            ),
+                                          ),
+                                        ),
+                                        // 客户维护
+                                        Container(
+                                            width: 160,
+                                            height: 80,
+                                            decoration: BoxDecoration(
+                                              boxShadow: [BoxShadow(
+                                                  color: Color(0x50999999),
+                                                  offset: Offset(0.0, 3.0),
+                                                  blurRadius: 10.0,
+                                                  spreadRadius: 2.0
+                                              )],
+                                            ),
+                                            child:GestureDetector(
+                                                onTap: (){
+//                                          Navigator.push(context, MaterialPageRoute(builder: (context)=>OpenOwnerPage()));
+                                                  _onCloseAlertPressed(context);
+                                                },
+                                                child: ClipRRect(
+                                                  borderRadius: BorderRadius.all(Radius.circular(12)),
+                                                  child:Image(
+                                                      image: AssetImage('images/traded.png'),
+                                                      fit:BoxFit.cover
+                                                  ),
+                                                )
                                             )
                                         )
-                                    )
-                                  ],
-                                ),
+                                      ],
+                                    ),
+                                  )
+                                ],
                               )
-                            ],
-                          )
-                      ),
-                    ),
-                  )
-                ]
+                          ),
+                        ),
+                      )
+                    ]
+                ),
+              ],
             ),
-          ),
-        ],
-      ),
+          ],
+        ),
+      )
     );
   }
 

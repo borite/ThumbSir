@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:ThumbSir/dao/get_last_level_members_dao.dart';
 import 'package:ThumbSir/model/login_result_data_model.dart';
+import 'package:ThumbSir/pages/home.dart';
 import 'package:ThumbSir/pages/manager/qlist/team_analyze_detail_page.dart';
 import 'package:ThumbSir/pages/manager/qlist/team_member_analyze_detail_page.dart';
 import 'package:ThumbSir/pages/mycenter/my_center_page.dart';
@@ -143,7 +144,7 @@ class _GroupAnalyzePageState extends State<GroupAnalyzePage> {
           setState(() {
             msgs=showList;
           });
-        if(listResult != []){
+        if(listResult.length > 0){
           setState(() {
             hasMember = true;
             _loading = false;
@@ -195,7 +196,9 @@ class _GroupAnalyzePageState extends State<GroupAnalyzePage> {
                             children: <Widget>[
                               GestureDetector(
                                 onTap: (){
-                                  Navigator.pop(context);
+                                  Navigator.of(context).pushAndRemoveUntil(
+                                      new MaterialPageRoute(builder: (context) => new Home( )
+                                      ), (route) => route == null);
                                 },
                                 child: Image(image: AssetImage('images/home.png'),),
                               ),

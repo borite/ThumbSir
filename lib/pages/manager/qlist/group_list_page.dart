@@ -1,7 +1,9 @@
 import 'dart:convert';
 import 'package:ThumbSir/dao/get_last_level_members_dao.dart';
 import 'package:ThumbSir/model/login_result_data_model.dart';
+import 'package:ThumbSir/pages/home.dart';
 import 'package:ThumbSir/pages/manager/qlist/team_list_member_page.dart';
+import 'package:ThumbSir/pages/manager/qlist/view_my_mini_tasks_page.dart';
 import 'package:ThumbSir/pages/mycenter/choose_mini_task_page.dart';
 import 'package:ThumbSir/pages/mycenter/my_center_page.dart';
 import 'package:ThumbSir/pages/tips/qlist_tips_page.dart';
@@ -145,7 +147,7 @@ class _GroupListPageState extends State<GroupListPage> {
           setState(() {
             msgs=showList;
           });
-        if(listResult != []){
+        if(listResult.length>0){
           setState(() {
             hasMember = true;
           });
@@ -195,7 +197,9 @@ class _GroupListPageState extends State<GroupListPage> {
                             children: <Widget>[
                               GestureDetector(
                                 onTap: (){
-                                  Navigator.pop(context);
+                                  Navigator.of(context).pushAndRemoveUntil(
+                                      new MaterialPageRoute(builder: (context) => new Home( )
+                                      ), (route) => route == null);
                                 },
                                 child: Image(image: AssetImage('images/home.png'),),
                               ),
@@ -371,33 +375,55 @@ class _GroupListPageState extends State<GroupListPage> {
                     ],
                   ),
                   // 制定任务
-                  Container(
-                    width: 335,
-                    height: 50,
-                    margin: EdgeInsets.only(top: 30),
-                    padding: EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      border: Border.all(color: Color(0xFF5580EB),width: 1),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: GestureDetector(
-                      onTap: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>ChooseMiniTaskPage()));
-                      },
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Text('为下级设置每日最低任务量',style:TextStyle(
-                            fontSize: 14,
-                            color: Color(0xFF5580EB),
-                            fontWeight: FontWeight.normal,
-                            decoration: TextDecoration.none,
-                          ),),
-                          Image(image: AssetImage('images/next.png'),)
-                        ],
+                  Column(
+                    children: <Widget>[
+                      Container(
+                        width: 335,
+                        height: 50,
+                        margin: EdgeInsets.only(top: 30),
+                        padding: EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          border: Border.all(color: Color(0xFF5580EB),width: 1),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: GestureDetector(
+                          onTap: (){
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=>ChooseMiniTaskPage()));
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Text('为下级设置每日最低任务量',style:TextStyle(
+                                fontSize: 14,
+                                color: Color(0xFF5580EB),
+                                fontWeight: FontWeight.normal,
+                                decoration: TextDecoration.none,
+                              ),),
+                              Image(image: AssetImage('images/next.png'),)
+                            ],
+                          ),
+                        ),
                       ),
-                    ),
+                      GestureDetector(
+                        onTap: (){
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>ViewMyMiniTasksPage()));
+                        },
+                        child: Container(
+                          padding: EdgeInsets.only(top: 20),
+                          child: Text(
+                            '查看您已经为下级设置的最低任务量  -->',
+                            style: TextStyle(
+                              color: Color(0xFFF24848),
+                              fontSize: 14,
+                              fontWeight: FontWeight.normal,
+                              decoration: TextDecoration.none,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                   // 成员列表
                   Padding(

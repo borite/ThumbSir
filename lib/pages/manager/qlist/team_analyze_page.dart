@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:ThumbSir/dao/get_next_level_list_dao.dart';
 import 'package:ThumbSir/model/login_result_data_model.dart';
+import 'package:ThumbSir/pages/home.dart';
 import 'package:ThumbSir/pages/manager/qlist/team_analyze_detail_page.dart';
 import 'package:ThumbSir/pages/manager/qlist/team_analyze_group_detail_page.dart';
 import 'package:ThumbSir/pages/manager/qlist/team_analyze_member_detail_page.dart';
@@ -214,7 +215,9 @@ class _TeamAnalyzePageState extends State<TeamAnalyzePage> {
                                   children: <Widget>[
                                     GestureDetector(
                                       onTap: (){
-                                        Navigator.pop(context);
+                                        Navigator.of(context).pushAndRemoveUntil(
+                                            new MaterialPageRoute(builder: (context) => new Home( )
+                                            ), (route) => route == null);
                                       },
                                       child: Image(image: AssetImage('images/home.png'),),
                                     ),

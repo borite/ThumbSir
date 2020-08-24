@@ -191,7 +191,7 @@ class _QListViewMiniTasksPageState extends State<QListViewMiniTasksPage> {
                                   Text(
                                     missionsResult != null ?
                                     '完成以下任务中的任选 '+missionsResult.minCount.toString()+' 项'
-                                    :'完成以下任务中的任选 0 项',
+                                    :'完成以下任务中的任选 1 项',
                                     style: TextStyle(
                                       color: Color(0xFF0E7AE6),
                                       fontSize: 20,

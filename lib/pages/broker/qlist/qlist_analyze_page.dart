@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:ThumbSir/dao/get_personal_data_dao.dart';
 import 'package:ThumbSir/model/login_result_data_model.dart';
+import 'package:ThumbSir/pages/home.dart';
 import 'package:ThumbSir/widget/user_analyze_item.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -160,7 +161,9 @@ class _QListAnalyzePageState extends State<QListAnalyzePage> with SingleTickerPr
                   // 返回
                   GestureDetector(
                       onTap: (){
-                        Navigator.pop(context);
+                        Navigator.of(context).pushAndRemoveUntil(
+                            new MaterialPageRoute(builder: (context) => new Home( )
+                            ), (route) => route == null);
                       },
                     child: Container(
                       width: 28,

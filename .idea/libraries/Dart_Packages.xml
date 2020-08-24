@@ -6,7 +6,7 @@
           <value>
             <list>
               <option value="$USER_HOME$/flutter/.pub-cache/hosted/pub.flutter-io.cn/archive-2.0.13/lib" />
-              <option value="$PROJECT_DIR$/../../../../wangshengzhan_cd/Documents/flutter/.pub-cache/hosted/pub.flutter-io.cn/archive-2.0.11/lib" />
+              <option value="$PROJECT_DIR$/../../../../dongtao03/.pub-cache/hosted/pub.flutter-io.cn/archive-2.0.13/lib" />
             </list>
           </value>
         </entry>
@@ -14,7 +14,7 @@
           <value>
             <list>
               <option value="$USER_HOME$/flutter/.pub-cache/hosted/pub.flutter-io.cn/args-1.6.0/lib" />
-              <option value="$PROJECT_DIR$/../../../../wangshengzhan_cd/Documents/flutter/.pub-cache/hosted/pub.flutter-io.cn/args-1.5.2/lib" />
+              <option value="$PROJECT_DIR$/../../../../dongtao03/.pub-cache/hosted/pub.flutter-io.cn/args-1.6.0/lib" />
             </list>
           </value>
         </entry>
@@ -22,7 +22,7 @@
           <value>
             <list>
               <option value="$USER_HOME$/flutter/.pub-cache/hosted/pub.flutter-io.cn/async-2.4.1/lib" />
-              <option value="$PROJECT_DIR$/../../../../wangshengzhan_cd/Documents/flutter/.pub-cache/hosted/pub.flutter-io.cn/async-2.4.0/lib" />
+              <option value="$PROJECT_DIR$/../../../../dongtao03/.pub-cache/hosted/pub.flutter-io.cn/async-2.4.1/lib" />
             </list>
           </value>
         </entry>
@@ -30,7 +30,7 @@
           <value>
             <list>
               <option value="$USER_HOME$/flutter/.pub-cache/hosted/pub.flutter-io.cn/boolean_selector-2.0.0/lib" />
-              <option value="$PROJECT_DIR$/../../../../wangshengzhan_cd/Documents/flutter/.pub-cache/hosted/pub.flutter-io.cn/boolean_selector-1.0.5/lib" />
+              <option value="$PROJECT_DIR$/../../../../dongtao03/.pub-cache/hosted/pub.flutter-io.cn/boolean_selector-2.0.0/lib" />
             </list>
           </value>
         </entry>
@@ -45,7 +45,7 @@
           <value>
             <list>
               <option value="$USER_HOME$/flutter/.pub-cache/hosted/pub.flutter-io.cn/charcode-1.1.3/lib" />
-              <option value="$PROJECT_DIR$/../../../../wangshengzhan_cd/Documents/flutter/.pub-cache/hosted/pub.flutter-io.cn/charcode-1.1.2/lib" />
+              <option value="$PROJECT_DIR$/../../../../dongtao03/.pub-cache/hosted/pub.flutter-io.cn/charcode-1.1.3/lib" />
             </list>
           </value>
         </entry>
@@ -67,7 +67,7 @@
           <value>
             <list>
               <option value="$USER_HOME$/flutter/.pub-cache/hosted/pub.flutter-io.cn/collection-1.14.12/lib" />
-              <option value="$PROJECT_DIR$/../../../../wangshengzhan_cd/Documents/flutter/.pub-cache/hosted/pub.flutter-io.cn/collection-1.14.11/lib" />
+              <option value="$PROJECT_DIR$/../../../../dongtao03/.pub-cache/hosted/pub.flutter-io.cn/collection-1.14.12/lib" />
             </list>
           </value>
         </entry>
@@ -75,7 +75,7 @@
           <value>
             <list>
               <option value="$USER_HOME$/flutter/.pub-cache/hosted/pub.flutter-io.cn/convert-2.1.1/lib" />
-              <option value="$PROJECT_DIR$/../../../../wangshengzhan_cd/Documents/flutter/.pub-cache/hosted/pub.flutter-io.cn/convert-2.1.1/lib" />
+              <option value="$PROJECT_DIR$/../../../../dongtao03/.pub-cache/hosted/pub.flutter-io.cn/convert-2.1.1/lib" />
             </list>
           </value>
         </entry>
@@ -83,7 +83,7 @@
           <value>
             <list>
               <option value="$USER_HOME$/flutter/.pub-cache/hosted/pub.flutter-io.cn/crypto-2.1.4/lib" />
-              <option value="$PROJECT_DIR$/../../../../wangshengzhan_cd/Documents/flutter/.pub-cache/hosted/pub.flutter-io.cn/crypto-2.1.3/lib" />
+              <option value="$PROJECT_DIR$/../../../../dongtao03/.pub-cache/hosted/pub.flutter-io.cn/crypto-2.1.4/lib" />
             </list>
           </value>
         </entry>
@@ -91,7 +91,6 @@
           <value>
             <list>
               <option value="$USER_HOME$/flutter/.pub-cache/hosted/pub.flutter-io.cn/cupertino_icons-0.1.3/lib" />
-              <option value="$PROJECT_DIR$/../../../../wangshengzhan_cd/Documents/flutter/.pub-cache/hosted/pub.flutter-io.cn/cupertino_icons-0.1.3/lib" />
             </list>
           </value>
         </entry>
@@ -127,7 +126,22 @@
           <value>
             <list>
               <option value="$USER_HOME$/flutter/packages/flutter/lib" />
-              <option value="$PROJECT_DIR$/../../../../wangshengzhan_cd/Documents/flutter/packages/flutter/lib" />
+              <option value="$PROJECT_DIR$/../../../../dongtao03/sourcecode/flutter/packages/flutter/lib" />
+            </list>
+          </value>
+        </entry>
+        <entry key="flutter_bmfbase">
+          <value>
+            <list>
+              <option value="$USER_HOME$/flutter/.pub-cache/hosted/pub.flutter-io.cn/flutter_bmfbase-1.0.2/lib" />
+              <option value="$PROJECT_DIR$/../../../../dongtao03/.pub-cache/hosted/pub.flutter-io.cn/flutter_bmfbase-1.0.2/lib" />
+            </list>
+          </value>
+        </entry>
+        <entry key="flutter_bmflocation">
+          <value>
+            <list>
+              <option value="$USER_HOME$/flutter/.pub-cache/hosted/pub.flutter-io.cn/flutter_bmflocation-1.0.2/lib" />
             </list>
           </value>
         </entry>
@@ -142,7 +156,7 @@
           <value>
             <list>
               <option value="$USER_HOME$/flutter/packages/flutter_test/lib" />
-              <option value="$PROJECT_DIR$/../../../../wangshengzhan_cd/Documents/flutter/packages/flutter_test/lib" />
+              <option value="$PROJECT_DIR$/../../../../dongtao03/sourcecode/flutter/packages/flutter_test/lib" />
             </list>
           </value>
         </entry>
@@ -178,7 +192,7 @@
           <value>
             <list>
               <option value="$USER_HOME$/flutter/.pub-cache/hosted/pub.flutter-io.cn/image-2.1.12/lib" />
-              <option value="$PROJECT_DIR$/../../../../wangshengzhan_cd/Documents/flutter/.pub-cache/hosted/pub.flutter-io.cn/image-2.1.4/lib" />
+              <option value="$PROJECT_DIR$/../../../../dongtao03/.pub-cache/hosted/pub.flutter-io.cn/image-2.1.12/lib" />
             </list>
           </value>
         </entry>
@@ -214,7 +228,7 @@
           <value>
             <list>
               <option value="$USER_HOME$/flutter/.pub-cache/hosted/pub.flutter-io.cn/matcher-0.12.6/lib" />
-              <option value="$PROJECT_DIR$/../../../../wangshengzhan_cd/Documents/flutter/.pub-cache/hosted/pub.flutter-io.cn/matcher-0.12.6/lib" />
+              <option value="$PROJECT_DIR$/../../../../dongtao03/.pub-cache/hosted/pub.flutter-io.cn/matcher-0.12.6/lib" />
             </list>
           </value>
         </entry>
@@ -222,7 +236,7 @@
           <value>
             <list>
               <option value="$USER_HOME$/flutter/.pub-cache/hosted/pub.flutter-io.cn/meta-1.1.8/lib" />
-              <option value="$PROJECT_DIR$/../../../../wangshengzhan_cd/Documents/flutter/.pub-cache/hosted/pub.flutter-io.cn/meta-1.1.8/lib" />
+              <option value="$PROJECT_DIR$/../../../../dongtao03/.pub-cache/hosted/pub.flutter-io.cn/meta-1.1.8/lib" />
             </list>
           </value>
         </entry>
@@ -244,7 +258,7 @@
           <value>
             <list>
               <option value="$USER_HOME$/flutter/.pub-cache/hosted/pub.flutter-io.cn/path-1.6.4/lib" />
-              <option value="$PROJECT_DIR$/../../../../wangshengzhan_cd/Documents/flutter/.pub-cache/hosted/pub.flutter-io.cn/path-1.6.4/lib" />
+              <option value="$PROJECT_DIR$/../../../../dongtao03/.pub-cache/hosted/pub.flutter-io.cn/path-1.6.4/lib" />
             </list>
           </value>
         </entry>
@@ -294,7 +308,6 @@
           <value>
             <list>
               <option value="$USER_HOME$/flutter/.pub-cache/hosted/pub.flutter-io.cn/pedantic-1.9.0/lib" />
-              <option value="$PROJECT_DIR$/../../../../wangshengzhan_cd/Documents/flutter/.pub-cache/hosted/pub.flutter-io.cn/pedantic-1.8.0+1/lib" />
             </list>
           </value>
         </entry>
@@ -302,7 +315,7 @@
           <value>
             <list>
               <option value="$USER_HOME$/flutter/.pub-cache/hosted/pub.flutter-io.cn/permission_handler-4.4.0+hotfix.4/lib" />
-              <option value="$PROJECT_DIR$/../../../../wangshengzhan_cd/Documents/flutter/.pub-cache/hosted/pub.flutter-io.cn/permission_handler-4.2.0+hotfix.3/lib" />
+              <option value="$PROJECT_DIR$/../../../../dongtao03/.pub-cache/hosted/pub.flutter-io.cn/permission_handler-4.4.0+hotfix.4/lib" />
             </list>
           </value>
         </entry>
@@ -310,6 +323,7 @@
           <value>
             <list>
               <option value="$USER_HOME$/flutter/.pub-cache/hosted/pub.flutter-io.cn/permission_handler_platform_interface-1.0.0/lib" />
+              <option value="$PROJECT_DIR$/../../../../dongtao03/.pub-cache/hosted/pub.flutter-io.cn/permission_handler_platform_interface-1.0.0/lib" />
             </list>
           </value>
         </entry>
@@ -317,7 +331,7 @@
           <value>
             <list>
               <option value="$USER_HOME$/flutter/.pub-cache/hosted/pub.flutter-io.cn/petitparser-2.4.0/lib" />
-              <option value="$PROJECT_DIR$/../../../../wangshengzhan_cd/Documents/flutter/.pub-cache/hosted/pub.flutter-io.cn/petitparser-2.4.0/lib" />
+              <option value="$PROJECT_DIR$/../../../../dongtao03/.pub-cache/hosted/pub.flutter-io.cn/petitparser-2.4.0/lib" />
             </list>
           </value>
         </entry>
@@ -332,6 +346,7 @@
           <value>
             <list>
               <option value="$USER_HOME$/flutter/.pub-cache/hosted/pub.flutter-io.cn/plugin_platform_interface-1.0.2/lib" />
+              <option value="$PROJECT_DIR$/../../../../dongtao03/.pub-cache/hosted/pub.flutter-io.cn/plugin_platform_interface-1.0.2/lib" />
             </list>
           </value>
         </entry>
@@ -346,7 +361,7 @@
           <value>
             <list>
               <option value="$USER_HOME$/flutter/.pub-cache/hosted/pub.flutter-io.cn/quiver-2.1.3/lib" />
-              <option value="$PROJECT_DIR$/../../../../wangshengzhan_cd/Documents/flutter/.pub-cache/hosted/pub.flutter-io.cn/quiver-2.0.5/lib" />
+              <option value="$PROJECT_DIR$/../../../../dongtao03/.pub-cache/hosted/pub.flutter-io.cn/quiver-2.1.3/lib" />
             </list>
           </value>
         </entry>
@@ -410,7 +425,7 @@
           <value>
             <list>
               <option value="$USER_HOME$/flutter/bin/cache/pkg/sky_engine/lib" />
-              <option value="$PROJECT_DIR$/../../../../wangshengzhan_cd/Documents/flutter/bin/cache/pkg/sky_engine/lib" />
+              <option value="$PROJECT_DIR$/../../../../dongtao03/sourcecode/flutter/bin/cache/pkg/sky_engine/lib" />
             </list>
           </value>
         </entry>
@@ -432,7 +447,7 @@
           <value>
             <list>
               <option value="$USER_HOME$/flutter/.pub-cache/hosted/pub.flutter-io.cn/source_span-1.7.0/lib" />
-              <option value="$PROJECT_DIR$/../../../../wangshengzhan_cd/Documents/flutter/.pub-cache/hosted/pub.flutter-io.cn/source_span-1.5.5/lib" />
+              <option value="$PROJECT_DIR$/../../../../dongtao03/.pub-cache/hosted/pub.flutter-io.cn/source_span-1.7.0/lib" />
             </list>
           </value>
         </entry>
@@ -440,7 +455,7 @@
           <value>
             <list>
               <option value="$USER_HOME$/flutter/.pub-cache/hosted/pub.flutter-io.cn/stack_trace-1.9.3/lib" />
-              <option value="$PROJECT_DIR$/../../../../wangshengzhan_cd/Documents/flutter/.pub-cache/hosted/pub.flutter-io.cn/stack_trace-1.9.3/lib" />
+              <option value="$PROJECT_DIR$/../../../../dongtao03/.pub-cache/hosted/pub.flutter-io.cn/stack_trace-1.9.3/lib" />
             </list>
           </value>
         </entry>
@@ -448,7 +463,7 @@
           <value>
             <list>
               <option value="$USER_HOME$/flutter/.pub-cache/hosted/pub.flutter-io.cn/stream_channel-2.0.0/lib" />
-              <option value="$PROJECT_DIR$/../../../../wangshengzhan_cd/Documents/flutter/.pub-cache/hosted/pub.flutter-io.cn/stream_channel-2.0.0/lib" />
+              <option value="$PROJECT_DIR$/../../../../dongtao03/.pub-cache/hosted/pub.flutter-io.cn/stream_channel-2.0.0/lib" />
             </list>
           </value>
         </entry>
@@ -456,7 +471,7 @@
           <value>
             <list>
               <option value="$USER_HOME$/flutter/.pub-cache/hosted/pub.flutter-io.cn/string_scanner-1.0.5/lib" />
-              <option value="$PROJECT_DIR$/../../../../wangshengzhan_cd/Documents/flutter/.pub-cache/hosted/pub.flutter-io.cn/string_scanner-1.0.5/lib" />
+              <option value="$PROJECT_DIR$/../../../../dongtao03/.pub-cache/hosted/pub.flutter-io.cn/string_scanner-1.0.5/lib" />
             </list>
           </value>
         </entry>
@@ -464,7 +479,7 @@
           <value>
             <list>
               <option value="$USER_HOME$/flutter/.pub-cache/hosted/pub.flutter-io.cn/term_glyph-1.1.0/lib" />
-              <option value="$PROJECT_DIR$/../../../../wangshengzhan_cd/Documents/flutter/.pub-cache/hosted/pub.flutter-io.cn/term_glyph-1.1.0/lib" />
+              <option value="$PROJECT_DIR$/../../../../dongtao03/.pub-cache/hosted/pub.flutter-io.cn/term_glyph-1.1.0/lib" />
             </list>
           </value>
         </entry>
@@ -472,7 +487,7 @@
           <value>
             <list>
               <option value="$USER_HOME$/flutter/.pub-cache/hosted/pub.flutter-io.cn/test_api-0.2.15/lib" />
-              <option value="$PROJECT_DIR$/../../../../wangshengzhan_cd/Documents/flutter/.pub-cache/hosted/pub.flutter-io.cn/test_api-0.2.11/lib" />
+              <option value="$PROJECT_DIR$/../../../../dongtao03/.pub-cache/hosted/pub.flutter-io.cn/test_api-0.2.15/lib" />
             </list>
           </value>
         </entry>
@@ -487,7 +502,7 @@
           <value>
             <list>
               <option value="$USER_HOME$/flutter/.pub-cache/hosted/pub.flutter-io.cn/typed_data-1.1.6/lib" />
-              <option value="$PROJECT_DIR$/../../../../wangshengzhan_cd/Documents/flutter/.pub-cache/hosted/pub.flutter-io.cn/typed_data-1.1.6/lib" />
+              <option value="$PROJECT_DIR$/../../../../dongtao03/.pub-cache/hosted/pub.flutter-io.cn/typed_data-1.1.6/lib" />
             </list>
           </value>
         </entry>
@@ -495,7 +510,7 @@
           <value>
             <list>
               <option value="$USER_HOME$/flutter/.pub-cache/hosted/pub.flutter-io.cn/uuid-2.2.0/lib" />
-              <option value="$PROJECT_DIR$/../../../../wangshengzhan_cd/Documents/flutter/.pub-cache/hosted/pub.flutter-io.cn/uuid-2.0.4/lib" />
+              <option value="$PROJECT_DIR$/../../../../dongtao03/.pub-cache/hosted/pub.flutter-io.cn/uuid-2.2.0/lib" />
             </list>
           </value>
         </entry>
@@ -503,7 +518,7 @@
           <value>
             <list>
               <option value="$USER_HOME$/flutter/.pub-cache/hosted/pub.flutter-io.cn/vector_math-2.0.8/lib" />
-              <option value="$PROJECT_DIR$/../../../../wangshengzhan_cd/Documents/flutter/.pub-cache/hosted/pub.flutter-io.cn/vector_math-2.0.8/lib" />
+              <option value="$PROJECT_DIR$/../../../../dongtao03/.pub-cache/hosted/pub.flutter-io.cn/vector_math-2.0.8/lib" />
             </list>
           </value>
         </entry>
@@ -525,13 +540,44 @@
           <value>
             <list>
               <option value="$USER_HOME$/flutter/.pub-cache/hosted/pub.flutter-io.cn/xml-3.6.1/lib" />
-              <option value="$PROJECT_DIR$/../../../../wangshengzhan_cd/Documents/flutter/.pub-cache/hosted/pub.flutter-io.cn/xml-3.5.0/lib" />
+              <option value="$PROJECT_DIR$/../../../../dongtao03/.pub-cache/hosted/pub.flutter-io.cn/xml-3.6.1/lib" />
             </list>
           </value>
         </entry>
       </option>
     </properties>
     <CLASSES>
+      <root url="file://$PROJECT_DIR$/../../../../dongtao03/.pub-cache/hosted/pub.flutter-io.cn/archive-2.0.13/lib" />
+      <root url="file://$PROJECT_DIR$/../../../../dongtao03/.pub-cache/hosted/pub.flutter-io.cn/args-1.6.0/lib" />
+      <root url="file://$PROJECT_DIR$/../../../../dongtao03/.pub-cache/hosted/pub.flutter-io.cn/async-2.4.1/lib" />
+      <root url="file://$PROJECT_DIR$/../../../../dongtao03/.pub-cache/hosted/pub.flutter-io.cn/boolean_selector-2.0.0/lib" />
+      <root url="file://$PROJECT_DIR$/../../../../dongtao03/.pub-cache/hosted/pub.flutter-io.cn/charcode-1.1.3/lib" />
+      <root url="file://$PROJECT_DIR$/../../../../dongtao03/.pub-cache/hosted/pub.flutter-io.cn/collection-1.14.12/lib" />
+      <root url="file://$PROJECT_DIR$/../../../../dongtao03/.pub-cache/hosted/pub.flutter-io.cn/convert-2.1.1/lib" />
+      <root url="file://$PROJECT_DIR$/../../../../dongtao03/.pub-cache/hosted/pub.flutter-io.cn/crypto-2.1.4/lib" />
+      <root url="file://$PROJECT_DIR$/../../../../dongtao03/.pub-cache/hosted/pub.flutter-io.cn/flutter_bmfbase-1.0.2/lib" />
+      <root url="file://$PROJECT_DIR$/../../../../dongtao03/.pub-cache/hosted/pub.flutter-io.cn/image-2.1.12/lib" />
+      <root url="file://$PROJECT_DIR$/../../../../dongtao03/.pub-cache/hosted/pub.flutter-io.cn/matcher-0.12.6/lib" />
+      <root url="file://$PROJECT_DIR$/../../../../dongtao03/.pub-cache/hosted/pub.flutter-io.cn/meta-1.1.8/lib" />
+      <root url="file://$PROJECT_DIR$/../../../../dongtao03/.pub-cache/hosted/pub.flutter-io.cn/path-1.6.4/lib" />
+      <root url="file://$PROJECT_DIR$/../../../../dongtao03/.pub-cache/hosted/pub.flutter-io.cn/permission_handler-4.4.0+hotfix.4/lib" />
+      <root url="file://$PROJECT_DIR$/../../../../dongtao03/.pub-cache/hosted/pub.flutter-io.cn/permission_handler_platform_interface-1.0.0/lib" />
+      <root url="file://$PROJECT_DIR$/../../../../dongtao03/.pub-cache/hosted/pub.flutter-io.cn/petitparser-2.4.0/lib" />
+      <root url="file://$PROJECT_DIR$/../../../../dongtao03/.pub-cache/hosted/pub.flutter-io.cn/plugin_platform_interface-1.0.2/lib" />
+      <root url="file://$PROJECT_DIR$/../../../../dongtao03/.pub-cache/hosted/pub.flutter-io.cn/quiver-2.1.3/lib" />
+      <root url="file://$PROJECT_DIR$/../../../../dongtao03/.pub-cache/hosted/pub.flutter-io.cn/source_span-1.7.0/lib" />
+      <root url="file://$PROJECT_DIR$/../../../../dongtao03/.pub-cache/hosted/pub.flutter-io.cn/stack_trace-1.9.3/lib" />
+      <root url="file://$PROJECT_DIR$/../../../../dongtao03/.pub-cache/hosted/pub.flutter-io.cn/stream_channel-2.0.0/lib" />
+      <root url="file://$PROJECT_DIR$/../../../../dongtao03/.pub-cache/hosted/pub.flutter-io.cn/string_scanner-1.0.5/lib" />
+      <root url="file://$PROJECT_DIR$/../../../../dongtao03/.pub-cache/hosted/pub.flutter-io.cn/term_glyph-1.1.0/lib" />
+      <root url="file://$PROJECT_DIR$/../../../../dongtao03/.pub-cache/hosted/pub.flutter-io.cn/test_api-0.2.15/lib" />
+      <root url="file://$PROJECT_DIR$/../../../../dongtao03/.pub-cache/hosted/pub.flutter-io.cn/typed_data-1.1.6/lib" />
+      <root url="file://$PROJECT_DIR$/../../../../dongtao03/.pub-cache/hosted/pub.flutter-io.cn/uuid-2.2.0/lib" />
+      <root url="file://$PROJECT_DIR$/../../../../dongtao03/.pub-cache/hosted/pub.flutter-io.cn/vector_math-2.0.8/lib" />
+      <root url="file://$PROJECT_DIR$/../../../../dongtao03/.pub-cache/hosted/pub.flutter-io.cn/xml-3.6.1/lib" />
+      <root url="file://$PROJECT_DIR$/../../../../dongtao03/sourcecode/flutter/bin/cache/pkg/sky_engine/lib" />
+      <root url="file://$PROJECT_DIR$/../../../../dongtao03/sourcecode/flutter/packages/flutter/lib" />
+      <root url="file://$PROJECT_DIR$/../../../../dongtao03/sourcecode/flutter/packages/flutter_test/lib" />
       <root url="file://$USER_HOME$/flutter/.pub-cache/hosted/pub.flutter-io.cn/archive-2.0.13/lib" />
       <root url="file://$USER_HOME$/flutter/.pub-cache/hosted/pub.flutter-io.cn/args-1.6.0/lib" />
       <root url="file://$USER_HOME$/flutter/.pub-cache/hosted/pub.flutter-io.cn/async-2.4.1/lib" />
@@ -548,6 +594,8 @@
       <root url="file://$USER_HOME$/flutter/.pub-cache/hosted/pub.flutter-io.cn/equatable-1.2.3/lib" />
       <root url="file://$USER_HOME$/flutter/.pub-cache/hosted/pub.flutter-io.cn/file-5.2.1/lib" />
       <root url="file://$USER_HOME$/flutter/.pub-cache/hosted/pub.flutter-io.cn/fl_chart-0.10.1/lib" />
+      <root url="file://$USER_HOME$/flutter/.pub-cache/hosted/pub.flutter-io.cn/flutter_bmfbase-1.0.2/lib" />
+      <root url="file://$USER_HOME$/flutter/.pub-cache/hosted/pub.flutter-io.cn/flutter_bmflocation-1.0.2/lib" />
       <root url="file://$USER_HOME$/flutter/.pub-cache/hosted/pub.flutter-io.cn/flutter_plugin_android_lifecycle-1.0.8/lib" />
       <root url="file://$USER_HOME$/flutter/.pub-cache/hosted/pub.flutter-io.cn/flutter_time_picker_spinner-1.0.6+1/lib" />
       <root url="file://$USER_HOME$/flutter/.pub-cache/hosted/pub.flutter-io.cn/http-0.12.2/lib" />
@@ -603,36 +651,6 @@
       <root url="file://$USER_HOME$/flutter/packages/flutter/lib" />
       <root url="file://$USER_HOME$/flutter/packages/flutter_test/lib" />
       <root url="file://$USER_HOME$/flutter/packages/flutter_web_plugins/lib" />
-      <root url="file://$PROJECT_DIR$/../../../../wangshengzhan_cd/Documents/flutter/.pub-cache/hosted/pub.flutter-io.cn/archive-2.0.11/lib" />
-      <root url="file://$PROJECT_DIR$/../../../../wangshengzhan_cd/Documents/flutter/.pub-cache/hosted/pub.flutter-io.cn/args-1.5.2/lib" />
-      <root url="file://$PROJECT_DIR$/../../../../wangshengzhan_cd/Documents/flutter/.pub-cache/hosted/pub.flutter-io.cn/async-2.4.0/lib" />
-      <root url="file://$PROJECT_DIR$/../../../../wangshengzhan_cd/Documents/flutter/.pub-cache/hosted/pub.flutter-io.cn/boolean_selector-1.0.5/lib" />
-      <root url="file://$PROJECT_DIR$/../../../../wangshengzhan_cd/Documents/flutter/.pub-cache/hosted/pub.flutter-io.cn/charcode-1.1.2/lib" />
-      <root url="file://$PROJECT_DIR$/../../../../wangshengzhan_cd/Documents/flutter/.pub-cache/hosted/pub.flutter-io.cn/collection-1.14.11/lib" />
-      <root url="file://$PROJECT_DIR$/../../../../wangshengzhan_cd/Documents/flutter/.pub-cache/hosted/pub.flutter-io.cn/convert-2.1.1/lib" />
-      <root url="file://$PROJECT_DIR$/../../../../wangshengzhan_cd/Documents/flutter/.pub-cache/hosted/pub.flutter-io.cn/crypto-2.1.3/lib" />
-      <root url="file://$PROJECT_DIR$/../../../../wangshengzhan_cd/Documents/flutter/.pub-cache/hosted/pub.flutter-io.cn/cupertino_icons-0.1.3/lib" />
-      <root url="file://$PROJECT_DIR$/../../../../wangshengzhan_cd/Documents/flutter/.pub-cache/hosted/pub.flutter-io.cn/image-2.1.4/lib" />
-      <root url="file://$PROJECT_DIR$/../../../../wangshengzhan_cd/Documents/flutter/.pub-cache/hosted/pub.flutter-io.cn/matcher-0.12.6/lib" />
-      <root url="file://$PROJECT_DIR$/../../../../wangshengzhan_cd/Documents/flutter/.pub-cache/hosted/pub.flutter-io.cn/meta-1.1.8/lib" />
-      <root url="file://$PROJECT_DIR$/../../../../wangshengzhan_cd/Documents/flutter/.pub-cache/hosted/pub.flutter-io.cn/path-1.6.4/lib" />
-      <root url="file://$PROJECT_DIR$/../../../../wangshengzhan_cd/Documents/flutter/.pub-cache/hosted/pub.flutter-io.cn/pedantic-1.8.0+1/lib" />
-      <root url="file://$PROJECT_DIR$/../../../../wangshengzhan_cd/Documents/flutter/.pub-cache/hosted/pub.flutter-io.cn/permission_handler-4.2.0+hotfix.3/lib" />
-      <root url="file://$PROJECT_DIR$/../../../../wangshengzhan_cd/Documents/flutter/.pub-cache/hosted/pub.flutter-io.cn/petitparser-2.4.0/lib" />
-      <root url="file://$PROJECT_DIR$/../../../../wangshengzhan_cd/Documents/flutter/.pub-cache/hosted/pub.flutter-io.cn/quiver-2.0.5/lib" />
-      <root url="file://$PROJECT_DIR$/../../../../wangshengzhan_cd/Documents/flutter/.pub-cache/hosted/pub.flutter-io.cn/source_span-1.5.5/lib" />
-      <root url="file://$PROJECT_DIR$/../../../../wangshengzhan_cd/Documents/flutter/.pub-cache/hosted/pub.flutter-io.cn/stack_trace-1.9.3/lib" />
-      <root url="file://$PROJECT_DIR$/../../../../wangshengzhan_cd/Documents/flutter/.pub-cache/hosted/pub.flutter-io.cn/stream_channel-2.0.0/lib" />
-      <root url="file://$PROJECT_DIR$/../../../../wangshengzhan_cd/Documents/flutter/.pub-cache/hosted/pub.flutter-io.cn/string_scanner-1.0.5/lib" />
-      <root url="file://$PROJECT_DIR$/../../../../wangshengzhan_cd/Documents/flutter/.pub-cache/hosted/pub.flutter-io.cn/term_glyph-1.1.0/lib" />
-      <root url="file://$PROJECT_DIR$/../../../../wangshengzhan_cd/Documents/flutter/.pub-cache/hosted/pub.flutter-io.cn/test_api-0.2.11/lib" />
-      <root url="file://$PROJECT_DIR$/../../../../wangshengzhan_cd/Documents/flutter/.pub-cache/hosted/pub.flutter-io.cn/typed_data-1.1.6/lib" />
-      <root url="file://$PROJECT_DIR$/../../../../wangshengzhan_cd/Documents/flutter/.pub-cache/hosted/pub.flutter-io.cn/uuid-2.0.4/lib" />
-      <root url="file://$PROJECT_DIR$/../../../../wangshengzhan_cd/Documents/flutter/.pub-cache/hosted/pub.flutter-io.cn/vector_math-2.0.8/lib" />
-      <root url="file://$PROJECT_DIR$/../../../../wangshengzhan_cd/Documents/flutter/.pub-cache/hosted/pub.flutter-io.cn/xml-3.5.0/lib" />
-      <root url="file://$PROJECT_DIR$/../../../../wangshengzhan_cd/Documents/flutter/bin/cache/pkg/sky_engine/lib" />
-      <root url="file://$PROJECT_DIR$/../../../../wangshengzhan_cd/Documents/flutter/packages/flutter/lib" />
-      <root url="file://$PROJECT_DIR$/../../../../wangshengzhan_cd/Documents/flutter/packages/flutter_test/lib" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

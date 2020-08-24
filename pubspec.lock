@@ -22,13 +22,6 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "2.4.1"
-  bdmap_location_flutter_plugin:
-    dependency: "direct main"
-    description:
-      path: "plugins/bdmap_location_flutter_plugin"
-      relative: true
-    source: path
-    version: "0.0.1"
   boolean_selector:
     dependency: transitive
     description:
@@ -125,6 +118,20 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_bmfbase:
+    dependency: transitive
+    description:
+      name: flutter_bmfbase
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "1.0.2"
+  flutter_bmflocation:
+    dependency: "direct main"
+    description:
+      name: flutter_bmflocation
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "1.0.2"
   flutter_plugin_android_lifecycle:
     dependency: transitive
     description:
