@@ -1,4 +1,4 @@
-#Mon Aug 24 17:06:20 CST 2020
+#Mon Aug 24 23:09:21 CST 2020
 base.0=/Users/jiaozhengying/Desktop/ThumbSirGit/ThumbSir/build/app/intermediates/dex/debug/mergeDexDebug/out/classes.dex
 path.0=classes.dex
 renamed.0=classes.dex

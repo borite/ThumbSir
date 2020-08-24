@@ -10,6 +10,7 @@ import 'package:ThumbSir/pages/tips/qlist_tips_page.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 class GroupListPage extends StatefulWidget {
   @override
@@ -389,7 +390,11 @@ class _GroupListPageState extends State<GroupListPage> {
                         ),
                         child: GestureDetector(
                           onTap: (){
-                            Navigator.push(context, MaterialPageRoute(builder: (context)=>ChooseMiniTaskPage()));
+                            if(hasMember == true){
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=>ChooseMiniTaskPage()));
+                            }else{
+                              _onHasMemberAlert(context);
+                            }
                           },
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -407,7 +412,13 @@ class _GroupListPageState extends State<GroupListPage> {
                       ),
                       GestureDetector(
                         onTap: (){
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=>ViewMyMiniTasksPage()));
+                          if(hasMember == true){
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=>ViewMyMiniTasksPage(
+                              memberId:listResult[0].userPid
+                            )));
+                          }else{
+                            _onHasMemberAlert(context);
+                          }
                         },
                         child: Container(
                           padding: EdgeInsets.only(top: 20),
@@ -466,5 +477,28 @@ class _GroupListPageState extends State<GroupListPage> {
     setState(() {
       _loading = !_loading;
     });
+  }
+
+  _onHasMemberAlert(context) {
+    Alert(
+      context: context,
+      title: "您还没有下级成员",
+      desc: "拥有下级成员后才能为下级设置最低任务量，请前往个人中心邀请下级成员加入",
+      buttons: [
+        DialogButton(
+          child: Text(
+            "确定",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () {
+            Navigator.pop(context);
+//            setState(() {
+//              _loading = false;
+//            });
+          },
+          color: Color(0xFF5580EB),
+        )
+      ],
+    ).show();
   }
 }

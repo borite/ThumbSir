@@ -9,6 +9,8 @@ import 'package:flutter_time_picker_spinner/flutter_time_picker_spinner.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ViewMyMiniTasksPage extends StatefulWidget {
+  final memberId;
+  ViewMyMiniTasksPage({this.memberId});
   @override
   _ViewMyMiniTasksPageState createState() => _ViewMyMiniTasksPageState();
 }
@@ -43,7 +45,7 @@ class _ViewMyMiniTasksPageState extends State<ViewMyMiniTasksPage> {
   }
 
   _load()async{
-    getMissionAResult = await GetMissionADao.getMissionA(userData.userPid, userData.userPid, (int.parse(userData.userLevel.substring(0,1))+1).toString(), userData.companyId);
+    getMissionAResult = await GetMissionADao.getMissionA(widget.memberId, userData.userPid, (int.parse(userData.userLevel.substring(0,1))+1).toString(), userData.companyId);
     if(getMissionAResult != null){
       if(getMissionAResult.code == 200){
         setState(() {

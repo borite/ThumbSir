@@ -618,8 +618,17 @@ class _SigninChooseAreaPageState extends State<SigninChooseAreaPage> {
     Alert(
       context: context,
       type: AlertType.error,
-      title: "您填写的区域名称已有人使用",
-      desc: "请使用其他区域名称或使用上级区域名称+本级区域名称的形式，例如xxx店xxx组",
+      title: "您填写的区域名称已被使用",
+      desc: "请使用其他区域名称或使用上级区域名称+本级区域名称的形式，例如xxx店xxx组。",
+      content: Padding(
+        padding: EdgeInsets.only(top: 10),
+        child: Text(
+          "如果因为降级造成此结果，请先使用其他区域名称，修改成功后在个人中心寻找和匹配上级或让上级对您发出职位联接邀请，即可根据上级区域自动变更区域名称。",
+          style: TextStyle(
+            fontSize: 14,
+          ),
+        ),
+      ),
       buttons: [
         DialogButton(
           child: Text(
