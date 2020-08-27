@@ -281,9 +281,10 @@ class _ZCenterGroupPageState extends State<ZCenterGroupPage> {
                                               fontWeight: FontWeight.normal,
                                             ),),
                                         ),
-                                        userData!=null && userData.userIsVip == true?
-                                        Padding(
-                                          padding: EdgeInsets.only(top: 5),
+                                        userData!= null && userData.userIsVip == true?
+                                        Container(
+                                          width: 22,
+                                          margin: EdgeInsets.only(top: 5),
                                           child: Image(image: AssetImage('images/vip_yellow.png'),),
                                         )
                                             :Container(width: 1,)

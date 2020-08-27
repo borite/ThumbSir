@@ -180,8 +180,12 @@ class _QListTaskListSearchResultPageState extends State<QListTaskListSearchResul
                             Row(
                               children: <Widget>[
                                 Padding(
-                                  padding:EdgeInsets.only(left: 8,right: 8),
-                                  child: Image(image: AssetImage('images/date.png')),
+                                  padding:EdgeInsets.only(left: 8,right: 8,top: 1),
+                                  child: Container(
+                                    width: 22,
+                                    height: 22,
+                                    child:Image(image: AssetImage('images/date.png')),
+                                  ),
                                 ),
                                 Text(
                                   selectedDate.toIso8601String().substring(0,10),

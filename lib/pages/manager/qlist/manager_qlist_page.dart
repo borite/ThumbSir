@@ -36,13 +36,25 @@ class _ManagerQListPageState extends State<ManagerQListPage> with SingleTickerPr
           type: BottomNavigationBarType.fixed,
           items: [
             BottomNavigationBarItem(
-              icon: Image(image:AssetImage('images/listicon.png')),
-              activeIcon:Image(image:AssetImage('images/listicon_s.png'),),
+              icon: Container(
+                height:26,
+                child:Image(image:AssetImage('images/listicon.png')),
+              ),
+              activeIcon:Container(
+                height: 26,
+                child: Image(image:AssetImage('images/listicon_s.png'),),
+              ),
               title: Text('个人量化',style: TextStyle(color:_currentIndex != 0? _defaultColor : _activeColor,))
             ),
             BottomNavigationBarItem(
-              icon: Image(image:AssetImage('images/analyze.png')),
-              activeIcon:Image(image:AssetImage('images/analyze_s.png')),
+              icon: Container(
+                height:26,
+                child:Image(image:AssetImage('images/analyze.png')),
+              ),
+              activeIcon:Container(
+                height:26,
+                child:Image(image:AssetImage('images/analyze_s.png')),
+              ),
               title: Text('个人分析',style: TextStyle(color:_currentIndex != 1? _defaultColor : _activeColor,)),
             ),
             BottomNavigationBarItem(
@@ -51,13 +63,25 @@ class _ManagerQListPageState extends State<ManagerQListPage> with SingleTickerPr
               title: Text('新增任务',style: TextStyle(color:_currentIndex != 2? _defaultColor : _activeColor,)),
             ),
             BottomNavigationBarItem(
-                icon: Image(image:AssetImage('images/teamlisticon.png')),
-                activeIcon:Image(image:AssetImage('images/teamlisticon_s.png'),),
+                icon: Container(
+                  height: 29,
+                  child: Image(image:AssetImage('images/teamlisticon.png')),
+                ),
+                activeIcon:Container(
+                  height: 29,
+                  child: Image(image:AssetImage('images/teamlisticon_s.png'),),
+                ),
                 title: Text('团队量化',style: TextStyle(color:_currentIndex != 3? _defaultColor : _activeColor,))
             ),
             BottomNavigationBarItem(
-              icon: Image(image:AssetImage('images/teamanalyze.png')),
-              activeIcon:Image(image:AssetImage('images/teamanalyze_s.png')),
+              icon: Container(
+                height: 29,
+                child: Image(image:AssetImage('images/teamanalyze.png')),
+              ),
+              activeIcon:Container(
+                height: 29,
+                child: Image(image:AssetImage('images/teamanalyze_s.png')),
+              ),
               title: Text('团队分析',style: TextStyle(color:_currentIndex != 4? _defaultColor : _activeColor,)),
             ),
           ],

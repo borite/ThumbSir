@@ -84,7 +84,11 @@ class _MyCenterPageState extends State<MyCenterPage> {
                                   _getUserInfo();
                                 });
                               },
-                              child: Image(image: AssetImage('images/set.png')),
+                              child: Container(
+                                width: 24,
+                                height: 24,
+                                child: Image(image: AssetImage('images/set.png'),fit: BoxFit.fill,),
+                              ),
                             ):Container(width: 2,),
                           ],
                         )
@@ -362,7 +366,11 @@ class _MyCenterPageState extends State<MyCenterPage> {
                             padding: EdgeInsets.only(bottom: 20),
                             child: Row(
                               children: <Widget>[
-                                Image(image: AssetImage('images/company.png')),
+                                Container(
+                                  width: 32,
+                                  height: 32,
+                                  child: Image(image: AssetImage('images/company.png'),fit: BoxFit.fill,),
+                                ),
                                 Container(
                                   margin: EdgeInsets.only(left: 10),
                                   child: Text(
@@ -382,7 +390,11 @@ class _MyCenterPageState extends State<MyCenterPage> {
                             padding: EdgeInsets.only(bottom: 20),
                             child: Row(
                               children: <Widget>[
-                                Image(image: AssetImage('images/site.png')),
+                                Container(
+                                  width: 32,
+                                  height: 32,
+                                  child: Image(image: AssetImage('images/site.png'),fit: BoxFit.fill,),
+                                ),
                                 Container(
                                   margin: EdgeInsets.only(left: 10),
                                   child: Text(
@@ -420,7 +432,11 @@ class _MyCenterPageState extends State<MyCenterPage> {
                                   children: <Widget>[
                                     Row(
                                       children: <Widget>[
-                                        Image(image: AssetImage('images/group.png')),
+                                        Container(
+                                          width: 32,
+                                          height: 32,
+                                          child: Image(image: AssetImage('images/group.png'),fit: BoxFit.fill,),
+                                        ),
                                         Container(
                                           margin: EdgeInsets.only(left: 10),
                                           child: Text(
@@ -444,7 +460,11 @@ class _MyCenterPageState extends State<MyCenterPage> {
                             padding: EdgeInsets.only(bottom: 20),
                             child: Row(
                               children: <Widget>[
-                                Image(image: AssetImage('images/phone.png')),
+                                Container(
+                                  width: 32,
+                                  height: 32,
+                                  child: Image(image: AssetImage('images/phone.png'),fit: BoxFit.fill,),
+                                ),
                                 Container(
                                   margin: EdgeInsets.only(left: 10),
                                   child: Text(
@@ -514,7 +534,11 @@ class _MyCenterPageState extends State<MyCenterPage> {
                                 children: <Widget>[
                                   Row(
                                     children: <Widget>[
-                                      Image(image: AssetImage('images/service.png')),
+                                      Container(
+                                        width: 32,
+                                        height: 32,
+                                        child: Image(image: AssetImage('images/service.png'),fit: BoxFit.fill,),
+                                      ),
                                       Container(
                                         margin: EdgeInsets.only(left: 10),
                                         child: Text(

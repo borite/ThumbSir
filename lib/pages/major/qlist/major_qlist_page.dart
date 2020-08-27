@@ -27,13 +27,25 @@ class _MajorQListPageState extends State<MajorQListPage> with SingleTickerProvid
           type: BottomNavigationBarType.fixed,
           items: [
             BottomNavigationBarItem(
-                icon: Image(image:AssetImage('images/teamlisticon.png')),
-                activeIcon:Image(image:AssetImage('images/teamlisticon_s.png'),),
+                icon: Container(
+                  height: 29,
+                  child: Image(image:AssetImage('images/teamlisticon.png')),
+                ),
+                activeIcon:Container(
+                  height: 29,
+                  child: Image(image:AssetImage('images/teamlisticon_s.png'),),
+                ),
                 title: Text('团队量化',style: TextStyle(color:_currentIndex != 0? _defaultColor : _activeColor,))
             ),
             BottomNavigationBarItem(
-              icon: Image(image:AssetImage('images/teamanalyze.png')),
-              activeIcon:Image(image:AssetImage('images/teamanalyze_s.png')),
+              icon: Container(
+                height: 29,
+                child: Image(image:AssetImage('images/teamanalyze.png')),
+              ),
+              activeIcon:Container(
+                height: 29,
+                child: Image(image:AssetImage('images/teamanalyze_s.png')),
+              ),
               title: Text('团队分析',style: TextStyle(color:_currentIndex != 1? _defaultColor : _activeColor,)),
             ),
           ],

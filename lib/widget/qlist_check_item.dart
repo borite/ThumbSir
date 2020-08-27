@@ -145,7 +145,11 @@ class _QListCheckItemState extends State<QListCheckItem> with SingleTickerProvid
                           padding: EdgeInsets.only(top: 12),
                           child: Row(
                             children: <Widget>[
-                              Image(image: AssetImage('images/time.png'),),
+                              Container(
+                                width:20,
+                                padding: EdgeInsets.only(top: 2),
+                                child: Image(image: AssetImage('images/time.png'),),
+                              ),
                               Padding(
                                 padding: EdgeInsets.only(left: 4),
                                 child: Text(
@@ -426,8 +430,11 @@ class _QListCheckItemState extends State<QListCheckItem> with SingleTickerProvid
                               children: <Widget>[
                                 Padding(
                                   padding: EdgeInsets.only(right: 4),
-                                  child: Image(
-                                    image: AssetImage('images/time.png'),),
+                                  child: Container(
+                                    width:20,
+                                    padding: EdgeInsets.only(top: 2),
+                                    child: Image(image: AssetImage('images/time.png'),),
+                                  ),
                                 ),
                                 Text(
                                   this.widget.name,
@@ -677,8 +684,9 @@ class _QListCheckItemState extends State<QListCheckItem> with SingleTickerProvid
                             padding: EdgeInsets.only(bottom: 10),
                             child: Row(
                               children: <Widget>[
-                                Padding(
-                                  padding: EdgeInsets.only(right: 5),
+                                Container(
+                                  width: 22,
+                                  padding: EdgeInsets.only(right: 5,top: 2),
                                   child: Image(image: AssetImage(
                                       'images/site_small.png'),),
                                 ),
@@ -719,7 +727,8 @@ class _QListCheckItemState extends State<QListCheckItem> with SingleTickerProvid
                             child: Row(
                               children: <Widget>[
                                 Container(
-                                  padding: EdgeInsets.only(right: 5),
+                                  width: 22,
+                                  padding: EdgeInsets.only(right: 5,top: 2),
                                   child: Image(image: AssetImage(
                                       'images/site_small.png'),),
                                 ),

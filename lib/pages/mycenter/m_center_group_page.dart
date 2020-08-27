@@ -123,8 +123,9 @@ class _MCenterGroupPageState extends State<MCenterGroupPage> {
                                 ),
                               ),
                               item.isVip == true?
-                              Padding(
-                                padding: EdgeInsets.only(left: 10),
+                              Container(
+                                width: 22,
+                                margin: EdgeInsets.only(top: 5),
                                 child: Image(image: AssetImage('images/vip_yellow.png'),),
                               ):Container(width: 1,)
                             ],
@@ -277,10 +278,13 @@ class _MCenterGroupPageState extends State<MCenterGroupPage> {
                                           fontWeight: FontWeight.normal,
                                         ),),
                                       ),
-                                      Padding(
-                                        padding: EdgeInsets.only(top: 5),
+                                      userData!= null && userData.userIsVip == true?
+                                      Container(
+                                        width: 22,
+                                        margin: EdgeInsets.only(top: 5),
                                         child: Image(image: AssetImage('images/vip_yellow.png'),),
                                       )
+                                          :Container(width: 1,)
                                     ],
                                   ),
                                   Container(

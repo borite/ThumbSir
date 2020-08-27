@@ -61,7 +61,10 @@ class _QListChooseAddPageState extends State<QListChooseAddPage> {
                         ),
                       ],
                     ),
-                    Image(image: AssetImage('images/edit.png'),)
+                    Container(
+                      width: 22,
+                      child: Image(image: AssetImage('images/edit.png'),),
+                    ),
                   ],
                 ),
               ),
@@ -103,7 +106,10 @@ class _QListChooseAddPageState extends State<QListChooseAddPage> {
                         ),
                       ],
                     ),
-                    Image(image: AssetImage('images/edit.png'),)
+                    Container(
+                      width: 22,
+                      child: Image(image: AssetImage('images/edit.png'),),
+                    ),
                   ],
                 ),
               ),

@@ -177,7 +177,11 @@ class _QListItemState extends State<QListItem> with SingleTickerProviderStateMix
                           padding: EdgeInsets.only(top: 12),
                           child: Row(
                             children: <Widget>[
-                              Image(image: AssetImage('images/time.png'),),
+                              Container(
+                                width:20,
+                                padding: EdgeInsets.only(top: 2),
+                                child: Image(image: AssetImage('images/time.png'),),
+                              ),
                               Container(
                                 padding: EdgeInsets.only(left: 4),
                                 child: Text(
@@ -461,8 +465,11 @@ class _QListItemState extends State<QListItem> with SingleTickerProviderStateMix
                                 children: <Widget>[
                                   Container(
                                     padding: EdgeInsets.only(right: 4),
-                                    child: Image(
-                                      image: AssetImage('images/time.png'),),
+                                    child: Container(
+                                      width:20,
+                                      padding: EdgeInsets.only(top: 2),
+                                      child: Image(image: AssetImage('images/time.png'),),
+                                    ),
                                   ),
                                   Text(
                                     this.widget.name,
@@ -748,7 +755,8 @@ class _QListItemState extends State<QListItem> with SingleTickerProviderStateMix
                               child: Row(
                                 children: <Widget>[
                                   Container(
-                                    padding: EdgeInsets.only(right: 5),
+                                    width: 22,
+                                    padding: EdgeInsets.only(right: 5,top: 2),
                                     child: Image(image: AssetImage(
                                         'images/site_small.png'),),
                                   ),
@@ -788,7 +796,8 @@ class _QListItemState extends State<QListItem> with SingleTickerProviderStateMix
                               child: Row(
                                 children: <Widget>[
                                   Container(
-                                    padding: EdgeInsets.only(right: 5),
+                                    width: 22,
+                                    padding: EdgeInsets.only(right: 5,top: 2),
                                     child: Image(image: AssetImage(
                                         'images/site_small.png'),),
                                   ),

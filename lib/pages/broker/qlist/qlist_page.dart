@@ -33,8 +33,14 @@ class _QListPageState extends State<QListPage> {
           type: BottomNavigationBarType.fixed,
           items: [
             BottomNavigationBarItem(
-              icon: Image(image:AssetImage('images/listicon.png')),
-              activeIcon:Image(image:AssetImage('images/listicon_s.png'),),
+              icon: Container(
+                height: 26,
+                child: Image(image:AssetImage('images/listicon.png'),),
+              ),
+              activeIcon:Container(
+                height: 26,
+                child: Image(image:AssetImage('images/listicon_s.png'),),
+              ),
               title: Text('量化')
             ),
             BottomNavigationBarItem(
@@ -43,11 +49,18 @@ class _QListPageState extends State<QListPage> {
               title: Text('新增任务'),
             ),
             BottomNavigationBarItem(
-              icon: Image(image:AssetImage('images/analyze.png')),
-              activeIcon:Image(image:AssetImage('images/analyze_s.png')),
+              icon: Container(
+                height:26,
+                child:Image(image:AssetImage('images/analyze.png')),
+              ),
+              activeIcon:Container(
+                height:26,
+                child:Image(image:AssetImage('images/analyze_s.png')),
+              ),
               title: Text('分析'),
             ),
           ],
+          iconSize: 26,
         ),
         body: _currentIndex == 1 ? QListChooseAddPage()
         :_currentIndex == 0? QListListPage()

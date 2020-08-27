@@ -281,12 +281,13 @@ class _SCenterGroupPageState extends State<SCenterGroupPage> {
                                           fontWeight: FontWeight.normal,
                                         ),),
                                       ),
-//                                      userData.isVip == true?
-                                      Padding(
-                                        padding: EdgeInsets.only(top: 5),
+                                      userData.userIsVip == true?
+                                      Container(
+                                        width: 22,
+                                        margin: EdgeInsets.only(top: 5),
                                         child: Image(image: AssetImage('images/vip_yellow.png'),),
                                       )
-//                                          :Container(width: 1,)
+                                        :Container(width: 1,)
                                     ],
                                   ),
                                   Container(

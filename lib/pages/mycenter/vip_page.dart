@@ -173,8 +173,9 @@ class _VipPageState extends State<VipPage> {
                         children: <Widget>[
                           Row(
                             children: <Widget>[
-                              Padding(
-                                padding: EdgeInsets.only(right: 10),
+                              Container(
+                                width: 22,
+                                padding: EdgeInsets.only(right: 5),
                                 child: Image(image: AssetImage('images/vip_yellow.png'),),
                               ),
                               Text(
@@ -362,8 +363,9 @@ class _VipPageState extends State<VipPage> {
                                   ),
                                   child: Row(
                                     children: <Widget>[
-                                      Padding(
-                                        padding: EdgeInsets.only(left: 25,right: 10),
+                                      Container(
+                                        width: 20,
+                                        margin: EdgeInsets.only(left: 25,right: 10),
                                         child: Image(image: AssetImage('images/wx.png'),),
                                       ),
                                       Text(
@@ -387,8 +389,9 @@ class _VipPageState extends State<VipPage> {
                                   margin: EdgeInsets.only(top: 32),
                                   child: Row(
                                     children: <Widget>[
-                                      Padding(
-                                        padding: EdgeInsets.only(left: 30,right: 10),
+                                      Container(
+                                        width: 20,
+                                        margin: EdgeInsets.only(left: 30,right: 10),
                                         child: Image(image: AssetImage('images/zfb.png'),),
                                       ),
                                       Text(
@@ -483,7 +486,10 @@ class _VipPageState extends State<VipPage> {
                         ),
                         child: Row(
                           children: <Widget>[
-                            Image(image: AssetImage('images/vip_blue.png'),),
+                            Container(
+                              width: 22,
+                              child: Image(image: AssetImage('images/vip_blue.png'),),
+                            ),
                             Padding(
                               padding: EdgeInsets.only(left: 10),
                               child: Text('会员特权',style: TextStyle(
@@ -509,7 +515,10 @@ class _VipPageState extends State<VipPage> {
                         ),
                         child: Row(
                           children: <Widget>[
-                            Image(image: AssetImage('images/invitation.png'),),
+                            Container(
+                              width: 22,
+                              child: Image(image: AssetImage('images/invitation.png'),),
+                            ),
                             Padding(
                               padding: EdgeInsets.only(left: 10),
                               child: Text('我的邀请',style: TextStyle(

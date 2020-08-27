@@ -200,7 +200,11 @@ class _GroupAnalyzePageState extends State<GroupAnalyzePage> {
                                       new MaterialPageRoute(builder: (context) => new Home( )
                                       ), (route) => route == null);
                                 },
-                                child: Image(image: AssetImage('images/home.png'),),
+                                child: Container(
+                                  width: 28,
+                                  padding: EdgeInsets.only(top: 3),
+                                  child: Image(image: AssetImage('images/home.png'),),
+                                ),
                               ),
                               Padding(
                                 padding: EdgeInsets.only(left: 10),

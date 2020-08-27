@@ -147,7 +147,7 @@ class _QListUploadPageState extends State<QListUploadPage> {
             _loationResult = result;
             try {
               _baiduLocation = BaiduLocation.fromMap(result); // 将原生端返回的定位结果信息存储在定位结果类中
-              
+
               if(Platform.isIOS){
                 print("这里是苹果系统");
                 gps_place=_baiduLocation.city+","+_baiduLocation.street;
@@ -367,8 +367,10 @@ class _QListUploadPageState extends State<QListUploadPage> {
                           child: Row(
                             children: <Widget>[
                               Container(
-                                padding: EdgeInsets.only(right: 5),
-                                child: Image(image: AssetImage('images/site_small.png'),),
+                                width: 24,
+                                padding: EdgeInsets.only(right: 5,top: 3),
+                                child: Image(image: AssetImage(
+                                    'images/site_small.png'),),
                               ),
                               Expanded(
                                 child: Text(
@@ -932,7 +934,7 @@ class _QListUploadPageState extends State<QListUploadPage> {
       context: context,
       type: AlertType.error,
       title: "还没有获取到定位信息",
-      desc:"请确认GPS定位服务已开启。如果没有开启，请在设置中开启。如果已开启，请稍等...",
+      desc:"请确认GPS定位服务已开启。如果没有开启，请在设置中开启。如果已开启，请稍等或返回上一页后重新进入此页面...",
       buttons: [
         DialogButton(
           child: Text(
