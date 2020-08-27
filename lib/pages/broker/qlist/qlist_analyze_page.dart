@@ -202,7 +202,7 @@ class _QListAnalyzePageState extends State<QListAnalyzePage> with SingleTickerPr
                       );
                     },
                     child: Container(
-                      width: 300,
+                      width: 260,
                       height: 40,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(12),

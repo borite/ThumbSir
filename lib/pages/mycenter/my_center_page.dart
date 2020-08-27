@@ -398,9 +398,7 @@ class _MyCenterPageState extends State<MyCenterPage> {
                               ],
                             ),
                           ),
-                          Padding(
-                            padding: EdgeInsets.only(bottom: 20,right: 20),
-                            child: GestureDetector(
+                          GestureDetector(
                               onTap: (){
                                 if(userData != null){
                                   if(userData.userLevel.substring(0,1) == '6'){
@@ -414,30 +412,33 @@ class _MyCenterPageState extends State<MyCenterPage> {
                                   }
                                 }
                               },
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-                                  Row(
-                                    children: <Widget>[
-                                      Image(image: AssetImage('images/group.png')),
-                                      Container(
-                                        margin: EdgeInsets.only(left: 10),
-                                        child: Text(
-                                          userData == null ?"所在区域及成员": userData.section+"成员",
-                                          style:TextStyle(
-                                            fontSize: 16,
-                                            color: Color(0xFF333333),
-                                            fontWeight: FontWeight.normal,
-                                            decoration: TextDecoration.none,
+                              child:Container(
+                                padding: EdgeInsets.only(bottom: 20,right: 20),
+                                color: Colors.transparent,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    Row(
+                                      children: <Widget>[
+                                        Image(image: AssetImage('images/group.png')),
+                                        Container(
+                                          margin: EdgeInsets.only(left: 10),
+                                          child: Text(
+                                            userData == null ?"所在区域及成员": userData.section+"成员",
+                                            style:TextStyle(
+                                              fontSize: 16,
+                                              color: Color(0xFF333333),
+                                              fontWeight: FontWeight.normal,
+                                              decoration: TextDecoration.none,
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                  Image(image: AssetImage('images/next.png'),)
-                                ],
-                              ),
-                            ),
+                                      ],
+                                    ),
+                                    Image(image: AssetImage('images/next.png'),)
+                                  ],
+                                ),
+                              )
                           ),
                           Padding(
                             padding: EdgeInsets.only(bottom: 20),
@@ -466,8 +467,9 @@ class _MyCenterPageState extends State<MyCenterPage> {
                                 Navigator.push(context, MaterialPageRoute(builder: (context)=>VipPage()));
                               }
                             },
-                            child: Padding(
+                            child: Container(
                               padding: EdgeInsets.only(bottom: 20,right: 20),
+                              color: Colors.transparent,
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
@@ -504,8 +506,9 @@ class _MyCenterPageState extends State<MyCenterPage> {
                                 Navigator.push(context, MaterialPageRoute(builder: (context)=>ServicePage()));
                               }
                             },
-                            child: Padding(
+                            child: Container(
                               padding: EdgeInsets.only(bottom: 20,right: 20),
+                              color: Colors.transparent,
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: <Widget>[

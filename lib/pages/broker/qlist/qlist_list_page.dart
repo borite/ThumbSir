@@ -107,7 +107,7 @@ class _QListListPageState extends State<QListListPage> with TickerProviderStateM
                       child:
                       //  背景
                       Container(
-                          height: animation.value,
+                          height: 200,
                           decoration: BoxDecoration(
                             gradient: LinearGradient(
                               colors: tabIndex == 0?

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.bigxia.lianghuaandkeweiapp"
+    package="com.bigxia.thumbsir"
     android:versionCode="1"
     android:versionName="1.0.0" >
 
@@ -37,7 +37,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="拇指先生" >
         <activity
-            android:name="com.example.lianghuaandkeweiapp.MainActivity"
+            android:name="com.bigxia.thumbsir.MainActivity"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
             android:hardwareAccelerated="true"
             android:launchMode="singleTop"
@@ -67,7 +67,7 @@
 
         <provider
             android:name="io.flutter.plugins.imagepicker.ImagePickerFileProvider"
-            android:authorities="com.bigxia.lianghuaandkeweiapp.flutter.image_provider"
+            android:authorities="com.bigxia.thumbsir.flutter.image_provider"
             android:exported="false"
             android:grantUriPermissions="true" >
             <meta-data

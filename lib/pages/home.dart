@@ -140,26 +140,27 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin{
                               child:Column(
                                 children: <Widget>[
                                   // 顶部个人中心按钮
-                                  Container(
-                                    width: 335,
-                                    margin: EdgeInsets.only(top: 70),
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: <Widget>[
-                                        Text(
-                                          userData == null ?
-                                          '你好！请登录':'你好！'+userData.userName,
-                                          style: TextStyle(
-                                            fontSize: 20,
-                                            color: Colors.white,
+                                  GestureDetector(
+                                    onTap: () {
+                                      Navigator.push(context, MaterialPageRoute(builder: (context)=>MyCenterPage()));
+                                    },
+                                    child: Container(
+                                      width: 335,
+                                      margin: EdgeInsets.only(top: 70),
+                                      color: Colors.transparent,
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: <Widget>[
+                                          Text(
+                                            userData == null ?
+                                            '你好！请登录':'你好！'+userData.userName,
+                                            style: TextStyle(
+                                              fontSize: 20,
+                                              color: Colors.white,
+                                            ),
                                           ),
-                                        ),
-                                        // 头像按钮
-                                        GestureDetector(
-                                          onTap: () {
-                                            Navigator.push(context, MaterialPageRoute(builder: (context)=>MyCenterPage()));
-                                          },
-                                          child: Container(
+                                          // 头像按钮
+                                          Container(
                                             margin: EdgeInsets.only(right: 20),
                                             child: Column(
                                               children: <Widget>[
@@ -192,8 +193,8 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin{
                                               ],
                                             ),
                                           ),
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
                                   ),
                                   // 轮播图

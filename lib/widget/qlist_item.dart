@@ -709,7 +709,7 @@ class _QListItemState extends State<QListItem> with SingleTickerProviderStateMix
                         width: 335,
                         padding: EdgeInsets.only(
                             left: 20, right: 20, bottom: 10, top: 10),
-                        child: Expanded(
+                        child: Container(
                           child: Text(
                             widget.remark,
                             style: TextStyle(

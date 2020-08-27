@@ -1,6 +1,6 @@
 1<?xml version="1.0" encoding="utf-8"?>
 2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-3    package="com.bigxia.lianghuaandkeweiapp"
+3    package="com.bigxia.thumbsir"
 4    android:versionCode="1"
 5    android:versionName="1.0.0" >
 6
@@ -63,7 +63,7 @@
 38-->/Users/jiaozhengying/Desktop/ThumbSirGit/ThumbSir/android/app/src/main/AndroidManifest.xml:10:9-29
 39        <activity
 39-->/Users/jiaozhengying/Desktop/ThumbSirGit/ThumbSir/android/app/src/main/AndroidManifest.xml:12:9-23:20
-40            android:name="com.example.lianghuaandkeweiapp.MainActivity"
+40            android:name="com.bigxia.thumbsir.MainActivity"
 40-->/Users/jiaozhengying/Desktop/ThumbSirGit/ThumbSir/android/app/src/main/AndroidManifest.xml:13:13-41
 41            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
 41-->/Users/jiaozhengying/Desktop/ThumbSirGit/ThumbSir/android/app/src/main/AndroidManifest.xml:16:13-163
@@ -116,7 +116,7 @@
 68-->[:image_picker] /Users/jiaozhengying/Desktop/ThumbSirGit/ThumbSir/build/image_picker/intermediates/library_manifest/debug/AndroidManifest.xml:11:9-19:20
 69            android:name="io.flutter.plugins.imagepicker.ImagePickerFileProvider"
 69-->[:image_picker] /Users/jiaozhengying/Desktop/ThumbSirGit/ThumbSir/build/image_picker/intermediates/library_manifest/debug/AndroidManifest.xml:12:13-82
-70            android:authorities="com.bigxia.lianghuaandkeweiapp.flutter.image_provider"
+70            android:authorities="com.bigxia.thumbsir.flutter.image_provider"
 70-->[:image_picker] /Users/jiaozhengying/Desktop/ThumbSirGit/ThumbSir/build/image_picker/intermediates/library_manifest/debug/AndroidManifest.xml:13:13-74
 71            android:exported="false"
 71-->[:image_picker] /Users/jiaozhengying/Desktop/ThumbSirGit/ThumbSir/build/image_picker/intermediates/library_manifest/debug/AndroidManifest.xml:14:13-37

@@ -147,13 +147,16 @@ class _QListUploadPageState extends State<QListUploadPage> {
             _loationResult = result;
             try {
               _baiduLocation = BaiduLocation.fromMap(result); // 将原生端返回的定位结果信息存储在定位结果类中
-              print(_baiduLocation);
+              
               if(Platform.isIOS){
-                gps_place=_baiduLocation.province+","+_baiduLocation.city+","+_baiduLocation.street;
+                print("这里是苹果系统");
+                gps_place=_baiduLocation.city+","+_baiduLocation.street;
               }else{
-                gps_place=_baiduLocation.province+","+_baiduLocation.city+","+_baiduLocation.district+_baiduLocation.locationDetail;
+                //gps_place=_baiduLocation.province+","+_baiduLocation.city+","+_baiduLocation.district+_baiduLocation.locationDetail;
+                gps_place=_baiduLocation.district+","+_baiduLocation.locationDetail;
               }
             } catch (e) {
+              print("出特么错啦");
               print(e);
             }
           });
@@ -989,8 +992,9 @@ class _QListUploadPageState extends State<QListUploadPage> {
   static String base64Encode(String data){
     var content = convert.utf8.encode(data);
     var digest = convert.base64Encode(content);
-    digest.replaceAll('+', '-');
-    digest.replaceAll('/', '_');
+    digest=digest.replaceAll('+', '-');
+    digest=digest.replaceAll('/', '_');
+    print(digest);
     return digest;
   }
 
@@ -1031,7 +1035,7 @@ class _QListUploadPageState extends State<QListUploadPage> {
     iosOption.setDesiredAccuracy("kCLLocationAccuracyBest");  // 设置预期精度参数
     iosOption.setReGeocodeTimeout(10); // 设置获取地址信息超时时间
     iosOption.setDistanceFilter(100); // 设置定位最小更新距离
-    iosOption.setAllowsBackgroundLocationUpdates(false); // 是否允许后台定位
+    iosOption.setAllowsBackgroundLocationUpdates(true); // 是否允许后台定位
     iosOption.setPauseLocUpdateAutomatically(true); //  定位是否会被系统自动暂停
 
     Map iosMap = iosOption.getMap();
