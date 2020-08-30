@@ -51,7 +51,7 @@ class _TeamAnalyzeDetailPageState extends State<TeamAnalyzeDetailPage> with Sing
                   name: item.taskName,
                   sum:item.planCount.toString(),
                   finish: item.finishCount.toString(),
-                  percent: item.finishRate*100,
+                  percent: item.finishRate==1.0?100:item.finishRate*100,
                   timePersent :double.parse((item.timeProportion*100).toStringAsFixed(2)),
                   unit: item.taskUnit,
                   taskId:item.defaultTaskId.toString(),

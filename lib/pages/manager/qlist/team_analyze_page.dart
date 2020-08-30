@@ -102,7 +102,7 @@ class _TeamAnalyzePageState extends State<TeamAnalyzePage> {
                             child:Padding(
                               padding: EdgeInsets.only(top:16),
                               child: Text(
-                                ((item.teamRate)*100).toString()+'%',
+                                item.teamRate == 1.0 ? '100%' : ((item.teamRate)*100).toString()+'%',
                                 style:TextStyle(
                                   fontSize: 20,
                                   color: Colors.white,

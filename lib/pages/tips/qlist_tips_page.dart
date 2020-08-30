@@ -145,7 +145,10 @@ class _QListTipsPageState extends State<QListTipsPage> with SingleTickerProvider
                           padding: EdgeInsets.only(top: 3),
                           child: Row(
                             children: <Widget>[
-                              Image(image: AssetImage('images/bell.png')),
+                              Container(
+                                width: 20,
+                                child: Image(image: AssetImage('images/bell.png')),
+                              ),
                               Text(
                                 '消息中心',
                                 style:TextStyle(

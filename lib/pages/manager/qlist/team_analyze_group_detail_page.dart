@@ -269,7 +269,7 @@ class _TeamAnalyzeGroupDetailPageState extends State<TeamAnalyzeGroupDetailPage>
                                               padding: EdgeInsets.only(top: 16),
                                               child: Text(
                                                 widget.leaderAreaRate != null ?
-                                                ((widget.leaderAreaRate)*100).toString()+'%':'今日无计划',
+                                                ((widget.leaderAreaRate==1.0?1:widget.leaderAreaRate)*100).toString()+'%':'今日无计划',
                                                 style:TextStyle(
                                                   fontSize: 20,
                                                   color: Colors.white,

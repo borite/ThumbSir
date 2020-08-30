@@ -115,7 +115,8 @@ class _BrokerCenterGroupPageState extends State<BrokerCenterGroupPage> {
                             ),
                             leaderAndMemberResult.data.teamMember == null?Container(width: 1,):
                                 item.isVip == false ? Container(width: 1,):
-                            Padding(
+                            Container(
+                              width: 22,
                               padding: EdgeInsets.only(left: 10),
                               child: Image(image: AssetImage('images/vip_yellow.png'),),
                             )
@@ -324,7 +325,8 @@ class _BrokerCenterGroupPageState extends State<BrokerCenterGroupPage> {
                                           ),
                                           leaderAndMemberResult.data.leader.isVip== false?
                                           Container(width: 1,):
-                                          Padding(
+                                          Container(
+                                            width: 22,
                                             padding: EdgeInsets.only(left: 10),
                                             child: Image(image: AssetImage('images/vip_yellow.png'),),
                                           )

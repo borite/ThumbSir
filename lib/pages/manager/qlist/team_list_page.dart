@@ -470,7 +470,7 @@ class _TeamListPageState extends State<TeamListPage> {
                         onTap: (){
                           if(hasMember == true){
                             Navigator.push(context, MaterialPageRoute(builder: (context)=>ViewMyMiniTasksPage(
-                                memberId:listResult[0].userPid
+                                memberId:listResult.contains('userPid') ? listResult[0].userPid : listResult[0]?.nextLeader.userPid
                             )));
                           }else{
                             _onHasMemberAlert(context);

@@ -137,7 +137,7 @@ class _TeamAnalyzeMemberDetailPageState extends State<TeamAnalyzeMemberDetailPag
                       child:Padding(
                         padding: EdgeInsets.only(top:16),
                         child: Text(
-                          (item.teamRate*100).toString()+'%',
+                          ((item.teamRate==1.0?1:item.teamRate)*100).toString()+'%',
                           style:TextStyle(
                             fontSize: 20,
                             color: Colors.white,
@@ -286,7 +286,7 @@ class _TeamAnalyzeMemberDetailPageState extends State<TeamAnalyzeMemberDetailPag
                                               child:Padding(
                                                 padding: EdgeInsets.only(top: 16),
                                                 child: Text(
-                                                  ((widget.leaderAreaRate)*100).toString()+'%',
+                                                  ((widget.leaderAreaRate == 1.0 ?1:widget.leaderAreaRate)*100).toString()+'%',
                                                   style:TextStyle(
                                                     fontSize: 20,
                                                     color: Colors.white,
