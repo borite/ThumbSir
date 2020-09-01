@@ -29,6 +29,7 @@ dependencies:
   chips_choice: ^1.2.0
   package_info: ^0.4.1
   path_provider: ^1.6.11
+  flutter_holo_date_picker: ^0.2.0
 
 
 dev_dependencies:

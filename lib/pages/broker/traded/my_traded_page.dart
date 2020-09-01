@@ -17,6 +17,7 @@ class MyTradedPage extends StatefulWidget {
 class _MyTradedPageState extends State<MyTradedPage> {
   bool _loading = false;
   var ageValue;
+  var monthValue;
   var reasonValue;
 
   final TextEditingController searchController = TextEditingController();
@@ -28,15 +29,46 @@ class _MyTradedPageState extends State<MyTradedPage> {
     List<DropdownMenuItem> ageLists = new List();
     DropdownMenuItem ageList1 = new DropdownMenuItem(child: Text('所有'),value: 1,);
     ageLists.add(ageList1);
-    DropdownMenuItem ageList2 = new DropdownMenuItem(child: Text('30岁以下'),value: 2,);
+    DropdownMenuItem ageList2 = new DropdownMenuItem(child: Text('30岁-'),value: 2,);
     ageLists.add(ageList2);
-    DropdownMenuItem ageList3 = new DropdownMenuItem(child: Text('30~40岁'),value: 3,);
+    DropdownMenuItem ageList3 = new DropdownMenuItem(child: Text('30~40'),value: 3,);
     ageLists.add(ageList3);
-    DropdownMenuItem ageList4 = new DropdownMenuItem(child: Text('40~50岁'),value: 4,);
+    DropdownMenuItem ageList4 = new DropdownMenuItem(child: Text('40~50'),value: 4,);
     ageLists.add(ageList4);
-    DropdownMenuItem ageList5 = new DropdownMenuItem(child: Text('50岁以上'),value: 5,);
+    DropdownMenuItem ageList5 = new DropdownMenuItem(child: Text('50岁+'),value: 5,);
     ageLists.add(ageList5);
     return ageLists;
+  }
+
+  List<DropdownMenuItem> getMonthList(){
+    List<DropdownMenuItem> monthLists = new List();
+    DropdownMenuItem ageList1 = new DropdownMenuItem(child: Text('所有'),value: 1,);
+    monthLists.add(ageList1);
+    DropdownMenuItem ageList2 = new DropdownMenuItem(child: Text('1月'),value: 2,);
+    monthLists.add(ageList2);
+    DropdownMenuItem ageList3 = new DropdownMenuItem(child: Text('2月'),value: 3,);
+    monthLists.add(ageList3);
+    DropdownMenuItem ageList4 = new DropdownMenuItem(child: Text('3月'),value: 4,);
+    monthLists.add(ageList4);
+    DropdownMenuItem ageList5 = new DropdownMenuItem(child: Text('4月'),value: 5,);
+    monthLists.add(ageList5);
+    DropdownMenuItem ageList6 = new DropdownMenuItem(child: Text('5月'),value: 6,);
+    monthLists.add(ageList6);
+    DropdownMenuItem ageList7 = new DropdownMenuItem(child: Text('6月'),value: 7,);
+    monthLists.add(ageList7);
+    DropdownMenuItem ageList8 = new DropdownMenuItem(child: Text('7月'),value: 8,);
+    monthLists.add(ageList8);
+    DropdownMenuItem ageList9 = new DropdownMenuItem(child: Text('8月'),value: 9,);
+    monthLists.add(ageList9);
+    DropdownMenuItem ageList10 = new DropdownMenuItem(child: Text('9月'),value: 10,);
+    monthLists.add(ageList10);
+    DropdownMenuItem ageList11 = new DropdownMenuItem(child: Text('10月'),value: 11,);
+    monthLists.add(ageList11);
+    DropdownMenuItem ageList12 = new DropdownMenuItem(child: Text('11月'),value: 12,);
+    monthLists.add(ageList12);
+    DropdownMenuItem ageList13 = new DropdownMenuItem(child: Text('12月'),value: 13,);
+    monthLists.add(ageList13);
+    return monthLists;
   }
 
   List<DropdownMenuItem> getReasonList(){
@@ -51,8 +83,10 @@ class _MyTradedPageState extends State<MyTradedPage> {
     reasonLists.add(ageList4);
     DropdownMenuItem ageList5 = new DropdownMenuItem(child: Text('租赁'),value: 5,);
     reasonLists.add(ageList5);
-    DropdownMenuItem ageList6 = new DropdownMenuItem(child: Text('多次交易'),value: 6,);
+    DropdownMenuItem ageList6 = new DropdownMenuItem(child: Text('多次'),value: 6,);
     reasonLists.add(ageList6);
+    DropdownMenuItem ageList7 = new DropdownMenuItem(child: Text('暂无'),value: 7,);
+    reasonLists.add(ageList7);
     return reasonLists;
   }
 
@@ -111,7 +145,7 @@ class _MyTradedPageState extends State<MyTradedPage> {
                                       ),
                                       Padding(
                                         padding: EdgeInsets.only(left: 10),
-                                        child: Text('我的老客户',style: TextStyle(
+                                        child: Text('我的客户',style: TextStyle(
                                           fontSize: 16,
                                           color: Color(0xFF5580EB),
                                           fontWeight: FontWeight.normal,
@@ -237,10 +271,10 @@ class _MyTradedPageState extends State<MyTradedPage> {
                           Container(
                             width: 335,
                             margin: EdgeInsets.only(top: 10),
-                            padding: EdgeInsets.only(left: 20,right: 20),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: <Widget>[
+                                // 年龄
                                 Row(
                                   children: <Widget>[
                                     Text(
@@ -273,10 +307,44 @@ class _MyTradedPageState extends State<MyTradedPage> {
                                     )
                                   ],
                                 ),
+                                // 生日
                                 Row(
                                   children: <Widget>[
                                     Text(
-                                      "原因：",
+                                      "生日：",
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        color: Color(0xFF666666),
+                                        fontWeight: FontWeight.normal,
+                                        decoration: TextDecoration.none,
+                                      ),
+                                    ),
+                                    DropdownButton(
+                                      value: monthValue,
+                                      items: getMonthList(),
+                                      hint: Text('所有'),
+                                      icon: Icon(Icons.arrow_drop_down),
+                                      iconSize: 22,
+                                      elevation: 24,
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        color: Color(0xFF666666),
+                                        fontWeight: FontWeight.normal,
+                                        decoration: TextDecoration.none,
+                                      ),
+                                      onChanged: (T){
+                                        setState(() {
+                                          monthValue = T;
+                                        });
+                                      },
+                                    )
+                                  ],
+                                ),
+                                // 成交原因
+                                Row(
+                                  children: <Widget>[
+                                    Text(
+                                      "成交：",
                                       style: TextStyle(
                                         fontSize: 14,
                                         color: Color(0xFF666666),
