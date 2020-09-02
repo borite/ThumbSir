@@ -1,6 +1,7 @@
 import 'package:ThumbSir/pages/broker/qlist/img_view_page.dart';
 import 'package:ThumbSir/pages/broker/qlist/qlist_change_page.dart';
 import 'package:ThumbSir/pages/broker/qlist/qlist_upload_page.dart';
+import 'package:ThumbSir/pages/broker/traded/traded_detail_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
@@ -129,7 +130,7 @@ class _TradedItemState extends State<TradedItem> with SingleTickerProviderStateM
                       child: Row(
                         children: <Widget>[
                           Text(
-                            "星级：",
+                            "重要度：",
                             style: TextStyle(
                               fontSize: 14,
                               color: Color(0xFF666666),
@@ -328,7 +329,7 @@ class _TradedItemState extends State<TradedItem> with SingleTickerProviderStateM
                     child: Row(
                       children: <Widget>[
                         Text(
-                          "星级：",
+                          "重要度：",
                           style: TextStyle(
                             fontSize: 14,
                             color: Color(0xFF666666),
@@ -558,28 +559,58 @@ class _TradedItemState extends State<TradedItem> with SingleTickerProviderStateM
                     child: Column(
                       children: <Widget>[
                         Container(
-                          margin: EdgeInsets.only(bottom: 5,left: 10,right: 10),
-                          child: Text(
-                            "2017-08-12成交礼：10000元爱马仕的按摩椅1个",
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Color(0xFF5580EB),
-                              decoration: TextDecoration.none,
-                              fontWeight: FontWeight.normal,
-                            ),
-                          ),
+                          margin: EdgeInsets.only(bottom: 5,left: 20,right: 20),
+                          child: Row(
+                            children: <Widget>[
+                              Text(
+                                "2017-08-12成交礼：",
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Color(0xFF5580EB),
+                                  decoration: TextDecoration.none,
+                                  fontWeight: FontWeight.normal,
+                                ),
+                              ),
+                              Expanded(
+                                child: Text(
+                                  "10000元爱马仕的全自动按摩椅1个",
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: Color(0xFF5580EB),
+                                    decoration: TextDecoration.none,
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                                ),
+                              )
+                            ],
+                          )
                         ),
                         Container(
-                          margin: EdgeInsets.only(bottom: 5,left: 10,right: 10),
-                          child: Text(
-                            "2017-10-02生日礼：1288元故宫限量月饼礼盒2套",
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Color(0xFF5580EB),
-                              decoration: TextDecoration.none,
-                              fontWeight: FontWeight.normal,
-                            ),
-                          ),
+                            margin: EdgeInsets.only(bottom: 5,left: 20,right: 20),
+                            child: Row(
+                              children: <Widget>[
+                                Text(
+                                  "2017-08-12成交礼：",
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: Color(0xFF5580EB),
+                                    decoration: TextDecoration.none,
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Text(
+                                    "10000元爱马仕的全自动按摩椅1个",
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      color: Color(0xFF5580EB),
+                                      decoration: TextDecoration.none,
+                                      fontWeight: FontWeight.normal,
+                                    ),
+                                  ),
+                                )
+                              ],
+                            )
                         ),
                       ],
                     ),
@@ -642,7 +673,7 @@ class _TradedItemState extends State<TradedItem> with SingleTickerProviderStateM
             top: 12,
             child: GestureDetector(
               onTap: () {
-                print("编辑页");
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>TradedDetailPage()));
               },
               child: Container(
                 width: 60,

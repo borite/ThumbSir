@@ -35,15 +35,20 @@ class _TradedAddPageState extends State<TradedAddPage> {
   final TextEditingController msgController=TextEditingController();
   RegExp msgReg;
   bool msgBool = false;
+  final TextEditingController memberController=TextEditingController();
+  RegExp memberReg;
+  bool memberBool = false;
 
   String dealMinCount = "购买住宅";
   String incomeMinCount = "10万以下";
+  String memberMinCount = "妻子";
   int _starIndex = 0;
 
   List<DealRecord> deal=new List();
+  List<MemberRecord> member=new List();
 
   DateTime _selectedDate=DateTime(2010,1,1);
-  DateTime _selectedBirthdayDate;
+  DateTime _selectedBirthdayDate=DateTime(1980,1,1);
 
   int _radioGroupA = 0;
 
@@ -61,6 +66,7 @@ class _TradedAddPageState extends State<TradedAddPage> {
     mapReg = FeedBackReg;
     likeReg = TextReg;
     msgReg = FeedBackReg;
+    memberReg = TextReg;
     super.initState();
   }
 
@@ -600,44 +606,143 @@ class _TradedAddPageState extends State<TradedAddPage> {
                               ),
                             ),
                           ),
+                          // 家庭成员
+                          Container(
+                            width: 335,
+                            child: Text(
+                              '客户的家庭成员：',
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Color(0xFF333333),
+                                decoration: TextDecoration.none,
+                                fontWeight: FontWeight.normal,
+                              ),
+                            ),
+                          ),
+                          Container(
+                            width: 335,
+                            margin: EdgeInsets.only(top: 10),
+                            height: 100,
+                            child: ListView.builder(
+                              itemCount: member.length,
+                              itemBuilder: (BuildContext context,int index){
+                                return Column(
+                                  children: <Widget>[
+                                    Container(
+                                        margin: EdgeInsets.only(bottom: 10),
+                                        child: Row(
+                                          children: <Widget>[
+                                            Container(
+                                              width: 60,
+                                              padding: EdgeInsets.fromLTRB(10, 0, 10, 4),
+                                              decoration: BoxDecoration(
+                                                border: Border(right: BorderSide(
+                                                  width: 1,
+                                                  color: Color(0xFFCCCCCC),
+                                                ))
+                                              ),
+                                              child: Text(
+                                                member[index].memberName,
+                                                style: TextStyle(
+                                                  fontSize: 14,
+                                                  color: Color(0xFF5580EB),
+                                                  decoration: TextDecoration.none,
+                                                  fontWeight: FontWeight.normal,
+                                                ),
+                                                textAlign: TextAlign.left,
+                                              ),
+                                            ),
+                                            Container(
+                                              width: 210,
+                                              padding: EdgeInsets.fromLTRB(20, 0, 10, 3),
+                                              child: Text(
+                                                member[index].memberMsg,
+                                                style: TextStyle(
+                                                  fontSize: 14,
+                                                  color: Color(0xFF5580EB),
+                                                  decoration: TextDecoration.none,
+                                                  fontWeight: FontWeight.normal,
+                                                ),
+                                              ),
+                                            ),
+                                            Container(
+                                              width: 50,
+                                              height: 20,
+                                              child: Image(image: AssetImage("images/delete_blue.png"),),
+                                            )
+                                          ],
+                                        )
+                                    )
+                                  ],
+                                );
+                              },
+
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: (){
+                              _addMemberAlertPressed(context);
+                              setState(() {
+                                memberController.text = "";
+                              });
+                            },
+                            child: Container(
+                              alignment: Alignment.topLeft,
+                              width: 335,
+                              child: Container(
+                                padding: EdgeInsets.fromLTRB(10, 0, 10, 4),
+                                decoration: BoxDecoration(
+                                    border: Border.all(
+                                        width: 1,
+                                        color: Color(0xFF93C0FB)
+                                    ),
+                                    borderRadius: BorderRadius.circular(8)
+                                ),
+                                child: Text(
+                                  "+ 添加家庭成员",
+                                  style: TextStyle(
+                                      color: Color(0xFF93C0FB),
+                                      fontSize: 14
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
 
                           // 完成
-                          Container(
-                              width: 335,
-                              height: 40,
-                              padding: EdgeInsets.all(4),
-                              margin: EdgeInsets.only(bottom: 50,top: 100),
-                              decoration: phoneBool == true &&
-                                  userNameBool == true?
-                              BoxDecoration(
-                                  border: Border.all(width: 1,color: Color(0xFF5580EB)),
-                                  borderRadius: BorderRadius.circular(8),
-                                  color: Color(0xFF5580EB)
-                              )
-                                  :
-                              BoxDecoration(
-                                  border: Border.all(width: 1,color: Color(0xFF93C0FB)),
-                                  borderRadius: BorderRadius.circular(8),
-                                  color: Color(0xFF93C0FB)
-                              ),
-                              child: Padding(
-                                  padding: EdgeInsets.only(top: 4),
-                                  child: GestureDetector(
-                                    onTap: () async {
-                                      if(phoneBool == true &&
-                                          userNameBool == true){
-                                        _onRefresh();
-                                      }
-                                    },
+                          GestureDetector(
+                            onTap: (){
+                              Navigator.pop(context);
+                            },
+                            child: Container(
+                                width: 335,
+                                height: 40,
+                                padding: EdgeInsets.all(4),
+                                margin: EdgeInsets.only(bottom: 50,top: 100),
+                                decoration: phoneBool == true &&
+                                    userNameBool == true?
+                                BoxDecoration(
+                                    border: Border.all(width: 1,color: Color(0xFF5580EB)),
+                                    borderRadius: BorderRadius.circular(8),
+                                    color: Color(0xFF5580EB)
+                                )
+                                    :
+                                BoxDecoration(
+                                    border: Border.all(width: 1,color: Color(0xFF93C0FB)),
+                                    borderRadius: BorderRadius.circular(8),
+                                    color: Color(0xFF93C0FB)
+                                ),
+                                child: Padding(
+                                    padding: EdgeInsets.only(top: 4),
                                     child: Text('完成',style: TextStyle(
                                       fontSize: 14,
                                       color: Colors.white,
                                       fontWeight: FontWeight.normal,
                                       decoration: TextDecoration.none,
                                     ),textAlign: TextAlign.center,),
-                                  )
-                              )
-                          ),
+                                )
+                            ),
+                          )
                         ]
                     )
                   ],
@@ -652,6 +757,19 @@ class _TradedAddPageState extends State<TradedAddPage> {
       title: "添加成交历史",
       content: Column(
         children: <Widget>[
+          Row(
+            children: <Widget>[
+              Container(
+                padding: EdgeInsets.only(left: 10,top: 10),
+                child: Text("成交原因：",style: TextStyle(
+                    fontSize: 14,
+                    color: Color(0xFF666666)
+                ),
+                  textAlign: TextAlign.left,
+                ),
+              ),
+            ],
+          ),
           Container(
             width: 80,
             height: 120,
@@ -676,6 +794,19 @@ class _TradedAddPageState extends State<TradedAddPage> {
                   fontSize: 12
               ),
             ),
+          ),
+          Row(
+            children: <Widget>[
+              Container(
+                padding: EdgeInsets.only(left: 10,top: 10),
+                child: Text("成交时间：",style: TextStyle(
+                    fontSize: 14,
+                    color: Color(0xFF666666)
+                ),
+                  textAlign: TextAlign.left,
+                ),
+              ),
+            ],
           ),
           Container(
             width: 240,
@@ -702,14 +833,10 @@ class _TradedAddPageState extends State<TradedAddPage> {
             style: TextStyle(color: Colors.white, fontSize: 20),
           ),
           onPressed: () async {
-            print(dealMinCount);
-            print(_selectedDate);
-
             setState(() {
               var d=new DealRecord(reason: dealMinCount,dealtime: _selectedDate);
               deal.add(d);
             });
-            print(deal);
             Navigator.pop(context);
           },
           color: Color(0xFF5580EB),
@@ -730,9 +857,22 @@ class _TradedAddPageState extends State<TradedAddPage> {
   _addMemberAlertPressed(context) {
     Alert(
       context: context,
-      title: "添加客户的家庭成员",
+      title: "添加家庭成员",
       content: Column(
         children: <Widget>[
+          Row(
+            children: <Widget>[
+              Container(
+                padding: EdgeInsets.only(left: 10,top: 10),
+                child: Text("选择成员：",style: TextStyle(
+                    fontSize: 14,
+                    color: Color(0xFF666666)
+                ),
+                  textAlign: TextAlign.left,
+                ),
+              ),
+            ],
+          ),
           Container(
             width: 80,
             height: 120,
@@ -740,10 +880,10 @@ class _TradedAddPageState extends State<TradedAddPage> {
             child: WheelChooser(
               onValueChanged: (s){
                 setState(() {
-                  dealMinCount = s;
+                  memberMinCount = s;
                 });
               },
-              datas: ["购买住宅", "购买商铺", "购买公寓", "购买车位","出售住宅", "出售商铺", "出售公寓", "出售车位","租赁住宅", "租赁商铺", "租赁公寓", "租赁车位","出租住宅", "出租商铺", "出租公寓", "出租车位",],
+              datas: ["妻子", "丈夫","儿子", "女儿", "父亲", "母亲","哥哥", "姐姐","弟弟", "妹妹", "宠物","其他"],
               selectTextStyle: TextStyle(
                   color: Color(0xFF0E7AE6),
                   fontWeight: FontWeight.normal,
@@ -758,19 +898,43 @@ class _TradedAddPageState extends State<TradedAddPage> {
               ),
             ),
           ),
+          Row(
+            children: <Widget>[
+              Container(
+                padding: EdgeInsets.only(left: 10,top: 10),
+                child: Text("家庭成员的描述：",style: TextStyle(
+                    fontSize: 14,
+                    color: Color(0xFF666666)
+                ),
+                  textAlign: TextAlign.left,
+                ),
+              ),
+            ],
+          ),
           Container(
-            width: 240,
-            child: DatePickerWidget(
-              looping: true, // default is not looping
-              firstDate: DateTime(2000),
-              lastDate: DateTime(2030, 1, 1),
-              initialDate: DateTime(2010,1,1),
-              dateFormat: "yyyy年-MMMM月-dd日",
-              locale: DatePicker.localeFromString('zh'),
-              onChange: (DateTime newDate, _) => _selectedDate = newDate,
-              pickerTheme: DateTimePickerTheme(
-                itemTextStyle: TextStyle(color: Color(0xFF5580EB), fontSize: 18),
-                dividerColor: Color(0xFF5580EB),
+            height: 100,
+            margin: EdgeInsets.only(top: 15,left: 30,right: 30,bottom: 30),
+            decoration: BoxDecoration(
+              border: Border.all(width: 1,color: Color(0xFF5580EB)),
+              borderRadius: BorderRadius.circular(8),
+              color: Colors.white,
+            ),
+            child: TextField(
+              controller: memberController,
+              autofocus: false,
+              keyboardType: TextInputType.multiline,
+              onChanged: _onMemberChanged,
+              maxLines: null,
+              style: TextStyle(
+                fontSize: 14,
+                color: Color(0xFF999999),
+                fontWeight: FontWeight.normal,
+                decoration: TextDecoration.none,
+              ),
+              decoration: InputDecoration(
+                hintText:'爱好、习惯等……',
+                contentPadding: EdgeInsets.all(10),
+                border: InputBorder.none,
               ),
             ),
           ),
@@ -783,14 +947,12 @@ class _TradedAddPageState extends State<TradedAddPage> {
             style: TextStyle(color: Colors.white, fontSize: 20),
           ),
           onPressed: () async {
-            print(dealMinCount);
-            print(_selectedDate);
-
+            print(memberMinCount);
+            print(memberController.text);
             setState(() {
-              var d=new DealRecord(reason: dealMinCount,dealtime: _selectedDate);
-              deal.add(d);
+              var m=new MemberRecord(memberName: memberMinCount,memberMsg: memberController.text);
+              member.add(m);
             });
-            print(deal);
             Navigator.pop(context);
           },
           color: Color(0xFF5580EB),
@@ -809,7 +971,7 @@ class _TradedAddPageState extends State<TradedAddPage> {
     ).show();
   }
 
-  
+
   // 加载中loading
   Future<Null> _onRefresh() async {
     setState(() {
@@ -826,14 +988,21 @@ class _TradedAddPageState extends State<TradedAddPage> {
   _onLikeChanged(String text){
     if(text != null){
       setState(() {
-        mapBool = mapReg.hasMatch(mapController.text);
+        likeBool = likeReg.hasMatch(likeController.text);
       });
     }
   }
   _onMsgChanged(String text){
     if(text != null){
       setState(() {
-        mapBool = mapReg.hasMatch(mapController.text);
+        msgBool = msgReg.hasMatch(msgController.text);
+      });
+    }
+  }
+  _onMemberChanged(String text){
+    if(text != null){
+      setState(() {
+        memberBool = memberReg.hasMatch(memberController.text);
       });
     }
   }
@@ -847,4 +1016,14 @@ class DealRecord{
   });
   String reason;
   DateTime dealtime;
+}
+
+//家庭成员类
+class MemberRecord{
+  MemberRecord({
+    this.memberName,
+    this.memberMsg,
+  });
+  String memberName;
+  String memberMsg;
 }

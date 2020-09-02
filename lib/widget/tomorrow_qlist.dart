@@ -19,16 +19,16 @@ class TomorrowQList extends StatefulWidget {
 
 class _TomorrowQListState extends State<TomorrowQList>  with SingleTickerProviderStateMixin{
   Animation<double> animation;
-  AnimationController animationcController;
+  AnimationController animationController;
   AnimationStatus animationStatus;
   double animationValue;
 
   @override
   void initState(){
     _getUserInfo();
-    animationcController = AnimationController(vsync:this,duration: Duration(seconds: 1));
+    animationController = AnimationController(vsync:this,duration: Duration(seconds: 1));
     animation = Tween<double>(begin: 700,end:25).animate(
-        CurvedAnimation(parent: animationcController,curve: Curves.easeInOut)
+        CurvedAnimation(parent: animationController,curve: Curves.easeInOut)
           ..addListener(() {
             setState(() {
               animationValue = animation.value;
@@ -41,7 +41,7 @@ class _TomorrowQListState extends State<TomorrowQList>  with SingleTickerProvide
           })
     );
 
-    animationcController.forward();
+    animationController.forward();
     super.initState();
   }
   DateTime dateTime = DateTime.now().add(Duration(days: 1));
@@ -123,6 +123,13 @@ class _TomorrowQListState extends State<TomorrowQList>  with SingleTickerProvide
       t = tIndex;
     });
   }
+
+  @override
+  void dispose(){
+    animationController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

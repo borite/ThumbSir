@@ -6,8 +6,8 @@ import 'package:ThumbSir/pages/broker/qlist/qlist_page.dart';
 import 'package:ThumbSir/pages/broker/traded/my_traded_page.dart';
 import 'package:ThumbSir/pages/major/broker/major_broker_page.dart';
 import 'package:ThumbSir/pages/major/qlist/major_qlist_page.dart';
-import 'package:ThumbSir/pages/manager/broker/m_broker_page.dart';
-import 'package:ThumbSir/pages/manager/broker/s_broker_page.dart';
+import 'package:ThumbSir/pages/manager/broker/m_traded_page.dart';
+import 'package:ThumbSir/pages/manager/broker/s_traded_page.dart';
 import 'package:ThumbSir/pages/manager/broker/team_traded_page.dart';
 import 'package:ThumbSir/pages/manager/qlist/manager_qlist_page.dart';
 import 'package:ThumbSir/pages/manager/qlist/s_qlist_page.dart';
@@ -299,10 +299,10 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin{
                                                         Navigator.push(context, MaterialPageRoute(builder: (context)=>MyTradedPage()));
                                                       }
                                                       if(result.userLevel.substring(0,1)=="5"){
-                                                        Navigator.push(context, MaterialPageRoute(builder: (context)=>MBrokerPage()));
+                                                        Navigator.push(context, MaterialPageRoute(builder: (context)=>MTradedPage()));
                                                       }
                                                       if(result.userLevel.substring(0,1)=="4"){
-                                                        Navigator.push(context, MaterialPageRoute(builder: (context)=>SBrokerPage()));
+                                                        Navigator.push(context, MaterialPageRoute(builder: (context)=>STradedPage()));
                                                       }
                                                       if(result.userLevel.substring(0,1)=="1"||result.userLevel.substring(0,1)=="2"||result.userLevel.substring(0,1)=="3"){
 //                                                        Navigator.push(context, MaterialPageRoute(builder: (context)=>MajorBrokerPage()));

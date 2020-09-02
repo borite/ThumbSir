@@ -130,6 +130,13 @@ class _TodayQListState extends State<TodayQList> with SingleTickerProviderStateM
       t = tIndex;
     });
   }
+
+  @override
+  void dispose(){
+    controller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     t = widget.tabIndex;

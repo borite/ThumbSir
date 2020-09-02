@@ -41,6 +41,7 @@ flutter:
   assets:
     - images/my.png
     - images/my_big.png
+    - images/my_3.png
     - images/circle.png
     - images/circle_s.png
     - images/circle_middle.png
@@ -140,5 +141,9 @@ flutter:
     - images/client.png
     - images/red_dot.png
     - images/phone_ex.jpg
+    - images/gift.png
+    - images/gift_deal.png
+    - images/gift_festive.png
+    - images/gift_birth.png
 
 

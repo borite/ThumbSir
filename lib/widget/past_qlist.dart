@@ -40,6 +40,13 @@ class _PastQListState extends State<PastQList>  with SingleTickerProviderStateMi
     controller.forward();
     super.initState();
   }
+
+  @override
+  void dispose(){
+    controller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

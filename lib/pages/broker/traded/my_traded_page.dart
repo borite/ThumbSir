@@ -1,11 +1,11 @@
 import 'package:ThumbSir/common/reg.dart';
 import 'package:ThumbSir/pages/broker/traded/traded_add_page.dart';
 import 'package:ThumbSir/pages/home.dart';
+import 'package:ThumbSir/pages/manager/broker/traded_search_page.dart';
 import 'package:ThumbSir/pages/mycenter/my_center_page.dart';
 import 'package:ThumbSir/pages/tips/qlist_tips_page.dart';
 import 'package:ThumbSir/widget/input.dart';
 import 'package:ThumbSir/widget/loading.dart';
-import 'package:ThumbSir/widget/qlist_item.dart';
 import 'package:ThumbSir/widget/traded_item.dart';
 import 'package:flutter/material.dart';
 
@@ -29,13 +29,13 @@ class _MyTradedPageState extends State<MyTradedPage> {
     List<DropdownMenuItem> ageLists = new List();
     DropdownMenuItem ageList1 = new DropdownMenuItem(child: Text('所有'),value: 1,);
     ageLists.add(ageList1);
-    DropdownMenuItem ageList2 = new DropdownMenuItem(child: Text('30岁-'),value: 2,);
+    DropdownMenuItem ageList2 = new DropdownMenuItem(child: Text('< 30岁'),value: 2,);
     ageLists.add(ageList2);
     DropdownMenuItem ageList3 = new DropdownMenuItem(child: Text('30~40'),value: 3,);
     ageLists.add(ageList3);
     DropdownMenuItem ageList4 = new DropdownMenuItem(child: Text('40~50'),value: 4,);
     ageLists.add(ageList4);
-    DropdownMenuItem ageList5 = new DropdownMenuItem(child: Text('50岁+'),value: 5,);
+    DropdownMenuItem ageList5 = new DropdownMenuItem(child: Text('> 50岁'),value: 5,);
     ageLists.add(ageList5);
     return ageLists;
   }
@@ -255,7 +255,7 @@ class _MyTradedPageState extends State<MyTradedPage> {
                                         top: 18,
                                         child: GestureDetector(
                                           onTap: ()async{
-
+                                            Navigator.push(context, MaterialPageRoute(builder: (context)=>TradedSearchPage()));
                                           },
                                           child: Container(
                                             width: 25,
