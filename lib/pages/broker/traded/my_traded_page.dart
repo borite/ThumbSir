@@ -1,7 +1,7 @@
 import 'package:ThumbSir/common/reg.dart';
 import 'package:ThumbSir/pages/broker/traded/traded_add_page.dart';
+import 'package:ThumbSir/pages/broker/traded/traded_search_page.dart';
 import 'package:ThumbSir/pages/home.dart';
-import 'package:ThumbSir/pages/manager/broker/traded_search_page.dart';
 import 'package:ThumbSir/pages/mycenter/my_center_page.dart';
 import 'package:ThumbSir/pages/tips/qlist_tips_page.dart';
 import 'package:ThumbSir/widget/input.dart';

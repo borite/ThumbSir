@@ -936,8 +936,7 @@ class _QListAddPageState extends State<QListAddPage> {
                           if (chooseId != "-1" && chooseId != "12" &&
                               chooseId != "13" && chooseId != "15" &&
                               chooseId != "16" && _starIndex != 0) {
-                            var resultOther = await UserSelectMissionDao
-                                .selectMission(
+                            var resultOther = await UserSelectMissionDao.selectMission(
                               userData.companyId,
                               userData.userPid,
                               chooseId,

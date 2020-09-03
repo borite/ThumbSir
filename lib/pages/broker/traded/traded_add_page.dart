@@ -1,7 +1,15 @@
+import 'dart:convert';
+
 import 'package:ThumbSir/common/reg.dart';
+import 'package:ThumbSir/dao/add_customer_dao.dart';
+import 'package:ThumbSir/model/login_result_data_model.dart';
+import 'package:ThumbSir/pages/broker/traded/my_traded_page.dart';
+import 'package:ThumbSir/pages/manager/traded/m_traded_page.dart';
+import 'package:ThumbSir/pages/manager/traded/s_traded_page.dart';
 import 'package:ThumbSir/widget/input.dart';
 import 'package:ThumbSir/widget/loading.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wheel_chooser/wheel_chooser.dart';
 import 'package:flutter_holo_date_picker/flutter_holo_date_picker.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
@@ -44,8 +52,8 @@ class _TradedAddPageState extends State<TradedAddPage> {
   String memberMinCount = "妻子";
   int _starIndex = 0;
 
-  List<DealRecord> deal=new List();
-  List<MemberRecord> member=new List();
+  List<DealInfo> deal=new List();
+  List<FamilyMember> member=new List();
 
   DateTime _selectedDate=DateTime(2010,1,1);
   DateTime _selectedBirthdayDate=DateTime(1980,1,1);
@@ -58,6 +66,21 @@ class _TradedAddPageState extends State<TradedAddPage> {
     });
   }
 
+  LoginResultData userData;
+  String uinfo;
+  var result;
+
+  _getUserInfo() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    uinfo= prefs.getString("userInfo");
+    if(uinfo != null){
+      result =loginResultDataFromJson(uinfo);
+      this.setState(() {
+        userData=LoginResultData.fromJson(json.decode(uinfo));
+      });
+    }
+  }
+
   @override
   void initState() {
     nameReg = TextReg;
@@ -67,6 +90,7 @@ class _TradedAddPageState extends State<TradedAddPage> {
     likeReg = TextReg;
     msgReg = FeedBackReg;
     memberReg = TextReg;
+    _getUserInfo();
     super.initState();
   }
 
@@ -137,6 +161,9 @@ class _TradedAddPageState extends State<TradedAddPage> {
                           ),
                           Input(
                             hintText: "请输入客户姓名",
+                            tipText: "请输入客户姓名",
+                            errorTipText: "请输入客户姓名",
+                            rightText: "请输入客户姓名",
                             controller: userNameController,
                             inputType: TextInputType.text,
                             reg: nameReg,
@@ -150,8 +177,9 @@ class _TradedAddPageState extends State<TradedAddPage> {
                           // 成交历史
                           Container(
                             width: 335,
+                            margin: EdgeInsets.only(top: 5),
                             child: Text(
-                              '成交历史：',
+                              '成交历史（非必填）：',
                               style: TextStyle(
                                 fontSize: 14,
                                 color: Color(0xFF333333),
@@ -180,7 +208,7 @@ class _TradedAddPageState extends State<TradedAddPage> {
                                                 borderRadius: BorderRadius.only(topLeft: Radius.circular(8),bottomLeft: Radius.circular(8)),
                                               ),
                                               child: Text(
-                                                deal[index].reason,
+                                                deal[index].dealReason,
                                                 style: TextStyle(
                                                   fontSize: 14,
                                                   color: Colors.white,
@@ -199,7 +227,7 @@ class _TradedAddPageState extends State<TradedAddPage> {
                                                   )
                                               ),
                                               child: Text(
-                                                "时间："+deal[index].dealtime.toIso8601String().substring(0,10),
+                                                "时间："+deal[index].dealTime.toIso8601String().substring(0,10),
                                                 style: TextStyle(
                                                   fontSize: 14,
                                                   color: Color(0xFF5580EB),
@@ -426,7 +454,7 @@ class _TradedAddPageState extends State<TradedAddPage> {
                             width: 335,
                             margin: EdgeInsets.only(top: 20),
                             child: Text(
-                              '客户职业：',
+                              '客户职业（非必填）：',
                               style: TextStyle(
                                 fontSize: 14,
                                 color: Color(0xFF333333),
@@ -437,6 +465,9 @@ class _TradedAddPageState extends State<TradedAddPage> {
                           ),
                           Input(
                             hintText: "请输入客户的职业",
+                            tipText: "请输入客户的职业",
+                            errorTipText: "请输入客户的职业",
+                            rightText: "请输入客户的职业",
                             controller: careerController,
                             inputType: TextInputType.text,
                             reg: careerReg,
@@ -450,6 +481,7 @@ class _TradedAddPageState extends State<TradedAddPage> {
                           // 客户年收入
                           Container(
                             width: 335,
+                            margin: EdgeInsets.only(top: 5),
                             child: Text(
                               '客户年收入：',
                               style: TextStyle(
@@ -470,7 +502,7 @@ class _TradedAddPageState extends State<TradedAddPage> {
                                   incomeMinCount = s;
                                 });
                               },
-                              datas: ["10万以下", "10万-30万", "30万-50万", "50万-100万","100万-500万", "500万-1000万", "1000万以上",],
+                              datas: ["10万以下", "10万-30万", "30万-50万", "50万-100万","100万-500万", "500万-1000万", "1000万以上","未知"],
                               selectTextStyle: TextStyle(
                                   color: Color(0xFF0E7AE6),
                                   fontWeight: FontWeight.normal,
@@ -490,7 +522,7 @@ class _TradedAddPageState extends State<TradedAddPage> {
                             width: 335,
                             margin: EdgeInsets.only(top: 20),
                             child: Text(
-                              '客户住址：',
+                              '客户住址（非必填）：',
                               style: TextStyle(
                                 fontSize: 14,
                                 color: Color(0xFF333333),
@@ -530,7 +562,7 @@ class _TradedAddPageState extends State<TradedAddPage> {
                           Container(
                             width: 335,
                             child: Text(
-                              '客户爱好：',
+                              '客户爱好（非必填）：',
                               style: TextStyle(
                                 fontSize: 14,
                                 color: Color(0xFF333333),
@@ -570,7 +602,7 @@ class _TradedAddPageState extends State<TradedAddPage> {
                           Container(
                             width: 335,
                             child: Text(
-                              '客户描述：',
+                              '客户描述（非必填）：',
                               style: TextStyle(
                                 fontSize: 14,
                                 color: Color(0xFF333333),
@@ -610,7 +642,7 @@ class _TradedAddPageState extends State<TradedAddPage> {
                           Container(
                             width: 335,
                             child: Text(
-                              '客户的家庭成员：',
+                              '客户的家庭成员（非必填）：',
                               style: TextStyle(
                                 fontSize: 14,
                                 color: Color(0xFF333333),
@@ -642,7 +674,7 @@ class _TradedAddPageState extends State<TradedAddPage> {
                                                 ))
                                               ),
                                               child: Text(
-                                                member[index].memberName,
+                                                member[index].role,
                                                 style: TextStyle(
                                                   fontSize: 14,
                                                   color: Color(0xFF5580EB),
@@ -656,7 +688,7 @@ class _TradedAddPageState extends State<TradedAddPage> {
                                               width: 210,
                                               padding: EdgeInsets.fromLTRB(20, 0, 10, 3),
                                               child: Text(
-                                                member[index].memberMsg,
+                                                member[index].hobby,
                                                 style: TextStyle(
                                                   fontSize: 14,
                                                   color: Color(0xFF5580EB),
@@ -711,8 +743,46 @@ class _TradedAddPageState extends State<TradedAddPage> {
 
                           // 完成
                           GestureDetector(
-                            onTap: (){
-                              Navigator.pop(context);
+                            onTap: ()async{
+                              if(userNameBool == true && phoneBool == true && _starIndex != 0 ){
+                                var addResult = await AddCustomerDao.addCustomer(
+                                    userData.companyId,
+                                    userData.userPid,
+                                    "5",
+                                    userNameController.text,
+                                    _radioGroupA.toString(),
+                                    phoneNumController.text,
+                                    _selectedBirthdayDate.toIso8601String(),
+                                    _starIndex.toString(),
+                                    careerController.text==null?"未知":careerController.text,
+                                    incomeMinCount,
+                                    likeController.text==null?"未知":likeController.text,
+                                    msgController.text==null?"未知":msgController.text,
+                                    mapController.text==null?"未知":mapController.text,
+                                    member,  // 家庭成员
+                                    deal,  // 成交历史
+                                );
+                                print(addResult);
+                                if (addResult.code == 200) {
+                                  if (userData.userLevel.substring(0, 1) == "6") {
+                                    Navigator.push(context, MaterialPageRoute(
+                                        builder: (context) => MyTradedPage()));
+                                  }
+                                  if (userData.userLevel.substring(0, 1) == "4") {
+                                    Navigator.push(context, MaterialPageRoute(
+                                        builder: (context) => STradedPage()));
+                                  }
+                                  if (userData.userLevel.substring(0, 1) == "5") {
+                                    Navigator.push(context, MaterialPageRoute(
+                                        builder: (context) => MTradedPage()));
+                                  }
+                                } else {
+                                  _onOverLoadPressed(context);
+                                }
+                              }else{
+                                // 必填信息不完整的弹窗
+                                _onMsgPressed(context);
+                              }
                             },
                             child: Container(
                                 width: 335,
@@ -720,7 +790,7 @@ class _TradedAddPageState extends State<TradedAddPage> {
                                 padding: EdgeInsets.all(4),
                                 margin: EdgeInsets.only(bottom: 50,top: 100),
                                 decoration: phoneBool == true &&
-                                    userNameBool == true?
+                                    userNameBool == true && _starIndex != 0?
                                 BoxDecoration(
                                     border: Border.all(width: 1,color: Color(0xFF5580EB)),
                                     borderRadius: BorderRadius.circular(8),
@@ -834,7 +904,7 @@ class _TradedAddPageState extends State<TradedAddPage> {
           ),
           onPressed: () async {
             setState(() {
-              var d=new DealRecord(reason: dealMinCount,dealtime: _selectedDate);
+              var d=new DealInfo(dealReason: dealMinCount,dealTime: _selectedDate);
               deal.add(d);
             });
             Navigator.pop(context);
@@ -950,7 +1020,7 @@ class _TradedAddPageState extends State<TradedAddPage> {
             print(memberMinCount);
             print(memberController.text);
             setState(() {
-              var m=new MemberRecord(memberName: memberMinCount,memberMsg: memberController.text);
+              var m=new FamilyMember(role: memberMinCount,hobby: memberController.text);
               member.add(m);
             });
             Navigator.pop(context);
@@ -966,6 +1036,46 @@ class _TradedAddPageState extends State<TradedAddPage> {
             Navigator.pop(context);
           },
           color: Color(0xFFCCCCCC),
+        ),
+      ],
+    ).show();
+  }
+  _onMsgPressed(context) {
+    Alert(
+      context: context,
+      type: AlertType.warning,
+      title: "必填信息还未填写完整",
+      desc: "请确认客户姓名、重要度、手机号码是否正确填写",
+      buttons: [
+        DialogButton(
+          child: Text(
+            "知道了",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () async {
+            Navigator.pop(context);
+          },
+          color: Color(0xFF5580EB),
+        ),
+      ],
+    ).show();
+  }
+  _onOverLoadPressed(context) {
+    Alert(
+      context: context,
+      type: AlertType.error,
+      title: "提交失败",
+      desc: "请检查网络后重试",
+      buttons: [
+        DialogButton(
+          child: Text(
+            "确定",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () async {
+            Navigator.pop(context);
+          },
+          color: Color(0xFF5580EB),
         ),
       ],
     ).show();
@@ -1008,22 +1118,4 @@ class _TradedAddPageState extends State<TradedAddPage> {
   }
 }
 
-//成交记录类
-class DealRecord{
-  DealRecord({
-    this.reason,
-    this.dealtime
-  });
-  String reason;
-  DateTime dealtime;
-}
 
-//家庭成员类
-class MemberRecord{
-  MemberRecord({
-    this.memberName,
-    this.memberMsg,
-  });
-  String memberName;
-  String memberMsg;
-}
