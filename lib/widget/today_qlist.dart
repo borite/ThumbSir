@@ -86,7 +86,6 @@ class _TodayQListState extends State<TodayQList> with SingleTickerProviderStateM
 
           for (var item in missions) {
             GetMissionRecord m_record= await UserSelectMissionDao.missionRecord(userData.userPid,item.id.toString(),userData.userLevel.substring(0,1));
-            print(m_record);
 
             missionsShowList.add(
               QListItem(
@@ -199,7 +198,7 @@ class _TodayQListState extends State<TodayQList> with SingleTickerProviderStateM
   _onLoadAlert(context) {
     Alert(
       context: context,
-      title: "加载任务失败",
+      title: "加载失败",
       desc: "请检查网络连接情况",
       buttons: [
         DialogButton(

@@ -4,6 +4,7 @@ import 'package:ThumbSir/dao/delete_message_dao.dart';
 import 'package:ThumbSir/dao/get_message_dao.dart';
 import 'package:ThumbSir/dao/update_message_state_dao.dart';
 import 'package:ThumbSir/model/login_result_data_model.dart';
+import 'package:ThumbSir/pages/home.dart';
 import 'package:ThumbSir/pages/tips/agree_invitation_page.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:flutter/cupertino.dart';
@@ -123,18 +124,9 @@ class _QListTipsPageState extends State<QListTipsPage> with SingleTickerProvider
                       children: <Widget>[
                         GestureDetector(
                           onTap: (){
-                            if(userData.userLevel.substring(0,1)=="6"){
-                              Navigator.popAndPushNamed(context, 'a_q_list');
-                            }
-                            if(userData.userLevel.substring(0,1)=="5"){
-                              Navigator.popAndPushNamed(context, 'm_q_list');
-                            }
-                            if(userData.userLevel.substring(0,1)=="4"){
-                              Navigator.popAndPushNamed(context, 's_q_list');
-                            }
-                            if(userData.userLevel.substring(0,1)=="1"||result.userLevel.substring(0,1)=="2"||result.userLevel.substring(0,1)=="3"){
-                              Navigator.popAndPushNamed(context, 'l_q_list');
-                            }
+                            Navigator.of(context).pushAndRemoveUntil(
+                              new MaterialPageRoute(builder: (context) => new Home( )
+                            ), (route) => route == null);
                           },
                           child: Container(
                             width: 50,

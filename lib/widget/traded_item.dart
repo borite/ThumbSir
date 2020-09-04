@@ -10,13 +10,20 @@ import 'package:rflutter_alert/rflutter_alert.dart';
 class TradedItem extends StatefulWidget {
   final String name;
   final int star;
-  final String gender;
+  final int gender;
   final int age;
   final String phone;
   final birthday;
+  final firstDealReason;
+  final firstDealTime;
+  final secondDealReason;
+  final ssecondDealTime;
+  final item;
 
   TradedItem({Key key,
-    this.name,this.star,this.gender,this.age,this.phone,this.birthday
+    this.name,this.star,this.gender,this.age,this.phone,this.birthday,
+    this.firstDealReason,this.firstDealTime,this.secondDealReason,this.ssecondDealTime,
+    this.item
   }):super(key:key);
   @override
   _TradedItemState createState() => _TradedItemState();
@@ -231,11 +238,11 @@ class _TradedItemState extends State<TradedItem> with SingleTickerProviderStateM
                 padding: EdgeInsets.only(right: 7,top: 2),
 //                transform: Matrix4.rotationZ(1/8),
                 decoration: BoxDecoration(
-                  color: widget.gender== "男"?Color(0xFFFF9600):Color(0xFFF24848),
+                  color: widget.gender== 0?Color(0xFFFF9600):Color(0xFFF24848),
                   borderRadius: BorderRadius.only(topRight: Radius.circular(12))
                 ),
                 child: Text(
-                  widget.gender== "男"?"♂":"♀",
+                  widget.gender== 0?"♂":"♀",
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 14,
@@ -450,6 +457,7 @@ class _TradedItemState extends State<TradedItem> with SingleTickerProviderStateM
                     margin: EdgeInsets.only(left: 15),
                     child: Column(
                       children: <Widget>[
+                        widget.firstDealReason != null ?
                         Container(
                           margin: EdgeInsets.only(bottom: 10),
                             child: Row(
@@ -461,7 +469,7 @@ class _TradedItemState extends State<TradedItem> with SingleTickerProviderStateM
                                     borderRadius: BorderRadius.only(topLeft: Radius.circular(8),bottomLeft: Radius.circular(8)),
                                   ),
                                   child: Text(
-                                    "出售住宅",
+                                    widget.firstDealReason,
                                     style: TextStyle(
                                       fontSize: 14,
                                       color: Colors.white,
@@ -480,7 +488,7 @@ class _TradedItemState extends State<TradedItem> with SingleTickerProviderStateM
                                       )
                                   ),
                                   child: Text(
-                                    "时间：2020-08-12",
+                                    "时间："+widget.firstDealTime,
                                     style: TextStyle(
                                       fontSize: 14,
                                       color: Color(0xFF5580EB),
@@ -491,7 +499,21 @@ class _TradedItemState extends State<TradedItem> with SingleTickerProviderStateM
                                 ),
                               ],
                             )
+                        )
+                        :
+                        Container(
+                          child: Text(
+                            "暂无成交历史",
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Color(0xFF666666),
+                              decoration: TextDecoration.none,
+                              fontWeight: FontWeight.normal,
+                            ),
+                            textAlign: TextAlign.left,
+                          ),
                         ),
+                        widget.secondDealReason != null ?
                         Container(
                             margin: EdgeInsets.only(bottom: 10),
                             child: Row(
@@ -503,7 +525,7 @@ class _TradedItemState extends State<TradedItem> with SingleTickerProviderStateM
                                     borderRadius: BorderRadius.only(topLeft: Radius.circular(8),bottomLeft: Radius.circular(8)),
                                   ),
                                   child: Text(
-                                    "出售住宅",
+                                    widget.secondDealReason,
                                     style: TextStyle(
                                       fontSize: 14,
                                       color: Colors.white,
@@ -522,7 +544,7 @@ class _TradedItemState extends State<TradedItem> with SingleTickerProviderStateM
                                       )
                                   ),
                                   child: Text(
-                                    "时间：2020-08-12",
+                                    "时间："+widget.ssecondDealTime,
                                     style: TextStyle(
                                       fontSize: 14,
                                       color: Color(0xFF5580EB),
@@ -534,7 +556,8 @@ class _TradedItemState extends State<TradedItem> with SingleTickerProviderStateM
                               ],
                             )
 
-                        ),
+                        )
+                        :Container(width: 1,),
                       ],
                     )
                   ),
@@ -644,11 +667,11 @@ class _TradedItemState extends State<TradedItem> with SingleTickerProviderStateM
               padding: EdgeInsets.only(right: 7,top: 2),
 //                transform: Matrix4.rotationZ(1/8),
               decoration: BoxDecoration(
-                  color: widget.gender== "男"?Color(0xFFFF9600):Color(0xFFF24848),
+                  color: widget.gender == "男"?Color(0xFFFF9600):Color(0xFFF24848),
                   borderRadius: BorderRadius.only(topRight: Radius.circular(12))
               ),
               child: Text(
-                widget.gender== "男"?"♂":"♀",
+                widget.gender == "男"?"♂":"♀",
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 14,
@@ -673,7 +696,9 @@ class _TradedItemState extends State<TradedItem> with SingleTickerProviderStateM
             top: 12,
             child: GestureDetector(
               onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>TradedDetailPage()));
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>TradedDetailPage(
+                  item:widget.item
+                )));
               },
               child: Container(
                 width: 60,

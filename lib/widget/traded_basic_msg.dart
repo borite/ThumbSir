@@ -1,35 +1,27 @@
-import 'dart:convert';
-import 'package:rflutter_alert/rflutter_alert.dart';
-import 'package:ThumbSir/dao/get_user_select_mission_dao.dart';
-import 'package:ThumbSir/model/get_user_select_mission_model.dart';
-import 'package:ThumbSir/model/login_result_data_model.dart';
-import 'package:ThumbSir/widget/qlist_item.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:ThumbSir/model/mission_record_model.dart';
-import 'package:ThumbSir/dao/get_user_mission_records_dao.dart';
 
 
 class TradedBasicMsg extends StatefulWidget {
+  final item;
+
+  TradedBasicMsg({Key key,
+    this.item
+  }):super(key:key);
   @override
   _TradedBasicMsgState createState()=> _TradedBasicMsgState();
 }
 
 class _TradedBasicMsgState extends State<TradedBasicMsg> with SingleTickerProviderStateMixin{
-  
+  int star=1;
+  List member=new List();
+
   @override
   void initState(){
+    star = widget.item.starslevel;
+    member = widget.item.familyMember;
     super.initState();
   }
-
-  int star=1;
-
-
-//  @override
-//  void dispose(){
-//    super.dispose();
-//  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +46,7 @@ class _TradedBasicMsgState extends State<TradedBasicMsg> with SingleTickerProvid
                           child: Image.asset("images/my_3.png"),
                         ),
                         Text(
-                          "赵先生",
+                          widget.item.userName,
                           style: TextStyle(
                             color: Color(0xFF333333),
                             fontSize: 20,
@@ -154,7 +146,7 @@ class _TradedBasicMsgState extends State<TradedBasicMsg> with SingleTickerProvid
                             ),
                           ),
                           Text(
-                            "15012242232",
+                            widget.item.phone,
                             style: TextStyle(
                               fontSize: 14,
                               color: Color(0xFF666666),
@@ -180,7 +172,7 @@ class _TradedBasicMsgState extends State<TradedBasicMsg> with SingleTickerProvid
                             ),
                           ),
                           Text(
-                            "1993-01-23",
+                            widget.item.birthday.toString().substring(0,10),
                             style: TextStyle(
                               fontSize: 14,
                               color: Color(0xFF666666),
@@ -206,7 +198,7 @@ class _TradedBasicMsgState extends State<TradedBasicMsg> with SingleTickerProvid
                             ),
                           ),
                           Text(
-                            "35",
+                            widget.item.age.toString(),
                             style: TextStyle(
                               fontSize: 14,
                               color: Color(0xFF666666),
@@ -232,7 +224,7 @@ class _TradedBasicMsgState extends State<TradedBasicMsg> with SingleTickerProvid
                             ),
                           ),
                           Text(
-                            "男",
+                            widget.item.sex == 0?"男":"女",
                             style: TextStyle(
                               fontSize: 14,
                               color: Color(0xFF666666),
@@ -259,7 +251,7 @@ class _TradedBasicMsgState extends State<TradedBasicMsg> with SingleTickerProvid
                           ),
                           Expanded(
                             child: Text(
-                              "建筑工程师",
+                              widget.item.occupation == null?"未知":widget.item.occupation,
                               style: TextStyle(
                                 fontSize: 14,
                                 color: Color(0xFF666666),
@@ -286,7 +278,7 @@ class _TradedBasicMsgState extends State<TradedBasicMsg> with SingleTickerProvid
                             ),
                           ),
                           Text(
-                            "500万-1000万",
+                            widget.item.income,
                             style: TextStyle(
                               fontSize: 14,
                               color: Color(0xFF666666),
@@ -313,7 +305,7 @@ class _TradedBasicMsgState extends State<TradedBasicMsg> with SingleTickerProvid
                           ),
                           Expanded(
                             child: Text(
-                              "是否Joe何润锋in而好哈哈覅菲尔返回返回日合法人和ifhi加入后if红日河坊街",
+                              widget.item.address == "" ? "未知":widget.item.address,
                               style: TextStyle(
                                 fontSize: 14,
                                 color: Color(0xFF666666),
@@ -341,7 +333,7 @@ class _TradedBasicMsgState extends State<TradedBasicMsg> with SingleTickerProvid
                           ),
                           Expanded(
                             child: Text(
-                              "是否Joe何润锋in而好哈哈覅菲尔返回返回日合法人和ifhi加入后if红日河坊街",
+                              widget.item.hobby == "" ? "未知":widget.item.hobby,
                               style: TextStyle(
                                 fontSize: 14,
                                 color: Color(0xFF666666),
@@ -351,6 +343,42 @@ class _TradedBasicMsgState extends State<TradedBasicMsg> with SingleTickerProvid
                             ),
                           )
                         ],
+                      ),
+                    ),
+                    // 描述
+                    Container(
+                      margin: EdgeInsets.only(left: 20,top: 20,right: 20),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Text(
+                            "客户描述：",
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Color(0xFF5580EB),
+                              decoration: TextDecoration.none,
+                              fontWeight: FontWeight.normal,
+                            ),
+                          ),
+                          Container(
+                            width: 50,
+                            height: 20,
+                            child: Image.asset("images/editor.png"),
+                          )
+                        ],
+                      ),
+                    ),
+                    // 描述详情
+                    Container(
+                      margin: EdgeInsets.only(left: 20,right: 20,top: 5,bottom: 10),
+                      child: Text(
+                        widget.item.remark == "" ? "无":widget.item.remark,
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Color(0xFF666666),
+                          decoration: TextDecoration.none,
+                          fontWeight: FontWeight.normal,
+                        ),
                       ),
                     ),
                     // 家庭成员
@@ -376,90 +404,52 @@ class _TradedBasicMsgState extends State<TradedBasicMsg> with SingleTickerProvid
                         ],
                       ),
                     ),
-                    // 家庭成员-儿子
+                    member.length>0?
                     Container(
-                      margin: EdgeInsets.only(left: 20,top: 10,right: 20),
-                      child: Row(
-                        children: <Widget>[
-                          Text(
-                            "儿子 — ",
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Color(0xFF666666),
-                              decoration: TextDecoration.none,
-                              fontWeight: FontWeight.normal,
-                            ),
-                          ),
-                          Expanded(
-                            child: Text(
-                              "是否Joe何润锋in而好哈哈覅菲尔返回返回日合法人和ifhi加入后if红日河坊街",
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Color(0xFF666666),
-                                decoration: TextDecoration.none,
-                                fontWeight: FontWeight.normal,
+                      margin: EdgeInsets.only(bottom: 20),
+                      height: 150,
+                      child: ListView.builder(
+                        itemCount: member.length,
+                        itemBuilder: (BuildContext context,int index){
+                          return Column(
+                            children: <Widget>[
+                              // 家庭成员
+                              Container(
+                                margin: EdgeInsets.only(left: 20,top: 10,right: 20),
+                                child: Row(
+                                  children: <Widget>[
+                                    Text(
+                                      member[index].memberRole+" — ",
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        color: Color(0xFF666666),
+                                        decoration: TextDecoration.none,
+                                        fontWeight: FontWeight.normal,
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: Text(
+                                        member[index].memberHobby,
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          color: Color(0xFF666666),
+                                          decoration: TextDecoration.none,
+                                          fontWeight: FontWeight.normal,
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                ),
                               ),
-                            ),
-                          )
-                        ],
+                            ],
+                          );
+                        },
                       ),
-                    ),
-                    // 家庭成员-儿子
+                    )
+                        :
                     Container(
-                      margin: EdgeInsets.only(left: 20,top: 10,right: 20),
-                      child: Row(
-                        children: <Widget>[
-                          Text(
-                            "儿子 — ",
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Color(0xFF666666),
-                              decoration: TextDecoration.none,
-                              fontWeight: FontWeight.normal,
-                            ),
-                          ),
-                          Expanded(
-                            child: Text(
-                              "是否Joe何润锋in而好哈哈覅菲尔返回返回日合法人和ifhi加入后if红日河坊街",
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Color(0xFF666666),
-                                decoration: TextDecoration.none,
-                                fontWeight: FontWeight.normal,
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                    // 描述
-                    Container(
-                      margin: EdgeInsets.only(left: 20,top: 20,right: 20),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Text(
-                            "描述：",
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Color(0xFF5580EB),
-                              decoration: TextDecoration.none,
-                              fontWeight: FontWeight.normal,
-                            ),
-                          ),
-                          Container(
-                            width: 50,
-                            height: 20,
-                            child: Image.asset("images/editor.png"),
-                          )
-                        ],
-                      ),
-                    ),
-                    // 描述详情
-                    Container(
-                      margin: EdgeInsets.only(left: 20,right: 20,top: 5,bottom: 50),
                       child: Text(
-                        "分动器分蘖强化复合防护等级化肥发黑哈哈粉底和废物和飞机返回IQ维护覅金额环境覅",
+                        "无",
                         style: TextStyle(
                           fontSize: 14,
                           color: Color(0xFF666666),
@@ -467,7 +457,7 @@ class _TradedBasicMsgState extends State<TradedBasicMsg> with SingleTickerProvid
                           fontWeight: FontWeight.normal,
                         ),
                       ),
-                    ),
+                    )
                   ],
                 ),
               )
@@ -475,24 +465,5 @@ class _TradedBasicMsgState extends State<TradedBasicMsg> with SingleTickerProvid
           )
       )
     );
-  }
-  _onLoadAlert(context) {
-    Alert(
-      context: context,
-      title: "加载任务失败",
-      desc: "请检查网络连接情况",
-      buttons: [
-        DialogButton(
-          child: Text(
-            "确定",
-            style: TextStyle(color: Colors.white, fontSize: 20),
-          ),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          color: Color(0xFF5580EB),
-        )
-      ],
-    ).show();
   }
 }

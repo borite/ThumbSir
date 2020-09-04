@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:ThumbSir/common/reg.dart';
 import 'package:ThumbSir/dao/add_customer_dao.dart';
 import 'package:ThumbSir/model/login_result_data_model.dart';
@@ -745,6 +744,7 @@ class _TradedAddPageState extends State<TradedAddPage> {
                           GestureDetector(
                             onTap: ()async{
                               if(userNameBool == true && phoneBool == true && _starIndex != 0 ){
+                                _onRefresh();
                                 var addResult = await AddCustomerDao.addCustomer(
                                     userData.companyId,
                                     userData.userPid,
@@ -764,6 +764,7 @@ class _TradedAddPageState extends State<TradedAddPage> {
                                 );
                                 print(addResult);
                                 if (addResult.code == 200) {
+                                  _onRefresh();
                                   if (userData.userLevel.substring(0, 1) == "6") {
                                     Navigator.push(context, MaterialPageRoute(
                                         builder: (context) => MyTradedPage()));
@@ -777,6 +778,7 @@ class _TradedAddPageState extends State<TradedAddPage> {
                                         builder: (context) => MTradedPage()));
                                   }
                                 } else {
+                                  _onRefresh();
                                   _onOverLoadPressed(context);
                                 }
                               }else{

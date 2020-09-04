@@ -1,4 +1,8 @@
+import 'dart:convert';
 import 'package:ThumbSir/common/reg.dart';
+import 'package:ThumbSir/dao/get_customer_main_dao.dart';
+import 'package:ThumbSir/model/get_customer_main_model.dart';
+import 'package:ThumbSir/model/login_result_data_model.dart';
 import 'package:ThumbSir/pages/broker/traded/traded_add_page.dart';
 import 'package:ThumbSir/pages/broker/traded/traded_search_page.dart';
 import 'package:ThumbSir/pages/home.dart';
@@ -8,6 +12,8 @@ import 'package:ThumbSir/widget/input.dart';
 import 'package:ThumbSir/widget/loading.dart';
 import 'package:ThumbSir/widget/traded_item.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 class MyTradedPage extends StatefulWidget {
   @override
@@ -90,10 +96,70 @@ class _MyTradedPageState extends State<MyTradedPage> {
     return reasonLists;
   }
 
+  List<Datum> customersList = [];
+  List<Widget> customersShowList = [];
+  List<Widget> customers=[];
+
+
+  LoginResultData userData;
+  String uinfo;
+  var result;
+
+  _getUserInfo() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    uinfo= prefs.getString("userInfo");
+    if(uinfo != null){
+      result =loginResultDataFromJson(uinfo);
+      this.setState(() {
+        userData=LoginResultData.fromJson(json.decode(uinfo));
+      });
+      _load();
+    }
+  }
+
+  _load() async {
+    if(userData != null ){
+      var customersResult = await GetCustomerMainDao.getCustomerMain(
+        userData.userPid,
+        "5",
+      );
+
+      if (customersResult.code == 200) {
+        customersList = customersResult.data;
+        if (customersList.length>0) {
+
+          for (var item in customersList) {
+            customersShowList.add(
+              TradedItem(
+                name:item.userName,
+                star:item.starslevel,
+                gender:item.sex,
+                age:item.age,
+                phone:item.phone,
+                birthday:item.birthday.toString().substring(0,10),
+                firstDealReason: item.dealList.length > 0 ?item.dealList[0].dealReason:null,
+                firstDealTime: item.dealList.length > 0 ? item.dealList[0].finishTime.toIso8601String().substring(0,10):null,
+                secondDealReason: item.dealList.length > 1 ?item.dealList[1].dealReason:null,
+                ssecondDealTime: item.dealList.length > 1 ?item.dealList[1].finishTime.toIso8601String().substring(0,10):null,
+                item:item
+              ),
+            );
+          }
+        }
+        setState(() {
+          customers=customersShowList;
+        });
+      } else {
+        _onLoadAlert(context);
+      }
+    }
+  }
+
   @override
   void initState() {
     super.initState();
     searchReg = TextReg;
+    _getUserInfo();
   }
 
   @override
@@ -379,58 +445,45 @@ class _MyTradedPageState extends State<MyTradedPage> {
                           // 列表
                           Container(
                             margin: EdgeInsets.only(bottom: 60),
-                            child: Column(
-                              children: <Widget>[
-                                TradedItem(
-                                name:"赵先生",
-                                star:3,
-                                gender:"男",
-                                age:35,
-                                phone:"15011111111",
-                                birthday:"2020-08-30",
-                                ),
-                                TradedItem(
-                                  name:"赵女士",
-                                  star:2,
-                                  gender:"女",
-                                  age:42,
-                                  phone:"15011111111",
-                                  birthday:"2020-08-30",
-                                ),
-                                TradedItem(
-                                  name:"赵先生",
-                                  star:3,
-                                  gender:"男",
-                                  age:35,
-                                  phone:"15011111111",
-                                  birthday:"2020-08-30",
-                                ),
-                                TradedItem(
-                                  name:"赵先生",
-                                  star:3,
-                                  gender:"男",
-                                  age:35,
-                                  phone:"15011111111",
-                                  birthday:"2020-08-30",
-                                ),
-                                TradedItem(
-                                  name:"赵先生",
-                                  star:3,
-                                  gender:"男",
-                                  age:35,
-                                  phone:"15011111111",
-                                  birthday:"2020-08-30",
-                                ),
-                                TradedItem(
-                                  name:"赵先生",
-                                  star:3,
-                                  gender:"男",
-                                  age:35,
-                                  phone:"15011111111",
-                                  birthday:"2020-08-30",
-                                ),
-                              ],
-                            ),
+                              child:
+                              customersList!=null && customersList.length != 0 && customers != []?
+                              Column(
+                                children: customers,
+                              )
+                                  :
+                              Container(
+                                  alignment: Alignment.center,
+                                  margin: EdgeInsets.only(top: 50),
+                                  width: 335,
+                                  height: 104,
+                                  child: Column(
+                                    children: <Widget>[
+                                      Padding(
+                                        padding: EdgeInsets.only(top: 25,bottom: 8),
+                                        child: Text(
+                                          '还没有客户',
+                                          style: TextStyle(
+                                            decoration: TextDecoration.none,
+                                            fontSize: 20,
+                                            color: Color(0xFFCCCCCC),
+                                            fontWeight: FontWeight.normal,
+                                          ),
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      ),
+                                      Text(
+                                        '点击右下角的蓝色"+"添加吧~',
+                                        style: TextStyle(
+                                          decoration: TextDecoration.none,
+                                          fontSize: 16,
+                                          color: Color(0xFFCCCCCC),
+                                          fontWeight: FontWeight.normal,
+                                        ),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ],
+                                  )
+                              )
                           ),
                         ]
                     )
@@ -440,10 +493,31 @@ class _MyTradedPageState extends State<MyTradedPage> {
         )
     );
   }
+
   // 加载中loading
   Future<Null> _onRefresh() async {
     setState(() {
       _loading = !_loading;
     });
+  }
+
+  _onLoadAlert(context) {
+    Alert(
+      context: context,
+      title: "加载失败",
+      desc: "请检查网络连接情况",
+      buttons: [
+        DialogButton(
+          child: Text(
+            "确定",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          color: Color(0xFF5580EB),
+        )
+      ],
+    ).show();
   }
 }

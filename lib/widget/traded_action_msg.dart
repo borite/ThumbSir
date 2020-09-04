@@ -13,6 +13,11 @@ import 'package:ThumbSir/dao/get_user_mission_records_dao.dart';
 
 
 class TradedActionMsg extends StatefulWidget {
+  final item;
+
+  TradedActionMsg({Key key,
+    this.item
+  }):super(key:key);
   @override
   _TradedActionMsgState createState()=> _TradedActionMsgState();
 }
@@ -42,7 +47,7 @@ class _TradedActionMsgState extends State<TradedActionMsg> with SingleTickerProv
               Container(
                 width: 335,
                 alignment: Alignment.topCenter,
-                padding: EdgeInsets.only(top:120,bottom:50),
+                padding: EdgeInsets.only(top:117,bottom:50),
                 child: Column(
                   children: <Widget>[
                     // 姓名
@@ -53,27 +58,32 @@ class _TradedActionMsgState extends State<TradedActionMsg> with SingleTickerProv
                           children: <Widget>[
                             Container(
                               width: 20,
-                              margin: EdgeInsets.only(left: 20,right: 10),
+                              margin: EdgeInsets.only(left: 20,right: 10,bottom: 10),
                               child: Image.asset("images/my_3.png"),
                             ),
-                            Text(
-                              "赵先生",
-                              style: TextStyle(
-                                color: Color(0xFF333333),
-                                fontSize: 20,
-                                fontWeight: FontWeight.normal,
-                                decoration: TextDecoration.none,
+                            Container(
+                              margin: EdgeInsets.only(bottom: 10),
+                              child: Text(
+                                widget.item.userName,
+                                style: TextStyle(
+                                  color: Color(0xFF333333),
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.normal,
+                                  decoration: TextDecoration.none,
+                                ),
                               ),
                             )
+
                           ],
                         ),
+                        // 新增按钮
                         GestureDetector(
                           onTap: (){
 
                           },
                           child: Container(
-                            margin: EdgeInsets.only(right: 20),
                             padding: EdgeInsets.fromLTRB(10, 0, 10, 4),
+                            margin: EdgeInsets.only(right: 20,top: 2,bottom: 10),
                             decoration: BoxDecoration(
                                 border: Border.all(
                                     width: 1,
@@ -92,6 +102,7 @@ class _TradedActionMsgState extends State<TradedActionMsg> with SingleTickerProv
                         ),
                       ],
                     ),
+
                     GiftItem(
                       date:"2020-01-23",
                       giftMsg:"故宫礼盒套装",

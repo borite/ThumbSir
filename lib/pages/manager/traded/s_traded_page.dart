@@ -1,10 +1,6 @@
-import 'package:ThumbSir/pages/broker/qlist/qlist_choose_add_page.dart';
 import 'package:ThumbSir/pages/broker/traded/my_traded_page.dart';
-import 'package:ThumbSir/pages/broker/traded/traded_add_page.dart';
 import 'package:ThumbSir/pages/manager/traded/team_traded_page.dart';
 import 'package:flutter/material.dart';
-import 'package:ThumbSir/pages/broker/qlist/qlist_analyze_page.dart';
-import 'package:ThumbSir/pages/broker/qlist/qlist_list_page.dart';
 
 
 class STradedPage extends StatefulWidget {

@@ -11,6 +11,7 @@ import 'package:ThumbSir/pages/manager/traded/s_traded_page.dart';
 import 'package:ThumbSir/pages/manager/traded/team_traded_page.dart';
 import 'package:ThumbSir/pages/manager/qlist/manager_qlist_page.dart';
 import 'package:ThumbSir/pages/manager/qlist/s_qlist_page.dart';
+import 'package:ThumbSir/pages/tips/qlist_tips_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ThumbSir/pages/mycenter/my_center_page.dart';
@@ -75,11 +76,6 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin{
     _getUserInfo();
     _load();
     super.initState();
-  }
-
-  @override
-  void dispose(){
-    super.dispose();
   }
 
   @override
@@ -203,24 +199,48 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin{
                                     ),
                                   ),
                                   // 轮播图
-                                  Container(
-                                      height: 100,
-                                      width: 335,
-                                      margin: EdgeInsets.only(bottom: 25,top: 10),
-                                      child:Container(
-                                          child:
-                                          PageView.builder(
-                                            itemBuilder: (BuildContext buildContext,int index)=>msgs[index],
-                                            itemCount: msgs.length,
+                                  Stack(
+                                    children: <Widget>[
+                                      Container(
+                                          height: 100,
+                                          width: 335,
+                                          margin: EdgeInsets.only(bottom: 25,top: 10),
+                                          child:Container(
+                                              child:
+                                              PageView.builder(
+                                                itemBuilder: (BuildContext buildContext,int index)=>msgs[index],
+                                                itemCount: msgs.length,
+                                              )
+                                            //                      PageView(
+                                            //                        children: <Widget>[
+                                            //                          //每一条轮播
+                                            //                          _item('images/tie_big.png','2020年3月24日','拇指先生正式上线啦！','邀请好友一起用起来吧~'),
+                                            //                          _item('images/tie_big.png','2020年3月24日','客户维护相关功能暂未开放','敬请期待！'),
+                                            //                        ],
+                                            //                      ),
                                           )
-                                        //                      PageView(
-                                        //                        children: <Widget>[
-                                        //                          //每一条轮播
-                                        //                          _item('images/tie_big.png','2020年3月24日','拇指先生正式上线啦！','邀请好友一起用起来吧~'),
-                                        //                          _item('images/tie_big.png','2020年3月24日','客户维护相关功能暂未开放','敬请期待！'),
-                                        //                        ],
-                                        //                      ),
+                                      ),
+                                      Positioned(
+                                        top: 30,
+                                        right: 5,
+                                        child: GestureDetector(
+                                          onTap: (){
+                                            if(userData != null){
+                                              Navigator.push(context, MaterialPageRoute(builder: (context)=>QListTipsPage()));
+                                            }else{
+                                              _onLoginAlertPressed(context);
+                                            }
+                                          },
+                                          child: Container(
+                                            width: 50,
+                                            height: 25,
+                                            color: Colors.transparent,
+                                            margin: EdgeInsets.only(left: 290,top: 5),
+                                            child: Image(image: AssetImage('images/bell.png'),),
+                                          ),
+                                        ),
                                       )
+                                    ],
                                   ),
                                   // 入口
                                   Container(
