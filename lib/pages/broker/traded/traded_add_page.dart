@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:ThumbSir/common/reg.dart';
 import 'package:ThumbSir/dao/add_customer_dao.dart';
+import 'package:ThumbSir/model/get_customer_main_model.dart';
 import 'package:ThumbSir/model/login_result_data_model.dart';
 import 'package:ThumbSir/pages/broker/traded/my_traded_page.dart';
 import 'package:ThumbSir/pages/manager/traded/m_traded_page.dart';
@@ -673,7 +674,7 @@ class _TradedAddPageState extends State<TradedAddPage> {
                                                 ))
                                               ),
                                               child: Text(
-                                                member[index].role,
+                                                member[index].memberRole,
                                                 style: TextStyle(
                                                   fontSize: 14,
                                                   color: Color(0xFF5580EB),
@@ -687,7 +688,7 @@ class _TradedAddPageState extends State<TradedAddPage> {
                                               width: 210,
                                               padding: EdgeInsets.fromLTRB(20, 0, 10, 3),
                                               child: Text(
-                                                member[index].hobby,
+                                                member[index].memberHobby,
                                                 style: TextStyle(
                                                   fontSize: 14,
                                                   color: Color(0xFF5580EB),
@@ -1022,7 +1023,7 @@ class _TradedAddPageState extends State<TradedAddPage> {
             print(memberMinCount);
             print(memberController.text);
             setState(() {
-              var m=new FamilyMember(role: memberMinCount,hobby: memberController.text);
+              var m=new FamilyMember(memberRole: memberMinCount,memberHobby: memberController.text);
               member.add(m);
             });
             Navigator.pop(context);

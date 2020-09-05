@@ -69,29 +69,29 @@ class AddCustomerDao{
     }
 }
 
-FamilyMember familyMemberFromJson(String str) => FamilyMember.fromJson(json.decode(str));
-
-String familyMemberToJson(FamilyMember data) => json.encode(data.toJson());
-
-class FamilyMember {
-  FamilyMember({
-    this.role,
-    this.hobby,
-  });
-
-  String role;
-  String hobby;
-
-  factory FamilyMember.fromJson(Map<String, dynamic> json) => FamilyMember(
-    role: json["Role"] == null ? null : json["Role"],
-    hobby: json["Hobby"] == null ? null : json["Hobby"],
-  );
-
-  Map<String, dynamic> toJson() => {
-    "Role": role == null ? null : role,
-    "Hobby": hobby == null ? null : hobby,
-  };
-}
+//FamilyMember familyMemberFromJson(String str) => FamilyMember.fromJson(json.decode(str));
+//
+//String familyMemberToJson(FamilyMember data) => json.encode(data.toJson());
+//
+//class FamilyMember {
+//  FamilyMember({
+//    this.memberRole,
+//    this.memberHobby,
+//  });
+//
+//  String memberRole;
+//  String memberHobby;
+//
+//  factory FamilyMember.fromJson(Map<String, dynamic> json) => FamilyMember(
+//    memberRole: json["Role"] == null ? null : json["Role"],
+//    memberHobby: json["Hobby"] == null ? null : json["Hobby"],
+//  );
+//
+//  Map<String, dynamic> toJson() => {
+//    "MemberRole": memberRole == null ? null : memberRole,
+//    "MemberHobby": memberHobby == null ? null : memberHobby,
+//  };
+//}
 
 DealInfo dealInfoFromJson(String str) => DealInfo.fromJson(json.decode(str));
 

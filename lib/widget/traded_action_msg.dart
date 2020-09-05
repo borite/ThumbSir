@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:ThumbSir/pages/broker/traded/traded_add_gift_page.dart';
 import 'package:ThumbSir/widget/gift_item.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:ThumbSir/dao/get_user_select_mission_dao.dart';
@@ -79,7 +80,9 @@ class _TradedActionMsgState extends State<TradedActionMsg> with SingleTickerProv
                         // 新增按钮
                         GestureDetector(
                           onTap: (){
-
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=>TradedAddGiftPage(
+                              item: widget.item,
+                            )));
                           },
                           child: Container(
                             padding: EdgeInsets.fromLTRB(10, 0, 10, 4),
@@ -109,6 +112,7 @@ class _TradedActionMsgState extends State<TradedActionMsg> with SingleTickerProv
                       price:"288",
                       dec:"邮寄",
                       type:"业务礼",
+                      item: widget.item,
                     ),
                     GiftItem(
                       date:"2020-01-23",
@@ -116,6 +120,7 @@ class _TradedActionMsgState extends State<TradedActionMsg> with SingleTickerProv
                       price:"288",
                       dec:"邮寄",
                       type:"生日礼",
+                      item: widget.item,
                     ),
                     GiftItem(
                       date:"2020-01-23",
@@ -123,6 +128,7 @@ class _TradedActionMsgState extends State<TradedActionMsg> with SingleTickerProv
                       price:"288",
                       dec:"邮寄",
                       type:"成交礼",
+                      item: widget.item,
                     ),
                     GiftItem(
                       date:"2020-01-23",
@@ -130,6 +136,7 @@ class _TradedActionMsgState extends State<TradedActionMsg> with SingleTickerProv
                       price:"288",
                       dec:"邮寄",
                       type:"节日礼",
+                      item: widget.item,
                     ),
                   ],
                 ),

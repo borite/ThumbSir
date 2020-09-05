@@ -10,7 +10,7 @@
 		</data>
 		<key>flutter_assets/AssetManifest.json</key>
 		<data>
-		dU+MJ8R5c4H27DOP35KAinKtyFU=
+		23pE+wB1bWfIIK6CWek9Qld2vKM=
 		</data>
 		<key>flutter_assets/FontManifest.json</key>
 		<data>
@@ -18,7 +18,7 @@
 		</data>
 		<key>flutter_assets/LICENSE</key>
 		<data>
-		M3hf3NUj8ZsKxFz2HEf2vtF1ENI=
+		hCADQ8BoZKXth5x2fMLz7Go47HE=
 		</data>
 		<key>flutter_assets/fonts/MaterialIcons-Regular.ttf</key>
 		<data>
@@ -140,6 +140,22 @@
 		<data>
 		nODY/CNSL2Z9W27NinQH9ghToFA=
 		</data>
+		<key>flutter_assets/images/gift.png</key>
+		<data>
+		JKM1fpJe6LQwYm8DIREvk79yJcU=
+		</data>
+		<key>flutter_assets/images/gift_birth.png</key>
+		<data>
+		7vA0rAdEJiAE4O4XLrEo+qwrk4o=
+		</data>
+		<key>flutter_assets/images/gift_deal.png</key>
+		<data>
+		GAxrqzFn20fdlLrtzVTEM1acPDQ=
+		</data>
+		<key>flutter_assets/images/gift_festive.png</key>
+		<data>
+		Rx486QlpSmGsQNNYi7qBLaOgrZU=
+		</data>
 		<key>flutter_assets/images/group.png</key>
 		<data>
 		mLcV+ZIoEQOeyA3/U7q7cNm79jM=
@@ -191,6 +207,10 @@
 		<key>flutter_assets/images/my.png</key>
 		<data>
 		lJ95hpJy3UsVl/BH2AnX5BuD9bU=
+		</data>
+		<key>flutter_assets/images/my_3.png</key>
+		<data>
+		kYNhoeQrP+k+tc3wKHasb6QmSMs=
 		</data>
 		<key>flutter_assets/images/my_big.png</key>
 		<data>
@@ -434,7 +454,7 @@
 		</data>
 		<key>flutter_assets/kernel_blob.bin</key>
 		<data>
-		nY3zGklswhFq/gGSdg69qyyh1+U=
+		hwlFSye4IcWWjKKxpTjwS4xF9L8=
 		</data>
 		<key>flutter_assets/packages/city_picker/assets/city_json.json</key>
 		<data>
@@ -523,11 +543,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			dU+MJ8R5c4H27DOP35KAinKtyFU=
+			23pE+wB1bWfIIK6CWek9Qld2vKM=
 			</data>
 			<key>hash2</key>
 			<data>
-			1UBEWtdoubeWDppkncRtHIson4uWbObFqLUl4XIINcE=
+			JqWViMOBbeiCh7YFtlHEHPGBaV9dJMCofkyRR3xRfKY=
 			</data>
 		</dict>
 		<key>flutter_assets/FontManifest.json</key>
@@ -545,11 +565,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			M3hf3NUj8ZsKxFz2HEf2vtF1ENI=
+			hCADQ8BoZKXth5x2fMLz7Go47HE=
 			</data>
 			<key>hash2</key>
 			<data>
-			dCOOYFfdBPiRIEHoCbL8DjSJm1QMl5vy7eEekDCEAhs=
+			seD2wPt2vh7VPBJxIBto9E2WSyhNwrSv89+gac2hxhI=
 			</data>
 		</dict>
 		<key>flutter_assets/fonts/MaterialIcons-Regular.ttf</key>
@@ -882,6 +902,50 @@
 			N04iG+B7gW8muZ6qowZvq9TCcgcl/8uh+fxOa0clxNE=
 			</data>
 		</dict>
+		<key>flutter_assets/images/gift.png</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			JKM1fpJe6LQwYm8DIREvk79yJcU=
+			</data>
+			<key>hash2</key>
+			<data>
+			Ws5u8pPpk/LsWHkDMBOZZtczMc/8LtPs5imhbfMdKtM=
+			</data>
+		</dict>
+		<key>flutter_assets/images/gift_birth.png</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			7vA0rAdEJiAE4O4XLrEo+qwrk4o=
+			</data>
+			<key>hash2</key>
+			<data>
+			1gBXNsCK/AXVob5k4vNinoQugD98DuKLTTGteLzAvlw=
+			</data>
+		</dict>
+		<key>flutter_assets/images/gift_deal.png</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			GAxrqzFn20fdlLrtzVTEM1acPDQ=
+			</data>
+			<key>hash2</key>
+			<data>
+			GwxUaEf0bXHTiGHb+4bZawa4Y5KivT82rJd3LBucvyE=
+			</data>
+		</dict>
+		<key>flutter_assets/images/gift_festive.png</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			Rx486QlpSmGsQNNYi7qBLaOgrZU=
+			</data>
+			<key>hash2</key>
+			<data>
+			MyiuvnFGsV+xEasbBKw2Iy6tH3p7xqWf5P3u2sW8OPA=
+			</data>
+		</dict>
 		<key>flutter_assets/images/group.png</key>
 		<dict>
 			<key>hash</key>
@@ -1023,6 +1087,17 @@
 			<key>hash2</key>
 			<data>
 			iBTc9wgXYmtniw+ACxYbO8EiDsrckNgyff80Bd1UcsM=
+			</data>
+		</dict>
+		<key>flutter_assets/images/my_3.png</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			kYNhoeQrP+k+tc3wKHasb6QmSMs=
+			</data>
+			<key>hash2</key>
+			<data>
+			efp7teIZr3Mbzp+iSj+/E/7F7lKV3XaVtSDb7V4L/Po=
 			</data>
 		</dict>
 		<key>flutter_assets/images/my_big.png</key>
@@ -1689,11 +1764,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			nY3zGklswhFq/gGSdg69qyyh1+U=
+			hwlFSye4IcWWjKKxpTjwS4xF9L8=
 			</data>
 			<key>hash2</key>
 			<data>
-			3KSuSKvXSdS2L3oXPae/LS4GsZUmiVi54LJFjMCgfKQ=
+			Z5pLVmN0b8FcBsayzQ93s1E1SJGrT/dYIzM6Su7+4xQ=
 			</data>
 		</dict>
 		<key>flutter_assets/packages/city_picker/assets/city_json.json</key>

@@ -1,6 +1,7 @@
 import 'package:ThumbSir/pages/broker/qlist/qlist_choose_add_page.dart';
 import 'package:ThumbSir/pages/broker/traded/my_traded_page.dart';
 import 'package:ThumbSir/pages/broker/traded/traded_add_page.dart';
+import 'package:ThumbSir/pages/manager/traded/group_traded_page.dart';
 import 'package:ThumbSir/pages/manager/traded/team_traded_page.dart';
 import 'package:flutter/material.dart';
 import 'package:ThumbSir/pages/broker/qlist/qlist_analyze_page.dart';
@@ -52,7 +53,7 @@ class _MTradedPageState extends State<MTradedPage> {
           iconSize: 26,
         ),
         body: _currentIndex == 0? MyTradedPage()
-            : TeamTradedPage()
+            : GroupTradedPage()
     );
   }
 }

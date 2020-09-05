@@ -2,6 +2,7 @@ import 'package:ThumbSir/pages/broker/qlist/img_view_page.dart';
 import 'package:ThumbSir/pages/broker/qlist/qlist_change_page.dart';
 import 'package:ThumbSir/pages/broker/qlist/qlist_upload_page.dart';
 import 'package:ThumbSir/pages/broker/traded/traded_detail_page.dart';
+import 'package:ThumbSir/pages/broker/traded/traded_edit_gift_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
@@ -13,9 +14,10 @@ class GiftItem extends StatefulWidget {
   final String price;
   final String dec;
   final String type;
+  final item;
 
   GiftItem({Key key,
-    this.date,this.giftMsg,this.price,this.dec,this.type
+    this.date,this.giftMsg,this.price,this.dec,this.type,this.item
   }):super(key:key);
   @override
   _GiftItemState createState() => _GiftItemState();
@@ -134,7 +136,7 @@ class _GiftItemState extends State<GiftItem> with SingleTickerProviderStateMixin
                       child: Row(
                         children: <Widget>[
                           Text(
-                            "礼品：",
+                            "维护动作：",
                             style: TextStyle(
                               fontSize: 14,
                               color: Color(0xFF5580EB),
@@ -212,11 +214,18 @@ class _GiftItemState extends State<GiftItem> with SingleTickerProviderStateMixin
                               ),
                             ],
                           ),
-                          Container(
-                            width: 50,
-                            height: 20,
-                            child: Image.asset("images/editor.png"),
-                          )
+                          GestureDetector(
+                            onTap: (){
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=>TradedEditGiftPage(
+                                item: widget.item,
+                              )));
+                            },
+                            child: Container(
+                              width: 50,
+                              height: 20,
+                              child: Image.asset("images/editor.png"),
+                            ),
+                          ),
                         ],
                       ),
 

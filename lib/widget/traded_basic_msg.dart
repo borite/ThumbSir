@@ -1,3 +1,6 @@
+import 'package:ThumbSir/pages/broker/traded/traded_edit_basic_msg_page.dart';
+import 'package:ThumbSir/pages/broker/traded/traded_edit_family_member_page.dart';
+import 'package:ThumbSir/pages/broker/traded/traded_edit_remark_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -71,10 +74,18 @@ class _TradedBasicMsgState extends State<TradedBasicMsg> with SingleTickerProvid
                               fontWeight: FontWeight.normal,
                             ),
                           ),
-                          Container(
-                            width: 50,
-                            height: 20,
-                            child: Image.asset("images/editor.png"),
+                          GestureDetector(
+                            onTap: (){
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=>TradedEditBasicMsgPage(
+                                item: widget.item,
+                              )));
+                            },
+                            child: Container(
+                              width: 50,
+                              height: 20,
+                              color: Colors.transparent,
+                              child: Image.asset("images/editor.png"),
+                            ),
                           )
                         ],
                       ),
@@ -360,10 +371,18 @@ class _TradedBasicMsgState extends State<TradedBasicMsg> with SingleTickerProvid
                               fontWeight: FontWeight.normal,
                             ),
                           ),
-                          Container(
-                            width: 50,
-                            height: 20,
-                            child: Image.asset("images/editor.png"),
+                          GestureDetector(
+                            onTap: (){
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=>TradedEditRemarkPage(
+                                item: widget.item,
+                              )));
+                            },
+                            child: Container(
+                              width: 50,
+                              height: 20,
+                              color: Colors.transparent,
+                              child: Image.asset("images/editor.png"),
+                            ),
                           )
                         ],
                       ),
@@ -396,10 +415,18 @@ class _TradedBasicMsgState extends State<TradedBasicMsg> with SingleTickerProvid
                               fontWeight: FontWeight.normal,
                             ),
                           ),
-                          Container(
-                            width: 50,
-                            height: 20,
-                            child: Image.asset("images/editor.png"),
+                          GestureDetector(
+                            onTap: (){
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=>TradedEditFamilyMemberPage(
+                                item: widget.item,
+                              )));
+                            },
+                            child: Container(
+                              width: 50,
+                              height: 20,
+                              color: Colors.transparent,
+                              child: Image.asset("images/editor.png"),
+                            ),
                           )
                         ],
                       ),

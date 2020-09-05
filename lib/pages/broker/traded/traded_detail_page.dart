@@ -106,7 +106,18 @@ class _TradedDetailPageState extends State<TradedDetailPage> with TickerProvider
                               children: <Widget>[
                                 GestureDetector(
                                   onTap: (){
-                                    Navigator.pop(context);
+                                    if (userData.userLevel.substring(0, 1) == "6") {
+                                      Navigator.push(context, MaterialPageRoute(
+                                          builder: (context) => MyTradedPage()));
+                                    }
+                                    if (userData.userLevel.substring(0, 1) == "4") {
+                                      Navigator.push(context, MaterialPageRoute(
+                                          builder: (context) => STradedPage()));
+                                    }
+                                    if (userData.userLevel.substring(0, 1) == "5") {
+                                      Navigator.push(context, MaterialPageRoute(
+                                          builder: (context) => MTradedPage()));
+                                    }
                                   },
                                   child: Container(
                                     width: 28,

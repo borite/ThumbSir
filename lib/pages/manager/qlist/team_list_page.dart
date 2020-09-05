@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:ThumbSir/dao/get_next_liang_hua_dao.dart';
 import 'package:ThumbSir/model/login_result_data_model.dart';
-import 'package:ThumbSir/pages/broker/qlist/qlist_view_mini_tasks_page.dart';
 import 'package:ThumbSir/pages/home.dart';
 import 'package:ThumbSir/pages/manager/qlist/group_list_detail_page.dart';
 import 'package:ThumbSir/pages/manager/qlist/team_list_detail_page.dart';
