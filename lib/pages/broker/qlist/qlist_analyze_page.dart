@@ -359,7 +359,7 @@ class _QListAnalyzePageState extends State<QListAnalyzePage> with SingleTickerPr
                       Container(
                         width: 250,
                         child: Text(
-                          '温馨提示：仅统计10:00~22:00的量化任务',
+                          '温馨提示：时间占比以每天10小时为基数计算',
                           style: TextStyle(color: Color(0xFF999999),fontSize: 10),
                           textAlign: TextAlign.right,
                         ),

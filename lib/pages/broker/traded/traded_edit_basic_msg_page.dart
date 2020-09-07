@@ -1,9 +1,11 @@
 import 'dart:convert';
 import 'package:ThumbSir/common/reg.dart';
-import 'package:ThumbSir/dao/add_customer_dao.dart';
+import 'package:ThumbSir/dao/get_customer_info_dao.dart';
+import 'package:ThumbSir/dao/update_customer_dao.dart';
 import 'package:ThumbSir/model/get_customer_main_model.dart';
 import 'package:ThumbSir/model/login_result_data_model.dart';
 import 'package:ThumbSir/pages/broker/traded/my_traded_page.dart';
+import 'package:ThumbSir/pages/broker/traded/traded_detail_page.dart';
 import 'package:ThumbSir/pages/manager/traded/m_traded_page.dart';
 import 'package:ThumbSir/pages/manager/traded/s_traded_page.dart';
 import 'package:ThumbSir/widget/input.dart';
@@ -45,20 +47,11 @@ class _TradedEditBasicMsgPageState extends State<TradedEditBasicMsgPage> {
   final TextEditingController likeController=TextEditingController();
   RegExp likeReg;
   bool likeBool = false;
-  final TextEditingController msgController=TextEditingController();
-  RegExp msgReg;
-  bool msgBool = false;
-  final TextEditingController memberController=TextEditingController();
-  RegExp memberReg;
-  bool memberBool = false;
 
   String dealMinCount = "购买住宅";
   String incomeMinCount = "10万以下";
   String memberMinCount = "妻子";
   int _starIndex = 0;
-
-  List<DealInfo> deal=new List();
-  List<FamilyMember> member=new List();
 
   DateTime _selectedDate=DateTime(2010,1,1);
   DateTime _selectedBirthdayDate=DateTime(1980,1,1);
@@ -93,8 +86,6 @@ class _TradedEditBasicMsgPageState extends State<TradedEditBasicMsgPage> {
     careerReg = TextReg;
     mapReg = FeedBackReg;
     likeReg = TextReg;
-    msgReg = FeedBackReg;
-    memberReg = TextReg;
     userNameController.text = widget.item.userName;
     _starIndex = widget.item.starslevel;
     phoneNumController.text = widget.item.phone;
@@ -107,6 +98,17 @@ class _TradedEditBasicMsgPageState extends State<TradedEditBasicMsgPage> {
 
     _getUserInfo();
     super.initState();
+  }
+
+  // 防止页面销毁时内存泄漏造成性能问题
+  @override
+  void dispose(){
+    phoneNumController.dispose();
+    userNameController.dispose();
+    careerController.dispose();
+    mapController.dispose();
+    likeController.dispose();
+    super.dispose();
   }
 
   @override
@@ -539,7 +541,8 @@ class _TradedEditBasicMsgPageState extends State<TradedEditBasicMsgPage> {
                             onTap: ()async{
                               if(userNameController.text != '' && phoneNumController.text != '' && _starIndex != 0 ){
                                 _onRefresh();
-                                var addResult = await AddCustomerDao.addCustomer(
+                                var addResult = await UpdateCustomerDao.updateCustomer(
+                                    widget.item.mid.toString(),
                                     userData.companyId,
                                     userData.userPid,
                                     "5",
@@ -551,27 +554,28 @@ class _TradedEditBasicMsgPageState extends State<TradedEditBasicMsgPage> {
                                     careerController.text==null?"未知":careerController.text,
                                     incomeMinCount,
                                     likeController.text==null?"未知":likeController.text,
-                                    msgController.text==null?"未知":msgController.text,
+                                    widget.item.remark,
                                     mapController.text==null?"未知":mapController.text,
-                                    member,  // 家庭成员
-                                    deal,  // 成交历史
+                                    [],
+                                    [],
                                 );
-                                print(addResult);
                                 if (addResult.code == 200) {
                                   _onRefresh();
-                                  if (userData.userLevel.substring(0, 1) == "6") {
-                                    Navigator.push(context, MaterialPageRoute(
-                                        builder: (context) => MyTradedPage()));
+                                  var getItem = await GetCustomerInfoDao.getCustomerInfo(widget.item.mid.toString());
+                                  if(getItem.code == 200){
+                                    _onRefresh();
+                                    Navigator.push(context, MaterialPageRoute(builder: (context)=>TradedDetailPage(
+                                      item:getItem.data[0],
+                                      tabIndex: 0,
+                                    )));
+                                  }else {
+                                    _onRefresh();
+                                    _onOverLoadPressed(context);
                                   }
-                                  if (userData.userLevel.substring(0, 1) == "4") {
-                                    Navigator.push(context, MaterialPageRoute(
-                                        builder: (context) => STradedPage()));
-                                  }
-                                  if (userData.userLevel.substring(0, 1) == "5") {
-                                    Navigator.push(context, MaterialPageRoute(
-                                        builder: (context) => MTradedPage()));
-                                  }
-                                } else {
+                                } else if(addResult.code == 400){
+                                  _onRefresh();
+                                  _onPhoneRePressed(context);
+                                }else {
                                   _onRefresh();
                                   _onOverLoadPressed(context);
                                 }
@@ -642,6 +646,27 @@ class _TradedEditBasicMsgPageState extends State<TradedEditBasicMsgPage> {
       type: AlertType.error,
       title: "提交失败",
       desc: "请检查网络后重试",
+      buttons: [
+        DialogButton(
+          child: Text(
+            "确定",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () async {
+            Navigator.pop(context);
+          },
+          color: Color(0xFF5580EB),
+        ),
+      ],
+    ).show();
+  }
+
+  _onPhoneRePressed(context) {
+    Alert(
+      context: context,
+      type: AlertType.error,
+      title: "提交失败",
+      desc: "您的客户名单中已有客户使用此手机号码，每个手机号仅能对应一位客户，请更换手机号码后重试",
       buttons: [
         DialogButton(
           child: Text(

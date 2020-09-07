@@ -54,7 +54,6 @@ class AddCustomerDao{
         "FamilyMembers":familyMembers,
         "DealInfoWithCreateCustomer":dealInfoWithCreateCustomer
       };
-      print(json.encode(_body));
        final String apiUrl=api_perfix+"api/customer/AddCustomer";
        final response= await http.post(apiUrl,
            headers: {'Content-type': 'application/json'},  //告诉服务器，发送的数据类型为Json类型
@@ -69,29 +68,29 @@ class AddCustomerDao{
     }
 }
 
-//FamilyMember familyMemberFromJson(String str) => FamilyMember.fromJson(json.decode(str));
-//
-//String familyMemberToJson(FamilyMember data) => json.encode(data.toJson());
-//
-//class FamilyMember {
-//  FamilyMember({
-//    this.memberRole,
-//    this.memberHobby,
-//  });
-//
-//  String memberRole;
-//  String memberHobby;
-//
-//  factory FamilyMember.fromJson(Map<String, dynamic> json) => FamilyMember(
-//    memberRole: json["Role"] == null ? null : json["Role"],
-//    memberHobby: json["Hobby"] == null ? null : json["Hobby"],
-//  );
-//
-//  Map<String, dynamic> toJson() => {
-//    "MemberRole": memberRole == null ? null : memberRole,
-//    "MemberHobby": memberHobby == null ? null : memberHobby,
-//  };
-//}
+FamilyMember familyMemberFromJson(String str) => FamilyMember.fromJson(json.decode(str));
+
+String familyMemberToJson(FamilyMember data) => json.encode(data.toJson());
+
+class FamilyMember {
+  FamilyMember({
+    this.memberRole,
+    this.memberHobby,
+  });
+
+  String memberRole;
+  String memberHobby;
+
+  factory FamilyMember.fromJson(Map<String, dynamic> json) => FamilyMember(
+    memberRole: json["MemberRole"] == null ? null : json["MemberRole"],
+    memberHobby: json["MemberHobby"] == null ? null : json["MemberHobby"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "MemberRole": memberRole == null ? null : memberRole,
+    "MemberHobby": memberHobby == null ? null : memberHobby,
+  };
+}
 
 DealInfo dealInfoFromJson(String str) => DealInfo.fromJson(json.decode(str));
 

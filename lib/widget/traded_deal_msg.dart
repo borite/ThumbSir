@@ -124,7 +124,8 @@ class _TradedDealMsgState extends State<TradedDealMsg> with SingleTickerProvider
                                     GestureDetector(
                                       onTap: (){
                                         Navigator.push(context, MaterialPageRoute(builder: (context)=>TradedEditDealPage(
-                                          item: widget.item,
+                                          item:widget.item,
+                                          dealItem: deal[index],
                                         )));
                                       },
                                       child: Container(

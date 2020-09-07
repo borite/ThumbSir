@@ -192,7 +192,7 @@ class _QListAddPageState extends State<QListAddPage> {
                       ),
                     ),
                     Content(
-                      title: '可选的任务名称',
+                      title: '可选的任务名称（ 单选 ）',
                       child: ChipsChoice<String>.single(
                         value: tag,
                         options:  ChipsChoiceOption.listFrom<String,Datum>(
@@ -252,30 +252,59 @@ class _QListAddPageState extends State<QListAddPage> {
                               decoration: TextDecoration.none,
                             ),),
                           ),
-                          GestureDetector(
-                            onTap: (){
-                              if(itemCount >= 2){
-                                setState(() {
-                                  itemCount = itemCount - 1;
-                                });
-                              }else{}
-                            },
-                            child: Container(
-                              width: 40,
-                              height: 20,
-                              margin: EdgeInsets.only(right: 15),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                border: Border.all(color: Color(0xFF5580EB),width: 1),
+                          Column(
+                            children: <Widget>[
+                              GestureDetector(
+                                onTap: (){
+                                  if(itemCount >= 11){
+                                    setState(() {
+                                      itemCount = itemCount - 10;
+                                    });
+                                  }else{}
+                                },
+                                child: Container(
+                                  width: 50,
+                                  height: 20,
+                                  margin: EdgeInsets.only(right: 15,bottom: 10),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    border: Border.all(color: Color(0xFF5580EB),width: 1),
+                                  ),
+                                  child: Text('-10',style: TextStyle(
+                                    color: Color(0xFF5580EB),
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.normal,
+                                    decoration: TextDecoration.none,
+                                  ),textAlign: TextAlign.center,),
+                                ),
                               ),
-                              child: Text('-',style: TextStyle(
-                                color: Color(0xFF5580EB),
-                                fontSize: 14,
-                                fontWeight: FontWeight.normal,
-                                decoration: TextDecoration.none,
-                              ),textAlign: TextAlign.center,),
-                            ),
+                              GestureDetector(
+                                onTap: (){
+                                  if(itemCount >= 2){
+                                    setState(() {
+                                      itemCount = itemCount - 1;
+                                    });
+                                  }else{}
+                                },
+                                child: Container(
+                                  width: 50,
+                                  height: 20,
+                                  margin: EdgeInsets.only(right: 15),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    border: Border.all(color: Color(0xFF5580EB),width: 1),
+                                  ),
+                                  child: Text('-1',style: TextStyle(
+                                    color: Color(0xFF5580EB),
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.normal,
+                                    decoration: TextDecoration.none,
+                                  ),textAlign: TextAlign.center,),
+                                ),
+                              ),
+                            ],
                           ),
+
                           Text(
                             itemCount.toString(),
                             style: TextStyle(
@@ -284,28 +313,56 @@ class _QListAddPageState extends State<QListAddPage> {
                               fontWeight: FontWeight.normal,
                               decoration: TextDecoration.none,
                             ),),
-                          GestureDetector(
-                            onTap: (){
-                              setState(() {
-                                itemCount = itemCount + 1;
-                              });
-                            },
-                            child: Container(
-                              width: 40,
-                              height: 20,
-                              margin: EdgeInsets.only(left: 15,right: 20),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                border: Border.all(color: Color(0xFF5580EB),width: 1),
+                          Column(
+                            children: <Widget>[
+                              GestureDetector(
+                                onTap: (){
+                                  setState(() {
+                                    itemCount = itemCount + 10;
+                                  });
+                                },
+                                child: Container(
+                                  width:50,
+                                  height: 20,
+                                  margin: EdgeInsets.only(left: 15,right: 20,bottom: 10),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    border: Border.all(color: Color(0xFF5580EB),width: 1),
+                                  ),
+                                  child: Text('+10',style: TextStyle(
+                                    color: Color(0xFF5580EB),
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.normal,
+                                    decoration: TextDecoration.none,
+                                  ),textAlign: TextAlign.center,),
+                                ),
                               ),
-                              child: Text('+',style: TextStyle(
-                                color: Color(0xFF5580EB),
-                                fontSize: 14,
-                                fontWeight: FontWeight.normal,
-                                decoration: TextDecoration.none,
-                              ),textAlign: TextAlign.center,),
-                            ),
+                              GestureDetector(
+                                onTap: (){
+                                  setState(() {
+                                    itemCount = itemCount + 1;
+                                  });
+                                },
+                                child: Container(
+                                  width: 50,
+                                  height: 20,
+                                  margin: EdgeInsets.only(left: 15,right: 20),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    border: Border.all(color: Color(0xFF5580EB),width: 1),
+                                  ),
+                                  child: Text('+1',style: TextStyle(
+                                    color: Color(0xFF5580EB),
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.normal,
+                                    decoration: TextDecoration.none,
+                                  ),textAlign: TextAlign.center,),
+                                ),
+                              ),
+
+                            ],
                           ),
+
                           Padding(
                             padding: EdgeInsets.only(right: 20),
                             child: Text(chooseUnit,style: TextStyle(
@@ -545,7 +602,7 @@ class _QListAddPageState extends State<QListAddPage> {
                         padding: EdgeInsets.only(left: 20,bottom: 20),
                         child: Row(
                           children: <Widget>[
-                            Text('建议10:00~20:00的所有时间线连续，使分析结果更准确',style: TextStyle(
+                            Text('建议所有任务的时间线连续，使分析结果更准确',style: TextStyle(
                               fontSize: 10,
                               color: Color(0xFF999999),
                               fontWeight: FontWeight.normal,

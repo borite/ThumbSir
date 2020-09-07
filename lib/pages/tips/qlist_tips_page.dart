@@ -40,7 +40,6 @@ class _QListTipsPageState extends State<QListTipsPage> with SingleTickerProvider
     if(userData == null || userData.companyId == null){
       SharedPreferences prefs = await SharedPreferences.getInstance();
       prefs.remove("userInfo");
-//      prefs.remove("userID");
     }
   }
 
@@ -69,12 +68,7 @@ class _QListTipsPageState extends State<QListTipsPage> with SingleTickerProvider
               );
             }
           });
-
         }
-
-        print(msgs);
-
-//        msgList = msgResult.data;
       }
     }
   }
@@ -86,10 +80,7 @@ class _QListTipsPageState extends State<QListTipsPage> with SingleTickerProvider
     _load();
     _scrollController.addListener(() {
       // 如果滚动位置到了可滚动的最大距离，就加载更多
-      //print("1234");
       if(_scrollController.position.pixels == _scrollController.position.maxScrollExtent){
-        print("可以加载了");
-
         _load();
       }
     });
@@ -325,10 +316,10 @@ class _QListTipsPageState extends State<QListTipsPage> with SingleTickerProvider
           onPressed: ()async{
             var deleteResult = await DeleteMessageDao.deleteMessage(id.toString());
             if(deleteResult.code == 200){
-//              msgList = [];
-//              msgs=[];
               _load();
-              Navigator.pop(context);
+              Navigator.of(context).pushAndRemoveUntil(
+                  new MaterialPageRoute(builder: (context) => new Home( )
+                  ), (route) => route == null);
             }
           },
           color: Color(0xFF5580EB),

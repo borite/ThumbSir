@@ -1,9 +1,12 @@
 import 'dart:convert';
 import 'package:ThumbSir/common/reg.dart';
+import 'package:ThumbSir/dao/add_care_customer_action_dao.dart';
 import 'package:ThumbSir/dao/add_customer_dao.dart';
+import 'package:ThumbSir/dao/get_customer_info_dao.dart';
 import 'package:ThumbSir/model/get_customer_main_model.dart';
 import 'package:ThumbSir/model/login_result_data_model.dart';
 import 'package:ThumbSir/pages/broker/traded/my_traded_page.dart';
+import 'package:ThumbSir/pages/broker/traded/traded_detail_page.dart';
 import 'package:ThumbSir/pages/manager/traded/m_traded_page.dart';
 import 'package:ThumbSir/pages/manager/traded/s_traded_page.dart';
 import 'package:ThumbSir/widget/input.dart';
@@ -31,13 +34,13 @@ class _TradedAddGiftPageState extends State<TradedAddGiftPage> {
   String price;
   RegExp priceReg;
   bool priceBool;
-  final TextEditingController areaController=TextEditingController();
-  String area;
-  RegExp areaReg;
-  bool areaBool = false;
-  final TextEditingController mapController=TextEditingController();
-  RegExp mapReg;
-  bool mapBool = false;
+  final TextEditingController giftNameController=TextEditingController();
+  String giftName;
+  RegExp giftNameReg;
+  bool giftNameBool = false;
+  final TextEditingController remarkController=TextEditingController();
+  RegExp remarkReg;
+  bool remarkBool = false;
 
   String sendReason = "节日礼";
 
@@ -62,9 +65,9 @@ class _TradedAddGiftPageState extends State<TradedAddGiftPage> {
 
   @override
   void initState() {
-    mapReg = FeedBackReg;
-    priceReg = TextReg;
-    areaReg = TextReg;
+    remarkReg = TextReg;
+    priceReg = numberReg;
+    giftNameReg = TextReg;
     _getUserInfo();
     super.initState();
   }
@@ -206,13 +209,13 @@ class _TradedAddGiftPageState extends State<TradedAddGiftPage> {
                             tipText: "请输入签约时的成交价格",
                             errorTipText: "请输入签约时的成交价格",
                             rightText: "请输入签约时的成交价格",
-                            controller: priceController,
-                            inputType: TextInputType.phone,
-                            reg: priceReg,
+                            controller: giftNameController,
+                            inputType: TextInputType.text,
+                            reg: giftNameReg,
                             onChanged: (text){
                               setState(() {
-                                price = text;
-                                priceBool = priceReg.hasMatch(price);
+                                giftName = text;
+                                giftNameBool = priceReg.hasMatch(giftName);
                               });
                             },
                           ),
@@ -221,7 +224,7 @@ class _TradedAddGiftPageState extends State<TradedAddGiftPage> {
                             width: 335,
                             margin: EdgeInsets.only(top: 20),
                             child: Text(
-                              '价格：',
+                              '价格（ 单位：元 ）：',
                               style: TextStyle(
                                 fontSize: 14,
                                 color: Color(0xFF333333),
@@ -231,17 +234,17 @@ class _TradedAddGiftPageState extends State<TradedAddGiftPage> {
                             ),
                           ),
                           Input(
-                            hintText: "例如：1000元",
+                            hintText: "例如：1000",
                             tipText: "请输入购买或出售的价格",
                             errorTipText: "请输入购买或出售的价格",
                             rightText: "请输入购买或出售的价格",
-                            controller: areaController,
-                            inputType: TextInputType.phone,
-                            reg: areaReg,
+                            controller: priceController,
+                            inputType: TextInputType.number,
+                            reg: priceReg,
                             onChanged: (text){
                               setState(() {
-                                area = text;
-                                areaBool = areaReg.hasMatch(area);
+                                price = text;
+                                priceBool = priceReg.hasMatch(price);
                               });
                             },
                           ),
@@ -268,10 +271,10 @@ class _TradedAddGiftPageState extends State<TradedAddGiftPage> {
                               color: Colors.white,
                             ),
                             child: TextField(
-                              controller: mapController,
+                              controller: remarkController,
                               autofocus: false,
                               keyboardType: TextInputType.multiline,
-                              onChanged: _onMapChanged,
+                              onChanged: _onRemarkChanged,
                               maxLines: null,
                               style: TextStyle(
                                 fontSize: 14,
@@ -280,7 +283,7 @@ class _TradedAddGiftPageState extends State<TradedAddGiftPage> {
                                 decoration: TextDecoration.none,
                               ),
                               decoration: InputDecoration(
-                                hintText:'请输入维护描述，5~300字',
+                                hintText:'请输入维护描述',
                                 contentPadding: EdgeInsets.all(10),
                                 border: InputBorder.none,
                               ),
@@ -290,48 +293,31 @@ class _TradedAddGiftPageState extends State<TradedAddGiftPage> {
                           // 完成
                           GestureDetector(
                             onTap: ()async{
-//                              if(userNameBool == true && phoneBool == true && _starIndex != 0 ){
-//                                _onRefresh();
-//                                var addResult = await AddCustomerDao.addCustomer(
-//                                    userData.companyId,
-//                                    userData.userPid,
-//                                    "5",
-//                                    userNameController.text,
-//                                    _radioGroupA.toString(),
-//                                    phoneNumController.text,
-//                                    _selectedBirthdayDate.toIso8601String(),
-//                                    _starIndex.toString(),
-//                                    careerController.text==null?"未知":careerController.text,
-//                                    incomeMinCount,
-//                                    likeController.text==null?"未知":likeController.text,
-//                                    msgController.text==null?"未知":msgController.text,
-//                                    mapController.text==null?"未知":mapController.text,
-//                                    member,  // 家庭成员
-//                                    deal,  // 成交历史
-//                                );
-//                                print(addResult);
-//                                if (addResult.code == 200) {
-//                                  _onRefresh();
-//                                  if (userData.userLevel.substring(0, 1) == "6") {
-//                                    Navigator.push(context, MaterialPageRoute(
-//                                        builder: (context) => MyTradedPage()));
-//                                  }
-//                                  if (userData.userLevel.substring(0, 1) == "4") {
-//                                    Navigator.push(context, MaterialPageRoute(
-//                                        builder: (context) => STradedPage()));
-//                                  }
-//                                  if (userData.userLevel.substring(0, 1) == "5") {
-//                                    Navigator.push(context, MaterialPageRoute(
-//                                        builder: (context) => MTradedPage()));
-//                                  }
-//                                } else {
-//                                  _onRefresh();
-//                                  _onOverLoadPressed(context);
-//                                }
-//                              }else{
-//                                // 必填信息不完整的弹窗
-//                                _onMsgPressed(context);
-//                              }
+                              _onRefresh();
+                              var addResult = await AddCareCustomerActionDao.addCareAction(
+                                  widget.item.mid.toString(),
+                                  sendReason,
+                                  giftNameController.text,
+                                  remarkController.text,
+                                  priceController.text.toString(),
+                                  _selectedDate.toIso8601String(),
+                              );
+                              if(addResult.code == 200){
+                                var getItem = await GetCustomerInfoDao.getCustomerInfo(widget.item.mid.toString());
+                                if(getItem.code == 200){
+                                  _onRefresh();
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>TradedDetailPage(
+                                    item:getItem.data[0],
+                                    tabIndex: 2,
+                                  )));
+                                }else {
+                                  _onRefresh();
+                                  _onOverLoadPressed(context);
+                                }
+                              }else {
+                                _onRefresh();
+                                _onOverLoadPressed(context);
+                              }
                             },
                             child: Container(
                                 width: 335,
@@ -369,12 +355,33 @@ class _TradedAddGiftPageState extends State<TradedAddGiftPage> {
       _loading = !_loading;
     });
   }
-  _onMapChanged(String text){
+  _onRemarkChanged(String text){
     if(text != null){
       setState(() {
-        mapBool = mapReg.hasMatch(mapController.text);
+        remarkBool = remarkReg.hasMatch(remarkController.text);
       });
     }
+  }
+
+  _onOverLoadPressed(context) {
+    Alert(
+      context: context,
+      type: AlertType.error,
+      title: "提交失败",
+      desc: "请检查网络后重试",
+      buttons: [
+        DialogButton(
+          child: Text(
+            "确定",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () async {
+            Navigator.pop(context);
+          },
+          color: Color(0xFF5580EB),
+        ),
+      ],
+    ).show();
   }
 }
 

@@ -1,5 +1,7 @@
 import 'package:ThumbSir/pages/broker/qlist/qlist_list_page.dart';
 import 'package:ThumbSir/pages/broker/qlist/qlist_page.dart';
+import 'package:ThumbSir/pages/broker/traded/traded_detail_page.dart';
+import 'package:ThumbSir/pages/broker/traded/traded_edit_family_member_page.dart';
 import 'package:ThumbSir/pages/major/qlist/major_qlist_page.dart';
 import 'package:ThumbSir/pages/manager/qlist/manager_qlist_page.dart';
 import 'package:ThumbSir/pages/manager/qlist/s_qlist_page.dart';
@@ -25,6 +27,7 @@ class MyApp extends StatelessWidget{
         "m_q_list":(context) => ManagerQListPage(),
         "s_q_list":(context) => SQListPage(),
         "l_q_list":(context) => MajorQListPage(),
+        "traded_detail":(context) => TradedDetailPage(),
 
       },
     );

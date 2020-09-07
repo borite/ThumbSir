@@ -62,7 +62,7 @@ class _TradedAddDealPageState extends State<TradedAddDealPage> {
 
   @override
   void initState() {
-    mapReg = FeedBackReg;
+    mapReg = TextReg;
     priceReg = TextReg;
     areaReg = TextReg;
     _getUserInfo();
@@ -280,7 +280,7 @@ class _TradedAddDealPageState extends State<TradedAddDealPage> {
                                 decoration: TextDecoration.none,
                               ),
                               decoration: InputDecoration(
-                                hintText:'请输入成交房屋、公寓等的地址，5~300字',
+                                hintText:'请输入成交房屋、公寓等的地址',
                                 contentPadding: EdgeInsets.all(10),
                                 border: InputBorder.none,
                               ),

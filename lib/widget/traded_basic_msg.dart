@@ -431,7 +431,7 @@ class _TradedBasicMsgState extends State<TradedBasicMsg> with SingleTickerProvid
                         ],
                       ),
                     ),
-                    member.length>0?
+                    member.length != 0?
                     Container(
                       margin: EdgeInsets.only(bottom: 20),
                       height: 150,
@@ -446,7 +446,7 @@ class _TradedBasicMsgState extends State<TradedBasicMsg> with SingleTickerProvid
                                 child: Row(
                                   children: <Widget>[
                                     Text(
-                                      member[index].memberRole+" — ",
+                                      member[index].memberRole + " — ",
                                       style: TextStyle(
                                         fontSize: 14,
                                         color: Color(0xFF666666),

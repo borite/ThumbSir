@@ -433,8 +433,7 @@ class _SigninChooseAreaPageState extends State<SigninChooseAreaPage> {
                                     if(userData != null && userData.companyId != null && userData.userLevel != null){
                                       await UnBindMemberDao.unbind(userId, userData.userLevel.substring(0,1), userData.companyId);
                                     }
-                                    await setSecionDao.httpPostSection(companyId, previousLevel, levelOneController.text);
-                                    var regResult = await finishRegDao.httpPostFinishReg(userId, widget.companyId, selValue, levelOneController.text );
+                                    var regResult = await finishRegDao.httpPostFinishReg(userId, widget.companyId, selValue, levelTwoController.text );
                                     if(regResult.code == 410){
                                       _onReg410AlertPressed(context);
                                     }

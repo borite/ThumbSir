@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:ThumbSir/dao/delete_customer_dao.dart';
 import 'package:ThumbSir/model/login_result_data_model.dart';
 import 'package:ThumbSir/pages/manager/traded/m_traded_page.dart';
@@ -15,9 +14,10 @@ import 'my_traded_page.dart';
 
 class TradedDetailPage extends StatefulWidget {
   final item;
+  final tabIndex;
 
   TradedDetailPage({Key key,
-    this.item
+    this.item,this.tabIndex
   }):super(key:key);
   @override
   _TradedDetailPageState createState() => _TradedDetailPageState();
@@ -49,6 +49,7 @@ class _TradedDetailPageState extends State<TradedDetailPage> with TickerProvider
   @override
   void initState() {
     _getUserInfo();
+    tabIndex = widget.tabIndex;
     _controller = TabController(length: 3,vsync: this);
     tabs = <Tab>[
       Tab(text: '基本信息',),

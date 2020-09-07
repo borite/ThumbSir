@@ -269,7 +269,7 @@ class _BrokerCenterGroupPageState extends State<BrokerCenterGroupPage> {
                                         child: ClipRRect(
                                           borderRadius: BorderRadius.circular(40),
                                           child: Image(
-                                            image: leaderAndMemberResult.data.leader.headImg != null?
+                                            image: leaderAndMemberResult.data.leader != null && leaderAndMemberResult.data.leader.headImg != null?
                                             NetworkImage(leaderAndMemberResult.data.leader.headImg)
                                             :
                                             AssetImage('images/my_big.png'),
@@ -291,7 +291,7 @@ class _BrokerCenterGroupPageState extends State<BrokerCenterGroupPage> {
                                           child: Padding(
                                             padding: EdgeInsets.only(top:2,left:5,right: 5),
                                             child: Text(
-                                              leaderAndMemberResult.data.leader.userLevel != null?leaderAndMemberResult.data.leader.userLevel.substring(2,):'店长',
+                                              leaderAndMemberResult.data.leader != null && leaderAndMemberResult.data.leader.userLevel != null?leaderAndMemberResult.data.leader.userLevel.substring(2,):'店长',
                                               style: TextStyle(
                                                 fontSize: 10,
                                                 color: Color(0xFF24CC8E),
@@ -315,7 +315,7 @@ class _BrokerCenterGroupPageState extends State<BrokerCenterGroupPage> {
                                       Row(
                                         children: <Widget>[
                                           Text(
-                                            leaderAndMemberResult.data== null?'':leaderAndMemberResult.data.leader.userName,
+                                            leaderAndMemberResult.data== null || leaderAndMemberResult.data.leader == null || leaderAndMemberResult.data.leader.userName == null ?'':leaderAndMemberResult.data.leader.userName,
                                             style:TextStyle(
                                               fontSize: 14,
                                               color: Color(0xFF333333),
@@ -323,7 +323,7 @@ class _BrokerCenterGroupPageState extends State<BrokerCenterGroupPage> {
                                               decoration: TextDecoration.none,
                                             ),
                                           ),
-                                          leaderAndMemberResult.data.leader.isVip== false?
+                                          leaderAndMemberResult.data.leader != null && leaderAndMemberResult.data.leader.isVip== false?
                                           Container(width: 1,):
                                           Container(
                                             width: 22,
@@ -336,7 +336,7 @@ class _BrokerCenterGroupPageState extends State<BrokerCenterGroupPage> {
                                         width: 200,
                                         padding: EdgeInsets.only(top: 10),
                                         child: Text(
-                                          leaderAndMemberResult.data== null?'':leaderAndMemberResult.data.leader.phone,
+                                          leaderAndMemberResult.data== null || leaderAndMemberResult.data.leader == null?'':leaderAndMemberResult.data.leader.phone,
                                           style:TextStyle(
                                             fontSize: 10,
                                             color: Color(0xFF999999),

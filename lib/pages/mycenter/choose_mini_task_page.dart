@@ -131,7 +131,7 @@ class _ChooseMiniTaskPageState extends State<ChooseMiniTaskPage> {
                       )
                   ),
                   Content(
-                    title: '可选的任务名称',
+                    title: '可选的任务名称（ 多选 ）',
                     child: FormField<List<String>>(
                       autovalidate: true,
                       initialValue: tags,

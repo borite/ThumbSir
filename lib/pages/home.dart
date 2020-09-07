@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:ThumbSir/dao/get_message_dao.dart';
+import 'package:ThumbSir/dao/token_check_dao.dart';
 import 'package:ThumbSir/model/login_result_data_model.dart';
 import 'package:ThumbSir/model/get_message_model.dart';
 import 'package:ThumbSir/pages/broker/qlist/qlist_page.dart';
@@ -34,20 +35,28 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin{
   LoginResultData userData;
   String uinfo;
   var result;
+  var token;
 
   _getUserInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    uinfo= prefs.getString("userInfo");
-    if(uinfo != null){
-      result =loginResultDataFromJson(uinfo);
+    uinfo = prefs.getString("userInfo");
+    if (uinfo != null) {
+      result = loginResultDataFromJson(uinfo);
       this.setState(() {
-        userData=LoginResultData.fromJson(json.decode(uinfo));
+        token = LoginResultData.fromJson(json.decode(uinfo)).token;
       });
     }
-    if(userData == null || userData.companyId == null){
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      prefs.remove("userInfo");
-//      prefs.remove("userID");
+    if (userData == null || userData.companyId == null) {
+      var tokenResult = await TokenCheckDao.tokenCheck(token);
+      if (tokenResult.code == 200) {
+        String dataStr = json.encode(tokenResult.data);
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.setString("userInfo", dataStr);
+        prefs.setString('userID', tokenResult.data.userPid);
+        this.setState(() {
+          userData = LoginResultData.fromJson(json.decode(uinfo));
+        });
+      }
     }
   }
 
@@ -154,7 +163,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin{
                                         children: <Widget>[
                                           Text(
                                             userData == null ?
-                                            '你好！请登录':'你好！'+userData.userName,
+                                            '你好！点这里登录/注册':'你好！'+userData.userName,
                                             style: TextStyle(
                                               fontSize: 20,
                                               color: Colors.white,
@@ -325,7 +334,6 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin{
                                                         Navigator.push(context, MaterialPageRoute(builder: (context)=>STradedPage()));
                                                       }
                                                       if(result.userLevel.substring(0,1)=="1"||result.userLevel.substring(0,1)=="2"||result.userLevel.substring(0,1)=="3"){
-//                                                        Navigator.push(context, MaterialPageRoute(builder: (context)=>MajorBrokerPage()));
                                                         Navigator.push(context, MaterialPageRoute(builder: (context)=>TeamTradedPage()));
                                                       }
                                                     }else{

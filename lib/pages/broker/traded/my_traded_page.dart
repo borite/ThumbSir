@@ -21,6 +21,9 @@ class MyTradedPage extends StatefulWidget {
 }
 
 class _MyTradedPageState extends State<MyTradedPage> {
+  var pageIndex=0;
+  ScrollController _scrollController = ScrollController();
+
   bool _loading = false;
   var ageValue;
   var monthValue;
@@ -119,32 +122,36 @@ class _MyTradedPageState extends State<MyTradedPage> {
 
   _load() async {
     if(userData != null ){
+      pageIndex ++ ;
       var customersResult = await GetCustomerMainDao.getCustomerMain(
         userData.userPid,
         "5",
+        pageIndex.toString(),
+        '20',
       );
 
       if (customersResult.code == 200) {
         customersList = customersResult.data;
         if (customersList.length>0) {
-
-          for (var item in customersList) {
-            customersShowList.add(
-              TradedItem(
-                name:item.userName,
-                star:item.starslevel,
-                gender:item.sex,
-                age:item.age,
-                phone:item.phone,
-                birthday:item.birthday.toString().substring(0,10),
-                firstDealReason: item.dealList.length > 0 ?item.dealList[0].dealReason:null,
-                firstDealTime: item.dealList.length > 0 ? item.dealList[0].finishTime.toIso8601String().substring(0,10):null,
-                secondDealReason: item.dealList.length > 1 ?item.dealList[1].dealReason:null,
-                ssecondDealTime: item.dealList.length > 1 ?item.dealList[1].finishTime.toIso8601String().substring(0,10):null,
-                item:item
-              ),
-            );
-          }
+          setState(() {
+            for (var item in customersList) {
+              customersShowList.add(
+                TradedItem(
+                    name:item.userName,
+                    star:item.starslevel,
+                    gender:item.sex,
+                    age:item.age,
+                    phone:item.phone,
+                    birthday:item.birthday.toString().substring(0,10),
+                    firstDealReason: item.dealList.length > 0 ?item.dealList[0].dealReason:null,
+                    firstDealTime: item.dealList.length > 0 ? item.dealList[0].finishTime.toIso8601String().substring(0,10):null,
+                    secondDealReason: item.dealList.length > 1 ?item.dealList[1].dealReason:null,
+                    ssecondDealTime: item.dealList.length > 1 ?item.dealList[1].finishTime.toIso8601String().substring(0,10):null,
+                    item:item
+                ),
+              );
+            }
+          });
         }
         setState(() {
           customers=customersShowList;
@@ -160,6 +167,19 @@ class _MyTradedPageState extends State<MyTradedPage> {
     super.initState();
     searchReg = TextReg;
     _getUserInfo();
+    _scrollController.addListener(() {
+      // 如果滚动位置到了可滚动的最大距离，就加载更多
+      if(_scrollController.position.pixels == _scrollController.position.maxScrollExtent){
+        print("可以加载了");
+        _load();
+      }
+    });
+  }
+
+  @override
+  void dispose(){
+    _scrollController.dispose();
+    super.dispose();
   }
 
   @override
@@ -447,9 +467,18 @@ class _MyTradedPageState extends State<MyTradedPage> {
                             margin: EdgeInsets.only(bottom: 60),
                               child:
                               customersList!=null && customersList.length != 0 && customers != []?
-                              Column(
-                                children: customers,
+                              ListView.builder(
+                                controller: _scrollController,
+//                                padding: EdgeInsets.only(top: 0,bottom: 10),
+                                shrinkWrap: true,
+                                itemCount: customers.length,
+                                itemBuilder: (BuildContext context,int index){
+                                  return customers[index];
+                                },
                               )
+//                              Column(
+//                                children: customers,
+//                              )
                                   :
                               Container(
                                   alignment: Alignment.center,

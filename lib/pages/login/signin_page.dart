@@ -4,6 +4,7 @@ import 'package:ThumbSir/pages/login/signin_choose_company_page.dart';
 import 'package:ThumbSir/pages/mycenter/legal_notice_page.dart';
 import 'package:ThumbSir/pages/mycenter/privacy_statement_page.dart';
 import 'package:ThumbSir/pages/mycenter/service_agreement_page.dart';
+import 'package:ThumbSir/pages/mycenter/signin_finish_page.dart';
 import 'package:ThumbSir/widget/input.dart';
 import 'package:ThumbSir/widget/loading.dart';
 import 'package:ThumbSir/widget/yzminput.dart';
@@ -312,7 +313,7 @@ class _SigninNameAndPhonePageState extends State<SigninNameAndPhonePage> {
                                         if(result.code==200) {
                                           SharedPreferences prefs = await SharedPreferences.getInstance();
                                           prefs.setString('userID', result.data);
-                                          Navigator.push(context, MaterialPageRoute(builder: (context)=>SigninChooseCompanyPage()));
+                                          Navigator.push(context, MaterialPageRoute(builder: (context)=>SigninFinishPage()));
                                         }else if(result.code == 403){
                                           _on403AlertPressed(context);
                                         }

@@ -8,3 +8,4 @@ final RegExp TextReg = new RegExp(r"^[A-Za-z0-9\u4e00-\u9fa5]+$");  // 文本，
 final RegExp CreditCodeReg = new RegExp(r"^[A-Za-z0-9]{18}$");  // 社会统一信用代码
 final RegExp FeedBackReg = new RegExp(r"^\S{5,300}$"); // 意见反馈，5~300个汉字、字母或数字,或者包含5~300个汉字
 final RegExp taskReg = new RegExp(r"^[A-Za-z0-9\u4e00-\u9fa5]{1,5}$"); // 1~5个字或字母（汉字、字母、数字）
+final RegExp numberReg = new RegExp(r"^\d{1,10}$"); // 价格验证，1~10位数字

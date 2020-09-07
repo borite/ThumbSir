@@ -1,12 +1,6 @@
 import 'package:ThumbSir/pages/login/login_page.dart';
-import 'package:ThumbSir/pages/login/signin_choose_company_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:ThumbSir/model/sendverifycode_model.dart';
-import 'package:ThumbSir/dao/send_verify_code_dao.dart';
-import 'package:ThumbSir/dao/signin_dao.dart';
-import 'package:ThumbSir/model/userreg_model.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class ChangeCodeFinishPage extends StatefulWidget {
   @override

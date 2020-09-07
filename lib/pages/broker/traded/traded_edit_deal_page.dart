@@ -1,9 +1,11 @@
 import 'dart:convert';
 import 'package:ThumbSir/common/reg.dart';
 import 'package:ThumbSir/dao/add_customer_dao.dart';
+import 'package:ThumbSir/dao/delete_deal_info_dao.dart';
 import 'package:ThumbSir/model/get_customer_main_model.dart';
 import 'package:ThumbSir/model/login_result_data_model.dart';
 import 'package:ThumbSir/pages/broker/traded/my_traded_page.dart';
+import 'package:ThumbSir/pages/broker/traded/traded_detail_page.dart';
 import 'package:ThumbSir/pages/manager/traded/m_traded_page.dart';
 import 'package:ThumbSir/pages/manager/traded/s_traded_page.dart';
 import 'package:ThumbSir/widget/input.dart';
@@ -16,9 +18,10 @@ import 'package:rflutter_alert/rflutter_alert.dart';
 
 class TradedEditDealPage extends StatefulWidget {
   final item;
+  final dealItem;
 
   TradedEditDealPage({Key key,
-    this.item
+    this.item,this.dealItem
   }):super(key:key);
   @override
   _TradedEditDealPageState createState() => _TradedEditDealPageState();
@@ -62,9 +65,12 @@ class _TradedEditDealPageState extends State<TradedEditDealPage> {
 
   @override
   void initState() {
-    mapReg = FeedBackReg;
+    mapReg = TextReg;
     priceReg = TextReg;
     areaReg = TextReg;
+    priceController.text = widget.dealItem.dealPrice.toString();
+    areaController.text = widget.dealItem.dealArea == "0"?"":widget.dealItem.dealArea;
+    mapController.text = widget.dealItem.address == "-"?"":widget.dealItem.address;
     _getUserInfo();
     super.initState();
   }
@@ -142,7 +148,7 @@ class _TradedEditDealPageState extends State<TradedEditDealPage> {
                           Container(
                             width: 335,
                             child: Text(
-                              '成交原因：',
+                              '成交原因（ 修改前原因为'+widget.dealItem.dealReason+' ）：',
                               style: TextStyle(
                                 fontSize: 14,
                                 color: Color(0xFF333333),
@@ -180,7 +186,7 @@ class _TradedEditDealPageState extends State<TradedEditDealPage> {
                           Container(
                             width: 335,
                             child: Text(
-                              '成交时间：',
+                              '成交时间（ 修改前成交时间为'+widget.dealItem.finishTime.toString().substring(0,10)+' ）：',
                               style: TextStyle(
                                 fontSize: 14,
                                 color: Color(0xFF333333),
@@ -297,7 +303,7 @@ class _TradedEditDealPageState extends State<TradedEditDealPage> {
                                 decoration: TextDecoration.none,
                               ),
                               decoration: InputDecoration(
-                                hintText:'请输入成交房屋、公寓等的地址，5~300字',
+                                hintText:'请输入成交房屋、公寓等的地址',
                                 contentPadding: EdgeInsets.all(10),
                                 border: InputBorder.none,
                               ),
@@ -406,23 +412,15 @@ class _TradedEditDealPageState extends State<TradedEditDealPage> {
             style: TextStyle(color: Colors.white, fontSize: 20),
           ),
           onPressed: () async {
-//            var deleteResult = await DeleteCustomerDao.deleteCustomer(
-//                widget.item.mid.toString()
-//            );
-//            if (deleteResult.code == 200) {
-//              if (userData.userLevel.substring(0, 1) == "6") {
-//                Navigator.push(context, MaterialPageRoute(
-//                    builder: (context) => MyTradedPage()));
-//              }
-//              if (userData.userLevel.substring(0, 1) == "4") {
-//                Navigator.push(context, MaterialPageRoute(
-//                    builder: (context) => STradedPage()));
-//              }
-//              if (userData.userLevel.substring(0, 1) == "5") {
-//                Navigator.push(context, MaterialPageRoute(
-//                    builder: (context) => MTradedPage()));
-//              }
-//            }
+            var deleteResult = await DeleteDealInfoDao.deleteDealInfo(
+                widget.dealItem.id.toString()
+            );
+            if (deleteResult.code == 200) {
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>TradedDetailPage(
+                item:widget.item,
+                tabIndex: 1,
+              )));
+            }
           },
           color: Color(0xFF5580EB),
         ),

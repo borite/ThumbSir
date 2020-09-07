@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:ThumbSir/common/reg.dart';
 import 'package:ThumbSir/dao/add_customer_dao.dart';
-import 'package:ThumbSir/model/get_customer_main_model.dart';
 import 'package:ThumbSir/model/login_result_data_model.dart';
 import 'package:ThumbSir/pages/broker/traded/my_traded_page.dart';
 import 'package:ThumbSir/pages/manager/traded/m_traded_page.dart';
@@ -1020,8 +1019,6 @@ class _TradedAddPageState extends State<TradedAddPage> {
             style: TextStyle(color: Colors.white, fontSize: 20),
           ),
           onPressed: () async {
-            print(memberMinCount);
-            print(memberController.text);
             setState(() {
               var m=new FamilyMember(memberRole: memberMinCount,memberHobby: memberController.text);
               member.add(m);

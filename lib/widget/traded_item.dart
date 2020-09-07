@@ -697,7 +697,8 @@ class _TradedItemState extends State<TradedItem> with SingleTickerProviderStateM
             child: GestureDetector(
               onTap: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context)=>TradedDetailPage(
-                  item:widget.item
+                  item:widget.item,
+                  tabIndex: 0,
                 )));
               },
               child: Container(

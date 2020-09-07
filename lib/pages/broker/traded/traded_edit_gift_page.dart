@@ -63,7 +63,7 @@ class _TradedEditGiftPageState extends State<TradedEditGiftPage> {
   @override
   void initState() {
     mapReg = FeedBackReg;
-    priceReg = TextReg;
+    priceReg = numberReg;
     areaReg = TextReg;
     _getUserInfo();
     super.initState();
@@ -224,7 +224,7 @@ class _TradedEditGiftPageState extends State<TradedEditGiftPage> {
                             errorTipText: "请输入签约时的成交价格",
                             rightText: "请输入签约时的成交价格",
                             controller: priceController,
-                            inputType: TextInputType.phone,
+                            inputType: TextInputType.number,
                             reg: priceReg,
                             onChanged: (text){
                               setState(() {
@@ -238,7 +238,7 @@ class _TradedEditGiftPageState extends State<TradedEditGiftPage> {
                             width: 335,
                             margin: EdgeInsets.only(top: 20),
                             child: Text(
-                              '价格：',
+                              '价格（ 单位：元 ）：',
                               style: TextStyle(
                                 fontSize: 14,
                                 color: Color(0xFF333333),
@@ -248,7 +248,7 @@ class _TradedEditGiftPageState extends State<TradedEditGiftPage> {
                             ),
                           ),
                           Input(
-                            hintText: "例如：1000元",
+                            hintText: "例如：1000",
                             tipText: "请输入购买或出售的价格",
                             errorTipText: "请输入购买或出售的价格",
                             rightText: "请输入购买或出售的价格",
