@@ -18,12 +18,13 @@ class TradedItem extends StatefulWidget {
   final firstDealTime;
   final secondDealReason;
   final ssecondDealTime;
+  final giftList;
   final item;
 
   TradedItem({Key key,
     this.name,this.star,this.gender,this.age,this.phone,this.birthday,
     this.firstDealReason,this.firstDealTime,this.secondDealReason,this.ssecondDealTime,
-    this.item
+    this.item,this.giftList,
   }):super(key:key);
   @override
   _TradedItemState createState() => _TradedItemState();
@@ -586,7 +587,9 @@ class _TradedItemState extends State<TradedItem> with SingleTickerProviderStateM
                           child: Row(
                             children: <Widget>[
                               Text(
-                                "2017-08-12成交礼：",
+                                widget.giftList.length >0 ?
+                                widget.giftList[0].addTime.toString().substring(0,10) + widget.giftList[0].giftReason+"："
+                                :"暂无维护动作",
                                 style: TextStyle(
                                   fontSize: 14,
                                   color: Color(0xFF5580EB),
@@ -596,7 +599,9 @@ class _TradedItemState extends State<TradedItem> with SingleTickerProviderStateM
                               ),
                               Expanded(
                                 child: Text(
-                                  "10000元爱马仕的全自动按摩椅1个",
+                                  widget.giftList.length >0?
+                                      widget.giftList[0].giftPrice.toString()+"元"+widget.giftList[0].giftName
+                                  :"",
                                   style: TextStyle(
                                     fontSize: 14,
                                     color: Color(0xFF5580EB),
@@ -613,7 +618,9 @@ class _TradedItemState extends State<TradedItem> with SingleTickerProviderStateM
                             child: Row(
                               children: <Widget>[
                                 Text(
-                                  "2017-08-12成交礼：",
+                                  widget.giftList.length >1 ?
+                                  widget.giftList[1].addTime.toString().substring(0,10) + widget.giftList[1].giftReason+"："
+                                      :"",
                                   style: TextStyle(
                                     fontSize: 14,
                                     color: Color(0xFF5580EB),
@@ -623,7 +630,9 @@ class _TradedItemState extends State<TradedItem> with SingleTickerProviderStateM
                                 ),
                                 Expanded(
                                   child: Text(
-                                    "10000元爱马仕的全自动按摩椅1个",
+                                    widget.giftList.length >1?
+                                    widget.giftList[1].giftPrice.toString()+"元"+widget.giftList[1].giftName
+                                        :"",
                                     style: TextStyle(
                                       fontSize: 14,
                                       color: Color(0xFF5580EB),

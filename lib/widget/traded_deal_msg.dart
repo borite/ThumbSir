@@ -22,12 +22,6 @@ class _TradedDealMsgState extends State<TradedDealMsg> with SingleTickerProvider
     super.initState();
   }
 
-
-//  @override
-//  void dispose(){
-//    super.dispose();
-//  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -179,7 +173,7 @@ class _TradedDealMsgState extends State<TradedDealMsg> with SingleTickerProvider
                                       ),
                                     ),
                                     Text(
-                                      deal[index].dealPrice == 0?"未知":deal[index].dealPrice.toString(),
+                                      deal[index].dealPrice == 0 || deal[index].dealPrice == null ?"未知":deal[index].dealPrice.toString()+"万元",
                                       style: TextStyle(
                                         fontSize: 14,
                                         color: Color(0xFF666666),
@@ -205,7 +199,7 @@ class _TradedDealMsgState extends State<TradedDealMsg> with SingleTickerProvider
                                       ),
                                     ),
                                     Text(
-                                      deal[index].dealArea == "0"?"未知":deal[index].dealArea,
+                                      deal[index].dealArea == "0" || deal[index].dealArea == null ?"未知":deal[index].dealArea+"平米",
                                       style: TextStyle(
                                         fontSize: 14,
                                         color: Color(0xFF666666),
@@ -218,7 +212,7 @@ class _TradedDealMsgState extends State<TradedDealMsg> with SingleTickerProvider
                               ),
                               // 地址
                               Container(
-                                margin: EdgeInsets.only(left: 20,top: 10,right: 20,bottom: 10),
+                                margin: EdgeInsets.only(left: 20,top: 10,right: 20,bottom: 0),
                                 child: Row(
                                   children: <Widget>[
                                     Text(
@@ -232,7 +226,35 @@ class _TradedDealMsgState extends State<TradedDealMsg> with SingleTickerProvider
                                     ),
                                     Expanded(
                                       child: Text(
-                                        deal[index].address,
+                                        deal[index].address == "" || deal[index].address == null?"未知":deal[index].address,
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          color: Color(0xFF666666),
+                                          decoration: TextDecoration.none,
+                                          fontWeight: FontWeight.normal,
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                              // 备注
+                              Container(
+                                margin: EdgeInsets.only(left: 20,top: 10,right: 20,bottom: 10),
+                                child: Row(
+                                  children: <Widget>[
+                                    Text(
+                                      "备注：",
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        color: Color(0xFF666666),
+                                        decoration: TextDecoration.none,
+                                        fontWeight: FontWeight.normal,
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: Text(
+                                        deal[index].dealRemark == "" || deal[index].dealRemark == null?"未填写":deal[index].dealRemark,
                                         style: TextStyle(
                                           fontSize: 14,
                                           color: Color(0xFF666666),

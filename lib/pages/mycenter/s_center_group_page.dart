@@ -281,7 +281,7 @@ class _SCenterGroupPageState extends State<SCenterGroupPage> {
                                           fontWeight: FontWeight.normal,
                                         ),),
                                       ),
-                                      userData.userIsVip == true?
+                                      userData != null && userData.userIsVip == true?
                                       Container(
                                         width: 22,
                                         margin: EdgeInsets.only(top: 5),

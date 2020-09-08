@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:ThumbSir/common/reg.dart';
+import 'package:ThumbSir/dao/get_care_action_dao.dart';
 import 'package:ThumbSir/dao/get_customer_main_dao.dart';
 import 'package:ThumbSir/model/get_customer_main_model.dart';
 import 'package:ThumbSir/model/login_result_data_model.dart';
@@ -133,25 +134,26 @@ class _MyTradedPageState extends State<MyTradedPage> {
       if (customersResult.code == 200) {
         customersList = customersResult.data;
         if (customersList.length>0) {
-          setState(() {
-            for (var item in customersList) {
-              customersShowList.add(
-                TradedItem(
-                    name:item.userName,
-                    star:item.starslevel,
-                    gender:item.sex,
-                    age:item.age,
-                    phone:item.phone,
-                    birthday:item.birthday.toString().substring(0,10),
-                    firstDealReason: item.dealList.length > 0 ?item.dealList[0].dealReason:null,
-                    firstDealTime: item.dealList.length > 0 ? item.dealList[0].finishTime.toIso8601String().substring(0,10):null,
-                    secondDealReason: item.dealList.length > 1 ?item.dealList[1].dealReason:null,
-                    ssecondDealTime: item.dealList.length > 1 ?item.dealList[1].finishTime.toIso8601String().substring(0,10):null,
-                    item:item
-                ),
-              );
-            }
-          });
+          for (var item in customersList) {
+            var giftResult = await GetCareActionDao.httpGetCareAction(item.mid.toString(), "1", "2");
+            var giftList = giftResult.data;
+            customersShowList.add(
+              TradedItem(
+                  name:item.userName,
+                  star:item.starslevel,
+                  gender:item.sex,
+                  age:item.age,
+                  phone:item.phone,
+                  birthday:item.birthday.toString().substring(0,10),
+                  firstDealReason: item.dealList.length > 0 ?item.dealList[0].dealReason:null,
+                  firstDealTime: item.dealList.length > 0 ? item.dealList[0].finishTime.toIso8601String().substring(0,10):null,
+                  secondDealReason: item.dealList.length > 1 ?item.dealList[1].dealReason:null,
+                  ssecondDealTime: item.dealList.length > 1 ?item.dealList[1].finishTime.toIso8601String().substring(0,10):null,
+                  giftList: giftList,
+                  item:item
+              ),
+            );
+          };
         }
         setState(() {
           customers=customersShowList;

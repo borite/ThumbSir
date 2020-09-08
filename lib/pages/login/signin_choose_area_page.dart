@@ -289,7 +289,7 @@ class _SigninChooseAreaPageState extends State<SigninChooseAreaPage> {
                           ]),
                         ),
                       ):Text(''),
-                      // 填写区域2
+                      // 填写上级区域
                       currentLevelCount != 6?
                       Padding(
                         padding: EdgeInsets.only(top:20,left: 20),
@@ -465,7 +465,6 @@ class _SigninChooseAreaPageState extends State<SigninChooseAreaPage> {
                                           setState(() {
                                             leaderId = leader.data.userPid;
                                             leaderName = leader.data.userName;
-
                                           });
                                           _onChooseLeaderAlertPressed(context);
                                         }

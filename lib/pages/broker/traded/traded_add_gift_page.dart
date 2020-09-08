@@ -324,7 +324,14 @@ class _TradedAddGiftPageState extends State<TradedAddGiftPage> {
                                 height: 40,
                                 padding: EdgeInsets.all(4),
                                 margin: EdgeInsets.only(bottom: 50,top: 40),
-                                decoration: BoxDecoration(
+                                decoration: giftNameController.text == null ||giftNameController.text ==""|| priceController.text == null || priceController.text==""?
+                                BoxDecoration(
+                                    border: Border.all(width: 1,color: Color(0xFF93C0FB)),
+                                    borderRadius: BorderRadius.circular(8),
+                                    color: Color(0xFF93C0FB)
+                                )
+                                :
+                                BoxDecoration(
                                     border: Border.all(width: 1,color: Color(0xFF5580EB)),
                                     borderRadius: BorderRadius.circular(8),
                                     color: Color(0xFF5580EB)

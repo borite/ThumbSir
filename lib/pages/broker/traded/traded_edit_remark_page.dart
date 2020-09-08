@@ -1,16 +1,12 @@
 import 'dart:convert';
 import 'package:ThumbSir/common/reg.dart';
-import 'package:ThumbSir/dao/add_customer_dao.dart';
+import 'package:ThumbSir/dao/get_customer_info_dao.dart';
+import 'package:ThumbSir/dao/update_customer_dao.dart';
 import 'package:ThumbSir/model/login_result_data_model.dart';
-import 'package:ThumbSir/pages/broker/traded/my_traded_page.dart';
-import 'package:ThumbSir/pages/manager/traded/m_traded_page.dart';
-import 'package:ThumbSir/pages/manager/traded/s_traded_page.dart';
-import 'package:ThumbSir/widget/input.dart';
+import 'package:ThumbSir/pages/broker/traded/traded_detail_page.dart';
 import 'package:ThumbSir/widget/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:wheel_chooser/wheel_chooser.dart';
-import 'package:flutter_holo_date_picker/flutter_holo_date_picker.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
 class TradedEditRemarkPage extends StatefulWidget {
@@ -148,44 +144,64 @@ class _TradedEditRemarkPageState extends State<TradedEditRemarkPage> {
                           // 完成
                           GestureDetector(
                             onTap: ()async{
-//                              if(userNameBool == true && phoneBool == true && _starIndex != 0 ){
-//                                _onRefresh();
-//                                var addResult = await AddCustomerDao.addCustomer(
-//
-//                                );
-//                                print(addResult);
-//                                if (addResult.code == 200) {
-//                                  _onRefresh();
-//                                  if (userData.userLevel.substring(0, 1) == "6") {
-//                                    Navigator.push(context, MaterialPageRoute(
-//                                        builder: (context) => MyTradedPage()));
-//                                  }
-//                                  if (userData.userLevel.substring(0, 1) == "4") {
-//                                    Navigator.push(context, MaterialPageRoute(
-//                                        builder: (context) => STradedPage()));
-//                                  }
-//                                  if (userData.userLevel.substring(0, 1) == "5") {
-//                                    Navigator.push(context, MaterialPageRoute(
-//                                        builder: (context) => MTradedPage()));
-//                                  }
-//                                } else {
-//                                  _onRefresh();
-//                                  _onOverLoadPressed(context);
-//                                }
-//                              }else{
-//                                // 必填信息不完整的弹窗
-//                                _onMsgPressed(context);
-//                              }
+                              if(msgController.text != null && msgController.text != "" ){
+                                _onRefresh();
+                                var addResult = await UpdateCustomerDao.updateCustomer(
+                                  widget.item.mid.toString(),
+                                  userData.companyId,
+                                  userData.userPid,
+                                  "5",
+                                  widget.item.userName,
+                                  widget.item.sex.toString(),
+                                  widget.item.phone.toString(),
+                                  widget.item.birthday.toString(),
+                                  widget.item.starslevel.toString(),
+                                  widget.item.occupation,
+                                  widget.item.income,
+                                  widget.item.hobby,
+                                  msgController.text,
+                                  widget.item.address,
+                                  [],
+                                  [],
+                                );
+                                if (addResult.code == 200) {
+                                  _onRefresh();
+                                  var getItem = await GetCustomerInfoDao.getCustomerInfo(widget.item.mid.toString());
+                                  if(getItem.code == 200){
+                                    _onRefresh();
+                                    Navigator.push(context, MaterialPageRoute(builder: (context)=>TradedDetailPage(
+                                      item:getItem.data[0],
+                                      tabIndex: 0,
+                                    )));
+                                  }else {
+                                    _onRefresh();
+                                    _onOverLoadPressed(context);
+                                  }
+                                } else {
+                                  _onRefresh();
+                                  _onOverLoadPressed(context);
+                                }
+                              }else{
+                                // 必填信息不完整的弹窗
+                                _onMsgPressed(context);
+                              }
                             },
                             child: Container(
                                 width: 335,
                                 height: 40,
                                 padding: EdgeInsets.all(4),
                                 margin: EdgeInsets.only(bottom: 50,top: 50),
-                                decoration: BoxDecoration(
+                                decoration: msgController.text != null && msgController.text != ""?
+                                BoxDecoration(
                                     border: Border.all(width: 1,color: Color(0xFF5580EB)),
                                     borderRadius: BorderRadius.circular(8),
                                     color: Color(0xFF5580EB)
+                                )
+                                :
+                                BoxDecoration(
+                                    border: Border.all(width: 1,color: Color(0xFF93C0FB)),
+                                    borderRadius: BorderRadius.circular(8),
+                                    color: Color(0xFF93C0FB)
                                 ),
                                 child: Padding(
                                     padding: EdgeInsets.only(top: 4),
@@ -216,6 +232,26 @@ class _TradedEditRemarkPageState extends State<TradedEditRemarkPage> {
         DialogButton(
           child: Text(
             "确定",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () async {
+            Navigator.pop(context);
+          },
+          color: Color(0xFF5580EB),
+        ),
+      ],
+    ).show();
+  }
+
+  _onMsgPressed(context) {
+    Alert(
+      context: context,
+      type: AlertType.warning,
+      title: "请填写描述信息",
+      buttons: [
+        DialogButton(
+          child: Text(
+            "知道了",
             style: TextStyle(color: Colors.white, fontSize: 20),
           ),
           onPressed: () async {

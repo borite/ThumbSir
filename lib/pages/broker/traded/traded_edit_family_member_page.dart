@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'package:ThumbSir/common/reg.dart';
+import 'package:ThumbSir/dao/add_family_member_info_dao.dart';
 import 'package:ThumbSir/dao/delete_family_member_info_dao.dart';
+import 'package:ThumbSir/dao/get_customer_info_dao.dart';
 import 'package:ThumbSir/dao/update_family_member_info_dao.dart';
 import 'package:ThumbSir/model/get_customer_main_model.dart';
 import 'package:ThumbSir/model/login_result_data_model.dart';
@@ -84,8 +86,18 @@ class _TradedEditFamilyMemberPageState extends State<TradedEditFamilyMemberPage>
                                   Row(
                                     children: <Widget>[
                                       GestureDetector(
-                                        onTap: (){
-                                          Navigator.pop(context);
+                                        onTap: ()async{
+                                          var getItem = await GetCustomerInfoDao.getCustomerInfo(widget.item.mid.toString());
+                                          if(getItem.code == 200){
+                                            _onRefresh();
+                                            Navigator.push(context, MaterialPageRoute(builder: (context)=>TradedDetailPage(
+                                              item:getItem.data[0],
+                                              tabIndex: 0,
+                                            )));
+                                          }else {
+                                            _onRefresh();
+                                            _onOverLoadPressed(context);
+                                          }
                                         },
                                         child: Container(
                                           width: 28,
@@ -321,130 +333,7 @@ class _TradedEditFamilyMemberPageState extends State<TradedEditFamilyMemberPage>
               var m=new FamilyMember(memberRole: memberMinCount,memberHobby: memberController.text);
               member.add(m);
             });
-            var updateResult = await UpdateFamilyMemberInfoDao.updateFamilyMemberInfo(userData.userPid, widget.item.mid.toString(), memberMinCount, memberController.text);
-            if(updateResult.code == 200){
-              Navigator.pop(context);
-            }
-          },
-          color: Color(0xFF5580EB),
-        ),
-        DialogButton(
-          child: Text(
-            "取消",
-            style: TextStyle(color: Colors.white, fontSize: 20),
-          ),
-          onPressed: (){
             Navigator.pop(context);
-          },
-          color: Color(0xFFCCCCCC),
-        ),
-      ],
-    ).show();
-  }
-  _editMemberAlertPressed(context) {
-    Alert(
-      context: context,
-      title: "编辑家庭成员",
-      content: Column(
-        children: <Widget>[
-          Row(
-            children: <Widget>[
-              Container(
-                padding: EdgeInsets.only(left: 10,top: 10),
-                child: Text("选择成员：",style: TextStyle(
-                    fontSize: 14,
-                    color: Color(0xFF666666)
-                ),
-                  textAlign: TextAlign.left,
-                ),
-              ),
-            ],
-          ),
-          Container(
-            width: 80,
-            height: 120,
-            margin: EdgeInsets.only(top: 18),
-            child: WheelChooser(
-              onValueChanged: (s){
-                setState(() {
-                  memberMinCount = s;
-                });
-              },
-              datas: ["妻子", "丈夫","儿子", "女儿", "父亲", "母亲","哥哥", "姐姐","弟弟", "妹妹", "宠物","其他"],
-              selectTextStyle: TextStyle(
-                  color: Color(0xFF0E7AE6),
-                  fontWeight: FontWeight.normal,
-                  decoration: TextDecoration.none,
-                  fontSize: 12
-              ),
-              unSelectTextStyle: TextStyle(
-                  color: Color(0xFF666666),
-                  fontWeight: FontWeight.normal,
-                  decoration: TextDecoration.none,
-                  fontSize: 12
-              ),
-            ),
-          ),
-          Row(
-            children: <Widget>[
-              Container(
-                padding: EdgeInsets.only(left: 10,top: 10),
-                child: Text("家庭成员的描述：",style: TextStyle(
-                    fontSize: 14,
-                    color: Color(0xFF666666)
-                ),
-                  textAlign: TextAlign.left,
-                ),
-              ),
-            ],
-          ),
-          Container(
-            height: 100,
-            margin: EdgeInsets.only(top: 15,left: 30,right: 30,bottom: 30),
-            decoration: BoxDecoration(
-              border: Border.all(width: 1,color: Color(0xFF5580EB)),
-              borderRadius: BorderRadius.circular(8),
-              color: Colors.white,
-            ),
-            child: TextField(
-              controller: memberController,
-              autofocus: false,
-              keyboardType: TextInputType.multiline,
-              onChanged: _onMemberChanged,
-              maxLines: null,
-              style: TextStyle(
-                fontSize: 14,
-                color: Color(0xFF999999),
-                fontWeight: FontWeight.normal,
-                decoration: TextDecoration.none,
-              ),
-              decoration: InputDecoration(
-                hintText:'爱好、习惯等……',
-                contentPadding: EdgeInsets.all(10),
-                border: InputBorder.none,
-              ),
-            ),
-          ),
-        ],
-      ),
-      buttons: [
-        DialogButton(
-          child: Text(
-            "确定",
-            style: TextStyle(color: Colors.white, fontSize: 20),
-          ),
-          onPressed: () async {
-            setState(() {
-              var m=new FamilyMember(memberRole: memberMinCount,memberHobby: memberController.text);
-              member.add(m);
-            });
-            var updateResult = await UpdateFamilyMemberInfoDao.updateFamilyMemberInfo(userData.userPid, widget.item.mid.toString(), memberMinCount, memberController.text);
-            if(updateResult.code == 200){
-              Navigator.pop(context);
-            }else{
-              Navigator.pop(context);
-              _onOverLoadPressed(context);
-            }
           },
           color: Color(0xFF5580EB),
         ),
@@ -476,10 +365,17 @@ class _TradedEditFamilyMemberPageState extends State<TradedEditFamilyMemberPage>
           onPressed: () async {
             var deleteResult = await DeleteFamilyMemberInfoDao.deleteFamilyMemberInfo(id.toString());
             if(deleteResult.code == 200){
-              Navigator.push(context, MaterialPageRoute(builder: (context)=>TradedDetailPage(
-                item:widget.item,
-                tabIndex: 0,
-              )));
+              var getItem = await GetCustomerInfoDao.getCustomerInfo(widget.item.mid.toString());
+              if(getItem.code == 200){
+                _onRefresh();
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>TradedDetailPage(
+                  item:getItem.data[0],
+                  tabIndex: 0,
+                )));
+              }else {
+                _onRefresh();
+                _onOverLoadPressed(context);
+              }
             }else{
               _onOverLoadPressed(context);
             }

@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'package:ThumbSir/common/reg.dart';
 import 'package:ThumbSir/dao/add_customer_dao.dart';
 import 'package:ThumbSir/dao/delete_deal_info_dao.dart';
+import 'package:ThumbSir/dao/get_customer_info_dao.dart';
+import 'package:ThumbSir/dao/update_deal_info_dao.dart';
 import 'package:ThumbSir/model/get_customer_main_model.dart';
 import 'package:ThumbSir/model/login_result_data_model.dart';
 import 'package:ThumbSir/pages/broker/traded/my_traded_page.dart';
@@ -41,6 +43,9 @@ class _TradedEditDealPageState extends State<TradedEditDealPage> {
   final TextEditingController mapController=TextEditingController();
   RegExp mapReg;
   bool mapBool = false;
+  final TextEditingController remarkController=TextEditingController();
+  RegExp remarkReg;
+  bool remarkBool = false;
 
   String dealMinCount = "购买住宅";
 
@@ -68,11 +73,23 @@ class _TradedEditDealPageState extends State<TradedEditDealPage> {
     mapReg = TextReg;
     priceReg = TextReg;
     areaReg = TextReg;
-    priceController.text = widget.dealItem.dealPrice.toString();
-    areaController.text = widget.dealItem.dealArea == "0"?"":widget.dealItem.dealArea;
-    mapController.text = widget.dealItem.address == "-"?"":widget.dealItem.address;
+    priceController.text = widget.dealItem.dealPrice == "0" || widget.dealItem.dealPrice == null ?"":widget.dealItem.dealPrice.toString();
+    areaController.text = widget.dealItem.dealArea == "0" || widget.dealItem.dealArea == null ?"":widget.dealItem.dealArea;
+    mapController.text = widget.dealItem.address == "-" || widget.dealItem.address == null?"":widget.dealItem.address;
+    remarkController.text =  widget.dealItem.dealRemark == "-" || widget.dealItem.dealRemark == null?"":widget.dealItem.dealRemark;
     _getUserInfo();
     super.initState();
+  }
+
+
+  // 防止页面销毁时内存泄漏造成性能问题
+  @override
+  void dispose(){
+    priceController.dispose();
+    areaController.dispose();
+    remarkController.dispose();
+    mapController.dispose();
+    super.dispose();
   }
 
   @override
@@ -215,7 +232,7 @@ class _TradedEditDealPageState extends State<TradedEditDealPage> {
                           Container(
                             width: 335,
                             child: Text(
-                              '成交价格：',
+                              '成交价格（ 单位：万元 ）：',
                               style: TextStyle(
                                 fontSize: 14,
                                 color: Color(0xFF333333),
@@ -225,7 +242,7 @@ class _TradedEditDealPageState extends State<TradedEditDealPage> {
                             ),
                           ),
                           Input(
-                            hintText: "例如：500万元",
+                            hintText: "例如：500",
                             tipText: "请输入签约时的成交价格",
                             errorTipText: "请输入签约时的成交价格",
                             rightText: "请输入签约时的成交价格",
@@ -244,7 +261,7 @@ class _TradedEditDealPageState extends State<TradedEditDealPage> {
                             width: 335,
                             margin: EdgeInsets.only(top: 20),
                             child: Text(
-                              '面积：',
+                              '面积（ 单位：平米 ）：',
                               style: TextStyle(
                                 fontSize: 14,
                                 color: Color(0xFF333333),
@@ -254,7 +271,7 @@ class _TradedEditDealPageState extends State<TradedEditDealPage> {
                             ),
                           ),
                           Input(
-                            hintText: "例如：100平米",
+                            hintText: "例如：100",
                             tipText: "请输入购买或出售的价格",
                             errorTipText: "请输入购买或出售的价格",
                             rightText: "请输入购买或出售的价格",
@@ -309,52 +326,76 @@ class _TradedEditDealPageState extends State<TradedEditDealPage> {
                               ),
                             ),
                           ),
+                          // 备注
+                          Container(
+                            width: 335,
+                            margin: EdgeInsets.only(top: 0),
+                            child: Text(
+                              '备注：',
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Color(0xFF333333),
+                                decoration: TextDecoration.none,
+                                fontWeight: FontWeight.normal,
+                              ),
+                            ),
+                          ),
+                          Container(
+                            height: 100,
+                            margin: EdgeInsets.only(top: 15,left: 30,right: 30,bottom: 30),
+                            decoration: BoxDecoration(
+                              border: Border.all(width: 1,color: Color(0xFF5580EB)),
+                              borderRadius: BorderRadius.circular(8),
+                              color: Colors.white,
+                            ),
+                            child: TextField(
+                              controller: remarkController,
+                              autofocus: false,
+                              keyboardType: TextInputType.multiline,
+                              onChanged: _onRemarkChanged,
+                              maxLines: null,
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Color(0xFF999999),
+                                fontWeight: FontWeight.normal,
+                                decoration: TextDecoration.none,
+                              ),
+                              decoration: InputDecoration(
+                                hintText:'请输入备注信息，例如可能的下次购买时间',
+                                contentPadding: EdgeInsets.all(10),
+                                border: InputBorder.none,
+                              ),
+                            ),
+                          ),
 
                           // 完成
                           GestureDetector(
                             onTap: ()async{
-//                              if(userNameBool == true && phoneBool == true && _starIndex != 0 ){
-//                                _onRefresh();
-//                                var addResult = await AddCustomerDao.addCustomer(
-//                                    userData.companyId,
-//                                    userData.userPid,
-//                                    "5",
-//                                    userNameController.text,
-//                                    _radioGroupA.toString(),
-//                                    phoneNumController.text,
-//                                    _selectedBirthdayDate.toIso8601String(),
-//                                    _starIndex.toString(),
-//                                    careerController.text==null?"未知":careerController.text,
-//                                    incomeMinCount,
-//                                    likeController.text==null?"未知":likeController.text,
-//                                    msgController.text==null?"未知":msgController.text,
-//                                    mapController.text==null?"未知":mapController.text,
-//                                    member,  // 家庭成员
-//                                    deal,  // 成交历史
-//                                );
-//                                print(addResult);
-//                                if (addResult.code == 200) {
-//                                  _onRefresh();
-//                                  if (userData.userLevel.substring(0, 1) == "6") {
-//                                    Navigator.push(context, MaterialPageRoute(
-//                                        builder: (context) => MyTradedPage()));
-//                                  }
-//                                  if (userData.userLevel.substring(0, 1) == "4") {
-//                                    Navigator.push(context, MaterialPageRoute(
-//                                        builder: (context) => STradedPage()));
-//                                  }
-//                                  if (userData.userLevel.substring(0, 1) == "5") {
-//                                    Navigator.push(context, MaterialPageRoute(
-//                                        builder: (context) => MTradedPage()));
-//                                  }
-//                                } else {
-//                                  _onRefresh();
-//                                  _onOverLoadPressed(context);
-//                                }
-//                              }else{
-//                                // 必填信息不完整的弹窗
-//                                _onMsgPressed(context);
-//                              }
+                              _onRefresh();
+                              var addResult = await UpdateDealInfoDao.updateDealInfo(
+                                  widget.dealItem.id.toString(),
+                                  widget.item.mid.toString(),
+                                  dealMinCount,
+                                  _selectedDate.toIso8601String(),
+                                  mapController.text == null?"":mapController.text,
+                                  areaController.text == null ?"":areaController.text,
+                                  priceController.text == null ?"":priceController.text,
+                                remarkController.text == null ?"":remarkController.text,
+                              );
+                              if(addResult.code == 200){
+                                _onRefresh();
+                                var getItem = await GetCustomerInfoDao.getCustomerInfo(widget.item.mid.toString());
+                                if(getItem.code == 200){
+                                  _onRefresh();
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>TradedDetailPage(
+                                    item:getItem.data[0],
+                                    tabIndex: 1,
+                                  )));
+                                }else {
+                                  _onRefresh();
+                                  _onOverLoadPressed(context);
+                                }
+                              }
                             },
                             child: Container(
                                 width: 335,
@@ -412,14 +453,22 @@ class _TradedEditDealPageState extends State<TradedEditDealPage> {
             style: TextStyle(color: Colors.white, fontSize: 20),
           ),
           onPressed: () async {
+            _onRefresh();
             var deleteResult = await DeleteDealInfoDao.deleteDealInfo(
                 widget.dealItem.id.toString()
             );
             if (deleteResult.code == 200) {
-              Navigator.push(context, MaterialPageRoute(builder: (context)=>TradedDetailPage(
-                item:widget.item,
-                tabIndex: 1,
-              )));
+              var getItem = await GetCustomerInfoDao.getCustomerInfo(widget.item.mid.toString());
+              if(getItem.code == 200){
+                _onRefresh();
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>TradedDetailPage(
+                  item:getItem.data[0],
+                  tabIndex: 1,
+                )));
+              }else {
+                _onRefresh();
+                _onOverLoadPressed(context);
+              }
             }
           },
           color: Color(0xFF5580EB),
@@ -433,6 +482,33 @@ class _TradedEditDealPageState extends State<TradedEditDealPage> {
             Navigator.pop(context);
           },
           color: Color(0xFFCCCCCC),
+        ),
+      ],
+    ).show();
+  }
+  _onRemarkChanged(String text){
+    if(text != null){
+      setState(() {
+        remarkBool = remarkReg.hasMatch(remarkController.text);
+      });
+    }
+  }
+  _onOverLoadPressed(context) {
+    Alert(
+      context: context,
+      type: AlertType.error,
+      title: "提交失败",
+      desc: "请检查网络后重试",
+      buttons: [
+        DialogButton(
+          child: Text(
+            "确定",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () async {
+            Navigator.pop(context);
+          },
+          color: Color(0xFF5580EB),
         ),
       ],
     ).show();
