@@ -9,22 +9,22 @@ import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
 class GiftItem extends StatefulWidget {
-  final String date;
-  final String giftMsg;
-  final String price;
-  final String dec;
-  final String type;
+  final date;
+  final giftMsg;
+  final price;
+  final dec;
+  final type;
+  final id;
   final item;
 
   GiftItem({Key key,
-    this.date,this.giftMsg,this.price,this.dec,this.type,this.item
+    this.date,this.giftMsg,this.price,this.dec,this.type,this.item,this.id
   }):super(key:key);
   @override
   _GiftItemState createState() => _GiftItemState();
 }
 
 class _GiftItemState extends State<GiftItem> with SingleTickerProviderStateMixin{
-  bool _extend = false;
   Animation<double> animation;
   AnimationController controller;
   AnimationStatus animationStatus;
@@ -63,7 +63,8 @@ class _GiftItemState extends State<GiftItem> with SingleTickerProviderStateMixin
     return Container(
       width: 335,
       alignment: Alignment.center,
-      margin: EdgeInsets.only(top: animation.value),
+//      margin: EdgeInsets.only(top: animation.value),
+      margin: EdgeInsets.only(top: 25),
       child: Stack(
         children: <Widget>[
           Container(
@@ -164,7 +165,7 @@ class _GiftItemState extends State<GiftItem> with SingleTickerProviderStateMixin
                       child: Row(
                         children: <Widget>[
                           Text(
-                            "描述：",
+                            "备注：",
                             style: TextStyle(
                               fontSize: 14,
                               color: Color(0xFF5580EB),
@@ -174,7 +175,7 @@ class _GiftItemState extends State<GiftItem> with SingleTickerProviderStateMixin
                           ),
                           Expanded(
                             child: Text(
-                              widget.dec,
+                              widget.dec == ""?"未填写":widget.dec,
                               style: TextStyle(
                                 fontSize: 14,
                                 color: Color(0xFF666666),
@@ -204,7 +205,7 @@ class _GiftItemState extends State<GiftItem> with SingleTickerProviderStateMixin
                                 ),
                               ),
                               Text(
-                                widget.price,
+                                widget.price+"元",
                                 style: TextStyle(
                                   fontSize: 14,
                                   color: Color(0xFF666666),
@@ -218,6 +219,12 @@ class _GiftItemState extends State<GiftItem> with SingleTickerProviderStateMixin
                             onTap: (){
                               Navigator.push(context, MaterialPageRoute(builder: (context)=>TradedEditGiftPage(
                                 item: widget.item,
+                                date:widget.date,
+                                giftMsg:widget.giftMsg,
+                                price:widget.price,
+                                dec:widget.dec,
+                                type:widget.type,
+                                id:widget.id,
                               )));
                             },
                             child: Container(

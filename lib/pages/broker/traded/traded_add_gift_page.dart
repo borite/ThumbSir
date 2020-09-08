@@ -73,6 +73,14 @@ class _TradedAddGiftPageState extends State<TradedAddGiftPage> {
   }
 
   @override
+  void dispose(){
+    remarkController.dispose();
+    priceController.dispose();
+    giftNameController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: ProgressDialog(
@@ -253,7 +261,7 @@ class _TradedAddGiftPageState extends State<TradedAddGiftPage> {
                             width: 335,
                             margin: EdgeInsets.only(top: 20),
                             child: Text(
-                              '描述：',
+                              '备注：',
                               style: TextStyle(
                                 fontSize: 14,
                                 color: Color(0xFF333333),
@@ -283,7 +291,7 @@ class _TradedAddGiftPageState extends State<TradedAddGiftPage> {
                                 decoration: TextDecoration.none,
                               ),
                               decoration: InputDecoration(
-                                hintText:'请输入维护描述',
+                                hintText:'请输入维护备注信息',
                                 contentPadding: EdgeInsets.all(10),
                                 border: InputBorder.none,
                               ),

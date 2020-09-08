@@ -333,7 +333,13 @@ class _TradedEditFamilyMemberPageState extends State<TradedEditFamilyMemberPage>
               var m=new FamilyMember(memberRole: memberMinCount,memberHobby: memberController.text);
               member.add(m);
             });
-            Navigator.pop(context);
+            var addResult = await AddFamilyMemberInfoDao.addFamilyMemberInfo(widget.item.mid.toString(), memberMinCount, memberController.text);
+            if(addResult.code == 200){
+              Navigator.pop(context);
+            }else{
+              _onOverLoadPressed(context);
+            }
+
           },
           color: Color(0xFF5580EB),
         ),

@@ -1,16 +1,9 @@
-import 'dart:convert';
+import 'package:ThumbSir/dao/get_care_action_dao.dart';
 import 'package:ThumbSir/pages/broker/traded/traded_add_gift_page.dart';
 import 'package:ThumbSir/widget/gift_item.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
-import 'package:ThumbSir/dao/get_user_select_mission_dao.dart';
-import 'package:ThumbSir/model/get_user_select_mission_model.dart';
-import 'package:ThumbSir/model/login_result_data_model.dart';
-import 'package:ThumbSir/widget/qlist_item.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:ThumbSir/model/mission_record_model.dart';
-import 'package:ThumbSir/dao/get_user_mission_records_dao.dart';
 
 
 class TradedActionMsg extends StatefulWidget {
@@ -24,17 +17,53 @@ class TradedActionMsg extends StatefulWidget {
 }
 
 class _TradedActionMsgState extends State<TradedActionMsg> with SingleTickerProviderStateMixin{
-  
+  ScrollController _scrollController = ScrollController();
+  var pageIndex=0;
+  var msgList;
+  List<Widget> msgShowList = [];
+  List<Widget> msgs=[];
+  _load() async {
+      pageIndex++;
+      var msgResult = await GetCareActionDao.httpGetCareAction(
+      widget.item.mid.toString(), pageIndex.toString(), '20');
+      if (msgResult.code == 200) {
+        msgList=msgResult.data;
+        if (msgList.length>0) {
+          setState(() {
+            for (var item in msgList) {
+              msgs.add(
+                GiftItem(
+                  date:item.addTime.toString().substring(0,10),
+                  giftMsg:item.giftName != null || item.giftName != ""? item.giftName:"未知",
+                  price:item.giftPrice != null || item.giftPrice !=0.0 ? item.giftPrice.toString():"0",
+                  dec:item.giftRemark != null || item.giftRemark != ""?item.giftRemark:"未填写",
+                  type:item.giftReason != null || item.giftReason !=""?item.giftReason:"未知",
+                  id:item.id.toString(),
+                  item: widget.item,
+                ),
+              );
+          }});
+        }
+      }
+  }
+
   @override
   void initState(){
     super.initState();
+    _load();
+    _scrollController.addListener(() {
+      // 如果滚动位置到了可滚动的最大距离，就加载更多
+      if(_scrollController.position.pixels == _scrollController.position.maxScrollExtent){
+        _load();
+      }
+    });
   }
 
-
-//  @override
-//  void dispose(){
-//    super.dispose();
-//  }
+  @override
+  void dispose(){
+    _scrollController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,12 +72,11 @@ class _TradedActionMsgState extends State<TradedActionMsg> with SingleTickerProv
           decoration: BoxDecoration(
             color: Colors.white,
           ),
-          child:ListView(
+          child:Column(
             children: <Widget>[
               Container(
-                width: 335,
-                alignment: Alignment.topCenter,
-                padding: EdgeInsets.only(top:117,bottom:50),
+//                width: double.infinity,
+                padding: EdgeInsets.only(top:141,bottom:50),
                 child: Column(
                   children: <Widget>[
                     // 姓名
@@ -105,39 +133,31 @@ class _TradedActionMsgState extends State<TradedActionMsg> with SingleTickerProv
                         ),
                       ],
                     ),
+                    // 维护记录列表
+                    Container(
+                        child: msgs.length>0 ?
+                        ListView.builder(
+                          controller: _scrollController,
+                          padding: EdgeInsets.only(bottom: 30),
+                          shrinkWrap: true,
+                          itemCount: msgs.length,
+                          itemBuilder: (BuildContext context,int index){
+                            return msgs[index];
+                          },
+                        )
+                            :
+                        Padding(
+                          padding: EdgeInsets.only(top: 30),
+                          child: Text(
+                            '暂无维护记录',
+                            style: TextStyle(
+                                fontSize: 20,
+                                color: Color(0xFF999999)
+                            ),
+                          ),
+                        )
+                    ),
 
-                    GiftItem(
-                      date:"2020-01-23",
-                      giftMsg:"故宫礼盒套装",
-                      price:"288",
-                      dec:"邮寄",
-                      type:"业务礼",
-                      item: widget.item,
-                    ),
-                    GiftItem(
-                      date:"2020-01-23",
-                      giftMsg:"故宫礼盒套装",
-                      price:"288",
-                      dec:"邮寄",
-                      type:"生日礼",
-                      item: widget.item,
-                    ),
-                    GiftItem(
-                      date:"2020-01-23",
-                      giftMsg:"故宫礼盒套装",
-                      price:"288",
-                      dec:"邮寄",
-                      type:"成交礼",
-                      item: widget.item,
-                    ),
-                    GiftItem(
-                      date:"2020-01-23",
-                      giftMsg:"故宫礼盒套装",
-                      price:"288",
-                      dec:"邮寄",
-                      type:"节日礼",
-                      item: widget.item,
-                    ),
                   ],
                 ),
               )

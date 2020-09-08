@@ -9,13 +9,11 @@ const String apiPerfix=CommonVars.apiPrefix;
 
 class AddFamilyMemberInfoDao {
   static Future<CommonResult> addFamilyMemberInfo(
-      String id,
       String mid,
       String memberRole,
       String memberHobby,
     ) async {
     final response = await http.post(apiPerfix+'api/customer/AddFamilyMemberInfo',body: {
-      "ID": id,
       "MID": mid,
       "MemberRole":memberRole,
       "MemberHobby":memberHobby,

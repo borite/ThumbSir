@@ -1,11 +1,11 @@
 import 'dart:convert';
 import 'package:ThumbSir/common/reg.dart';
 import 'package:ThumbSir/dao/add_customer_dao.dart';
-import 'package:ThumbSir/model/get_customer_main_model.dart';
+import 'package:ThumbSir/dao/delete_care_action_dao.dart';
+import 'package:ThumbSir/dao/get_customer_info_dao.dart';
+import 'package:ThumbSir/dao/update_care_action_dao.dart';
 import 'package:ThumbSir/model/login_result_data_model.dart';
-import 'package:ThumbSir/pages/broker/traded/my_traded_page.dart';
-import 'package:ThumbSir/pages/manager/traded/m_traded_page.dart';
-import 'package:ThumbSir/pages/manager/traded/s_traded_page.dart';
+import 'package:ThumbSir/pages/broker/traded/traded_detail_page.dart';
 import 'package:ThumbSir/widget/input.dart';
 import 'package:ThumbSir/widget/loading.dart';
 import 'package:flutter/material.dart';
@@ -16,9 +16,15 @@ import 'package:rflutter_alert/rflutter_alert.dart';
 
 class TradedEditGiftPage extends StatefulWidget {
   final item;
+  final date;
+  final giftMsg;
+  final price;
+  final dec;
+  final type;
+  final id;
 
   TradedEditGiftPage({Key key,
-    this.item
+    this.date,this.giftMsg,this.price,this.dec,this.type,this.item,this.id
   }):super(key:key);
   @override
   _TradedEditGiftPageState createState() => _TradedEditGiftPageState();
@@ -27,17 +33,17 @@ class TradedEditGiftPage extends StatefulWidget {
 class _TradedEditGiftPageState extends State<TradedEditGiftPage> {
   bool _loading = false;
 
+  final TextEditingController nameController=TextEditingController();
+  String name;
+  RegExp nameReg;
+  bool nameBool;
   final TextEditingController priceController=TextEditingController();
   String price;
   RegExp priceReg;
-  bool priceBool;
-  final TextEditingController areaController=TextEditingController();
-  String area;
-  RegExp areaReg;
-  bool areaBool = false;
-  final TextEditingController mapController=TextEditingController();
-  RegExp mapReg;
-  bool mapBool = false;
+  bool priceBool = false;
+  final TextEditingController decController=TextEditingController();
+  RegExp decReg;
+  bool decBool = false;
 
   String sendReason = "节日礼";
 
@@ -62,11 +68,22 @@ class _TradedEditGiftPageState extends State<TradedEditGiftPage> {
 
   @override
   void initState() {
-    mapReg = FeedBackReg;
+    decReg = TextReg;
     priceReg = numberReg;
-    areaReg = TextReg;
+    nameReg = TextReg;
+    decController.text = widget.dec;
+    priceController.text = widget.price.toString();
+    nameController.text = widget.giftMsg;
     _getUserInfo();
     super.initState();
+  }
+
+  @override
+  void dispose(){
+    decController.dispose();
+    priceController.dispose();
+    nameController.dispose();
+    super.dispose();
   }
 
   @override
@@ -142,7 +159,7 @@ class _TradedEditGiftPageState extends State<TradedEditGiftPage> {
                           Container(
                             width: 335,
                             child: Text(
-                              '维护原因：',
+                              '维护原因（ 修改前原因为：'+widget.type+' ）：',
                               style: TextStyle(
                                 fontSize: 14,
                                 color: Color(0xFF333333),
@@ -180,7 +197,7 @@ class _TradedEditGiftPageState extends State<TradedEditGiftPage> {
                           Container(
                             width: 335,
                             child: Text(
-                              '维护时间：',
+                              '维护时间（ 修改前时间为'+widget.date+' ）：',
                               style: TextStyle(
                                 fontSize: 14,
                                 color: Color(0xFF333333),
@@ -223,13 +240,13 @@ class _TradedEditGiftPageState extends State<TradedEditGiftPage> {
                             tipText: "请输入签约时的成交价格",
                             errorTipText: "请输入签约时的成交价格",
                             rightText: "请输入签约时的成交价格",
-                            controller: priceController,
-                            inputType: TextInputType.number,
-                            reg: priceReg,
+                            controller: nameController,
+                            inputType: TextInputType.text,
+                            reg: nameReg,
                             onChanged: (text){
                               setState(() {
-                                price = text;
-                                priceBool = priceReg.hasMatch(price);
+                                name = text;
+                                nameBool = priceReg.hasMatch(name);
                               });
                             },
                           ),
@@ -252,13 +269,13 @@ class _TradedEditGiftPageState extends State<TradedEditGiftPage> {
                             tipText: "请输入购买或出售的价格",
                             errorTipText: "请输入购买或出售的价格",
                             rightText: "请输入购买或出售的价格",
-                            controller: areaController,
-                            inputType: TextInputType.phone,
-                            reg: areaReg,
+                            controller: priceController,
+                            inputType: TextInputType.number,
+                            reg: priceReg,
                             onChanged: (text){
                               setState(() {
-                                area = text;
-                                areaBool = areaReg.hasMatch(area);
+                                price = text;
+                                priceBool = priceReg.hasMatch(price);
                               });
                             },
                           ),
@@ -267,7 +284,7 @@ class _TradedEditGiftPageState extends State<TradedEditGiftPage> {
                             width: 335,
                             margin: EdgeInsets.only(top: 20),
                             child: Text(
-                              '描述：',
+                              '备注：',
                               style: TextStyle(
                                 fontSize: 14,
                                 color: Color(0xFF333333),
@@ -285,10 +302,10 @@ class _TradedEditGiftPageState extends State<TradedEditGiftPage> {
                               color: Colors.white,
                             ),
                             child: TextField(
-                              controller: mapController,
+                              controller: decController,
                               autofocus: false,
                               keyboardType: TextInputType.multiline,
-                              onChanged: _onMapChanged,
+                              onChanged: _onDecChanged,
                               maxLines: null,
                               style: TextStyle(
                                 fontSize: 14,
@@ -297,7 +314,7 @@ class _TradedEditGiftPageState extends State<TradedEditGiftPage> {
                                 decoration: TextDecoration.none,
                               ),
                               decoration: InputDecoration(
-                                hintText:'请输入维护描述，5~300字',
+                                hintText:'请输入维护描述',
                                 contentPadding: EdgeInsets.all(10),
                                 border: InputBorder.none,
                               ),
@@ -307,48 +324,32 @@ class _TradedEditGiftPageState extends State<TradedEditGiftPage> {
                           // 完成
                           GestureDetector(
                             onTap: ()async{
-//                              if(userNameBool == true && phoneBool == true && _starIndex != 0 ){
-//                                _onRefresh();
-//                                var addResult = await AddCustomerDao.addCustomer(
-//                                    userData.companyId,
-//                                    userData.userPid,
-//                                    "5",
-//                                    userNameController.text,
-//                                    _radioGroupA.toString(),
-//                                    phoneNumController.text,
-//                                    _selectedBirthdayDate.toIso8601String(),
-//                                    _starIndex.toString(),
-//                                    careerController.text==null?"未知":careerController.text,
-//                                    incomeMinCount,
-//                                    likeController.text==null?"未知":likeController.text,
-//                                    msgController.text==null?"未知":msgController.text,
-//                                    mapController.text==null?"未知":mapController.text,
-//                                    member,  // 家庭成员
-//                                    deal,  // 成交历史
-//                                );
-//                                print(addResult);
-//                                if (addResult.code == 200) {
-//                                  _onRefresh();
-//                                  if (userData.userLevel.substring(0, 1) == "6") {
-//                                    Navigator.push(context, MaterialPageRoute(
-//                                        builder: (context) => MyTradedPage()));
-//                                  }
-//                                  if (userData.userLevel.substring(0, 1) == "4") {
-//                                    Navigator.push(context, MaterialPageRoute(
-//                                        builder: (context) => STradedPage()));
-//                                  }
-//                                  if (userData.userLevel.substring(0, 1) == "5") {
-//                                    Navigator.push(context, MaterialPageRoute(
-//                                        builder: (context) => MTradedPage()));
-//                                  }
-//                                } else {
-//                                  _onRefresh();
-//                                  _onOverLoadPressed(context);
-//                                }
-//                              }else{
-//                                // 必填信息不完整的弹窗
-//                                _onMsgPressed(context);
-//                              }
+                              _onRefresh();
+                              var editResult = await UpdateCareActionDao.updateCareAction(
+                                  widget.id.toString(),
+                                  widget.item.mid.toString(),
+                                  sendReason,
+                                  nameController.text,
+                                  decController.text,
+                                  priceController.text.toString(),
+                                  _selectedDate.toIso8601String(),
+                              );
+                              if(editResult.code == 200){
+                                var getItem = await GetCustomerInfoDao.getCustomerInfo(widget.item.mid.toString());
+                                if(getItem.code == 200){
+                                  _onRefresh();
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>TradedDetailPage(
+                                    item:getItem.data[0],
+                                    tabIndex: 2,
+                                  )));
+                                }else {
+                                  _onRefresh();
+                                  _onOverLoadPressed(context);
+                                }
+                              }else {
+                                _onRefresh();
+                                _onOverLoadPressed(context);
+                              }
                             },
                             child: Container(
                                 width: 335,
@@ -386,10 +387,10 @@ class _TradedEditGiftPageState extends State<TradedEditGiftPage> {
       _loading = !_loading;
     });
   }
-  _onMapChanged(String text){
+  _onDecChanged(String text){
     if(text != null){
       setState(() {
-        mapBool = mapReg.hasMatch(mapController.text);
+        decBool = decReg.hasMatch(decController.text);
       });
     }
   }
@@ -406,23 +407,24 @@ class _TradedEditGiftPageState extends State<TradedEditGiftPage> {
             style: TextStyle(color: Colors.white, fontSize: 20),
           ),
           onPressed: () async {
-//            var deleteResult = await DeleteCustomerDao.deleteCustomer(
-//                widget.item.mid.toString()
-//            );
-//            if (deleteResult.code == 200) {
-//              if (userData.userLevel.substring(0, 1) == "6") {
-//                Navigator.push(context, MaterialPageRoute(
-//                    builder: (context) => MyTradedPage()));
-//              }
-//              if (userData.userLevel.substring(0, 1) == "4") {
-//                Navigator.push(context, MaterialPageRoute(
-//                    builder: (context) => STradedPage()));
-//              }
-//              if (userData.userLevel.substring(0, 1) == "5") {
-//                Navigator.push(context, MaterialPageRoute(
-//                    builder: (context) => MTradedPage()));
-//              }
-//            }
+            _onRefresh();
+            var deleteResult = await DeleteCareActionDao.deleteCareAction(widget.id.toString());
+            if(deleteResult.code == 200){
+              var getItem = await GetCustomerInfoDao.getCustomerInfo(widget.item.mid.toString());
+              if(getItem.code == 200){
+                _onRefresh();
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>TradedDetailPage(
+                  item:getItem.data[0],
+                  tabIndex: 2,
+                )));
+              }else {
+                _onRefresh();
+                _onOverLoadPressed(context);
+              }
+            }else{
+              _onRefresh();
+              _onOverLoadPressed(context);
+            }
           },
           color: Color(0xFF5580EB),
         ),
@@ -435,6 +437,27 @@ class _TradedEditGiftPageState extends State<TradedEditGiftPage> {
             Navigator.pop(context);
           },
           color: Color(0xFFCCCCCC),
+        ),
+      ],
+    ).show();
+  }
+
+  _onOverLoadPressed(context) {
+    Alert(
+      context: context,
+      type: AlertType.error,
+      title: "提交失败",
+      desc: "请检查网络后重试",
+      buttons: [
+        DialogButton(
+          child: Text(
+            "确定",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () async {
+            Navigator.pop(context);
+          },
+          color: Color(0xFF5580EB),
         ),
       ],
     ).show();

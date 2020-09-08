@@ -7,7 +7,7 @@ import 'package:ThumbSir/utils/common_vars.dart';
 const String api_perfix=CommonVars.apiPrefix;
 
 class UpdateCareActionDao{
-    static Future<CommonResult> addCareAction(
+    static Future<CommonResult> updateCareAction(
         String id,
         String mid,
         String reason,
