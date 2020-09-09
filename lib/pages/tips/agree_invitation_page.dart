@@ -146,12 +146,16 @@ class _AgreeInvitationPageState extends State<AgreeInvitationPage> {
                               var confirmResult = await ConfirmAddMemberDao.confirmMember(userID, widget.item.fromUser);
                               if(confirmResult.code == 200){
                                 _onLoadAlert(context);
+                              }else{
+                                _overLoadAlert(context);
                               }
                             }
                             if(widget.item.msgContent.substring(widget.item.msgContent.length-2,widget.item.msgContent.length-1) == '下'){
                               var confirmResult = await ConfirmAddMemberDao.confirmMember(widget.item.fromUser,userID);
                               if(confirmResult.code == 200){
                                 _onLoadAlert(context);
+                              }else{
+                                _overLoadAlert(context);
                               }
                             }
                           }
@@ -190,6 +194,29 @@ class _AgreeInvitationPageState extends State<AgreeInvitationPage> {
       context: context,
       title: "操作成功",
       desc: "去个人中心查看",
+      buttons: [
+        DialogButton(
+          child: Text(
+            "确定",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () {
+            Navigator.of(context).pushAndRemoveUntil(
+                new MaterialPageRoute(builder: (context) => new Home()), (route) => route == null
+            );
+          },
+          color: Color(0xFF5580EB),
+        )
+      ],
+    ).show();
+  }
+
+  _overLoadAlert(context) {
+    Alert(
+      type: AlertType.error,
+      context: context,
+      title: "没有挂载成功",
+      desc: "请检查网络情况",
       buttons: [
         DialogButton(
           child: Text(

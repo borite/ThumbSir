@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:ThumbSir/dao/get_last_level_customer_num_dao.dart';
 import 'package:ThumbSir/dao/get_last_level_members_dao.dart';
 import 'package:ThumbSir/model/login_result_data_model.dart';
 import 'package:ThumbSir/pages/home.dart';
@@ -50,15 +51,14 @@ class _GroupTradedPageState extends State<GroupTradedPage> {
   }
 
   _load()async{
-    var getMemberListResult = await GetLastLevelMembersDao.httpGetLastLevelMembers(
+    var getMemberListResult = await GetLastLevelCustomerNumDao.httpGetLastLevelCustomerNum(
         userData.userPid,
         userData.companyId,
-        dateTime
     );
     if(getMemberListResult != null){
       if(getMemberListResult.code == 200){
           _loading =false;
-          leaderResult = getMemberListResult.data.zonghe;
+          leaderResult = getMemberListResult.data.zong;
           listResult = getMemberListResult.data.list;
           if (listResult.length>0) {
             for(var item in listResult) {
@@ -119,8 +119,8 @@ class _GroupTradedPageState extends State<GroupTradedPage> {
                                     width: 150,
                                     padding: EdgeInsets.only(top: 8),
                                     child: Text(
-                                      item.missionData != null ?
-                                      '拥有客户数：'+item.missionData.planningCount.toString()
+                                      item.customerCount != null ?
+                                      '拥有客户数：'+item.customerCount.toString()
                                           :'拥有客户数：0',
                                       style:TextStyle(
                                         fontSize: 12,
@@ -327,7 +327,7 @@ class _GroupTradedPageState extends State<GroupTradedPage> {
                             padding: EdgeInsets.only(top:2,left:5,right: 5),
                             child: Text(
                               leaderResult != null?
-                              '拥有客户数：'+ leaderResult.planningCount.toString()
+                              '拥有客户数：'+ leaderResult.toString()
                                   :'拥有客户数：0',
                               style: TextStyle(
                                 fontSize: 10,

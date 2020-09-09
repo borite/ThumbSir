@@ -1,18 +1,13 @@
 import 'dart:convert';
-import 'package:ThumbSir/dao/get_next_liang_hua_dao.dart';
+import 'package:ThumbSir/dao/get_next_level_customer_dao.dart';
 import 'package:ThumbSir/model/login_result_data_model.dart';
 import 'package:ThumbSir/pages/home.dart';
-import 'package:ThumbSir/pages/manager/qlist/group_list_detail_page.dart';
-import 'package:ThumbSir/pages/manager/qlist/team_list_detail_page.dart';
-import 'package:ThumbSir/pages/manager/qlist/view_my_mini_tasks_page.dart';
 import 'package:ThumbSir/pages/manager/traded/group_traded_detail_page.dart';
 import 'package:ThumbSir/pages/manager/traded/team_traded_detail_page.dart';
-import 'package:ThumbSir/pages/mycenter/choose_mini_task_page.dart';
 import 'package:ThumbSir/pages/mycenter/my_center_page.dart';
 import 'package:ThumbSir/pages/tips/qlist_tips_page.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
 class TeamTradedPage extends StatefulWidget {
@@ -26,7 +21,6 @@ class _TeamTradedPageState extends State<TeamTradedPage> {
   var listResult;
   var currentLevelResult;
   bool hasMember = false;
-  var dateTime = DateTime.now().toIso8601String().substring(0,10);
   List<Widget> showList = [];
   List<Widget> msgs=[];
 
@@ -53,17 +47,16 @@ class _TeamTradedPageState extends State<TeamTradedPage> {
   }
 
   _load()async{
-    var getMemberListResult = await GetNextLiangHuaDao.httpGetNextLiangHua(
+    var getMemberListResult = await GetNextLevelCustomerDao.httpGetNextLevelCustomer(
         userData.userPid,
         userData.companyId,
         userData.section,
-        dateTime
     );
     if(getMemberListResult != null){
       if(getMemberListResult.code == 200){
         hasMember = true;
         _loading =false;
-        leaderResult = getMemberListResult.data.zonghe;
+        leaderResult = getMemberListResult.data.countNums;
         listResult = getMemberListResult.data.list;
         currentLevelResult = getMemberListResult.data.currentLevel.substring(0,1);
         if (listResult.length>0) {
@@ -74,14 +67,14 @@ class _TeamTradedPageState extends State<TeamTradedPage> {
                   if(currentLevelResult == '4'){
                     Navigator.push(context, MaterialPageRoute(builder: (context)=>GroupTradedDetailPage(
                         leaderArea : item.teamName,
-                        leaderAreaRate : item.finishRate,
+                        leaderAreaRate : item.customerNum,
                         leaderName : item.nextLeader.userName,
                         leaderID : item.nextLeader.userPid
                     )));
                   }else{
                     Navigator.push(context, MaterialPageRoute(builder: (context)=>TeamTradedDetailPage(
                         leaderArea : item.teamName,
-                        leaderAreaRate : item.finishRate,
+                        leaderAreaRate : item.customerNum,
                         leaderName : item.nextLeader.userName,
                         leaderID : item.nextLeader.userPid
                     )));
@@ -156,7 +149,7 @@ class _TeamTradedPageState extends State<TeamTradedPage> {
                                 Container(
                                   width: 200,
                                   child: Text(
-                                    '拥有客户数：'+item.finishCount.toString(),
+                                    '拥有客户数：'+item.customerNum.toString(),
                                     style:TextStyle(
                                       fontSize: 12,
                                       color: Color(0xFF999999),
@@ -366,7 +359,7 @@ class _TeamTradedPageState extends State<TeamTradedPage> {
                             padding: EdgeInsets.only(top:2,left:5,right: 5),
                             child: Text(
                               leaderResult != null?
-                              '拥有客户数：'+ leaderResult.planCount.toString()
+                              '拥有客户数：'+ leaderResult.toString()
                                   :'拥有客户数：0',
                               style: TextStyle(
                                 fontSize: 10,

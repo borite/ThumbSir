@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:ThumbSir/dao/get_leader_data_dao.dart';
+import 'package:ThumbSir/dao/get_leader_info_dao.dart';
+import 'package:ThumbSir/dao/get_next_level_customer_dao.dart';
 import 'package:ThumbSir/dao/get_next_liang_hua_dao.dart';
 import 'package:ThumbSir/model/login_result_data_model.dart';
 import 'package:ThumbSir/pages/manager/qlist/group_list_detail_page.dart';
@@ -52,27 +54,25 @@ class _TeamTradedDetailPageState extends State<TeamTradedDetailPage> {
   }
 
   _load()async{
-    var getLeaderResult = await GetLeaderDataDao.httpGetLeaderData(
+    var getLeaderResult = await GetLeaderInfoDao.httpGetLeaderInfo(
         widget.leaderID,
         userData.companyId,
-        dateTime
     );
-    var getMemberListResult = await GetNextLiangHuaDao.httpGetNextLiangHua(
+    var getMemberListResult = await GetNextLevelCustomerDao.httpGetNextLevelCustomer(
         widget.leaderID,
         userData.companyId,
         widget.leaderArea,
-        dateTime
     );
     if(getMemberListResult != null && getLeaderResult != null ){
       if(getMemberListResult.code == 200 && getLeaderResult.code == 200){
         setState(() {
           hasMember = true;
           _loading =false;
-          leaderResult = getMemberListResult.data.zonghe;
+          leaderResult = getMemberListResult.data.countNums;
           listResult = getMemberListResult.data.list;
           currentLevelResult = getMemberListResult.data.currentLevel;
           leaderInfo = getLeaderResult.data.leaderInfo;
-          leaderCount = getLeaderResult.data.leaderCount;
+          leaderCount = getLeaderResult.data.leaderCustomerCount;
         });
       }else{
         setState(() {
@@ -331,7 +331,7 @@ class _TeamTradedDetailPageState extends State<TeamTradedDetailPage> {
                                             width: 200,
                                             child: Text(
                                               leaderResult!=null ?
-                                              '拥有客户数：'+leaderResult.planCount.toString()
+                                              '拥有客户数：'+leaderResult.toString()
                                               :'拥有客户数：0',
                                               style:TextStyle(
                                                 fontSize: 12,
@@ -440,7 +440,7 @@ class _TeamTradedDetailPageState extends State<TeamTradedDetailPage> {
                                         Row(
                                           children: <Widget>[
                                             Text(
-                                              leaderInfo != null?leaderInfo.userName:'',
+                                              widget.leaderName,
                                               style:TextStyle(
                                                 fontSize: 14,
                                                 color: Color(0xFF333333),
@@ -454,9 +454,7 @@ class _TeamTradedDetailPageState extends State<TeamTradedDetailPage> {
                                           width: 150,
                                           padding: EdgeInsets.only(top: 8),
                                           child: Text(
-                                            currentLevelResult!= null && currentLevelResult.substring(0,1) == '4'?
-                                            leaderCount != null?'拥有客户数：'+leaderCount.planningCount.toString()
-                                                :'拥有客户数：0':'拥有客户数：0',
+                                            '拥有客户数：'+widget.leaderAreaRate.toString(),
                                             style:TextStyle(
                                               fontSize: 12,
                                               color: Color(0xFF999999),
