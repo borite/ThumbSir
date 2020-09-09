@@ -19,6 +19,8 @@ class TradedAddPage extends StatefulWidget {
 }
 
 class _TradedAddPageState extends State<TradedAddPage> {
+  ScrollController _dealScrollController = ScrollController();
+  ScrollController _memberScrollController = ScrollController();
   bool _loading = false;
 
   final TextEditingController userNameController = TextEditingController();
@@ -91,6 +93,20 @@ class _TradedAddPageState extends State<TradedAddPage> {
     memberReg = TextReg;
     _getUserInfo();
     super.initState();
+  }
+
+  @override
+  void dispose(){
+    _dealScrollController.dispose();
+    _memberScrollController.dispose();
+    memberController.dispose();
+    userNameController.dispose();
+    phoneNumController.dispose();
+    careerController.dispose();
+    mapController.dispose();
+    likeController.dispose();
+    msgController.dispose();
+    super.dispose();
   }
 
   @override
@@ -190,9 +206,10 @@ class _TradedAddPageState extends State<TradedAddPage> {
                           Container(
                             width: 335,
                             margin: EdgeInsets.only(top: 10),
-                            height: 70,
                             child: ListView.builder(
                               itemCount: deal.length,
+                              controller: _dealScrollController,
+                              shrinkWrap: true,
                               itemBuilder: (BuildContext context,int index){
                                return Column(
                                   children: <Widget>[
@@ -235,10 +252,17 @@ class _TradedAddPageState extends State<TradedAddPage> {
                                                 ),
                                               ),
                                             ),
-                                            Container(
-                                              width: 50,
-                                              height: 20,
-                                              child: Image(image: AssetImage("images/delete_blue.png"),),
+                                            GestureDetector(
+                                              onTap: (){
+                                                deal.removeAt(index);
+                                                setState(() {});
+                                              },
+                                              child: Container(
+                                                width: 50,
+                                                height: 20,
+                                                color:Colors.transparent,
+                                                child: Image(image: AssetImage("images/delete_blue.png"),),
+                                              ),
                                             )
                                           ],
                                         )
@@ -653,9 +677,10 @@ class _TradedAddPageState extends State<TradedAddPage> {
                           Container(
                             width: 335,
                             margin: EdgeInsets.only(top: 10),
-                            height: 100,
                             child: ListView.builder(
                               itemCount: member.length,
+                              controller: _memberScrollController,
+                              shrinkWrap: true,
                               itemBuilder: (BuildContext context,int index){
                                 return Column(
                                   children: <Widget>[
@@ -696,10 +721,17 @@ class _TradedAddPageState extends State<TradedAddPage> {
                                                 ),
                                               ),
                                             ),
-                                            Container(
-                                              width: 50,
-                                              height: 20,
-                                              child: Image(image: AssetImage("images/delete_blue.png"),),
+                                            GestureDetector(
+                                              onTap: (){
+                                                member.removeAt(index);
+                                                setState(() {});
+                                              },
+                                              child: Container(
+                                                width: 50,
+                                                height: 20,
+                                                color:Colors.transparent,
+                                                child: Image(image: AssetImage("images/delete_blue.png"),),
+                                              ),
                                             )
                                           ],
                                         )

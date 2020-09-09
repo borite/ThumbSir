@@ -66,7 +66,7 @@ class _VipPrivilegePageState extends State<VipPrivilegePage> {
                   ),
                   Container(
                     padding: EdgeInsets.fromLTRB(20, 5, 20, 0),
-                    child: Text('推广期免费开放拇指先生的量化工具和即将上线的客户维护系统的所有功能。',style: TextStyle(
+                    child: Text('推广期免费开放拇指先生的业务量化模块和客户维护模块的所有功能。',style: TextStyle(
                       fontSize: 14,
                       color: Color(0xFF666666),
                       fontWeight: FontWeight.normal,

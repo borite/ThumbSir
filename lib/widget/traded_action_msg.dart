@@ -25,7 +25,7 @@ class _TradedActionMsgState extends State<TradedActionMsg> with SingleTickerProv
   _load() async {
       pageIndex++;
       var msgResult = await GetCareActionDao.httpGetCareAction(
-      widget.item.mid.toString(), pageIndex.toString(), '20');
+      widget.item.mid.toString(), pageIndex.toString(), '50');
       if (msgResult.code == 200) {
         msgList=msgResult.data;
         if (msgList.length>0) {
@@ -42,7 +42,8 @@ class _TradedActionMsgState extends State<TradedActionMsg> with SingleTickerProv
                   item: widget.item,
                 ),
               );
-          }});
+          }
+          });
         }
       }
   }
@@ -72,11 +73,11 @@ class _TradedActionMsgState extends State<TradedActionMsg> with SingleTickerProv
           decoration: BoxDecoration(
             color: Colors.white,
           ),
-          child:Column(
+          child:ListView(
             children: <Widget>[
               Container(
-//                width: double.infinity,
-                padding: EdgeInsets.only(top:141,bottom:50),
+                alignment: Alignment.topCenter,
+                padding: EdgeInsets.only(top:117,bottom:40),
                 child: Column(
                   children: <Widget>[
                     // 姓名
@@ -133,6 +134,7 @@ class _TradedActionMsgState extends State<TradedActionMsg> with SingleTickerProv
                         ),
                       ],
                     ),
+
                     // 维护记录列表
                     Container(
                         child: msgs.length>0 ?

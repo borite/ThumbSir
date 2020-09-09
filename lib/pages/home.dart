@@ -5,7 +5,6 @@ import 'package:ThumbSir/model/login_result_data_model.dart';
 import 'package:ThumbSir/model/get_message_model.dart';
 import 'package:ThumbSir/pages/broker/qlist/qlist_page.dart';
 import 'package:ThumbSir/pages/broker/traded/my_traded_page.dart';
-import 'package:ThumbSir/pages/major/traded/major_broker_page.dart';
 import 'package:ThumbSir/pages/major/qlist/major_qlist_page.dart';
 import 'package:ThumbSir/pages/manager/traded/m_traded_page.dart';
 import 'package:ThumbSir/pages/manager/traded/s_traded_page.dart';
@@ -32,10 +31,16 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin{
   List<Widget> msgShowList = [];
   List<Widget> msgs=[];
 
+  List<Datum> myMsgList;
+  List<Widget> myMsgShowList = [];
+  List<Widget> myMsgs=[];
+
   LoginResultData userData;
   String uinfo;
   var result;
   var token;
+
+  ScrollController _scrollController = ScrollController();
 
   _getUserInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -47,15 +52,18 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin{
       });
     }
     if (userData == null || userData.companyId == null) {
-      var tokenResult = await TokenCheckDao.tokenCheck(token);
-      if (tokenResult.code == 200) {
-        String dataStr = json.encode(tokenResult.data);
-        SharedPreferences prefs = await SharedPreferences.getInstance();
-        prefs.setString("userInfo", dataStr);
-        prefs.setString('userID', tokenResult.data.userPid);
-        this.setState(() {
-          userData = LoginResultData.fromJson(json.decode(uinfo));
-        });
+      if(token != null){
+        var tokenResult = await TokenCheckDao.tokenCheck(token);
+        if (tokenResult.code == 200) {
+          String dataStr = json.encode(tokenResult.data);
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+          prefs.setString("userInfo", dataStr);
+          prefs.setString('userID', tokenResult.data.userPid);
+          this.setState(() {
+            userData = LoginResultData.fromJson(json.decode(uinfo));
+            _loadMsg();
+          });
+        }
       }
     }
   }
@@ -64,13 +72,14 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin{
     var msgResult = await GetMessageDao.getMessage('1','1','1','5');
     if (msgResult.code == 200) {
       msgList=msgResult.data;
-      if (msgList.length>0) {
+      if (msgList != null && msgList.length>0) {
         for (var item in msgList) {
           msgShowList.add(
             _item('images/tie_big.png',
                 item.sendTime.toIso8601String().substring(0, 10),
                 item.msgTitle,
-                item.msgContent),
+                item.msgContent
+            ),
           );
         }
       }
@@ -80,11 +89,74 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin{
     }
   }
 
+  _loadMsg() async {
+    var myMsgResult = await GetMessageDao.getMessage(userData.userPid,'2','1','1');
+    if (myMsgResult.code == 200) {
+      myMsgList=myMsgResult.data;
+      if (myMsgList != null && myMsgList.length>0) {
+        setState(() {
+          for (var item in myMsgList) {
+            myMsgShowList.add(
+              GestureDetector(
+                onTap: (){
+                  if(uinfo!=null){
+                    exT = result.exTokenTime.millisecondsSinceEpoch;
+                    // token时间转时间戳
+                    if(exT >= _dateTime){
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=>QListTipsPage()));
+                    }else{
+                      _onLoginAlertPressed(context);
+                    }
+                  }else{
+                    _onLoginAlertPressed(context);
+                  }
+                },
+                child: Column(
+                  children: <Widget>[
+                    Container(
+                      margin: EdgeInsets.only(bottom: 10),
+                      child: Text(
+                        item.msgContent,
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Color(0xFF666666),
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                    Text(
+                      "更多消息，点击前往消息中心处理",
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Color(0xFF93C0FB),
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
+                ),
+              )
+
+            );
+          }
+        });
+      }
+      setState(() {
+        myMsgs=myMsgShowList;
+      });
+    }
+  }
+
   @override
   void initState(){
     _getUserInfo();
     _load();
     super.initState();
+  }
+
+  @override
+  void dispose(){
+    _scrollController.dispose();
+    super.dispose();
   }
 
   @override
@@ -101,27 +173,49 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin{
                     margin: EdgeInsets.only(top: 460),
                     child: Column(
                       children: <Widget>[
-                        Row(
-                          children: <Widget>[
-                            Container(
-                              width: 20,
-                              height: 20,
-                              margin: EdgeInsets.only(right: 6,left: 40),
-                              child: Image(image: AssetImage('images/client.png'),),
+                        GestureDetector(
+                          onTap: (){
+                            if(userData != null){
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=>QListTipsPage()));
+                            }else{
+                              _onLoginAlertPressed(context);
+                            }
+                          },
+                          child: Row(
+                            children: <Widget>[
+                              Container(
+                                width: 27,
+                                height: 27,
+                                margin: EdgeInsets.only(right: 6,left: 40,top: 2),
+                                child: Image(image: AssetImage('images/bell.png'),),
+                              ),
+                              Text('我的消息',style: TextStyle(
+                                  fontSize: 20,
+                                  color: Color(0xFF5580EB)
+                              ),),
+                            ],
+                          ),
+                        ),
+                        Container(
+                            child: myMsgs != null && myMsgs.length>0 ?
+                            ListView.builder(
+                              controller: _scrollController,
+                              padding: EdgeInsets.only(top: 20,bottom: 30),
+                              shrinkWrap: true,
+                              itemCount: myMsgs.length,
+                              itemBuilder: (BuildContext context,int index){
+                                return myMsgs[index];
+                              },
+                            )
+                                :
+                            Padding(
+                              padding: EdgeInsets.only(top: 20),
+                              child: Text('暂无消息',style: TextStyle(
+                                  fontSize: 16,
+                                  color: Color(0xFF999999)
+                              ),),
                             ),
-                            Text('我的客户',style: TextStyle(
-                                fontSize: 20,
-                                color: Color(0xFF5580EB)
-                            ),),
-                          ],
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(top: 20),
-                          child: Text('暂未开放，敬请期待',style: TextStyle(
-                              fontSize: 16,
-                              color: Color(0xFF999999)
-                          ),),
-                        ),
+                        )
                       ],
                     )
                 ),

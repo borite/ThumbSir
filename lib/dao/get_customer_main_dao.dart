@@ -7,7 +7,12 @@ import 'package:ThumbSir/utils/common_vars.dart';
 const String apiPerfix=CommonVars.apiPrefix;
 
 class GetCustomerMainDao {
-  static Future<GetCustomerMain> getCustomerMain(String userID,String userType,String pageIndex,String pageSize) async {
+  static Future<GetCustomerMain> getCustomerMain(
+      String userID,
+      String userType,
+      String pageIndex,
+      String pageSize
+    ) async {
     final response = await http.get(
         apiPerfix+'api/customer/GetCustomerMain?userID='+userID+'&UserType='+userType+'&pageIndex='+pageIndex+'&pageSize='+pageSize);
     //Utf8Decoder utf8decoder = Utf8Decoder();  // 修复中文乱码

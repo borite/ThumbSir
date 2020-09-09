@@ -15,11 +15,207 @@ class TradedDealMsg extends StatefulWidget {
 }
 
 class _TradedDealMsgState extends State<TradedDealMsg> with SingleTickerProviderStateMixin{
+  ScrollController _scrollController = ScrollController();
+
   List deal=new List();
+  List<Widget> msgs=[];
   @override
   void initState(){
     deal = widget.item.dealList;
+    _list();
     super.initState();
+  }
+
+  @override
+  void dispose(){
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  _list(){
+    if (deal.length>0) {
+      setState(() {
+        for (var item in deal) {
+          msgs.add(
+            Container(
+              width: 335,
+              child: Column(
+                children: <Widget>[
+                  // 基本信息
+                  Container(
+                    margin: EdgeInsets.only(left: 20,top: 20,right: 20,bottom: 5),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Text(
+                          item.dealReason,
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Color(0xFF5580EB),
+                            decoration: TextDecoration.none,
+                            fontWeight: FontWeight.normal,
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: (){
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=>TradedEditDealPage(
+                              item:widget.item,
+                              dealItem: item,
+                            )));
+                          },
+                          child: Container(
+                            width: 50,
+                            height: 20,
+                            color: Colors.transparent,
+                            child: Image.asset("images/editor.png"),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                  // 时间
+                  Container(
+                    margin: EdgeInsets.only(left: 20,top: 10),
+                    child: Row(
+                      children: <Widget>[
+                        Text(
+                          "成交时间：",
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Color(0xFF666666),
+                            decoration: TextDecoration.none,
+                            fontWeight: FontWeight.normal,
+                          ),
+                        ),
+                        Text(
+                          item.finishTime.toString().substring(0,10),
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Color(0xFF666666),
+                            decoration: TextDecoration.none,
+                            fontWeight: FontWeight.normal,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  // 成交价
+                  Container(
+                    margin: EdgeInsets.only(left: 20,top: 10),
+                    child: Row(
+                      children: <Widget>[
+                        Text(
+                          "成交价：",
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Color(0xFF666666),
+                            decoration: TextDecoration.none,
+                            fontWeight: FontWeight.normal,
+                          ),
+                        ),
+                        Text(
+                          item.dealPrice == 0 || item.dealPrice == null ?"未知":item.dealPrice.toString()+"万元",
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Color(0xFF666666),
+                            decoration: TextDecoration.none,
+                            fontWeight: FontWeight.normal,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  // 面积
+                  Container(
+                    margin: EdgeInsets.only(left: 20,top: 10),
+                    child: Row(
+                      children: <Widget>[
+                        Text(
+                          "面积：",
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Color(0xFF666666),
+                            decoration: TextDecoration.none,
+                            fontWeight: FontWeight.normal,
+                          ),
+                        ),
+                        Text(
+                          item.dealArea == "0" || item.dealArea == null ?"未知":item.dealArea+"平米",
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Color(0xFF666666),
+                            decoration: TextDecoration.none,
+                            fontWeight: FontWeight.normal,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  // 地址
+                  Container(
+                    margin: EdgeInsets.only(left: 20,top: 10,right: 20,bottom: 0),
+                    child: Row(
+                      children: <Widget>[
+                        Text(
+                          "地址：",
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Color(0xFF666666),
+                            decoration: TextDecoration.none,
+                            fontWeight: FontWeight.normal,
+                          ),
+                        ),
+                        Expanded(
+                          child: Text(
+                            item.address == "" || item.address == null?"未知":item.address,
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Color(0xFF666666),
+                              decoration: TextDecoration.none,
+                              fontWeight: FontWeight.normal,
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                  // 备注
+                  Container(
+                    margin: EdgeInsets.only(left: 20,top: 10,right: 20,bottom: 10),
+                    child: Row(
+                      children: <Widget>[
+                        Text(
+                          "备注：",
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Color(0xFF666666),
+                            decoration: TextDecoration.none,
+                            fontWeight: FontWeight.normal,
+                          ),
+                        ),
+                        Expanded(
+                          child: Text(
+                            item.dealRemark == "" || item.dealRemark == null?"未填写":item.dealRemark,
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Color(0xFF666666),
+                              decoration: TextDecoration.none,
+                              fontWeight: FontWeight.normal,
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+
+            )
+
+          );
+        }
+      });
+    }
   }
 
   @override
@@ -90,202 +286,36 @@ class _TradedDealMsgState extends State<TradedDealMsg> with SingleTickerProvider
                         ),
                       ],
                     ),
-
-                    deal.length>0?
+                    // 成交记录列表
                     Container(
-                      margin: EdgeInsets.only(bottom: 20),
-                      height: 520,
-                      child: ListView.builder(
-                        itemCount: deal.length,
+                      child: msgs.length>0?
+                      ListView.builder(
+                        controller: _scrollController,
+                        itemCount: msgs.length,
+                        shrinkWrap: true,
+                        padding: EdgeInsets.only(bottom: 20),
                         itemBuilder: (BuildContext context,int index){
-                          return Column(
-                            children: <Widget>[
-                              // 基本信息
-                              Container(
-                                margin: EdgeInsets.only(left: 20,top: 20,right: 20,bottom: 5),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: <Widget>[
-                                    Text(
-                                      deal[index].dealReason,
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        color: Color(0xFF5580EB),
-                                        decoration: TextDecoration.none,
-                                        fontWeight: FontWeight.normal,
-                                      ),
-                                    ),
-                                    GestureDetector(
-                                      onTap: (){
-                                        Navigator.push(context, MaterialPageRoute(builder: (context)=>TradedEditDealPage(
-                                          item:widget.item,
-                                          dealItem: deal[index],
-                                        )));
-                                      },
-                                      child: Container(
-                                        width: 50,
-                                        height: 20,
-                                        color: Colors.transparent,
-                                        child: Image.asset("images/editor.png"),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                              // 时间
-                              Container(
-                                margin: EdgeInsets.only(left: 20,top: 10),
-                                child: Row(
-                                  children: <Widget>[
-                                    Text(
-                                      "成交时间：",
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        color: Color(0xFF666666),
-                                        decoration: TextDecoration.none,
-                                        fontWeight: FontWeight.normal,
-                                      ),
-                                    ),
-                                    Text(
-                                      deal[index].finishTime.toString().substring(0,10),
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        color: Color(0xFF666666),
-                                        decoration: TextDecoration.none,
-                                        fontWeight: FontWeight.normal,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              // 成交价
-                              Container(
-                                margin: EdgeInsets.only(left: 20,top: 10),
-                                child: Row(
-                                  children: <Widget>[
-                                    Text(
-                                      "成交价：",
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        color: Color(0xFF666666),
-                                        decoration: TextDecoration.none,
-                                        fontWeight: FontWeight.normal,
-                                      ),
-                                    ),
-                                    Text(
-                                      deal[index].dealPrice == 0 || deal[index].dealPrice == null ?"未知":deal[index].dealPrice.toString()+"万元",
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        color: Color(0xFF666666),
-                                        decoration: TextDecoration.none,
-                                        fontWeight: FontWeight.normal,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              // 面积
-                              Container(
-                                margin: EdgeInsets.only(left: 20,top: 10),
-                                child: Row(
-                                  children: <Widget>[
-                                    Text(
-                                      "面积：",
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        color: Color(0xFF666666),
-                                        decoration: TextDecoration.none,
-                                        fontWeight: FontWeight.normal,
-                                      ),
-                                    ),
-                                    Text(
-                                      deal[index].dealArea == "0" || deal[index].dealArea == null ?"未知":deal[index].dealArea+"平米",
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        color: Color(0xFF666666),
-                                        decoration: TextDecoration.none,
-                                        fontWeight: FontWeight.normal,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              // 地址
-                              Container(
-                                margin: EdgeInsets.only(left: 20,top: 10,right: 20,bottom: 0),
-                                child: Row(
-                                  children: <Widget>[
-                                    Text(
-                                      "地址：",
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        color: Color(0xFF666666),
-                                        decoration: TextDecoration.none,
-                                        fontWeight: FontWeight.normal,
-                                      ),
-                                    ),
-                                    Expanded(
-                                      child: Text(
-                                        deal[index].address == "" || deal[index].address == null?"未知":deal[index].address,
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          color: Color(0xFF666666),
-                                          decoration: TextDecoration.none,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                              // 备注
-                              Container(
-                                margin: EdgeInsets.only(left: 20,top: 10,right: 20,bottom: 10),
-                                child: Row(
-                                  children: <Widget>[
-                                    Text(
-                                      "备注：",
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        color: Color(0xFF666666),
-                                        decoration: TextDecoration.none,
-                                        fontWeight: FontWeight.normal,
-                                      ),
-                                    ),
-                                    Expanded(
-                                      child: Text(
-                                        deal[index].dealRemark == "" || deal[index].dealRemark == null?"未填写":deal[index].dealRemark,
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          color: Color(0xFF666666),
-                                          decoration: TextDecoration.none,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ],
-                          );
+                          return msgs[index];
                         },
-                      ),
-                    )
-                        :
-                    Container(
-                      child: Text(
-                        "暂无成交历史",
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Color(0xFF666666),
-                          decoration: TextDecoration.none,
-                          fontWeight: FontWeight.normal,
+                      )
+                          :
+                      Padding(
+                        padding: EdgeInsets.only(top: 30),
+                        child: Text(
+                          "暂无成交历史",
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Color(0xFF666666),
+                            decoration: TextDecoration.none,
+                            fontWeight: FontWeight.normal,
+                          ),
                         ),
                       ),
-                    ),
+                    )
                   ],
                 )
-              )
+              ),
+
             ],
           )
       )

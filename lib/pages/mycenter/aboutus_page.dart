@@ -1,14 +1,6 @@
-import 'package:ThumbSir/dao/login_dao.dart';
-import 'package:ThumbSir/model/login_model.dart';
-import 'package:ThumbSir/pages/home.dart';
-import 'package:ThumbSir/pages/login/find_key_phone_page.dart';
-import 'package:ThumbSir/pages/login/signin_page.dart';
-import 'package:ThumbSir/pages/mycenter/legal_notice_page.dart';
-import 'package:ThumbSir/pages/mycenter/privacy_statement_page.dart';
 import 'package:ThumbSir/pages/mycenter/service_agreement_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:ThumbSir/widget/input.dart';
 
 class AboutUsPage extends StatefulWidget {
   @override
@@ -128,7 +120,7 @@ class _AboutUsPageState extends State<AboutUsPage> {
 //                                border: Border(bottom: BorderSide(color: Color(0xFFEBEBEB),width: 1))
 //                              ),
                               child: Text(
-                                '拇指先生APP是一款为房地产经纪从业人员量身定做的工具类APP，目前开放了量化工具功能，后续会陆续上线客户维护功能、积分系统等功能。',
+                                '拇指先生APP是一款为房地产经纪从业人员量身定做的工具类APP，目前开放了业务量化模块和客户维护模块，日后还会继续上线其他模块。',
                                 style: TextStyle(
                                   fontSize: 14,
                                   color: Color(0xFF666666),
@@ -144,7 +136,7 @@ class _AboutUsPageState extends State<AboutUsPage> {
 //                                  border: Border(bottom: BorderSide(color: Color(0xFFEBEBEB),width: 1))
 //                              ),
                               child: Text(
-                                '量化工具主要帮助经纪人、店长、商圈经理等职位的从业人员清晰规划一天的行程，其上级可以通过拇指先生实时追踪下级的量化进展，从结果考核转变为过程监控，从而提高管理效率。',
+                                '业务量化模块主要帮助经纪人、店长、商圈经理等职位的从业人员清晰规划一天的行程，其上级可以通过拇指先生实时追踪下级的量化进展，从结果考核转变为过程监控，从而提高管理效率。',
                                 style: TextStyle(
                                   fontSize: 14,
                                   color: Color(0xFF666666),
@@ -160,7 +152,7 @@ class _AboutUsPageState extends State<AboutUsPage> {
 //                                  border: Border(bottom: BorderSide(color: Color(0xFFEBEBEB),width: 1))
 //                              ),
                               child: Text(
-                                '即将上线的客户维护系统致力于帮助从业人员深挖客户和业主的需求，并随时进行记录，提高客户维护效率；此外还有节日和生日提醒功能，帮助从业人员增加客户粘性，增加回头客。',
+                                '客户维护模块致力于帮助从业人员记录客户的基本信息、成交信息和维护信息，帮助从业人员提高客户维护效率、增加客户粘性和增加回头客。',
                                 style: TextStyle(
                                   fontSize: 14,
                                   color: Color(0xFF666666),

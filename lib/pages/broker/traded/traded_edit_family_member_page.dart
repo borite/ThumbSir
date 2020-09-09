@@ -25,6 +25,7 @@ class TradedEditFamilyMemberPage extends StatefulWidget {
 
 class _TradedEditFamilyMemberPageState extends State<TradedEditFamilyMemberPage> {
   bool _loading = false;
+  ScrollController _scrollController = ScrollController();
 
   final TextEditingController memberController=TextEditingController();
   RegExp memberReg;
@@ -55,6 +56,13 @@ class _TradedEditFamilyMemberPageState extends State<TradedEditFamilyMemberPage>
     member = widget.item.familyMember;
     _getUserInfo();
     super.initState();
+  }
+
+  @override
+  void dispose(){
+    _scrollController.dispose();
+    memberController.dispose();
+    super.dispose();
   }
 
   @override
@@ -122,6 +130,7 @@ class _TradedEditFamilyMemberPageState extends State<TradedEditFamilyMemberPage>
                           // 家庭成员
                           Container(
                             width: 335,
+                            margin: EdgeInsets.only(bottom: 15),
                             child: Text(
                               '客户的家庭成员（非必填）：',
                               style: TextStyle(
@@ -136,9 +145,10 @@ class _TradedEditFamilyMemberPageState extends State<TradedEditFamilyMemberPage>
                           Container(
                             width: 335,
                             margin: EdgeInsets.only(top: 10),
-                            height: 200,
                             child: ListView.builder(
                               itemCount: member.length,
+                              controller: _scrollController,
+                              shrinkWrap: true,
                               itemBuilder: (BuildContext context,int index){
                                 return Column(
                                   children: <Widget>[

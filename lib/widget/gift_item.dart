@@ -63,8 +63,8 @@ class _GiftItemState extends State<GiftItem> with SingleTickerProviderStateMixin
     return Container(
       width: 335,
       alignment: Alignment.center,
-//      margin: EdgeInsets.only(top: animation.value),
-      margin: EdgeInsets.only(top: 25),
+      margin: EdgeInsets.only(top: animation.value),
+//      margin: EdgeInsets.only(top: 25),
       child: Stack(
         children: <Widget>[
           Container(

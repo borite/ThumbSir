@@ -138,22 +138,38 @@ class _IntroduceVersionPageState extends State<IntroduceVersionPage> {
 //                          ),textAlign: TextAlign.left,),
                           Column(
                             children: <Widget>[
-                              Text(
-                                '量化工具主要功能包括：添加个人量化任务，个人量化任务列表，个人量化分析，团队量化任务列表，团队量化分析，根据注册时选择的职级开放其中的2~5个功能。',
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  color: Color(0xFF666666),
-                                  fontWeight: FontWeight.normal,
-                                  decoration: TextDecoration.none,
-                              ),textAlign: TextAlign.left,),
+                              Container(
+                                width: 335,
+                                padding: EdgeInsets.only(bottom: 10),
+                                child: Text(
+                                  '当前版本的拇指先生包含两个模块：业务量化模块和客户维护模块。',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: Color(0xFF666666),
+                                    fontWeight: FontWeight.normal,
+                                    decoration: TextDecoration.none,
+                                  ),textAlign: TextAlign.left,),
+                              ),
+
+                              Container(
+                                width: 335,
+                                child: Text(
+                                  '业务量化模块主要功能包括：添加个人量化任务、个人量化任务列表、个人量化分析、团队量化任务列表、团队量化分析，根据注册时选择的职级开放其中的2~5个功能。',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: Color(0xFF666666),
+                                    fontWeight: FontWeight.normal,
+                                    decoration: TextDecoration.none,
+                                  ),textAlign: TextAlign.left,),
+                              ),
                               Container(
                                 width: 335,
                                 padding: EdgeInsets.only(top: 10),
                                 child: Text(
-                                  '产品亮点：',
+                                  '业务量化模块亮点：',
                                   style: TextStyle(
                                     fontSize: 14,
-                                    color: Color(0xFF666666),
+                                    color: Color(0xFF5580EB),
                                     fontWeight: FontWeight.normal,
                                     decoration: TextDecoration.none,
                                   ),textAlign: TextAlign.left,),
@@ -209,6 +225,79 @@ class _IntroduceVersionPageState extends State<IntroduceVersionPage> {
                               Container(
                                 width: 335,
                                 padding: EdgeInsets.only(top: 10),
+                                child: Text(
+                                  '客户维护模块主要功能包括：添加客户、我的客户、团队客户，根据注册时选择的职级开放其中的1~3个功能。',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: Color(0xFF666666),
+                                    fontWeight: FontWeight.normal,
+                                    decoration: TextDecoration.none,
+                                  ),textAlign: TextAlign.left,),
+                              ),
+                              Container(
+                                width: 335,
+                                padding: EdgeInsets.only(top: 10),
+                                child: Text(
+                                  '客户维护模块亮点：',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: Color(0xFF5580EB),
+                                    fontWeight: FontWeight.normal,
+                                    decoration: TextDecoration.none,
+                                  ),textAlign: TextAlign.left,),
+                              ),
+                              Container(
+                                width: 335,
+                                padding: EdgeInsets.only(top: 10),
+                                child: Text(
+                                  '（1）记录客户详细信息，不仅包含客户基本信息，还包括成交信息和客户家庭成员爱好，便于查看和长期维护；',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: Color(0xFF666666),
+                                    fontWeight: FontWeight.normal,
+                                    decoration: TextDecoration.none,
+                                  ),textAlign: TextAlign.left,),
+                              ),
+                              Container(
+                                width: 335,
+                                padding: EdgeInsets.only(top: 10),
+                                child: Text(
+                                  '（2）用户可以根据基本信息和已成交信息为客户推荐合适的成交方案，思路更清晰；',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: Color(0xFF666666),
+                                    fontWeight: FontWeight.normal,
+                                    decoration: TextDecoration.none,
+                                  ),textAlign: TextAlign.left,),
+                              ),
+                              Container(
+                                width: 335,
+                                padding: EdgeInsets.only(top: 10),
+                                child: Text(
+                                  '（3）用户还可以根据客户及其家庭成员的爱好在生日、节日、成交、带看等场景为客户送出让对方心仪的维护礼品，并进行记录，便于达成长期的友好关系；',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: Color(0xFF666666),
+                                    fontWeight: FontWeight.normal,
+                                    decoration: TextDecoration.none,
+                                  ),textAlign: TextAlign.left,),
+                              ),
+                              Container(
+                                width: 335,
+                                padding: EdgeInsets.only(top: 10),
+                                child: Text(
+                                  '（4）上级领导可以查看下级成员的客户列表，协助下级做好客户维护工作，共同创造更高业绩。',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: Color(0xFF666666),
+                                    fontWeight: FontWeight.normal,
+                                    decoration: TextDecoration.none,
+                                  ),textAlign: TextAlign.left,),
+                              ),
+
+                              Container(
+                                width: 335,
+                                padding: EdgeInsets.only(top: 10,bottom: 40),
                                 child: Text(
                                   '如果您在使用过程中有任何的意见或者建议，请在个人中心的客服中心进行留言，拇指先生客服会尽快与您联系，我们将持续更新和改进，感谢您对拇指先生的支持，祝您使用愉快！',
                                   style: TextStyle(

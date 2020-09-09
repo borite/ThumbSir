@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:ThumbSir/common/reg.dart';
 import 'package:ThumbSir/dao/get_care_action_dao.dart';
 import 'package:ThumbSir/dao/get_customer_main_dao.dart';
+import 'package:ThumbSir/dao/get_user_by_condition_dao.dart';
 import 'package:ThumbSir/model/get_customer_main_model.dart';
 import 'package:ThumbSir/model/login_result_data_model.dart';
 import 'package:ThumbSir/pages/broker/traded/traded_add_page.dart';
@@ -23,12 +24,13 @@ class MyTradedPage extends StatefulWidget {
 
 class _MyTradedPageState extends State<MyTradedPage> {
   var pageIndex=0;
+  var customersResult;
   ScrollController _scrollController = ScrollController();
 
   bool _loading = false;
-  var ageValue;
-  var monthValue;
-  var reasonValue;
+  var ageValue = "所有";
+  var monthValue = 0;
+  var reasonValue = "所有";
 
   final TextEditingController searchController = TextEditingController();
   String search;
@@ -37,65 +39,65 @@ class _MyTradedPageState extends State<MyTradedPage> {
 
   List<DropdownMenuItem> getAgeList(){
     List<DropdownMenuItem> ageLists = new List();
-    DropdownMenuItem ageList1 = new DropdownMenuItem(child: Text('所有'),value: 1,);
+    DropdownMenuItem ageList1 = new DropdownMenuItem(child: Text('所有'),value: '所有',);
     ageLists.add(ageList1);
-    DropdownMenuItem ageList2 = new DropdownMenuItem(child: Text('< 30岁'),value: 2,);
+    DropdownMenuItem ageList2 = new DropdownMenuItem(child: Text('< 30岁'),value: '< 30岁',);
     ageLists.add(ageList2);
-    DropdownMenuItem ageList3 = new DropdownMenuItem(child: Text('30~40'),value: 3,);
+    DropdownMenuItem ageList3 = new DropdownMenuItem(child: Text('30~40'),value: '30~40',);
     ageLists.add(ageList3);
-    DropdownMenuItem ageList4 = new DropdownMenuItem(child: Text('40~50'),value: 4,);
+    DropdownMenuItem ageList4 = new DropdownMenuItem(child: Text('40~50'),value: '40~50',);
     ageLists.add(ageList4);
-    DropdownMenuItem ageList5 = new DropdownMenuItem(child: Text('> 50岁'),value: 5,);
+    DropdownMenuItem ageList5 = new DropdownMenuItem(child: Text('> 50岁'),value: '> 50岁',);
     ageLists.add(ageList5);
     return ageLists;
   }
 
   List<DropdownMenuItem> getMonthList(){
     List<DropdownMenuItem> monthLists = new List();
-    DropdownMenuItem ageList1 = new DropdownMenuItem(child: Text('所有'),value: 1,);
+    DropdownMenuItem ageList1 = new DropdownMenuItem(child: Text('所有'),value: 0,);
     monthLists.add(ageList1);
-    DropdownMenuItem ageList2 = new DropdownMenuItem(child: Text('1月'),value: 2,);
+    DropdownMenuItem ageList2 = new DropdownMenuItem(child: Text('1月'),value: 1,);
     monthLists.add(ageList2);
-    DropdownMenuItem ageList3 = new DropdownMenuItem(child: Text('2月'),value: 3,);
+    DropdownMenuItem ageList3 = new DropdownMenuItem(child: Text('2月'),value: 2,);
     monthLists.add(ageList3);
-    DropdownMenuItem ageList4 = new DropdownMenuItem(child: Text('3月'),value: 4,);
+    DropdownMenuItem ageList4 = new DropdownMenuItem(child: Text('3月'),value: 3,);
     monthLists.add(ageList4);
-    DropdownMenuItem ageList5 = new DropdownMenuItem(child: Text('4月'),value: 5,);
+    DropdownMenuItem ageList5 = new DropdownMenuItem(child: Text('4月'),value: 4,);
     monthLists.add(ageList5);
-    DropdownMenuItem ageList6 = new DropdownMenuItem(child: Text('5月'),value: 6,);
+    DropdownMenuItem ageList6 = new DropdownMenuItem(child: Text('5月'),value: 5,);
     monthLists.add(ageList6);
-    DropdownMenuItem ageList7 = new DropdownMenuItem(child: Text('6月'),value: 7,);
+    DropdownMenuItem ageList7 = new DropdownMenuItem(child: Text('6月'),value: 6,);
     monthLists.add(ageList7);
-    DropdownMenuItem ageList8 = new DropdownMenuItem(child: Text('7月'),value: 8,);
+    DropdownMenuItem ageList8 = new DropdownMenuItem(child: Text('7月'),value: 7,);
     monthLists.add(ageList8);
-    DropdownMenuItem ageList9 = new DropdownMenuItem(child: Text('8月'),value: 9,);
+    DropdownMenuItem ageList9 = new DropdownMenuItem(child: Text('8月'),value: 8,);
     monthLists.add(ageList9);
-    DropdownMenuItem ageList10 = new DropdownMenuItem(child: Text('9月'),value: 10,);
+    DropdownMenuItem ageList10 = new DropdownMenuItem(child: Text('9月'),value: 9,);
     monthLists.add(ageList10);
-    DropdownMenuItem ageList11 = new DropdownMenuItem(child: Text('10月'),value: 11,);
+    DropdownMenuItem ageList11 = new DropdownMenuItem(child: Text('10月'),value: 10,);
     monthLists.add(ageList11);
-    DropdownMenuItem ageList12 = new DropdownMenuItem(child: Text('11月'),value: 12,);
+    DropdownMenuItem ageList12 = new DropdownMenuItem(child: Text('11月'),value: 11,);
     monthLists.add(ageList12);
-    DropdownMenuItem ageList13 = new DropdownMenuItem(child: Text('12月'),value: 13,);
+    DropdownMenuItem ageList13 = new DropdownMenuItem(child: Text('12月'),value: 12,);
     monthLists.add(ageList13);
     return monthLists;
   }
 
   List<DropdownMenuItem> getReasonList(){
     List<DropdownMenuItem> reasonLists = new List();
-    DropdownMenuItem ageList1 = new DropdownMenuItem(child: Text('所有'),value: 1,);
+    DropdownMenuItem ageList1 = new DropdownMenuItem(child: Text('所有'),value: '所有',);
     reasonLists.add(ageList1);
-    DropdownMenuItem ageList2 = new DropdownMenuItem(child: Text('出售'),value: 2,);
+    DropdownMenuItem ageList2 = new DropdownMenuItem(child: Text('出售'),value: '出售',);
     reasonLists.add(ageList2);
-    DropdownMenuItem ageList3 = new DropdownMenuItem(child: Text('出租'),value: 3,);
+    DropdownMenuItem ageList3 = new DropdownMenuItem(child: Text('出租'),value: '出租',);
     reasonLists.add(ageList3);
-    DropdownMenuItem ageList4 = new DropdownMenuItem(child: Text('购买'),value: 4,);
+    DropdownMenuItem ageList4 = new DropdownMenuItem(child: Text('购买'),value: '购买',);
     reasonLists.add(ageList4);
-    DropdownMenuItem ageList5 = new DropdownMenuItem(child: Text('租赁'),value: 5,);
+    DropdownMenuItem ageList5 = new DropdownMenuItem(child: Text('租赁'),value: '租赁',);
     reasonLists.add(ageList5);
-    DropdownMenuItem ageList6 = new DropdownMenuItem(child: Text('多次'),value: 6,);
+    DropdownMenuItem ageList6 = new DropdownMenuItem(child: Text('多次'),value: '多次',);
     reasonLists.add(ageList6);
-    DropdownMenuItem ageList7 = new DropdownMenuItem(child: Text('暂无'),value: 7,);
+    DropdownMenuItem ageList7 = new DropdownMenuItem(child: Text('暂无'),value: '暂无',);
     reasonLists.add(ageList7);
     return reasonLists;
   }
@@ -122,16 +124,29 @@ class _MyTradedPageState extends State<MyTradedPage> {
   }
 
   _load() async {
+    _onRefresh();
     if(userData != null ){
       pageIndex ++ ;
-      var customersResult = await GetCustomerMainDao.getCustomerMain(
-        userData.userPid,
-        "5",
-        pageIndex.toString(),
-        '20',
-      );
+
+      if(ageValue == "所有" && monthValue == 0 && reasonValue == "所有"){
+        customersResult = await GetCustomerMainDao.getCustomerMain(
+          userData.userPid,
+          "5",
+          pageIndex.toString(),
+          '50',
+        );
+      }else{
+        customersResult = await GetUserByConditionDao.getCondition(
+            ageValue == "所有"?"0":ageValue == "< 30岁"?"1":ageValue == "30~40"?"30":ageValue == "40~50"?"40":"50",
+            ageValue == "所有"?"0":ageValue == "< 30岁"?"30":ageValue == "30~40"?"40":ageValue == "40~50"?"50":"100",
+            monthValue.toString(),
+            reasonValue == "所有"?"0":reasonValue,
+            userData.userPid,
+        );
+      }
 
       if (customersResult.code == 200) {
+
         customersList = customersResult.data;
         if (customersList.length>0) {
           for (var item in customersList) {
@@ -158,8 +173,10 @@ class _MyTradedPageState extends State<MyTradedPage> {
         setState(() {
           customers=customersShowList;
         });
+        _onRefresh();
       } else {
         _onLoadAlert(context);
+        _onRefresh();
       }
     }
   }
@@ -181,6 +198,7 @@ class _MyTradedPageState extends State<MyTradedPage> {
   @override
   void dispose(){
     _scrollController.dispose();
+    searchController.dispose();
     super.dispose();
   }
 
@@ -343,7 +361,10 @@ class _MyTradedPageState extends State<MyTradedPage> {
                                         top: 18,
                                         child: GestureDetector(
                                           onTap: ()async{
-                                            Navigator.push(context, MaterialPageRoute(builder: (context)=>TradedSearchPage()));
+                                            Navigator.push(context, MaterialPageRoute(builder: (context)=>TradedSearchPage(
+                                              keyword:searchController.text,
+                                              userID:userData.userPid,
+                                            )));
                                           },
                                           child: Container(
                                             width: 25,
@@ -390,7 +411,12 @@ class _MyTradedPageState extends State<MyTradedPage> {
                                       onChanged: (T){
                                         setState(() {
                                           ageValue = T;
+                                          customers = [];
+                                          customersResult = null;
+                                          customersShowList = [];
+                                          pageIndex = 0;
                                         });
+                                        _load();
                                       },
                                     )
                                   ],
@@ -423,7 +449,12 @@ class _MyTradedPageState extends State<MyTradedPage> {
                                       onChanged: (T){
                                         setState(() {
                                           monthValue = T;
+                                          customers = [];
+                                          customersResult = null;
+                                          customersShowList = [];
+                                          pageIndex = 0;
                                         });
+                                        _load();
                                       },
                                     )
                                   ],
@@ -456,7 +487,12 @@ class _MyTradedPageState extends State<MyTradedPage> {
                                       onChanged: (T){
                                         setState(() {
                                           reasonValue = T;
+                                          customers = [];
+                                          customersShowList = [];
+                                          customersResult = null;
+                                          pageIndex = 0;
                                         });
+                                        _load();
                                       },
                                     )
                                   ],
