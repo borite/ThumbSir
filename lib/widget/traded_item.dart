@@ -676,11 +676,11 @@ class _TradedItemState extends State<TradedItem> with SingleTickerProviderStateM
               padding: EdgeInsets.only(right: 7,top: 2),
 //                transform: Matrix4.rotationZ(1/8),
               decoration: BoxDecoration(
-                  color: widget.gender == "男"?Color(0xFFFF9600):Color(0xFFF24848),
+                  color: widget.gender == 0?Color(0xFFFF9600):Color(0xFFF24848),
                   borderRadius: BorderRadius.only(topRight: Radius.circular(12))
               ),
               child: Text(
-                widget.gender == "男"?"♂":"♀",
+                widget.gender == 0?"♂":"♀",
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 14,
