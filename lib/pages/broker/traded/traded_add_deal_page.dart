@@ -224,7 +224,7 @@ class _TradedAddDealPageState extends State<TradedAddDealPage> {
                             errorTipText: "请输入签约时的成交价格",
                             rightText: "请输入签约时的成交价格",
                             controller: priceController,
-                            inputType: TextInputType.phone,
+                            inputType: TextInputType.number,
                             reg: priceReg,
                             onChanged: (text){
                               setState(() {
@@ -249,11 +249,11 @@ class _TradedAddDealPageState extends State<TradedAddDealPage> {
                           ),
                           Input(
                             hintText: "例如：100",
-                            tipText: "请输入购买或出售的价格",
-                            errorTipText: "请输入购买或出售的价格",
-                            rightText: "请输入购买或出售的价格",
+                            tipText: "请输入面积",
+                            errorTipText: "请输入面积",
+                            rightText: "请输入面积",
                             controller: areaController,
-                            inputType: TextInputType.phone,
+                            inputType: TextInputType.number,
                             reg: areaReg,
                             onChanged: (text){
                               setState(() {

@@ -1,17 +1,14 @@
 import 'dart:convert';
-
 import 'package:ThumbSir/dao/add_leader_dao.dart';
 import 'package:ThumbSir/dao/get_leader_dao.dart';
 import 'package:ThumbSir/dao/get_section_list_dao.dart';
 import 'package:ThumbSir/dao/send_message_dao.dart';
 import 'package:ThumbSir/dao/un_bind_member_dao.dart';
 import 'package:ThumbSir/model/login_result_data_model.dart';
-import 'package:ThumbSir/model/section_list_model.dart';
+import 'package:ThumbSir/pages/home.dart';
 import 'package:ThumbSir/pages/login/login_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:ThumbSir/widget/input.dart';
-import 'package:ThumbSir/model/common_result_model.dart';
 import 'package:ThumbSir/dao/set_section_dao.dart';
 import 'package:ThumbSir/dao/finish_reg_dao.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -438,7 +435,9 @@ class _SigninChooseAreaPageState extends State<SigninChooseAreaPage> {
                                       _onReg410AlertPressed(context);
                                     }
                                     if(regResult.code == 200){
-                                      Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginPage()));
+                                      Navigator.of(context).pushAndRemoveUntil(
+                                          new MaterialPageRoute(builder: (context) => new Home( )
+                                          ), (route) => route == null);
                                     }
                                   }
                                 }
@@ -471,13 +470,17 @@ class _SigninChooseAreaPageState extends State<SigninChooseAreaPage> {
                                         // 如果有上级，且上级不存在，存储上级区域并跳转
                                         else{
                                           await setSecionDao.httpPostSection(companyId, previousLevel, levelOneController.text);
-                                          Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginPage()));
+                                          Navigator.of(context).pushAndRemoveUntil(
+                                              new MaterialPageRoute(builder: (context) => new Home( )
+                                              ), (route) => route == null);
                                         }
                                       }
                                       // 如果有上级，且上级不存在，存储上级区域并跳转
                                       else{
                                         await setSecionDao.httpPostSection(companyId, previousLevel, levelOneController.text);
-                                        Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginPage()));
+                                        Navigator.of(context).pushAndRemoveUntil(
+                                            new MaterialPageRoute(builder: (context) => new Home( )
+                                            ), (route) => route == null);
                                       }
                                     }
                                   }
@@ -515,13 +518,17 @@ class _SigninChooseAreaPageState extends State<SigninChooseAreaPage> {
                                         // 如果有上级，且上级不存在，存储上级区域并跳转
                                         else{
                                           await setSecionDao.httpPostSection(companyId, previousLevel, levelOneController.text);
-                                          Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginPage()));
+                                          Navigator.of(context).pushAndRemoveUntil(
+                                              new MaterialPageRoute(builder: (context) => new Home( )
+                                              ), (route) => route == null);
                                         }
                                       }
                                       // 如果有上级，且上级不存在，存储上级区域并跳转
                                       else{
                                         await setSecionDao.httpPostSection(companyId, previousLevel, levelOneController.text);
-                                        Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginPage()));
+                                        Navigator.of(context).pushAndRemoveUntil(
+                                            new MaterialPageRoute(builder: (context) => new Home( )
+                                            ), (route) => route == null);
                                       }
                                     }
                                   }
@@ -595,7 +602,9 @@ class _SigninChooseAreaPageState extends State<SigninChooseAreaPage> {
               await SendMessageDao.sendMessage(userData.userPid, leaderId, '上下级职位联接邀请', userData.userName+'申请成为你的下级', '2');
             }
             await AddLeaderDao.addLeaderPost(userId, leaderId);
-            Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginPage()));
+            Navigator.of(context).pushAndRemoveUntil(
+                new MaterialPageRoute(builder: (context) => new Home( )
+                ), (route) => route == null);
           },
           color: Color(0xFF5580EB),
         ),
@@ -605,7 +614,9 @@ class _SigninChooseAreaPageState extends State<SigninChooseAreaPage> {
             style: TextStyle(color: Colors.white, fontSize: 20),
           ),
           onPressed: ()async{
-            Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginPage()));
+            Navigator.of(context).pushAndRemoveUntil(
+                new MaterialPageRoute(builder: (context) => new Home( )
+                ), (route) => route == null);
           },
           color: Color(0xFFCCCCCC),
         ),

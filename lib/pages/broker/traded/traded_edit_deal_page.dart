@@ -268,11 +268,11 @@ class _TradedEditDealPageState extends State<TradedEditDealPage> {
                           ),
                           Input(
                             hintText: "例如：100",
-                            tipText: "请输入购买或出售的价格",
-                            errorTipText: "请输入购买或出售的价格",
-                            rightText: "请输入购买或出售的价格",
+                            tipText: "请输入面积",
+                            errorTipText: "请输入面积",
+                            rightText: "请输入面积",
                             controller: areaController,
-                            inputType: TextInputType.phone,
+                            inputType: TextInputType.number,
                             reg: areaReg,
                             onChanged: (text){
                               setState(() {
