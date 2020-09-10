@@ -1,14 +1,13 @@
 import 'dart:convert';
-
 import 'package:ThumbSir/common/reg.dart';
 import 'package:ThumbSir/dao/add_leader_dao.dart';
 import 'package:ThumbSir/dao/add_team_member_dao.dart';
 import 'package:ThumbSir/dao/get_leader_dao.dart';
+import 'package:ThumbSir/dao/get_leader_info_dao.dart';
 import 'package:ThumbSir/dao/get_user_by_phone_dao.dart';
 import 'package:ThumbSir/dao/send_message_dao.dart';
 import 'package:ThumbSir/model/login_result_data_model.dart';
 import 'package:ThumbSir/pages/home.dart';
-import 'package:ThumbSir/pages/mycenter/invitation_page.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:ThumbSir/widget/input.dart';
 import 'package:flutter/material.dart';
@@ -40,6 +39,8 @@ class _AddMemberPageState extends State<AddMemberPage> {
   String uinfo;
   var result;
 
+  var leaderInfo;
+
   _getUserInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     uinfo= prefs.getString("userInfo");
@@ -49,7 +50,26 @@ class _AddMemberPageState extends State<AddMemberPage> {
         userData=LoginResultData.fromJson(json.decode(uinfo));
       });
     }
+    if(userData != null){
+      _loadLeader();
+    }
   }
+
+  _loadLeader()async{
+    if(userData.leaderId != null){
+      var getLeaderResult = await GetLeaderInfoDao.httpGetLeaderInfo(
+        userData.leaderId,
+        userData.companyId,
+      );
+      if(getLeaderResult.code == 200){
+        setState(() {
+          leaderInfo = getLeaderResult.data.leaderInfo;
+        });
+      }
+    }
+  }
+
+
 
   @override
   void initState() {
@@ -294,7 +314,23 @@ class _AddMemberPageState extends State<AddMemberPage> {
                         ),
                       ),
                     )
-                    :Container(height: 1,),
+                    :
+                    userData != null && userData.userLevel.substring(0,1) != '1' && userData.leaderId != null?
+                    Container(
+                      width: 335,
+                      margin: EdgeInsets.only(top: 50),
+                      child: Text(
+                        '已挂载上级',
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Color(0xFF5580EB),
+                          fontWeight: FontWeight.normal,
+                          decoration: TextDecoration.none,
+                        ),
+                      ),
+                    )
+                    :
+                    Container(width: 1,),
                     userData != null &&userData.userLevel.substring(0,1) != '1' && userData.leaderId == null?
                     Container(
                       width: 350,
@@ -347,7 +383,69 @@ class _AddMemberPageState extends State<AddMemberPage> {
                           ]
                       )
                     )
-                    :Container(height: 1,),
+                    :
+                    userData != null &&userData.userLevel.substring(0,1) != '1' && userData.leaderId != null && leaderInfo != null?
+                    // 已挂载上级直接显示上级信息
+                    Container(
+                      width: 335,
+                      margin: EdgeInsets.only(bottom: 20,top: 20),
+                      padding: EdgeInsets.only(bottom: 15),
+                      decoration: BoxDecoration(
+                          border: Border(bottom: BorderSide(width: 1,color: Color(0xFFEBEBEB)))
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Row(
+                            children: <Widget>[
+                              Container(
+                                height: 60,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.all(Radius.circular(45)),
+                                    color: Colors.white,
+                                    border: Border.all(color: Color(0xFF93C0FB),width: 1)
+                                ),
+                                child:ClipRRect(
+                                  borderRadius: BorderRadius.circular(30),
+                                  child: Image(
+                                    image:leaderInfo.headImg != null?
+                                    NetworkImage(leaderInfo.headImg)
+                                        :
+                                    AssetImage('images/my_big.png'),
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(left: 20),
+                                width: 100,
+                                child: Column(
+                                  children: <Widget>[
+                                    Row(
+                                      children: <Widget>[
+                                        Text(
+                                          leaderInfo.userName,
+                                          style:TextStyle(
+                                            fontSize: 14,
+                                            color: Color(0xFF333333),
+                                            fontWeight: FontWeight.normal,
+                                            decoration: TextDecoration.none,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                          Text(
+                            leaderInfo.userLevel.substring(2,),
+                            style: TextStyle(color: Color(0xFF999999),fontSize: 14),)
+                        ],
+                      ),
+                    )
+                    :
+                    Container(height: 1,),
                     // 搜索结果
                     areaShowState == 1 ?
                     Container(

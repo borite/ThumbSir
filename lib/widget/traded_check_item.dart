@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
-class TradedItem extends StatefulWidget {
+class TradedCheckItem extends StatefulWidget {
   final String name;
   final int star;
   final int gender;
@@ -21,16 +21,16 @@ class TradedItem extends StatefulWidget {
   final giftList;
   final item;
 
-  TradedItem({Key key,
+  TradedCheckItem({Key key,
     this.name,this.star,this.gender,this.age,this.phone,this.birthday,
     this.firstDealReason,this.firstDealTime,this.secondDealReason,this.ssecondDealTime,
     this.item,this.giftList,
   }):super(key:key);
   @override
-  _TradedItemState createState() => _TradedItemState();
+  _TradedCheckItemState createState() => _TradedCheckItemState();
 }
 
-class _TradedItemState extends State<TradedItem> with SingleTickerProviderStateMixin{
+class _TradedCheckItemState extends State<TradedCheckItem> with SingleTickerProviderStateMixin{
   bool _extend = false;
   Animation<double> animation;
   AnimationController controller;
@@ -198,7 +198,7 @@ class _TradedItemState extends State<TradedItem> with SingleTickerProviderStateM
                               borderRadius: BorderRadius.all(Radius.circular(6)),
                             ),
                             child: Text(
-                              widget.phone.substring(0,3)+"****"+widget.phone.substring(8,),
+                              widget.phone.substring(0,3)+"****"+widget.phone.substring(7,),
                               style: TextStyle(
                                 fontSize: 14,
                                 color: Colors.white,
@@ -399,7 +399,7 @@ class _TradedItemState extends State<TradedItem> with SingleTickerProviderStateM
                           ),
                         ),
                         Text(
-                          widget.phone.substring(0,3)+"****"+widget.phone.substring(8,),
+                          widget.phone.substring(0,3)+"****"+widget.phone.substring(7,),
                           style: TextStyle(
                             fontSize: 14,
                             color: Color(0xFF666666),

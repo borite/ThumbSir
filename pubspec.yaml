@@ -145,5 +145,9 @@ flutter:
     - images/gift_deal.png
     - images/gift_festive.png
     - images/gift_birth.png
+    - images/my_traded.png
+    - images/my_traded_s.png
+    - images/team_traded.png
+    - images/team_traded_s.png
 
 

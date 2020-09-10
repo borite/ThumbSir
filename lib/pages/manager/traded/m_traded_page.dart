@@ -30,22 +30,22 @@ class _MTradedPageState extends State<MTradedPage> {
             BottomNavigationBarItem(
                 icon: Container(
                   height: 26,
-                  child: Image(image:AssetImage('images/listicon.png'),),
+                  child: Image(image:AssetImage('images/my_traded.png'),),
                 ),
                 activeIcon:Container(
                   height: 26,
-                  child: Image(image:AssetImage('images/listicon_s.png'),),
+                  child: Image(image:AssetImage('images/my_traded_s.png'),),
                 ),
                 title: Text('我的客户')
             ),
             BottomNavigationBarItem(
               icon: Container(
                 height:26,
-                child:Image(image:AssetImage('images/analyze.png')),
+                child:Image(image:AssetImage('images/team_traded.png')),
               ),
               activeIcon:Container(
                 height:26,
-                child:Image(image:AssetImage('images/analyze_s.png')),
+                child:Image(image:AssetImage('images/team_traded_s.png')),
               ),
               title: Text('团队客户'),
             ),
