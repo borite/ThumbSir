@@ -1,12 +1,11 @@
 import 'dart:convert';
-
-import 'package:ThumbSir/dao/get_leader_data_dao.dart';
 import 'package:ThumbSir/dao/get_leader_info_dao.dart';
 import 'package:ThumbSir/dao/get_next_level_customer_dao.dart';
-import 'package:ThumbSir/dao/get_next_liang_hua_dao.dart';
 import 'package:ThumbSir/model/login_result_data_model.dart';
 import 'package:ThumbSir/pages/manager/qlist/group_list_detail_page.dart';
 import 'package:ThumbSir/pages/manager/qlist/team_list_member_page.dart';
+import 'package:ThumbSir/pages/manager/traded/group_traded_detail_page.dart';
+import 'package:ThumbSir/pages/manager/traded/team_traded_member_page.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -103,16 +102,16 @@ class _TeamTradedDetailPageState extends State<TeamTradedDetailPage> {
           GestureDetector(
             onTap: (){
               if(currentLevelResult.substring(0,1) == '4'){
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>GroupListDetailPage(
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>GroupTradedDetailPage(
                     leaderArea : item.teamName,
-                    leaderAreaRate : item.finishRate,
+                    leaderAreaRate : item.customerNum,
                     leaderName : item.nextLeader.userName,
                     leaderID : item.nextLeader.userPid
                 )));
               }else{
                 Navigator.push(context, MaterialPageRoute(builder: (context)=>TeamTradedDetailPage(
                     leaderArea : item.teamName,
-                    leaderAreaRate : item.finishRate,
+                    leaderAreaRate : item.customerNum,
                     leaderName : item.nextLeader.userName,
                     leaderID : item.nextLeader.userPid
                 )));
@@ -186,7 +185,7 @@ class _TeamTradedDetailPageState extends State<TeamTradedDetailPage> {
                               Container(
                                 width: 200,
                                 child: Text(
-                                  '拥有客户数：'+item.planCount.toString(),
+                                  '拥有客户数：'+item.customerNum.toString(),
                                   style:TextStyle(
                                     fontSize: 12,
                                     color: Color(0xFF999999),
@@ -454,7 +453,7 @@ class _TeamTradedDetailPageState extends State<TeamTradedDetailPage> {
                                           width: 150,
                                           padding: EdgeInsets.only(top: 8),
                                           child: Text(
-                                            '拥有客户数：'+widget.leaderAreaRate.toString(),
+                                            '拥有客户数：'+leaderCount.toString(),
                                             style:TextStyle(
                                               fontSize: 12,
                                               color: Color(0xFF999999),
@@ -471,7 +470,7 @@ class _TeamTradedDetailPageState extends State<TeamTradedDetailPage> {
                               currentLevelResult!= null && currentLevelResult.substring(0,1) == '4'?
                               GestureDetector(
                                 onTap: (){
-                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>TeamListMemberPage(
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>TeamTradedMemberPage(
                                     userId: leaderInfo.userPid,
                                     userLevel: leaderInfo.userLevel,
                                     userName: leaderInfo.userName,

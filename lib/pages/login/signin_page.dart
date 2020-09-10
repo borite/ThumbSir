@@ -314,17 +314,20 @@ class _SigninNameAndPhonePageState extends State<SigninNameAndPhonePage> {
                                           SharedPreferences prefs = await SharedPreferences.getInstance();
                                           prefs.setString('userID', result.data);
                                           Navigator.push(context, MaterialPageRoute(builder: (context)=>SigninFinishPage()));
+                                          _onRefresh();
                                         }else if(result.code == 403){
                                           _on403AlertPressed(context);
+                                          _onRefresh();
                                         }
-                                        else if(result.code == 410){_on410AlertPressed(context);}
-                                        else if(result.code == 420){_on420AlertPressed(context);}
-                                        else if(result.code == 430){_on430AlertPressed(context);}
-                                        else{_on404AlertPressed(context);}
+                                        else if(result.code == 410){_on410AlertPressed(context);_onRefresh();}
+                                        else if(result.code == 420){_on420AlertPressed(context);_onRefresh();}
+                                        else if(result.code == 430){_on430AlertPressed(context);_onRefresh();}
+                                        else{_on404AlertPressed(context);_onRefresh();}
                                       }else if(check == false){
                                         setState(() {
                                           checkBox = 1;
                                         });
+                                        _onRefresh();
                                       }
                                     },
                                     child: Text('下一步',style: TextStyle(

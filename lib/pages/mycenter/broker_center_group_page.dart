@@ -46,13 +46,22 @@ class _BrokerCenterGroupPageState extends State<BrokerCenterGroupPage> {
   _load()async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final userId= prefs.getString("userID");
-    leaderAndMemberResult = await GetLeaderAndTeamMemberDao.getLeaderAndTeamMember(userId);
-    if(leaderAndMemberResult != null){
-      if(leaderAndMemberResult.code == 200){
-        setState(() {
-          hasMember = true;
-          _loading =false;
-        });
+    if(userData.leaderId != null && userData.userState == 1){
+
+      print(userData.userState);
+      leaderAndMemberResult = await GetLeaderAndTeamMemberDao.getLeaderAndTeamMember(userId);
+      if(leaderAndMemberResult != null){
+        if(leaderAndMemberResult.code == 200){
+          setState(() {
+            hasMember = true;
+            _loading =false;
+          });
+        }else{
+          setState(() {
+            hasMember = false;
+            _loading = false;
+          });
+        }
       }else{
         setState(() {
           hasMember = false;
@@ -60,10 +69,7 @@ class _BrokerCenterGroupPageState extends State<BrokerCenterGroupPage> {
         });
       }
     }else{
-      setState(() {
-        hasMember = false;
-        _loading = false;
-      });
+      _loading = false;
     }
   }
 

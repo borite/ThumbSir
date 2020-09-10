@@ -5,6 +5,7 @@ import 'package:ThumbSir/model/login_result_data_model.dart';
 import 'package:ThumbSir/model/get_message_model.dart';
 import 'package:ThumbSir/pages/broker/qlist/qlist_page.dart';
 import 'package:ThumbSir/pages/broker/traded/my_traded_page.dart';
+import 'package:ThumbSir/pages/login/login_page.dart';
 import 'package:ThumbSir/pages/major/qlist/major_qlist_page.dart';
 import 'package:ThumbSir/pages/manager/traded/m_traded_page.dart';
 import 'package:ThumbSir/pages/manager/traded/s_traded_page.dart';
@@ -45,16 +46,11 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin{
   _getUserInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     uinfo = prefs.getString("userInfo");
-    if (uinfo != null) {
+    if(uinfo!=null){
       result = loginResultDataFromJson(uinfo);
-      this.setState(() {
-        token = LoginResultData.fromJson(json.decode(uinfo)).token;
-      });
-    }
-    if (userData == null || userData.companyId == null) {
-      if(token != null){
-        var tokenResult = await TokenCheckDao.tokenCheck(token);
-        if (tokenResult.code == 200) {
+      token = LoginResultData.fromJson(json.decode(uinfo)).token;
+      var tokenResult = await TokenCheckDao.tokenCheck(token);
+      if (tokenResult.code == 200) {
           String dataStr = json.encode(tokenResult.data);
           SharedPreferences prefs = await SharedPreferences.getInstance();
           prefs.setString("userInfo", dataStr);
@@ -63,9 +59,37 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin{
             userData = LoginResultData.fromJson(json.decode(uinfo));
             _loadMsg();
           });
+        }else{
+          prefs.remove("userInfo");
+          prefs.remove("userID");
         }
-      }
     }
+//    prefs.remove("userInfo");
+//    prefs.remove("userID");
+//    if (uinfo != null) {
+//      result = loginResultDataFromJson(uinfo);
+//      this.setState(() {
+//        token = LoginResultData.fromJson(json.decode(uinfo)).token;
+//      });
+//    }
+//    if (userData == null || userData.companyId == null) {
+//      if(token != null){
+//        var tokenResult = await TokenCheckDao.tokenCheck(token);
+//        if (tokenResult.code == 200) {
+//          String dataStr = json.encode(tokenResult.data);
+//          SharedPreferences prefs = await SharedPreferences.getInstance();
+//          prefs.setString("userInfo", dataStr);
+//          prefs.setString('userID', tokenResult.data.userPid);
+//          this.setState(() {
+//            userData = LoginResultData.fromJson(json.decode(uinfo));
+//            _loadMsg();
+//          });
+//        }else{
+//          prefs.remove("userInfo");
+//          prefs.remove("userID");
+//        }
+//      }
+//    }
   }
 
   _load() async {
@@ -246,6 +270,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin{
                                   // 顶部个人中心按钮
                                   GestureDetector(
                                     onTap: () {
+                                      userData==null?Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginPage())):
                                       Navigator.push(context, MaterialPageRoute(builder: (context)=>MyCenterPage()));
                                     },
                                     child: Container(

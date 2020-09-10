@@ -1,3 +1,4 @@
+import 'package:ThumbSir/pages/home.dart';
 import 'package:ThumbSir/pages/login/login_page.dart';
 import 'package:ThumbSir/pages/login/signin_choose_company_page.dart';
 import 'package:flutter/cupertino.dart';
@@ -36,7 +37,9 @@ class _SigninFinishPageState extends State<SigninFinishPage> {
                             children: <Widget>[
                               GestureDetector(
                                 onTap: (){
-                                  Navigator.pop(context);
+                                  Navigator.of(context).pushAndRemoveUntil(
+                                      new MaterialPageRoute(builder: (context) => new Home( )
+                                      ), (route) => route == null);
                                 },
                                 child: Image(image: AssetImage('images/back.png'),),
                               ),

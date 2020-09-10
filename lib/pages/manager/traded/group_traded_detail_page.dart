@@ -294,8 +294,7 @@ class _GroupTradedDetailPageState extends State<GroupTradedDetailPage> {
                                           Container(
                                             width: 200,
                                             child: Text(
-//                                              '拥有客户数：'+widget.leaderAreaRate.toString(),
-                                              '拥有客户数：'+leaderCount.toString(),
+                                              '拥有客户数：'+widget.leaderAreaRate.toString(),
                                               style:TextStyle(
                                                 fontSize: 12,
                                                 color: Color(0xFF999999),

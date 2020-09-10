@@ -320,7 +320,13 @@ class _AddMemberPageState extends State<AddMemberPage> {
                       width: 335,
                       margin: EdgeInsets.only(top: 50),
                       child: Text(
-                        '已挂载上级',
+                        userData != null && userData.leaderId != null && userData.userState == 1 ?
+                        '已挂载上级'
+                            :
+                        userData != null && userData.leaderId != null && userData.userState == 3 ?
+                        '已发送挂载申请的上级（待确认），需被申请人前往消息中心确认或拒绝'
+                        :
+                        '您的账号已被锁定',
                         style: TextStyle(
                           fontSize: 16,
                           color: Color(0xFF5580EB),
@@ -585,9 +591,14 @@ class _AddMemberPageState extends State<AddMemberPage> {
             onPressed: () async {
               // 申请挂载上级
               var leaderResult = await AddLeaderDao.addLeaderPost(userData.userPid, areaResultData.userPid);
-              var sendMessageResult = await SendMessageDao.sendMessage(userData.userPid, areaResultData.userPid, '上下级职位联接邀请', userData.userName+'申请成为你的下级', '2');
-              if(leaderResult.code == 200 && sendMessageResult.code == 200){
-                _onLeaderResult200AlertPressed(context);
+
+              if(leaderResult.code == 200){
+                var sendMessageResult = await SendMessageDao.sendMessage(userData.userPid, areaResultData.userPid, '上下级职位联接邀请', userData.userName+'申请成为你的下级', '2');
+                if(sendMessageResult.code == 200){
+                  _onLeaderResult200AlertPressed(context);
+                }else{
+                  _onLeaderResult400AlertPressed(context);
+                }
               }else if(leaderResult.code == 410){
                 _onResult410AlertPressed(context);
               }else{
@@ -622,9 +633,16 @@ class _AddMemberPageState extends State<AddMemberPage> {
             onPressed: () async {
               // 申请挂载下级
               var memberResult = await AddTeamMemberDao.addMemberPost(userData.userPid, phoneResultData.userPid);
-              var sendMessageResult = await SendMessageDao.sendMessage(userData.userPid, phoneResultData.userPid, '上下级职位联接邀请', userData.userName+'申请成为你的上级', '2');
-              if(memberResult.code == 200 && sendMessageResult.code == 200){
-                _onMemberResult200AlertPressed(context);
+
+              if(memberResult.code == 200){
+                var sendMessageResult = await SendMessageDao.sendMessage(userData.userPid, phoneResultData.userPid, '上下级职位联接邀请', userData.userName+'申请成为你的上级', '2');
+                if(sendMessageResult.code == 200){
+                  _onMemberResult200AlertPressed(context);
+                }else{
+                  _onLeaderResult400AlertPressed(context);
+                }
+              }else{
+                _onLeaderResult400AlertPressed(context);
               }
               if(memberResult.code == 420){
                 _onResult420AlertPressed(context);

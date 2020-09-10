@@ -1,4 +1,5 @@
 import 'package:ThumbSir/dao/confirm_add_member_dao.dart';
+import 'package:ThumbSir/dao/refuse_connect_dao.dart';
 import 'package:ThumbSir/pages/home.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -128,7 +129,7 @@ class _AgreeInvitationPageState extends State<AgreeInvitationPage> {
                           ),
                         ),
                         Text(
-                          '不同意请忽略此消息',
+                          '不同意请拒绝邀请',
                           style: TextStyle(
                             fontSize: 16,
                             color: Color(0xFF999999),
@@ -136,51 +137,102 @@ class _AgreeInvitationPageState extends State<AgreeInvitationPage> {
                             decoration: TextDecoration.none,
                           ),
                         ),
-                      // 接受邀请
-                      GestureDetector(
-                        onTap: ()async{
-                          SharedPreferences prefs = await SharedPreferences.getInstance();
-                          var userID= prefs.getString("userID");
-                          if(userID != null){
-                            if(widget.item.msgContent.substring(widget.item.msgContent.length-2,widget.item.msgContent.length-1) == '上'){
-                              var confirmResult = await ConfirmAddMemberDao.confirmMember(userID, widget.item.fromUser);
-                              if(confirmResult.code == 200){
-                                _onLoadAlert(context);
-                              }else{
-                                _overLoadAlert(context);
-                              }
-                            }
-                            if(widget.item.msgContent.substring(widget.item.msgContent.length-2,widget.item.msgContent.length-1) == '下'){
-                              var confirmResult = await ConfirmAddMemberDao.confirmMember(widget.item.fromUser,userID);
-                              if(confirmResult.code == 200){
-                                _onLoadAlert(context);
-                              }else{
-                                _overLoadAlert(context);
-                              }
-                            }
-                          }
-                        },
-                        child: Container(
-                          width: 295,
-                          height: 40,
-                          padding: EdgeInsets.all(4),
-                          margin: EdgeInsets.only(top: 60),
-                          decoration: BoxDecoration(
-                            border: Border.all(width: 1,color: Color(0xFF5580EB)),
-                            borderRadius: BorderRadius.circular(8),
-                            color: Color(0xFF5580EB)
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          // 接受邀请
+                          GestureDetector(
+                              onTap: ()async{
+                                SharedPreferences prefs = await SharedPreferences.getInstance();
+                                var userID= prefs.getString("userID");
+                                if(userID != null){
+                                  if(widget.item.msgContent.substring(widget.item.msgContent.length-2,widget.item.msgContent.length-1) == '上'){
+                                    var confirmResult = await ConfirmAddMemberDao.confirmMember(userID, widget.item.fromUser);
+                                    if(confirmResult.code == 200){
+                                      _onLoadAlert(context);
+                                    }else{
+                                      _overLoadAlert(context);
+                                    }
+                                  }
+                                  if(widget.item.msgContent.substring(widget.item.msgContent.length-2,widget.item.msgContent.length-1) == '下'){
+                                    var confirmResult = await ConfirmAddMemberDao.confirmMember(widget.item.fromUser,userID);
+                                    if(confirmResult.code == 200){
+                                      _onLoadAlert(context);
+                                    }else{
+                                      _overLoadAlert(context);
+                                    }
+                                  }
+                                }
+                              },
+                              child: Container(
+                                  width: 140,
+                                  height: 40,
+                                  padding: EdgeInsets.all(4),
+                                  margin: EdgeInsets.only(top: 60),
+                                  decoration: BoxDecoration(
+                                      border: Border.all(width: 1,color: Color(0xFF5580EB)),
+                                      borderRadius: BorderRadius.circular(8),
+                                      color: Color(0xFF5580EB)
+                                  ),
+                                  child: Padding(
+                                    padding: EdgeInsets.only(top: 4),
+                                    child: Text('接受邀请',style: TextStyle(
+                                      fontSize: 14,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.normal,
+                                      decoration: TextDecoration.none,
+                                    ),textAlign: TextAlign.center,),
+                                  )
+                              ),
                           ),
-                          child: Padding(
-                            padding: EdgeInsets.only(top: 4),
-                            child: Text('接受邀请',style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.white,
-                              fontWeight: FontWeight.normal,
-                              decoration: TextDecoration.none,
-                            ),textAlign: TextAlign.center,),
+                          // 拒绝邀请
+                          GestureDetector(
+                            onTap: ()async{
+                              SharedPreferences prefs = await SharedPreferences.getInstance();
+                              var userID= prefs.getString("userID");
+                              if(userID != null){
+                                if(widget.item.msgContent.substring(widget.item.msgContent.length-2,widget.item.msgContent.length-1) == '上'){
+                                  var refuseResult = await RefuseConnectDao.refuseConnect(userID);
+                                  if(refuseResult.code == 200){
+                                    _onLoadAlert(context);
+                                  }else{
+                                    _overLoadAlert(context);
+                                  }
+                                }
+                                if(widget.item.msgContent.substring(widget.item.msgContent.length-2,widget.item.msgContent.length-1) == '下'){
+                                  var refuseResult = await RefuseConnectDao.refuseConnect(widget.item.fromUser);
+                                  if(refuseResult.code == 200){
+                                    _onLoadAlert(context);
+                                  }else{
+                                    _overLoadAlert(context);
+                                  }
+                                }
+                              }
+                            },
+                            child: Container(
+                                width: 140,
+                                height: 40,
+                                padding: EdgeInsets.all(4),
+                                margin: EdgeInsets.only(top: 60),
+                                decoration: BoxDecoration(
+                                    border: Border.all(width: 1,color: Color(0xFF999999)),
+                                    borderRadius: BorderRadius.circular(8),
+                                    color: Color(0xFF999999)
+                                ),
+                                child: Padding(
+                                  padding: EdgeInsets.only(top: 4),
+                                  child: Text('拒绝邀请',style: TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.normal,
+                                    decoration: TextDecoration.none,
+                                  ),textAlign: TextAlign.center,),
+                                )
+                            ),
                           )
-                        ),
+                        ],
                       )
+
                   ]
                   )
                 )],
@@ -215,7 +267,7 @@ class _AgreeInvitationPageState extends State<AgreeInvitationPage> {
     Alert(
       type: AlertType.error,
       context: context,
-      title: "没有挂载成功",
+      title: "操作失败",
       desc: "请检查网络情况",
       buttons: [
         DialogButton(

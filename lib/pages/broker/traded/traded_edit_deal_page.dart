@@ -47,7 +47,7 @@ class _TradedEditDealPageState extends State<TradedEditDealPage> {
 
   List<DealInfo> deal=new List();
 
-  DateTime _selectedDate=DateTime(2010,1,1);
+  DateTime _selectedDate=DateTime(2020,1,1);
 
   LoginResultData userData;
   String uinfo;
@@ -214,7 +214,7 @@ class _TradedEditDealPageState extends State<TradedEditDealPage> {
                               looping: true, // default is not looping
                               firstDate: DateTime(2000),
                               lastDate: DateTime(2030, 1, 1),
-                              initialDate: DateTime(2010,1,1),
+                              initialDate: DateTime(2020,1,1),
                               dateFormat: "yyyy年-MMMM月-dd日",
                               locale: DatePicker.localeFromString('zh'),
                               onChange: (DateTime newDate, _) => _selectedDate = newDate,

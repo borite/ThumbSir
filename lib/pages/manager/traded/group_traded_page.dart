@@ -327,8 +327,8 @@ class _GroupTradedPageState extends State<GroupTradedPage> {
                             padding: EdgeInsets.only(top:2,left:5,right: 5),
                             child: Text(
                               leaderResult != null?
-                              '拥有客户数：'+ leaderResult.toString()
-                                  :'拥有客户数：0',
+                              '团队（含负责人）拥有客户数：'+ leaderResult.toString()
+                                  :'团队（含负责人）拥有客户数：0',
                               style: TextStyle(
                                 fontSize: 10,
                                 color: Color(0xFF24CC8E),
