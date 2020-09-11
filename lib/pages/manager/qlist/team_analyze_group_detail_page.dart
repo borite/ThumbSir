@@ -154,7 +154,7 @@ class _TeamAnalyzeGroupDetailPageState extends State<TeamAnalyzeGroupDetailPage>
                               width: 150,
                               padding: EdgeInsets.only(top: 8),
                               child: Text(item.missionData != null ?
-                                '今日综合完成度：'+((item.missionData.finishRate)*100).toString()+'%':'今日无计划',
+                                '今日综合完成度：'+((item.missionData.finishRate)*100).toString().split(".")[0]+'%':'今日无计划',
                                 style:TextStyle(
                                   fontSize: 12,
                                   color: Color(0xFF999999),
@@ -269,7 +269,7 @@ class _TeamAnalyzeGroupDetailPageState extends State<TeamAnalyzeGroupDetailPage>
                                               padding: EdgeInsets.only(top: 16),
                                               child: Text(
                                                 widget.leaderAreaRate != null ?
-                                                ((widget.leaderAreaRate==1.0?1:widget.leaderAreaRate)*100).toString()+'%':'今日无计划',
+                                                ((widget.leaderAreaRate==1.0?1:widget.leaderAreaRate)*100).toString().split(".")[0]+'%':'今日无计划',
                                                 style:TextStyle(
                                                   fontSize: 20,
                                                   color: Colors.white,
@@ -379,7 +379,7 @@ class _TeamAnalyzeGroupDetailPageState extends State<TeamAnalyzeGroupDetailPage>
                                                 width: 150,
                                                 padding: EdgeInsets.only(top: 8),
                                                 child: Text(
-                                                  leaderCount!=null && leaderCount.finishRate!=null?'个人今日综合完成度：'+((leaderCount.finishRate)*100).toString()+'%':'个人今日综合完成度：0%',
+                                                  leaderCount!=null && leaderCount.finishRate!=null?'个人今日综合完成度：'+((leaderCount.finishRate)*100).toString().split(".")[0]+'%':'个人今日综合完成度：0%',
                                                   style:TextStyle(
                                                     fontSize: 12,
                                                     color: Color(0xFF999999),

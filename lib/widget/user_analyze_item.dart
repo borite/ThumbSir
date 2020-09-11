@@ -121,7 +121,7 @@ class _UserAnalyzeItemState extends State<UserAnalyzeItem> with SingleTickerProv
                             Padding(
                               padding: EdgeInsets.only(top: 4,left: 10),
                               child: Text(
-                                '时间占比：'+this.widget.timePercent.toString()+'%',
+                                '时间占比：'+this.widget.timePercent.toString().split(".")[0]+'%',
                                 style: TextStyle(
                                   color: Color(0xFF24CC8E),
                                   fontSize: 12,
@@ -164,7 +164,7 @@ class _UserAnalyzeItemState extends State<UserAnalyzeItem> with SingleTickerProv
                             Padding(
                               padding: EdgeInsets.only(top: 4,left: 10),
                               child: Text(
-                                '时间占比：'+this.widget.timePercent.toString()+'%',
+                                '时间占比：'+this.widget.timePercent.toString().split(".")[0]+'%',
                                 style: TextStyle(
                                   color: Color(0xFFF24848),
                                   fontSize: 12,

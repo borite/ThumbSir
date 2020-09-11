@@ -1,8 +1,6 @@
 PODS:
   - BaiduMapKit (5.4.0)
-  - BMKLocationKit (1.8.5)
-  - Flutter (1.0.0):
-    - BMKLocationKit
+  - Flutter (1.0.0)
   - flutter_bmfbase (0.0.1):
     - BaiduMapKit (= 5.4.0)
     - Flutter
@@ -53,7 +51,6 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - BaiduMapKit
-    - BMKLocationKit
 
 EXTERNAL SOURCES:
   Flutter:
@@ -89,8 +86,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   BaiduMapKit: 40a4382633859bd569d40da9f9a2e98a277dd28b
-  BMKLocationKit: fd3d6b4a9a3a1a2763819f56b780bda5fc5b8726
-  Flutter: b8d6f63e11ec4159fa785e2a147c2997cb420504
+  Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
   flutter_bmfbase: 8ac2c94f3f110daec8e499dc13f8a983b0c8ee40
   flutter_bmflocation: 34352642b43083b3beb38467fce39201a4b620ee
   flutter_plugin_android_lifecycle: dc0b544e129eebb77a6bfb1239d4d1c673a60a35

@@ -250,7 +250,7 @@ class _IntroduceVersionPageState extends State<IntroduceVersionPage> {
                                 width: 335,
                                 padding: EdgeInsets.only(top: 10),
                                 child: Text(
-                                  '（1）记录客户详细信息，不仅包含客户基本信息，还包括成交信息和客户家庭成员爱好，便于查看和长期维护；',
+                                  '（1）记录客户详细信息，不仅包含客户基本信息，还包括成交信息和客户家庭成员爱好，条理清晰，便于查看和长期维护；',
                                   style: TextStyle(
                                     fontSize: 14,
                                     color: Color(0xFF666666),
@@ -262,7 +262,7 @@ class _IntroduceVersionPageState extends State<IntroduceVersionPage> {
                                 width: 335,
                                 padding: EdgeInsets.only(top: 10),
                                 child: Text(
-                                  '（2）用户可以根据基本信息和已成交信息为客户推荐合适的成交方案，思路更清晰；',
+                                  '（2）用户可以根据基本信息和已成交信息为客户推荐合适的成交和维护方案，思路更清晰；',
                                   style: TextStyle(
                                     fontSize: 14,
                                     color: Color(0xFF666666),
@@ -274,7 +274,7 @@ class _IntroduceVersionPageState extends State<IntroduceVersionPage> {
                                 width: 335,
                                 padding: EdgeInsets.only(top: 10),
                                 child: Text(
-                                  '（3）用户还可以根据客户及其家庭成员的爱好在生日、节日、成交、带看等场景为客户送出让对方心仪的维护礼品，并进行记录，便于达成长期的友好关系；',
+                                  '（3）用户可以根据客户及其家庭成员的爱好在生日、节日、成交、带看等场景为客户送出让对方心仪的维护礼品，并进行记录，便于达成长期的友好关系，有效提高回头客和转介绍的概率；',
                                   style: TextStyle(
                                     fontSize: 14,
                                     color: Color(0xFF666666),

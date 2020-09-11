@@ -650,8 +650,10 @@ class _QListUploadPageState extends State<QListUploadPage> {
                             }//for循环完成
 
                             print(recordMission);
+                            print(recordMission.length);
                             if (recordMission.length > 0) {
-                              var recordBody = convert.json.encode(recordMission);
+                              var recordBody = json.encode(recordMission);
+                              print(recordBody);
                               var recordMissionImg = await dio.post(
                                   "http://47.104.20.6:10086/api/api/mission/UploadPhone",
                                   data: recordBody);
@@ -676,6 +678,8 @@ class _QListUploadPageState extends State<QListUploadPage> {
                               }else{
                                 _onRefresh();
                               }
+                            }else{
+                              print('他妈的出错了');
                             }
 
                           }

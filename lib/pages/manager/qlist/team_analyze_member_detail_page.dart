@@ -137,7 +137,7 @@ class _TeamAnalyzeMemberDetailPageState extends State<TeamAnalyzeMemberDetailPag
                       child:Padding(
                         padding: EdgeInsets.only(top:16),
                         child: Text(
-                          ((item.teamRate==1.0?1:item.teamRate)*100).toString()+'%',
+                          ((item.teamRate==1.0?1:item.teamRate)*100).toString().split(".")[0]+'%',
                           style:TextStyle(
                             fontSize: 20,
                             color: Colors.white,
@@ -286,7 +286,7 @@ class _TeamAnalyzeMemberDetailPageState extends State<TeamAnalyzeMemberDetailPag
                                               child:Padding(
                                                 padding: EdgeInsets.only(top: 16),
                                                 child: Text(
-                                                  ((widget.leaderAreaRate == 1.0 ?1:widget.leaderAreaRate)*100).toString()+'%',
+                                                  ((widget.leaderAreaRate == 1.0 ?1:widget.leaderAreaRate)*100).toString().split(".")[0]+'%',
                                                   style:TextStyle(
                                                     fontSize: 20,
                                                     color: Colors.white,
@@ -419,7 +419,7 @@ class _TeamAnalyzeMemberDetailPageState extends State<TeamAnalyzeMemberDetailPag
                                                   padding: EdgeInsets.only(top: 8),
                                                   child: Text(
                                                     currentLevelResult!= null && currentLevelResult.substring(0,1) == '4'?
-                                                    leaderCount!=null?'个人今日综合完成度：'+((leaderCount.finishRate)*100).toString()+'%':'个人今日综合完成度：0%'
+                                                    leaderCount!=null?'个人今日综合完成度：'+((leaderCount.finishRate)*100).toString().split(".")[0]+'%':'个人今日综合完成度：0%'
                                                         :'',
                                                     style:TextStyle(
                                                       fontSize: 12,

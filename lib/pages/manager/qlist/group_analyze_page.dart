@@ -116,7 +116,7 @@ class _GroupAnalyzePageState extends State<GroupAnalyzePage> {
                                     width: 150,
                                     padding: EdgeInsets.only(top: 8),
                                     child: Text(item.missionData != null ?
-                                    '今日综合完成度：'+((item.missionData.finishRate)*100).toString()+'%':'今日无计划',
+                                    '今日综合完成度：'+((item.missionData.finishRate)*100).toString().split(".")[0]+'%':'今日无计划',
                                       style:TextStyle(
                                         fontSize: 12,
                                         color: Color(0xFF999999),
