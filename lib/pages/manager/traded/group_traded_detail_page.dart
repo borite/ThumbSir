@@ -105,6 +105,7 @@ class _GroupTradedDetailPageState extends State<GroupTradedDetailPage> {
               )));
             },
             child: Container(
+              color: Colors.transparent,
               margin: EdgeInsets.fromLTRB(5, 0, 0, 20),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -152,8 +153,8 @@ class _GroupTradedDetailPageState extends State<GroupTradedDetailPage> {
                               padding: EdgeInsets.only(top: 8),
                               child: Text(
                                 item.customerCount != null ?
-                                '拥有客户数：'+item.customerCount.toString()
-                                    :'拥有客户数：0',
+                                '个人拥有客户数：'+item.customerCount.toString()
+                                    :'个人拥有客户数：0',
                                 style:TextStyle(
                                   fontSize: 12,
                                   color: Color(0xFF999999),
@@ -294,7 +295,7 @@ class _GroupTradedDetailPageState extends State<GroupTradedDetailPage> {
                                           Container(
                                             width: 200,
                                             child: Text(
-                                              '拥有客户数：'+widget.leaderAreaRate.toString(),
+                                              '团队拥有客户数：'+widget.leaderAreaRate.toString(),
                                               style:TextStyle(
                                                 fontSize: 12,
                                                 color: Color(0xFF999999),
@@ -395,8 +396,8 @@ class _GroupTradedDetailPageState extends State<GroupTradedDetailPage> {
                                             padding: EdgeInsets.only(top: 8),
                                             child: Text(
                                               leaderCount!=null?
-                                              '拥有客户数：'+leaderCount.toString()
-                                              :'拥有客户数：0',
+                                              '个人拥有客户数：'+leaderCount.toString()
+                                              :'个人拥有客户数：0',
                                               style:TextStyle(
                                                 fontSize: 12,
                                                 color: Color(0xFF999999),

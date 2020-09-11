@@ -120,8 +120,8 @@ class _GroupTradedPageState extends State<GroupTradedPage> {
                                     padding: EdgeInsets.only(top: 8),
                                     child: Text(
                                       item.customerCount != null ?
-                                      '拥有客户数：'+item.customerCount.toString()
-                                          :'拥有客户数：0',
+                                      '个人拥有客户数：'+item.customerCount.toString()
+                                          :'个人拥有客户数：0',
                                       style:TextStyle(
                                         fontSize: 12,
                                         color: Color(0xFF999999),
