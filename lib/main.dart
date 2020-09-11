@@ -22,13 +22,6 @@ class MyApp extends StatelessWidget{
       routes: {
         "crop_page":(context) => PortraitCropPage(),
         "choose_portrait":(context) => ChoosePortraitPage(),
-        "tips":(context) => QListTipsPage(),
-        "a_q_list":(context) => QListPage(),
-        "m_q_list":(context) => ManagerQListPage(),
-        "s_q_list":(context) => SQListPage(),
-        "l_q_list":(context) => MajorQListPage(),
-        "traded_detail":(context) => TradedDetailPage(),
-
       },
     );
   }

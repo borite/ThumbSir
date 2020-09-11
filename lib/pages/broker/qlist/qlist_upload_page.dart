@@ -5,6 +5,10 @@ import 'dart:convert' as convert;
 import 'dart:async';
 import 'package:ThumbSir/model/login_result_data_model.dart';
 import 'package:ThumbSir/model/record_mission_model.dart';
+import 'package:ThumbSir/pages/broker/qlist/qlist_page.dart';
+import 'package:ThumbSir/pages/major/qlist/major_qlist_page.dart';
+import 'package:ThumbSir/pages/manager/qlist/manager_qlist_page.dart';
+import 'package:ThumbSir/pages/manager/qlist/s_qlist_page.dart';
 import 'package:ThumbSir/widget/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -658,16 +662,16 @@ class _QListUploadPageState extends State<QListUploadPage> {
                                 print("完成一个任务记录更新");
 //                               Navigator.pop(context);
                                 if(userData.userLevel.substring(0,1)=="6"){
-                                  Navigator.popAndPushNamed(context, 'a_q_list');
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>QListPage()));
                                 }
                                 if(userData.userLevel.substring(0,1)=="5"){
-                                  Navigator.popAndPushNamed(context, 'm_q_list');
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>ManagerQListPage()));
                                 }
                                 if(userData.userLevel.substring(0,1)=="4"){
-                                  Navigator.popAndPushNamed(context, 's_q_list');
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>SQListPage()));
                                 }
                                 if(userData.userLevel.substring(0,1)=="1"||result.userLevel.substring(0,1)=="2"||result.userLevel.substring(0,1)=="3"){
-                                  Navigator.popAndPushNamed(context, 'l_q_list');
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>MajorQListPage()));
                                 }
                               }else{
                                 _onRefresh();
@@ -680,16 +684,16 @@ class _QListUploadPageState extends State<QListUploadPage> {
                             print("完成一个任务记录更新");
 //                               Navigator.pop(context);
                             if(userData.userLevel.substring(0,1)=="6"){
-                              Navigator.popAndPushNamed(context, 'a_q_list');
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=>QListPage()));
                             }
                             if(userData.userLevel.substring(0,1)=="5"){
-                              Navigator.popAndPushNamed(context, 'm_q_list');
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=>ManagerQListPage()));
                             }
                             if(userData.userLevel.substring(0,1)=="4"){
-                              Navigator.popAndPushNamed(context, 's_q_list');
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=>SQListPage()));
                             }
                             if(userData.userLevel.substring(0,1)=="1"||result.userLevel.substring(0,1)=="2"||result.userLevel.substring(0,1)=="3"){
-                              Navigator.popAndPushNamed(context, 'l_q_list');
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=>MajorQListPage()));
                             }
                           }
                         }
@@ -825,16 +829,16 @@ class _QListUploadPageState extends State<QListUploadPage> {
                                 print("完成一个任务记录");
 //                               Navigator.pop(context);
                                 if(userData.userLevel.substring(0,1)=="6"){
-                                  Navigator.popAndPushNamed(context, 'a_q_list');
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>QListPage()));
                                 }
                                 if(userData.userLevel.substring(0,1)=="5"){
-                                  Navigator.popAndPushNamed(context, 'm_q_list');
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>ManagerQListPage()));
                                 }
                                 if(userData.userLevel.substring(0,1)=="4"){
-                                  Navigator.popAndPushNamed(context, 's_q_list');
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>SQListPage()));
                                 }
                                 if(userData.userLevel.substring(0,1)=="1"||result.userLevel.substring(0,1)=="2"||result.userLevel.substring(0,1)=="3"){
-                                  Navigator.popAndPushNamed(context, 'l_q_list');
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>MajorQListPage()));
                                 }
                               } else{
                                 _onRefresh();
