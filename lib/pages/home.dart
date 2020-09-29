@@ -119,6 +119,11 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin{
       }
       setState(() {
         msgs=msgShowList;
+        _loading = false;
+      });
+    }else{
+      setState(() {
+        _loading = false;
       });
     }
   }
@@ -129,6 +134,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin{
       myMsgList=myMsgResult.data;
       if (myMsgList != null && myMsgList.length>0) {
         setState(() {
+          _loading = false;
           for (var item in myMsgList) {
             myMsgShowList.add(
               GestureDetector(
@@ -178,12 +184,18 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin{
         myMsgs=myMsgShowList;
         _loading = false;
       });
+    }else{
+      setState(() {
+        _loading = false;
+      });
     }
   }
 
   @override
   void initState(){
-    _onRefresh();
+    setState(() {
+      _loading = true;
+    });
     _getUserInfo();
     _load();
     super.initState();
