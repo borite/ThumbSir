@@ -171,6 +171,7 @@ class _SigninNameAndPhonePageState extends State<SigninNameAndPhonePage> {
                                 rightText: "密码格式正确",
                                 controller: passwordController,
                                 inputType: TextInputType.text,
+                                password: true,
                                 reg: psdReg,
                                 onChanged: (text){
                                   setState(() {

@@ -1044,9 +1044,9 @@ class _QListUploadPageState extends State<QListUploadPage> {
     iosOption.setLocationTimeout(10); // 设置位置获取超时时间
     iosOption.setDesiredAccuracy("kCLLocationAccuracyBest");  // 设置预期精度参数
     iosOption.setReGeocodeTimeout(10); // 设置获取地址信息超时时间
-    iosOption.setDistanceFilter(100); // 设置定位最小更新距离
+    iosOption.setDistanceFilter(10); // 设置定位最小更新距离
     iosOption.setAllowsBackgroundLocationUpdates(true); // 是否允许后台定位
-    iosOption.setPauseLocUpdateAutomatically(true); //  定位是否会被系统自动暂停
+    iosOption.setPauseLocUpdateAutomatically(false); //  定位是否会被系统自动暂停
 
     Map iosMap = iosOption.getMap();
 

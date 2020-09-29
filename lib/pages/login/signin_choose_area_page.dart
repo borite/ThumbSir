@@ -599,12 +599,20 @@ class _SigninChooseAreaPageState extends State<SigninChooseAreaPage> {
           onPressed: () async {
             // 申请挂载上级
             if(userData != null){
-              await SendMessageDao.sendMessage(userData.userPid, leaderId, '上下级职位联接邀请', userData.userName+'申请成为你的下级', '2');
+              var leaderResult = await AddLeaderDao.addLeaderPost(userId, leaderId);
+              if(leaderResult.code == 200){
+                var sendMessageResult = await SendMessageDao.sendMessage(userData.userPid, leaderId, '上下级职位联接邀请', userData.userName+'申请成为你的下级', '2');
+                if(sendMessageResult.code == 200){
+                  _onLeaderResult200AlertPressed(context);
+                }else{
+                  _onLeaderResult400AlertPressed(context);
+                }
+              }else if(leaderResult.code == 410){
+                _onResult410AlertPressed(context);
+              }else{
+                _onLeaderResult400AlertPressed(context);
+              }
             }
-            await AddLeaderDao.addLeaderPost(userId, leaderId);
-            Navigator.of(context).pushAndRemoveUntil(
-                new MaterialPageRoute(builder: (context) => new Home( )
-                ), (route) => route == null);
           },
           color: Color(0xFF5580EB),
         ),
@@ -646,6 +654,71 @@ class _SigninChooseAreaPageState extends State<SigninChooseAreaPage> {
           ),
           onPressed: (){Navigator.pop(context);},
           color: Color(0xFF5580EB),
+        ),
+      ],
+    ).show();
+  }
+
+  _onLeaderResult200AlertPressed(context) {
+    Alert(
+      context: context,
+      type: AlertType.success,
+      title: "挂载求情已发送",
+      desc: "对方的消息中心会收到您的申请，请提醒对方查看，待对方同意后即可建立联接",
+      buttons: [
+        DialogButton(
+            child: Text(
+              "知道了",
+              style: TextStyle(color: Colors.white, fontSize: 20),
+            ),
+            onPressed: (){Navigator.of(context).pushAndRemoveUntil(
+                new MaterialPageRoute(builder: (context) => new Home( )
+                ), (route) => route == null);
+            },
+            color: Color(0xFF5580EB)
+        ),
+      ],
+    ).show();
+  }
+
+  _onLeaderResult400AlertPressed(context) {
+    Alert(
+      context: context,
+      type: AlertType.error,
+      title: "联接邀请发送失败",
+      desc: "请检查网络连接情况，稍后重试",
+      buttons: [
+        DialogButton(
+            child: Text(
+              "知道了",
+              style: TextStyle(color: Colors.white, fontSize: 20),
+            ),
+            onPressed: (){Navigator.of(context).pushAndRemoveUntil(
+                new MaterialPageRoute(builder: (context) => new Home( )
+                ), (route) => route == null);
+            },
+            color: Color(0xFF5580EB)
+        ),
+      ],
+    ).show();
+  }
+  _onResult410AlertPressed(context) {
+    Alert(
+      context: context,
+      type: AlertType.error,
+      title: "联接邀请发送失败",
+      desc: "您已给对方发送过上下级联接请求，请提醒对方查看消息中心。",
+      buttons: [
+        DialogButton(
+            child: Text(
+              "知道了",
+              style: TextStyle(color: Colors.white, fontSize: 20),
+            ),
+            onPressed: (){Navigator.of(context).pushAndRemoveUntil(
+                new MaterialPageRoute(builder: (context) => new Home( )
+                ), (route) => route == null);
+            },
+            color: Color(0xFF5580EB)
         ),
       ],
     ).show();

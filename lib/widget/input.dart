@@ -10,7 +10,8 @@ class Input extends StatefulWidget {
   final ValueChanged<String> onChanged;
   final inputType;
   final RegExp reg;
-  const Input({Key key,this.controller,this.onChanged,this.hintText="",this.tipText="",this.rightText="格式正确",this.errorTipText,this.inputType,this.reg});
+  final bool password;
+  const Input({Key key,this.controller,this.onChanged,this.hintText="",this.tipText="",this.rightText="格式正确",this.errorTipText,this.inputType,this.reg,this.password});
   @override
   _InputState createState() => _InputState();
 }
@@ -62,6 +63,7 @@ class _InputState extends State<Input> {
               keyboardType: this.widget.inputType,// TextInputType.phone
               onChanged: _onChanged,
               focusNode: _focusNode,
+              obscureText: widget.password == null ? false:widget.password,
               style: TextStyle(
                 fontSize: 14,
                 color: Color(0xFF999999),

@@ -18,6 +18,8 @@ class MyApp extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      //加入下面代码即可
+      debugShowCheckedModeBanner: false,
       home: Home(),
       routes: {
         "crop_page":(context) => PortraitCropPage(),
