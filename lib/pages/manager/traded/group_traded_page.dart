@@ -1,18 +1,12 @@
 import 'dart:convert';
 import 'package:ThumbSir/dao/get_last_level_customer_num_dao.dart';
-import 'package:ThumbSir/dao/get_last_level_members_dao.dart';
 import 'package:ThumbSir/model/login_result_data_model.dart';
 import 'package:ThumbSir/pages/home.dart';
-import 'package:ThumbSir/pages/manager/qlist/team_list_member_page.dart';
-import 'package:ThumbSir/pages/manager/qlist/view_my_mini_tasks_page.dart';
 import 'package:ThumbSir/pages/manager/traded/team_traded_member_page.dart';
-import 'package:ThumbSir/pages/mycenter/choose_mini_task_page.dart';
 import 'package:ThumbSir/pages/mycenter/my_center_page.dart';
 import 'package:ThumbSir/pages/tips/qlist_tips_page.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sleek_circular_slider/sleek_circular_slider.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
 
 class GroupTradedPage extends StatefulWidget {
   @override

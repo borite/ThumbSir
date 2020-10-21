@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:ThumbSir/model/get_mission_a_model.dart';
 import 'package:ThumbSir/model/get_personal_data_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:ThumbSir/utils/common_vars.dart';

@@ -3,7 +3,6 @@ import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:ThumbSir/dao/get_next_level_users_dao.dart';
 import 'package:ThumbSir/model/login_result_data_model.dart';
 import 'package:ThumbSir/pages/mycenter/change_member_page.dart';
-import 'package:ThumbSir/pages/mycenter/delete_member_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';

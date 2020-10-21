@@ -1,11 +1,6 @@
-import 'package:ThumbSir/pages/broker/qlist/img_view_page.dart';
-import 'package:ThumbSir/pages/broker/qlist/qlist_change_page.dart';
-import 'package:ThumbSir/pages/broker/qlist/qlist_upload_page.dart';
 import 'package:ThumbSir/pages/broker/traded/traded_detail_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:sleek_circular_slider/sleek_circular_slider.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
 
 class TradedItem extends StatefulWidget {
   final String name;

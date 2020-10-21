@@ -1,5 +1,4 @@
 import 'package:ThumbSir/pages/home.dart';
-import 'package:ThumbSir/pages/login/login_page.dart';
 import 'package:ThumbSir/pages/login/signin_choose_company_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

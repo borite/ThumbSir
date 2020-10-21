@@ -1,10 +1,7 @@
 import 'dart:convert';
-
 import 'package:ThumbSir/model/login_result_data_model.dart';
 import 'package:ThumbSir/pages/home.dart';
-import 'package:ThumbSir/pages/login/find_key_page.dart';
 import 'package:ThumbSir/pages/login/find_key_phone_page.dart';
-import 'package:ThumbSir/pages/login/login_page.dart';
 import 'package:ThumbSir/pages/mycenter/change_code_page.dart';
 import 'package:ThumbSir/pages/mycenter/change_phone_old_page.dart';
 import 'package:flutter/cupertino.dart';

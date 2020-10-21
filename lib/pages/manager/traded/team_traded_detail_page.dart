@@ -2,8 +2,6 @@ import 'dart:convert';
 import 'package:ThumbSir/dao/get_leader_info_dao.dart';
 import 'package:ThumbSir/dao/get_next_level_customer_dao.dart';
 import 'package:ThumbSir/model/login_result_data_model.dart';
-import 'package:ThumbSir/pages/manager/qlist/group_list_detail_page.dart';
-import 'package:ThumbSir/pages/manager/qlist/team_list_member_page.dart';
 import 'package:ThumbSir/pages/manager/traded/group_traded_detail_page.dart';
 import 'package:ThumbSir/pages/manager/traded/team_traded_member_page.dart';
 import 'package:flutter/material.dart';

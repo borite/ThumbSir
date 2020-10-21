@@ -7,7 +7,6 @@ import 'package:ThumbSir/pages/manager/qlist/s_qlist_page.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:ThumbSir/dao/delete_single_mission_pic_dao.dart';
-import 'package:ThumbSir/widget/today_qlist.dart';
 import 'package:ThumbSir/pages/broker/qlist/qlist_page.dart';
 
 class ImgViewPage extends StatefulWidget {

@@ -1,6 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
-import 'package:ThumbSir/model/common_result_model.dart';
 import 'package:ThumbSir/model/getuser_byphone_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:ThumbSir/utils/common_vars.dart';

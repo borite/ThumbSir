@@ -1,9 +1,7 @@
 
 import 'dart:async';
-import 'dart:convert';
 import 'package:ThumbSir/model/test_vi_model.dart';
 import 'package:http/http.dart' as http;
-import 'package:ThumbSir/model/test_vi_model.dart';
 import 'package:ThumbSir/utils/common_vars.dart';
 
 // 接口地址前缀
@@ -20,6 +18,3 @@ class TestVIDao {
     }
   }
 }
-
-
-//生命的意义？只不过是一场体验...恐怖不？~哇哈哈

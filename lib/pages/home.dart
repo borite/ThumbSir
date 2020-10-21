@@ -74,32 +74,6 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin{
         _loading = false;
       });
     }
-//    prefs.remove("userInfo");
-//    prefs.remove("userID");
-//    if (uinfo != null) {
-//      result = loginResultDataFromJson(uinfo);
-//      this.setState(() {
-//        token = LoginResultData.fromJson(json.decode(uinfo)).token;
-//      });
-//    }
-//    if (userData == null || userData.companyId == null) {
-//      if(token != null){
-//        var tokenResult = await TokenCheckDao.tokenCheck(token);
-//        if (tokenResult.code == 200) {
-//          String dataStr = json.encode(tokenResult.data);
-//          SharedPreferences prefs = await SharedPreferences.getInstance();
-//          prefs.setString("userInfo", dataStr);
-//          prefs.setString('userID', tokenResult.data.userPid);
-//          this.setState(() {
-//            userData = LoginResultData.fromJson(json.decode(uinfo));
-//            _loadMsg();
-//          });
-//        }else{
-//          prefs.remove("userInfo");
-//          prefs.remove("userID");
-//        }
-//      }
-//    }
   }
 
   _load() async {

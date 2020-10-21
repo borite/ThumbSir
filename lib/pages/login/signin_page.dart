@@ -1,8 +1,5 @@
 import 'package:ThumbSir/common/reg.dart';
 import 'package:ThumbSir/pages/login/login_page.dart';
-import 'package:ThumbSir/pages/login/signin_choose_company_page.dart';
-import 'package:ThumbSir/pages/mycenter/legal_notice_page.dart';
-import 'package:ThumbSir/pages/mycenter/privacy_statement_page.dart';
 import 'package:ThumbSir/pages/mycenter/service_agreement_page.dart';
 import 'package:ThumbSir/pages/mycenter/signin_finish_page.dart';
 import 'package:ThumbSir/widget/input.dart';
@@ -310,10 +307,14 @@ class _SigninNameAndPhonePageState extends State<SigninNameAndPhonePage> {
                                           verifyCodeBool == true &&
                                           check == true){
                                         _onRefresh();
-                                        UserReg result=await SigninDao.doUserReg(userName, password, phoneNum, verifyCode,WebAPICookie);
+                                        var result=await SigninDao.doUserReg(userName, password, phoneNum, verifyCode,WebAPICookie);
                                         if(result.code==200) {
+                                          //String dataStr= json.encode(result.data);
                                           SharedPreferences prefs = await SharedPreferences.getInstance();
-                                          prefs.setString('userID', result.data);
+                                          prefs.remove("userInfo");
+                                          prefs.setString("userID", result.data.userPid);
+                                          prefs.setString("regUserName",result.data.userName);
+
                                           Navigator.push(context, MaterialPageRoute(builder: (context)=>SigninFinishPage()));
                                           _onRefresh();
                                         }else if(result.code == 403){

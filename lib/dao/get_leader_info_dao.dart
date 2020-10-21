@@ -1,9 +1,5 @@
 import 'dart:async';
-import 'package:ThumbSir/model/get_leader_data_model.dart';
 import 'package:ThumbSir/model/get_leader_info_model.dart';
-import 'package:ThumbSir/model/get_leader_model.dart';
-import 'package:ThumbSir/model/get_next_level_list_model.dart';
-import 'package:ThumbSir/model/section_list_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:ThumbSir/utils/common_vars.dart';
 

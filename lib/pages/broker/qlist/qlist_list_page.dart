@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:ThumbSir/pages/mycenter/my_center_page.dart';
 import 'package:ThumbSir/pages/tips/qlist_tips_page.dart';
 import 'package:ThumbSir/widget/past_qlist.dart';

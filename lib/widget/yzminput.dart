@@ -6,7 +6,6 @@ import 'package:ThumbSir/model/sendverifycode_model.dart';
 import 'package:ThumbSir/dao/send_verify_code_dao.dart';
 import 'dart:async';
 import 'package:rflutter_alert/rflutter_alert.dart';
-import 'package:ThumbSir/common/reg.dart';
 
 /// 墨水瓶（`InkWell`）可用时使用的字体样式。
 final TextStyle _availableStyle = TextStyle(

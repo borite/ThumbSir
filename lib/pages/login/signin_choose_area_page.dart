@@ -46,6 +46,7 @@ class _SigninChooseAreaPageState extends State<SigninChooseAreaPage> {
   var userId;
   var leaderId;
   var leaderName;
+  var reguname;
 
   bool autovalidate = false;
 
@@ -76,6 +77,7 @@ class _SigninChooseAreaPageState extends State<SigninChooseAreaPage> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     uinfo= prefs.getString("userInfo");
     userId=prefs.getString("userID");
+    reguname=prefs.getString("regUserName");
     if(uinfo != null){
       result =loginResultDataFromJson(uinfo);
       this.setState(() {
@@ -421,6 +423,7 @@ class _SigninChooseAreaPageState extends State<SigninChooseAreaPage> {
                             padding: EdgeInsets.only(top: 4),
                             child: GestureDetector(
                               onTap: () async {
+                                print(userId);
                                 // 如果是最高级
                                 if(7-companyLevelCount == currentLevelCount){
                                   // 自己的管辖区域没填
@@ -436,7 +439,7 @@ class _SigninChooseAreaPageState extends State<SigninChooseAreaPage> {
                                     }
                                     if(regResult.code == 200){
                                       Navigator.of(context).pushAndRemoveUntil(
-                                          new MaterialPageRoute(builder: (context) => new Home( )
+                                          new MaterialPageRoute(builder: (context) => new Home()
                                           ), (route) => route == null);
                                     }
                                   }
@@ -598,11 +601,24 @@ class _SigninChooseAreaPageState extends State<SigninChooseAreaPage> {
           ),
           onPressed: () async {
             // 申请挂载上级
-            if(userData != null){
+            if(userData == null && reguname==null ){
+              return;
+            }
               var leaderResult = await AddLeaderDao.addLeaderPost(userId, leaderId);
+              var sendMessageResult;
               if(leaderResult.code == 200){
-                var sendMessageResult = await SendMessageDao.sendMessage(userData.userPid, leaderId, '上下级职位联接邀请', userData.userName+'申请成为你的下级', '2');
+                if(reguname==null) {
+                  sendMessageResult = await SendMessageDao.sendMessage(
+                      userData.userPid, leaderId, '上下级职位联接邀请',
+                      userData.userName + '申请成为你的下级', '2');
+                }else{
+                  sendMessageResult = await SendMessageDao.sendMessage(
+                      userId, leaderId, '上下级职位联接邀请',
+                      reguname + '申请成为你的下级', '2');
+                }
                 if(sendMessageResult.code == 200){
+                  SharedPreferences prefs = await SharedPreferences.getInstance();
+                  prefs.remove("regUserName");
                   _onLeaderResult200AlertPressed(context);
                 }else{
                   _onLeaderResult400AlertPressed(context);
@@ -612,7 +628,7 @@ class _SigninChooseAreaPageState extends State<SigninChooseAreaPage> {
               }else{
                 _onLeaderResult400AlertPressed(context);
               }
-            }
+
           },
           color: Color(0xFF5580EB),
         ),
