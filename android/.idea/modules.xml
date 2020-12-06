@@ -2,7 +2,24 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/android.iml" filepath="$PROJECT_DIR$/.idea/modules/android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/android.iml" filepath="$PROJECT_DIR$/.idea/modules/android.iml" group="android" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/app.iml" group="android/app" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1475013932/flutter_bmfbase.iml" filepath="$PROJECT_DIR$/.idea/modules/1475013932/flutter_bmfbase.iml" group="android/flutter_bmfbase" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-40032879/flutter_bmflocation.iml" filepath="$PROJECT_DIR$/.idea/modules/-40032879/flutter_bmflocation.iml" group="android/flutter_bmflocation" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1558078832/flutter_plugin_android_lifecycle.iml" filepath="$PROJECT_DIR$/.idea/modules/-1558078832/flutter_plugin_android_lifecycle.iml" group="android/flutter_plugin_android_lifecycle" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/31365950/image_picker.iml" filepath="$PROJECT_DIR$/.idea/modules/31365950/image_picker.iml" group="android/image_picker" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1926659004/package_info.iml" filepath="$PROJECT_DIR$/.idea/modules/1926659004/package_info.iml" group="android/package_info" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/279475397/path_provider.iml" filepath="$PROJECT_DIR$/.idea/modules/279475397/path_provider.iml" group="android/path_provider" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-798125080/path_provider_linux.iml" filepath="$PROJECT_DIR$/.idea/modules/-798125080/path_provider_linux.iml" group="android/path_provider_linux" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-2111834452/path_provider_macos.iml" filepath="$PROJECT_DIR$/.idea/modules/-2111834452/path_provider_macos.iml" group="android/path_provider_macos" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1985633415/path_provider_windows.iml" filepath="$PROJECT_DIR$/.idea/modules/-1985633415/path_provider_windows.iml" group="android/path_provider_windows" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-625317772/permission_handler.iml" filepath="$PROJECT_DIR$/.idea/modules/-625317772/permission_handler.iml" group="android/permission_handler" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-819158240/shared_preferences.iml" filepath="$PROJECT_DIR$/.idea/modules/-819158240/shared_preferences.iml" group="android/shared_preferences" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1860708758/shared_preferences_linux.iml" filepath="$PROJECT_DIR$/.idea/modules/-1860708758/shared_preferences_linux.iml" group="android/shared_preferences_linux" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-977318231/shared_preferences_macos.iml" filepath="$PROJECT_DIR$/.idea/modules/-977318231/shared_preferences_macos.iml" group="android/shared_preferences_macos" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1832582096/shared_preferences_web.iml" filepath="$PROJECT_DIR$/.idea/modules/1832582096/shared_preferences_web.iml" group="android/shared_preferences_web" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/462958263/shared_preferences_windows.iml" filepath="$PROJECT_DIR$/.idea/modules/462958263/shared_preferences_windows.iml" group="android/shared_preferences_windows" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/522380837/simple_image_crop.iml" filepath="$PROJECT_DIR$/.idea/modules/522380837/simple_image_crop.iml" group="android/simple_image_crop" />
     </modules>
   </component>
 </project>

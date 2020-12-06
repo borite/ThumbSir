@@ -1,1 +1,1 @@
-{"mName":"debug","mStoreFile":"/Users/jiaozhengying/.android/debug.keystore","mStorePassword":"android","mKeyAlias":"AndroidDebugKey","mKeyPassword":"android","mStoreType":"jks","mV1SigningEnabled":true,"mV2SigningEnabled":true}
+{"mName":"release","mStoreFile":"/Users/jiaozhengying/mzxskey.jks","mStorePassword":"MZXS123456","mKeyAlias":"mzxskey","mKeyPassword":"MZXS123456","mStoreType":"jks","mV1SigningEnabled":true,"mV2SigningEnabled":true}

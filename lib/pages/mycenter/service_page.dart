@@ -33,7 +33,7 @@ class _ServicePageState extends State<ServicePage> {
                   // 客服
                   Container(
                     margin:EdgeInsets.only(top: 80,left: 20,right: 20,bottom: 30),
-                    width: 335,
+//                    width: 335,
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
@@ -57,7 +57,7 @@ class _ServicePageState extends State<ServicePage> {
                           ),
                         ),
                         Container(
-                          width: 250,
+                          width: 240,
                           child: Column(
                             children: <Widget>[
                               Row(
@@ -77,7 +77,7 @@ class _ServicePageState extends State<ServicePage> {
                                 ],
                               ),
                               Container(
-                                  width: 250,
+                                  width: 240,
                                   padding: EdgeInsets.all(10),
                                   margin: EdgeInsets.only(top: 10),
                                   decoration: BoxDecoration(
@@ -97,7 +97,7 @@ class _ServicePageState extends State<ServicePage> {
                                         ),
                                       ),
                                       Text(
-                                        '您还可以在下方输入您的问题或对拇指先生APP的意见和建议，收到后我会尽快给您答复哒~',
+                                        '您在使用过程中有任何问题、意见或建议，均可以致电、短信至18810861930或在下方留言，我们会尽快为您解决哒～',
                                         style:TextStyle(
                                           fontSize: 14,
                                           color: Color(0xFF5580EB),

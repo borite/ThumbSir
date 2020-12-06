@@ -883,7 +883,7 @@ class _QListAddPageState extends State<QListAddPage> {
                     // 完成
                     GestureDetector(
                       onTap: ()async {
-                        if (endTime
+                        if ( chooseId!="13" && endTime
                             .difference(startTime)
                             .inMinutes <= 0) {
                           _onTimeWrong(context);

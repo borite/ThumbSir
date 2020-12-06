@@ -155,7 +155,7 @@ class _TradedAddGiftPageState extends State<TradedAddGiftPage> {
                                   sendReason = s;
                                 });
                               },
-                              datas: ["节日礼", "生日礼", "成交礼", "业务礼"],
+                              datas: ["节日礼", "生日礼", "成交礼", "业务礼", "日常问候"],
                               selectTextStyle: TextStyle(
                                   color: Color(0xFF0E7AE6),
                                   fontWeight: FontWeight.normal,

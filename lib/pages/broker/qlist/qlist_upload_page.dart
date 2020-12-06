@@ -887,7 +887,7 @@ class _QListUploadPageState extends State<QListUploadPage> {
       content: Column(
         children: <Widget>[
           Text(
-            "需要包含的信息有：电话号码、拨打时间、呼入或呼出的标识、通话时长。以上信息均不可涂抹。",
+            "需要包含的信息有：3天内未识别过的电话号码、拨打时间、呼入或呼出的标识、通话时长。以上信息均不可涂抹。",
             style: TextStyle(
               fontSize: 12,
               color: Color(0xFF999999)
@@ -923,7 +923,7 @@ class _QListUploadPageState extends State<QListUploadPage> {
         ),
         DialogButton(
           child: Text(
-            "不是苹果手机",
+            "非苹果手机",
             style: TextStyle(color: Colors.white, fontSize: 20),
           ),
           onPressed: (){
@@ -967,7 +967,7 @@ class _QListUploadPageState extends State<QListUploadPage> {
       content: Column(
         children: <Widget>[
           Text(
-            "需要包含的信息有：电话号码、拨打时间、呼入或呼出的标识、通话时长。以上信息均不可涂抹。",
+            "需要包含的信息有：3天内未识别过的电话号码、拨打时间、呼入或呼出的标识、通话时长。以上信息均不可涂抹。",
             style: TextStyle(
                 fontSize: 12,
                 color: Color(0xFF999999)

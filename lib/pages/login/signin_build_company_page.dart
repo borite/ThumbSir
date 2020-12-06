@@ -192,7 +192,7 @@ class _SigninBuildCompanyPageState extends State<SigninBuildCompanyPage> {
                             errorTipText: "请输入公司的社会统一信用代码",
                             rightText: "社会统一信用代码格式正确",
                             controller: creditCodeController,
-                            inputType: TextInputType.number,
+                            inputType: TextInputType.text,
                             reg: creditCodeReg,
                             onChanged: (text){
                               setState(() {
