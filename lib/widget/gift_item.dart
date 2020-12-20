@@ -100,6 +100,7 @@ class _GiftItemState extends State<GiftItem> with SingleTickerProviderStateMixin
                                 child: widget.type == "业务礼"?Image.asset("images/gift.png")
                                 :widget.type == "成交礼"?Image.asset("images/gift_deal.png")
                                 :widget.type == "生日礼"?Image.asset("images/gift_birth.png")
+                                :widget.type == "日常问候"?Image.asset("images/care.png")
                                 :Image.asset("images/gift_festive.png"),
                               ),
                               Text(

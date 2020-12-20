@@ -44,11 +44,13 @@ class _QListTipsPageState extends State<QListTipsPage> with SingleTickerProvider
   }
 
   _load() async {
+    print("触发load");
     SharedPreferences prefs = await SharedPreferences.getInstance();
     userID=prefs.get("userID");
     //String userId= prefs.getString("userID");
     if(userID != null){
       pageindex++;
+      // pageindex= 1;
       var msgResult = await GetMessageDao.getMessage(userID,'2',pageindex.toString(),'10');
       if (msgResult.code == 200) {
         msgList=msgResult.data;
@@ -81,6 +83,7 @@ class _QListTipsPageState extends State<QListTipsPage> with SingleTickerProvider
     _scrollController.addListener(() {
       // 如果滚动位置到了可滚动的最大距离，就加载更多
       if(_scrollController.position.pixels == _scrollController.position.maxScrollExtent){
+        print("上滑加载");
         _load();
       }
     });
@@ -102,76 +105,80 @@ class _QListTipsPageState extends State<QListTipsPage> with SingleTickerProvider
             color: Colors.white,
             image: DecorationImage(
               image:AssetImage('images/circle.png'),
-              fit: BoxFit.fitHeight,
+              fit: BoxFit.fitWidth,
             ),
           ),
-          child: Column(
-              children: <Widget>[
-                // 导航栏
-                Padding(
-                    padding: EdgeInsets.only(top:30,left: 0,right: 15,bottom: 0),
-                    child:Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        GestureDetector(
-                          onTap: (){
-                            Navigator.of(context).pushAndRemoveUntil(
-                              new MaterialPageRoute(builder: (context) => new Home( )
-                            ), (route) => route == null);
-                          },
-                          child: Container(
-                            width: 50,
-                            child: Image(image: AssetImage('images/back.png'),),
+          child: Container(
+            child: Column(
+                children: <Widget>[
+                  // 导航栏
+                  Padding(
+                      padding: EdgeInsets.only(top:30,left: 0,right: 15,bottom: 0),
+                      child:Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          GestureDetector(
+                            onTap: (){
+                              Navigator.of(context).pushAndRemoveUntil(
+                                  new MaterialPageRoute(builder: (context) => new Home( )
+                                  ), (route) => route == null);
+                            },
+                            child: Container(
+                              width: 50,
+                              child: Image(image: AssetImage('images/back.png'),),
+                            ),
                           ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(top: 3),
-                          child: Row(
-                            children: <Widget>[
-                              Container(
-                                width: 20,
-                                child: Image(image: AssetImage('images/bell.png')),
-                              ),
-                              Text(
-                                '消息中心',
-                                style:TextStyle(
-                                  color: Color(0xFF0E7AE6),
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.normal,
-                                  decoration: TextDecoration.none,
+                          Padding(
+                            padding: EdgeInsets.only(top: 3),
+                            child: Row(
+                              children: <Widget>[
+                                Container(
+                                  width: 20,
+                                  child: Image(image: AssetImage('images/bell.png')),
                                 ),
-                              )
-                            ],
+                                Text(
+                                  '消息中心',
+                                  style:TextStyle(
+                                    color: Color(0xFF0E7AE6),
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.normal,
+                                    decoration: TextDecoration.none,
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
-                        ),
-                        Container(width: 50,),
-                      ],
-                    )
-                ),
-
-                // 消息提醒
-                Expanded(
-                    child: msgs.length>0 ?
-                      ListView.builder(
-                        controller: _scrollController,
-                        padding: EdgeInsets.only(top: 20,bottom: 30),
-                        shrinkWrap: true,
-                        itemCount: msgs.length,
-                        //children: msgs,
-                        itemBuilder: (BuildContext context,int index){
-                          return msgs[index];
-                        },
+                          Container(width: 50,),
+                        ],
                       )
-                        :Padding(
-                      padding: EdgeInsets.only(top: 30),
-                      child: Text(
-                        '暂无消息',
-                        style: TextStyle(
-                            fontSize: 20,
-                            color: Color(0xFF999999)
-                        ),
-                      ),
-                    )
+                  ),
+
+                  // 下拉刷新
+                  Expanded(
+                    // child: RefreshIndicator(
+                    //     onRefresh: ()=>_load(),
+                        child: msgs.length>0 ?
+                        ListView.builder(
+                          physics:AlwaysScrollableScrollPhysics(),
+                          controller: _scrollController,
+                          padding: EdgeInsets.only(top: 20,bottom: 30),
+                          shrinkWrap: true,
+                          itemCount: msgs.length,
+                          //children: msgs,
+                          itemBuilder: (BuildContext context,int index){
+                            return msgs[index];
+                          },
+                        )
+                            :Padding(
+                          padding: EdgeInsets.only(top: 30),
+                          child: Text(
+                            '暂无消息',
+                            style: TextStyle(
+                                fontSize: 20,
+                                color: Color(0xFF999999)
+                            ),
+                          ),
+                        )
 //                      Column(
 //                        children: <Widget>[
 //                          _item('images/morning_tip.png','2020年3月24日','今天是章鱼哥的生日','记得送祝福!','1'),
@@ -180,8 +187,13 @@ class _QListTipsPageState extends State<QListTipsPage> with SingleTickerProvider
 //                        ],
 //                      )
 
-                )
-              ]
+                    ),
+                  // )
+
+                  // 消息提醒
+
+                ]
+            ),
           )
       ),
     );

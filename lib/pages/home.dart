@@ -17,6 +17,7 @@ import 'package:ThumbSir/widget/loading.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ThumbSir/pages/mycenter/my_center_page.dart';
+import 'package:flutter/painting.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -257,9 +258,9 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin{
                                   height: 460,
                                   decoration: BoxDecoration(
                                     gradient: LinearGradient(
-                                      colors: [Color(0xFF0E7AE6),Color(0xFF93C0FB)],
                                       begin: Alignment.topCenter,
                                       end: Alignment.bottomCenter,
+                                      colors:[Color(0xFF0E7AE6),Color(0xFF93C0FB)],
                                     ),
                                     image: DecorationImage(
                                       image:AssetImage('images/circle_r.png'),
@@ -392,7 +393,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin{
                                               ),
                                               child:GestureDetector(
                                                 onTap: () async {
-                                                  if(uinfo!=null){
+                                                  if(uinfo!=null && userData != null){
                                                     exT = result.exTokenTime.millisecondsSinceEpoch;
                                                     // token时间转时间戳
                                                     if(exT >= _dateTime){
@@ -440,7 +441,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin{
                                                 ),
                                                 child:GestureDetector(
                                                     onTap: (){
-                                                      if(uinfo!=null){
+                                                      if(uinfo!=null && userData != null){
                                                         exT = result.exTokenTime.millisecondsSinceEpoch;
                                                         // token时间转时间戳
                                                         if(exT >= _dateTime){
@@ -462,7 +463,6 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin{
                                                       }else{
                                                         _onLoginAlertPressed(context);
                                                       }
-//                                                  _onCloseAlertPressed(context);
                                                     },
                                                     child: ClipRRect(
                                                       borderRadius: BorderRadius.all(Radius.circular(12)),

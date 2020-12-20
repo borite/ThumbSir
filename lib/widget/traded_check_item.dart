@@ -449,12 +449,12 @@ class _TradedCheckItemState extends State<TradedCheckItem> with SingleTickerProv
                   Container(
                     width: 335,
                     padding: EdgeInsets.only(left: 20, right: 20, bottom: 10, top: 10),
-                    margin: EdgeInsets.only(left: 15),
+//                    margin: EdgeInsets.only(left: 15),
                     child: Column(
                       children: <Widget>[
                         widget.firstDealReason != null ?
                         Container(
-                          margin: EdgeInsets.only(bottom: 10),
+                          margin: EdgeInsets.only(bottom: 10,left: 15),
                             child: Row(
                               children: <Widget>[
                                 Container(
@@ -510,7 +510,7 @@ class _TradedCheckItemState extends State<TradedCheckItem> with SingleTickerProv
                         ),
                         widget.secondDealReason != null ?
                         Container(
-                            margin: EdgeInsets.only(bottom: 10),
+                            margin: EdgeInsets.only(bottom: 10,left: 15),
                             child: Row(
                               children: <Widget>[
                                 Container(
@@ -571,62 +571,93 @@ class _TradedCheckItemState extends State<TradedCheckItem> with SingleTickerProv
                     ),
                   ),
                   // 维护动作详情
+//                  Container(
+//                    width: 335,
+//                    padding: EdgeInsets.only(bottom: 10, top: 10),
+//                    child: Column(
+//                      children: <Widget>[
+//                        Container(
+//                          margin: EdgeInsets.only(bottom: 5,left: 20,right: 20),
+//                          child: Row(
+//                            children: <Widget>[
+//                              Text(
+//                                widget.giftList.length >0 ?
+//                                widget.giftList[0].addTime.toString().substring(0,10) + widget.giftList[0].giftReason+"："
+//                                :"暂无维护动作",
+//                                style: TextStyle(
+//                                  fontSize: 14,
+//                                  color: Color(0xFF5580EB),
+//                                  decoration: TextDecoration.none,
+//                                  fontWeight: FontWeight.normal,
+//                                ),
+//                              ),
+//                              Expanded(
+//                                child: Text(
+//                                  widget.giftList.length >0?
+//                                      widget.giftList[0].giftPrice.toString()+"元"+widget.giftList[0].giftName
+//                                  :"",
+//                                  style: TextStyle(
+//                                    fontSize: 14,
+//                                    color: Color(0xFF5580EB),
+//                                    decoration: TextDecoration.none,
+//                                    fontWeight: FontWeight.normal,
+//                                  ),
+//                                ),
+//                              )
+//                            ],
+//                          )
+//                        ),
+//                        Container(
+//                            margin: EdgeInsets.only(bottom: 5,left: 20,right: 20),
+//                            child: Row(
+//                              children: <Widget>[
+//                                Text(
+//                                  widget.giftList.length >1 ?
+//                                  widget.giftList[1].addTime.toString().substring(0,10) + widget.giftList[1].giftReason+"："
+//                                      :"",
+//                                  style: TextStyle(
+//                                    fontSize: 14,
+//                                    color: Color(0xFF5580EB),
+//                                    decoration: TextDecoration.none,
+//                                    fontWeight: FontWeight.normal,
+//                                  ),
+//                                ),
+//                                Expanded(
+//                                  child: Text(
+//                                    widget.giftList.length >1?
+//                                    widget.giftList[1].giftPrice.toString()+"元"+widget.giftList[1].giftName
+//                                        :"",
+//                                    style: TextStyle(
+//                                      fontSize: 14,
+//                                      color: Color(0xFF5580EB),
+//                                      decoration: TextDecoration.none,
+//                                      fontWeight: FontWeight.normal,
+//                                    ),
+//                                  ),
+//                                )
+//                              ],
+//                            )
+//                        ),
+//                      ],
+//                    ),
+//                  ),
+                  // 收起按钮
+                  widget.giftList.length != 0?
                   Container(
-                    width: 335,
-                    padding: EdgeInsets.only(bottom: 10, top: 10),
-                    child: Column(
-                      children: <Widget>[
-                        Container(
-                          margin: EdgeInsets.only(bottom: 5,left: 20,right: 20),
-                          child: Row(
-                            children: <Widget>[
-                              Text(
-                                widget.giftList.length >0 ?
-                                widget.giftList[0].addTime.toString().substring(0,10) + widget.giftList[0].giftReason+"："
-                                :"暂无维护动作",
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  color: Color(0xFF5580EB),
-                                  decoration: TextDecoration.none,
-                                  fontWeight: FontWeight.normal,
-                                ),
-                              ),
-                              Expanded(
-                                child: Text(
-                                  widget.giftList.length >0?
-                                      widget.giftList[0].giftPrice.toString()+"元"+widget.giftList[0].giftName
-                                  :"",
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    color: Color(0xFF5580EB),
-                                    decoration: TextDecoration.none,
-                                    fontWeight: FontWeight.normal,
-                                  ),
-                                ),
-                              )
-                            ],
-                          )
-                        ),
-                        Container(
-                            margin: EdgeInsets.only(bottom: 5,left: 20,right: 20),
-                            child: Row(
-                              children: <Widget>[
-                                Text(
-                                  widget.giftList.length >1 ?
-                                  widget.giftList[1].addTime.toString().substring(0,10) + widget.giftList[1].giftReason+"："
-                                      :"",
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    color: Color(0xFF5580EB),
-                                    decoration: TextDecoration.none,
-                                    fontWeight: FontWeight.normal,
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Text(
-                                    widget.giftList.length >1?
-                                    widget.giftList[1].giftPrice.toString()+"元"+widget.giftList[1].giftName
-                                        :"",
+                    margin: EdgeInsets.only(bottom: 10),
+                    height: 100,
+                    child: ListView.builder(
+                      itemCount: widget.giftList.length,
+                      itemBuilder: (BuildContext context,int index){
+                        return Column(
+                          children: <Widget>[
+                            // 家庭成员
+                            Container(
+                              margin: EdgeInsets.only(left: 20,top: 10,right: 20),
+                              child: Row(
+                                children: <Widget>[
+                                  Text(
+                                    widget.giftList[index].addTime.toString().substring(0,10) + widget.giftList[index].giftReason+"：",
                                     style: TextStyle(
                                       fontSize: 14,
                                       color: Color(0xFF5580EB),
@@ -634,14 +665,40 @@ class _TradedCheckItemState extends State<TradedCheckItem> with SingleTickerProv
                                       fontWeight: FontWeight.normal,
                                     ),
                                   ),
-                                )
-                              ],
-                            )
-                        ),
-                      ],
+                                  Expanded(
+                                    child: Text(
+                                      widget.giftList[index].giftPrice.toString()+"元"+widget.giftList[index].giftName,
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        color: Color(0xFF5580EB),
+                                        decoration: TextDecoration.none,
+                                        fontWeight: FontWeight.normal,
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ],
+                        );
+                      },
+                    ),
+                  )
+                      :
+                  Container(
+                    width: 300,
+                    margin: EdgeInsets.only(top: 10,bottom: 10),
+                    child: Text(
+                      "暂无维护动作",
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Color(0xFF5580EB),
+                        decoration: TextDecoration.none,
+                        fontWeight: FontWeight.normal,
+                      ),
+                      textAlign: TextAlign.left,
                     ),
                   ),
-                  // 收起按钮
                   GestureDetector(
                     onTap: (){
                       setState(() {

@@ -69,6 +69,7 @@ class _GroupAnalyzePageState extends State<GroupAnalyzePage> {
                     )));
                   },
                   child: Container(
+                    color: Colors.transparent,
                     margin: EdgeInsets.fromLTRB(5, 0, 0, 20),
                     width: 335,
                     child: Row(
@@ -346,6 +347,23 @@ class _GroupAnalyzePageState extends State<GroupAnalyzePage> {
                                       fontSize: 20,
                                       color: Color(0xFF333333),
                                       fontWeight: FontWeight.normal,
+                                    ),),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: <Widget>[
+                                Padding(
+                                  padding: EdgeInsets.only(left: 25,right: 15,top: 5),
+                                  child: Text(
+                                    '点击查看团队分析数据',
+                                    style: TextStyle(
+                                      decoration: TextDecoration.underline,
+                                      decorationColor: Color(0xFF5580EB),
+                                      fontSize: 14,
+                                      color: Color(0xFF5580EB),
+                                      fontWeight: FontWeight.normal,
+
                                     ),),
                                 ),
                               ],

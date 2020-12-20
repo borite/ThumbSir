@@ -27,10 +27,12 @@ class _QListAddPageState extends State<QListAddPage> {
   RegExp remarkReg;
   bool remarkBool = false;
   final TextEditingController mapController=TextEditingController();
+  final TextEditingController countController=TextEditingController();
   RegExp mapReg;
   bool mapBool = false;
   String chooseId = "-1";
   String chooseUnit = "";
+  String chooseTaskName = "";
 
   String tag = "1";
 
@@ -65,7 +67,7 @@ class _QListAddPageState extends State<QListAddPage> {
 
   DateTime startTime;
   DateTime endTime;
-  int _starIndex = 0;
+  int _starIndex = 3;
   int itemCount = 1;
   bool isRemark = false;
   bool isMap = false;
@@ -80,6 +82,15 @@ class _QListAddPageState extends State<QListAddPage> {
     _load();
     startTime = widget.date == 1 ? DateTime.now():DateTime.now().add(Duration(days: 1));
     endTime = widget.date == 1 ? DateTime.now():DateTime.now().add(Duration(days: 1));
+  }
+
+  // 防止页面销毁时内存泄漏造成性能问题
+  @override
+  void dispose(){
+    remarkController.dispose();
+    mapController.dispose();
+    countController.dispose();
+    super.dispose();
   }
 
   @override
@@ -191,6 +202,46 @@ class _QListAddPageState extends State<QListAddPage> {
                         ],
                       ),
                     ),
+                    // 已选择任务
+                    chooseTaskName != ""?
+                    Container(
+                      width: 335,
+                      padding: EdgeInsets.only(top: 20),
+                      child: Row(
+                        children: <Widget>[
+                          Padding(
+                            padding: EdgeInsets.only(left: 4),
+                            child: Text('已选择任务：',style: TextStyle(
+                              fontSize: 20,
+                              color: Color(0xFF666666),
+                              fontWeight: FontWeight.normal,
+                              decoration: TextDecoration.none,
+                            ),),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(left: 5),
+                            child: Text(chooseTaskName,style: TextStyle(
+                              fontSize: 20,
+                              color: Color(0xFF5580EB),
+                              fontWeight: FontWeight.normal,
+                              decoration: TextDecoration.none,
+                            ),),
+                          ),
+                          IconButton(
+                            icon: Icon(Icons.edit),
+                            color: Color(0xFF5580EB),
+                            onPressed: (){
+                              setState(() {
+                                chooseTaskName = "";
+                                chooseId = "-1";
+                                tag = "1";
+                              });
+                            },
+                          ),
+                        ],
+                      ),
+                    ):Container(height: 1,),
+                    chooseTaskName == ""?
                     Content(
                       title: '可选的任务名称（ 单选 ）',
                       child: ChipsChoice<String>.single(
@@ -208,6 +259,7 @@ class _QListAddPageState extends State<QListAddPage> {
                             var item = chooseItemFromJson(val);
                             chooseId = item.id;
                             chooseUnit = item.taskUnit;
+                            chooseTaskName = item.taskTitle;
                           });
                         },
                         itemConfig: ChipsChoiceItemConfig(
@@ -218,7 +270,7 @@ class _QListAddPageState extends State<QListAddPage> {
                         ),
                         isWrapped: true,
                       ),
-                    ),
+                    ):Container(height: 1,),
                     // 若选择其他描述必填提示
                     chooseId == '12' ?
                     Padding(
@@ -244,7 +296,7 @@ class _QListAddPageState extends State<QListAddPage> {
                       child: Row(
                         children: <Widget>[
                           Padding(
-                            padding: EdgeInsets.only(left: 10,right: 20),
+                            padding: EdgeInsets.only(left: 4,right: 20),
                             child: Text('任务数量',style: TextStyle(
                               fontSize: 20,
                               color: Color(0xFF666666),
@@ -252,119 +304,27 @@ class _QListAddPageState extends State<QListAddPage> {
                               decoration: TextDecoration.none,
                             ),),
                           ),
-                          Column(
-                            children: <Widget>[
-                              GestureDetector(
-                                onTap: (){
-                                  if(itemCount >= 11){
-                                    setState(() {
-                                      itemCount = itemCount - 10;
-                                    });
-                                  }else{}
-                                },
-                                child: Container(
-                                  width: 50,
-                                  height: 20,
-                                  margin: EdgeInsets.only(right: 15,bottom: 10),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    border: Border.all(color: Color(0xFF5580EB),width: 1),
-                                  ),
-                                  child: Text('-10',style: TextStyle(
-                                    color: Color(0xFF5580EB),
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.normal,
-                                    decoration: TextDecoration.none,
-                                  ),textAlign: TextAlign.center,),
-                                ),
+                          GestureDetector(
+                            onTap: (){
+                              _onCountPressed(context);
+                            },
+                            child: Container(
+                              width: 80,
+                              decoration: BoxDecoration(
+                                border: Border(bottom: BorderSide(width: 1,color: Color(0xFF0E7AE6)))
                               ),
-                              GestureDetector(
-                                onTap: (){
-                                  if(itemCount >= 2){
-                                    setState(() {
-                                      itemCount = itemCount - 1;
-                                    });
-                                  }else{}
-                                },
-                                child: Container(
-                                  width: 50,
-                                  height: 20,
-                                  margin: EdgeInsets.only(right: 15),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    border: Border.all(color: Color(0xFF5580EB),width: 1),
-                                  ),
-                                  child: Text('-1',style: TextStyle(
-                                    color: Color(0xFF5580EB),
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.normal,
-                                    decoration: TextDecoration.none,
-                                  ),textAlign: TextAlign.center,),
-                                ),
-                              ),
-                            ],
+                              child: Text(
+                                itemCount.toString(),
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Color(0xFF5580EB),
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.normal,
+                                ),),
+                            ),
                           ),
-
-                          Text(
-                            itemCount.toString(),
-                            style: TextStyle(
-                              color: Color(0xFF5580EB),
-                              fontSize: 20,
-                              fontWeight: FontWeight.normal,
-                              decoration: TextDecoration.none,
-                            ),),
-                          Column(
-                            children: <Widget>[
-                              GestureDetector(
-                                onTap: (){
-                                  setState(() {
-                                    itemCount = itemCount + 10;
-                                  });
-                                },
-                                child: Container(
-                                  width:50,
-                                  height: 20,
-                                  margin: EdgeInsets.only(left: 15,right: 20,bottom: 10),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    border: Border.all(color: Color(0xFF5580EB),width: 1),
-                                  ),
-                                  child: Text('+10',style: TextStyle(
-                                    color: Color(0xFF5580EB),
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.normal,
-                                    decoration: TextDecoration.none,
-                                  ),textAlign: TextAlign.center,),
-                                ),
-                              ),
-                              GestureDetector(
-                                onTap: (){
-                                  setState(() {
-                                    itemCount = itemCount + 1;
-                                  });
-                                },
-                                child: Container(
-                                  width: 50,
-                                  height: 20,
-                                  margin: EdgeInsets.only(left: 15,right: 20),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    border: Border.all(color: Color(0xFF5580EB),width: 1),
-                                  ),
-                                  child: Text('+1',style: TextStyle(
-                                    color: Color(0xFF5580EB),
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.normal,
-                                    decoration: TextDecoration.none,
-                                  ),textAlign: TextAlign.center,),
-                                ),
-                              ),
-
-                            ],
-                          ),
-
                           Padding(
-                            padding: EdgeInsets.only(right: 20),
+                            padding: EdgeInsets.only(right: 20,left: 20),
                             child: Text(chooseUnit,style: TextStyle(
                               color: Color(0xFF666666),
                               fontSize: 20,
@@ -631,7 +591,38 @@ class _QListAddPageState extends State<QListAddPage> {
                                     decoration: TextDecoration.none,
                                   ),),
                                 ),
-                                StartTime(),
+//                                StartTime(),
+                              Container(
+                                margin: EdgeInsets.only(left: 20,right: 20),
+                                child: Text(startTime.toIso8601String().substring(11,13),style: TextStyle(
+                                  fontSize: 24,
+                                  color: Color(0xFF0E7AE6),
+//                                  decoration: TextDecoration.underline,
+//                                  decorationColor: Color(0xFF0E7AE6),
+//                                  decorationStyle: TextDecorationStyle.solid,
+                                  fontWeight: FontWeight.normal,
+                                ),),
+                              ),
+                                Text(
+                                  '时',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.normal,
+                                    color: Color(0xFF333333),
+                                    decoration: TextDecoration.none,
+                                  ),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(left: 25),
+                                  child: Text(startTime.toIso8601String().substring(14,16),style: TextStyle(
+                                    fontSize: 24,
+                                    color: Color(0xFF0E7AE6),
+//                                    decoration: TextDecoration.underline,
+//                                    decorationColor: Color(0xFF0E7AE6),
+//                                    decorationStyle: TextDecorationStyle.solid,
+                                    fontWeight: FontWeight.normal,
+                                  ),),
+                                ),
                                 Padding(
                                   padding: EdgeInsets.only(left: 20),
                                   child: Text(
@@ -643,22 +634,19 @@ class _QListAddPageState extends State<QListAddPage> {
                                       decoration: TextDecoration.none,
                                     ),
                                   ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(left: 20),
+                                  child: IconButton(
+                                    icon: Icon(Icons.edit),
+                                    color: Color(0xFF0E7AE6),
+                                    onPressed: (){
+                                      _onStartTime(context);
+                                    },
+                                  ),
                                 )
                               ],
                             ),
-                            Positioned(
-                              top: 50,
-                              left: 150,
-                              child: Text(
-                                '时',
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.normal,
-                                  color: Color(0xFF333333),
-                                  decoration: TextDecoration.none,
-                                ),
-                              ),
-                            )
                           ],
                         )
 
@@ -682,7 +670,37 @@ class _QListAddPageState extends State<QListAddPage> {
                                     decoration: TextDecoration.none,
                                   ),),
                                 ),
-                                EndTime(),
+                                Container(
+                                  margin: EdgeInsets.only(left: 20,right: 20),
+                                  child: Text(endTime.toIso8601String().substring(11,13),style: TextStyle(
+                                    fontSize: 24,
+                                    color: Color(0xFF0E7AE6),
+//                                    decoration: TextDecoration.underline,
+//                                    decorationColor: Color(0xFF0E7AE6),
+//                                    decorationStyle: TextDecorationStyle.solid,
+                                    fontWeight: FontWeight.normal,
+                                  ),),
+                                ),
+                                Text(
+                                  '时',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.normal,
+                                    color: Color(0xFF333333),
+                                    decoration: TextDecoration.none,
+                                  ),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(left: 25),
+                                  child: Text(endTime.toIso8601String().substring(14,16),style: TextStyle(
+                                    fontSize: 24,
+                                    color: Color(0xFF0E7AE6),
+//                                    decoration: TextDecoration.underline,
+//                                    decorationColor: Color(0xFF0E7AE6),
+//                                    decorationStyle: TextDecorationStyle.solid,
+                                    fontWeight: FontWeight.normal,
+                                  ),),
+                                ),
                                 Padding(
                                   padding: EdgeInsets.only(left: 20),
                                   child: Text(
@@ -694,22 +712,19 @@ class _QListAddPageState extends State<QListAddPage> {
                                       decoration: TextDecoration.none,
                                     ),
                                   ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(left: 20),
+                                  child: IconButton(
+                                    icon: Icon(Icons.edit),
+                                    color: Color(0xFF0E7AE6),
+                                    onPressed: (){
+                                      _onEndTime(context);
+                                    },
+                                  ),
                                 )
                               ],
                             ),
-                            Positioned(
-                              top: 50,
-                              left: 150,
-                              child: Text(
-                                '时',
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.normal,
-                                  color: Color(0xFF333333),
-                                  decoration: TextDecoration.none,
-                                ),
-                              ),
-                            )
                           ],
                         )
                     ),
@@ -883,148 +898,151 @@ class _QListAddPageState extends State<QListAddPage> {
                     // 完成
                     GestureDetector(
                       onTap: ()async {
-                        if ( chooseId!="13" && endTime
-                            .difference(startTime)
-                            .inMinutes <= 0) {
-                          _onTimeWrong(context);
-                        } else {
-                          if (chooseId == "15" || chooseId == "16") {
-                            var result1516 = await UserSelectMissionDao
-                                .selectMission(
-                              userData.companyId,
-                              userData.userPid,
-                              chooseId,
-                              // adminTaskId,
-                              userData.userLevel.substring(0, 1),
-                              startTime.toIso8601String(),
-                              endTime.toIso8601String(),
-                              _starIndex.toString(),
-                              itemCount.toString(),
-                              mapController.text,
-                              // address,
-                              remarkController.text,
-                            );
-                            if (result1516.code == 200) {
-                              if (userData.userLevel.substring(0, 1) == "6") {
-                                Navigator.push(context, MaterialPageRoute(
-                                    builder: (context) => QListPage()));
+                        if(chooseId != "-1"){
+                          if ( chooseId!="13" && endTime
+                              .difference(startTime)
+                              .inMinutes <= 0) {
+                            _onTimeWrong(context);
+                          } else {
+                            if (chooseId == "15" || chooseId == "16") {
+                              var result1516 = await UserSelectMissionDao
+                                  .selectMission(
+                                userData.companyId,
+                                userData.userPid,
+                                chooseId,
+                                // adminTaskId,
+                                userData.userLevel.substring(0, 1),
+                                startTime.toIso8601String(),
+                                endTime.toIso8601String(),
+                                _starIndex.toString(),
+                                itemCount.toString(),
+                                mapController.text,
+                                // address,
+                                remarkController.text,
+                              );
+                              if (result1516.code == 200) {
+                                if (userData.userLevel.substring(0, 1) == "6") {
+                                  Navigator.push(context, MaterialPageRoute(
+                                      builder: (context) => QListPage()));
+                                }
+                                if (userData.userLevel.substring(0, 1) == "4") {
+                                  Navigator.push(context, MaterialPageRoute(
+                                      builder: (context) => SQListPage()));
+                                }
+                                if (userData.userLevel.substring(0, 1) == "5") {
+                                  Navigator.push(context, MaterialPageRoute(
+                                      builder: (context) => ManagerQListPage()));
+                                }
+                              } else {
+                                _onTimeAlertPressed(context);
                               }
-                              if (userData.userLevel.substring(0, 1) == "4") {
-                                Navigator.push(context, MaterialPageRoute(
-                                    builder: (context) => SQListPage()));
-                              }
-                              if (userData.userLevel.substring(0, 1) == "5") {
-                                Navigator.push(context, MaterialPageRoute(
-                                    builder: (context) => ManagerQListPage()));
-                              }
-                            } else {
-                              _onTimeAlertPressed(context);
                             }
+                            if (chooseId == "13") {
+                              var result13 = await UserSelectMissionDao
+                                  .selectMission(
+                                userData.companyId,
+                                userData.userPid,
+                                chooseId,
+                                // adminTaskId,
+                                userData.userLevel.substring(0, 1),
+                                startTime.toIso8601String().substring(0, 11) +
+                                    '00:00:00.000000',
+                                endTime.toIso8601String().substring(0, 11) +
+                                    '23:59:59.000000',
+                                _starIndex.toString(),
+                                itemCount.toString(),
+                                mapController.text,
+                                // address,
+                                remarkController.text,
+                              );
+                              if (result13.code == 200) {
+                                if (userData.userLevel.substring(0, 1) == "6") {
+                                  Navigator.push(context, MaterialPageRoute(
+                                      builder: (context) => QListPage()));
+                                }
+                                if (userData.userLevel.substring(0, 1) == "4") {
+                                  Navigator.push(context, MaterialPageRoute(
+                                      builder: (context) => SQListPage()));
+                                }
+                                if (userData.userLevel.substring(0, 1) == "5") {
+                                  Navigator.push(context, MaterialPageRoute(
+                                      builder: (context) => ManagerQListPage()));
+                                }
+                              } else {
+                                _onTimeAlertPressed(context);
+                              }
+                            }
+                            if (chooseId == "12" && isRemark == true &&
+                                remarkController.text != '') {
+                              var result12 = await UserSelectMissionDao
+                                  .selectMission(
+                                userData.companyId,
+                                userData.userPid,
+                                chooseId,
+                                // adminTaskId,
+                                userData.userLevel.substring(0, 1),
+                                startTime.toIso8601String(),
+                                endTime.toIso8601String(),
+                                _starIndex.toString(),
+                                itemCount.toString(),
+                                mapController.text,
+                                // address,
+                                remarkController.text,
+                              );
+                              if (result12.code == 200) {
+                                if (userData.userLevel.substring(0, 1) == "6") {
+                                  Navigator.push(context, MaterialPageRoute(
+                                      builder: (context) => QListPage()));
+                                }
+                                if (userData.userLevel.substring(0, 1) == "4") {
+                                  Navigator.push(context, MaterialPageRoute(
+                                      builder: (context) => SQListPage()));
+                                }
+                                if (userData.userLevel.substring(0, 1) == "5") {
+                                  Navigator.push(context, MaterialPageRoute(
+                                      builder: (context) => ManagerQListPage()));
+                                }
+                              } else {
+                                _onTimeAlertPressed(context);
+                              }
+                            }
+                            if (chooseId != "-1" && chooseId != "12" &&
+                                chooseId != "13" && chooseId != "15" &&
+                                chooseId != "16" && _starIndex != 0) {
+                              var resultOther = await UserSelectMissionDao.selectMission(
+                                userData.companyId,
+                                userData.userPid,
+                                chooseId,
+                                // adminTaskId,
+                                userData.userLevel.substring(0, 1),
+                                startTime.toIso8601String(),
+                                endTime.toIso8601String(),
+                                _starIndex.toString(),
+                                itemCount.toString(),
+                                mapController.text,
+                                // address,
+                                remarkController.text,
+                              );
+                              if (resultOther.code == 200) {
+                                if (userData.userLevel.substring(0, 1) == "6") {
+                                  Navigator.push(context, MaterialPageRoute(
+                                      builder: (context) => QListPage()));
+                                }
+                                if (userData.userLevel.substring(0, 1) == "4") {
+                                  Navigator.push(context, MaterialPageRoute(
+                                      builder: (context) => SQListPage()));
+                                }
+                                if (userData.userLevel.substring(0, 1) == "5") {
+                                  Navigator.push(context, MaterialPageRoute(
+                                      builder: (context) => ManagerQListPage()));
+                                }
+                              } else {
+                                _onTimeAlertPressed(context);
+                              }
+                            } else {}
                           }
-                          if (chooseId == "13") {
-                            var result13 = await UserSelectMissionDao
-                                .selectMission(
-                              userData.companyId,
-                              userData.userPid,
-                              chooseId,
-                              // adminTaskId,
-                              userData.userLevel.substring(0, 1),
-                              startTime.toIso8601String().substring(0, 11) +
-                                  '00:00:00.000000',
-                              endTime.toIso8601String().substring(0, 11) +
-                                  '23:59:59.000000',
-                              _starIndex.toString(),
-                              itemCount.toString(),
-                              mapController.text,
-                              // address,
-                              remarkController.text,
-                            );
-                            if (result13.code == 200) {
-                              if (userData.userLevel.substring(0, 1) == "6") {
-                                Navigator.push(context, MaterialPageRoute(
-                                    builder: (context) => QListPage()));
-                              }
-                              if (userData.userLevel.substring(0, 1) == "4") {
-                                Navigator.push(context, MaterialPageRoute(
-                                    builder: (context) => SQListPage()));
-                              }
-                              if (userData.userLevel.substring(0, 1) == "5") {
-                                Navigator.push(context, MaterialPageRoute(
-                                    builder: (context) => ManagerQListPage()));
-                              }
-                            } else {
-                              _onTimeAlertPressed(context);
-                            }
-                          }
-                          if (chooseId == "12" && isRemark == true &&
-                              remarkController.text != '') {
-                            var result12 = await UserSelectMissionDao
-                                .selectMission(
-                              userData.companyId,
-                              userData.userPid,
-                              chooseId,
-                              // adminTaskId,
-                              userData.userLevel.substring(0, 1),
-                              startTime.toIso8601String(),
-                              endTime.toIso8601String(),
-                              _starIndex.toString(),
-                              itemCount.toString(),
-                              mapController.text,
-                              // address,
-                              remarkController.text,
-                            );
-                            if (result12.code == 200) {
-                              if (userData.userLevel.substring(0, 1) == "6") {
-                                Navigator.push(context, MaterialPageRoute(
-                                    builder: (context) => QListPage()));
-                              }
-                              if (userData.userLevel.substring(0, 1) == "4") {
-                                Navigator.push(context, MaterialPageRoute(
-                                    builder: (context) => SQListPage()));
-                              }
-                              if (userData.userLevel.substring(0, 1) == "5") {
-                                Navigator.push(context, MaterialPageRoute(
-                                    builder: (context) => ManagerQListPage()));
-                              }
-                            } else {
-                              _onTimeAlertPressed(context);
-                            }
-                          }
-                          if (chooseId != "-1" && chooseId != "12" &&
-                              chooseId != "13" && chooseId != "15" &&
-                              chooseId != "16" && _starIndex != 0) {
-                            var resultOther = await UserSelectMissionDao.selectMission(
-                              userData.companyId,
-                              userData.userPid,
-                              chooseId,
-                              // adminTaskId,
-                              userData.userLevel.substring(0, 1),
-                              startTime.toIso8601String(),
-                              endTime.toIso8601String(),
-                              _starIndex.toString(),
-                              itemCount.toString(),
-                              mapController.text,
-                              // address,
-                              remarkController.text,
-                            );
-                            if (resultOther.code == 200) {
-                              if (userData.userLevel.substring(0, 1) == "6") {
-                                Navigator.push(context, MaterialPageRoute(
-                                    builder: (context) => QListPage()));
-                              }
-                              if (userData.userLevel.substring(0, 1) == "4") {
-                                Navigator.push(context, MaterialPageRoute(
-                                    builder: (context) => SQListPage()));
-                              }
-                              if (userData.userLevel.substring(0, 1) == "5") {
-                                Navigator.push(context, MaterialPageRoute(
-                                    builder: (context) => ManagerQListPage()));
-                              }
-                            } else {
-                              _onTimeAlertPressed(context);
-                            }
-                          } else {}
-                        }
+                        }else{}
+
                       },
                       child: Container(
                         width: 200,
@@ -1093,8 +1111,9 @@ class _QListAddPageState extends State<QListAddPage> {
         decorationStyle: TextDecorationStyle.solid,
         fontWeight: FontWeight.normal,
       ),
-      itemWidth: 40,
-      spacing: 50,
+      alignment: Alignment.center,
+      itemWidth: 90,
+      spacing: 30,
       itemHeight: 40,
       isForce2Digits: true,
       onTimeChange: (time) {
@@ -1123,8 +1142,9 @@ class _QListAddPageState extends State<QListAddPage> {
         decorationStyle: TextDecorationStyle.solid,
         fontWeight: FontWeight.normal,
       ),
-      itemWidth: 40,
-      spacing: 50,
+      alignment: Alignment.center,
+      itemWidth: 90,
+      spacing: 30,
       itemHeight: 40,
       isForce2Digits: true,
       onTimeChange: (time) {
@@ -1171,45 +1191,254 @@ class _QListAddPageState extends State<QListAddPage> {
       ],
     ).show();
   }
+
+  _onTimeAlertPressed(context) {
+    Alert(
+      context: context,
+      type: AlertType.error,
+      title: "当前时间与已有任务时间冲突",
+      desc: "请选择其它时间，各项任务的时间不可重复",
+      buttons: [
+        DialogButton(
+          child: Text(
+            "确定",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () => Navigator.pop(context),
+          color: Color(0xFF5580EB),
+        ),
+      ],
+    ).show();
+  }
+
+  _onTimeWrong(context) {
+    Alert(
+      context: context,
+      type: AlertType.error,
+      title: "结束时间不得早于开始时间",
+      desc: "请重新选择结束时间",
+      buttons: [
+        DialogButton(
+          child: Text(
+            "确定",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () => Navigator.pop(context),
+          color: Color(0xFF5580EB),
+        ),
+      ],
+    ).show();
+  }
+  // 开始时间选择
+  _onStartTime(context) {
+    Alert(
+      context: context,
+      title: "选择开始时间",
+      content: Container(
+        width: 255,
+        alignment: Alignment.center,
+        child: Container(
+          width: 255,
+          alignment: Alignment.center,
+          child: Stack(
+            children: <Widget>[
+              Row(
+                children: <Widget>[
+                  StartTime(),
+                  Padding(
+                    padding: EdgeInsets.only(left: 5),
+                    child: Text(
+                      '分',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.normal,
+                        color: Color(0xFF333333),
+                        decoration: TextDecoration.none,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Positioned(
+                top: 50,
+                left: 90,
+                child: Text(
+                  '时',
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.normal,
+                    color: Color(0xFF333333),
+                    decoration: TextDecoration.none,
+                  ),
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+      buttons: [
+        DialogButton(
+          child: Text(
+            "确定",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () => Navigator.pop(context),
+          color: Color(0xFF5580EB),
+        ),
+        DialogButton(
+          child: Text(
+            "取消",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () => Navigator.pop(context),
+          color: Color(0xFFCCCCCC),
+        ),
+      ],
+    ).show();
+  }
+
+  // 结束时间选择
+  _onEndTime(context) {
+    Alert(
+      context: context,
+      title: "选择结束时间",
+      content: Container(
+        width: 255,
+        alignment: Alignment.center,
+        child: Container(
+          width: 255,
+          alignment: Alignment.center,
+          child: Stack(
+            children: <Widget>[
+              Row(
+                children: <Widget>[
+                  EndTime(),
+                  Padding(
+                    padding: EdgeInsets.only(left: 5),
+                    child: Text(
+                      '分',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.normal,
+                        color: Color(0xFF333333),
+                        decoration: TextDecoration.none,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Positioned(
+                top: 50,
+                left: 90,
+                child: Text(
+                  '时',
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.normal,
+                    color: Color(0xFF333333),
+                    decoration: TextDecoration.none,
+                  ),
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+      buttons: [
+        DialogButton(
+          child: Text(
+            "确定",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () => Navigator.pop(context),
+          color: Color(0xFF5580EB),
+        ),
+        DialogButton(
+          child: Text(
+            "取消",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () => Navigator.pop(context),
+          color: Color(0xFFCCCCCC),
+        ),
+      ],
+    ).show();
+  }
+
+  // 输入任务数量弹窗
+  _onCountPressed(context) {
+    Alert(
+      context: context,
+      title: "输入任务数量",
+      content: Column(
+        children: <Widget>[
+          TextField(
+            controller: countController,
+            keyboardType: TextInputType.number,
+            textAlign: TextAlign.center,
+          )
+        ],
+      ),
+      buttons: [
+        DialogButton(
+          child: Text(
+            "确定",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: (){
+            if(int.parse(countController.text) > 0){
+              setState(() {
+                itemCount = int.parse(countController.text.toString());
+              });
+              Navigator.pop(context);
+            }else{
+              _onCountWrongPressed(context);
+            }
+
+          },
+          color: Color(0xFF5580EB),
+          width: 120,
+        ),
+        DialogButton(
+          child: Text(
+            "取消",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: (){
+            Navigator.pop(context);
+          },
+          color: Color(0xFFCCCCCC),
+          width: 120,
+        )
+      ],
+    ).show();
+  }
+
+  // 任务数量不得小于1弹窗
+  _onCountWrongPressed(context) {
+    Alert(
+      context: context,
+      title: "任务数量不得小于1",
+      desc: "请重试",
+      buttons: [
+        DialogButton(
+          child: Text(
+            "知道了",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: (){
+            Navigator.pop(context);
+          },
+          color: Color(0xFF5580EB),
+          width: 120,
+        )
+      ],
+    ).show();
+  }
+
 }
 
-_onTimeAlertPressed(context) {
-  Alert(
-    context: context,
-    type: AlertType.error,
-    title: "当前时间与已有任务时间冲突",
-    desc: "请选择其它时间，各项任务的时间不可重复",
-    buttons: [
-      DialogButton(
-        child: Text(
-          "确定",
-          style: TextStyle(color: Colors.white, fontSize: 20),
-        ),
-        onPressed: () => Navigator.pop(context),
-        color: Color(0xFF5580EB),
-      ),
-    ],
-  ).show();
-}
 
-_onTimeWrong(context) {
-  Alert(
-    context: context,
-    type: AlertType.error,
-    title: "结束时间不得早于开始时间",
-    desc: "请重新选择结束时间",
-    buttons: [
-      DialogButton(
-        child: Text(
-          "确定",
-          style: TextStyle(color: Colors.white, fontSize: 20),
-        ),
-        onPressed: () => Navigator.pop(context),
-        color: Color(0xFF5580EB),
-      ),
-    ],
-  ).show();
-}
 
 class Content extends StatelessWidget {
 

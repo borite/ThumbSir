@@ -40,10 +40,12 @@ class _QListChangePageState extends State<QListChangePage> {
   RegExp remarkReg;
   bool remarkBool = false;
   final TextEditingController mapController=TextEditingController();
+  final TextEditingController countController=TextEditingController();
   RegExp mapReg;
   bool mapBool = false;
   String chooseId;
   String chooseUnit;
+  String chooseTaskName;
   var widgetStartTime;
   var widgetEndTime;
   String tag = "1";
@@ -98,6 +100,7 @@ class _QListChangePageState extends State<QListChangePage> {
     _starIndex = widget.stars;
     itemCount = widget.planningCount;
     chooseUnit = widget.taskUnit;
+    chooseTaskName = widget.taskName;
     remarkController.text = widget.remark;
     mapController.text = widget.address;
     if(widget.remark!=null){
@@ -112,6 +115,15 @@ class _QListChangePageState extends State<QListChangePage> {
     }
     startTime = widget.date == 1 ? DateTime.now():DateTime.now().add(Duration(days: 1));
     endTime = widget.date == 1 ? DateTime.now():DateTime.now().add(Duration(days: 1));
+  }
+
+  // 防止页面销毁时内存泄漏造成性能问题
+  @override
+  void dispose(){
+    remarkController.dispose();
+    mapController.dispose();
+    countController.dispose();
+    super.dispose();
   }
 
   @override
@@ -229,6 +241,48 @@ class _QListChangePageState extends State<QListChangePage> {
                       ),
 
                     ),
+                    // 已修改任务为
+                    chooseTaskName != "" && chooseTaskName != widget.taskName?
+                    Container(
+                      width: 335,
+                      padding: EdgeInsets.only(top: 20),
+                      child: Row(
+                        children: <Widget>[
+                          Padding(
+                            padding: EdgeInsets.only(left: 10),
+                            child: Text('已修改任务为：',style: TextStyle(
+                              fontSize: 20,
+                              color: Color(0xFF666666),
+                              fontWeight: FontWeight.normal,
+                              decoration: TextDecoration.none,
+                            ),),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(left: 5),
+                            child: Text(chooseTaskName,style: TextStyle(
+                              fontSize: 20,
+                              color: Color(0xFF24CC8E),
+                              fontWeight: FontWeight.normal,
+                              decoration: TextDecoration.none,
+                            ),),
+                          ),
+                          IconButton(
+                            icon: Icon(Icons.edit),
+                            color: Color(0xFF24CC8E),
+                            onPressed: (){
+                              setState(() {
+                                chooseTaskName = widget.taskName;
+                                tag = "1";
+                                chooseId = widget.defaultTaskID;
+                              });
+                            },
+                          ),
+                        ],
+                      ),
+                    ):Container(height: 1,),
+                    // 可选的任务名称
+
+                    chooseTaskName == "" || chooseTaskName == widget.taskName?
                     Content(
                       title: '可选的任务名称',
                       child: ChipsChoice<String>.single(
@@ -246,6 +300,7 @@ class _QListChangePageState extends State<QListChangePage> {
                             var item = chooseItemFromJson(val);
                             chooseId = item.id;
                             chooseUnit = item.taskUnit;
+                            chooseTaskName = item.taskTitle;
                           });
                         },
                         itemConfig: ChipsChoiceItemConfig(
@@ -256,7 +311,7 @@ class _QListChangePageState extends State<QListChangePage> {
                         ),
                         isWrapped: true,
                       ),
-                    ),
+                    ):Container(height: 1,),
                     // 若选择其他描述必填提示
                     chooseId == '12' ?
                     Padding(
@@ -292,60 +347,47 @@ class _QListChangePageState extends State<QListChangePage> {
                           ),
                           GestureDetector(
                             onTap: (){
-                              if(itemCount >= 2){
-                                setState(() {
-                                  itemCount = itemCount - 1;
-                                });
-                              }else{}
+                              _onCountPressed(context);
                             },
                             child: Container(
-                              width: 40,
-                              height: 20,
-                              margin: EdgeInsets.only(right: 15),
+                              width: 80,
                               decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                border: Border.all(color: Color(0xFF24CC8E),width: 1),
+                                  border: Border(bottom: BorderSide(width: 1,color: Color(0xFF24CC8E)))
                               ),
-                              child: Text('-',style: TextStyle(
-                                color: Color(0xFF24CC8E),
-                                fontSize: 14,
-                                fontWeight: FontWeight.normal,
-                                decoration: TextDecoration.none,
-                              ),textAlign: TextAlign.center,),
+                              child: Text(
+                                itemCount.toString(),
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Color(0xFF24CC8E),
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.normal,
+                                ),),
                             ),
                           ),
-                          Text(
-                            itemCount.toString(),
-                            style: TextStyle(
-                              color: Color(0xFF24CC8E),
-                              fontSize: 20,
-                              fontWeight: FontWeight.normal,
-                              decoration: TextDecoration.none,
-                            ),),
-                          GestureDetector(
-                            onTap: (){
-                              setState(() {
-                                itemCount = itemCount + 1;
-                              });
-                            },
-                            child: Container(
-                              width: 40,
-                              height: 20,
-                              margin: EdgeInsets.only(left: 15,right: 20),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                border: Border.all(color: Color(0xFF24CC8E),width: 1),
-                              ),
-                              child: Text('+',style: TextStyle(
-                                color: Color(0xFF5580EB),
-                                fontSize: 14,
-                                fontWeight: FontWeight.normal,
-                                decoration: TextDecoration.none,
-                              ),textAlign: TextAlign.center,),
-                            ),
-                          ),
+//                          GestureDetector(
+//                            onTap: (){
+//                              setState(() {
+//                                itemCount = itemCount + 1;
+//                              });
+//                            },
+//                            child: Container(
+//                              width: 40,
+//                              height: 20,
+//                              margin: EdgeInsets.only(left: 15,right: 20),
+//                              decoration: BoxDecoration(
+//                                borderRadius: BorderRadius.circular(10),
+//                                border: Border.all(color: Color(0xFF24CC8E),width: 1),
+//                              ),
+//                              child: Text('+',style: TextStyle(
+//                                color: Color(0xFF5580EB),
+//                                fontSize: 14,
+//                                fontWeight: FontWeight.normal,
+//                                decoration: TextDecoration.none,
+//                              ),textAlign: TextAlign.center,),
+//                            ),
+//                          ),
                           Padding(
-                            padding: EdgeInsets.only(right: 20),
+                            padding: EdgeInsets.only(right: 20,left: 20),
                             child: Text(chooseUnit,style: TextStyle(
                               color: Color(0xFF666666),
                               fontSize: 20,
@@ -554,27 +596,6 @@ class _QListChangePageState extends State<QListChangePage> {
                         ],
                       ),
                     ),
-                    chooseId == "13"?
-                    Container(width: 1,)
-                        :
-                    Padding(
-                        padding: EdgeInsets.only(left: 20,bottom: 20),
-                        child: Row(
-                          children: <Widget>[
-                            Text(
-                        widgetStartTime != null && widgetEndTime != null ?
-                                '修改前的时间段为'+widgetStartTime.substring(11,16)+'-'+widgetEndTime.substring(11,16)
-                                :'',
-                                style: TextStyle(
-                                  fontSize: 10,
-                                  color: Color(0xFF999999),
-                                  fontWeight: FontWeight.normal,
-                                  decoration: TextDecoration.none,
-                            )),
-                          ],
-                        )
-
-                    ),
                     // 开始时间
                     chooseId == "13"?
                     Container(width: 1,)
@@ -594,7 +615,42 @@ class _QListChangePageState extends State<QListChangePage> {
                                     decoration: TextDecoration.none,
                                   ),),
                                 ),
-                                StartTime(),
+//                                StartTime(),
+                                Container(
+                                  margin: EdgeInsets.only(left: 20,right: 20),
+                                  child: Text(
+                                    widgetStartTime != null ? widgetStartTime.toString().substring(11,13):'00',
+                                    style: TextStyle(
+                                    fontSize: 24,
+                                    color: Color(0xFF24CC8E),
+//                                    decoration: TextDecoration.underline,
+//                                    decorationColor: Color(0xFF24CC8E),
+//                                    decorationStyle: TextDecorationStyle.solid,
+                                    fontWeight: FontWeight.normal,
+                                  ),),
+                                ),
+                                Text(
+                                  '时',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.normal,
+                                    color: Color(0xFF333333),
+                                    decoration: TextDecoration.none,
+                                  ),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(left: 25),
+                                  child: Text(
+                                    widgetStartTime != null ? widgetStartTime.toString().substring(14,16):'00',
+                                    style: TextStyle(
+                                    fontSize: 24,
+                                    color: Color(0xFF24CC8E),
+//                                    decoration: TextDecoration.underline,
+//                                    decorationColor: Color(0xFF24CC8E),
+//                                    decorationStyle: TextDecorationStyle.solid,
+                                    fontWeight: FontWeight.normal,
+                                  ),),
+                                ),
                                 Padding(
                                   padding: EdgeInsets.only(left: 20),
                                   child: Text(
@@ -606,22 +662,19 @@ class _QListChangePageState extends State<QListChangePage> {
                                       decoration: TextDecoration.none,
                                     ),
                                   ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(left: 20),
+                                  child: IconButton(
+                                    icon: Icon(Icons.edit),
+                                    color: Color(0xFF24CC8E),
+                                    onPressed: (){
+                                      _onStartTime(context);
+                                    },
+                                  ),
                                 )
                               ],
                             ),
-                            Positioned(
-                              top: 50,
-                              left: 150,
-                              child: Text(
-                                '时',
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.normal,
-                                  color: Color(0xFF333333),
-                                  decoration: TextDecoration.none,
-                                ),
-                              ),
-                            )
                           ],
                         )
 
@@ -645,7 +698,41 @@ class _QListChangePageState extends State<QListChangePage> {
                                     decoration: TextDecoration.none,
                                   ),),
                                 ),
-                                EndTime(),
+                                Container(
+                                  margin: EdgeInsets.only(left: 20,right: 20),
+                                  child: Text(
+                                    widgetEndTime != null ? widgetEndTime.toString().substring(11,13):'00',
+                                    style: TextStyle(
+                                      fontSize: 24,
+                                      color: Color(0xFF24CC8E),
+//                                      decoration: TextDecoration.underline,
+//                                      decorationColor: Color(0xFF24CC8E),
+//                                      decorationStyle: TextDecorationStyle.solid,
+                                      fontWeight: FontWeight.normal,
+                                    ),),
+                                ),
+                                Text(
+                                  '时',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.normal,
+                                    color: Color(0xFF333333),
+                                    decoration: TextDecoration.none,
+                                  ),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(left: 25),
+                                  child: Text(
+                                    widgetEndTime != null ? widgetEndTime.toString().substring(14,16):'00',
+                                    style: TextStyle(
+                                      fontSize: 24,
+                                      color: Color(0xFF24CC8E),
+//                                      decoration: TextDecoration.underline,
+//                                      decorationColor: Color(0xFF24CC8E),
+//                                      decorationStyle: TextDecorationStyle.solid,
+                                      fontWeight: FontWeight.normal,
+                                    ),),
+                                ),
                                 Padding(
                                   padding: EdgeInsets.only(left: 20),
                                   child: Text(
@@ -657,22 +744,19 @@ class _QListChangePageState extends State<QListChangePage> {
                                       decoration: TextDecoration.none,
                                     ),
                                   ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(left: 20),
+                                  child: IconButton(
+                                    icon: Icon(Icons.edit),
+                                    color: Color(0xFF24CC8E),
+                                    onPressed: (){
+                                      _onEndTime(context);
+                                    },
+                                  ),
                                 )
                               ],
                             ),
-                            Positioned(
-                              top: 50,
-                              left: 150,
-                              child: Text(
-                                '时',
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.normal,
-                                  color: Color(0xFF333333),
-                                  decoration: TextDecoration.none,
-                                ),
-                              ),
-                            )
                           ],
                         )
 
@@ -848,9 +932,9 @@ class _QListChangePageState extends State<QListChangePage> {
                     // 完成
                     GestureDetector(
                       onTap: ()async {
-                        if (endTime
-                            .difference(startTime)
-                            .inMinutes <= 0) {
+                        var dateTimeEndTime=DateTime.parse(widgetEndTime);
+                        var dateTimeStartTime=DateTime.parse(widgetStartTime);
+                        if (chooseId!="13" && dateTimeEndTime.difference(dateTimeStartTime).inMinutes <= 0) {
                           _onTimeWrong(context);
                         } else {
                           if (chooseId == "15" || chooseId == "16") {
@@ -861,11 +945,11 @@ class _QListChangePageState extends State<QListChangePage> {
                               userData.userPid,
                               chooseId,
                               userData.userLevel.substring(0, 1),
-                              startTime.toIso8601String(),
-                              endTime.toIso8601String(),
+                              widgetStartTime.toString(),
+                              widgetEndTime.toString(),
                               _starIndex.toString(),
                               itemCount.toString(),
-                              '',
+                              mapController.text,
                               remarkController.text,
                             );
                             if (result1516.code == 200) {
@@ -892,11 +976,13 @@ class _QListChangePageState extends State<QListChangePage> {
                               userData.userPid,
                               chooseId,
                               userData.userLevel.substring(0, 1),
-                              startTime.toIso8601String(),
-                              endTime.toIso8601String(),
+                              widgetStartTime.toString().substring(0, 11) +
+                                  '00:00:00.000000',
+                              widgetEndTime.toString().substring(0, 11) +
+                                  '23:59:59.000000',
                               _starIndex.toString(),
                               itemCount.toString(),
-                              '',
+                              mapController.text,
                               remarkController.text,
                             );
                             if (result13.code == 200) {
@@ -924,11 +1010,11 @@ class _QListChangePageState extends State<QListChangePage> {
                               userData.userPid,
                               chooseId,
                               userData.userLevel.substring(0, 1),
-                              startTime.toIso8601String(),
-                              endTime.toIso8601String(),
+                              widgetStartTime.toString(),
+                              widgetEndTime.toString(),
                               _starIndex.toString(),
                               itemCount.toString(),
-                              '',
+                              mapController.text,
                               remarkController.text,
                             );
                             if (result12.code == 200) {
@@ -958,11 +1044,11 @@ class _QListChangePageState extends State<QListChangePage> {
                               userData.userPid,
                               chooseId,
                               userData.userLevel.substring(0, 1),
-                              startTime.toIso8601String(),
-                              endTime.toIso8601String(),
+                              widgetStartTime.toString(),
+                              widgetEndTime.toString(),
                               _starIndex.toString(),
                               itemCount.toString(),
-                              '',
+                              mapController.text,
                               remarkController.text,
                             );
                             print(widget.id);
@@ -1125,8 +1211,9 @@ class _QListChangePageState extends State<QListChangePage> {
         decorationStyle: TextDecorationStyle.solid,
         fontWeight: FontWeight.normal,
       ),
-      itemWidth: 40,
-      spacing: 50,
+      alignment: Alignment.center,
+      itemWidth: 90,
+      spacing: 30,
       itemHeight: 40,
       isForce2Digits: true,
       onTimeChange: (time) {
@@ -1155,8 +1242,9 @@ class _QListChangePageState extends State<QListChangePage> {
         decorationStyle: TextDecorationStyle.solid,
         fontWeight: FontWeight.normal,
       ),
-      itemWidth: 40,
-      spacing: 50,
+      alignment: Alignment.center,
+      itemWidth: 90,
+      spacing: 30,
       itemHeight: 40,
       isForce2Digits: true,
       onTimeChange: (time) {
@@ -1168,6 +1256,223 @@ class _QListChangePageState extends State<QListChangePage> {
         });
       },
     );
+  }
+
+  // 开始时间选择
+  _onStartTime(context) {
+    Alert(
+      context: context,
+      title: "选择开始时间",
+      content: Container(
+        width: 255,
+        alignment: Alignment.center,
+        child: Container(
+          width: 255,
+          alignment: Alignment.center,
+          child: Stack(
+            children: <Widget>[
+              Row(
+                children: <Widget>[
+                  StartTime(),
+                  Padding(
+                    padding: EdgeInsets.only(left: 5),
+                    child: Text(
+                      '分',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.normal,
+                        color: Color(0xFF333333),
+                        decoration: TextDecoration.none,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Positioned(
+                top: 50,
+                left: 90,
+                child: Text(
+                  '时',
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.normal,
+                    color: Color(0xFF333333),
+                    decoration: TextDecoration.none,
+                  ),
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+      buttons: [
+        DialogButton(
+          child: Text(
+            "确定",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: (){
+            setState(() {
+              widgetStartTime = startTime.toString();
+            });
+            Navigator.pop(context);
+          },
+          color: Color(0xFF5580EB),
+        ),
+        DialogButton(
+          child: Text(
+            "取消",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () => Navigator.pop(context),
+          color: Color(0xFFCCCCCC),
+        ),
+      ],
+    ).show();
+  }
+
+  // 结束时间选择
+  _onEndTime(context) {
+    Alert(
+      context: context,
+      title: "选择结束时间",
+      content: Container(
+        width: 255,
+        alignment: Alignment.center,
+        child: Container(
+          width: 255,
+          alignment: Alignment.center,
+          child: Stack(
+            children: <Widget>[
+              Row(
+                children: <Widget>[
+                  EndTime(),
+                  Padding(
+                    padding: EdgeInsets.only(left: 5),
+                    child: Text(
+                      '分',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.normal,
+                        color: Color(0xFF333333),
+                        decoration: TextDecoration.none,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Positioned(
+                top: 50,
+                left: 90,
+                child: Text(
+                  '时',
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.normal,
+                    color: Color(0xFF333333),
+                    decoration: TextDecoration.none,
+                  ),
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+      buttons: [
+        DialogButton(
+          child: Text(
+            "确定",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: (){
+            setState(() {
+              widgetEndTime = endTime.toString();
+            });
+            Navigator.pop(context);
+          },
+          color: Color(0xFF5580EB),
+        ),
+        DialogButton(
+          child: Text(
+            "取消",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () => Navigator.pop(context),
+          color: Color(0xFFCCCCCC),
+        ),
+      ],
+    ).show();
+  }
+
+  // 输入任务数量弹窗
+  _onCountPressed(context) {
+    Alert(
+      context: context,
+      title: "输入任务数量",
+      content: Column(
+        children: <Widget>[
+          TextField(
+            controller: countController,
+            keyboardType: TextInputType.number,
+            textAlign: TextAlign.center,
+          )
+        ],
+      ),
+      buttons: [
+        DialogButton(
+          child: Text(
+            "确定",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: (){
+            if(int.parse(countController.text) > 0){
+              setState(() {
+                itemCount = int.parse(countController.text.toString());
+              });
+              Navigator.pop(context);
+            }else{
+              _onCountWrongPressed(context);
+            }
+
+          },
+          color: Color(0xFF5580EB),
+          width: 120,
+        ),
+        DialogButton(
+          child: Text(
+            "取消",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: (){
+            Navigator.pop(context);
+          },
+          color: Color(0xFFCCCCCC),
+          width: 120,
+        )
+      ],
+    ).show();
+  }
+
+  // 任务数量不得小于1弹窗
+  _onCountWrongPressed(context) {
+    Alert(
+      context: context,
+      title: "任务数量不得小于1",
+      desc: "请重试",
+      buttons: [
+        DialogButton(
+          child: Text(
+            "知道了",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: (){
+            Navigator.pop(context);
+          },
+          color: Color(0xFF5580EB),
+          width: 120,
+        )
+      ],
+    ).show();
   }
 }
 class Content extends StatelessWidget {

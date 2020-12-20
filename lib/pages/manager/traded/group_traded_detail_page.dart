@@ -323,6 +323,7 @@ class _GroupTradedDetailPageState extends State<GroupTradedDetailPage> {
                             )));
                           },
                           child: Container(
+                            color: Colors.transparent,
                             margin: EdgeInsets.fromLTRB(0, 20, 0, 30),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,

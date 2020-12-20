@@ -68,6 +68,7 @@ class _GroupTradedPageState extends State<GroupTradedPage> {
                   child: Container(
                     width: 335,
                     margin: EdgeInsets.fromLTRB(5, 0, 0, 20),
+                    color: Colors.transparent,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
@@ -198,6 +199,7 @@ class _GroupTradedPageState extends State<GroupTradedPage> {
                                       ), (route) => route == null);
                                 },
                                 child: Container(
+                                  color: Colors.transparent,
                                   width: 28,
                                   padding: EdgeInsets.only(top: 3),
                                   child: Image(image: AssetImage('images/home.png'),),

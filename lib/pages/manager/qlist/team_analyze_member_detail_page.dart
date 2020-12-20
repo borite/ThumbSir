@@ -103,7 +103,7 @@ class _TeamAnalyzeMemberDetailPageState extends State<TeamAnalyzeMemberDetailPag
         showList.add(
           Container(
             margin: EdgeInsets.only(bottom: 25),
-            padding: EdgeInsets.only(right: 15),
+            padding: EdgeInsets.only(right: 5),
             width: 335,
             height: 60,
             decoration: BoxDecoration(
@@ -157,7 +157,7 @@ class _TeamAnalyzeMemberDetailPageState extends State<TeamAnalyzeMemberDetailPag
                       },
                       child: Container(
                         margin: EdgeInsets.only(left: 20),
-                        width: 200,
+                        width: 190,
                         child: Text(
                           item.teamName+' （ '+ item.nextLeader.userName +' ）',
                           style:TextStyle(
@@ -189,7 +189,11 @@ class _TeamAnalyzeMemberDetailPageState extends State<TeamAnalyzeMemberDetailPag
                       )));
                     }
                   },
-                  child: Image(image: AssetImage('images/next.png'),),
+                  child: Container(
+                    padding: EdgeInsets.only(left: 20,right: 20,top: 10,bottom: 10),
+                    color: Colors.transparent,
+                    child: Image(image: AssetImage('images/next.png'),),
+                  ),
                 )
               ],
             ),
@@ -442,8 +446,9 @@ class _TeamAnalyzeMemberDetailPageState extends State<TeamAnalyzeMemberDetailPag
                                             id:widget.leaderID,
                                           )));
                                         },
-                                        child: Padding(
-                                          padding: EdgeInsets.only(right: 10),
+                                        child: Container(
+                                          padding: EdgeInsets.only(left: 20,right: 20,top: 10,bottom: 10),
+                                          color: Colors.transparent,
                                           child: Image(image: AssetImage('images/next.png'),),
                                         ),
                                       )

@@ -109,6 +109,7 @@ class _GroupListDetailPageState extends State<GroupListDetailPage> {
             },
             child: Container(
               margin: EdgeInsets.fromLTRB(5, 0, 0, 20),
+              color: Colors.transparent,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[

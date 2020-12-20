@@ -338,6 +338,7 @@ class _InvitationCodePageState extends State<InvitationCodePage> {
           TextField(
             controller: inviterController,
             keyboardType: TextInputType.number,
+            textAlign: TextAlign.center,
           )
         ],
       ),

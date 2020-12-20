@@ -109,6 +109,7 @@ class _TeamAnalyzeGroupDetailPageState extends State<TeamAnalyzeGroupDetailPage>
             },
             child: Container(
               margin: EdgeInsets.fromLTRB(5, 0, 0, 20),
+              color: Colors.transparent,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
@@ -298,114 +299,115 @@ class _TeamAnalyzeGroupDetailPageState extends State<TeamAnalyzeGroupDetailPage>
                                   )
                               ),
                               // 店长
-                              Container(
-                                margin: EdgeInsets.only(bottom: 30),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: <Widget>[
-                                    Row(
-                                      children: <Widget>[
-                                        Container(
-                                          child: Stack(
-                                            children: <Widget>[
-                                              Container(
-                                                width: 80,
-                                                height: 80,
-                                                decoration: BoxDecoration(
-                                                    borderRadius: BorderRadius.all(Radius.circular(45)),
-                                                    color: Colors.white,
-                                                    border: Border.all(color: Color(0xFF24CC8E),width: 1)
-                                                ),
-                                                child:ClipRRect(
-                                                    borderRadius: BorderRadius.circular(40),
-                                                    child:Image(
-                                                      image: leaderInfo != null ?
-                                                      leaderInfo.headImg != null ?
-                                                      NetworkImage(leaderInfo.headImg)
-                                                          :
-                                                      AssetImage('images/my_big.png'):AssetImage('images/my_big.png'),
-                                                    )
-                                                ),
-                                              ),
-                                              Positioned(
-                                                top: 60,
-                                                left: 10,
-                                                child: Container(
-                                                  width: 60,
-                                                  height: 20,
+                              GestureDetector(
+                                onTap: (){
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>TeamMemberAnalyzeDetailPage(
+                                    name:widget.leaderName,
+                                    id:widget.leaderID,
+                                  )));
+                                },
+                                child: Container(
+                                  color: Colors.transparent,
+                                  margin: EdgeInsets.only(bottom: 30),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: <Widget>[
+                                      Row(
+                                        children: <Widget>[
+                                          Container(
+                                            child: Stack(
+                                              children: <Widget>[
+                                                Container(
+                                                  width: 80,
+                                                  height: 80,
                                                   decoration: BoxDecoration(
-                                                    border: Border.all(color: Color(0xFF24CC8E),width: 1),
-                                                    borderRadius: BorderRadius.all(Radius.circular(5)),
-                                                    color: Colors.white,
+                                                      borderRadius: BorderRadius.all(Radius.circular(45)),
+                                                      color: Colors.white,
+                                                      border: Border.all(color: Color(0xFF24CC8E),width: 1)
                                                   ),
-                                                  child: Padding(
-                                                    padding: EdgeInsets.only(top:2,left:5,right: 5),
-                                                    child: Text(
-                                                      leaderInfo!=null?leaderInfo.userLevel.substring(2,):"",
-                                                      style: TextStyle(
-                                                        fontSize: 10,
-                                                        color: Color(0xFF24CC8E),
+                                                  child:ClipRRect(
+                                                      borderRadius: BorderRadius.circular(40),
+                                                      child:Image(
+                                                        image: leaderInfo != null ?
+                                                        leaderInfo.headImg != null ?
+                                                        NetworkImage(leaderInfo.headImg)
+                                                            :
+                                                        AssetImage('images/my_big.png'):AssetImage('images/my_big.png'),
+                                                      )
+                                                  ),
+                                                ),
+                                                Positioned(
+                                                  top: 60,
+                                                  left: 10,
+                                                  child: Container(
+                                                    width: 60,
+                                                    height: 20,
+                                                    decoration: BoxDecoration(
+                                                      border: Border.all(color: Color(0xFF24CC8E),width: 1),
+                                                      borderRadius: BorderRadius.all(Radius.circular(5)),
+                                                      color: Colors.white,
+                                                    ),
+                                                    child: Padding(
+                                                      padding: EdgeInsets.only(top:2,left:5,right: 5),
+                                                      child: Text(
+                                                        leaderInfo!=null?leaderInfo.userLevel.substring(2,):"",
+                                                        style: TextStyle(
+                                                          fontSize: 10,
+                                                          color: Color(0xFF24CC8E),
+                                                          fontWeight: FontWeight.normal,
+                                                          decoration: TextDecoration.none,
+                                                        ),
+                                                        textAlign: TextAlign.center,
+                                                        overflow: TextOverflow.clip,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                          Container(
+                                            margin: EdgeInsets.only(left: 20),
+                                            width: 150,
+                                            child: Column(
+                                              children: <Widget>[
+                                                Row(
+                                                  children: <Widget>[
+                                                    Text(
+                                                      leaderInfo != null?leaderInfo.userName:'',
+                                                      style:TextStyle(
+                                                        fontSize: 14,
+                                                        color: Color(0xFF333333),
                                                         fontWeight: FontWeight.normal,
                                                         decoration: TextDecoration.none,
                                                       ),
-                                                      textAlign: TextAlign.center,
-                                                      overflow: TextOverflow.clip,
                                                     ),
-                                                  ),
+                                                  ],
                                                 ),
-                                              )
-                                            ],
-                                          ),
-                                        ),
-                                        Container(
-                                          margin: EdgeInsets.only(left: 20),
-                                          width: 150,
-                                          child: Column(
-                                            children: <Widget>[
-                                              Row(
-                                                children: <Widget>[
-                                                  Text(
-                                                    leaderInfo != null?leaderInfo.userName:'',
+                                                Container(
+                                                  width: 150,
+                                                  padding: EdgeInsets.only(top: 8),
+                                                  child: Text(
+                                                    leaderCount!=null && leaderCount.finishRate!=null?'个人今日综合完成度：'+((leaderCount.finishRate)*100).toString().split(".")[0]+'%':'个人今日综合完成度：0%',
                                                     style:TextStyle(
-                                                      fontSize: 14,
-                                                      color: Color(0xFF333333),
+                                                      fontSize: 12,
+                                                      color: Color(0xFF999999),
                                                       fontWeight: FontWeight.normal,
                                                       decoration: TextDecoration.none,
                                                     ),
                                                   ),
-                                                ],
-                                              ),
-                                              Container(
-                                                width: 150,
-                                                padding: EdgeInsets.only(top: 8),
-                                                child: Text(
-                                                  leaderCount!=null && leaderCount.finishRate!=null?'个人今日综合完成度：'+((leaderCount.finishRate)*100).toString().split(".")[0]+'%':'个人今日综合完成度：0%',
-                                                  style:TextStyle(
-                                                    fontSize: 12,
-                                                    color: Color(0xFF999999),
-                                                    fontWeight: FontWeight.normal,
-                                                    decoration: TextDecoration.none,
-                                                  ),
                                                 ),
-                                              ),
-                                            ],
+                                              ],
+                                            ),
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                    GestureDetector(
-                                      onTap: (){
-                                        Navigator.push(context, MaterialPageRoute(builder: (context)=>TeamMemberAnalyzeDetailPage(
-                                          name:widget.leaderName,
-                                          id:widget.leaderID,
-                                        )));
-                                      },
-                                      child: Padding(
+                                        ],
+                                      ),
+                                      Padding(
                                         padding: EdgeInsets.only(right: 10),
                                         child: Image(image: AssetImage('images/next.png'),),
                                       ),
-                                    )
-                                  ],
+                                    ],
+                                  ),
                                 ),
                               ),
                               // 成员列表

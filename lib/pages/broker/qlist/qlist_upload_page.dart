@@ -538,7 +538,6 @@ class _QListUploadPageState extends State<QListUploadPage> {
                               newAdd.add(newAddImg);
                             }
                           }
-
                           List<RecordMission> recordMission = new List();
                           //新加入的图片数组
                           if(newAdd.length>0){
@@ -613,7 +612,7 @@ class _QListUploadPageState extends State<QListUploadPage> {
                                             userLevels: uinfo.userLevel.substring(0, 1),
                                             userPid: uinfo.userPid,
                                             img: imgUrlWithLocation(sign.data.finalUrl, gps_place, _baiduLocation.longitude.toString(), _baiduLocation.latitude.toString(), picTime),
-                                            phoneNum: uinfo.phone,
+                                            phoneNum: vi_result.data,
                                             selectMissionId: widget.taskId,
                                             gpsLocation: gps_place
                                         );
@@ -676,10 +675,13 @@ class _QListUploadPageState extends State<QListUploadPage> {
                                   Navigator.push(context, MaterialPageRoute(builder: (context)=>MajorQListPage()));
                                 }
                               }else{
+                                _onNotPhoneImgPressed(context);
                                 _onRefresh();
                               }
                             }else{
                               print('他妈的出错了');
+                              _onNotPhoneImgPressed(context);
+                              _onRefresh();
                             }
 
                           }
@@ -708,23 +710,19 @@ class _QListUploadPageState extends State<QListUploadPage> {
                             _onRefresh();
                             Dio dio = new Dio();
                             for (var imgFile in _images) {
-
                               String fName = imgFile
                                   .toString()
                                   .split('/')
                                   .last;
-
                               final tempDir=await getTemporaryDirectory();
                               final path=tempDir.path;
 
                               //压缩图片开始
-
                               IMG.Image compressImg=IMG.decodeImage(imgFile.readAsBytesSync());
                               IMG.Image smallerImg=IMG.copyResize(compressImg,height: 1280);
                               final compressedImageFile=new File("$path/$fName")..writeAsBytesSync(IMG.encodeJpg(smallerImg,quality: 85));
                               print(compressedImageFile);
                               //压缩图片结束
-
 
                               //文件名去除连接符
                               fName = fName.replaceAll('-', '');
@@ -777,7 +775,7 @@ class _QListUploadPageState extends State<QListUploadPage> {
                                                 0, 1),
                                             userPid: uinfo.userPid,
                                             img: imgUrlWithLocation(sign.data.finalUrl, gps_place, _baiduLocation.longitude.toString(), _baiduLocation.latitude.toString(), picTime),
-                                            phoneNum: uinfo.phone,
+                                            phoneNum: vi_result.data,
                                             selectMissionId: widget.taskId,
                                             gpsLocation: gps_place
                                         );
@@ -791,8 +789,6 @@ class _QListUploadPageState extends State<QListUploadPage> {
                                     }
                                     //非打电话任务
                                     else {
-
-
                                       SharedPreferences prefs = await SharedPreferences
                                           .getInstance();
                                       //var userId= prefs.getString("userID");
@@ -823,6 +819,7 @@ class _QListUploadPageState extends State<QListUploadPage> {
                             print(recordMission);
                             if (recordMission.length > 0) {
                               var recordBody = convert.json.encode(recordMission);
+                              print(recordBody);
                               var recordMissionImg = await dio.post(
                                   "http://47.104.20.6:10086/api/api/mission/UploadPhone",
                                   data: recordBody);

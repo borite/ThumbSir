@@ -68,7 +68,7 @@ class _TeamAnalyzePageState extends State<TeamAnalyzePage> {
               showList.add(
                 Container(
                   margin: EdgeInsets.only(bottom: 25),
-                  padding: EdgeInsets.only(right: 15),
+                  padding: EdgeInsets.only(right: 5),
                   width: 335,
                   height: 60,
                   decoration: BoxDecoration(
@@ -123,7 +123,8 @@ class _TeamAnalyzePageState extends State<TeamAnalyzePage> {
                             },
                             child: Container(
                               margin: EdgeInsets.only(left: 20),
-                              width: 200,
+                              color: Colors.transparent,
+                              width: 190,
                               child: Text(
                                 item.teamName+' （ '+ item.nextLeader.userName +' ）',
                                 style:TextStyle(
@@ -155,7 +156,11 @@ class _TeamAnalyzePageState extends State<TeamAnalyzePage> {
                             )));
                           }
                         },
-                        child: Image(image: AssetImage('images/next.png'),),
+                        child: Container(
+                          padding: EdgeInsets.only(left: 20,right: 20,top: 10,bottom: 10),
+                          color: Colors.transparent,
+                          child: Image(image: AssetImage('images/next.png'),),
+                        ),
                       )
                     ],
                   ),
@@ -370,6 +375,23 @@ class _TeamAnalyzePageState extends State<TeamAnalyzePage> {
                                       ),
                                     ],
                                   ),
+                                  Row(
+                                    children: <Widget>[
+                                      Padding(
+                                        padding: EdgeInsets.only(left: 25,right: 15,top: 5),
+                                        child: Text(
+                                          '点击查看团队分析数据',
+                                          style: TextStyle(
+                                            decoration: TextDecoration.underline,
+                                            decorationColor: Color(0xFF5580EB),
+                                            fontSize: 14,
+                                            color: Color(0xFF5580EB),
+                                            fontWeight: FontWeight.normal,
+
+                                          ),),
+                                      ),
+                                    ],
+                                  ),
                                   Container(
                                     padding: EdgeInsets.only(top: 12,left: 25),
                                     child: Container(
@@ -421,6 +443,17 @@ class _TeamAnalyzePageState extends State<TeamAnalyzePage> {
                                 ],
                               )
                             ],
+                          ),
+                        ),
+                        Container(
+                          width: 335,
+                          margin: EdgeInsets.only(top: 30),
+                          child: Text(
+                            '温馨提示：点击下级团队名称可查看团队分析数据，点击右边的箭头可查看再下级团队或成员的分析数据',
+                            style: TextStyle(
+                              color: Color(0xFFCCCCCC),
+                              fontSize: 12,
+                            ),
                           ),
                         ),
                         // 成员列表

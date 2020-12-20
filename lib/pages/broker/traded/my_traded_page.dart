@@ -150,7 +150,7 @@ class _MyTradedPageState extends State<MyTradedPage> {
         customersList = customersResult.data;
         if (customersList.length>0) {
           for (var item in customersList) {
-            var giftResult = await GetCareActionDao.httpGetCareAction(item.mid.toString(), "1", "2");
+            var giftResult = await GetCareActionDao.httpGetCareAction(item.mid.toString(), "1", "10");
             var giftList = giftResult.data;
             customersShowList.add(
               TradedItem(

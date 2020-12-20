@@ -478,8 +478,9 @@ class _TeamTradedDetailPageState extends State<TeamTradedDetailPage> {
                                     userName: leaderInfo.userName,
                                   )));
                                 },
-                                child: Padding(
-                                  padding: EdgeInsets.only(right: 10),
+                                child: Container(
+                                  padding: EdgeInsets.only(left: 20,right: 20,top: 10,bottom: 10),
+                                  color: Colors.transparent,
                                   child: Image(image: AssetImage('images/next.png'),),
                                 ),
                               )

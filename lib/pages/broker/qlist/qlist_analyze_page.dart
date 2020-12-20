@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:ThumbSir/dao/get_personal_data_dao.dart';
 import 'package:ThumbSir/model/login_result_data_model.dart';
+import 'package:ThumbSir/pages/broker/qlist/qlist_analyze_chart_page.dart';
 import 'package:ThumbSir/pages/home.dart';
 import 'package:ThumbSir/widget/user_analyze_item.dart';
 import 'package:flutter/material.dart';
@@ -369,6 +370,22 @@ class _QListAnalyzePageState extends State<QListAnalyzePage> with SingleTickerPr
 
               ),
             ),
+
+            // 饼状图
+//            GestureDetector(
+//              onTap: (){
+//                Navigator.push(context, MaterialPageRoute(
+//                    builder: (context) => QListAnalyzeChartPage()));
+//              },
+//              child: Container(
+//                alignment: Alignment(0,-1),
+//                margin: EdgeInsets.only(top: 300),
+//                child: Text('查看时间分布饼状图',style: TextStyle(
+//                    color: Color(0xFF5580EB)
+//                ),),
+//              ),
+//            ),
+
           ],
         ),
       ),
