@@ -1,0 +1,27 @@
+-- Merging decision tree log ---
+manifest
+ADDED from /Users/jiaozhengying/flutter/.pub-cache/hosted/pub.flutter-io.cn/flutter_app_upgrade-1.1.0/android/src/main/AndroidManifest.xml:1:1-5:12
+INJECTED from /Users/jiaozhengying/flutter/.pub-cache/hosted/pub.flutter-io.cn/flutter_app_upgrade-1.1.0/android/src/main/AndroidManifest.xml:1:1-5:12
+INJECTED from /Users/jiaozhengying/flutter/.pub-cache/hosted/pub.flutter-io.cn/flutter_app_upgrade-1.1.0/android/src/main/AndroidManifest.xml:1:1-5:12
+	package
+		ADDED from /Users/jiaozhengying/flutter/.pub-cache/hosted/pub.flutter-io.cn/flutter_app_upgrade-1.1.0/android/src/main/AndroidManifest.xml:2:3-44
+		INJECTED from /Users/jiaozhengying/flutter/.pub-cache/hosted/pub.flutter-io.cn/flutter_app_upgrade-1.1.0/android/src/main/AndroidManifest.xml
+		INJECTED from /Users/jiaozhengying/flutter/.pub-cache/hosted/pub.flutter-io.cn/flutter_app_upgrade-1.1.0/android/src/main/AndroidManifest.xml
+	xmlns:android
+		ADDED from /Users/jiaozhengying/flutter/.pub-cache/hosted/pub.flutter-io.cn/flutter_app_upgrade-1.1.0/android/src/main/AndroidManifest.xml:1:11-69
+uses-permission#android.permission.INTERNET
+ADDED from /Users/jiaozhengying/flutter/.pub-cache/hosted/pub.flutter-io.cn/flutter_app_upgrade-1.1.0/android/src/main/AndroidManifest.xml:3:5-66
+	android:name
+		ADDED from /Users/jiaozhengying/flutter/.pub-cache/hosted/pub.flutter-io.cn/flutter_app_upgrade-1.1.0/android/src/main/AndroidManifest.xml:3:22-64
+uses-permission#android.permission.REQUEST_INSTALL_PACKAGES
+ADDED from /Users/jiaozhengying/flutter/.pub-cache/hosted/pub.flutter-io.cn/flutter_app_upgrade-1.1.0/android/src/main/AndroidManifest.xml:4:5-83
+	android:name
+		ADDED from /Users/jiaozhengying/flutter/.pub-cache/hosted/pub.flutter-io.cn/flutter_app_upgrade-1.1.0/android/src/main/AndroidManifest.xml:4:22-80
+uses-sdk
+INJECTED from /Users/jiaozhengying/flutter/.pub-cache/hosted/pub.flutter-io.cn/flutter_app_upgrade-1.1.0/android/src/main/AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from /Users/jiaozhengying/flutter/.pub-cache/hosted/pub.flutter-io.cn/flutter_app_upgrade-1.1.0/android/src/main/AndroidManifest.xml
+INJECTED from /Users/jiaozhengying/flutter/.pub-cache/hosted/pub.flutter-io.cn/flutter_app_upgrade-1.1.0/android/src/main/AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from /Users/jiaozhengying/flutter/.pub-cache/hosted/pub.flutter-io.cn/flutter_app_upgrade-1.1.0/android/src/main/AndroidManifest.xml
+		ADDED from /Users/jiaozhengying/flutter/.pub-cache/hosted/pub.flutter-io.cn/flutter_app_upgrade-1.1.0/android/src/main/AndroidManifest.xml
+		INJECTED from /Users/jiaozhengying/flutter/.pub-cache/hosted/pub.flutter-io.cn/flutter_app_upgrade-1.1.0/android/src/main/AndroidManifest.xml

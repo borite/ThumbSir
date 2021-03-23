@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'package:ThumbSir/model/common_result_model.dart';
+import 'package:ThumbSir/model/modify_pre_check_401_model.dart';
+import 'package:ThumbSir/model/modify_pre_check_402_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:ThumbSir/utils/common_vars.dart';
 
@@ -7,7 +9,7 @@ import 'package:ThumbSir/utils/common_vars.dart';
 const String apiPerfix=CommonVars.apiPrefix;
 
 class ModifyMissionDao {
-  static Future<CommonResult> modifyMission(
+  static Future<ModifyPreCheck402> modifyMission(
       String oldMissionId,
       String companyId,
       String userId,
@@ -20,7 +22,8 @@ class ModifyMissionDao {
       String address,
       String remark,
       ) async {
-    final response = await http.post(apiPerfix+'api/mission/ModifyMission',body: {
+    // final response = await http.post(apiPerfix+'api/mission/ModifyMission',body: {
+    final response = await http.post(apiPerfix+'api/mission/ModifyPreCheck',body: {
       "OldMissionID":oldMissionId,
       "CompanyID": companyId,
       "userID": userId,
@@ -37,7 +40,8 @@ class ModifyMissionDao {
     //var result = json.decode(utf8decoder.convert(response.bodyBytes));
     if(response.statusCode == 200){
       //print(response.body);
-      return commonResultFromJson(response.body);
+      // return commonResultFromJson(response.body);
+      return modifyPreCheck402FromJson(response.body);
     }else{
       throw Exception(response.body);
     }

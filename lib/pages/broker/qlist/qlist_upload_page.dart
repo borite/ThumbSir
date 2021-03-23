@@ -11,6 +11,7 @@ import 'package:ThumbSir/pages/manager/qlist/manager_qlist_page.dart';
 import 'package:ThumbSir/pages/manager/qlist/s_qlist_page.dart';
 import 'package:ThumbSir/widget/loading.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 import 'package:image_picker/image_picker.dart';
@@ -25,6 +26,7 @@ import 'package:flutter_bmflocation/bdmap_location_flutter_plugin.dart';
 import 'package:flutter_bmflocation/flutter_baidu_location.dart';
 import 'package:flutter_bmflocation/flutter_baidu_location_android_option.dart';
 import 'package:flutter_bmflocation/flutter_baidu_location_ios_option.dart';
+import 'package:image_pickers/image_pickers.dart';
 
 class QListUploadPage extends StatefulWidget {
   final String name;
@@ -51,6 +53,7 @@ class QListUploadPage extends StatefulWidget {
 
 class _QListUploadPageState extends State<QListUploadPage> {
   int _starIndex=0;
+
   List _images=[];
   var gps_place="正在定位...";
   final _picker = ImagePicker();
@@ -59,6 +62,9 @@ class _QListUploadPageState extends State<QListUploadPage> {
   var _defaultTaskID;
   var _taskID;
 
+  //多选图片插件，选取的图片list
+  List<Media> _listImagePaths=List();
+
   bool _loading = false;
 
   // 加载中loading
@@ -66,6 +72,30 @@ class _QListUploadPageState extends State<QListUploadPage> {
     setState(() {
       _loading = !_loading;
     });
+  }
+
+  //多选图片初始设定
+  Future<void> selectImages() async {
+     try{
+       _listImagePaths=await ImagePickers.pickerPaths(
+         galleryMode: GalleryMode.image,
+         showGif:false,
+         selectCount:10,
+         showCamera:true,
+         cropConfig: CropConfig(enableCrop: false,width: 1,height: 1),
+         compressSize: 1536,
+         uiConfig: UIConfig(uiThemeColor: Color(0xFF5580EB))   //UIConfig
+       );
+
+       setState(() {
+         _listImagePaths.forEach((element) {
+           print(element.path.toString());
+           _images.add(File(element.path));
+         });
+       });
+     }on PlatformException{
+
+     }
   }
 
   //传入的图片
@@ -417,7 +447,8 @@ class _QListUploadPageState extends State<QListUploadPage> {
                                   // 是打电话相关先判断机型是否为苹果
                                   _onChooseIsIPhonePressed(context)
                                       :
-                                  _pickImage();
+                                  selectImages();
+                                  //_pickImage();
                                 },
                                 child: Container(
                                   width: 90,
@@ -512,7 +543,7 @@ class _QListUploadPageState extends State<QListUploadPage> {
                     ),
                     Container(
                       padding: EdgeInsets.all(20),
-                      child: Text('拍摄或上传任务交付物的照片，系统会自动审核任务完成百分比；请在任务时间内完成任务并在任务结束后60分钟内上传或拍摄交付物照片，超时视为未完成，不可修改！',style: TextStyle(
+                      child: Text('拍摄或上传任务交付物的照片，系统会自动审核任务完成百分比；请在任务的计划时间内完成任务，并在任务开始后上传凭证，当天未上传凭证视为未完成，不可修改！',style: TextStyle(
                         fontSize: 14,
                         color: Color(0xFF999999),
                         fontWeight: FontWeight.normal,
@@ -557,8 +588,8 @@ class _QListUploadPageState extends State<QListUploadPage> {
 
                               IMG.Image compressImg=IMG.decodeImage(imgFile.readAsBytesSync());
                               IMG.Image smallerImg=IMG.copyResize(compressImg,height: 1280);
-                              final compressedImageFile=new File("$path/$fName")..writeAsBytesSync(IMG.encodeJpg(smallerImg,quality: 85));
-                              print(compressedImageFile);
+                              final compressedImageFile=new File("$path/$fName")..writeAsBytesSync(IMG.encodeJpg(smallerImg));
+
                               //压缩图片结束
 
                               //文件名去除连接符
@@ -579,7 +610,7 @@ class _QListUploadPageState extends State<QListUploadPage> {
                                   "key": sign.data.dir + fName,
                                   "success_action_status": "200",
                                   "file": await MultipartFile.fromFile(
-                                      imgFile.path, filename: fName)
+                                      compressedImageFile.path, filename: fName)
                                 });
                                 try {
                                   Response res = await dio.post(
@@ -714,13 +745,14 @@ class _QListUploadPageState extends State<QListUploadPage> {
                                   .toString()
                                   .split('/')
                                   .last;
+
                               final tempDir=await getTemporaryDirectory();
                               final path=tempDir.path;
-
                               //压缩图片开始
                               IMG.Image compressImg=IMG.decodeImage(imgFile.readAsBytesSync());
                               IMG.Image smallerImg=IMG.copyResize(compressImg,height: 1280);
-                              final compressedImageFile=new File("$path/$fName")..writeAsBytesSync(IMG.encodeJpg(smallerImg,quality: 85));
+                              final compressedImageFile=new File("$path/$fName")..writeAsBytesSync(IMG.encodeJpg(smallerImg));
+                              print('压缩完的东西');
                               print(compressedImageFile);
                               //压缩图片结束
 
@@ -733,6 +765,8 @@ class _QListUploadPageState extends State<QListUploadPage> {
                               var sign = await GetDirectSignDao.httpGetSign(fName, '2');
                               print("获取上传签名");
                               print(sign);
+
+
                               if (sign.code == 200) {
                                 FormData formData = new FormData.fromMap({
                                   "OSSAccessKeyId": sign.data.accessId,
@@ -914,7 +948,9 @@ class _QListUploadPageState extends State<QListUploadPage> {
           onPressed: (){
             isApplePhone=true;
             Navigator.pop(context);
-            _pickImage();
+            //_pickImage();
+            print('这里是开始选择照片');
+            selectImages();
           },
           color: Color(0xFF5580EB),
         ),
@@ -926,7 +962,7 @@ class _QListUploadPageState extends State<QListUploadPage> {
           onPressed: (){
             isApplePhone=false;
             Navigator.pop(context);
-            _pickImage();
+            selectImages();
           },
           color: Color(0xFF5580EB),
         )

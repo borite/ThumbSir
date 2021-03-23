@@ -1,4 +1,5 @@
 import 'package:ThumbSir/pages/broker/qlist/qlist_add_page.dart';
+import 'package:ThumbSir/pages/broker/qlist/qlist_view_mini_tasks_page.dart';
 import 'package:flutter/material.dart';
 
 class QListChooseAddPage extends StatefulWidget {
@@ -112,6 +113,27 @@ class _QListChooseAddPageState extends State<QListChooseAddPage> {
                     ),
                   ],
                 ),
+              ),
+            ),
+            // 查看最低任务
+            GestureDetector(
+              onTap: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>QListViewMiniTasksPage()));
+              },
+              child: Container(
+                  padding: EdgeInsets.only(top: 40,bottom: 40),
+                  color: Colors.transparent,
+                  child: Text(
+                    '上级为您安排了最低任务量，点击查看',
+                    style: TextStyle(
+                      color: Color(0xFFF24848),
+                      fontSize: 14,
+                      fontWeight: FontWeight.normal,
+                      decoration: TextDecoration.none,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+
               ),
             ),
           ]

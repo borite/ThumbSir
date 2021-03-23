@@ -1,10 +1,13 @@
 import 'dart:convert';
+import 'package:ThumbSir/dao/check_lates_version_dao.dart';
 import 'package:ThumbSir/dao/get_message_dao.dart';
 import 'package:ThumbSir/dao/token_check_dao.dart';
 import 'package:ThumbSir/model/login_result_data_model.dart';
 import 'package:ThumbSir/model/get_message_model.dart';
+import 'package:ThumbSir/pages/broker/client/my_client_page.dart';
 import 'package:ThumbSir/pages/broker/qlist/qlist_page.dart';
 import 'package:ThumbSir/pages/broker/traded/my_traded_page.dart';
+import 'package:ThumbSir/pages/house/house_list_page.dart';
 import 'package:ThumbSir/pages/login/login_page.dart';
 import 'package:ThumbSir/pages/major/qlist/major_qlist_page.dart';
 import 'package:ThumbSir/pages/manager/traded/m_traded_page.dart';
@@ -18,8 +21,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ThumbSir/pages/mycenter/my_center_page.dart';
 import 'package:flutter/painting.dart';
+import 'package:flutter_app_upgrade/flutter_app_upgrade.dart';
+import 'package:package_info/package_info.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -46,6 +52,8 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin{
   var token;
 
   ScrollController _scrollController = ScrollController();
+
+   var _serviceVersionApp;
 
   _getUserInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -75,6 +83,56 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin{
         _loading = false;
       });
     }
+  }
+
+  var versionMsg;
+
+  PackageInfo _packageInfo = PackageInfo(
+    appName: 'Unknown',
+    packageName: 'Unknown',
+    version: 'Unknown',
+    buildNumber: 'Unknown',
+  );
+
+
+  Future<AppUpgradeInfo>_loadVersion() async {
+    var currentAppInfo=await FlutterUpgrade.appInfo;
+    print(currentAppInfo);
+    var versionResult = await CheckLatestVersionDao.checkVersion();
+    if (versionResult.code == 200) {
+      setState(() {
+        versionMsg = versionResult.data;
+        _loading = false;
+      });
+      if( currentAppInfo.versionName!= versionMsg.version){
+        return AppUpgradeInfo(title: '新版本:'+versionMsg.version, contents: versionMsg.versionDes.split('<br>'),force: false);
+      }
+    }
+
+    return null;
+    //   setState(() {
+    //     versionMsg = versionResult.data;
+    //     _loading = false;
+    //   });
+    //   // print(_packageInfo.version);
+    //   // print(versionMsg.version);
+    //   if(versionMsg != null && _packageInfo != null && _packageInfo.version != versionMsg.version){
+    //     //_onUploadPressed(context);
+    //     return AppUpgradeInfo(title: '新版本:'+versionMsg.version, contents: [versionMsg.versionDes],force: false);
+    //
+    //   }else{
+    //
+    //   }
+    // } else {
+    //   _onLoadAlert(context);
+    // }
+  }
+
+  Future<void> _initPackageInfo() async {
+    final PackageInfo info = await PackageInfo.fromPlatform();
+    setState(() {
+      _packageInfo = info;
+    });
   }
 
   _load() async {
@@ -171,8 +229,18 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin{
     setState(() {
       _loading = true;
     });
+
+    //获取用户信息
     _getUserInfo();
+    //加载最新消息
     _load();
+
+    //获取当前版本信息
+    //_initPackageInfo();
+
+    AppUpgrade.appUpgrade(context,_loadVersion(),iosAppId:'1528859048' );
+    //升级提示弹窗
+    //_loadVersion();
     super.initState();
   }
 
@@ -255,7 +323,8 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin{
                               child:
                               //  背景
                               Container(
-                                  height: 460,
+                                  // height: 460,
+                                height: 500,
                                   decoration: BoxDecoration(
                                     gradient: LinearGradient(
                                       begin: Alignment.topCenter,
@@ -373,89 +442,147 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin{
                                         ],
                                       ),
                                       // 入口
+                                      // Container(
+                                      //   width: 335,
+                                      //   margin: EdgeInsets.only(top: 10),
+                                      //   child: Row(
+                                      //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      //     children: <Widget>[
+                                      //       // 量化
+                                      //       Container(
+                                      //         width: 160,
+                                      //         height: 80,
+                                      //         decoration: BoxDecoration(
+                                      //           boxShadow: [BoxShadow(
+                                      //               color: Color(0x50999999),
+                                      //               offset: Offset(0.0, 3.0),
+                                      //               blurRadius: 10.0,
+                                      //               spreadRadius: 2.0
+                                      //           )],
+                                      //         ),
+                                      //         child:GestureDetector(
+                                      //           onTap: () async {
+                                      //             if(uinfo!=null && userData != null){
+                                      //               exT = result.exTokenTime.millisecondsSinceEpoch;
+                                      //               // token时间转时间戳
+                                      //               if(exT >= _dateTime){
+                                      //                 if(result.userLevel.substring(0,1)=="6"){
+                                      //                   Navigator.push(context, MaterialPageRoute(builder: (context)=>QListPage()));
+                                      //                 }
+                                      //                 if(result.userLevel.substring(0,1)=="5"){
+                                      //                   Navigator.push(context, MaterialPageRoute(builder: (context)=>ManagerQListPage()));
+                                      //                 }
+                                      //                 if(result.userLevel.substring(0,1)=="4"){
+                                      //                   Navigator.push(context, MaterialPageRoute(builder: (context)=>SQListPage()));
+                                      //                 }
+                                      //                 if(result.userLevel.substring(0,1)=="1"||result.userLevel.substring(0,1)=="2"||result.userLevel.substring(0,1)=="3"){
+                                      //                   Navigator.push(context, MaterialPageRoute(builder: (context)=>MajorQListPage()));
+                                      //                 }
+                                      //               }else{
+                                      //                 _onLoginAlertPressed(context);
+                                      //               }
+                                      //             }else{
+                                      //               _onLoginAlertPressed(context);
+                                      //             }
+                                      //           },
+                                      //           child: ClipRRect(
+                                      //             borderRadius: BorderRadius.all(Radius.circular(12)),
+                                      //             child:Image(
+                                      //                 width: 160,
+                                      //                 height: 80,
+                                      //                 image: AssetImage('images/list.png'),
+                                      //                 fit:BoxFit.fitHeight
+                                      //             ),
+                                      //           ),
+                                      //         ),
+                                      //       ),
+                                      //       // 客户维护
+                                      //       Container(
+                                      //           width: 160,
+                                      //           height: 80,
+                                      //           decoration: BoxDecoration(
+                                      //             boxShadow: [BoxShadow(
+                                      //                 color: Color(0x50999999),
+                                      //                 offset: Offset(0.0, 3.0),
+                                      //                 blurRadius: 10.0,
+                                      //                 spreadRadius: 2.0
+                                      //             )],
+                                      //           ),
+                                      //           child:GestureDetector(
+                                      //               onTap: (){
+                                      //                 if(uinfo!=null && userData != null){
+                                      //                   exT = result.exTokenTime.millisecondsSinceEpoch;
+                                      //                   // token时间转时间戳
+                                      //                   if(exT >= _dateTime){
+                                      //                     if(result.userLevel.substring(0,1)=="6"){
+                                      //                       Navigator.push(context, MaterialPageRoute(builder: (context)=>MyTradedPage()));
+                                      //                     }
+                                      //                     if(result.userLevel.substring(0,1)=="5"){
+                                      //                       Navigator.push(context, MaterialPageRoute(builder: (context)=>MTradedPage()));
+                                      //                     }
+                                      //                     if(result.userLevel.substring(0,1)=="4"){
+                                      //                       Navigator.push(context, MaterialPageRoute(builder: (context)=>STradedPage()));
+                                      //                     }
+                                      //                     if(result.userLevel.substring(0,1)=="1"||result.userLevel.substring(0,1)=="2"||result.userLevel.substring(0,1)=="3"){
+                                      //                       Navigator.push(context, MaterialPageRoute(builder: (context)=>TeamTradedPage()));
+                                      //                     }
+                                      //                   }else{
+                                      //                     _onLoginAlertPressed(context);
+                                      //                   }
+                                      //                 }else{
+                                      //                   _onLoginAlertPressed(context);
+                                      //                 }
+                                      //               },
+                                      //               child: ClipRRect(
+                                      //                 borderRadius: BorderRadius.all(Radius.circular(12)),
+                                      //                 child:Image(
+                                      //                     image: AssetImage('images/traded.png'),
+                                      //                     fit:BoxFit.cover
+                                      //                 ),
+                                      //               )
+                                      //           )
+                                      //       )
+                                      //     ],
+                                      //   ),
+                                      // )
+                                      // 4个入口
                                       Container(
                                         width: 335,
                                         margin: EdgeInsets.only(top: 10),
-                                        child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          children: <Widget>[
-                                            // 量化
-                                            Container(
-                                              width: 160,
-                                              height: 80,
-                                              decoration: BoxDecoration(
-                                                boxShadow: [BoxShadow(
-                                                    color: Color(0x50999999),
-                                                    offset: Offset(0.0, 3.0),
-                                                    blurRadius: 10.0,
-                                                    spreadRadius: 2.0
-                                                )],
-                                              ),
-                                              child:GestureDetector(
-                                                onTap: () async {
-                                                  if(uinfo!=null && userData != null){
-                                                    exT = result.exTokenTime.millisecondsSinceEpoch;
-                                                    // token时间转时间戳
-                                                    if(exT >= _dateTime){
-                                                      if(result.userLevel.substring(0,1)=="6"){
-                                                        Navigator.push(context, MaterialPageRoute(builder: (context)=>QListPage()));
-                                                      }
-                                                      if(result.userLevel.substring(0,1)=="5"){
-                                                        Navigator.push(context, MaterialPageRoute(builder: (context)=>ManagerQListPage()));
-                                                      }
-                                                      if(result.userLevel.substring(0,1)=="4"){
-                                                        Navigator.push(context, MaterialPageRoute(builder: (context)=>SQListPage()));
-                                                      }
-                                                      if(result.userLevel.substring(0,1)=="1"||result.userLevel.substring(0,1)=="2"||result.userLevel.substring(0,1)=="3"){
-                                                        Navigator.push(context, MaterialPageRoute(builder: (context)=>MajorQListPage()));
-                                                      }
-                                                    }else{
-                                                      _onLoginAlertPressed(context);
-                                                    }
-                                                  }else{
-                                                    _onLoginAlertPressed(context);
-                                                  }
-                                                },
-                                                child: ClipRRect(
-                                                  borderRadius: BorderRadius.all(Radius.circular(12)),
-                                                  child:Image(
-                                                      width: 160,
-                                                      height: 80,
-                                                      image: AssetImage('images/list.png'),
-                                                      fit:BoxFit.fitHeight
+                                        child: Column(
+                                          children: [
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: <Widget>[
+                                                // 量化
+                                                Container(
+                                                  width: 160,
+                                                  height: 80,
+                                                  decoration: BoxDecoration(
+                                                    boxShadow: [BoxShadow(
+                                                        color: Color(0x50999999),
+                                                        offset: Offset(0.0, 3.0),
+                                                        blurRadius: 10.0,
+                                                        spreadRadius: 2.0
+                                                    )],
                                                   ),
-                                                ),
-                                              ),
-                                            ),
-                                            // 客户维护
-                                            Container(
-                                                width: 160,
-                                                height: 80,
-                                                decoration: BoxDecoration(
-                                                  boxShadow: [BoxShadow(
-                                                      color: Color(0x50999999),
-                                                      offset: Offset(0.0, 3.0),
-                                                      blurRadius: 10.0,
-                                                      spreadRadius: 2.0
-                                                  )],
-                                                ),
-                                                child:GestureDetector(
-                                                    onTap: (){
+                                                  child:GestureDetector(
+                                                    onTap: () async {
                                                       if(uinfo!=null && userData != null){
                                                         exT = result.exTokenTime.millisecondsSinceEpoch;
                                                         // token时间转时间戳
                                                         if(exT >= _dateTime){
                                                           if(result.userLevel.substring(0,1)=="6"){
-                                                            Navigator.push(context, MaterialPageRoute(builder: (context)=>MyTradedPage()));
+                                                            Navigator.push(context, MaterialPageRoute(builder: (context)=>QListPage()));
                                                           }
                                                           if(result.userLevel.substring(0,1)=="5"){
-                                                            Navigator.push(context, MaterialPageRoute(builder: (context)=>MTradedPage()));
+                                                            Navigator.push(context, MaterialPageRoute(builder: (context)=>ManagerQListPage()));
                                                           }
                                                           if(result.userLevel.substring(0,1)=="4"){
-                                                            Navigator.push(context, MaterialPageRoute(builder: (context)=>STradedPage()));
+                                                            Navigator.push(context, MaterialPageRoute(builder: (context)=>SQListPage()));
                                                           }
                                                           if(result.userLevel.substring(0,1)=="1"||result.userLevel.substring(0,1)=="2"||result.userLevel.substring(0,1)=="3"){
-                                                            Navigator.push(context, MaterialPageRoute(builder: (context)=>TeamTradedPage()));
+                                                            Navigator.push(context, MaterialPageRoute(builder: (context)=>MajorQListPage()));
                                                           }
                                                         }else{
                                                           _onLoginAlertPressed(context);
@@ -467,14 +594,164 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin{
                                                     child: ClipRRect(
                                                       borderRadius: BorderRadius.all(Radius.circular(12)),
                                                       child:Image(
-                                                          image: AssetImage('images/traded.png'),
-                                                          fit:BoxFit.cover
+                                                          width: 160,
+                                                          height: 80,
+                                                          image: AssetImage('images/list.png'),
+                                                          fit:BoxFit.fitHeight
                                                       ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                // 老客户维护
+                                                Container(
+                                                    width: 160,
+                                                    height: 80,
+                                                    decoration: BoxDecoration(
+                                                      boxShadow: [BoxShadow(
+                                                          color: Color(0x50999999),
+                                                          offset: Offset(0.0, 3.0),
+                                                          blurRadius: 10.0,
+                                                          spreadRadius: 2.0
+                                                      )],
+                                                    ),
+                                                    child:GestureDetector(
+                                                        onTap: (){
+                                                          if(uinfo!=null && userData != null){
+                                                            exT = result.exTokenTime.millisecondsSinceEpoch;
+                                                            // token时间转时间戳
+                                                            if(exT >= _dateTime){
+                                                              if(result.userLevel.substring(0,1)=="6"){
+                                                                Navigator.push(context, MaterialPageRoute(builder: (context)=>MyTradedPage()));
+                                                              }
+                                                              if(result.userLevel.substring(0,1)=="5"){
+                                                                Navigator.push(context, MaterialPageRoute(builder: (context)=>MTradedPage()));
+                                                              }
+                                                              if(result.userLevel.substring(0,1)=="4"){
+                                                                Navigator.push(context, MaterialPageRoute(builder: (context)=>STradedPage()));
+                                                              }
+                                                              if(result.userLevel.substring(0,1)=="1"||result.userLevel.substring(0,1)=="2"||result.userLevel.substring(0,1)=="3"){
+                                                                Navigator.push(context, MaterialPageRoute(builder: (context)=>TeamTradedPage()));
+                                                              }
+                                                            }else{
+                                                              _onLoginAlertPressed(context);
+                                                            }
+                                                          }else{
+                                                            _onLoginAlertPressed(context);
+                                                          }
+                                                        },
+                                                        child: ClipRRect(
+                                                          borderRadius: BorderRadius.all(Radius.circular(12)),
+                                                          child:Image(
+                                                              image: AssetImage('images/traded.png'),
+                                                              fit:BoxFit.cover
+                                                          ),
+                                                        )
                                                     )
                                                 )
-                                            )
+                                              ],
+                                            ),
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: <Widget>[
+                                                // 房源系统
+                                                Container(
+                                                  width: 160,
+                                                  height: 80,
+                                                  decoration: BoxDecoration(
+                                                    boxShadow: [BoxShadow(
+                                                        color: Color(0x50999999),
+                                                        offset: Offset(0.0, 3.0),
+                                                        blurRadius: 10.0,
+                                                        spreadRadius: 2.0
+                                                    )],
+                                                  ),
+                                                  child:GestureDetector(
+                                                    onTap: () async {
+                                                      if(uinfo!=null && userData != null){
+                                                        exT = result.exTokenTime.millisecondsSinceEpoch;
+                                                        // token时间转时间戳
+                                                        if(exT >= _dateTime){
+                                                          if(result.userLevel.substring(0,1)=="6"){
+                                                            Navigator.push(context, MaterialPageRoute(builder: (context)=>HouseListPage()));
+                                                          }
+                                                          if(result.userLevel.substring(0,1)=="5"){
+                                                            Navigator.push(context, MaterialPageRoute(builder: (context)=>ManagerQListPage()));
+                                                          }
+                                                          if(result.userLevel.substring(0,1)=="4"){
+                                                            Navigator.push(context, MaterialPageRoute(builder: (context)=>SQListPage()));
+                                                          }
+                                                          if(result.userLevel.substring(0,1)=="1"||result.userLevel.substring(0,1)=="2"||result.userLevel.substring(0,1)=="3"){
+                                                            Navigator.push(context, MaterialPageRoute(builder: (context)=>MajorQListPage()));
+                                                          }
+                                                        }else{
+                                                          _onLoginAlertPressed(context);
+                                                        }
+                                                      }else{
+                                                        _onLoginAlertPressed(context);
+                                                      }
+                                                    },
+                                                    child: ClipRRect(
+                                                      borderRadius: BorderRadius.all(Radius.circular(12)),
+                                                      child:Image(
+                                                          width: 160,
+                                                          height: 80,
+                                                          image: AssetImage('images/list.png'),
+                                                          fit:BoxFit.fitHeight
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                // 未成交客户
+                                                Container(
+                                                    width: 160,
+                                                    height: 80,
+                                                    decoration: BoxDecoration(
+                                                      boxShadow: [BoxShadow(
+                                                          color: Color(0x50999999),
+                                                          offset: Offset(0.0, 3.0),
+                                                          blurRadius: 10.0,
+                                                          spreadRadius: 2.0
+                                                      )],
+                                                    ),
+                                                    child:GestureDetector(
+                                                        onTap: (){
+                                                          if(uinfo!=null && userData != null){
+                                                            exT = result.exTokenTime.millisecondsSinceEpoch;
+                                                            // token时间转时间戳
+                                                            if(exT >= _dateTime){
+                                                              if(result.userLevel.substring(0,1)=="6"){
+                                                                Navigator.push(context, MaterialPageRoute(builder: (context)=>MyClientPage()));
+                                                              }
+                                                              if(result.userLevel.substring(0,1)=="5"){
+                                                                Navigator.push(context, MaterialPageRoute(builder: (context)=>MTradedPage()));
+                                                              }
+                                                              if(result.userLevel.substring(0,1)=="4"){
+                                                                Navigator.push(context, MaterialPageRoute(builder: (context)=>STradedPage()));
+                                                              }
+                                                              if(result.userLevel.substring(0,1)=="1"||result.userLevel.substring(0,1)=="2"||result.userLevel.substring(0,1)=="3"){
+                                                                Navigator.push(context, MaterialPageRoute(builder: (context)=>TeamTradedPage()));
+                                                              }
+                                                            }else{
+                                                              _onLoginAlertPressed(context);
+                                                            }
+                                                          }else{
+                                                            _onLoginAlertPressed(context);
+                                                          }
+                                                        },
+                                                        child: ClipRRect(
+                                                          borderRadius: BorderRadius.all(Radius.circular(12)),
+                                                          child:Image(
+                                                              image: AssetImage('images/traded.png'),
+                                                              fit:BoxFit.cover
+                                                          ),
+                                                        )
+                                                    )
+                                                )
+                                              ],
+                                            ),
                                           ],
-                                        ),
+                                        )
+
                                       )
                                     ],
                                   )
@@ -592,6 +869,54 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin{
       ],
     ).show();
   }
+
+  _onUploadPressed(context) {
+    Alert(
+      context: context,
+      type: AlertType.warning,
+      title: "发现新版本"+versionMsg.version,
+      desc: "请前往应用商店进行更新",
+      buttons: [
+        DialogButton(
+          child: Text(
+            "去更新",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: (){
+
+            // 跳转到应用商店
+            if(Theme.of(context).platform == TargetPlatform.android){
+              // 安卓手机
+              print('android');
+            }else{
+              // 苹果手机
+              print('ios');
+              _serviceVersionApp="http://itunes.apple.com/cn/lookup?id=com.bigxia.thumbsir";
+              launch(_serviceVersionApp);
+            }
+
+            _getUserInfo();
+            _load();
+            Navigator.pop(context);
+          },
+          color: Color(0xFF5580EB),
+        ),
+        DialogButton(
+          child: Text(
+            "再等等",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: (){
+            _getUserInfo();
+            _load();
+            Navigator.pop(context);
+          },
+          color: Color(0xFFCCCCCC),
+        ),
+      ],
+    ).show();
+  }
+
   _onCloseAlertPressed(context) {
     Alert(
       context: context,
@@ -612,6 +937,31 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin{
       ],
     ).show();
   }
+
+  _onLoadAlert(context) {
+    Alert(
+      context: context,
+      title: "加载任务失败",
+      desc: "请检查网络连接情况",
+      buttons: [
+        DialogButton(
+          child: Text(
+            "确定",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () {
+            Navigator.pop(context);
+            setState(() {
+              _loading = false;
+            });
+          },
+          color: Color(0xFF5580EB),
+        )
+      ],
+    ).show();
+  }
+
+
   // 加载中loading
   Future<Null> _onRefresh() async {
     setState(() {

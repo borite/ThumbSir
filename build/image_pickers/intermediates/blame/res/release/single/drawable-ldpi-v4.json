@@ -1,0 +1,26 @@
+[
+    {
+        "merged": "/Users/jiaozhengying/Desktop/ThumbSirGit/ThumbSir/build/image_pickers/intermediates/res/merged/release/drawable-ldpi-v4/picture_ic_flash_off.png",
+        "source": "/Users/jiaozhengying/.gradle/caches/transforms-2/files-2.1/ea2883207284dd185738b72f9bcd43e5/picture_library-v2.5.9/res/drawable-ldpi-v4/picture_ic_flash_off.png"
+    },
+    {
+        "merged": "/Users/jiaozhengying/Desktop/ThumbSirGit/ThumbSir/build/image_pickers/intermediates/res/merged/release/drawable-ldpi-v4/ucrop_ic_angle.png",
+        "source": "/Users/jiaozhengying/.gradle/caches/transforms-2/files-2.1/2713bc688bcffc6f0e8e69115d7d3d9d/ucrop-v2.5.9/res/drawable-ldpi-v4/ucrop_ic_angle.png"
+    },
+    {
+        "merged": "/Users/jiaozhengying/Desktop/ThumbSirGit/ThumbSir/build/image_pickers/intermediates/res/merged/release/drawable-ldpi-v4/picture_ic_flash_on.png",
+        "source": "/Users/jiaozhengying/.gradle/caches/transforms-2/files-2.1/ea2883207284dd185738b72f9bcd43e5/picture_library-v2.5.9/res/drawable-ldpi-v4/picture_ic_flash_on.png"
+    },
+    {
+        "merged": "/Users/jiaozhengying/Desktop/ThumbSirGit/ThumbSir/build/image_pickers/intermediates/res/merged/release/drawable-ldpi-v4/picture_ic_flash_auto.png",
+        "source": "/Users/jiaozhengying/.gradle/caches/transforms-2/files-2.1/ea2883207284dd185738b72f9bcd43e5/picture_library-v2.5.9/res/drawable-ldpi-v4/picture_ic_flash_auto.png"
+    },
+    {
+        "merged": "/Users/jiaozhengying/Desktop/ThumbSirGit/ThumbSir/build/image_pickers/intermediates/res/merged/release/drawable-ldpi-v4/picture_ic_camera.png",
+        "source": "/Users/jiaozhengying/.gradle/caches/transforms-2/files-2.1/ea2883207284dd185738b72f9bcd43e5/picture_library-v2.5.9/res/drawable-ldpi-v4/picture_ic_camera.png"
+    },
+    {
+        "merged": "/Users/jiaozhengying/Desktop/ThumbSirGit/ThumbSir/build/image_pickers/intermediates/res/merged/release/drawable-ldpi-v4/ucrop_ic_done.png",
+        "source": "/Users/jiaozhengying/.gradle/caches/transforms-2/files-2.1/2713bc688bcffc6f0e8e69115d7d3d9d/ucrop-v2.5.9/res/drawable-ldpi-v4/ucrop_ic_done.png"
+    }
+]

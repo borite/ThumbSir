@@ -1,7 +1,24 @@
 PODS:
+  - AFNetworking (4.0.1):
+    - AFNetworking/NSURLSession (= 4.0.1)
+    - AFNetworking/Reachability (= 4.0.1)
+    - AFNetworking/Security (= 4.0.1)
+    - AFNetworking/Serialization (= 4.0.1)
+    - AFNetworking/UIKit (= 4.0.1)
+  - AFNetworking/NSURLSession (4.0.1):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/Reachability (4.0.1)
+  - AFNetworking/Security (4.0.1)
+  - AFNetworking/Serialization (4.0.1)
+  - AFNetworking/UIKit (4.0.1):
+    - AFNetworking/NSURLSession
   - BaiduMapKit (5.4.0)
   - BMKLocationKit (1.8.5)
   - Flutter (1.0.0)
+  - flutter_app_upgrade (0.0.1):
+    - Flutter
   - flutter_bmfbase (0.0.1):
     - BaiduMapKit (= 5.4.0)
     - Flutter
@@ -10,42 +27,63 @@ PODS:
     - Flutter
   - image_picker (0.0.1):
     - Flutter
+  - image_pickers (0.0.1):
+    - AFNetworking
+    - Flutter
+    - ZLPhotoBrowser-objc (= 1.0.2)
   - package_info (0.0.1):
     - Flutter
   - path_provider (0.0.1):
     - Flutter
   - "permission_handler (5.0.1+1)":
     - Flutter
+  - SDWebImage (5.10.1):
+    - SDWebImage/Core (= 5.10.1)
+  - SDWebImage/Core (5.10.1)
   - shared_preferences (0.0.1):
     - Flutter
   - simple_image_crop (0.0.1):
     - Flutter
+  - url_launcher (0.0.1):
+    - Flutter
+  - ZLPhotoBrowser-objc (1.0.2):
+    - SDWebImage
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
+  - flutter_app_upgrade (from `.symlinks/plugins/flutter_app_upgrade/ios`)
   - flutter_bmfbase (from `.symlinks/plugins/flutter_bmfbase/ios`)
   - flutter_bmflocation (from `.symlinks/plugins/flutter_bmflocation/ios`)
   - image_picker (from `.symlinks/plugins/image_picker/ios`)
+  - image_pickers (from `.symlinks/plugins/image_pickers/ios`)
   - package_info (from `.symlinks/plugins/package_info/ios`)
   - path_provider (from `.symlinks/plugins/path_provider/ios`)
   - permission_handler (from `.symlinks/plugins/permission_handler/ios`)
   - shared_preferences (from `.symlinks/plugins/shared_preferences/ios`)
   - simple_image_crop (from `.symlinks/plugins/simple_image_crop/ios`)
+  - url_launcher (from `.symlinks/plugins/url_launcher/ios`)
 
 SPEC REPOS:
   trunk:
+    - AFNetworking
     - BaiduMapKit
     - BMKLocationKit
+    - SDWebImage
+    - ZLPhotoBrowser-objc
 
 EXTERNAL SOURCES:
   Flutter:
     :path: Flutter
+  flutter_app_upgrade:
+    :path: ".symlinks/plugins/flutter_app_upgrade/ios"
   flutter_bmfbase:
     :path: ".symlinks/plugins/flutter_bmfbase/ios"
   flutter_bmflocation:
     :path: ".symlinks/plugins/flutter_bmflocation/ios"
   image_picker:
     :path: ".symlinks/plugins/image_picker/ios"
+  image_pickers:
+    :path: ".symlinks/plugins/image_pickers/ios"
   package_info:
     :path: ".symlinks/plugins/package_info/ios"
   path_provider:
@@ -56,20 +94,28 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/shared_preferences/ios"
   simple_image_crop:
     :path: ".symlinks/plugins/simple_image_crop/ios"
+  url_launcher:
+    :path: ".symlinks/plugins/url_launcher/ios"
 
 SPEC CHECKSUMS:
+  AFNetworking: 7864c38297c79aaca1500c33288e429c3451fdce
   BaiduMapKit: 40a4382633859bd569d40da9f9a2e98a277dd28b
   BMKLocationKit: fd3d6b4a9a3a1a2763819f56b780bda5fc5b8726
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
+  flutter_app_upgrade: a62fbe2a09a2176a7b44211c8355adfcfb969779
   flutter_bmfbase: 8ac2c94f3f110daec8e499dc13f8a983b0c8ee40
   flutter_bmflocation: 463f4a20ad1c0ba984f853901eeabc553cc3ffc0
   image_picker: 9c3312491f862b28d21ecd8fdf0ee14e601b3f09
+  image_pickers: 4a20d713c9029a75582e28482271e92d72d334fd
   package_info: 873975fc26034f0b863a300ad47e7f1ac6c7ec62
   path_provider: abfe2b5c733d04e238b0d8691db0cfd63a27a93c
   permission_handler: eac8e15b4a1a3fba55b761d19f3f4e6b005d15b6
+  SDWebImage: f66a16b95183b92ed6b965ad21d33167bc07612d
   shared_preferences: af6bfa751691cdc24be3045c43ec037377ada40d
   simple_image_crop: 7bc768de8b5fa16adafb0c96557bba83ec6f734e
+  url_launcher: 6fef411d543ceb26efce54b05a0a40bfd74cbbef
+  ZLPhotoBrowser-objc: c7684215bbde0ee990ad7bd1008e13bc3e6f6a32
 
-PODFILE CHECKSUM: c7066c19cbd6db6fcfde07d7056ae8b3d8871e59
+PODFILE CHECKSUM: 1a05363421bf24693e587e222f065529881518ae
 
 COCOAPODS: 1.9.1

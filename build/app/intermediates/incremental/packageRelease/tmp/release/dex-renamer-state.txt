@@ -1,4 +1,4 @@
-#Thu Dec 17 03:44:28 CST 2020
+#Wed Jan 20 04:08:32 CST 2021
 base.0=/Users/jiaozhengying/Desktop/ThumbSirGit/ThumbSir/build/app/intermediates/transforms/r8/release/0/classes.dex
 path.0=classes.dex
 renamed.0=classes.dex

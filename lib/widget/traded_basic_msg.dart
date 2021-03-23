@@ -37,7 +37,7 @@ class _TradedBasicMsgState extends State<TradedBasicMsg> with SingleTickerProvid
             children: <Widget>[
               Container(
                 alignment: Alignment.topCenter,
-                padding: EdgeInsets.only(top:120,bottom:50),
+                padding: EdgeInsets.only(top:100,bottom:50),
                 child: Column(
                   children: <Widget>[
                     // 姓名
@@ -262,7 +262,7 @@ class _TradedBasicMsgState extends State<TradedBasicMsg> with SingleTickerProvid
                           ),
                           Expanded(
                             child: Text(
-                              widget.item.occupation == null?"未知":widget.item.occupation,
+                              widget.item.occupation == null || widget.item.occupation == ""?"未知":widget.item.occupation,
                               style: TextStyle(
                                 fontSize: 14,
                                 color: Color(0xFF666666),

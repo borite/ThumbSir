@@ -10,7 +10,7 @@
 		</data>
 		<key>flutter_assets/AssetManifest.json</key>
 		<data>
-		r86hL2nNsqDejDdMb65F1agBd68=
+		6s553Epn500U16rsbvIzmTdQXWI=
 		</data>
 		<key>flutter_assets/FontManifest.json</key>
 		<data>
@@ -18,7 +18,7 @@
 		</data>
 		<key>flutter_assets/NOTICES</key>
 		<data>
-		wfLfbqYykKGFs7NTnhFy3Jkxt20=
+		ieG8dY19ZJN8fdWs4Wg9ZE7iBpw=
 		</data>
 		<key>flutter_assets/fonts/MaterialIcons-Regular.otf</key>
 		<data>
@@ -428,6 +428,18 @@
 		<data>
 		5RQjmxl9QhdURo7TcIh9Po9Cvlc=
 		</data>
+		<key>flutter_assets/images/urgent1.png</key>
+		<data>
+		kbp2Wb8C6Ivd/I+U7avGp5Tt0e8=
+		</data>
+		<key>flutter_assets/images/urgent2.png</key>
+		<data>
+		ndu3emQFp8qplZ39OC5BXr/9rMA=
+		</data>
+		<key>flutter_assets/images/urgent3.png</key>
+		<data>
+		MY4cVljliyQtIMSFD2cSYdopn6I=
+		</data>
 		<key>flutter_assets/images/vip.png</key>
 		<data>
 		+7rgAN+jTuSnDwkyxY0hbuKONIo=
@@ -474,7 +486,7 @@
 		</data>
 		<key>flutter_assets/kernel_blob.bin</key>
 		<data>
-		JAETlOuXjRT5yNRzGS8egiNSV+o=
+		jIjSXvcAyQPwKvMKpY2HtE0w6oo=
 		</data>
 		<key>flutter_assets/packages/city_picker/assets/city_json.json</key>
 		<data>
@@ -563,11 +575,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			r86hL2nNsqDejDdMb65F1agBd68=
+			6s553Epn500U16rsbvIzmTdQXWI=
 			</data>
 			<key>hash2</key>
 			<data>
-			8qYu5+kwWWlfFzrbAkKlZvnTy6h65WtqTrsIq597o3M=
+			OwT7GB31Zx27xrLhmicqGovvvjPu6bamtn7tcGdrxMQ=
 			</data>
 		</dict>
 		<key>flutter_assets/FontManifest.json</key>
@@ -585,11 +597,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			wfLfbqYykKGFs7NTnhFy3Jkxt20=
+			ieG8dY19ZJN8fdWs4Wg9ZE7iBpw=
 			</data>
 			<key>hash2</key>
 			<data>
-			rXkPH+CSgdlVEUDZp2tVJ2Nt0zHoa673my0z+Z9GpVQ=
+			yA56ABWOwtFuOIwgBCjiRe9TPT3comRNBUCo9eqJanY=
 			</data>
 		</dict>
 		<key>flutter_assets/fonts/MaterialIcons-Regular.otf</key>
@@ -1714,6 +1726,39 @@
 			Pm8j+lfXIUFSvbXS1MJx7xIFhfC24M/pqjE1X2g1lBs=
 			</data>
 		</dict>
+		<key>flutter_assets/images/urgent1.png</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			kbp2Wb8C6Ivd/I+U7avGp5Tt0e8=
+			</data>
+			<key>hash2</key>
+			<data>
+			I7QPmv8aEqkSpx548Gkt9WxUTfIcCkhdywphL3NJlTM=
+			</data>
+		</dict>
+		<key>flutter_assets/images/urgent2.png</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			ndu3emQFp8qplZ39OC5BXr/9rMA=
+			</data>
+			<key>hash2</key>
+			<data>
+			fQlNG32uuTK/wXcyet2LGsFdq72h+FBbywLukwVhi2A=
+			</data>
+		</dict>
+		<key>flutter_assets/images/urgent3.png</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			MY4cVljliyQtIMSFD2cSYdopn6I=
+			</data>
+			<key>hash2</key>
+			<data>
+			vPDe0ybBncZ6QhGUenosD0r6K9Iinm7l3sk84ALXYVs=
+			</data>
+		</dict>
 		<key>flutter_assets/images/vip.png</key>
 		<dict>
 			<key>hash</key>
@@ -1839,11 +1884,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			JAETlOuXjRT5yNRzGS8egiNSV+o=
+			jIjSXvcAyQPwKvMKpY2HtE0w6oo=
 			</data>
 			<key>hash2</key>
 			<data>
-			QFVURsP7XxtMtsiR5bLiczuhG4u+IzQ+n/MYNdnDK+4=
+			jbIJFnMJYWYzzOQTVEBshmym9G4j6EDm6SgYrICyndM=
 			</data>
 		</dict>
 		<key>flutter_assets/packages/city_picker/assets/city_json.json</key>

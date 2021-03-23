@@ -498,15 +498,15 @@ class _QListItemState extends State<QListItem> with SingleTickerProviderStateMix
                             GestureDetector(
                               onTap: () {
                                 DateTime now = new DateTime.now();
-                                // 如果是今日且任务时间结束，不可修改
-                                 var aa = now.difference(widget.endTime);
-                                 print(aa);
-                                 print(aa.inHours);
-                                 if(aa.inSeconds>0){
-                                   print("已经过期了");
-                                   _onEditorAlert(context);
-                                 }else{
-                                   print("可以修改");
+                                // 如果是今日且任务时间结束，不可修改（这个要求取消了2021-01-13）
+                                //  var aa = now.difference(widget.endTime);
+                                //  print(aa);
+                                //  print(aa.inHours);
+                                //  if(aa.inSeconds>0){
+                                //    print("已经过期了");
+                                //    _onEditorAlert(context);
+                                //  }else{
+                                //    print("可以修改");
                                    Navigator.push(context, MaterialPageRoute(
                                       builder: (context) => QListChangePage(
                                         id: widget.taskId,
@@ -522,7 +522,6 @@ class _QListItemState extends State<QListItem> with SingleTickerProviderStateMix
                                         date: widget.date,
                                       ))
                                    );
-                                 }
                               },
                               child: Container(
                                 width: 24,
@@ -857,8 +856,10 @@ class _QListItemState extends State<QListItem> with SingleTickerProviderStateMix
                               onTap: () {
                                 DateTime now = new DateTime.now();
                                 // 今日且任务时间已经开始且没过1小时，可以上传
-                                var aa= now.difference(widget.endTime);
-                                if(aa.inHours<1 && now.isAfter(widget.startTime)){
+                                // 改为任务时间已经开始且今日23:59:59前可以上传，2021-01-13
+                                // var aa= now.difference(widget.endTime);
+                                // if(aa.inHours<1 && now.isAfter(widget.startTime)){
+                                if(now.isAfter(widget.startTime)){
                                   print("可以修改图片");
                                   Navigator.push(context, MaterialPageRoute(builder: (context) => QListUploadPage(
                                       name : widget.name,
@@ -906,18 +907,13 @@ class _QListItemState extends State<QListItem> with SingleTickerProviderStateMix
                             // 中间图片
                             GestureDetector(
                               onTap: (){
-                                DateTime now = new DateTime.now();
-                                // 今日且任务时间已经开始且没过1小时，可以上传
-                                var aa= now.difference(widget.endTime);
-                                print("图片修改@~");
-                                print(aa.inHours);
                                 if(_images.length != 0 ){
                                   Navigator.push(context, MaterialPageRoute(builder: (context) => ImgViewPage(
                                     imglist:_images,
                                     userid:widget.userID,
                                     userlevel:widget.userLevel,
                                     taskid:widget.taskId,
-                                    canDel: aa.inHours<1 && now.isAfter(widget.startTime)==true?true:false,
+                                    canDel: true,
                                   )));
                                 }
                               },
@@ -942,6 +938,9 @@ class _QListItemState extends State<QListItem> with SingleTickerProviderStateMix
                                   Navigator.push(context, MaterialPageRoute(builder: (context) => ImgViewPage(
                                     imglist:_images,
                                     canDel: true,
+                                    userid:widget.userID,
+                                    userlevel:widget.userLevel,
+                                    taskid:widget.taskId,
                                   )));
                                 }
                               },
@@ -1081,8 +1080,9 @@ class _QListItemState extends State<QListItem> with SingleTickerProviderStateMix
     Alert(
       context: context,
       type: AlertType.error,
-      title: "当前任务不可上传",
-      desc: "任务开始后至任务结束一小时前可以上传图片凭证，其余时间不可上传",
+      title: "当前任务还不可上传凭证",
+      // desc: "任务开始后至任务结束一小时前可以上传图片凭证，其余时间不可上传",
+      desc: "任务开始后至任务当天23:59:59前可以上传图片凭证，其余时间不可上传",
       buttons: [
         DialogButton(
           child: Text(

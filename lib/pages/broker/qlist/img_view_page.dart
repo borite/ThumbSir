@@ -111,15 +111,19 @@ class _ImgViewPageState extends State<ImgViewPage> {
                         //print(currentImgUrl);
                         print("当前用户级别");
                         //print(widget.userlevel);
-                        CommonResult m_record= await DeleteMissionPicDao.deleteSingleMissionPic(widget.taskid, widget.userid, widget.userlevel.substring(0,1), currentImgUrl);
-
-                        if(m_record.code==200) {
-                          print("单个删除图片成功");
-                          GetMissionRecord mr= await UserSelectMissionDao.missionRecord(widget.userid,widget.taskid,widget.userlevel.substring(0,1));
-                          if(mr.code==200){
-                            print("重新获取任务记录");
-                            List<String> leftImg=[];
-                            if(mr.data==null){
+                        print(widget.taskid);
+                        print(widget.userid);
+                        print(widget.userlevel);
+                        if(widget.taskid != null && widget.userid != null && widget.userlevel != null){
+                          CommonResult m_record= await DeleteMissionPicDao.deleteSingleMissionPic(widget.taskid, widget.userid, widget.userlevel.substring(0,1), currentImgUrl);
+                          print(m_record);
+                          if(m_record.code==200) {
+                            print("单个删除图片成功");
+                            GetMissionRecord mr= await UserSelectMissionDao.missionRecord(widget.userid,widget.taskid,widget.userlevel.substring(0,1));
+                            if(mr.code==200){
+                              print("重新获取任务记录");
+                              List<String> leftImg=[];
+                              if(mr.data==null){
                                 print("已全部删除");
                                 if(widget.userlevel.substring(0,1)=="6"){
                                   Navigator.push(context, MaterialPageRoute(builder: (context)=>QListPage()));
@@ -133,21 +137,23 @@ class _ImgViewPageState extends State<ImgViewPage> {
                                 if(widget.userlevel.substring(0,1)=="1"||widget.userlevel.substring(0,1)=="2"||widget.userlevel.substring(0,1)=="3"){
                                   Navigator.push(context, MaterialPageRoute(builder: (context)=>MajorQListPage()));
                                 }
-                            }else{
-                              for(String missImg in mr.data.missionImgs.split('|')){
-                                if(missImg!="") {
-                                  leftImg.add(missImg);
+                              }else{
+                                for(String missImg in mr.data.missionImgs.split('|')){
+                                  if(missImg!="") {
+                                    leftImg.add(missImg);
+                                  }
                                 }
+                                setState(() {
+                                  pageIndex=1;
+                                  imgList=leftImg;
+                                });
+                                print("还有"+leftImg.length.toString()+"张图片");
                               }
-                              setState(() {
-                                pageIndex=1;
-                                imgList=leftImg;
-                              });
-                              print("还有"+leftImg.length.toString()+"张图片");
-                            }
 
+                            }
                           }
-                        }
+                        }else{print("传值为空");}
+
                       },
                       child: Container(
                         width: 50,

@@ -89,7 +89,7 @@ class _TradedDetailPageState extends State<TradedDetailPage> with TickerProvider
                 ],
               ),
               Container(
-                height: 120,
+                height: 130,
                 decoration: BoxDecoration(
                   color: Colors.white,
                 ),
@@ -97,7 +97,7 @@ class _TradedDetailPageState extends State<TradedDetailPage> with TickerProvider
                   children: <Widget>[
                     // 导航栏
                     Container(
-                        padding: EdgeInsets.only(left: 15,top: 15,bottom: 5),
+                        padding: EdgeInsets.only(left: 15,top: 20,bottom: 5),
                         margin: EdgeInsets.only(top: 15),
                         child:Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,

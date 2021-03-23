@@ -116,3 +116,19 @@ class DealInfo {
   };
 }
 
+class NeedInfo {
+  NeedInfo({
+    this.needReason,
+  });
+
+  String needReason;
+
+  factory NeedInfo.fromJson(Map<String, dynamic> json) => NeedInfo(
+    needReason: json["NeedReason"] == null ? null : json["NeedReason"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "NeedReason": needReason == null ? null : needReason,
+  };
+}
+

@@ -229,7 +229,7 @@ class _TradedDealMsgState extends State<TradedDealMsg> with SingleTickerProvider
             children: <Widget>[
               Container(
                 alignment: Alignment.topCenter,
-                padding: EdgeInsets.only(top:117,bottom:40),
+                padding: EdgeInsets.only(top:100,bottom:40),
                 child: Column(
                   children: <Widget>[
                     // 姓名
