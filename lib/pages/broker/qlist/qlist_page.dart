@@ -41,12 +41,12 @@ class _QListPageState extends State<QListPage> {
                 height: 26,
                 child: Image(image:AssetImage('images/listicon_s.png'),),
               ),
-              title: Text('量化')
+              label: '量化'
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.list,color: Colors.grey,),
               activeIcon:Icon(Icons.list,color:Colors.blue,),
-              title: Text('新增任务'),
+              label: '新增任务',
             ),
             BottomNavigationBarItem(
               icon: Container(
@@ -57,7 +57,7 @@ class _QListPageState extends State<QListPage> {
                 height:26,
                 child:Image(image:AssetImage('images/analyze_s.png')),
               ),
-              title: Text('分析'),
+              label: '分析',
             ),
           ],
           iconSize: 26,

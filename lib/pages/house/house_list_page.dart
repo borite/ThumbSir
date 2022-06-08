@@ -1,11 +1,7 @@
 import 'dart:convert';
 import 'package:ThumbSir/common/reg.dart';
-import 'package:ThumbSir/dao/get_care_action_dao.dart';
-import 'package:ThumbSir/dao/get_customer_main_dao.dart';
-import 'package:ThumbSir/dao/get_user_by_condition_dao.dart';
-import 'package:ThumbSir/model/get_customer_main_model.dart';
+import 'package:ThumbSir/dao/get_house_list_dao.dart';
 import 'package:ThumbSir/model/login_result_data_model.dart';
-import 'package:ThumbSir/pages/broker/traded/traded_add_page.dart';
 import 'package:ThumbSir/pages/broker/traded/traded_search_page.dart';
 import 'package:ThumbSir/pages/home.dart';
 import 'package:ThumbSir/pages/house/house_add_page.dart';
@@ -14,7 +10,6 @@ import 'package:ThumbSir/pages/tips/qlist_tips_page.dart';
 import 'package:ThumbSir/widget/house_item.dart';
 import 'package:ThumbSir/widget/input.dart';
 import 'package:ThumbSir/widget/loading.dart';
-import 'package:ThumbSir/widget/traded_item.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
@@ -84,9 +79,9 @@ class _HouseListPageState extends State<HouseListPage> {
     return sortLists;
   }
 
-  List<Datum> customersList = [];
-  List<Widget> customersShowList = [];
-  List<Widget> customers=[];
+  var houseList = [];
+  List<Widget> houseShowList = [];
+  List<Widget> houses=[];
 
 
   LoginResultData userData;
@@ -101,67 +96,42 @@ class _HouseListPageState extends State<HouseListPage> {
       this.setState(() {
         userData=LoginResultData.fromJson(json.decode(uinfo));
       });
-      // _load();
+      _load();
     }
   }
 
-  // _load() async {
-  //   _onRefresh();
-  //   if(userData != null ){
-  //     pageIndex ++ ;
-  //
-  //     if(ageValue == "所有" && monthValue == 0 && reasonValue == "所有"){
-  //       customersResult = await GetCustomerMainDao.getCustomerMain(
-  //         userData.userPid,
-  //         "5",
-  //         pageIndex.toString(),
-  //         '50',
-  //       );
-  //     }else{
-  //       customersResult = await GetUserByConditionDao.getCondition(
-  //           ageValue == "所有"?"0":ageValue == "< 30岁"?"1":ageValue == "30~40"?"30":ageValue == "40~50"?"40":"50",
-  //           ageValue == "所有"?"0":ageValue == "< 30岁"?"30":ageValue == "30~40"?"40":ageValue == "40~50"?"50":"100",
-  //           monthValue.toString(),
-  //           reasonValue == "所有"?"0":reasonValue,
-  //           userData.userPid,
-  //       );
-  //     }
-  //
-  //     if (customersResult.code == 200) {
-  //
-  //       customersList = customersResult.data;
-  //       if (customersList.length>0) {
-  //         for (var item in customersList) {
-  //           var giftResult = await GetCareActionDao.httpGetCareAction(item.mid.toString(), "1", "10");
-  //           var giftList = giftResult.data;
-  //           customersShowList.add(
-  //             TradedItem(
-  //                 name:item.userName,
-  //                 star:item.starslevel,
-  //                 gender:item.sex,
-  //                 age:item.age,
-  //                 phone:item.phone,
-  //                 birthday:item.birthday.toString().substring(0,10),
-  //                 firstDealReason: item.dealList.length > 0 ?item.dealList[0].dealReason:null,
-  //                 firstDealTime: item.dealList.length > 0 ? item.dealList[0].finishTime.toIso8601String().substring(0,10):null,
-  //                 secondDealReason: item.dealList.length > 1 ?item.dealList[1].dealReason:null,
-  //                 ssecondDealTime: item.dealList.length > 1 ?item.dealList[1].finishTime.toIso8601String().substring(0,10):null,
-  //                 giftList: giftList,
-  //                 item:item
-  //             ),
-  //           );
-  //         };
-  //       }
-  //       setState(() {
-  //         customers=customersShowList;
-  //       });
-  //       _onRefresh();
-  //     } else {
-  //       _onLoadAlert(context);
-  //       _onRefresh();
-  //     }
-  //   }
-  // }
+  _load() async {
+    _onRefresh();
+    if(userData != null ){
+      pageIndex ++ ;
+      var getHouseListResult = await GetHouseListDao.httpGetHouseList(
+        userData.companyId,
+        pageIndex.toString(),
+        '30',
+      );
+
+      if (getHouseListResult.code == 200) {
+
+        houseList = getHouseListResult.data;
+        if (houseList.length>0) {
+          for (var item in houseList) {
+            houseShowList.add(
+              HouseItem(
+                  houseItem:item
+              ),
+            );
+          };
+        }
+        setState(() {
+          houses=houseShowList;
+        });
+        _onRefresh();
+      } else {
+        _onLoadAlert(context);
+        _onRefresh();
+      }
+    }
+  }
 
   @override
   void initState() {
@@ -172,7 +142,7 @@ class _HouseListPageState extends State<HouseListPage> {
       // 如果滚动位置到了可滚动的最大距离，就加载更多
       if(_scrollController.position.pixels == _scrollController.position.maxScrollExtent){
         print("可以加载了");
-        // _load();
+        _load();
       }
     });
   }
@@ -393,9 +363,9 @@ class _HouseListPageState extends State<HouseListPage> {
                                       onChanged: (T){
                                         setState(() {
                                           workValue = T;
-                                          customers = [];
+                                          houses = [];
                                           customersResult = null;
-                                          customersShowList = [];
+                                          houseShowList = [];
                                           pageIndex = 0;
                                         });
                                         // _load();
@@ -431,9 +401,9 @@ class _HouseListPageState extends State<HouseListPage> {
                                       onChanged: (T){
                                         setState(() {
                                           typeValue = T;
-                                          customers = [];
+                                          houses = [];
                                           customersResult = null;
-                                          customersShowList = [];
+                                          houseShowList = [];
                                           pageIndex = 0;
                                         });
                                         // _load();
@@ -469,8 +439,8 @@ class _HouseListPageState extends State<HouseListPage> {
                                       onChanged: (T){
                                         setState(() {
                                           sortValue = T;
-                                          customers = [];
-                                          customersShowList = [];
+                                          houses = [];
+                                          houseShowList = [];
                                           customersResult = null;
                                           pageIndex = 0;
                                         });
@@ -567,10 +537,42 @@ class _HouseListPageState extends State<HouseListPage> {
                             ),
                           ),
                           // 列表
+                          houseList.length>0 && houses !=[]?
                           Column(
-                            children: [
-                              HouseItem()
-                            ],
+                            children: houses,
+                          ):
+                          Container(
+                              alignment: Alignment.center,
+                              margin: EdgeInsets.only(top: 20),
+                              width: 335,
+                              height: 104,
+                              child: Column(
+                                children: <Widget>[
+                                  Padding(
+                                    padding: EdgeInsets.only(top: 25,bottom: 8),
+                                    child: Text(
+                                      '没有相关房源',
+                                      style: TextStyle(
+                                        decoration: TextDecoration.none,
+                                        fontSize: 20,
+                                        color: Color(0xFFCCCCCC),
+                                        fontWeight: FontWeight.normal,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                  Text(
+                                    '点击下方"新增房源"按钮去添加任务吧~',
+                                    style: TextStyle(
+                                      decoration: TextDecoration.none,
+                                      fontSize: 16,
+                                      color: Color(0xFFCCCCCC),
+                                      fontWeight: FontWeight.normal,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ],
+                              )
                           )
                         ]
                     )

@@ -1,0 +1,11 @@
+framework module flutter_bmflocation {
+  umbrella header "flutter_bmflocation-umbrella.h"
+
+  export *
+  module * { export * }
+}
+
+module flutter_bmflocation.Swift {
+    header "flutter_bmflocation-Swift.h"
+    requires objc
+}

@@ -10,6 +10,9 @@ import 'package:ThumbSir/pages/broker/traded/my_traded_page.dart';
 import 'package:ThumbSir/pages/house/house_list_page.dart';
 import 'package:ThumbSir/pages/login/login_page.dart';
 import 'package:ThumbSir/pages/major/qlist/major_qlist_page.dart';
+import 'package:ThumbSir/pages/manager/client/m_client_page.dart';
+import 'package:ThumbSir/pages/manager/client/s_client_page.dart';
+import 'package:ThumbSir/pages/manager/client/team_client_page.dart';
 import 'package:ThumbSir/pages/manager/traded/m_traded_page.dart';
 import 'package:ThumbSir/pages/manager/traded/s_traded_page.dart';
 import 'package:ThumbSir/pages/manager/traded/team_traded_page.dart';
@@ -723,13 +726,13 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin{
                                                                 Navigator.push(context, MaterialPageRoute(builder: (context)=>MyClientPage()));
                                                               }
                                                               if(result.userLevel.substring(0,1)=="5"){
-                                                                Navigator.push(context, MaterialPageRoute(builder: (context)=>MTradedPage()));
+                                                                Navigator.push(context, MaterialPageRoute(builder: (context)=>MClientPage()));
                                                               }
                                                               if(result.userLevel.substring(0,1)=="4"){
-                                                                Navigator.push(context, MaterialPageRoute(builder: (context)=>STradedPage()));
+                                                                Navigator.push(context, MaterialPageRoute(builder: (context)=>SClientPage()));
                                                               }
                                                               if(result.userLevel.substring(0,1)=="1"||result.userLevel.substring(0,1)=="2"||result.userLevel.substring(0,1)=="3"){
-                                                                Navigator.push(context, MaterialPageRoute(builder: (context)=>TeamTradedPage()));
+                                                                Navigator.push(context, MaterialPageRoute(builder: (context)=>TeamClientPage()));
                                                               }
                                                             }else{
                                                               _onLoginAlertPressed(context);

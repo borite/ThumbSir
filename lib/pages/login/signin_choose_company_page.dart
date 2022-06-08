@@ -118,7 +118,7 @@ class _SigninChooseCompanyPageState extends State<SigninChooseCompanyPage> {
                   margin: EdgeInsets.only(top: 10),
                   child: Form(
                     key: formKey,
-                    autovalidate: autovalidate,
+                    autovalidateMode: AutovalidateMode.disabled,
                     child: Column(children: <Widget>[
 //                      Text('Selected listItem: "$selectedItem"'),
                       SimpleAutocompleteFormField<Datum>(

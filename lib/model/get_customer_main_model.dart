@@ -88,7 +88,6 @@ class Datum {
     age: json["age"] == null ? null : json["age"],
   );
 
-
   Map<String, dynamic> toJson() => {
     "MID": mid == null ? null : mid,
     "UserID": userId == null ? null : userId,

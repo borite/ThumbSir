@@ -1,23 +1,15 @@
 import 'dart:convert';
 import 'package:ThumbSir/common/reg.dart';
 import 'package:ThumbSir/dao/add_customer_dao.dart';
-import 'package:ThumbSir/dao/get_default_task_dao.dart';
 import 'package:ThumbSir/model/login_result_data_model.dart';
 import 'package:ThumbSir/pages/broker/client/buy_need_detail_page.dart';
-import 'package:ThumbSir/pages/manager/traded/m_traded_page.dart';
-import 'package:ThumbSir/pages/manager/traded/s_traded_page.dart';
 import 'package:ThumbSir/widget/input.dart';
 import 'package:ThumbSir/widget/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wheel_chooser/wheel_chooser.dart';
-import 'package:flutter_holo_date_picker/flutter_holo_date_picker.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:chips_choice/chips_choice.dart';
-import 'package:ThumbSir/model/set_kpimission_item_model.dart';
-import 'package:ThumbSir/model/get_default_task_model.dart';
-
-import 'my_client_page.dart';
 
 class BuyNeedPage extends StatefulWidget {
   final cid;
@@ -32,32 +24,41 @@ class BuyNeedPage extends StatefulWidget {
 }
 
 class _BuyNeedPageState extends State<BuyNeedPage> {
+  String items="";
   bool _loading = false;
 
   ScrollController _dealScrollController = ScrollController();
   ScrollController _needScrollController = ScrollController();
   final TextEditingController agencyMemberScrollController = TextEditingController();
-  String agencyPhoneNum;
+  String agencyPhoneNum = "-";
   RegExp agencyPhoneReg;
   bool agencyPhoneBool;
   final TextEditingController desideMemberController = TextEditingController();
-  String desidePhoneNum;
+  String desidePhoneNum = "-";
   RegExp desidePhoneReg;
   bool desidePhoneBool;
   final TextEditingController firstPriceNumController = TextEditingController();
-  String firstPriceNum;
+  int firstPriceNum=1;
   RegExp firstPriceNumReg;
   bool firstPriceNumBool;
   final TextEditingController totalPriceNumController = TextEditingController();
-  String totalPriceNum;
+  int totalPriceNum=1;
   RegExp totalPriceNumReg;
   bool totalPriceNumBool;
+  final TextEditingController yaPriceNumController = TextEditingController();
+  int yaPriceNum=1;
+  RegExp yaPriceNumReg;
+  bool yaPriceNumBool;
+  final TextEditingController fuPriceNumController = TextEditingController();
+  int fuPriceNum=1;
+  RegExp fuPriceNumReg;
+  bool fuPriceNumBool;
   final TextEditingController agencyNameController = TextEditingController();
-  String agencyName;
+  String agencyName = "-";
   RegExp agencyNameReg;
   bool agencyNameBool;
   final TextEditingController desideNameController = TextEditingController();
-  String desideName;
+  String desideName = "-";
   RegExp desideNameReg;
   bool desideNameBool;
   final TextEditingController msgController=TextEditingController();
@@ -68,22 +69,16 @@ class _BuyNeedPageState extends State<BuyNeedPage> {
   String needMinCount = "购买住宅";
   String incomeMinCount = "10万以下";
   String comeMinCount = "社区开发";
-  String memberMinCount = "妻子";
-  int firstPriceCount = 1;
-  int totalPriceCount = 1;
   List<String> tags = [];
   List idList = [];
   String selectTaskIDs="";
   int itemLength = 0;
   List missionContent=new List();
-  // List<Datum> tasks = [];
   List<String> tasks = [];
 
   List<DealInfo> deal=new List();
   List<NeedInfo> need=new List();
   List<FamilyMember> member=new List();
-
-  DateTime _selectedDate=DateTime(2020,1,1);
 
   int _desideRadioGroupA = 0;
   int _buyWayRadioGroupA = 0;
@@ -129,27 +124,6 @@ class _BuyNeedPageState extends State<BuyNeedPage> {
     }
   }
 
-  // _load() async {
-  //   var taskList = await GetDefaultTaskDao.httpGetDefaultTask();
-  //   if (taskList.code == 200) {
-  //
-  //     List<Datum> filteredList=new List();
-  //
-  //     taskList.data.forEach((element) {
-  //       if(element.id!=12 && element.id!=13 && element.id!=14){
-  //         filteredList.add(element);
-  //       }
-  //     });
-  //
-  //     setState(() {
-  //       tasks = filteredList;
-  //       _loading = false;
-  //     });
-  //   } else {
-  //     // _onLoadAlert(context);
-  //   }
-  // }
-
   @override
   void initState() {
     agencyNameReg = TextReg;
@@ -159,8 +133,9 @@ class _BuyNeedPageState extends State<BuyNeedPage> {
     totalPriceNumReg = TextReg;
     msgReg = FeedBackReg;
     firstPriceNumReg = TextReg;
+    yaPriceNumReg = TextReg;
+    fuPriceNumReg = TextReg;
     _getUserInfo();
-    // _load();
     tasks=["面积","居室","朝向","电梯","楼层","楼龄","装修","交通","学区","医院","银行","公园","商场","物业","税费","特殊要求","其他"];
     super.initState();
 
@@ -177,6 +152,8 @@ class _BuyNeedPageState extends State<BuyNeedPage> {
     desideNameController.dispose();
     firstPriceNumController.dispose();
     totalPriceNumController.dispose();
+    yaPriceNumController.dispose();
+    fuPriceNumController.dispose();
     super.dispose();
   }
 
@@ -522,6 +499,7 @@ class _BuyNeedPageState extends State<BuyNeedPage> {
                               ],
                             ),
                           ),
+                          widget.mainNeed.substring(0,2)=="购买"?
                           Container(
                             width: 335,
                             padding: EdgeInsets.all(16.0),
@@ -544,59 +522,16 @@ class _BuyNeedPageState extends State<BuyNeedPage> {
                                 ),
                               ],
                             ),
-                          ),
-
-                          // 是否有购房和贷款资质
+                          )
+                          :
                           Container(
                             width: 335,
-                            margin: EdgeInsets.only(top: 10),
-                            child: Row(
-                              children: <Widget>[
-                                Text(
-                                  '是否有购房和贷款资质：',
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    color: Color(0xFF333333),
-                                    decoration: TextDecoration.none,
-                                    fontWeight: FontWeight.normal,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Container(
-                            width: 335,
-                            padding: EdgeInsets.all(16.0),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                RadioListTile(
-                                  value: 0,
-                                  groupValue: _statusRadioGroupA,
-                                  onChanged: _handleStatusRadioValueChanged,
-                                  title: Text('是'),
-                                  selected: _statusRadioGroupA == 0,
-                                ),
-                                RadioListTile(
-                                  value: 1,
-                                  groupValue: _statusRadioGroupA,
-                                  onChanged: _handleStatusRadioValueChanged,
-                                  title: Text('否'),
-                                  selected: _statusRadioGroupA == 1,
-                                ),
-                              ],
-                            ),
-                          ),
-
-                          // 首付预算
-                          Container(
-                            width: 335,
-                            margin: EdgeInsets.only(top: 10),
+                            margin: EdgeInsets.only(top: 10,bottom: 15),
                             child: Row(
                               children: <Widget>[
                                 Padding(
                                   padding: EdgeInsets.only(right: 20),
-                                  child: Text('首付预算',style: TextStyle(
+                                  child: Text('押',style: TextStyle(
                                     fontSize: 14,
                                     color: Color(0xFF333333),
                                     decoration: TextDecoration.none,
@@ -605,7 +540,7 @@ class _BuyNeedPageState extends State<BuyNeedPage> {
                                 ),
                                 GestureDetector(
                                   onTap: (){
-                                    _onFirstPriceCountPressed(context);
+                                    _onYaPriceCountPressed(context);
                                   },
                                   child: Container(
                                     width: 80,
@@ -613,7 +548,7 @@ class _BuyNeedPageState extends State<BuyNeedPage> {
                                         border: Border(bottom: BorderSide(width: 1,color: Color(0xFF0E7AE6)))
                                     ),
                                     child: Text(
-                                      firstPriceCount.toString(),
+                                      yaPriceNum.toString(),
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                         color: Color(0xFF5580EB),
@@ -624,26 +559,7 @@ class _BuyNeedPageState extends State<BuyNeedPage> {
                                 ),
                                 Padding(
                                   padding: EdgeInsets.only(right: 20,left: 20),
-                                  child: Text("万",style: TextStyle(
-                                    fontSize: 14,
-                                    color: Color(0xFF333333),
-                                    decoration: TextDecoration.none,
-                                    fontWeight: FontWeight.normal,
-                                  ),),
-                                ),
-                              ],
-                            ),
-                          ),
-
-                          // 总价预算
-                          Container(
-                            width: 335,
-                            margin: EdgeInsets.only(top: 10),
-                            child: Row(
-                              children: <Widget>[
-                                Padding(
-                                  padding: EdgeInsets.only(right: 20),
-                                  child: Text('总价预算',style: TextStyle(
+                                  child: Text('付',style: TextStyle(
                                     fontSize: 14,
                                     color: Color(0xFF333333),
                                     decoration: TextDecoration.none,
@@ -652,7 +568,7 @@ class _BuyNeedPageState extends State<BuyNeedPage> {
                                 ),
                                 GestureDetector(
                                   onTap: (){
-                                    _onTotalPriceCountPressed(context);
+                                    _onFuPriceCountPressed(context);
                                   },
                                   child: Container(
                                     width: 80,
@@ -660,7 +576,7 @@ class _BuyNeedPageState extends State<BuyNeedPage> {
                                         border: Border(bottom: BorderSide(width: 1,color: Color(0xFF0E7AE6)))
                                     ),
                                     child: Text(
-                                      totalPriceCount.toString(),
+                                      fuPriceNum.toString(),
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                         color: Color(0xFF5580EB),
@@ -669,18 +585,208 @@ class _BuyNeedPageState extends State<BuyNeedPage> {
                                       ),),
                                   ),
                                 ),
-                                Padding(
-                                  padding: EdgeInsets.only(right: 20,left: 20),
-                                  child: Text("万",style: TextStyle(
-                                    fontSize: 14,
-                                    color: Color(0xFF333333),
-                                    decoration: TextDecoration.none,
-                                    fontWeight: FontWeight.normal,
-                                  ),),
-                                ),
                               ],
                             ),
                           ),
+
+                          // 首付预算+总价预算或月租金预算+押金预算
+                          widget.mainNeed.substring(0,2)=="购买"?
+                          Column(
+                            children: [
+                              // 首付预算
+                              _buyWayRadioGroupA == 0?
+                              Container(
+                                width: 335,
+                                margin: EdgeInsets.only(top: 10),
+                                child: Row(
+                                  children: <Widget>[
+                                    Padding(
+                                      padding: EdgeInsets.only(right: 20),
+                                      child: Text('首付预算',style: TextStyle(
+                                        fontSize: 14,
+                                        color: Color(0xFF333333),
+                                        decoration: TextDecoration.none,
+                                        fontWeight: FontWeight.normal,
+                                      ),),
+                                    ),
+                                    GestureDetector(
+                                      onTap: (){
+                                        _onFirstPriceCountPressed(context);
+                                      },
+                                      child: Container(
+                                        width: 80,
+                                        decoration: BoxDecoration(
+                                            border: Border(bottom: BorderSide(width: 1,color: Color(0xFF0E7AE6)))
+                                        ),
+                                        child: Text(
+                                          firstPriceNum.toString(),
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                            color: Color(0xFF5580EB),
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.normal,
+                                          ),),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.only(right: 20,left: 20),
+                                      child: Text("万",style: TextStyle(
+                                        fontSize: 14,
+                                        color: Color(0xFF333333),
+                                        decoration: TextDecoration.none,
+                                        fontWeight: FontWeight.normal,
+                                      ),),
+                                    ),
+                                  ],
+                                ),
+                              ):Container(width: 1,),
+                              // 总价预算
+                              Container(
+                                width: 335,
+                                margin: EdgeInsets.only(top: 10),
+                                child: Row(
+                                  children: <Widget>[
+                                    Padding(
+                                      padding: EdgeInsets.only(right: 20),
+                                      child: Text('总价预算',style: TextStyle(
+                                        fontSize: 14,
+                                        color: Color(0xFF333333),
+                                        decoration: TextDecoration.none,
+                                        fontWeight: FontWeight.normal,
+                                      ),),
+                                    ),
+                                    GestureDetector(
+                                      onTap: (){
+                                        _onTotalPriceCountPressed(context);
+                                      },
+                                      child: Container(
+                                        width: 80,
+                                        decoration: BoxDecoration(
+                                            border: Border(bottom: BorderSide(width: 1,color: Color(0xFF0E7AE6)))
+                                        ),
+                                        child: Text(
+                                          totalPriceNum.toString(),
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                            color: Color(0xFF5580EB),
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.normal,
+                                          ),),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.only(right: 20,left: 20),
+                                      child: Text("万",style: TextStyle(
+                                        fontSize: 14,
+                                        color: Color(0xFF333333),
+                                        decoration: TextDecoration.none,
+                                        fontWeight: FontWeight.normal,
+                                      ),),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          )
+                          :
+                          Column(
+                            children: [
+                              // 月租金预算
+                              Container(
+                                width: 335,
+                                margin: EdgeInsets.only(top: 10),
+                                child: Row(
+                                  children: <Widget>[
+                                    Padding(
+                                      padding: EdgeInsets.only(right: 20),
+                                      child: Text('月租金预算',style: TextStyle(
+                                        fontSize: 14,
+                                        color: Color(0xFF333333),
+                                        decoration: TextDecoration.none,
+                                        fontWeight: FontWeight.normal,
+                                      ),),
+                                    ),
+                                    GestureDetector(
+                                      onTap: (){
+                                        _onFirstPriceCountPressed(context);
+                                      },
+                                      child: Container(
+                                        width: 80,
+                                        decoration: BoxDecoration(
+                                            border: Border(bottom: BorderSide(width: 1,color: Color(0xFF0E7AE6)))
+                                        ),
+                                        child: Text(
+                                          firstPriceNum.toString(),
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                            color: Color(0xFF5580EB),
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.normal,
+                                          ),),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.only(right: 20,left: 20),
+                                      child: Text("元/月",style: TextStyle(
+                                        fontSize: 14,
+                                        color: Color(0xFF333333),
+                                        decoration: TextDecoration.none,
+                                        fontWeight: FontWeight.normal,
+                                      ),),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              // 押金预算
+                              Container(
+                                width: 335,
+                                margin: EdgeInsets.only(top: 10),
+                                child: Row(
+                                  children: <Widget>[
+                                    Padding(
+                                      padding: EdgeInsets.only(right: 20),
+                                      child: Text('押金预算',style: TextStyle(
+                                        fontSize: 14,
+                                        color: Color(0xFF333333),
+                                        decoration: TextDecoration.none,
+                                        fontWeight: FontWeight.normal,
+                                      ),),
+                                    ),
+                                    GestureDetector(
+                                      onTap: (){
+                                        _onTotalPriceCountPressed(context);
+                                      },
+                                      child: Container(
+                                        width: 80,
+                                        decoration: BoxDecoration(
+                                            border: Border(bottom: BorderSide(width: 1,color: Color(0xFF0E7AE6)))
+                                        ),
+                                        child: Text(
+                                          totalPriceNum.toString(),
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                            color: Color(0xFF5580EB),
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.normal,
+                                          ),),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.only(right: 20,left: 20),
+                                      child: Text("元",style: TextStyle(
+                                        fontSize: 14,
+                                        color: Color(0xFF333333),
+                                        decoration: TextDecoration.none,
+                                        fontWeight: FontWeight.normal,
+                                      ),),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+
+
 
                           // 意向区域和小区
                           Container(
@@ -768,30 +874,21 @@ class _BuyNeedPageState extends State<BuyNeedPage> {
                                             alignment: Alignment.centerLeft,
                                             child: ChipsChoice<String>.multiple(
                                               value: state.value,
-                                              // options:  ChipsChoiceOption.listFrom<String,Datum>(
-                                              //     source: tasks,
-                                              //     // 存储形式
-                                              //     value:(index,item)=>'{"ID":"'+item.id.toString()+'","TaskTitle":"'+item.taskName+'","TaskUnit":"'+item.taskUnit+'"}',
-                                              //     // 展示形式
-                                              //     label: (index,item)=>item.taskName
-                                              // ),
                                               options:  ChipsChoiceOption.listFrom(
                                                   source: tasks,
                                                   // 存储形式
-                                                  // value:(index,item)=>'{"ID":"'+item.id.toString()+'","TaskTitle":"'+item.taskName+'","TaskUnit":"'+item.taskUnit+'"}',
+                                                  value:(index,item)=>item,
                                                   // 展示形式
                                                   label: (index,item)=>item
                                               ),
                                               onChanged: (val) {
                                                 state.didChange(val);
                                                 missionContent = val;
-                                                String ids="";
+                                                items="";
                                                 val.forEach((element) {
-                                                  var item=selectItemFromJson(element);
-                                                  print(item);
-                                                  ids+=item.id+',';
-                                                  selectTaskIDs = ids;
-                                                  print(selectTaskIDs);
+                                                  var item=element;
+                                                  items+=item+',';
+                                                  print(items);
                                                   if(state.value != null){
                                                     setState(() {
                                                       itemLength = state.value.length;
@@ -826,72 +923,95 @@ class _BuyNeedPageState extends State<BuyNeedPage> {
 
                           // 下一步
                           GestureDetector(
-                            onTap: ()async{
-                              // if(userNameBool == true && phoneBool == true && _starIndex != 0 ){
-                                _onRefresh();
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => BuyNeedDetailPage(
-                                    cid: widget.cid,
-                                    mainNeed:widget.mainNeed,
-                                    userName:widget.userName
-                                )));
-                                // var addResult = await AddCustomerDao.addCustomer(
-                                //     userData.companyId,
-                                //     userData.userPid,
-                                //     "5",
-                                //     userNameController.text,
-                                //     _radioGroupA.toString(),
-                                //     phoneNumController.text,
-                                //     _selectedBirthdayDate.toIso8601String(),
-                                //     _starIndex.toString(),
-                                //     careerController.text==null?"未知":careerController.text,
-                                //     incomeMinCount,
-                                //     likeController.text==null?"未知":likeController.text,
-                                //     msgController.text==null?"未知":msgController.text,
-                                //     mapController.text==null?"未知":mapController.text,
-                                //     member,  // 家庭成员
-                                //     deal,  // 成交历史
-                                // );
-                                // print(addResult);
-                                // if (addResult.code == 200) {
-                                //   _onRefresh();
-                                //   if (userData.userLevel.substring(0, 1) == "6") {
-                                //     Navigator.push(context, MaterialPageRoute(
-                                //         builder: (context) => MyTradedPage()));
-                                //   }
-                                //   if (userData.userLevel.substring(0, 1) == "4") {
-                                //     Navigator.push(context, MaterialPageRoute(
-                                //         builder: (context) => STradedPage()));
-                                //   }
-                                //   if (userData.userLevel.substring(0, 1) == "5") {
-                                //     Navigator.push(context, MaterialPageRoute(
-                                //         builder: (context) => MTradedPage()));
-                                //   }
-                                // } else {
-                                //   _onRefresh();
-                                //   _onOverLoadPressed(context);
-                                // }
-                              // }else{
-                              //   // 必填信息不完整的弹窗
-                              //   _onMsgPressed(context);
-                              // }
+                            onTap: ()async {
+                              if (items != null&& items!="") {
+                                Navigator.push(
+                                    context, MaterialPageRoute(builder: (
+                                    context) =>
+                                    BuyNeedDetailPage(
+                                        cid: widget.cid,
+                                        mainNeed: widget.mainNeed,
+                                        needReason: comeMinCount,
+                                        userName: widget.userName,
+                                        coreNeedNames: items,
+                                        otherMsg:
+                                        // 是否为购房决策人
+                                        '是否为' +
+                                            widget.mainNeed.substring(0, 2) +
+                                            '决策人:' + (_desideRadioGroupA == 0
+                                            ? "是"
+                                            : "否") + ","
+                                            + widget.mainNeed.substring(0, 2) +
+                                            '决策人姓名:' + desideName + ","
+                                            + widget.mainNeed.substring(0, 2) +
+                                            '决策人手机号:' + desidePhoneNum + ","
+                                            // 是否有代理人
+                                            + '是否有' +
+                                            widget.mainNeed.substring(0, 2) +
+                                            '代理人:' + (_agencyRadioGroupA == 0
+                                            ? "否"
+                                            : "是") + ","
+                                            + widget.mainNeed.substring(0, 2) +
+                                            '代理人姓名:' + agencyName + ","
+                                            + widget.mainNeed.substring(0, 2) +
+                                            '代理人手机号:' + agencyPhoneNum + ","
+                                            // 付款方式
+                                            + "付款方式:" +
+                                            (widget.mainNeed.substring(0, 2) ==
+                                                "购买" && _buyWayRadioGroupA == 0
+                                                ? "贷款"
+                                                : widget.mainNeed.substring(
+                                                0, 2) == "购买" &&
+                                                _buyWayRadioGroupA == 1
+                                                ? "全款"
+                                                : "押" + yaPriceNum.toString() +
+                                                "付" + fuPriceNum.toString()) +
+                                            ","
+                                            // 首付预算/月租金预算
+                                            +
+                                            (widget.mainNeed.substring(0, 2) ==
+                                                "购买"
+                                                ? "首付预算:" +
+                                                firstPriceNum.toString() + "万"
+                                                : "月租金预算:" +
+                                                firstPriceNum.toString() +
+                                                "元/月") + ","
+                                            // 总价预算/押金预算
+                                            +
+                                            (widget.mainNeed.substring(0, 2) ==
+                                                "购买"
+                                                ? "总价预算:" +
+                                                totalPriceNum.toString() + "万"
+                                                : "押金预算:" +
+                                                totalPriceNum.toString() +
+                                                "元/月") + ","
+                                            // 意向区域或小区
+                                            + "意向区域或小区:" + msgController.text ??
+                                            "无" + ','
+
+                                    )));
+                              }
+                              else{
+                                _onMsgPressed(context);
+                              }
                             },
                             child: Container(
                                 width: 335,
                                 height: 40,
                                 padding: EdgeInsets.all(4),
                                 margin: EdgeInsets.only(bottom: 50,top: 100),
-                                decoration:
+                                decoration:items != null&& items!=""?
                                 BoxDecoration(
                                     border: Border.all(width: 1,color: Color(0xFF5580EB)),
                                     borderRadius: BorderRadius.circular(8),
                                     color: Color(0xFF5580EB)
+                                )
+                                    :
+                                BoxDecoration(
+                                    border: Border.all(width: 1,color: Color(0xFF93C0FB)),
+                                    borderRadius: BorderRadius.circular(8),
+                                    color: Color(0xFF93C0FB)
                                 ),
-                                //     :
-                                // BoxDecoration(
-                                //     border: Border.all(width: 1,color: Color(0xFF93C0FB)),
-                                //     borderRadius: BorderRadius.circular(8),
-                                //     color: Color(0xFF93C0FB)
-                                // ),
                                 child: Padding(
                                     padding: EdgeInsets.only(top: 4),
                                     child: Text('下一步：完善需求信息',style: TextStyle(
@@ -916,7 +1036,7 @@ class _BuyNeedPageState extends State<BuyNeedPage> {
   _onFirstPriceCountPressed(context) {
     Alert(
       context: context,
-      title: "输入首付预算",
+      title: "请输入金额数字",
       content: Column(
         children: <Widget>[
           TextField(
@@ -935,7 +1055,7 @@ class _BuyNeedPageState extends State<BuyNeedPage> {
           onPressed: (){
             if(int.parse(firstPriceNumController.text) > 0){
               setState(() {
-                firstPriceCount = int.parse(firstPriceNumController.text.toString());
+                firstPriceNum = int.parse(firstPriceNumController.text.toString());
               });
               Navigator.pop(context);
             }else{
@@ -965,7 +1085,7 @@ class _BuyNeedPageState extends State<BuyNeedPage> {
   _onTotalPriceCountPressed(context) {
     Alert(
       context: context,
-      title: "输入总价预算",
+      title: "请输入金额数字",
       content: Column(
         children: <Widget>[
           TextField(
@@ -984,7 +1104,7 @@ class _BuyNeedPageState extends State<BuyNeedPage> {
           onPressed: (){
             if(int.parse(totalPriceNumController.text) > 0){
               setState(() {
-                totalPriceCount = int.parse(totalPriceNumController.text.toString());
+                totalPriceNum = int.parse(totalPriceNumController.text.toString());
               });
               Navigator.pop(context);
             }else{
@@ -1010,11 +1130,109 @@ class _BuyNeedPageState extends State<BuyNeedPage> {
     ).show();
   }
 
-  // 任务数量不得小于1弹窗
+  // 押n弹窗
+  _onYaPriceCountPressed(context) {
+    Alert(
+      context: context,
+      title: "输入押金月份数",
+      content: Column(
+        children: <Widget>[
+          TextField(
+            controller: yaPriceNumController,
+            keyboardType: TextInputType.number,
+            textAlign: TextAlign.center,
+          )
+        ],
+      ),
+      buttons: [
+        DialogButton(
+          child: Text(
+            "确定",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: (){
+            if(int.parse(yaPriceNumController.text) > 0){
+              setState(() {
+                yaPriceNum = int.parse(yaPriceNumController.text.toString());
+              });
+              Navigator.pop(context);
+            }else{
+              _onCountWrongPressed(context);
+            }
+
+          },
+          color: Color(0xFF5580EB),
+          width: 120,
+        ),
+        DialogButton(
+          child: Text(
+            "取消",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: (){
+            Navigator.pop(context);
+          },
+          color: Color(0xFFCCCCCC),
+          width: 120,
+        )
+      ],
+    ).show();
+  }
+
+  // 付n弹窗
+  _onFuPriceCountPressed(context) {
+    Alert(
+      context: context,
+      title: "输入付款周期月份数",
+      content: Column(
+        children: <Widget>[
+          TextField(
+            controller: fuPriceNumController,
+            keyboardType: TextInputType.number,
+            textAlign: TextAlign.center,
+          )
+        ],
+      ),
+      buttons: [
+        DialogButton(
+          child: Text(
+            "确定",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: (){
+            if(int.parse(fuPriceNumController.text) > 0){
+              setState(() {
+                fuPriceNum = int.parse(fuPriceNumController.text.toString());
+              });
+              Navigator.pop(context);
+            }else{
+              _onCountWrongPressed(context);
+            }
+
+          },
+          color: Color(0xFF5580EB),
+          width: 120,
+        ),
+        DialogButton(
+          child: Text(
+            "取消",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: (){
+            Navigator.pop(context);
+          },
+          color: Color(0xFFCCCCCC),
+          width: 120,
+        )
+      ],
+    ).show();
+  }
+
+  // 数量不得小于1弹窗
   _onCountWrongPressed(context) {
     Alert(
       context: context,
-      title: "任务数量不得小于1",
+      title: "数值不得小于1",
       desc: "请重试",
       buttons: [
         DialogButton(
@@ -1032,110 +1250,6 @@ class _BuyNeedPageState extends State<BuyNeedPage> {
     ).show();
   }
 
-  _addDealAlertPressed(context) {
-    Alert(
-      context: context,
-      title: "添加成交历史",
-      content: Column(
-        children: <Widget>[
-          Row(
-            children: <Widget>[
-              Container(
-                padding: EdgeInsets.only(left: 10,top: 10),
-                child: Text("成交原因：",style: TextStyle(
-                    fontSize: 14,
-                    color: Color(0xFF666666)
-                ),
-                  textAlign: TextAlign.left,
-                ),
-              ),
-            ],
-          ),
-          Container(
-            width: 80,
-            height: 120,
-            margin: EdgeInsets.only(top: 18),
-            child: WheelChooser(
-              onValueChanged: (s){
-                setState(() {
-                  dealMinCount = s;
-                });
-              },
-              datas: ["购买住宅", "购买商铺", "购买公寓", "购买车位","出售住宅", "出售商铺", "出售公寓", "出售车位","租赁住宅", "租赁商铺", "租赁公寓", "租赁车位","出租住宅", "出租商铺", "出租公寓", "出租车位",],
-              selectTextStyle: TextStyle(
-                  color: Color(0xFF0E7AE6),
-                  fontWeight: FontWeight.normal,
-                  decoration: TextDecoration.none,
-                  fontSize: 12
-              ),
-              unSelectTextStyle: TextStyle(
-                  color: Color(0xFF666666),
-                  fontWeight: FontWeight.normal,
-                  decoration: TextDecoration.none,
-                  fontSize: 12
-              ),
-            ),
-          ),
-          Row(
-            children: <Widget>[
-              Container(
-                padding: EdgeInsets.only(left: 10,top: 10),
-                child: Text("成交时间：",style: TextStyle(
-                    fontSize: 14,
-                    color: Color(0xFF666666)
-                ),
-                  textAlign: TextAlign.left,
-                ),
-              ),
-            ],
-          ),
-          Container(
-            width: 240,
-            child: DatePickerWidget(
-              looping: true, // default is not looping
-              firstDate: DateTime(2000),
-              lastDate: DateTime(2030, 1, 1),
-              initialDate: DateTime(2020,1,1),
-              dateFormat: "yyyy年-MMMM月-dd日",
-              locale: DatePicker.localeFromString('zh'),
-              onChange: (DateTime newDate, _) => _selectedDate = newDate,
-              pickerTheme: DateTimePickerTheme(
-                itemTextStyle: TextStyle(color: Color(0xFF5580EB), fontSize: 18),
-                dividerColor: Color(0xFF5580EB),
-              ),
-            ),
-          ),
-        ],
-      ),
-      buttons: [
-        DialogButton(
-          child: Text(
-            "确定",
-            style: TextStyle(color: Colors.white, fontSize: 20),
-          ),
-          onPressed: () async {
-            setState(() {
-              var d=new DealInfo(dealReason: dealMinCount,dealTime: _selectedDate);
-              deal.add(d);
-            });
-            Navigator.pop(context);
-          },
-          color: Color(0xFF5580EB),
-        ),
-        DialogButton(
-          child: Text(
-            "取消",
-            style: TextStyle(color: Colors.white, fontSize: 20),
-          ),
-          onPressed: (){
-            Navigator.pop(context);
-          },
-          color: Color(0xFFCCCCCC),
-        ),
-      ],
-    ).show();
-  }
-
   // 加载中loading
   Future<Null> _onRefresh() async {
     setState(() {
@@ -1149,6 +1263,26 @@ class _BuyNeedPageState extends State<BuyNeedPage> {
         msgBool = msgReg.hasMatch(msgController.text);
       });
     }
+  }
+
+  _onMsgPressed(context) {
+    Alert(
+      context: context,
+      type: AlertType.error,
+      title: "请至少选择1个核心需求",
+      buttons: [
+        DialogButton(
+          child: Text(
+            "确定",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () async {
+            Navigator.pop(context);
+          },
+          color: Color(0xFF5580EB),
+        ),
+      ],
+    ).show();
   }
 }
 

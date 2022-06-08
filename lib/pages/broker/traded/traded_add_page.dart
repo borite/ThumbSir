@@ -149,7 +149,7 @@ class _TradedAddPageState extends State<TradedAddPage> {
                                       ),
                                       Padding(
                                         padding: EdgeInsets.only(left: 10),
-                                        child: Text('新增客户',style: TextStyle(
+                                        child: Text('新增老客户',style: TextStyle(
                                           fontSize: 16,
                                           color: Color(0xFF5580EB),
                                           fontWeight: FontWeight.normal,
