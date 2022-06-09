@@ -5,7 +5,11 @@ import '../utils/common_vars.dart';
 
 //接口地址前缀
 <<<<<<< HEAD
+<<<<<<< HEAD
 const String apiPerFix=Url.testApiPrefix;
+=======
+const String apiPerfix=CommonVars.apiPrefix;
+>>>>>>> parent of e137123c (空安全前)
 =======
 const String apiPerfix=CommonVars.apiPrefix;
 >>>>>>> parent of e137123c (空安全前)
