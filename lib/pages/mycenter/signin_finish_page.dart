@@ -1,6 +1,5 @@
 import 'package:ThumbSir/pages/home.dart';
 import 'package:ThumbSir/pages/login/signin_choose_company_page.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class SigninFinishPage extends StatefulWidget {
@@ -12,7 +11,7 @@ class _SigninFinishPageState extends State<SigninFinishPage> {
   final TextEditingController phoneNumController=TextEditingController();
   final TextEditingController passwordController=TextEditingController();
   final TextEditingController verifyCodeController=TextEditingController();
-  String WebAPICookie;
+  late String webAPICookie;
   @override
     Widget build(BuildContext context) {
       return Scaffold(

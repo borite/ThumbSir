@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:http/http.dart' as http;
-import 'package:new_lianghua_app/model/get_message_model.dart';
-
+import '../model/get_message_model.dart';
 import '../utils/common_vars.dart';
 
 //接口地址前缀

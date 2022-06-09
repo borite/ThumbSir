@@ -4,7 +4,7 @@ import 'package:ThumbSir/model/common_result_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:ThumbSir/utils/common_vars.dart';
 
-const String api_perfix=CommonVars.testApiPrefix;
+const String apiPerFix=Url.testApiPrefix;
 
 class AddNewCustomerDao{
     static Future<CommonResult> addNewCustomer(
@@ -59,10 +59,11 @@ class AddNewCustomerDao{
         "CustomerNeedsWithCreate":customerNeedsWithCreate,
         "CustomerFrom":customerFrom
       };
-       final String apiUrl=api_perfix+"api/customerfrom/AddNewCustomer";
-       final response= await http.post(apiUrl,
-           headers: {'Content-type': 'application/json'},  //告诉服务器，发送的数据类型为Json类型
-           body: json.encode(_body)  //将body的键值对用Json形式编码发送
+      var client = http.Client();
+      final response= await client.post(
+          Uri.http(apiPerFix,'/api/customerfrom/AddNewCustomer'),
+          headers: {'Content-type': 'application/json'},  //告诉服务器，发送的数据类型为Json类型
+          body: json.encode(_body)  //将body的键值对用Json形式编码发送
        );
        if(response.statusCode==200){
          return commonResultFromJson(response.body);
@@ -79,7 +80,7 @@ String buySellNeedInfoToJson(BuySellNeedInfo data) => json.encode(data.toJson())
 
 class BuySellNeedInfo {
   BuySellNeedInfo({
-    this.buySellNeedReason,
+    required this.buySellNeedReason,
   });
 
   String buySellNeedReason;

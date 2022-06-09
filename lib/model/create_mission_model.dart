@@ -9,11 +9,11 @@ String missionSubmitToJson(MissionSubmit data) => json.encode(data.toJson());
 
 class MissionSubmit {
   MissionSubmit({
-    this.companyId,
-    this.userId,
-    this.selectTaskIDs,
-    this.minCount,
-    this.userLevel,
+    required this.companyId,
+    required this.userId,
+    required this.selectTaskIDs,
+    required this.minCount,
+    required this.userLevel,
     this.missionContent,
   });
 
@@ -22,7 +22,7 @@ class MissionSubmit {
   String selectTaskIDs;
   String minCount;
   String userLevel;
-  List<MissionContent> missionContent;
+  List<MissionContent>? missionContent;
 
   factory MissionSubmit.fromJson(Map<String, dynamic> json) => MissionSubmit(
     companyId: json["CompanyID"] == null ? null : json["CompanyID"],
@@ -34,21 +34,21 @@ class MissionSubmit {
   );
 
   Map<String, dynamic> toJson() => {
-    "CompanyID": companyId == null ? null : companyId,
-    "UserID": userId == null ? null : userId,
-    "SelectTaskIDs": selectTaskIDs == null ? null : selectTaskIDs,
-    "MinCount": minCount == null ? null : minCount,
-    "UserLevel": userLevel == null ? null : userLevel,
-    "MissionContent": missionContent == null ? null : List<dynamic>.from(missionContent.map((x) => x.toJson())),
+    "CompanyID": companyId,
+    "UserID": userId,
+    "SelectTaskIDs": selectTaskIDs,
+    "MinCount": minCount,
+    "UserLevel": userLevel,
+    "MissionContent": missionContent == null ? null : List<dynamic>.from(missionContent!.map((x) => x.toJson())),
   };
 }
 
 class MissionContent {
   MissionContent({
-    this.id,
-    this.taskTitle,
-    this.taskUnit,
-    this.taskContent,
+    required this.id,
+    required this.taskTitle,
+    required this.taskUnit,
+    required this.taskContent,
   });
 
   String id;
@@ -64,9 +64,9 @@ class MissionContent {
   );
 
   Map<String, dynamic> toJson() => {
-    "ID": id == null ? null : id,
-    "TaskTitle": taskTitle == null ? null : taskTitle,
-    "TaskUnit": taskUnit == null ? null : taskUnit,
-    "TaskContent": taskContent == null ? null : taskContent,
+    "ID": id,
+    "TaskTitle": taskTitle,
+    "TaskUnit": taskUnit,
+    "TaskContent": taskContent,
   };
 }

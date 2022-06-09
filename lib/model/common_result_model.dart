@@ -11,11 +11,11 @@ String commonResultToJson(CommonResult data) => json.encode(data.toJson());
 class CommonResult {
   int code;
   String message;
-  String data;
+  dynamic data;
 
   CommonResult({
-    this.code,
-    this.message,
+    required this.code,
+    required this.message,
     this.data,
   });
 
@@ -28,6 +28,6 @@ class CommonResult {
   Map<String, dynamic> toJson() => {
     "Code": code,
     "Message": message,
-    "Data": data,
+    "Data": data?.toJson(),
   };
 }

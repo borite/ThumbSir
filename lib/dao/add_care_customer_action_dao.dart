@@ -1,10 +1,9 @@
 import 'dart:async';
-import 'dart:convert';
 import 'package:ThumbSir/model/common_result_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:ThumbSir/utils/common_vars.dart';
 
-const String api_perfix=Url.apiPrefix;
+const String apiPerFix=Url.apiPrefix;
 
 class AddCareCustomerActionDao{
     static Future<CommonResult> addCareAction(
@@ -25,10 +24,10 @@ class AddCareCustomerActionDao{
         "GiftPrice": price,
         "AddTime": time,
       };
-      print(json.encode(_body));
-       final String apiUrl=api_perfix+"api/customer/AddCareCustomerAction";
-       final response= await http.post(apiUrl,
-           body: _body
+      var client = http.Client();
+      final response= await client.post(
+          Uri.http(apiPerFix,'/api/customer/AddCareCustomerAction'),
+          body:_body
        );
        if(response.statusCode==200){
          return commonResultFromJson(response.body);

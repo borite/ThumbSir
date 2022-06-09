@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:http/http.dart' as http;
-
 import '../model/add_new_order_model.dart';
 import '../utils/common_vars.dart';
 

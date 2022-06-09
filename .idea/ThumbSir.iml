@@ -158,6 +158,12 @@
       <excludeFolder url="file://$MODULE_DIR$/plugins/bdmap_location_flutter_plugin/example/.pub" />
       <excludeFolder url="file://$MODULE_DIR$/plugins/bdmap_location_flutter_plugin/example/build" />
       <excludeFolder url="file://$MODULE_DIR$/plugins/bdmap_location_flutter_plugin/example/ios/Flutter/App.framework/flutter_assets/packages" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/flutter_baidu_mapapi_base/example/build" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/flutter_baidu_mapapi_base/example/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/flutter_baidu_mapapi_base/example/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/flutter_baidu_mapapi_base/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/flutter_baidu_mapapi_base/build" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/flutter_baidu_mapapi_base/.pub" />
     </content>
     <orderEntry type="jdk" jdkName="Android API 29 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />

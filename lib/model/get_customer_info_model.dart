@@ -4,22 +4,20 @@
 
 import 'dart:convert';
 
-import 'dart:wasm';
-
 GetCustomerInfo getCustomerInfoFromJson(String str) => GetCustomerInfo.fromJson(json.decode(str));
 
 String getCustomerInfoToJson(GetCustomerInfo data) => json.encode(data.toJson());
 
 class GetCustomerInfo {
   GetCustomerInfo({
-    this.code,
-    this.message,
+    required this.code,
+    required this.message,
     this.data,
   });
 
   int code;
   String message;
-  List<Datum> data;
+  List<Datum>? data;
 
   factory GetCustomerInfo.fromJson(Map<String, dynamic> json) => GetCustomerInfo(
     code: json["Code"] == null ? null : json["Code"],
@@ -28,24 +26,24 @@ class GetCustomerInfo {
   );
 
   Map<String, dynamic> toJson() => {
-    "Code": code == null ? null : code,
-    "Message": message == null ? null : message,
-    "Data": data == null ? null : List<dynamic>.from(data.map((x) => x.toJson())),
+    "Code": code,
+    "Message": message,
+    "Data": data == null ? null : List<dynamic>.from(data!.map((x) => x.toJson())),
   };
 }
 
 class Datum {
   Datum({
-    this.mid,
-    this.userId,
-    this.userType,
-    this.userName,
-    this.sex,
-    this.phone,
+    required this.mid,
+    required this.userId,
+    required this.userType,
+    required this.userName,
+    required this.sex,
+    required this.phone,
     this.birthday,
-    this.starslevel,
+    required this.starslevel,
     this.occupation,
-    this.income,
+    required this.income,
     this.hobby,
     this.remark,
     this.address,
@@ -60,16 +58,16 @@ class Datum {
   String userName;
   int sex;
   String phone;
-  DateTime birthday;
+  DateTime? birthday;
   int starslevel;
   dynamic occupation;
   String income;
-  String hobby;
-  String remark;
-  String address;
-  List<FamilyMember> familyMember;
-  List<DealList> dealList;
-  int age;
+  String? hobby;
+  String? remark;
+  String? address;
+  List<FamilyMember>? familyMember;
+  List<DealList>? dealList;
+  int? age;
 
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
   mid: json["MID"] == null ? null : json["MID"],
@@ -91,47 +89,47 @@ class Datum {
   );
 
   Map<String, dynamic> toJson() => {
-    "MID": mid == null ? null : mid,
-    "UserID": userId == null ? null : userId,
-    "UserType": userType == null ? null : userType,
-    "UserName": userName == null ? null : userName,
-    "Sex": sex == null ? null : sex,
-    "Phone": phone == null ? null : phone,
-    "Birthday": birthday == null ? null : birthday.toIso8601String(),
-    "Starslevel": starslevel == null ? null : starslevel,
+    "MID": mid,
+    "UserID": userId,
+    "UserType": userType,
+    "UserName": userName,
+    "Sex": sex,
+    "Phone": phone,
+    "Birthday": birthday == null ? null : birthday!.toIso8601String(),
+    "Starslevel": starslevel,
     "occupation": occupation,
-    "Income": income == null ? null : income,
+    "Income": income,
     "Hobby": hobby == null ? null : hobby,
     "Remark": remark == null ? null : remark,
     "Address": address == null ? null : address,
-    "FamilyMember": familyMember == null ? null : List<dynamic>.from(familyMember.map((x) => x.toJson())),
-    "DealList": dealList == null ? null : List<dynamic>.from(dealList.map((x) => x.toJson())),
+    "FamilyMember": familyMember == null ? null : List<dynamic>.from(familyMember!.map((x) => x.toJson())),
+    "DealList": dealList == null ? null : List<dynamic>.from(dealList!.map((x) => x.toJson())),
     "age": age == null ? null : age,
   };
 }
 
 class DealList {
   DealList({
-  this.userInfoMain,
-  this.id,
-  this.mid,
+    this.userInfoMain,
+    required this.id,
+    required this.mid,
     this.finishTime,
     this.dealReason,
-    this.address,
-    this.dealArea,
-    this.dealPrice,
+    required this.address,
+    required this.dealArea,
+    required this.dealPrice,
     this.dealRemark,
   });
 
   dynamic userInfoMain;
   int id;
   int mid;
-  DateTime finishTime;
-  String dealReason;
-  String address;
-  String dealArea;
+  DateTime? finishTime;
+  String? dealReason;
+  String? address;
+  String? dealArea;
   double dealPrice;
-  String dealRemark;
+  String? dealRemark;
 
   factory DealList.fromJson(Map<String, dynamic> json) => DealList(
     userInfoMain: json["UserInfoMain"],
@@ -147,13 +145,13 @@ class DealList {
 
   Map<String, dynamic> toJson() => {
     "UserInfoMain": userInfoMain,
-    "ID": id == null ? null : id,
-    "MID": mid == null ? null : mid,
-    "FinishTime": finishTime == null ? null : finishTime.toIso8601String(),
+    "ID": id,
+    "MID": mid,
+    "FinishTime": finishTime == null ? null : finishTime!.toIso8601String(),
     "DealReason": dealReason == null ? null : dealReason,
     "Address": address == null ? null : address,
     "DealArea": dealArea == null ? null : dealArea,
-    "DealPrice": dealPrice == null ? null : dealPrice,
+    "DealPrice": dealPrice,
     "DealRemark": dealRemark == null ? null : dealRemark,
   };
 }
@@ -161,8 +159,8 @@ class DealList {
 class FamilyMember {
   FamilyMember({
     this.userInfoMain,
-    this.id,
-    this.mid,
+    required this.id,
+    required this.mid,
     this.memberRole,
     this.memberHobby,
   });
@@ -183,8 +181,8 @@ class FamilyMember {
 
   Map<String, dynamic> toJson() => {
     "UserInfoMain": userInfoMain,
-    "ID": id == null ? null : id,
-    "MID": mid == null ? null : mid,
+    "ID": id,
+    "MID": mid,
     "MemberRole": memberRole,
     "MemberHobby": memberHobby,
   };

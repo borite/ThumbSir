@@ -10,54 +10,54 @@ String getMissionAToJson(GetMissionA data) => json.encode(data.toJson());
 
 class GetMissionA {
   GetMissionA({
-    this.code,
-    this.message,
+    required this.code,
+    required this.message,
     this.data,
   });
 
   int code;
   String message;
-  Data data;
+  Data? data;
 
   factory GetMissionA.fromJson(Map<String, dynamic> json) => GetMissionA(
-    code: json["Code"] == null ? null : json["Code"],
-    message: json["Message"] == null ? null : json["Message"],
+    code: json["Code"],
+    message: json["Message"],
     data: json["Data"] == null ? null : Data.fromJson(json["Data"]),
   );
 
   Map<String, dynamic> toJson() => {
-    "Code": code == null ? null : code,
-    "Message": message == null ? null : message,
-    "Data": data == null ? null : data.toJson(),
+    "Code": code,
+    "Message": message,
+    "Data": data == null ? null : data!.toJson(),
   };
 }
 
 class Data {
   Data({
-    this.minCount,
+    required this.minCount,
     this.list,
   });
 
   int minCount;
-  List<ListElement> list;
+  List<ListElement>? list;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-    minCount: json["minCount"] == null ? null : json["minCount"],
+    minCount: json["minCount"],
     list: json["list"] == null ? null : List<ListElement>.from(json["list"].map((x) => ListElement.fromJson(x))),
   );
 
   Map<String, dynamic> toJson() => {
-    "minCount": minCount == null ? null : minCount,
-    "list": list == null ? null : List<dynamic>.from(list.map((x) => x.toJson())),
+    "minCount": minCount,
+    "list": list == null ? null : List<dynamic>.from(list!.map((x) => x.toJson())),
   };
 }
 
 class ListElement {
   ListElement({
-    this.id,
-    this.taskCount,
-    this.taskTitle,
-    this.taskUnit,
+    required this.id,
+    required this.taskCount,
+    required this.taskTitle,
+    required this.taskUnit,
     this.taskContent,
   });
 
@@ -68,18 +68,18 @@ class ListElement {
   dynamic taskContent;
 
   factory ListElement.fromJson(Map<String, dynamic> json) => ListElement(
-    id: json["ID"] == null ? null : json["ID"],
-    taskCount: json["TaskCount"] == null ? null : json["TaskCount"],
-    taskTitle: json["TaskTitle"] == null ? null : json["TaskTitle"],
-    taskUnit: json["TaskUnit"] == null ? null : json["TaskUnit"],
+    id: json["ID"],
+    taskCount: json["TaskCount"],
+    taskTitle: json["TaskTitle"],
+    taskUnit: json["TaskUnit"],
     taskContent: json["TaskContent"],
   );
 
   Map<String, dynamic> toJson() => {
-    "ID": id == null ? null : id,
-    "TaskCount": taskCount == null ? null : taskCount,
-    "TaskTitle": taskTitle == null ? null : taskTitle,
-    "TaskUnit": taskUnit == null ? null : taskUnit,
+    "ID": id,
+    "TaskCount": taskCount,
+    "TaskTitle": taskTitle,
+    "TaskUnit": taskUnit,
     "TaskContent": taskContent,
   };
 }

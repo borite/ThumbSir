@@ -8,7 +8,7 @@ class ProgressDialog extends StatelessWidget {
   final bool loading;
 
   //进度提醒内容
-  final String msg;
+  dynamic msg;
 
   //加载中动画
   final Widget progress;
@@ -19,7 +19,7 @@ class ProgressDialog extends StatelessWidget {
   //字体颜色
   final Color textColor;
 
-  const ProgressDialog(
+  ProgressDialog(
       {Key? key,
         required this.loading,
         required this.msg,
@@ -35,37 +35,43 @@ class ProgressDialog extends StatelessWidget {
     widgetList.add(child);
     if (loading) {
       Widget layoutProgress;
-      layoutProgress = Center(
-        child: Container(
-          padding: const EdgeInsets.all(20.0),
-          decoration: BoxDecoration(
-              color: Colors.black87,
-              borderRadius: BorderRadius.circular(4.0)),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              progress,
-              Container(
-                padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0),
-                child: Text(
-                  msg,
-                  style: TextStyle(
-                    color: textColor,
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.normal,
-                    decoration: TextDecoration.none,
+      if (msg == null) {
+        layoutProgress = Center(
+          child: progress,
+        );
+      } else {
+        layoutProgress = Center(
+          child: Container(
+            padding: const EdgeInsets.all(20.0),
+            decoration: BoxDecoration(
+                color: Colors.black87,
+                borderRadius: BorderRadius.circular(4.0)),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                progress,
+                Container(
+                  padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0),
+                  child: Text(
+                    msg,
+                    style: TextStyle(
+                      color: textColor,
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.normal,
+                      decoration: TextDecoration.none,
+                    ),
                   ),
-                ),
-              )
-            ],
+                )
+              ],
+            ),
           ),
-        ),
-      );
+        );
+      }
       widgetList.add(Opacity(
         opacity: alpha,
-        child: const ModalBarrier(color: Colors.transparent),
+        child: new ModalBarrier(color: Colors.transparent),
       ));
       widgetList.add(layoutProgress);
     }

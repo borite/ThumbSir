@@ -232,7 +232,7 @@ class _TeamTradedPageState extends State<TeamTradedPage> {
                               ),
                               Padding(
                                 padding: EdgeInsets.only(left: 10),
-                                child: Text('团队客户',style: TextStyle(
+                                child: Text('团队老客户',style: TextStyle(
                                   fontSize: 16,
                                   color: Color(0xFF5580EB),
                                   fontWeight: FontWeight.normal,

@@ -6,9 +6,7 @@ import 'package:ThumbSir/pages/login/signin_choose_company_page.dart';
 import 'package:ThumbSir/pages/login/signin_page.dart';
 import 'package:ThumbSir/widget/input.dart';
 import 'package:ThumbSir/widget/loading.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import 'package:rflutter_alert/rflutter_alert.dart';
@@ -22,12 +20,12 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final TextEditingController phoneNumController=TextEditingController();
   final TextEditingController passwordController=TextEditingController();
-  String phoneNum;
-  String password;
-  RegExp phoneReg;
-  RegExp psdReg;
-  bool phoneBool;
-  bool psdBool;
+  late String phoneNum;
+  late String password;
+  late RegExp phoneReg;
+  late RegExp psdReg;
+  bool phoneBool = false;
+  bool psdBool = false;
 
   var result;
 
@@ -152,7 +150,7 @@ class _LoginPageState extends State<LoginPage> {
                                     phoneNum = text;
                                     phoneBool = phoneReg.hasMatch(phoneNum);
                                   });
-                                },
+                                }, password: false,
                               ),
                               //密码输入框
                               Input(
@@ -203,7 +201,7 @@ class _LoginPageState extends State<LoginPage> {
                                   String dataStr=json.encode(result.data);
                                   SharedPreferences prefs = await SharedPreferences.getInstance();
                                   prefs.setString("userInfo", dataStr);
-                                  prefs.setString('userID', result.data.userPid);
+                                  prefs.setString('userID', result.data!.userPid);
                                   Navigator.of(context).pushAndRemoveUntil(
                                       new MaterialPageRoute(builder: (context) => new Home()
                                       ), (route) => route == null);
@@ -213,7 +211,7 @@ class _LoginPageState extends State<LoginPage> {
                                   String dataStr=json.encode(result.data);
                                   SharedPreferences prefs = await SharedPreferences.getInstance();
                                   prefs.setString("userInfo", dataStr);
-                                  prefs.setString('userID', result.data.userPid);
+                                  prefs.setString('userID', result.data!.userPid);
                                   _on402AlertPressed(context);
                                 }
                                 else{_on404AlertPressed(context);}

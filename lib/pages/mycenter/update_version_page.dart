@@ -1,7 +1,6 @@
 import 'package:ThumbSir/dao/check_lates_version_dao.dart';
 import 'package:ThumbSir/widget/loading.dart';
 import 'package:flutter/material.dart';
-import 'package:package_info/package_info.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
 class UpdateVersionPage extends StatefulWidget {
@@ -24,33 +23,33 @@ class _UpdateVersionPageState extends State<UpdateVersionPage> {
     }
   }
 
-  PackageInfo _packageInfo = PackageInfo(
-    appName: 'Unknown',
-    packageName: 'Unknown',
-    version: 'Unknown',
-    buildNumber: 'Unknown',
-  );
+  // PackageInfo _packageInfo = PackageInfo(
+  //   appName: 'Unknown',
+  //   packageName: 'Unknown',
+  //   version: 'Unknown',
+  //   buildNumber: 'Unknown',
+  // );
 
   @override
   void initState() {
     super.initState();
     _load();
-    _initPackageInfo();
+    // _initPackageInfo();
   }
 
-  Future<void> _initPackageInfo() async {
-    final PackageInfo info = await PackageInfo.fromPlatform();
-    setState(() {
-      _packageInfo = info;
-    });
-  }
+  // Future<void> _initPackageInfo() async {
+  //   final PackageInfo info = await PackageInfo.fromPlatform();
+  //   setState(() {
+  //     _packageInfo = info;
+  //   });
+  // }
 
-  Widget _infoTile(String title, String subtitle) {
-    return ListTile(
-      title: Text(title),
-      subtitle: Text(subtitle ?? 'Not set'),
-    );
-  }
+  // Widget _infoTile(String title, String subtitle) {
+  //   return ListTile(
+  //     title: Text(title),
+  //     subtitle: Text(subtitle ?? 'Not set'),
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -119,8 +118,9 @@ class _UpdateVersionPageState extends State<UpdateVersionPage> {
                       Padding(
                         padding: EdgeInsets.only(top: 15),
                         child: Text(
-                          versionMsg != null && _packageInfo != null && _packageInfo.version != versionMsg.version ?
-                          '请更新最新版本：':'当前已经是最新版本：',
+                          // versionMsg != null && _packageInfo != null && _packageInfo.version != versionMsg.version ?
+                          '请更新最新版本：',
+                              // :'当前已经是最新版本：',
 //                        '已更新至最新版本：',
                           style: TextStyle(
                             fontSize: 20,
@@ -159,7 +159,7 @@ class _UpdateVersionPageState extends State<UpdateVersionPage> {
                           )
                       ),
                       // 更新
-                      versionMsg != null && _packageInfo != null && _packageInfo.version != versionMsg.version ?
+                      // versionMsg != null && _packageInfo != null && _packageInfo.version != versionMsg.version ?
                      // 更新按钮
 //                      Container(
 //                        width: 335,
@@ -190,7 +190,7 @@ class _UpdateVersionPageState extends State<UpdateVersionPage> {
                           decoration: TextDecoration.none,
                         ),textAlign: TextAlign.center,),
                       )
-                      :Container(width: 1,),
+                      // :Container(width: 1,),
                     ]
                 )
               ],

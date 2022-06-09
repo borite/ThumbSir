@@ -12,7 +12,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ThumbSir/model/login_result_data_model.dart';
 import 'choose_portrait_page.dart';
 import 'm_center_group_page.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
 
 class MyCenterPage extends StatefulWidget {
   @override
@@ -23,19 +22,15 @@ class _MyCenterPageState extends State<MyCenterPage> {
   final TextEditingController startTimeController = TextEditingController();
 
   var portrait;
-  LoginResultData userData;
-  String uinfo;
-  var result;
+  LoginResultData? userData;
+  late String uInfo;
 
   _getUserInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    uinfo= prefs.getString("userInfo");
-    if(uinfo != null){
-      result =loginResultDataFromJson(uinfo);
-      this.setState(() {
-        userData=LoginResultData.fromJson(json.decode(uinfo));
-      });
-    }
+    uInfo= prefs.getString("userInfo")!;
+    this.setState(() {
+      userData=LoginResultData.fromJson(json.decode(uInfo));
+    });
   }
 
   @override
@@ -134,10 +129,10 @@ class _MyCenterPageState extends State<MyCenterPage> {
                                         borderRadius: BorderRadius.circular(45),
                                         child: userData == null && portrait == null?
                                         Image(image: AssetImage('images/my_big.png'),)
-                                            :portrait != null && userData != null && userData.headImg != portrait?
+                                            :portrait != null && userData != null && userData!.headImg != portrait?
                                         Image.file(portrait,fit: BoxFit.fill,)
-                                            :userData.headImg != null ?
-                                        Image(image:NetworkImage(userData.headImg))
+                                            :userData!.headImg != null ?
+                                        Image(image:NetworkImage(userData!.headImg))
                                             :Image(image: AssetImage('images/my_big.png'),),
                                       ),
                                     )
@@ -152,7 +147,7 @@ class _MyCenterPageState extends State<MyCenterPage> {
                           child:Row(
                             children: <Widget>[
                               Text(
-                                userData.userName,
+                                userData!.userName,
                                 style:TextStyle(
                                   fontSize: 20,
                                   color: Color(0xFF333333),
@@ -160,7 +155,7 @@ class _MyCenterPageState extends State<MyCenterPage> {
                                   decoration: TextDecoration.none,
                                 ),
                               ),
-                              userData.userLevel.substring(0,1)== '6' ?
+                              userData!.userLevel.substring(0,1)== '6' ?
                               Container(
                                 margin: EdgeInsets.only(left: 15),
                                 padding: EdgeInsets.only(top:2,bottom: 2,left: 5,right: 5),
@@ -169,7 +164,7 @@ class _MyCenterPageState extends State<MyCenterPage> {
                                   borderRadius: BorderRadius.circular(3),
                                 ),
                                 child: Text(
-                                  userData.userLevel.substring(2,),
+                                  userData!.userLevel.substring(2,),
                                   style:TextStyle(
                                     fontSize: 14,
                                     color: Color(0xFF0E7AE6), // 经纪人蓝色
@@ -179,7 +174,7 @@ class _MyCenterPageState extends State<MyCenterPage> {
                                 ),
                               )
                                   :
-                              userData.userLevel.substring(0,1) == '5'?
+                              userData!.userLevel.substring(0,1) == '5'?
                               Container(
                                 margin: EdgeInsets.only(left: 15),
                                 padding: EdgeInsets.only(top:2,bottom: 2,left: 5,right: 5),
@@ -188,7 +183,7 @@ class _MyCenterPageState extends State<MyCenterPage> {
                                   borderRadius: BorderRadius.circular(3),
                                 ),
                                 child: Text(
-                                  userData.userLevel.substring(2,),
+                                  userData!.userLevel.substring(2,),
                                   style:TextStyle(
                                     fontSize: 14,
                                     color: Color(0xFF24CC8E), // 店长绿色
@@ -198,7 +193,7 @@ class _MyCenterPageState extends State<MyCenterPage> {
                                 ),
                               )
                                   :
-                              userData.userLevel.substring(0,1) == '4'?
+                              userData!.userLevel.substring(0,1) == '4'?
                               Container(
                                 margin: EdgeInsets.only(left: 15),
                                 padding: EdgeInsets.only(top:2,bottom: 2,left: 5,right: 5),
@@ -207,7 +202,7 @@ class _MyCenterPageState extends State<MyCenterPage> {
                                   borderRadius: BorderRadius.circular(3),
                                 ),
                                 child: Text(
-                                  userData.userLevel.substring(2,),
+                                  userData!.userLevel.substring(2,),
                                   style:TextStyle(
                                     fontSize: 14,
                                     color: Color(0xFFFF9600), // 商圈经理橘色
@@ -217,7 +212,7 @@ class _MyCenterPageState extends State<MyCenterPage> {
                                 ),
                               )
                                   :
-                              userData.userLevel.substring(0,1) == '3'?
+                              userData!.userLevel.substring(0,1) == '3'?
                               Container(
                                 margin: EdgeInsets.only(left: 15),
                                 padding: EdgeInsets.only(top:2,bottom: 2,left: 5,right: 5),
@@ -226,7 +221,7 @@ class _MyCenterPageState extends State<MyCenterPage> {
                                   borderRadius: BorderRadius.circular(3),
                                 ),
                                 child: Text(
-                                  userData.userLevel.substring(2,),
+                                  userData!.userLevel.substring(2,),
                                   style:TextStyle(
                                     fontSize: 14,
                                     color: Color(0xFF9149EC), // 总监浅紫色
@@ -236,7 +231,7 @@ class _MyCenterPageState extends State<MyCenterPage> {
                                 ),
                               )
                                   :
-                              userData.userLevel.substring(0,1) == '2'?
+                              userData!.userLevel.substring(0,1) == '2'?
                               Container(
                                 margin: EdgeInsets.only(left: 15),
                                 padding: EdgeInsets.only(top:2,bottom: 2,left: 5,right: 5),
@@ -245,7 +240,7 @@ class _MyCenterPageState extends State<MyCenterPage> {
                                   borderRadius: BorderRadius.circular(3),
                                 ),
                                 child: Text(
-                                  userData.userLevel.substring(2,),
+                                  userData!.userLevel.substring(2,),
                                   style:TextStyle(
                                     fontSize: 14,
                                     color: Color(0xFF7412F2), // 副总经理深紫色
@@ -263,7 +258,7 @@ class _MyCenterPageState extends State<MyCenterPage> {
                                   borderRadius: BorderRadius.circular(3),
                                 ),
                                 child: Text(
-                                  userData.userLevel.substring(2,),
+                                  userData!.userLevel.substring(2,),
                                   style:TextStyle(
                                     fontSize: 14,
                                     color: Color(0xFF003273), // 总经理深蓝色
@@ -374,7 +369,7 @@ class _MyCenterPageState extends State<MyCenterPage> {
                                 Container(
                                   margin: EdgeInsets.only(left: 10),
                                   child: Text(
-                                    userData != null ? userData.companyName : "所属公司",
+                                    userData != null ? userData!.companyName : "所属公司",
                                     style:TextStyle(
                                       fontSize: 16,
                                       color: Color(0xFF333333),
@@ -398,7 +393,7 @@ class _MyCenterPageState extends State<MyCenterPage> {
                                 Container(
                                   margin: EdgeInsets.only(left: 10),
                                   child: Text(
-                                    userData == null ?"所在地区": userData.province+' '+userData.city,
+                                    userData == null ?"所在地区": userData!.province+' '+userData!.city,
                                     style:TextStyle(
                                       fontSize: 16,
                                       color: Color(0xFF333333),
@@ -413,11 +408,11 @@ class _MyCenterPageState extends State<MyCenterPage> {
                           GestureDetector(
                               onTap: (){
                                 if(userData != null){
-                                  if(userData.userLevel.substring(0,1) == '6'){
+                                  if(userData!.userLevel.substring(0,1) == '6'){
                                     Navigator.push(context, MaterialPageRoute(builder: (context)=>BrokerCenterGroupPage())); // 经纪人
-                                  }else if(userData.userLevel.substring(0,1) == '5'){
+                                  }else if(userData!.userLevel.substring(0,1) == '5'){
                                     Navigator.push(context, MaterialPageRoute(builder: (context)=>MCenterGroupPage())); // 店长
-                                  }else if(userData.userLevel.substring(0,1) == '4' || userData.userLevel.substring(0,1) == '3'){
+                                  }else if(userData!.userLevel.substring(0,1) == '4' || userData!.userLevel.substring(0,1) == '3'){
                                     Navigator.push(context, MaterialPageRoute(builder: (context)=>SCenterGroupPage())); // 总监、商圈
                                   }else{
                                     Navigator.push(context, MaterialPageRoute(builder: (context)=>ZCenterGroupPage())); // 副总、总
@@ -440,7 +435,7 @@ class _MyCenterPageState extends State<MyCenterPage> {
                                         Container(
                                           margin: EdgeInsets.only(left: 10),
                                           child: Text(
-                                            userData == null ?"所在区域及成员": userData.section+"成员",
+                                            userData == null ?"所在区域及成员": userData!.section+"成员",
                                             style:TextStyle(
                                               fontSize: 16,
                                               color: Color(0xFF333333),
@@ -468,7 +463,7 @@ class _MyCenterPageState extends State<MyCenterPage> {
                                 Container(
                                   margin: EdgeInsets.only(left: 10),
                                   child: Text(
-                                    userData == null ?"联系电话": userData.phone,
+                                    userData == null ?"联系电话": userData!.phone,
                                     style:TextStyle(
                                       fontSize: 16,
                                       color: Color(0xFF333333),

@@ -1,9 +1,6 @@
-import 'package:ThumbSir/dao/get_customer_list_dao.dart';
 import 'package:ThumbSir/dao/get_deal_detail_dao.dart';
-import 'package:ThumbSir/dao/get_needs_detail_dao.dart';
 import 'package:ThumbSir/pages/broker/client/client_add_deal_page.dart';
 import 'package:ThumbSir/pages/broker/client/client_edit_deal_page.dart';
-import 'package:ThumbSir/pages/broker/traded/traded_add_deal_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ThumbSir/common/alert.dart';
@@ -12,7 +9,7 @@ import 'package:ThumbSir/common/alert.dart';
 class ClientDealMsg extends StatefulWidget {
   final item;
 
-  ClientDealMsg({Key key,
+  ClientDealMsg({Key? key,
     this.item
   }):super(key:key);
   @override
@@ -22,7 +19,7 @@ class ClientDealMsg extends StatefulWidget {
 class _ClientDealMsgState extends State<ClientDealMsg> with SingleTickerProviderStateMixin{
   ScrollController _scrollController = ScrollController();
   bool _loading = false;
-  List deal=new List();
+  late List deal;
   List<Widget> msgs=[];
 
   _load() async {
@@ -32,7 +29,7 @@ class _ClientDealMsgState extends State<ClientDealMsg> with SingleTickerProvider
 
       if (dealResult.code == 200) {
         var dealsList = dealResult.data;
-        if (dealsList.length>0) {
+        if (dealsList!.length>0) {
           deal = dealsList;
           setState(() {
             for (var item in deal) {

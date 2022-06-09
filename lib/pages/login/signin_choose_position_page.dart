@@ -6,25 +6,23 @@ class SigninChoosePositionPage extends StatefulWidget {
   List levelNames;
   String companyId;
   int companyLevelCount;
-  SigninChoosePositionPage({this.levelNames,this.companyId,this.companyLevelCount});
+  SigninChoosePositionPage({required this.levelNames,required this.companyId,required this.companyLevelCount});
   @override
-  _SigninChoosePositionPageState createState() => _SigninChoosePositionPageState(levelNames);
+  _SigninChoosePositionPageState createState() => _SigninChoosePositionPageState();
 }
 
 class _SigninChoosePositionPageState extends State<SigninChoosePositionPage> {
-  List levelNames;
   List levelShowName=[];
-  _SigninChoosePositionPageState(this.levelNames);
 
-  String selValue;
+  late String selValue;
 
   @override
   void initState() {
 
     setState(() {
-      selValue=levelNames[0];
+      selValue=widget.levelNames[0];
     });
-    levelNames.forEach((element) {
+    widget.levelNames.forEach((element) {
       String nameWithNum=element.toString();
 
       levelShowName.add(nameWithNum.split('-')[1]);
@@ -114,7 +112,7 @@ class _SigninChoosePositionPageState extends State<SigninChoosePositionPage> {
                         height: 220,
                         child: WheelChooser(
                           onValueChanged: (s){
-                            for(final i in levelNames){
+                            for(final i in widget.levelNames){
                               if(i.toString().split('-')[1]==s){
                                 selValue=i;
                                 break;

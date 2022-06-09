@@ -21,32 +21,29 @@ class _ZCenterGroupPageState extends State<ZCenterGroupPage> {
   List<Widget> members = [];
   bool _loading = false;
 
-  LoginResultData userData;
+  LoginResultData? userData;
   int _dateTime = DateTime.now().millisecondsSinceEpoch; // 当前时间转时间戳
-  int exT;
-  String uinfo;
-  var result;
+  late int exT;
+  late String uInfo;
 
   _getUserInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    uinfo= prefs.getString("userInfo");
-    if(uinfo != null){
-      result =loginResultDataFromJson(uinfo);
-      exT = result.exTokenTime.millisecondsSinceEpoch; // token时间转时间戳
-      if(exT >= _dateTime){
-        this.setState(() {
-          userData=LoginResultData.fromJson(json.decode(uinfo));
-        });
-      }else{
-        _onLogoutAlertPressed(context);
-      }
+    uInfo= prefs.getString("userInfo")!;
+    dynamic result =loginResultDataFromJson(uInfo);
+    exT = result.exTokenTime.millisecondsSinceEpoch; // token时间转时间戳
+    if(exT >= _dateTime){
+      this.setState(() {
+        userData=LoginResultData.fromJson(json.decode(uInfo));
+      });
+    }else{
+      _onLogoutAlertPressed(context);
     }
   }
 
   _load()async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final userId= prefs.getString("userID");
-      getNextLevelUsersResult = await GetNextLevelUsersDao.getNextLevelUsers(userId);
+      getNextLevelUsersResult = await GetNextLevelUsersDao.getNextLevelUsers(userId!);
     if(getNextLevelUsersResult != null){
       if(getNextLevelUsersResult.code == 200){
         setState(() {
@@ -158,7 +155,7 @@ class _ZCenterGroupPageState extends State<ZCenterGroupPage> {
             ),
           ),
         );
-      };
+      }
     }
 
     content =Column(
@@ -222,7 +219,7 @@ class _ZCenterGroupPageState extends State<ZCenterGroupPage> {
                                       borderRadius: BorderRadius.circular(20),
                                     ),
                                     child: Text(
-                                      userData != null && userData.userLevel.substring(0,1) == '1'?
+                                      userData != null && userData!.userLevel.substring(0,1) == '1'?
                                       '添加下级成员':'添加上下级成员',
                                       style: TextStyle(
                                         fontSize: 16,
@@ -258,8 +255,8 @@ class _ZCenterGroupPageState extends State<ZCenterGroupPage> {
                                       ),
                                       child:ClipRRect(
                                         borderRadius: BorderRadius.circular(45),
-                                        child:userData != null && userData.headImg != null ?
-                                        Image(image:NetworkImage(userData.headImg))
+                                        child:userData != null && userData!.headImg != null ?
+                                        Image(image:NetworkImage(userData!.headImg))
                                             :
                                         Image(image: AssetImage('images/my_big.png'),),
                                       )
@@ -273,7 +270,7 @@ class _ZCenterGroupPageState extends State<ZCenterGroupPage> {
                                         Padding(
                                           padding: EdgeInsets.only(left: 25,right: 15,top: 5),
                                           child: Text(
-                                            userData!= null?userData.userName:'',
+                                            userData!= null?userData!.userName:'',
                                             style: TextStyle(
                                               decoration: TextDecoration.none,
                                               fontSize: 20,
@@ -281,7 +278,7 @@ class _ZCenterGroupPageState extends State<ZCenterGroupPage> {
                                               fontWeight: FontWeight.normal,
                                             ),),
                                         ),
-                                        userData!= null && userData.userIsVip == true?
+                                        userData!= null && userData!.userIsVip == true?
                                         Container(
                                           width: 22,
                                           margin: EdgeInsets.only(top: 5),
@@ -296,9 +293,9 @@ class _ZCenterGroupPageState extends State<ZCenterGroupPage> {
                                         height: 20,
                                         decoration: BoxDecoration(
                                             border: Border.all(
-                                                color: userData != null && userData.userLevel.substring(0,1) == '3'?
+                                                color: userData != null && userData!.userLevel.substring(0,1) == '3'?
                                                 Color(0xFF9149EC) // 总监紫色
-                                                    :userData != null && userData.userLevel.substring(0,1) == '2'?
+                                                    :userData != null && userData!.userLevel.substring(0,1) == '2'?
                                                 Color(0xFF7412F2) // 副总深紫
                                                     :
                                                 Color(0xFF003273),// 总经理深蓝
@@ -309,12 +306,12 @@ class _ZCenterGroupPageState extends State<ZCenterGroupPage> {
                                         child: Padding(
                                           padding: EdgeInsets.only(top:2,left:5,right: 5),
                                           child: Text(
-                                            userData!= null?userData.userLevel.substring(2,):'',
+                                            userData!= null?userData!.userLevel.substring(2,):'',
                                             style: TextStyle(
                                               fontSize: 10,
-                                              color: userData != null && userData.userLevel.substring(0,1) == '3'?
+                                              color: userData != null && userData!.userLevel.substring(0,1) == '3'?
                                               Color(0xFF9149EC) // 总监紫色
-                                                  :userData != null && userData.userLevel.substring(0,1) == '2'?
+                                                  :userData != null && userData!.userLevel.substring(0,1) == '2'?
                                               Color(0xFF7412F2) // 副总深紫
                                                   :
                                               Color(0xFF003273),// 总经理深蓝

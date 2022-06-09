@@ -10,14 +10,14 @@ String getLastLevelCustomerNumToJson(GetLastLevelCustomerNum data) => json.encod
 
 class GetLastLevelCustomerNum {
   GetLastLevelCustomerNum({
-    this.code,
-    this.message,
+    required this.code,
+    required this.message,
     this.data,
   });
 
   int code;
   String message;
-  Data data;
+  Data? data;
 
   factory GetLastLevelCustomerNum.fromJson(Map<String, dynamic> json) => GetLastLevelCustomerNum(
     code: json["Code"] == null ? null : json["Code"],
@@ -26,9 +26,9 @@ class GetLastLevelCustomerNum {
   );
 
   Map<String, dynamic> toJson() => {
-    "Code": code == null ? null : code,
-    "Message": message == null ? null : message,
-    "Data": data == null ? null : data.toJson(),
+    "Code": code,
+    "Message": message,
+    "Data": data == null ? null : data!.toJson(),
   };
 }
 
@@ -38,8 +38,8 @@ class Data {
     this.list,
   });
 
-  int zong;
-  List<ListElement> list;
+  int? zong;
+  List<ListElement>? list;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
     zong: json["zong"] == null ? null : json["zong"],
@@ -48,17 +48,17 @@ class Data {
 
   Map<String, dynamic> toJson() => {
     "zong": zong == null ? null : zong,
-    "list": list == null ? null : List<dynamic>.from(list.map((x) => x.toJson())),
+    "list": list == null ? null : List<dynamic>.from(list!.map((x) => x.toJson())),
   };
 }
 
 class ListElement {
   ListElement({
-    this.userPid,
-    this.userName,
-    this.headImg,
-    this.userLevel,
-    this.customerCount,
+    required this.userPid,
+    required this.userName,
+    required this.headImg,
+    required this.userLevel,
+    required this.customerCount,
   });
 
   String userPid;
@@ -76,10 +76,10 @@ class ListElement {
   );
 
   Map<String, dynamic> toJson() => {
-    "UserPID": userPid == null ? null : userPid,
-    "UserName": userName == null ? null : userName,
-    "HeadImg": headImg == null ? null : headImg,
-    "UserLevel": userLevel == null ? null : userLevel,
-    "customerCount": customerCount == null ? null : customerCount,
+    "UserPID": userPid,
+    "UserName": userName,
+    "HeadImg": headImg,
+    "UserLevel": userLevel,
+    "customerCount": customerCount,
   };
 }

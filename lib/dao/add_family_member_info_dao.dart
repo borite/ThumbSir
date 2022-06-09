@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:ThumbSir/utils/common_vars.dart';
 
 //接口地址前缀
-const String apiPerfix=Url.apiPrefix;
+const String apiPerFix=Url.apiPrefix;
 
 class AddFamilyMemberInfoDao {
   static Future<CommonResult> addFamilyMemberInfo(
@@ -12,11 +12,14 @@ class AddFamilyMemberInfoDao {
       String memberRole,
       String memberHobby,
     ) async {
-    final response = await http.post(apiPerfix+'api/customer/AddFamilyMemberInfo',body: {
-      "MID": mid,
-      "MemberRole":memberRole,
-      "MemberHobby":memberHobby,
-    });
+    var client = http.Client();
+    final response= await client.post(
+        Uri.http(apiPerFix,'/api/customer/AddFamilyMemberInfo'),
+        body: {
+          "MID": mid,
+          "MemberRole":memberRole,
+          "MemberHobby":memberHobby,
+        });
     //Utf8Decoder utf8decoder = Utf8Decoder();  // 修复中文乱码
     //var result = json.decode(utf8decoder.convert(response.bodyBytes));
     if(response.statusCode == 200){

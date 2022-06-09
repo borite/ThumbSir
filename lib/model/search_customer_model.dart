@@ -10,14 +10,14 @@ String searchCustomerToJson(SearchCustomer data) => json.encode(data.toJson());
 
 class SearchCustomer {
   SearchCustomer({
-    this.code,
-    this.message,
+    required this.code,
+    required this.message,
     this.data,
   });
 
   int code;
   String message;
-  List<Datum> data;
+  List<Datum>? data;
 
   factory SearchCustomer.fromJson(Map<String, dynamic> json) => SearchCustomer(
     code: json["Code"] == null ? null : json["Code"],
@@ -26,28 +26,28 @@ class SearchCustomer {
   );
 
   Map<String, dynamic> toJson() => {
-    "Code": code == null ? null : code,
-    "Message": message == null ? null : message,
-    "Data": data == null ? null : List<dynamic>.from(data.map((x) => x.toJson())),
+    "Code": code,
+    "Message": message,
+    "Data": data == null ? null : List<dynamic>.from(data!.map((x) => x.toJson())),
   };
 }
 
 class Datum {
   Datum({
-    this.familyMember,
-    this.userCustomerDemand,
-    this.userOwnerDemand,
-    this.dealList,
-    this.customerRetention,
-    this.mid,
-    this.companyId,
-    this.userId,
-    this.userType,
-    this.userName,
-    this.sex,
-    this.phone,
-    this.birthday,
-    this.starslevel,
+    required this.familyMember,
+    required this.userCustomerDemand,
+    required this.userOwnerDemand,
+    required this.dealList,
+    required this.customerRetention,
+    required this.mid,
+    required this.companyId,
+    required this.userId,
+    required this.userType,
+    required this.userName,
+    required this.sex,
+    required this.phone,
+    required this.birthday,
+    required this.starslevel,
     this.occupation,
     this.income,
     this.hobby,
@@ -55,11 +55,11 @@ class Datum {
     this.address,
   });
 
-  List<dynamic> familyMember;
-  List<dynamic> userCustomerDemand;
-  List<dynamic> userOwnerDemand;
-  List<dynamic> dealList;
-  List<dynamic> customerRetention;
+  dynamic familyMember;
+  dynamic userCustomerDemand;
+  dynamic userOwnerDemand;
+  dynamic dealList;
+  dynamic customerRetention;
   int mid;
   String companyId;
   String userId;
@@ -67,13 +67,13 @@ class Datum {
   String userName;
   int sex;
   String phone;
-  DateTime birthday;
+  DateTime? birthday;
   int starslevel;
   dynamic occupation;
-  String income;
-  String hobby;
-  String remark;
-  String address;
+  dynamic income;
+  dynamic hobby;
+  dynamic remark;
+  dynamic address;
 
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
     familyMember: json["FamilyMember"] == null ? null : List<dynamic>.from(json["FamilyMember"].map((x) => x)),
@@ -103,15 +103,15 @@ class Datum {
   "UserOwnerDemand": userOwnerDemand == null ? null : List<dynamic>.from(userOwnerDemand.map((x) => x)),
     "DealList": dealList == null ? null : List<dynamic>.from(dealList.map((x) => x)),
     "CustomerRetention": customerRetention == null ? null : List<dynamic>.from(customerRetention.map((x) => x)),
-    "MID": mid == null ? null : mid,
-    "CompanyID": companyId == null ? null : companyId,
-    "UserID": userId == null ? null : userId,
-    "UserType": userType == null ? null : userType,
-    "UserName": userName == null ? null : userName,
-    "Sex": sex == null ? null : sex,
-    "Phone": phone == null ? null : phone,
-    "Birthday": birthday == null ? null : birthday.toIso8601String(),
-    "Starslevel": starslevel == null ? null : starslevel,
+    "MID": mid,
+    "CompanyID": companyId,
+    "UserID": userId,
+    "UserType": userType,
+    "UserName": userName,
+    "Sex": sex,
+    "Phone": phone,
+    "Birthday": birthday == null ? null : birthday!.toIso8601String(),
+    "Starslevel": starslevel,
     "occupation": occupation,
     "Income": income == null ? null : income,
     "Hobby": hobby == null ? null : hobby,

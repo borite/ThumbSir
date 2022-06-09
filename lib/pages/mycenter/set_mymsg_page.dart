@@ -5,10 +5,7 @@ import 'package:ThumbSir/pages/home.dart';
 import 'package:ThumbSir/pages/login/signin_choose_company_page.dart';
 import 'package:ThumbSir/pages/login/signin_choose_position_page.dart';
 import 'package:ThumbSir/pages/mycenter/change_name_page.dart';
-import 'package:ThumbSir/pages/mycenter/choose_mini_task_number_page.dart';
 import 'package:ThumbSir/pages/mycenter/choose_portrait_page.dart';
-import 'package:ThumbSir/widget/loading.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -22,24 +19,22 @@ class _SetMyMsgPageState extends State<SetMyMsgPage> {
   final TextEditingController textController = TextEditingController();
   var portrait;
 
-  LoginResultData userData;
+  LoginResultData? userData;
   int _dateTime = DateTime.now().millisecondsSinceEpoch; // 当前时间转时间戳
-  int exT;
-  String uinfo;
+  late int exT;
+  late String uInfo;
   var result;
   _getUserInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    uinfo= prefs.getString("userInfo");
-    if(uinfo != null){
-      result =loginResultDataFromJson(uinfo);
-      exT = result.exTokenTime.millisecondsSinceEpoch; // token时间转时间戳
-      if(exT >= _dateTime){
-        this.setState(() {
-          userData=LoginResultData.fromJson(json.decode(uinfo));
-        });
-      }else{
-        _onLogoutAlertPressed(context);
-      }
+    uInfo= prefs.getString("userInfo")!;
+    result =loginResultDataFromJson(uInfo);
+    exT = result.exTokenTime.millisecondsSinceEpoch; // token时间转时间戳
+    if(exT >= _dateTime){
+      this.setState(() {
+        userData=LoginResultData.fromJson(json.decode(uInfo));
+      });
+    }else{
+      _onLogoutAlertPressed(context);
     }
   }
 
@@ -108,10 +103,10 @@ class _SetMyMsgPageState extends State<SetMyMsgPage> {
                                     borderRadius: BorderRadius.circular(35),
                                     child: userData == null && portrait == null?
                                     Image(image: AssetImage('images/my_big.png'),)
-                                        :portrait != null && userData != null && userData.headImg != portrait?
+                                        :portrait != null && userData != null && userData!.headImg != portrait?
                                     Image.file(portrait,fit: BoxFit.fill,)
-                                        :userData.headImg != null ?
-                                    Image(image:NetworkImage(userData.headImg))
+                                        :userData!.headImg != null ?
+                                    Image(image:NetworkImage(userData!.headImg))
                                         :Image(image: AssetImage('images/my_big.png'),),
                                   ),
                                 ),
@@ -158,7 +153,7 @@ class _SetMyMsgPageState extends State<SetMyMsgPage> {
                                 Container(
                                   margin: EdgeInsets.only(right: 15),
                                   child: Text(
-                                    userData == null ?'':userData.userName,
+                                    userData == null ?'':userData!.userName,
                                     style: TextStyle(
                                       fontSize: 16,
                                       color: Color(0xFF999999),
@@ -210,7 +205,7 @@ class _SetMyMsgPageState extends State<SetMyMsgPage> {
                                     Container(
                                       width: 300,
                                       child: Text(
-                                        userData == null ?'':userData.companyName,
+                                        userData == null ?'':userData!.companyName,
                                         style: TextStyle(
                                           fontSize: 12,
                                           color: Color(0xFF999999),
@@ -263,7 +258,7 @@ class _SetMyMsgPageState extends State<SetMyMsgPage> {
                                     Container(
                                       width: 300,
                                       child: Text(
-                                        userData == null ?'':userData.province +" - "+ userData.city +" - "+ userData.section +" - "+ userData.userLevel.substring(2,),
+                                        userData == null ?'':userData!.province +" - "+ userData!.city +" - "+ userData!.section +" - "+ userData!.userLevel.substring(2,),
 //                                        '北京-京中大部-白石桥大区-长河湾北门店-买卖1组',
                                         style: TextStyle(
                                           fontSize: 12,
@@ -373,30 +368,22 @@ class _SetMyMsgPageState extends State<SetMyMsgPage> {
             style: TextStyle(color: Colors.white, fontSize: 20),
           ),
           onPressed: () async {
-            var companyLevel = await GetCompanyLevelDao.httpGetCompanyLevel(userData.companyId);
+            var companyLevel = await GetCompanyLevelDao.httpGetCompanyLevel(userData!.companyId);
 
             // 把每一项放在levels的数组里
             List<String> levels=[];
-            if(companyLevel.data.level1!=null){
-              levels.add('1-'+companyLevel.data.level1);
-            }
-            if(companyLevel.data.level2!=null){
-              levels.add('2-'+companyLevel.data.level2);
-            }
-            if(companyLevel.data.level3!=null){
-              levels.add('3-'+companyLevel.data.level3);
-            }
-            if(companyLevel.data.level4!=null){
-              levels.add('4-'+companyLevel.data.level4);
-            }
-            levels.add('5-'+companyLevel.data.level5);
-            levels.add('6-'+companyLevel.data.level6);
+            levels.add('1-'+companyLevel.data!.level1);
+            levels.add('2-'+companyLevel.data!.level2);
+            levels.add('3-'+companyLevel.data!.level3);
+            levels.add('4-'+companyLevel.data!.level4);
+            levels.add('5-'+companyLevel.data!.level5);
+            levels.add('6-'+companyLevel.data!.level6);
 
             int count = levels.length;
 
             Navigator.push(context, MaterialPageRoute(builder: (context)=>SigninChoosePositionPage(
               levelNames:levels,
-              companyId:userData.companyId,
+              companyId:userData!.companyId,
               companyLevelCount:count,
             )));
           },

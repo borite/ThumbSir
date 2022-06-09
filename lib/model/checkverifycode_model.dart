@@ -11,14 +11,14 @@ String checkVerifyCodeToJson(CheckVerifyCode data) => json.encode(data.toJson())
 class CheckVerifyCode {
   int code;
   String message;
-  String data;
+  String? data;
   String cookie;
 
   CheckVerifyCode({
-    this.code,
-    this.message,
+    required this.code,
+    required this.message,
     this.data,
-    this.cookie,
+    required this.cookie,
   });
 
   factory CheckVerifyCode.fromJson(Map<String, dynamic> json) => CheckVerifyCode(

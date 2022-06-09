@@ -10,14 +10,14 @@ String getInviterToJson(GetInviter data) => json.encode(data.toJson());
 
 class GetInviter {
   GetInviter({
-    this.code,
-    this.message,
+    required this.code,
+    required this.message,
     this.data,
   });
 
   int code;
   String message;
-  Data data;
+  Data? data;
 
   factory GetInviter.fromJson(Map<String, dynamic> json) => GetInviter(
     code: json["Code"] == null ? null : json["Code"],
@@ -26,16 +26,16 @@ class GetInviter {
   );
 
   Map<String, dynamic> toJson() => {
-    "Code": code == null ? null : code,
-    "Message": message == null ? null : message,
-    "Data": data == null ? null : data.toJson(),
+    "Code": code,
+    "Message": message,
+    "Data": data == null ? null : data!.toJson(),
   };
 }
 
 class Data {
   Data({
-    this.userName,
-    this.beInvited,
+    required this.userName,
+    required this.beInvited,
   });
 
   String userName;
@@ -47,7 +47,7 @@ class Data {
   );
 
   Map<String, dynamic> toJson() => {
-    "UserName": userName == null ? null : userName,
-    "BeInvited": beInvited == null ? null : beInvited,
+    "UserName": userName,
+    "BeInvited": beInvited,
   };
 }

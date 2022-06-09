@@ -1,8 +1,6 @@
 import 'package:ThumbSir/common/reg.dart';
 import 'package:ThumbSir/dao/retruve_user_pwd_dao.dart';
-import 'package:ThumbSir/model/common_result_model.dart';
 import 'package:ThumbSir/pages/login/login_page.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ThumbSir/widget/input.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
@@ -10,16 +8,16 @@ import 'package:rflutter_alert/rflutter_alert.dart';
 class FindKeyPage extends StatefulWidget {
   final userName;
   final userID;
-  const FindKeyPage({Key key,this.userID,this.userName}) : super(key :key);
+  const FindKeyPage({Key? key,this.userID,this.userName}) : super(key :key);
   @override
   _FindKeyPageState createState() => _FindKeyPageState();
 }
 
 class _FindKeyPageState extends State<FindKeyPage> {
   final TextEditingController passwordController=TextEditingController();
-  String password;
-  RegExp psdReg;
-  bool psdBool;
+  late String password;
+  late RegExp psdReg;
+  bool psdBool = false;
 
   @override
   void initState() {
@@ -120,13 +118,13 @@ class _FindKeyPageState extends State<FindKeyPage> {
                             password = text;
                             psdBool = psdReg.hasMatch(password);
                           });
-                        },
+                        }, password: false,
                       ),
                       // 下一步
                       GestureDetector(
                         onTap: () async {
                           if(psdBool == true){
-                            final CommonResult findKeyResult=await RetruveUserPwdDao.findPwd(passwordController.text,this.widget.userID);
+                            dynamic findKeyResult=await RetruveUserPwdDao.findPwd(passwordController.text,this.widget.userID);
                             if(findKeyResult != null){
                               if(findKeyResult.code == 200 ){
                                 Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginPage()));

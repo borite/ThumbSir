@@ -10,25 +10,25 @@ String getLastLevelMembersToJson(GetLastLevelMembers data) => json.encode(data.t
 
 class GetLastLevelMembers {
   GetLastLevelMembers({
-    this.code,
-    this.message,
+    required this.code,
+    required this.message,
     this.data,
   });
 
   int code;
   String message;
-  Data data;
+  Data? data;
 
   factory GetLastLevelMembers.fromJson(Map<String, dynamic> json) => GetLastLevelMembers(
-    code: json["Code"] == null ? null : json["Code"],
-    message: json["Message"] == null ? null : json["Message"],
+    code: json["Code"],
+    message: json["Message"],
     data: json["Data"] == null ? null : Data.fromJson(json["Data"]),
   );
 
   Map<String, dynamic> toJson() => {
-    "Code": code == null ? null : code,
-    "Message": message == null ? null : message,
-    "Data": data == null ? null : data.toJson(),
+    "Code": code,
+    "Message": message,
+    "Data": data == null ? null : data!.toJson(),
   };
 }
 
@@ -38,8 +38,8 @@ class Data {
     this.list,
   });
 
-  Zonghe zonghe;
-  List<ListElement> list;
+  Zonghe? zonghe;
+  List<ListElement>? list;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
     zonghe: json["zonghe"] == null ? null : Zonghe.fromJson(json["zonghe"]),
@@ -47,48 +47,48 @@ class Data {
   );
 
   Map<String, dynamic> toJson() => {
-    "zonghe": zonghe == null ? null : zonghe.toJson(),
-    "list": list == null ? null : List<dynamic>.from(list.map((x) => x.toJson())),
+    "zonghe": zonghe == null ? null : zonghe!.toJson(),
+    "list": list == null ? null : List<dynamic>.from(list!.map((x) => x.toJson())),
   };
 }
 
 class ListElement {
   ListElement({
-    this.userPid,
-    this.userName,
+    required this.userPid,
+    required this.userName,
     this.headImg,
-    this.userLevel,
+    required this.userLevel,
     this.missionData,
   });
 
   String userPid;
   String userName;
-  String headImg;
+  dynamic headImg;
   String userLevel;
-  Zonghe missionData;
+  Zonghe? missionData;
 
   factory ListElement.fromJson(Map<String, dynamic> json) => ListElement(
-  userPid: json["UserPID"] == null ? null : json["UserPID"],
-    userName: json["UserName"] == null ? null : json["UserName"],
-    headImg: json["HeadImg"] == null ? null : json["HeadImg"],
-    userLevel: json["UserLevel"] == null ? null : json["UserLevel"],
+  userPid: json["UserPID"],
+    userName: json["UserName"],
+    headImg: json["HeadImg"],
+    userLevel: json["UserLevel"],
     missionData: json["missionData"] == null ? null : Zonghe.fromJson(json["missionData"]),
   );
 
   Map<String, dynamic> toJson() => {
-    "UserPID": userPid == null ? null : userPid,
-    "UserName": userName == null ? null : userName,
-    "HeadImg": headImg == null ? null : headImg,
-    "UserLevel": userLevel == null ? null : userLevel,
-    "missionData": missionData == null ? null : missionData.toJson(),
+    "UserPID": userPid,
+    "UserName": userName,
+    "HeadImg": headImg,
+    "UserLevel": userLevel,
+    "missionData": missionData == null ? null : missionData!.toJson(),
   };
 }
 
 class Zonghe {
   Zonghe({
-    this.planningCount,
-    this.finishCount,
-    this.finishRate,
+    required this.planningCount,
+    required this.finishCount,
+    required this.finishRate,
   });
 
   int planningCount;
@@ -96,14 +96,14 @@ class Zonghe {
   double finishRate;
 
   factory Zonghe.fromJson(Map<String, dynamic> json) => Zonghe(
-    planningCount: json["PlanningCount"] == null ? null : json["PlanningCount"],
-    finishCount: json["FinishCount"] == null ? null : json["FinishCount"],
-    finishRate: json["finishRate"] == null ? null : json["finishRate"].toDouble(),
+    planningCount: json["PlanningCount"],
+    finishCount: json["FinishCount"],
+    finishRate: json["finishRate"].toDouble(),
   );
 
   Map<String, dynamic> toJson() => {
-    "PlanningCount": planningCount == null ? null : planningCount,
-    "FinishCount": finishCount == null ? null : finishCount,
-    "finishRate": finishRate == null ? null : finishRate,
+    "PlanningCount": planningCount,
+    "FinishCount": finishCount,
+    "finishRate": finishRate,
   };
 }

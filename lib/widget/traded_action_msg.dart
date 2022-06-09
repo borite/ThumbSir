@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 class TradedActionMsg extends StatefulWidget {
   final item;
 
-  TradedActionMsg({Key key,
+  TradedActionMsg({Key? key,
     this.item
   }):super(key:key);
   @override

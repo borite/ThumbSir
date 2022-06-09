@@ -5,14 +5,18 @@ import 'package:http/http.dart' as http;
 import 'package:ThumbSir/utils/common_vars.dart';
 
 //接口地址前缀
-const String apiPerfix=CommonVars.testApiPrefix;
+const String apiPerFix=Url.testApiPrefix;
 
 class GetUserDetailBByIDDao {
   static Future<GetUserDetailById> getUserDetailBByID(
       String id
     ) async {
     final response = await http.get(
-        apiPerfix+'api/customerfrom/GetUserDetailByID?cid='+id
+        Uri.http(
+            apiPerFix,
+            '/api/customerfrom/GetUserDetailByID',
+            {'cid':id}
+        )
     );
     //Utf8Decoder utf8decoder = Utf8Decoder();  // 修复中文乱码
     //var result = json.decode(utf8decoder.convert(response.bodyBytes));

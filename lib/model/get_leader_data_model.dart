@@ -10,25 +10,25 @@ String getLeaderDataToJson(GetLeaderData data) => json.encode(data.toJson());
 
 class GetLeaderData {
   GetLeaderData({
-    this.code,
-    this.message,
+    required this.code,
+    required this.message,
     this.data,
   });
 
   int code;
   String message;
-  Data data;
+  Data? data;
 
   factory GetLeaderData.fromJson(Map<String, dynamic> json) => GetLeaderData(
-    code: json["Code"] == null ? null : json["Code"],
-    message: json["Message"] == null ? null : json["Message"],
+    code: json["Code"],
+    message: json["Message"],
     data: json["Data"] == null ? null : Data.fromJson(json["Data"]),
   );
 
   Map<String, dynamic> toJson() => {
-    "Code": code == null ? null : code,
-    "Message": message == null ? null : message,
-    "Data": data == null ? null : data.toJson(),
+    "Code": code,
+    "Message": message,
+    "Data": data == null ? null : data!.toJson(),
   };
 }
 
@@ -38,8 +38,8 @@ class Data {
     this.leaderCount,
   });
 
-  LeaderInfo leaderInfo;
-  LeaderCount leaderCount;
+  LeaderInfo? leaderInfo;
+  LeaderCount? leaderCount;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
     leaderInfo: json["leaderInfo"] == null ? null : LeaderInfo.fromJson(json["leaderInfo"]),
@@ -47,16 +47,16 @@ class Data {
   );
 
   Map<String, dynamic> toJson() => {
-    "leaderInfo": leaderInfo == null ? null : leaderInfo.toJson(),
-    "leaderCount": leaderCount == null ? null : leaderCount.toJson(),
+    "leaderInfo": leaderInfo == null ? null : leaderInfo!.toJson(),
+    "leaderCount": leaderCount == null ? null : leaderCount!.toJson(),
   };
 }
 
 class LeaderCount {
   LeaderCount({
-    this.planningCount,
-    this.finishCount,
-    this.finishRate,
+    required this.planningCount,
+    required this.finishCount,
+    required this.finishRate,
   });
 
   int planningCount;
@@ -64,42 +64,42 @@ class LeaderCount {
   double finishRate;
 
   factory LeaderCount.fromJson(Map<String, dynamic> json) => LeaderCount(
-  planningCount: json["PlanningCount"] == null ? null : json["PlanningCount"],
-  finishCount: json["FinishCount"] == null ? null : json["FinishCount"],
-    finishRate: json["finishRate"] == null ? null : json["finishRate"].toDouble(),
+  planningCount: json["PlanningCount"],
+  finishCount: json["FinishCount"],
+    finishRate:json["finishRate"].toDouble(),
   );
 
   Map<String, dynamic> toJson() => {
-    "PlanningCount": planningCount == null ? null : planningCount,
-    "FinishCount": finishCount == null ? null : finishCount,
-    "finishRate": finishRate == null ? null : finishRate,
+    "PlanningCount": planningCount,
+    "FinishCount": finishCount,
+    "finishRate": finishRate,
   };
 }
 
 class LeaderInfo {
   LeaderInfo({
-    this.userName,
-    this.userLevel,
+    required this.userName,
+    required this.userLevel,
     this.headImg,
-    this.userPid,
+    required this.userPid,
   });
 
   String userName;
   String userLevel;
-  String headImg;
+  dynamic headImg;
   String userPid;
 
   factory LeaderInfo.fromJson(Map<String, dynamic> json) => LeaderInfo(
-    userName: json["UserName"] == null ? null : json["UserName"],
-    userLevel: json["UserLevel"] == null ? null : json["UserLevel"],
-    headImg: json["HeadImg"] == null ? null : json["HeadImg"],
-    userPid: json["UserPID"] == null ? null : json["UserPID"],
+    userName: json["UserName"],
+    userLevel: json["UserLevel"],
+    headImg: json["HeadImg"],
+    userPid: json["UserPID"],
   );
 
   Map<String, dynamic> toJson() => {
-    "UserName": userName == null ? null : userName,
-    "UserLevel": userLevel == null ? null : userLevel,
-    "HeadImg": headImg == null ? null : headImg,
-    "UserPID": userPid == null ? null : userPid,
+    "UserName": userName,
+    "UserLevel": userLevel,
+    "HeadImg": headImg,
+    "UserPID": userPid,
   };
 }

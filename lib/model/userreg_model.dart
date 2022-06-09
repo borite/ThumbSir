@@ -11,11 +11,11 @@ String userRegToJson(UserReg data) => json.encode(data.toJson());
 class UserReg {
   int code;
   String message;
-  String data;
+  dynamic data;
 
   UserReg({
-    this.code,
-    this.message,
+    required this.code,
+    required this.message,
     this.data,
   });
 

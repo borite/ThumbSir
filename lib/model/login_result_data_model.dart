@@ -10,100 +10,100 @@ String loginResultDataToJson(LoginResultData data) => json.encode(data.toJson())
 
 class LoginResultData {
   LoginResultData({
-    this.token,
-    this.exTokenTime,
-    this.userPid,
-    this.userName,
-    this.phone,
+    required this.token,
+    required this.exTokenTime,
+    required this.userPid,
+    required this.userName,
+    required this.phone,
     this.headImg,
     this.sex,
-    this.userLevel,
-    this.leaderId,
-    this.companyId,
-    this.companyName,
+    required this.userLevel,
+    required this.leaderId,
+    required this.companyId,
+    required this.companyName,
     this.companyVipEndTime,
     this.companyLogo,
-    this.companyVip,
-    this.province,
-    this.city,
+    required this.companyVip,
+    required this.province,
+    required this.city,
     this.remark,
-    this.section,
-    this.inviteCode,
-    this.userState,
-    this.userIsVip,
+    required this.section,
+    required this.inviteCode,
+    required this.userState,
+    required this.userIsVip,
     this.userVipEndTime,
   });
 
-  String token;
-  DateTime exTokenTime;
+  dynamic token;
+  DateTime? exTokenTime;
   String userPid;
   String userName;
   String phone;
   dynamic headImg;
   dynamic sex;
-  String userLevel;
-  String leaderId;
-  String companyId;
-  String companyName;
+  dynamic userLevel;
+  dynamic leaderId;
+  dynamic companyId;
+  dynamic companyName;
   dynamic companyVipEndTime;
   dynamic companyLogo;
-  bool companyVip;
-  String province;
-  String city;
+  dynamic companyVip;
+  dynamic province;
+  dynamic city;
   dynamic remark;
-  String section;
-  String inviteCode;
-  int userState;
-  bool userIsVip;
+  dynamic section;
+  dynamic inviteCode;
+  dynamic userState;
+  dynamic userIsVip;
   dynamic userVipEndTime;
 
   factory LoginResultData.fromJson(Map<String, dynamic> json) => LoginResultData(
-  token: json["Token"] == null ? null : json["Token"],
-  exTokenTime: json["EXTokenTime"] == null ? null : DateTime.parse(json["EXTokenTime"]),
-  userPid: json["UserPID"] == null ? null : json["UserPID"],
-  userName: json["UserName"] == null ? null : json["UserName"],
-  phone: json["Phone"] == null ? null : json["Phone"],
-  headImg: json["HeadImg"],
-  sex: json["Sex"],
-  userLevel: json["UserLevel"] == null ? null : json["UserLevel"],
-  leaderId: json["LeaderID"] == null ? null : json["LeaderID"],
-    companyId: json["CompanyID"] == null ? null : json["CompanyID"],
-    companyName: json["CompanyName"] == null ? null : json["CompanyName"],
+    token: json["Token"],
+    exTokenTime: json["EXTokenTime"] == null ? null : DateTime.parse(json["EXTokenTime"]),
+    userPid: json["UserPID"],
+    userName: json["UserName"],
+    phone: json["Phone"],
+    headImg: json["HeadImg"],
+    sex: json["Sex"],
+    userLevel: json["UserLevel"],
+    leaderId: json["LeaderID"],
+    companyId: json["CompanyID"],
+    companyName: json["CompanyName"],
     companyVipEndTime: json["CompanyVipEndTime"],
     companyLogo: json["CompanyLogo"],
-    companyVip: json["CompanyVIP"] == null ? null : json["CompanyVIP"],
-    province: json["Province"] == null ? null : json["Province"],
-    city: json["City"] == null ? null : json["City"],
+    companyVip: json["CompanyVIP"],
+    province: json["Province"],
+    city: json["City"],
     remark: json["Remark"],
-    section: json["Section"] == null ? null : json["Section"],
-    inviteCode: json["InviteCode"] == null ? null : json["InviteCode"],
-    userState: json["UserState"] == null ? null : json["UserState"],
-    userIsVip: json["UserIsVip"] == null ? null : json["UserIsVip"],
+    section: json["Section"],
+    inviteCode: json["InviteCode"],
+    userState: json["UserState"],
+    userIsVip: json["UserIsVip"],
     userVipEndTime: json["UserVipEndTime"],
   );
 
   Map<String, dynamic> toJson() => {
-    "Token": token == null ? null : token,
-    "EXTokenTime": exTokenTime == null ? null : exTokenTime.toIso8601String(),
-    "UserPID": userPid == null ? null : userPid,
-    "UserName": userName == null ? null : userName,
-    "Phone": phone == null ? null : phone,
+    "Token": token,
+    "EXTokenTime": exTokenTime?.toIso8601String(),
+    "UserPID": userPid,
+    "UserName": userName,
+    "Phone": phone,
     "HeadImg": headImg,
     "Sex": sex,
-    "UserLevel": userLevel == null ? null : userLevel,
-    "LeaderID": leaderId == null ? null : leaderId,
-    "CompanyID": companyId == null ? null : companyId,
-    "CompanyName": companyName == null ? null : companyName,
+    "UserLevel": userLevel,
+    "LeaderID": leaderId,
+    "CompanyID": companyId,
+    "CompanyName": companyName,
     "CompanyVipEndTime": companyVipEndTime,
     "CompanyLogo": companyLogo,
-    "CompanyVIP": companyVip == null ? null : companyVip,
-    "Province": province == null ? null : province,
-    "City": city == null ? null : city,
+    "CompanyVIP": companyVip,
+    "Province": province,
+    "City": city,
     "Remark": remark,
-    "Section": section == null ? null : section,
-    "InviteCode": inviteCode == null ? null : inviteCode,
-    "UserState": userState == null ? null : userState,
-    "UserIsVip": userIsVip == null ? null : userIsVip,
+    "Section": section,
+    "InviteCode": inviteCode,
+    "UserState": userState,
+    "UserIsVip": userIsVip,
     "UserVipEndTime": userVipEndTime,
   };
 }

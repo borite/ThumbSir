@@ -1,17 +1,16 @@
 import 'dart:async';
 import 'package:http/http.dart' as http;
-import 'package:new_lianghua_app/model/company_list_model.dart';
-
+import '../model/company_list_model.dart';
 import '../utils/common_vars.dart';
 
 //接口地址前缀
-const String apiPerfix=Url.apiPrefix;
+const String apiPerFix=Url.apiPrefix;
 
 class GetCompanyListDao {
   static Future<CompanyList> httpGetCompanyList() async {
     final response = await http.get(
         Uri.http(
-          apiPerfix,
+          apiPerFix,
           '/api/User/GetCompanyList'
         )
     );

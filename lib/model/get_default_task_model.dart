@@ -10,53 +10,53 @@ String getDefaultTaskToJson(GetDefaultTask data) => json.encode(data.toJson());
 
 class GetDefaultTask {
   GetDefaultTask({
-    this.code,
-    this.message,
+    required this.code,
+    required this.message,
     this.data,
   });
 
   int code;
   String message;
-  List<Datum> data;
+  List<Datum>? data;
 
   factory GetDefaultTask.fromJson(Map<String, dynamic> json) => GetDefaultTask(
-    code: json["Code"] == null ? null : json["Code"],
-    message: json["Message"] == null ? null : json["Message"],
+    code: json["Code"],
+    message: json["Message"],
     data: json["Data"] == null ? null : List<Datum>.from(json["Data"].map((x) => Datum.fromJson(x))),
   );
 
   Map<String, dynamic> toJson() => {
-    "Code": code == null ? null : code,
-    "Message": message == null ? null : message,
-    "Data": data == null ? null : List<dynamic>.from(data.map((x) => x.toJson())),
+    "Code": code,
+    "Message": message,
+    "Data": data == null ? null : List<dynamic>.from(data!.map((x) => x.toJson())),
   };
 }
 
 class Datum {
   Datum({
-    this.id,
-    this.taskName,
+    required this.id,
+    required this.taskName,
     this.taskDesc,
-    this.taskUnit,
+    required this.taskUnit,
   });
 
   int id;
   String taskName;
-  TaskDesc taskDesc;
+  TaskDesc? taskDesc;
   String taskUnit;
 
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
-    id: json["ID"] == null ? null : json["ID"],
-    taskName: json["TaskName"] == null ? null : json["TaskName"],
-    taskDesc: json["TaskDesc"] == null ? null : taskDescValues.map[json["TaskDesc"]],
-    taskUnit: json["TaskUnit"] == null ? null : json["TaskUnit"],
+    id: json["ID"],
+    taskName: json["TaskName"],
+    taskDesc: json["TaskDesc"] == null ? null : taskDescValues.map![json["TaskDesc"]],
+    taskUnit: json["TaskUnit"],
   );
 
   Map<String, dynamic> toJson() => {
-    "ID": id == null ? null : id,
-    "TaskName": taskName == null ? null : taskName,
-    "TaskDesc": taskDesc == null ? null : taskDescValues.reverse[taskDesc],
-    "TaskUnit": taskUnit == null ? null : taskUnit,
+    "ID": id,
+    "TaskName": taskName,
+    "TaskDesc": taskDesc == null ? null : taskDescValues.reverse![taskDesc],
+    "TaskUnit": taskUnit,
   };
 }
 
@@ -68,15 +68,13 @@ final taskDescValues = EnumValues({
 });
 
 class EnumValues<T> {
-  Map<String, T> map;
-  Map<T, String> reverseMap;
+  Map<String, T>? map;
+  Map<T, String>? reverseMap;
 
   EnumValues(this.map);
 
-  Map<T, String> get reverse {
-    if (reverseMap == null) {
-      reverseMap = map.map((k, v) => new MapEntry(v, k));
-    }
+  Map<T, String>? get reverse {
+    reverseMap ??= map?.map((k, v) => MapEntry(v, k));
     return reverseMap;
   }
 }

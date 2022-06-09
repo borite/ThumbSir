@@ -10,33 +10,33 @@ String checkLatestVersionToJson(CheckLatestVersion data) => json.encode(data.toJ
 
 class CheckLatestVersion {
   CheckLatestVersion({
-    this.code,
-    this.message,
-    this.data,
+    required this.code,
+    required this.message,
+    required this.data,
   });
 
   int code;
   String message;
-  Data data;
+  Data? data;
 
   factory CheckLatestVersion.fromJson(Map<String, dynamic> json) => CheckLatestVersion(
-    code: json["Code"] == null ? null : json["Code"],
-    message: json["Message"] == null ? null : json["Message"],
+    code: json["Code"],
+    message: json["Message"],
     data: json["Data"] == null ? null : Data.fromJson(json["Data"]),
   );
 
   Map<String, dynamic> toJson() => {
-    "Code": code == null ? null : code,
-    "Message": message == null ? null : message,
-    "Data": data == null ? null : data.toJson(),
+    "Code": code,
+    "Message": message,
+    "Data": data == null ? null : data!.toJson(),
   };
 }
 
 class Data {
   Data({
-    this.id,
-    this.version,
-    this.versionDes,
+    required this.id,
+    required this.version,
+    required this.versionDes,
     this.link,
   });
 
@@ -46,16 +46,16 @@ class Data {
   dynamic link;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-    id: json["ID"] == null ? null : json["ID"],
-    version: json["Version"] == null ? null : json["Version"],
-    versionDes: json["VersionDes"] == null ? null : json["VersionDes"],
+    id: json["ID"],
+    version: json["Version"],
+    versionDes: json["VersionDes"],
     link: json["Link"],
   );
 
   Map<String, dynamic> toJson() => {
-    "ID": id == null ? null : id,
-    "Version": version == null ? null : version,
-    "VersionDes": versionDes == null ? null : versionDes,
+    "ID": id,
+    "Version": version,
+    "VersionDes": versionDes,
     "Link": link,
   };
 }

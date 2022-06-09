@@ -24,20 +24,16 @@ class _QListTipsPageState extends State<QListTipsPage> with SingleTickerProvider
   var pageindex=0;
   var userID;
 
-  LoginResultData userData;
-  String uinfo;
-  var result;
+  LoginResultData? userData;
+  late String uInfo;
 
   _getUserInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    uinfo= prefs.getString("userInfo");
-    if(uinfo != null){
-      result =loginResultDataFromJson(uinfo);
-      this.setState(() {
-        userData=LoginResultData.fromJson(json.decode(uinfo));
-      });
-    }
-    if(userData == null || userData.companyId == null){
+    uInfo= prefs.getString("userInfo")!;
+    this.setState(() {
+      userData=LoginResultData.fromJson(json.decode(uInfo));
+    });
+    if(userData == null || userData!.companyId == null){
       SharedPreferences prefs = await SharedPreferences.getInstance();
       prefs.remove("userInfo");
     }

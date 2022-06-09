@@ -10,38 +10,38 @@ String getSignResultToJson(GetSignResult data) => json.encode(data.toJson());
 
 class GetSignResult {
   GetSignResult({
-    this.code,
-    this.message,
-    this.data,
+    required this.code,
+    required this.message,
+    required this.data,
   });
 
   int code;
   String message;
-  Data data;
+  Data? data;
 
   factory GetSignResult.fromJson(Map<String, dynamic> json) => GetSignResult(
-    code: json["Code"] == null ? null : json["Code"],
-    message: json["Message"] == null ? null : json["Message"],
+    code: json["Code"],
+    message: json["Message"],
     data: json["Data"] == null ? null : Data.fromJson(json["Data"]),
   );
 
   Map<String, dynamic> toJson() => {
-    "Code": code == null ? null : code,
-    "Message": message == null ? null : message,
-    "Data": data == null ? null : data.toJson(),
+    "Code": code,
+    "Message": message,
+    "Data": data == null ? null : data!.toJson(),
   };
 }
 
 class Data {
   Data({
-    this.accessId,
-    this.policy,
-    this.signature,
-    this.dir,
-    this.endPoint,
-    this.expire,
-    this.ossHost,
-    this.finalUrl,
+    required this.accessId,
+    required this.policy,
+    required this.signature,
+    required this.dir,
+    required this.endPoint,
+    required this.expire,
+    required this.ossHost,
+    required this.finalUrl,
   });
 
   String accessId;
@@ -54,14 +54,14 @@ class Data {
   String finalUrl;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-    accessId: json["AccessID"] == null ? null : json["AccessID"],
-    policy: json["Policy"] == null ? null : json["Policy"],
-    signature: json["Signature"] == null ? null : json["Signature"],
-    dir: json["Dir"] == null ? null : json["Dir"],
-    endPoint: json["EndPoint"] == null ? null : json["EndPoint"],
-    expire: json["Expire"] == null ? null : json["Expire"],
-    ossHost: json["OSSHost"] == null ? null : json["OSSHost"],
-    finalUrl: json["FinalUrl"] == null ? null : json["FinalUrl"],
+    accessId: json["AccessID"],
+    policy: json["Policy"],
+    signature: json["Signature"],
+    dir: json["Dir"],
+    endPoint: json["EndPoint"],
+    expire: json["Expire"],
+    ossHost: json["OSSHost"],
+    finalUrl: json["FinalUrl"],
   );
 
   Map<String, dynamic> toJson() => {

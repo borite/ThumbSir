@@ -29,6 +29,7 @@ dependencies:
   intl: ^0.17.0
   sleek_circular_slider: ^2.0.1
   awesome_calendar: ^1.1.3
+  fl_chart: ^0.51.0
 #  multi_image_picker: ^4.7.14
 #  image_pickers: ^1.0.8+7
 

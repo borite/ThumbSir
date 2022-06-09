@@ -10,27 +10,16 @@ class Input extends StatefulWidget {
   final ValueChanged<String> onChanged;
   final inputType;
   final RegExp reg;
-  bool password;
-  Input({
-    Key? key,
-    required this.controller,
-    required this.onChanged,
-    this.hintText="",
-    this.tipText="",
-    this.rightText="格式正确",
-    required this.errorTipText,
-    this.inputType,
-    required this.reg,
-    required this.password
-  });
+  final bool password;
+  const Input({Key? key,required this.controller,required this.onChanged,this.hintText="",this.tipText="",this.rightText="格式正确",required this.errorTipText,this.inputType,required this.reg,required this.password});
   @override
   _InputState createState() => _InputState();
 }
 
 class _InputState extends State<Input> {
-  final FocusNode _focusNode = FocusNode();
+  FocusNode _focusNode = FocusNode();
   bool textBool = true;// 输入的内容是否合法
-  Color tipColor = const Color(0xFF6E85D3);
+  Color tipColor = Color(0xFF2692FD);
   int tip = 0;
 
   @override
@@ -39,15 +28,15 @@ class _InputState extends State<Input> {
       if (!_focusNode.hasFocus) {
         // TextField失去焦点
         setState(() {
-          textBool = widget.reg.hasMatch(widget.controller.text);
+          textBool = this.widget.reg.hasMatch(this.widget.controller.text);
         });
         if(textBool == true){
           setState(() {
-            tipColor = const Color(0xFF6E85D3);
+            tipColor = Color(0xFF2692FD);
           });
         }else if(textBool == false ){
           setState(() {
-            tipColor = const Color(0xFFF24848);
+            tipColor = Color(0xFFF24848);
           });
         }
       }
@@ -67,51 +56,51 @@ class _InputState extends State<Input> {
         Container(
             width: 335,
             height: 40,
-            margin: const EdgeInsets.only(top: 10),
+            margin: EdgeInsets.only(top: 10),
             child: TextField(
               controller: widget.controller,
               autofocus: false,
-              keyboardType: widget.inputType,// TextInputType.phone
+              keyboardType: this.widget.inputType,// TextInputType.phone
               onChanged: _onChanged,
               focusNode: _focusNode,
-              obscureText: widget.password,
-              style: const TextStyle(
+              obscureText: widget.password == null ? false:widget.password,
+              style: TextStyle(
                 fontSize: 14,
                 color: Color(0xFF999999),
                 fontWeight: FontWeight.normal,
                 decoration: TextDecoration.none,
               ),
               decoration: InputDecoration(
-                contentPadding: const EdgeInsets.fromLTRB(8, 0, 10, 10),
+                contentPadding: EdgeInsets.fromLTRB(8, 0, 10, 10),
                 border: OutlineInputBorder(
                   /*边角*/
-                  borderRadius: const BorderRadius.all(Radius.circular(8),),
+                  borderRadius: BorderRadius.all(Radius.circular(8),),
                   borderSide: BorderSide(color: tipColor, width: 1,),
                 ),
                 enabledBorder: OutlineInputBorder(
                   /*边角*/
-                  borderRadius: const BorderRadius.all(Radius.circular(8),),
+                  borderRadius: BorderRadius.all(Radius.circular(8),),
                   borderSide: BorderSide(color: tipColor, width: 1,),
                 ),
                 focusedBorder: OutlineInputBorder(
-                  borderRadius: const BorderRadius.all(Radius.circular(8),),
+                  borderRadius: BorderRadius.all(Radius.circular(8),),
                   borderSide: BorderSide(color: tipColor, width: 1,),
                 ),
-                hintStyle: const TextStyle(fontSize: 14),
+                hintStyle: TextStyle(fontSize: 14),
                 hintText: widget.hintText,
               ),
             ),
         ),
         Container(
           width: 335,
-          margin: const EdgeInsets.only(top: 5,left: 15),
+          margin: EdgeInsets.only(top: 5,left: 15),
           child: Row(
             children: <Widget>[
               Text(
-                tip == 0 ? widget.tipText : tip == 2 ? widget.errorTipText:widget.rightText,
+                tip == 0 ? this.widget.tipText : tip == 2 ? this.widget.errorTipText:this.widget.rightText,
                 style: TextStyle(
                   fontSize: 12,
-                  color: tip == 0 ? const Color(0xFF999999):tipColor,
+                  color: tip == 0 ? Color(0xFF999999):tipColor,
                 ),textAlign: TextAlign.left,),
             ],
           )
@@ -120,19 +109,21 @@ class _InputState extends State<Input> {
     );
   }
   _onChanged(String text){
-    widget.onChanged(text);
-    setState(() {
-      textBool = widget.reg.hasMatch(widget.controller.text);
-    });
-    if(textBool == true){
+    if(widget.onChanged != null){
+      widget.onChanged(text);
       setState(() {
-        tipColor = const Color(0xFF6E85D3);
-        tip = 1;
+        textBool = this.widget.reg.hasMatch(this.widget.controller.text);
       });
-    }else if (textBool == false){
-      setState(() {
-        tip = 2;
-      });
+      if(textBool == true){
+        setState(() {
+          tipColor = Color(0xFF2692FD);
+          tip = 1;
+        });
+      }else if (textBool == false){
+        setState(() {
+          tip = 2;
+        });
+      }
     }
   }
 }

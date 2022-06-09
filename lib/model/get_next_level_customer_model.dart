@@ -10,14 +10,14 @@ String getNextLevelCustomerToJson(GetNextLevelCustomer data) => json.encode(data
 
 class GetNextLevelCustomer {
   GetNextLevelCustomer({
-    this.code,
-    this.message,
+    required this.code,
+    required this.message,
     this.data,
   });
 
   int code;
   String message;
-  Data data;
+  Data? data;
 
   factory GetNextLevelCustomer.fromJson(Map<String, dynamic> json) => GetNextLevelCustomer(
     code: json["Code"] == null ? null : json["Code"],
@@ -26,22 +26,22 @@ class GetNextLevelCustomer {
   );
 
   Map<String, dynamic> toJson() => {
-    "Code": code == null ? null : code,
-    "Message": message == null ? null : message,
-    "Data": data == null ? null : data.toJson(),
+    "Code": code,
+    "Message": message,
+    "Data": data == null ? null : data!.toJson(),
   };
 }
 
 class Data {
   Data({
-    this.currentLevel,
-    this.countNums,
+    required this.currentLevel,
+    required this.countNums,
     this.list,
   });
 
   String currentLevel;
   int countNums;
-  List<ListElement> list;
+  List<ListElement>? list;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
     currentLevel: json["currentLevel"] == null ? null : json["currentLevel"],
@@ -52,20 +52,20 @@ class Data {
   Map<String, dynamic> toJson() => {
     "currentLevel": currentLevel == null ? null : currentLevel,
     "countNums": countNums == null ? null : countNums,
-    "list": list == null ? null : List<dynamic>.from(list.map((x) => x.toJson())),
+    "list": list == null ? null : List<dynamic>.from(list!.map((x) => x.toJson())),
   };
 }
 
 class ListElement {
   ListElement({
-    this.teamName,
-    this.customerNum,
+    required this.teamName,
+    required this.customerNum,
     this.nextLeader,
   });
 
   String teamName;
   int customerNum;
-  NextLeader nextLeader;
+  NextLeader? nextLeader;
 
   factory ListElement.fromJson(Map<String, dynamic> json) => ListElement(
     teamName: json["teamName"] == null ? null : json["teamName"],
@@ -74,16 +74,16 @@ class ListElement {
   );
 
   Map<String, dynamic> toJson() => {
-    "teamName": teamName == null ? null : teamName,
-    "customerNum": customerNum == null ? null : customerNum,
-    "nextLeader": nextLeader == null ? null : nextLeader.toJson(),
+    "teamName": teamName,
+    "customerNum": customerNum,
+    "nextLeader": nextLeader == null ? null : nextLeader!.toJson(),
   };
 }
 
 class NextLeader {
   NextLeader({
-    this.userPid,
-    this.userName,
+    required this.userPid,
+    required this.userName,
   });
 
   String userPid;
@@ -95,7 +95,7 @@ class NextLeader {
   );
 
   Map<String, dynamic> toJson() => {
-    "UserPID": userPid == null ? null : userPid,
-    "UserName": userName == null ? null : userName,
+    "UserPID": userPid,
+    "UserName": userName,
   };
 }

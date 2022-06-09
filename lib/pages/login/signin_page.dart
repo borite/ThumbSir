@@ -5,10 +5,8 @@ import 'package:ThumbSir/pages/mycenter/signin_finish_page.dart';
 import 'package:ThumbSir/widget/input.dart';
 import 'package:ThumbSir/widget/loading.dart';
 import 'package:ThumbSir/widget/yzminput.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ThumbSir/dao/signin_dao.dart';
-import 'package:ThumbSir/model/userreg_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
@@ -23,30 +21,30 @@ class _SigninNameAndPhonePageState extends State<SigninNameAndPhonePage> {
   var result;
 
   final TextEditingController userNameController = TextEditingController();
-  String userName;
-  RegExp nameReg;
-  bool userNameBool;
+  late String userName;
+  late RegExp nameReg;
+  bool userNameBool = false;
   final TextEditingController phoneNumController=TextEditingController();
-  String phoneNum;
-  RegExp phoneReg;
-  bool phoneBool;
+  late String phoneNum;
+  late RegExp phoneReg;
+  bool phoneBool = false;
   final TextEditingController passwordController=TextEditingController();
-  String password;
-  RegExp psdReg;
-  bool psdBool;
+  late String password;
+  late RegExp psdReg;
+  bool psdBool = false;
   final TextEditingController verifyCodeController=TextEditingController();
-  String verifyCode;
-  RegExp yzmReg;
-  bool verifyCodeBool;
+  late String verifyCode;
+  late RegExp yzmReg;
+  bool verifyCodeBool = false;
   final TextEditingController invitationCodeController = TextEditingController();
-  String invitationCode;
-  RegExp invitationReg;
-  bool invitationCodeBool;
+  late String invitationCode;
+  late RegExp invitationReg;
+  bool invitationCodeBool = false;
 
   bool check = false; // 复选框是否被选中
   int checkBox = 0; // 提交时复选框是否被选中，0为选中
 
-  String WebAPICookie;
+  late String webAPICookie;
 
   @override
   void initState() {
@@ -158,7 +156,7 @@ class _SigninNameAndPhonePageState extends State<SigninNameAndPhonePage> {
                                     userName = text;
                                     userNameBool = nameReg.hasMatch(userName);
                                   });
-                                },
+                                }, password: false,
                               ),
                               //密码输入框
                               Input(
@@ -191,7 +189,7 @@ class _SigninNameAndPhonePageState extends State<SigninNameAndPhonePage> {
                                     phoneNum = text;
                                     phoneBool = phoneReg.hasMatch(phoneNum);
                                   });
-                                },
+                                }, password: false,
                               ),
                               // 验证码
                               YZMInput(
@@ -220,6 +218,7 @@ class _SigninNameAndPhonePageState extends State<SigninNameAndPhonePage> {
                                 errorTipText: "请输入格式正确的验证码",
                                 rightText: "邀请码格式正确",
                                 reg: invitationReg,
+                                password: false,
                                 onChanged: (text){
                                   setState(() {
                                     invitationCode = text;
@@ -238,7 +237,7 @@ class _SigninNameAndPhonePageState extends State<SigninNameAndPhonePage> {
                                         child: Checkbox(
                                           value: check,
                                           activeColor: Color(0xFF5580EB),
-                                          onChanged: (bool val) {
+                                          onChanged: (dynamic val) {
                                             // val 是布尔值
                                             this.setState(() {
                                               check = !check;
@@ -307,13 +306,13 @@ class _SigninNameAndPhonePageState extends State<SigninNameAndPhonePage> {
                                           verifyCodeBool == true &&
                                           check == true){
                                         _onRefresh();
-                                        var result=await SigninDao.doUserReg(userName, password, phoneNum, verifyCode,WebAPICookie);
+                                        var result=await SigninDao.doUserReg(userName, password, phoneNum, verifyCode,webAPICookie);
                                         if(result.code==200) {
                                           //String dataStr= json.encode(result.data);
                                           SharedPreferences prefs = await SharedPreferences.getInstance();
                                           prefs.remove("userInfo");
-                                          prefs.setString("userID", result.data.userPid);
-                                          prefs.setString("regUserName",result.data.userName);
+                                          prefs.setString("userID", result.data!.userPid);
+                                          prefs.setString("regUserName",result.data!.userName);
 
                                           Navigator.push(context, MaterialPageRoute(builder: (context)=>SigninFinishPage()));
                                           _onRefresh();
@@ -352,7 +351,7 @@ class _SigninNameAndPhonePageState extends State<SigninNameAndPhonePage> {
   }
   _editParentText(editText) {
     setState(() {
-      WebAPICookie = editText;
+      webAPICookie = editText;
     });
   }
   // 加载中loading

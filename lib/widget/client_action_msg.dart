@@ -1,17 +1,14 @@
 import 'package:ThumbSir/dao/get_care_action_dao.dart';
 import 'package:ThumbSir/pages/broker/client/client_add_gift_page.dart';
-import 'package:ThumbSir/pages/broker/traded/traded_add_gift_page.dart';
 import 'package:ThumbSir/widget/client_gift_item.dart';
-import 'package:ThumbSir/widget/gift_item.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 
 class ClientActionMsg extends StatefulWidget {
   final item;
 
-  ClientActionMsg({Key key,
+  ClientActionMsg({Key? key,
     this.item
   }):super(key:key);
   @override

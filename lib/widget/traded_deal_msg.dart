@@ -1,13 +1,12 @@
 import 'package:ThumbSir/pages/broker/traded/traded_add_deal_page.dart';
 import 'package:ThumbSir/pages/broker/traded/traded_edit_deal_page.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 
 class TradedDealMsg extends StatefulWidget {
   final item;
 
-  TradedDealMsg({Key key,
+  TradedDealMsg({Key? key,
     this.item
   }):super(key:key);
   @override
@@ -17,7 +16,7 @@ class TradedDealMsg extends StatefulWidget {
 class _TradedDealMsgState extends State<TradedDealMsg> with SingleTickerProviderStateMixin{
   ScrollController _scrollController = ScrollController();
 
-  List deal=new List();
+  late List deal;
   List<Widget> msgs=[];
   @override
   void initState(){

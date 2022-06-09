@@ -5,7 +5,7 @@ import 'package:ThumbSir/dao/delete_family_member_info_dao.dart';
 import 'package:ThumbSir/dao/get_customer_info_dao.dart';
 import 'package:ThumbSir/dao/get_user_detail_by_id_dao.dart';
 import 'package:ThumbSir/dao/update_family_member_info_dao.dart';
-import 'package:ThumbSir/model/get_customer_main_model.dart';
+import 'package:ThumbSir/model/get_customer_list_model.dart';
 import 'package:ThumbSir/model/login_result_data_model.dart';
 import 'package:ThumbSir/pages/broker/client/client_detail_page.dart';
 import 'package:ThumbSir/pages/broker/traded/traded_detail_page.dart';
@@ -341,10 +341,12 @@ class _ClientEditFamilyMemberPageState extends State<ClientEditFamilyMemberPage>
             style: TextStyle(color: Colors.white, fontSize: 20),
           ),
           onPressed: () async {
+            print('bbb');
             setState(() {
               var m=new FamilyMember(memberRole: memberMinCount,memberHobby: memberController.text);
               member.add(m);
             });
+            print(member);
             var addResult = await AddFamilyMemberInfoDao.addFamilyMemberInfo(widget.item.mid.toString(), memberMinCount, memberController.text);
             if(addResult.code == 200){
               Navigator.pop(context);

@@ -1,21 +1,11 @@
 import 'package:ThumbSir/common/reg.dart';
 import 'package:ThumbSir/dao/check_verify_code_dao.dart';
-import 'package:ThumbSir/dao/getuser_byphone_dao.dart';
-import 'package:ThumbSir/dao/signin_phone_verify_code_dao.dart';
-import 'package:ThumbSir/model/checkverifycode_model.dart';
 import 'package:ThumbSir/model/common_result_model.dart';
-import 'package:ThumbSir/model/find_user_result_model.dart';
-import 'package:ThumbSir/model/getuser_byphone_model.dart';
-import 'package:ThumbSir/model/phoneverifycode_model.dart';
 import 'package:ThumbSir/pages/login/find_key_page.dart';
-import 'package:ThumbSir/pages/login/signin_page.dart';
 import 'package:ThumbSir/widget/pyzminput.dart';
-import 'package:ThumbSir/widget/yzminput.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ThumbSir/widget/input.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../home.dart';
 
@@ -26,16 +16,16 @@ class FindKeyPhonePage extends StatefulWidget {
 
 class _FindKeyPhonePageState extends State<FindKeyPhonePage> {
   final TextEditingController phoneNumController=TextEditingController();
-  String phoneNum;
-  RegExp phoneReg;
-  bool phoneBool;
+  late String phoneNum;
+  late RegExp phoneReg;
+  bool phoneBool = false;
   final TextEditingController verifyCodeController=TextEditingController();
-  String verifyCode;
-  RegExp yzmReg;
-  bool verifyCodeBool;
+  late String verifyCode;
+  late RegExp yzmReg;
+  bool verifyCodeBool = false;
 
-  String WebAPICookie;
-  String userId;
+  late String webAPICookie;
+  late String userId;
 
   @override
   void initState() {
@@ -140,7 +130,7 @@ class _FindKeyPhonePageState extends State<FindKeyPhonePage> {
                                 phoneNum = text;
                                 phoneBool = phoneReg.hasMatch(phoneNum);
                               });
-                            },
+                            }, password: false,
                           ),
                           // 验证码
                           PYZMInput(
@@ -179,9 +169,9 @@ class _FindKeyPhonePageState extends State<FindKeyPhonePage> {
                       GestureDetector(
                         onTap: () async {
                           if(phoneBool == true && verifyCodeBool == true){
-                            final CommonResult coderesult=await CheckVerifyCodeDao.checkCode(verifyCode,WebAPICookie);
-                            if(coderesult != null){
-                              if(coderesult.code == 200 ){
+                            dynamic codeResult=await CheckVerifyCodeDao.checkCode(verifyCode,webAPICookie);
+                            if(codeResult != null){
+                              if(codeResult.code == 200 ){
                                 Navigator.push(context, MaterialPageRoute(builder: (context)=>FindKeyPage(
                                   userID :userId
                                 )));
@@ -229,7 +219,7 @@ class _FindKeyPhonePageState extends State<FindKeyPhonePage> {
 
   _editParentText(editText,userID) {
     setState(() {
-      WebAPICookie = editText;
+      webAPICookie = editText;
       userId = userID;
     });
   }

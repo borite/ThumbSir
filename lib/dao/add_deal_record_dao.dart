@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:ThumbSir/utils/common_vars.dart';
 
 //接口地址前缀
-const String apiPerfix=Url.apiPrefix;
+const String apiPerFix=Url.apiPrefix;
 
 class AddDealRecordDao {
   static Future<CommonResult> addDealRecord(
@@ -16,15 +16,18 @@ class AddDealRecordDao {
       String dealPrice,
       String dealRemark,
     ) async {
-    final response = await http.post(apiPerfix+'api/customer/AddDealRecord',body: {
-      "MID": mid,
-      "FinishTime":finishTime,
-      "DealReason":dealReason,
-      "Address":address,
-      "DealArea":dealArea,
-      "DealPrice":dealPrice,
-      "DealRemark":dealRemark,
-    });
+    var client = http.Client();
+    final response= await client.post(
+        Uri.http(apiPerFix,'/api/customer/AddDealRecord'),
+        body: {
+          "MID": mid,
+          "FinishTime":finishTime,
+          "DealReason":dealReason,
+          "Address":address,
+          "DealArea":dealArea,
+          "DealPrice":dealPrice,
+          "DealRemark":dealRemark,
+        });
     //Utf8Decoder utf8decoder = Utf8Decoder();  // 修复中文乱码
     //var result = json.decode(utf8decoder.convert(response.bodyBytes));
     if(response.statusCode == 200){

@@ -1,13 +1,9 @@
 import 'dart:convert';
-
 import 'package:ThumbSir/dao/un_bind_member_dao.dart';
 import 'package:ThumbSir/model/login_result_data_model.dart';
-import 'package:ThumbSir/pages/broker/qlist/qlist_change_page.dart';
 import 'package:ThumbSir/pages/home.dart';
-import 'package:ThumbSir/pages/mycenter/s_center_group_detail_page.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
 class DeleteMemberPage extends StatefulWidget {
@@ -18,25 +14,23 @@ class DeleteMemberPage extends StatefulWidget {
 }
 
 class _DeleteMemberPageState extends State<DeleteMemberPage> {
-  LoginResultData userData;
+  LoginResultData? userData;
   int _dateTime = DateTime.now().millisecondsSinceEpoch; // 当前时间转时间戳
-  int exT;
-  String uinfo;
+  late int exT;
+  late String uInfo;
   var result;
 
   _getUserInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    uinfo= prefs.getString("userInfo");
-    if(uinfo != null){
-      result =loginResultDataFromJson(uinfo);
-      exT = result.exTokenTime.millisecondsSinceEpoch; // token时间转时间戳
-      if(exT >= _dateTime){
-        this.setState(() {
-          userData=LoginResultData.fromJson(json.decode(uinfo));
-        });
-      }else{
-        _onLogoutAlertPressed(context);
-      }
+    uInfo= prefs.getString("userInfo")!;
+    result =loginResultDataFromJson(uInfo);
+    exT = result.exTokenTime.millisecondsSinceEpoch; // token时间转时间戳
+    if(exT >= _dateTime){
+      this.setState(() {
+        userData=LoginResultData.fromJson(json.decode(uInfo));
+      });
+    }else{
+      _onLogoutAlertPressed(context);
     }
   }
   @override
@@ -191,7 +185,7 @@ class _DeleteMemberPageState extends State<DeleteMemberPage> {
           ),
           onPressed: ()async{
             if(userData!= null){
-              var deleteMemberResult = await UnBindMemberDao.unbind(widget.item.userPid, widget.item.userLevel.substring(0,1), userData.companyId);
+              var deleteMemberResult = await UnBindMemberDao.unbind(widget.item.userPid, widget.item.userLevel.substring(0,1), userData!.companyId);
               if(deleteMemberResult.code == 200){
                 Navigator.of(context).pushAndRemoveUntil(
                     new MaterialPageRoute(builder: (context) => new Home()

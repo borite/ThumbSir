@@ -11,14 +11,14 @@ String sendVerifyCodeToJson(SendVerifyCode data) => json.encode(data.toJson());
 class SendVerifyCode {
   int code;
   String message;
-  String data;
-  String cookie;
+  dynamic data;
+  dynamic cookie;
 
   SendVerifyCode({
-    this.code,
-    this.message,
-    this.data,
-    this.cookie,
+    required this.code,
+    required this.message,
+    required this.data,
+    required this.cookie,
   });
 
   factory SendVerifyCode.fromJson(Map<String, dynamic> json) => SendVerifyCode(

@@ -10,38 +10,38 @@ String getNextLevelUsersToJson(GetNextLevelUsers data) => json.encode(data.toJso
 
 class GetNextLevelUsers {
   GetNextLevelUsers({
-    this.code,
-    this.message,
+    required this.code,
+    required this.message,
     this.data,
   });
 
   int code;
   String message;
-  List<Datum> data;
+  List<Datum>? data;
 
   factory GetNextLevelUsers.fromJson(Map<String, dynamic> json) => GetNextLevelUsers(
-    code: json["Code"] == null ? null : json["Code"],
-    message: json["Message"] == null ? null : json["Message"],
+    code: json["Code"],
+    message: json["Message"],
     data: json["Data"] == null ? null : List<Datum>.from(json["Data"].map((x) => Datum.fromJson(x))),
   );
 
   Map<String, dynamic> toJson() => {
-    "Code": code == null ? null : code,
-    "Message": message == null ? null : message,
-    "Data": data == null ? null : List<dynamic>.from(data.map((x) => x.toJson())),
+    "Code": code,
+    "Message": message,
+    "Data": data == null ? null : List<dynamic>.from(data!.map((x) => x.toJson())),
   };
 }
 
 class Datum {
   Datum({
-    this.userPid,
-    this.userLevel,
-    this.userName,
+    required this.userPid,
+    required this.userLevel,
+    required this.userName,
     this.headImg,
-    this.section,
-    this.phone,
+    required this.section,
+    required this.phone,
     this.email,
-    this.isVip,
+    required this.isVip,
     this.vipEndTime,
   });
 
@@ -56,26 +56,26 @@ class Datum {
   dynamic vipEndTime;
 
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
-    userPid: json["UserPID"] == null ? null : json["UserPID"],
-    userLevel: json["UserLevel"] == null ? null : json["UserLevel"],
-    userName: json["UserName"] == null ? null : json["UserName"],
+    userPid: json["UserPID"],
+    userLevel: json["UserLevel"],
+    userName: json["UserName"],
     headImg: json["HeadImg"],
-    section: json["Section"] == null ? null : json["Section"],
-    phone: json["Phone"] == null ? null : json["Phone"],
+    section: json["Section"],
+    phone: json["Phone"],
     email: json["Email"],
-    isVip: json["IsVIP"] == null ? null : json["IsVIP"],
+    isVip: json["IsVIP"],
     vipEndTime: json["VipEndTime"],
   );
 
   Map<String, dynamic> toJson() => {
-    "UserPID": userPid == null ? null : userPid,
-    "UserLevel": userLevel == null ? null : userLevel,
-    "UserName": userName == null ? null : userName,
+    "UserPID": userPid,
+    "UserLevel": userLevel,
+    "UserName": userName,
     "HeadImg": headImg,
-    "Section": section == null ? null : section,
-    "Phone": phone == null ? null : phone,
+    "Section": section,
+    "Phone": phone,
     "Email": email,
-    "IsVIP": isVip == null ? null : isVip,
+    "IsVIP": isVip,
     "VipEndTime": vipEndTime,
   };
 }

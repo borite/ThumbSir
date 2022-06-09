@@ -210,7 +210,7 @@ class _TradedSearchPageState extends State<TradedSearchPage> {
                             Padding(
                               padding: EdgeInsets.only(left: 10),
                               child: Text(
-                                '查找客户',
+                                '查找老客户',
                                 style: TextStyle(
                                   fontSize: 16,
                                   color: Color(0xFF5580EB),

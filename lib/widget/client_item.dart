@@ -1,6 +1,4 @@
 import 'package:ThumbSir/pages/broker/client/client_detail_page.dart';
-import 'package:ThumbSir/pages/broker/traded/traded_detail_page.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ClientItem extends StatefulWidget {
@@ -15,8 +13,8 @@ class ClientItem extends StatefulWidget {
   final giftList;
   final item;
 
-  ClientItem({Key key,
-    this.name,this.star,this.gender,this.age,this.phone,this.birthday,
+  ClientItem({Key? key,
+    required this.name,required this.star,required this.gender,required this.age,required this.phone,this.birthday,
     this.need,this.action, this.item,this.giftList,
   }):super(key:key);
   @override
@@ -25,14 +23,15 @@ class ClientItem extends StatefulWidget {
 
 class _ClientItemState extends State<ClientItem> with SingleTickerProviderStateMixin{
   bool _extend = false;
-  Animation<double> animation;
-  AnimationController controller;
-  AnimationStatus animationStatus;
-  double animationValue;
+  late Animation<double> animation;
+  late AnimationController controller;
+  late AnimationStatus animationStatus;
+  late double animationValue;
 
 
   @override
   void initState() {
+    print(widget.need);
     super.initState();
 
     controller = AnimationController(vsync:this,duration: Duration(seconds: 1));
@@ -206,7 +205,9 @@ class _ClientItemState extends State<ClientItem> with SingleTickerProviderStateM
                               borderRadius: BorderRadius.all(Radius.circular(6)),
                             ),
                             child: Text(
-                              widget.need[0].coreNeedOne ?? "未完善",
+                                widget.need[0].coreNeedOne.toString().contains(":")?
+                              widget.need[0].coreNeedOne.toString().substring(0,widget.need[0].coreNeedOne.toString().indexOf(':'))
+                                  :"未填写",
                               style: TextStyle(
                                 fontSize: 14,
                                 color: Colors.white,
@@ -215,7 +216,7 @@ class _ClientItemState extends State<ClientItem> with SingleTickerProviderStateM
                               ),
                             ),
                           ),
-                          widget.need[0].coreNeedTwo!=null?
+                          widget.need[0].coreNeedTwo!=null&&widget.need[0].coreNeedTwo!="暂无第二核心需求"?
                           Container(
                             margin: EdgeInsets.only(right: 10),
                             padding: EdgeInsets.fromLTRB(8, 3, 8, 3),
@@ -224,7 +225,9 @@ class _ClientItemState extends State<ClientItem> with SingleTickerProviderStateM
                               borderRadius: BorderRadius.all(Radius.circular(6)),
                             ),
                             child: Text(
-                              widget.need[0].coreNeedTwo,
+                              widget.need[0].coreNeedTwo.toString().contains(":")?
+                              widget.need[0].coreNeedTwo.toString().substring(0,widget.need[0].coreNeedTwo.toString().indexOf(':'))
+                                  :"-",
                               style: TextStyle(
                                 fontSize: 14,
                                 color: Colors.white,
@@ -233,7 +236,7 @@ class _ClientItemState extends State<ClientItem> with SingleTickerProviderStateM
                               ),
                             ),
                           ):Container(width: 1,),
-                          widget.need[0].coreNeedThree!=null?
+                          widget.need[0].coreNeedThree!=null&&widget.need[0].coreNeedThree!="暂无第三核心需求"?
                           Container(
                             padding: EdgeInsets.fromLTRB(8, 3, 8, 3),
                             decoration: BoxDecoration(
@@ -241,7 +244,9 @@ class _ClientItemState extends State<ClientItem> with SingleTickerProviderStateM
                               borderRadius: BorderRadius.all(Radius.circular(6)),
                             ),
                             child: Text(
-                              widget.need[0].coreNeedThree??"无",
+                              widget.need[0].coreNeedThree.toString().contains(":")?
+                              widget.need[0].coreNeedThree.toString().substring(0,widget.need[0].coreNeedThree.toString().indexOf(':'))
+                                  :"-",
                               style: TextStyle(
                                 fontSize: 14,
                                 color: Colors.white,
@@ -295,7 +300,9 @@ class _ClientItemState extends State<ClientItem> with SingleTickerProviderStateM
                               borderRadius: BorderRadius.all(Radius.circular(6)),
                             ),
                             child: Text(
-                              widget.need[0].coreNeedOne ?? "未完善",
+                              widget.need[1].coreNeedOne.toString().contains(":")?
+                              widget.need[1].coreNeedOne.toString().substring(0,widget.need[1].coreNeedOne.toString().indexOf(':'))
+                                  :"未填写",
                               style: TextStyle(
                                 fontSize: 14,
                                 color: Colors.white,
@@ -313,7 +320,9 @@ class _ClientItemState extends State<ClientItem> with SingleTickerProviderStateM
                               borderRadius: BorderRadius.all(Radius.circular(6)),
                             ),
                             child: Text(
-                              widget.need[1].coreNeedTwo,
+                              widget.need[1].coreNeedTwo.toString().contains(":")?
+                              widget.need[1].coreNeedTwo.toString().substring(0,widget.need[1].coreNeedTwo.toString().indexOf(':'))
+                                  :"-",
                               style: TextStyle(
                                 fontSize: 14,
                                 color: Colors.white,
@@ -330,7 +339,9 @@ class _ClientItemState extends State<ClientItem> with SingleTickerProviderStateM
                               borderRadius: BorderRadius.all(Radius.circular(6)),
                             ),
                             child: Text(
-                              widget.need[1].coreNeedThree??"无",
+                              widget.need[1].coreNeedThree.toString().contains(":")?
+                              widget.need[1].coreNeedThree.toString().substring(0,widget.need[1].coreNeedThree.toString().indexOf(':'))
+                                  :"-",
                               style: TextStyle(
                                 fontSize: 14,
                                 color: Colors.white,
@@ -611,14 +622,28 @@ class _ClientItemState extends State<ClientItem> with SingleTickerProviderStateM
                             ),
                             child: Text(
                               // "三居室 | 三环内 | 精装修",
-                              widget.need[0].coreNeedOne==null?"未完善"
+                              widget.need[0].coreNeedOne!=null
+                                  && widget.need[0].coreNeedOne.toString().contains(":")
+                                  && widget.need[0].coreNeedTwo !=null
+                                  && widget.need[0].coreNeedTwo.toString().contains(":")
+                                  && widget.need[0].coreNeedThree !=null
+                                  &&widget.need[0].coreNeedThree.toString().contains(":")?
+                              widget.need[0].coreNeedOne.toString().substring(0,widget.need[0].coreNeedOne.toString().indexOf(':'))
+                                  +" | "+widget.need[0].coreNeedTwo.toString().substring(0,widget.need[0].coreNeedOne.toString().indexOf(':'))
+                                  +" | "+ widget.need[0].coreNeedThree.toString().substring(0,widget.need[0].coreNeedOne.toString().indexOf(':'))
                                   :
-                              widget.need[0].coreNeedOne!=null&& widget.need[0].coreNeedTwo !=null && widget.need[0].coreNeedThree !=null?
-                              widget.need[0].coreNeedOne+" | "+widget.need[0].coreNeedTwo +" | "+ widget.need[0].coreNeedThree
+                              widget.need[0].coreNeedOne!=null && widget.need[0].coreNeedOne.toString().contains(":")
+                                  && widget.need[0].coreNeedTwo == null?
+                              widget.need[0].coreNeedOne.toString().substring(0,widget.need[0].coreNeedOne.toString().indexOf(':'))
                                   :
-                              widget.need[0].coreNeedOne!=null && widget.need[0].coreNeedTwo == null?widget.need[0].coreNeedOne
-                                  :
-                              widget.need[0].coreNeedOne+" | "+widget.need[0].coreNeedTwo,
+                              widget.need[0].coreNeedOne!=null
+                                  && widget.need[0].coreNeedOne.toString().contains(":")
+                                  && widget.need[0].coreNeedTwo !=null
+                                  && widget.need[0].coreNeedTwo.toString().contains(":")
+                                  && widget.need[0].coreNeedThree ==null?
+                              widget.need[0].coreNeedOne.toString().substring(0,widget.need[0].coreNeedOne.toString().indexOf(':'))
+                                  +" | "+widget.need[0].coreNeedTwo.toString().substring(0,widget.need[0].coreNeedOne.toString().indexOf(':'))
+                              :"未填写",
                               style: TextStyle(
                                 fontSize: 14,
                                 color: Color(0xFF5580EB),
@@ -677,14 +702,28 @@ class _ClientItemState extends State<ClientItem> with SingleTickerProviderStateM
                                   ),
                                   child: Text(
                                     // "三居室 | 三环内 | 精装修",
-                                    widget.need[1].coreNeedOne==null?"未完善"
+                                    widget.need[1].coreNeedOne!=null
+                                        && widget.need[1].coreNeedOne.toString().contains(":")
+                                        && widget.need[1].coreNeedTwo !=null
+                                        && widget.need[1].coreNeedTwo.toString().contains(":")
+                                        && widget.need[1].coreNeedThree !=null
+                                        &&widget.need[1].coreNeedThree.toString().contains(":")?
+                                    widget.need[1].coreNeedOne.toString().substring(0,widget.need[1].coreNeedOne.toString().indexOf(':'))
+                                        +" | "+widget.need[1].coreNeedTwo.toString().substring(0,widget.need[1].coreNeedOne.toString().indexOf(':'))
+                                        +" | "+ widget.need[1].coreNeedThree.toString().substring(0,widget.need[1].coreNeedOne.toString().indexOf(':'))
                                         :
-                                    widget.need[1].coreNeedOne!=null&& widget.need[1].coreNeedTwo !=null && widget.need[1].coreNeedThree !=null?
-                                    widget.need[1].coreNeedOne+" | "+widget.need[1].coreNeedTwo +" | "+ widget.need[1].coreNeedThree
+                                    widget.need[1].coreNeedOne!=null && widget.need[1].coreNeedOne.toString().contains(":")
+                                        && widget.need[1].coreNeedTwo == null?
+                                    widget.need[1].coreNeedOne.toString().substring(0,widget.need[1].coreNeedOne.toString().indexOf(':'))
                                         :
-                                    widget.need[1].coreNeedOne!=null && widget.need[1].coreNeedTwo == null?widget.need[1].coreNeedOne
-                                        :
-                                    widget.need[1].coreNeedOne+" | "+widget.need[1].coreNeedTwo,
+                                    widget.need[1].coreNeedOne!=null
+                                        && widget.need[1].coreNeedOne.toString().contains(":")
+                                        && widget.need[1].coreNeedTwo !=null
+                                        && widget.need[1].coreNeedTwo.toString().contains(":")
+                                        && widget.need[1].coreNeedThree ==null?
+                                    widget.need[1].coreNeedOne.substring(0,widget.need[1].coreNeedOne.toString().indexOf(':'))
+                                        +" | "+widget.need[0].coreNeedTwo.substring(0,widget.need[1].coreNeedOne.toString().indexOf(':'))
+                                        :"未填写",
                                     style: TextStyle(
                                       fontSize: 14,
                                       color: Color(0xFF5580EB),

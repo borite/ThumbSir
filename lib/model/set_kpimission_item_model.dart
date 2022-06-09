@@ -10,9 +10,9 @@ String selectItemToJson(SelectItem data) => json.encode(data.toJson());
 
 class SelectItem {
   SelectItem({
-    this.id,
-    this.taskTitle,
-    this.taskUnit,
+    required this.id,
+    required this.taskTitle,
+    required this.taskUnit,
   });
 
   String id;
@@ -20,14 +20,14 @@ class SelectItem {
   String taskUnit;
 
   factory SelectItem.fromJson(Map<String, dynamic> json) => SelectItem(
-    id: json["ID"] == null ? null : json["ID"],
-    taskTitle: json["TaskTitle"] == null ? null : json["TaskTitle"],
-    taskUnit: json["TaskUnit"] == null ? null : json["TaskUnit"],
+    id: json["ID"],
+    taskTitle: json["TaskTitle"],
+    taskUnit: json["TaskUnit"],
   );
 
   Map<String, dynamic> toJson() => {
-    "id": id == null ? null : id,
-    "TaskTitle": taskTitle == null ? null : taskTitle,
-    "TaskUnit": taskUnit == null ? null : taskUnit,
+    "id": id,
+    "TaskTitle": taskTitle,
+    "TaskUnit": taskUnit,
   };
 }

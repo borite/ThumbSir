@@ -10,14 +10,14 @@ String modifyPreCheck401ToJson(ModifyPreCheck401 data) => json.encode(data.toJso
 
 class ModifyPreCheck401 {
   ModifyPreCheck401({
-    this.code,
-    this.message,
+    required this.code,
+    required this.message,
     this.data,
   });
 
   int code;
   String message;
-  Data data;
+  Data? data;
 
   factory ModifyPreCheck401.fromJson(Map<String, dynamic> json) => ModifyPreCheck401(
     code: json["Code"] == null ? null : json["Code"],
@@ -26,9 +26,9 @@ class ModifyPreCheck401 {
   );
 
   Map<String, dynamic> toJson() => {
-    "Code": code == null ? null : code,
-    "Message": message == null ? null : message,
-    "Data": data == null ? null : data.toJson(),
+    "Code": code,
+    "Message": message,
+    "Data": data == null ? null : data!.toJson(),
   };
 }
 
@@ -38,8 +38,8 @@ class Data {
     this.modiPlans,
   });
 
-  Plans delPlans;
-  Plans modiPlans;
+  Plans? delPlans;
+  Plans? modiPlans;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
     delPlans: json["delPlans"] == null ? null : Plans.fromJson(json["delPlans"]),
@@ -47,31 +47,31 @@ class Data {
   );
 
   Map<String, dynamic> toJson() => {
-    "delPlans": delPlans == null ? null : delPlans.toJson(),
-    "modiPlans": modiPlans == null ? null : modiPlans.toJson(),
+    "delPlans": delPlans == null ? null : delPlans!.toJson(),
+    "modiPlans": modiPlans == null ? null : modiPlans!.toJson(),
   };
 }
 
 class Plans {
   Plans({
     this.planningStartTime,
-    this.defaultTaskId,
+    required this.defaultTaskId,
     this.planningEndTime,
-    this.id,
-    this.taskName,
-    this.companyId,
-    this.userId,
-    this.userLevel,
-    this.stars,
-    this.planningCount,
+    required this.id,
+    required this.taskName,
+    required this.companyId,
+    required this.userId,
+    required this.userLevel,
+    required this.stars,
+    required this.planningCount,
     this.address,
     this.remark,
-    this.isKpi,
+    required this.isKpi,
   });
 
-  DateTime planningStartTime;
+  DateTime? planningStartTime;
   int defaultTaskId;
-  DateTime planningEndTime;
+  DateTime? planningEndTime;
   int id;
   String taskName;
   String companyId;
@@ -100,18 +100,18 @@ class Plans {
   );
 
   Map<String, dynamic> toJson() => {
-    "PlanningStartTime": planningStartTime == null ? null : planningStartTime.toIso8601String(),
-    "DefaultTaskID": defaultTaskId == null ? null : defaultTaskId,
-    "PlanningEndTime": planningEndTime == null ? null : planningEndTime.toIso8601String(),
-    "ID": id == null ? null : id,
-    "TaskName": taskName == null ? null : taskName,
-    "CompanyID": companyId == null ? null : companyId,
-    "UserID": userId == null ? null : userId,
-    "UserLevel": userLevel == null ? null : userLevel,
-    "Stars": stars == null ? null : stars,
-    "PlanningCount": planningCount == null ? null : planningCount,
+    "PlanningStartTime": planningStartTime == null ? null : planningStartTime!.toIso8601String(),
+    "DefaultTaskID": defaultTaskId,
+    "PlanningEndTime": planningEndTime == null ? null : planningEndTime!.toIso8601String(),
+    "ID": id,
+    "TaskName": taskName,
+    "CompanyID": companyId,
+    "UserID": userId,
+    "UserLevel": userLevel,
+    "Stars": stars,
+    "PlanningCount": planningCount,
     "Address": address,
     "Remark": remark,
-    "IsKPI": isKpi == null ? null : isKpi,
+    "IsKPI": isKpi,
   };
 }

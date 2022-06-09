@@ -19,7 +19,7 @@ class AutoCompleteInput extends StatefulWidget {
 }
 
 class _AutoCompleteInputState extends State<AutoCompleteInput> {
-  ListItem selectedItem;
+  late ListItem selectedItem;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final formKey = GlobalKey<FormState>();
@@ -32,7 +32,7 @@ class _AutoCompleteInputState extends State<AutoCompleteInput> {
         padding: EdgeInsets.all(8.0),
         child: Form(
           key: formKey,
-          autovalidate: autovalidate,
+          autovalidateMode: AutovalidateMode.disabled,
           child: ListView(children: <Widget>[
             SizedBox(height: 16.0),
             Text('Selected listItem: "$selectedItem"'),
@@ -49,7 +49,7 @@ class _AutoCompleteInputState extends State<AutoCompleteInput> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                          person.name,
+                          person!.name,
                           style: TextStyle(fontWeight: FontWeight.bold)),
                     ]),
               ),
@@ -60,21 +60,20 @@ class _AutoCompleteInputState extends State<AutoCompleteInput> {
                   .contains(search.toLowerCase()))
                   .toList(),
               itemFromString: (string) => list.singleWhere(
-                      (person) => person.name.toLowerCase() == string.toLowerCase(),
-                  orElse: () => null),
-              onChanged: (value) => setState(() => selectedItem = value),
-              onSaved: (value) => setState(() => selectedItem = value),
+                      (person) => person.name.toLowerCase() == string.toLowerCase()),
+              onChanged: (value) => setState(() => selectedItem = value!),
+              onSaved: (value) => setState(() => selectedItem = value!),
               validator: (person) => person == null ? 'Invalid person.' : null,
             ),
             RaisedButton(
                 child: Text('Submit'),
                 onPressed: () {
-                  if (formKey.currentState.validate()) {
-                    formKey.currentState.save();
-                    scaffoldKey.currentState
+                  if (formKey.currentState!.validate()) {
+                    formKey.currentState!.save();
+                    scaffoldKey.currentState!
                         .showSnackBar(SnackBar(content: Text('Fields valid!')));
                   } else {
-                    scaffoldKey.currentState.showSnackBar(
+                    scaffoldKey.currentState!.showSnackBar(
                         SnackBar(content: Text('Fix errors to continue.')));
                     setState(() => autovalidate = true);
                   }

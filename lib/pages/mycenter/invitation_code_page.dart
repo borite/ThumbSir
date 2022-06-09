@@ -1,12 +1,8 @@
 import 'dart:convert';
-
-import 'package:ThumbSir/common/reg.dart';
 import 'package:ThumbSir/dao/get_invited_user_dao.dart';
 import 'package:ThumbSir/dao/get_inviter_dao.dart';
 import 'package:ThumbSir/dao/update_invite_code_dao.dart';
-import 'package:ThumbSir/model/get_inviter_model.dart';
 import 'package:ThumbSir/model/login_result_data_model.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:flutter/services.dart';
@@ -25,26 +21,24 @@ class _InvitationCodePageState extends State<InvitationCodePage> {
   var inviter;
   var inviteFriendMsg;
 
-  LoginResultData userData;
-  String uinfo;
+  LoginResultData? userData;
+  late String uInfo;
   var result;
 
   _getUserInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    uinfo= prefs.getString("userInfo");
-    if(uinfo != null){
-      result =loginResultDataFromJson(uinfo);
-      this.setState(() {
-        userData=LoginResultData.fromJson(json.decode(uinfo));
-      });
-      if(userData != null){
-        _load();
-      }
+    uInfo= prefs.getString("userInfo")!;
+    result =loginResultDataFromJson(uInfo);
+    this.setState(() {
+      userData=LoginResultData.fromJson(json.decode(uInfo));
+    });
+    if(userData != null){
+      _load();
     }
   }
 
   _load()async{
-    var inviterResult = await GetInviterDao.getInviter(userData.userPid);
+    var inviterResult = await GetInviterDao.getInviter(userData!.userPid);
     if(inviterResult.code == 200){
       setState(() {
         code = 1;
@@ -57,7 +51,7 @@ class _InvitationCodePageState extends State<InvitationCodePage> {
       });
     }
 
-    var inviteFriendResult = await GetInvitedUserDao.getInvitedUser(userData.inviteCode,1,20);
+    var inviteFriendResult = await GetInvitedUserDao.getInvitedUser(userData!.inviteCode,1,20);
     if(inviteFriendResult.code == 200){
       setState(() {
         inviteFriendMsg = inviteFriendResult.data;
@@ -99,7 +93,7 @@ class _InvitationCodePageState extends State<InvitationCodePage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Text(
-                          userData != null && userData.inviteCode != null ? userData.inviteCode:'',
+                          userData != null && userData!.inviteCode != null ? userData!.inviteCode:'',
                           style:TextStyle(
                             fontSize: 28,
                             color: Color(0xFF5580EB),
@@ -117,7 +111,7 @@ class _InvitationCodePageState extends State<InvitationCodePage> {
                           ),
                           child: GestureDetector(
                             onTap: (){
-                              Clipboard.setData(ClipboardData(text: '963123'));
+                              Clipboard.setData(ClipboardData(text: userData!.inviteCode));
                               _onPasteAlertPressed(context);
                             },
                             child: Text("复制",style: TextStyle(
@@ -349,13 +343,13 @@ class _InvitationCodePageState extends State<InvitationCodePage> {
             style: TextStyle(color: Colors.white, fontSize: 20),
           ),
           onPressed: ()async{
-            var inputResult = await UpdateInviteCodeDao.updateInviteCode(inviterController.text, userData.userPid);
+            var inputResult = await UpdateInviteCodeDao.updateInviteCode(inviterController.text, userData!.userPid);
             if(inputResult.code == 200){
               setState(() {
                 code = 1;
               });
               Navigator.pop(context);
-            }else if(userData.inviteCode == inviterController.text){
+            }else if(userData!.inviteCode == inviterController.text){
               _myInviteCode();
             }
             else{

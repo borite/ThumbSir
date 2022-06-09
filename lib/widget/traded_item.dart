@@ -27,10 +27,10 @@ class TradedItem extends StatefulWidget {
 
 class _TradedItemState extends State<TradedItem> with SingleTickerProviderStateMixin{
   bool _extend = false;
-  Animation<double> animation;
-  AnimationController controller;
-  AnimationStatus animationStatus;
-  double animationValue;
+  late Animation<double> animation;
+  late AnimationController controller;
+  late AnimationStatus animationStatus;
+  late double animationValue;
 
 
   @override

@@ -10,14 +10,14 @@ String testViToJson(TestVi data) => json.encode(data.toJson());
 
 class TestVi {
   TestVi({
-    this.code,
-    this.message,
+    required this.code,
+    required this.message,
     this.data,
   });
 
   int code;
   String message;
-  String data;
+  dynamic data;
 
   factory TestVi.fromJson(Map<String, dynamic> json) => TestVi(
     code: json["Code"] == null ? null : json["Code"],
@@ -26,8 +26,8 @@ class TestVi {
   );
 
   Map<String, dynamic> toJson() => {
-    "Code": code == null ? null : code,
-    "Message": message == null ? null : message,
+    "Code": code,
+    "Message": message,
     "Data": data == null ? null : data,
   };
 }

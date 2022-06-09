@@ -10,12 +10,12 @@ String recordMissionToJson(List<RecordMission> data) => json.encode(List<dynamic
 
 class RecordMission {
   RecordMission({
-    this.userLevels,
-    this.userPid,
-    this.img,
-    this.phoneNum,
-    this.selectMissionId,
-    this.gpsLocation,
+    required this.userLevels,
+    required this.userPid,
+    required this.img,
+    required this.phoneNum,
+    required this.selectMissionId,
+    required this.gpsLocation,
   });
 
   String userLevels;
@@ -35,11 +35,11 @@ class RecordMission {
   );
 
   Map<String, dynamic> toJson() => {
-    "userLevels": userLevels == null ? null : userLevels,
-    "UserPID": userPid == null ? null : userPid,
-    "Img": img == null ? null : img,
-    "PhoneNum": phoneNum == null ? null : phoneNum,
-    "SelectMissionID": selectMissionId == null ? null : selectMissionId,
-    "GpsLocation": gpsLocation == null ? null : gpsLocation,
+    "userLevels": userLevels,
+    "UserPID": userPid,
+    "Img": img,
+    "PhoneNum": phoneNum,
+    "SelectMissionID": selectMissionId,
+    "GpsLocation": gpsLocation,
   };
 }

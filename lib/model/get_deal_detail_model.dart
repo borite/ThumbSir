@@ -10,14 +10,14 @@ String getDealDetailToJson(GetDealDetail data) => json.encode(data.toJson());
 
 class GetDealDetail {
   GetDealDetail({
-    this.code,
-    this.message,
+    required this.code,
+    required this.message,
     this.data,
   });
 
   int code;
   String message;
-  List<Datum> data;
+  List<Datum>? data;
 
   factory GetDealDetail.fromJson(Map<String, dynamic> json) => GetDealDetail(
     code: json["Code"] == null ? null : json["Code"],
@@ -26,25 +26,25 @@ class GetDealDetail {
   );
 
   Map<String, dynamic> toJson() => {
-    "Code": code == null ? null : code,
-    "Message": message == null ? null : message,
-    "Data": data == null ? null : List<dynamic>.from(data.map((x) => x.toJson())),
+    "Code": code,
+    "Message": message,
+    "Data": data == null ? null : List<dynamic>.from(data!.map((x) => x.toJson())),
   };
 }
 
 class Datum {
   Datum({
-    this.id,
+    required this.id,
     this.finishTime,
-    this.dealReason,
+    required this.dealReason,
     this.dealArea,
-    this.dealPrice,
+    required this.dealPrice,
     this.address,
     this.dealRemark,
   });
 
   int id;
-  DateTime finishTime;
+  DateTime? finishTime;
   String dealReason;
   dynamic dealArea;
   double dealPrice;
@@ -62,11 +62,11 @@ class Datum {
   );
 
   Map<String, dynamic> toJson() => {
-    "ID": id == null ? null : id,
-    "FinishTime": finishTime == null ? null : finishTime.toIso8601String(),
-    "DealReason": dealReason == null ? null : dealReason,
+    "ID": id,
+    "FinishTime": finishTime == null ? null : finishTime!.toIso8601String(),
+    "DealReason": dealReason,
     "DealArea": dealArea,
-    "DealPrice": dealPrice == null ? null : dealPrice,
+    "DealPrice": dealPrice,
     "Address": address,
     "DealRemark": dealRemark,
   };

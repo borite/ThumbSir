@@ -10,14 +10,14 @@ String getCustomerListToJson(GetCustomerList data) => json.encode(data.toJson())
 
 class GetCustomerList {
   GetCustomerList({
-    this.code,
-    this.message,
+    required this.code,
+    required this.message,
     this.data,
   });
 
   int code;
   String message;
-  List<Datum> data;
+  List<Datum>? data;
 
   factory GetCustomerList.fromJson(Map<String, dynamic> json) => GetCustomerList(
     code: json["Code"] == null ? null : json["Code"],
@@ -26,31 +26,31 @@ class GetCustomerList {
   );
 
   Map<String, dynamic> toJson() => {
-    "Code": code == null ? null : code,
-    "Message": message == null ? null : message,
-    "Data": data == null ? null : List<dynamic>.from(data.map((x) => x.toJson())),
+    "Code": code,
+    "Message": message,
+    "Data": data == null ? null : List<dynamic>.from(data!.map((x) => x.toJson())),
   };
 }
 
 class Datum {
   Datum({
-    this.mid,
-    this.userId,
-    this.userType,
-    this.userName,
-    this.sex,
-    this.phone,
+    required this.mid,
+    required this.userId,
+    required this.userType,
+    required this.userName,
+    required this.sex,
+    required this.phone,
     this.birthday,
-    this.starslevel,
-    this.occupation,
-    this.income,
+    required this.starslevel,
+    required this.occupation,
+    required this.income,
     this.hobby,
     this.remark,
     this.address,
     this.familyMember,
     this.needs,
     this.busAct,
-    this.age,
+    required this.age,
   });
 
   int mid;
@@ -59,16 +59,16 @@ class Datum {
   String userName;
   int sex;
   String phone;
-  DateTime birthday;
+  DateTime? birthday;
   int starslevel;
   String occupation;
   String income;
-  String hobby;
-  String remark;
-  String address;
-  List<FamilyMember> familyMember;
-  List<Need> needs;
-  BusAct busAct;
+  String? hobby;
+  String? remark;
+  String? address;
+  List<FamilyMember>? familyMember;
+  List<Need>? needs;
+  BusAct? busAct;
   int age;
 
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
@@ -91,23 +91,23 @@ class Datum {
     age: json["age"] == null ? null : json["age"],
   );
   Map<String, dynamic> toJson() => {
-    "MID": mid == null ? null : mid,
-    "UserID": userId == null ? null : userId,
-    "UserType": userType == null ? null : userType,
-    "UserName": userName == null ? null : userName,
-    "Sex": sex == null ? null : sex,
-    "Phone": phone == null ? null : phone,
-    "Birthday": birthday == null ? null : birthday.toIso8601String(),
-    "Starslevel": starslevel == null ? null : starslevel,
-    "occupation": occupation == null ? null : occupation,
-    "Income": income == null ? null : income,
+    "MID": mid,
+    "UserID": userId,
+    "UserType": userType,
+    "UserName": userName,
+    "Sex": sex,
+    "Phone": phone,
+    "Birthday": birthday == null ? null : birthday!.toIso8601String(),
+    "Starslevel": starslevel,
+    "occupation": occupation,
+    "Income": income,
     "Hobby": hobby == null ? null : hobby,
     "Remark": remark == null ? null : remark,
     "Address": address == null ? null : address,
-    "FamilyMember": familyMember == null ? null : List<dynamic>.from(familyMember.map((x) => x.toJson())),
-    "Needs": needs == null ? null : List<dynamic>.from(needs.map((x) => x.toJson())),
-    "BusAct": busAct == null ? null : busAct.toJson(),
-    "age": age == null ? null : age,
+    "FamilyMember": familyMember == null ? null : List<dynamic>.from(familyMember!.map((x) => x.toJson())),
+    "Needs": needs == null ? null : List<dynamic>.from(needs!.map((x) => x.toJson())),
+    "BusAct": busAct == null ? null : busAct!.toJson(),
+    "age": age,
   };
 }
 
@@ -116,28 +116,28 @@ class BusAct {
     this.act,
   });
 
-  List<Act> act;
+  List<Act>? act;
 
   factory BusAct.fromJson(Map<String, dynamic> json) => BusAct(
     act: json["act"] == null ? null : List<Act>.from(json["act"].map((x) => Act.fromJson(x))),
   );
 
   Map<String, dynamic> toJson() => {
-    "act": act == null ? null : List<dynamic>.from(act.map((x) => x.toJson())),
+    "act": act == null ? null : List<dynamic>.from(act!.map((x) => x.toJson())),
   };
 }
 
 class Act {
   Act({
-    this.actionName,
-    this.actionPlace,
+    required this.actionName,
+    required this.actionPlace,
     this.actionTime,
-    this.actionDesc,
+    required this.actionDesc,
   });
 
   String actionName;
   String actionPlace;
-  DateTime actionTime;
+  DateTime? actionTime;
   String actionDesc;
 
   factory Act.fromJson(Map<String, dynamic> json) => Act(
@@ -148,18 +148,18 @@ class Act {
   );
 
   Map<String, dynamic> toJson() => {
-    "ActionName": actionName == null ? null : actionName,
-    "ActionPlace": actionPlace == null ? null : actionPlace,
-    "ActionTime": actionTime == null ? null : actionTime.toIso8601String(),
-    "ActionDesc": actionDesc == null ? null : actionDesc,
+    "ActionName": actionName,
+    "ActionPlace": actionPlace,
+    "ActionTime": actionTime == null ? null : actionTime!.toIso8601String(),
+    "ActionDesc": actionDesc,
   };
 }
 
 class FamilyMember {
   FamilyMember({
     this.userInfoMain,
-    this.id,
-    this.mid,
+    required this.id,
+    required this.mid,
     this.memberRole,
     this.memberHobby,
   });
@@ -167,8 +167,8 @@ class FamilyMember {
   dynamic userInfoMain;
   int id;
   int mid;
-  String memberRole;
-  String memberHobby;
+  String? memberRole;
+  String? memberHobby;
 
   factory FamilyMember.fromJson(Map<String, dynamic> json) => FamilyMember(
     userInfoMain: json["UserInfoMain"],
@@ -180,8 +180,8 @@ class FamilyMember {
 
   Map<String, dynamic> toJson() => {
     "UserInfoMain": userInfoMain,
-    "ID": id == null ? null : id,
-    "MID": mid == null ? null : mid,
+    "ID": id,
+    "MID": mid,
     "MemberRole": memberRole == null ? null : memberRole,
     "MemberHobby": memberHobby == null ? null : memberHobby,
   };
@@ -189,10 +189,10 @@ class FamilyMember {
 
 class Need {
   Need({
-    this.mainNeed,
-    this.coreNeedOne,
-    this.coreNeedTwo,
-    this.coreNeedThree,
+    required this.mainNeed,
+    required this.coreNeedOne,
+    required this.coreNeedTwo,
+    required this.coreNeedThree,
   });
 
   String mainNeed;
@@ -208,9 +208,9 @@ class Need {
   );
 
   Map<String, dynamic> toJson() => {
-    "MainNeed": mainNeed == null ? null : mainNeed,
-    "CoreNeedOne": coreNeedOne == null ? null : coreNeedOne,
-    "CoreNeedTwo": coreNeedTwo == null ? null : coreNeedTwo,
-    "CoreNeedThree": coreNeedThree == null ? null : coreNeedThree,
+    "MainNeed": mainNeed,
+    "CoreNeedOne": coreNeedOne,
+    "CoreNeedTwo": coreNeedTwo,
+    "CoreNeedThree": coreNeedThree,
   };
 }

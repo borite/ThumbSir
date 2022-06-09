@@ -10,14 +10,14 @@ String singInResultToJson(SingInResult data) => json.encode(data.toJson());
 
 class SingInResult {
   SingInResult({
-    this.code,
-    this.message,
+    required this.code,
+    required this.message,
     this.data,
   });
 
   int code;
   String message;
-  Data data;
+  Data? data;
 
   factory SingInResult.fromJson(Map<String, dynamic> json) => SingInResult(
     code: json["Code"] == null ? null : json["Code"],
@@ -26,16 +26,16 @@ class SingInResult {
   );
 
   Map<String, dynamic> toJson() => {
-    "Code": code == null ? null : code,
-    "Message": message == null ? null : message,
-    "Data": data == null ? null : data.toJson(),
+    "Code": code,
+    "Message": message,
+    "Data": data == null ? null : data!.toJson(),
   };
 }
 
 class Data {
   Data({
-    this.userPid,
-    this.userName,
+    required this.userPid,
+    required this.userName,
   });
 
   String userPid;
@@ -47,7 +47,7 @@ class Data {
   );
 
   Map<String, dynamic> toJson() => {
-    "UserPID": userPid == null ? null : userPid,
-    "UserName": userName == null ? null : userName,
+    "UserPID": userPid,
+    "UserName": userName,
   };
 }

@@ -1,10 +1,8 @@
 import 'package:ThumbSir/common/reg.dart';
 import 'package:ThumbSir/pages/login/signin_choose_position_page.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ThumbSir/widget/input.dart';
 import 'package:wheel_chooser/wheel_chooser.dart';
-import 'package:city_picker/city_picker.dart';
 import 'package:ThumbSir/dao/create_company_dao.dart';
 import 'package:ThumbSir/model/common_result_model.dart';
 import 'package:ThumbSir/dao/set_company_level_dao.dart';
@@ -19,66 +17,66 @@ class SigninBuildCompanyPage extends StatefulWidget {
 class _SigninBuildCompanyPageState extends State<SigninBuildCompanyPage> {
 
   Future<SharedPreferences> _prefs=SharedPreferences.getInstance();
-  Future<String> _companyID;
+  late Future<String> _companyID;
 
   List<String> levelNames=[];
 
   final TextEditingController companyNameController = TextEditingController();
-  String companyName;
-  RegExp companyReg;
-  bool companyNameBool;
+  late String companyName;
+  late RegExp companyReg;
+  bool companyNameBool = false;
   final TextEditingController creditCodeController = TextEditingController();
-  String creditCode;
-  RegExp creditCodeReg;
-  bool creditCodeBool;
+  late String creditCode;
+  late RegExp creditCodeReg;
+  bool creditCodeBool = false;
   final TextEditingController levelOneController = TextEditingController();
-  String levelOneText;
-  RegExp levelOneTextReg;
-  bool levelOneTextBool;
+  late String levelOneText;
+  late RegExp levelOneTextReg;
+  bool levelOneTextBool = false;
   final TextEditingController levelTwoController = TextEditingController();
-  String levelTwoText;
-  RegExp levelTwoTextReg;
-  bool levelTwoTextBool;
+  late String levelTwoText;
+  late RegExp levelTwoTextReg;
+  bool levelTwoTextBool = false;
   final TextEditingController levelThreeController = TextEditingController();
-  String levelThreeText;
-  RegExp levelThreeTextReg;
-  bool levelThreeTextBool;
+  late String levelThreeText;
+  late RegExp levelThreeTextReg;
+  bool levelThreeTextBool = false;
   final TextEditingController levelFourController = TextEditingController();
-  String levelFourText;
-  RegExp levelFourTextReg;
-  bool levelFourTextBool;
+  late String levelFourText;
+  late RegExp levelFourTextReg;
+  bool levelFourTextBool = false;
   final TextEditingController levelFiveController = TextEditingController();
-  String levelFiveText;
-  RegExp levelFiveTextReg;
-  bool levelFiveTextBool;
+  late String levelFiveText;
+  late RegExp levelFiveTextReg;
+  bool levelFiveTextBool = false;
   final TextEditingController levelSixController = TextEditingController();
-  String levelSixText;
-  RegExp levelSixTextReg;
-  bool levelSixTextBool;
+  late String levelSixText;
+  late RegExp levelSixTextReg;
+  bool levelSixTextBool = false;
 
-  String text;
-  String p1;
-  String p2;
+  // String text;
+  // String p1;
+  // String p2;
   String lcount="6";
-
-  String companyID;
-  void _incrementCounter() async {
-    CityResult result = await showCityPicker(context,
-        initCity: CityResult()
-          ..province = p1
-          ..city = p2);
-
-    if (result == null) {
-      return;
-    }
-
-    p1 = result?.province;
-    p2 = result?.city;
-
-    setState(() {
-      text = "${result?.province} - ${result?.city}";
-    });
-  }
+  //
+  // String companyID;
+  // void _incrementCounter() async {
+  //   CityResult result = await showCityPicker(context,
+  //       initCity: CityResult()
+  //         ..province = p1
+  //         ..city = p2);
+  //
+  //   if (result == null) {
+  //     return;
+  //   }
+  //
+  //   p1 = result?.province;
+  //   p2 = result?.city;
+  //
+  //   setState(() {
+  //     text = "${result?.province} - ${result?.city}";
+  //   });
+  // }
 
   @override
   void initState() {
@@ -183,7 +181,7 @@ class _SigninBuildCompanyPageState extends State<SigninBuildCompanyPage> {
                                 companyName = text;
                                 companyNameBool = companyReg.hasMatch(companyName);
                               });
-                            },
+                            }, password: false,
                           ),
                           // 社会统一信用代码
                           Input(
@@ -199,43 +197,43 @@ class _SigninBuildCompanyPageState extends State<SigninBuildCompanyPage> {
                                 creditCode = text;
                                 creditCodeBool = creditCodeReg.hasMatch(creditCode);
                               });
-                            },
+                            }, password: false,
                           ),
                           // 选择省市
-                          GestureDetector(
-                            onTap: _incrementCounter,
-                            child: Container(
-                              width: 335,
-                              height: 40,
-                              margin: EdgeInsets.only(top: 10),
-                              decoration: BoxDecoration(
-                                border: Border.all(width: 1,color: Color(0xFF2692FD)),
-                                borderRadius: BorderRadius.circular(8),
-                                color: Colors.white,
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-                                  Padding(
-                                    padding:EdgeInsets.only(left: 10),
-                                    child: Text(
-                                      text ?? "选择省市",
-                                      style:TextStyle(
-                                        fontSize: 14,
-                                        color: Color(0xFF999999),
-                                        fontWeight: FontWeight.normal,
-                                        decoration: TextDecoration.none,
-                                      ),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding:EdgeInsets.only(right: 10),
-                                    child: Icon(Icons.arrow_drop_down),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),// This trailing comma makes auto-formatting nicer for build methods.
+                          // GestureDetector(
+                          //   onTap: _incrementCounter,
+                          //   child: Container(
+                          //     width: 335,
+                          //     height: 40,
+                          //     margin: EdgeInsets.only(top: 10),
+                          //     decoration: BoxDecoration(
+                          //       border: Border.all(width: 1,color: Color(0xFF2692FD)),
+                          //       borderRadius: BorderRadius.circular(8),
+                          //       color: Colors.white,
+                          //     ),
+                          //     child: Row(
+                          //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          //       children: <Widget>[
+                          //         Padding(
+                          //           padding:EdgeInsets.only(left: 10),
+                          //           child: Text(
+                          //             text ?? "选择省市",
+                          //             style:TextStyle(
+                          //               fontSize: 14,
+                          //               color: Color(0xFF999999),
+                          //               fontWeight: FontWeight.normal,
+                          //               decoration: TextDecoration.none,
+                          //             ),
+                          //           ),
+                          //         ),
+                          //         Padding(
+                          //           padding:EdgeInsets.only(right: 10),
+                          //           child: Icon(Icons.arrow_drop_down),
+                          //         ),
+                          //       ],
+                          //     ),
+                          //   ),
+                          // ),// This trailing comma makes auto-formatting nicer for build methods.
                           // 创建职级
                           Padding(
                             padding: EdgeInsets.fromLTRB(20, 20, 20, 10),
@@ -370,7 +368,7 @@ class _SigninBuildCompanyPageState extends State<SigninBuildCompanyPage> {
                                 levelOneText = text;
                                 levelOneTextBool = levelOneTextReg.hasMatch(levelOneText);
                               });
-                            },
+                            }, password: false,
                           ):Container(height: 1,),
 
                           // 填写职级2
@@ -431,7 +429,7 @@ class _SigninBuildCompanyPageState extends State<SigninBuildCompanyPage> {
                                 levelTwoText = text;
                                 levelTwoTextBool = levelTwoTextReg.hasMatch(levelTwoText);
                               });
-                            },
+                            }, password: false,
                           ):Container(height: 1,),
 
                           // 填写职级3
@@ -495,7 +493,7 @@ class _SigninBuildCompanyPageState extends State<SigninBuildCompanyPage> {
                                 levelThreeText = text;
                                 levelThreeTextBool = levelThreeTextReg.hasMatch(levelThreeText);
                               });
-                            },
+                            }, password: false,
                           ):Container(height: 1,),
 
                           // 填写职级4
@@ -562,7 +560,7 @@ class _SigninBuildCompanyPageState extends State<SigninBuildCompanyPage> {
                                 levelFourText = text;
                                 levelFourTextBool = levelFourTextReg.hasMatch(levelFourText);
                               });
-                            },
+                            }, password: false,
                           ):Container(height: 1,),
 
                           // 填写职级5
@@ -629,7 +627,7 @@ class _SigninBuildCompanyPageState extends State<SigninBuildCompanyPage> {
                                 levelFiveText = text;
                                 levelFiveTextBool = levelFiveTextReg.hasMatch(levelFiveText);
                               });
-                            },
+                            }, password: false,
                           ),
 
                           // 填写职级6
@@ -691,7 +689,7 @@ class _SigninBuildCompanyPageState extends State<SigninBuildCompanyPage> {
                                 levelSixText = text;
                                 levelSixTextBool = levelSixTextReg.hasMatch(levelSixText);
                               });
-                            },
+                            }, password: false,
                           ),
                         ],
                       ),
@@ -701,129 +699,129 @@ class _SigninBuildCompanyPageState extends State<SigninBuildCompanyPage> {
                           height: 40,
                           padding: EdgeInsets.all(4),
                           margin: EdgeInsets.only(bottom: 50,top: 100),
-                          decoration:
-                          lcount == "2"
-                              && companyNameBool == true
-                              && creditCodeBool == true
-                              && p1 != null && p2 != null
-                              && levelFiveTextBool==true
-                              && levelSixTextBool==true?
+                           decoration:
+                          // lcount == "2"
+                          //     && companyNameBool == true
+                          //     && creditCodeBool == true
+                          //     && p1 != null && p2 != null
+                          //     && levelFiveTextBool==true
+                          //     && levelSixTextBool==true?
+                          // BoxDecoration(
+                          //     border: Border.all(width: 1,color: Color(0xFF5580EB)),
+                          //     borderRadius: BorderRadius.circular(8),
+                          //     color: Color(0xFF5580EB)
+                          // )
+                          // :lcount == "3"
+                          //     && companyNameBool == true
+                          //     && creditCodeBool == true
+                          //     && p1 != null && p2 != null
+                          //     && levelFourTextBool==true
+                          //     && levelFiveTextBool==true
+                          //     && levelSixTextBool==true?
+                          // BoxDecoration(
+                          //     border: Border.all(width: 1,color: Color(0xFF5580EB)),
+                          //     borderRadius: BorderRadius.circular(8),
+                          //     color: Color(0xFF5580EB)
+                          // )
+                          // :lcount == "4"
+                          //     && companyNameBool == true
+                          //     && creditCodeBool == true
+                          //     && p1 != null && p2 != null
+                          //     && levelThreeTextBool==true
+                          //     && levelFourTextBool==true
+                          //     && levelFiveTextBool==true
+                          //     && levelSixTextBool==true?
+                          // BoxDecoration(
+                          //     border: Border.all(width: 1,color: Color(0xFF5580EB)),
+                          //     borderRadius: BorderRadius.circular(8),
+                          //     color: Color(0xFF5580EB)
+                          // )
+                          // :lcount == "5"
+                          //     && companyNameBool == true
+                          //     && creditCodeBool == true
+                          //     && p1 != null && p2 != null
+                          //     && levelTwoTextBool==true
+                          //     && levelThreeTextBool==true
+                          //     && levelFourTextBool==true
+                          //     && levelFiveTextBool==true
+                          //     && levelSixTextBool==true?
+                          // BoxDecoration(
+                          //     border: Border.all(width: 1,color: Color(0xFF5580EB)),
+                          //     borderRadius: BorderRadius.circular(8),
+                          //     color: Color(0xFF5580EB)
+                          // )
+                          // :lcount == "6"
+                          //     && companyNameBool == true
+                          //     && creditCodeBool == true
+                          //     && p1 != null && p2 != null
+                          //     && levelOneTextBool==true
+                          //     && levelTwoTextBool==true
+                          //     && levelThreeTextBool==true
+                          //     && levelFourTextBool==true
+                          //     && levelFiveTextBool==true
+                          //     && levelSixTextBool==true?
                           BoxDecoration(
                               border: Border.all(width: 1,color: Color(0xFF5580EB)),
                               borderRadius: BorderRadius.circular(8),
                               color: Color(0xFF5580EB)
-                          )
-                          :lcount == "3"
-                              && companyNameBool == true
-                              && creditCodeBool == true
-                              && p1 != null && p2 != null
-                              && levelFourTextBool==true
-                              && levelFiveTextBool==true
-                              && levelSixTextBool==true?
-                          BoxDecoration(
-                              border: Border.all(width: 1,color: Color(0xFF5580EB)),
-                              borderRadius: BorderRadius.circular(8),
-                              color: Color(0xFF5580EB)
-                          )
-                          :lcount == "4"
-                              && companyNameBool == true
-                              && creditCodeBool == true
-                              && p1 != null && p2 != null
-                              && levelThreeTextBool==true
-                              && levelFourTextBool==true
-                              && levelFiveTextBool==true
-                              && levelSixTextBool==true?
-                          BoxDecoration(
-                              border: Border.all(width: 1,color: Color(0xFF5580EB)),
-                              borderRadius: BorderRadius.circular(8),
-                              color: Color(0xFF5580EB)
-                          )
-                          :lcount == "5"
-                              && companyNameBool == true
-                              && creditCodeBool == true
-                              && p1 != null && p2 != null
-                              && levelTwoTextBool==true
-                              && levelThreeTextBool==true
-                              && levelFourTextBool==true
-                              && levelFiveTextBool==true
-                              && levelSixTextBool==true?
-                          BoxDecoration(
-                              border: Border.all(width: 1,color: Color(0xFF5580EB)),
-                              borderRadius: BorderRadius.circular(8),
-                              color: Color(0xFF5580EB)
-                          )
-                          :lcount == "6"
-                              && companyNameBool == true
-                              && creditCodeBool == true
-                              && p1 != null && p2 != null
-                              && levelOneTextBool==true
-                              && levelTwoTextBool==true
-                              && levelThreeTextBool==true
-                              && levelFourTextBool==true
-                              && levelFiveTextBool==true
-                              && levelSixTextBool==true?
-                          BoxDecoration(
-                              border: Border.all(width: 1,color: Color(0xFF5580EB)),
-                              borderRadius: BorderRadius.circular(8),
-                              color: Color(0xFF5580EB)
-                          )
-                          :
-                          BoxDecoration(
-                              border: Border.all(width: 1,color: Color(0xFF93C0FB)),
-                              borderRadius: BorderRadius.circular(8),
-                              color: Color(0xFF93C0FB)
                           ),
+                          // :
+                          // BoxDecoration(
+                          //     border: Border.all(width: 1,color: Color(0xFF93C0FB)),
+                          //     borderRadius: BorderRadius.circular(8),
+                          //     color: Color(0xFF93C0FB)
+                          // ),
                           child: Padding(
                             padding: EdgeInsets.only(top: 4),
                             child: GestureDetector(
                               onTap: () async{
-                                final SharedPreferences prefs=await _prefs;
-                                final String companyName=companyNameController.text;
-                                final String companyCode=creditCodeController.text;
-                                final String province=p1;
-                                final String city=p2;
-                                final CommonResult result=await CreateCompanyDao.httpPostCreateCompany(companyName, companyCode, lcount , province, city);
-                                //print(result);
-                                if(result.code==200) {
-                                  companyID=result.data;
-                                  await prefs.setString("companyID", companyID);
-                                  for(int i=0;i<int.parse(lcount);i++){
-                                     String levelName="";
-                                     int realLevelNum=6-i;
-                                     switch(realLevelNum){
-                                       case 1:
-                                         levelName=levelOneController.text;
-                                         break;
-                                       case 2:
-                                         levelName=levelTwoController.text;
-                                         break;
-                                       case 3:
-                                         levelName=levelThreeController.text;
-                                         break;
-                                       case 4:
-                                         levelName=levelFourController.text;
-                                         break;
-                                       case 5:
-                                         levelName=levelFiveController.text;
-                                         break;
-                                       case 6:
-                                         levelName=levelSixController.text;
-                                         break;
-                                       default:
-                                         break;
-                                     }
-                                     await SetCompanyLevelDao.httpSetCompanyLevel(companyID, realLevelNum.toString(),levelName);
-                                     levelNames.add(realLevelNum.toString()+"-"+levelName);
-                                     //print(r);
-                                  }
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) => SigninChoosePositionPage(
-                                    levelNames:levelNames.reversed.toList(),
-                                    companyId:companyID,
-                                    companyLevelCount:int.parse(lcount),
-                                  )));
-                                }else{
-                                  _on410AlertPressed(context);
-                                }
+                                // final SharedPreferences prefs=await _prefs;
+                                // final String companyName=companyNameController.text;
+                                // final String companyCode=creditCodeController.text;
+                                // final String province=p1;
+                                // final String city=p2;
+                                // final CommonResult result=await CreateCompanyDao.httpPostCreateCompany(companyName, companyCode, lcount , province, city);
+                                // //print(result);
+                                // if(result.code==200) {
+                                //   companyID=result.data;
+                                //   await prefs.setString("companyID", companyID);
+                                //   for(int i=0;i<int.parse(lcount);i++){
+                                //      String levelName="";
+                                //      int realLevelNum=6-i;
+                                //      switch(realLevelNum){
+                                //        case 1:
+                                //          levelName=levelOneController.text;
+                                //          break;
+                                //        case 2:
+                                //          levelName=levelTwoController.text;
+                                //          break;
+                                //        case 3:
+                                //          levelName=levelThreeController.text;
+                                //          break;
+                                //        case 4:
+                                //          levelName=levelFourController.text;
+                                //          break;
+                                //        case 5:
+                                //          levelName=levelFiveController.text;
+                                //          break;
+                                //        case 6:
+                                //          levelName=levelSixController.text;
+                                //          break;
+                                //        default:
+                                //          break;
+                                //      }
+                                //      await SetCompanyLevelDao.httpSetCompanyLevel(companyID, realLevelNum.toString(),levelName);
+                                //      levelNames.add(realLevelNum.toString()+"-"+levelName);
+                                //      //print(r);
+                                //   }
+                                //   Navigator.push(context, MaterialPageRoute(builder: (context) => SigninChoosePositionPage(
+                                //     levelNames:levelNames.reversed.toList(),
+                                //     companyId:companyID,
+                                //     companyLevelCount:int.parse(lcount),
+                                //   )));
+                                // }else{
+                                //   _on410AlertPressed(context);
+                                // }
 
                                 //Navigator.push(context, MaterialPageRoute(builder: (context)=>SigninChooseCompanyPage()));
                               },

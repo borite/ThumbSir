@@ -3,10 +3,7 @@ import 'dart:convert';
 import 'package:ThumbSir/model/login_result_data_model.dart';
 import 'package:ThumbSir/pages/home.dart';
 import 'package:ThumbSir/pages/mycenter/invitation_code_page.dart';
-import 'package:ThumbSir/pages/mycenter/privacy_statement_page.dart';
-import 'package:ThumbSir/pages/mycenter/service_agreement_page.dart';
 import 'package:ThumbSir/pages/mycenter/vip_privilege_page.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -21,25 +18,23 @@ class _VipPageState extends State<VipPage> {
   final TextEditingController passwordController=TextEditingController();
   int viptap = 2;
 
-  LoginResultData userData;
+  LoginResultData? userData;
   int _dateTime = DateTime.now().millisecondsSinceEpoch; // 当前时间转时间戳
-  int exT;
-  String uinfo;
-  var result;
+  late int exT;
+  late String uInfo;
+  dynamic result;
 
   _getUserInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    uinfo= prefs.getString("userInfo");
-    if(uinfo != null){
-      result =loginResultDataFromJson(uinfo);
-      exT = result.exTokenTime.millisecondsSinceEpoch; // token时间转时间戳
-      if(exT >= _dateTime){
-        this.setState(() {
-          userData=LoginResultData.fromJson(json.decode(uinfo));
-        });
-      }else{
-        _onLogoutAlertPressed(context);
-      }
+    uInfo= prefs.getString("userInfo")!;
+    result =loginResultDataFromJson(uInfo);
+    exT = result.exTokenTime.millisecondsSinceEpoch; // token时间转时间戳
+    if(exT >= _dateTime){
+      this.setState(() {
+        userData=LoginResultData.fromJson(json.decode(uInfo));
+      });
+    }else{
+      _onLogoutAlertPressed(context);
     }
   }
 
@@ -119,8 +114,8 @@ class _VipPageState extends State<VipPage> {
                                       borderRadius: BorderRadius.circular(45),
                                       child: userData == null?
                                       Image(image: AssetImage('images/my_big.png'),)
-                                          :userData != null && userData.headImg != null ?
-                                      Image(image:NetworkImage(userData.headImg))
+                                          :userData != null && userData!.headImg != null ?
+                                      Image(image:NetworkImage(userData!.headImg))
                                           :Image(image: AssetImage('images/my_big.png'),),
                                     ),
                                   ),
@@ -128,7 +123,7 @@ class _VipPageState extends State<VipPage> {
                                 Container(
                                   margin: EdgeInsets.only(top: 20,bottom: 10),
                                   child: Text(
-                                    userData != null ? userData.userName :'',
+                                    userData != null ? userData!.userName :'',
                                     style:TextStyle(
                                       fontSize: 20,
                                       color: Colors.white,

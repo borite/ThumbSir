@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:http/http.dart' as http;
-import 'package:new_lianghua_app/model/common_result_model.dart';
-import 'package:new_lianghua_app/utils/common_vars.dart';
+import '../model/common_result_model.dart';
+import '../utils/common_vars.dart';
 
 const String apiPerFix=Url.apiPrefix;
 

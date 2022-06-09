@@ -4,7 +4,7 @@ import 'package:ThumbSir/model/common_result_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:ThumbSir/utils/common_vars.dart';
 
-const String api_perfix=Url.apiPrefix;
+const String apiPerFix=Url.apiPrefix;
 
 class AddCustomerDao{
     static Future<CommonResult> addCustomer(
@@ -24,19 +24,6 @@ class AddCustomerDao{
         List familyMembers,
         List dealInfoWithCreateCustomer
     ) async {
-
-//      //创建一个List，里面存的是FamilyMember类型的实例对象
-//      List<FamilyMember> m=new List();
-//
-//      List aaa=new List();
-//      //遍历传入的List familyMembers
-//      familyMembers.forEach((element) {
-//        //把每一个json字符串转换为FamilyMember的实例对象
-//        var i=familyMemberToJson(element);
-//        //放在m这个List里
-//       aaa.add(i);
-//      });
-
       //组织要发送给APi的键值对
       var _body={"CompanyID":companyID,
         "userID":userID,
@@ -54,10 +41,11 @@ class AddCustomerDao{
         "FamilyMembers":familyMembers,
         "DealInfoWithCreateCustomer":dealInfoWithCreateCustomer
       };
-       final String apiUrl=api_perfix+"api/customer/AddCustomer";
-       final response= await http.post(apiUrl,
-           headers: {'Content-type': 'application/json'},  //告诉服务器，发送的数据类型为Json类型
-           body: json.encode(_body)  //将body的键值对用Json形式编码发送
+      var client = http.Client();
+      final response= await client.post(
+          Uri.http(apiPerFix,'/api/customer/AddCustomer'),
+          headers: {'Content-type': 'application/json'},  //告诉服务器，发送的数据类型为Json类型
+          body: json.encode(_body)  //将body的键值对用Json形式编码发送
        );
        if(response.statusCode==200){
          return commonResultFromJson(response.body);

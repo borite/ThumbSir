@@ -1,7 +1,6 @@
 import 'package:ThumbSir/dao/get_company_level_dao.dart';
 import 'package:ThumbSir/pages/login/signin_build_company_page.dart';
 import 'package:ThumbSir/pages/login/signin_choose_position_page.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ThumbSir/model/company_list_model.dart';
 import 'package:ThumbSir/dao/get_company_list_dao.dart';
@@ -14,11 +13,10 @@ class SigninChooseCompanyPage extends StatefulWidget {
 }
 
 class _SigninChooseCompanyPageState extends State<SigninChooseCompanyPage> {
-  Datum selectedItem;
+  late Datum selectedItem;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final formKey = GlobalKey<FormState>();
-  bool autovalidate = false;
 
   @override
   void initState() {
@@ -26,12 +24,12 @@ class _SigninChooseCompanyPageState extends State<SigninChooseCompanyPage> {
     super.initState();
   }
 
-  List<Datum> companies;
+  late List<Datum> companies;
   final list = <Datum>[];
 
   _load() async {
     var r = await GetCompanyListDao.httpGetCompanyList();
-    companies = r.data;
+    companies = r.data!;
   }
 
   @override
@@ -118,7 +116,7 @@ class _SigninChooseCompanyPageState extends State<SigninChooseCompanyPage> {
                   margin: EdgeInsets.only(top: 10),
                   child: Form(
                     key: formKey,
-                    autovalidate: autovalidate,
+                    autovalidateMode: AutovalidateMode.disabled,
                     child: Column(children: <Widget>[
 //                      Text('Selected listItem: "$selectedItem"'),
                       SimpleAutocompleteFormField<Datum>(
@@ -158,7 +156,7 @@ class _SigninChooseCompanyPageState extends State<SigninChooseCompanyPage> {
                                         child: Image(image: AssetImage("images/choose.png"),),
                                       ),
                                       Text(
-                                        listItem.companyName,
+                                        listItem!.companyName,
                                         style: TextStyle(
                                             fontSize: 16,
                                             color: Color(0xFF5580EB)
@@ -172,10 +170,9 @@ class _SigninChooseCompanyPageState extends State<SigninChooseCompanyPage> {
                         onSearch: (search) async => companies.where((person) => person.companyName.toLowerCase()
                                 .contains(search.toLowerCase())).toList(),
                         itemFromString: (string) => companies.singleWhere(
-                            (listItem) => listItem.companyName.toLowerCase() == string.toLowerCase(),
-                            orElse: () => null),
-                        onChanged: (value) {setState(() => selectedItem = value);},
-                        onSaved: (value) {setState(() => selectedItem = value);},
+                            (listItem) => listItem.companyName.toLowerCase() == string.toLowerCase()),
+                        onChanged: (value) {setState(() => selectedItem = value!);},
+                        onSaved: (value) {setState(() => selectedItem = value!);},
                         validator: (listItem) => listItem == null ? '输入后在下方选择公司，若没有请点击下方下一步创建公司' : null,
                       ),
                     ]),
@@ -196,16 +193,16 @@ class _SigninChooseCompanyPageState extends State<SigninChooseCompanyPage> {
                       padding: EdgeInsets.only(top: 4),
                       child: GestureDetector(
                         onTap: () async {
-                          if (formKey.currentState.validate()) {
-                            formKey.currentState.save();
-                            var companyLevel = await GetCompanyLevelDao.httpGetCompanyLevel(selectedItem.companyId);
+                          if (formKey.currentState!.validate()) {
+                            formKey.currentState!.save();
+                            dynamic companyLevel = await GetCompanyLevelDao.httpGetCompanyLevel(selectedItem.companyId);
 
                             // 把每一项放在levels的数组里
                             List<String> levels=[];
-                            if(companyLevel.data.level1!=null){
-                              levels.add('1-'+companyLevel.data.level1);
+                            if(companyLevel.data!.level1!=null){
+                              levels.add('1-'+companyLevel.data!.level1);
                             }
-                            if(companyLevel.data.level2!=null){
+                            if(companyLevel.data!.level2!=null){
                               levels.add('2-'+companyLevel.data.level2);
                             }
                             if(companyLevel.data.level3!=null){
@@ -224,7 +221,6 @@ class _SigninChooseCompanyPageState extends State<SigninChooseCompanyPage> {
                             )));
                           } else {
                             _on402AlertPressed(context);
-                            setState(() => autovalidate = true);
                           }
                         },
                         child: Text(

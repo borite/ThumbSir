@@ -15,8 +15,8 @@ class TradedCheckItem extends StatefulWidget {
   final giftList;
   final item;
 
-  TradedCheckItem({Key key,
-    this.name,this.star,this.gender,this.age,this.phone,this.birthday,
+  TradedCheckItem({Key? key,
+    required this.name,required this.star,required this.gender,required this.age,required this.phone,this.birthday,
     this.firstDealReason,this.firstDealTime,this.secondDealReason,this.ssecondDealTime,
     this.item,this.giftList,
   }):super(key:key);
@@ -26,10 +26,10 @@ class TradedCheckItem extends StatefulWidget {
 
 class _TradedCheckItemState extends State<TradedCheckItem> with SingleTickerProviderStateMixin{
   bool _extend = false;
-  Animation<double> animation;
-  AnimationController controller;
-  AnimationStatus animationStatus;
-  double animationValue;
+  late Animation<double> animation;
+  late AnimationController controller;
+  late AnimationStatus animationStatus;
+  late double animationValue;
 
 
   @override

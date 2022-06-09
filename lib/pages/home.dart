@@ -21,11 +21,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ThumbSir/pages/mycenter/my_center_page.dart';
 import 'package:flutter/painting.dart';
-import 'package:flutter_app_upgrade/flutter_app_upgrade.dart';
-import 'package:package_info/package_info.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -36,20 +33,19 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin{
   bool _loading = false;
 
   int _dateTime = DateTime.now().millisecondsSinceEpoch; // 当前时间转时间戳
-  int exT;
+  late int exT;
 
-  List<Datum> msgList;
+  late List<Datum> msgList;
   List<Widget> msgShowList = [];
   List<Widget> msgs=[];
 
-  List<Datum> myMsgList;
+  late List<Datum> myMsgList;
   List<Widget> myMsgShowList = [];
   List<Widget> myMsgs=[];
 
-  LoginResultData userData;
-  String uinfo;
-  var result;
-  var token;
+  LoginResultData? userData;
+  dynamic uInfo;
+  dynamic result;
 
   ScrollController _scrollController = ScrollController();
 
@@ -57,18 +53,18 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin{
 
   _getUserInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    uinfo = prefs.getString("userInfo");
-    if(uinfo!=null){
-      result = loginResultDataFromJson(uinfo);
-      token = LoginResultData.fromJson(json.decode(uinfo)).token;
+    uInfo = prefs.getString("userInfo")!;
+    if(uInfo!=null){
+      result = loginResultDataFromJson(uInfo);
+      dynamic token = LoginResultData.fromJson(json.decode(uInfo)).token;
       var tokenResult = await TokenCheckDao.tokenCheck(token);
       if (tokenResult.code == 200) {
           String dataStr = json.encode(tokenResult.data);
           SharedPreferences prefs = await SharedPreferences.getInstance();
           prefs.setString("userInfo", dataStr);
-          prefs.setString('userID', tokenResult.data.userPid);
+          prefs.setString('userID', tokenResult.data!.userPid);
           this.setState(() {
-            userData = LoginResultData.fromJson(json.decode(uinfo));
+            userData = LoginResultData.fromJson(json.decode(uInfo));
             _loadMsg();
           });
         }else{
@@ -87,63 +83,63 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin{
 
   var versionMsg;
 
-  PackageInfo _packageInfo = PackageInfo(
-    appName: 'Unknown',
-    packageName: 'Unknown',
-    version: 'Unknown',
-    buildNumber: 'Unknown',
-  );
+  // PackageInfo _packageInfo = PackageInfo(
+  //   appName: 'Unknown',
+  //   packageName: 'Unknown',
+  //   version: 'Unknown',
+  //   buildNumber: 'Unknown',
+  // );
 
 
-  Future<AppUpgradeInfo>_loadVersion() async {
-    var currentAppInfo=await FlutterUpgrade.appInfo;
-    print(currentAppInfo);
-    var versionResult = await CheckLatestVersionDao.checkVersion();
-    if (versionResult.code == 200) {
-      setState(() {
-        versionMsg = versionResult.data;
-        _loading = false;
-      });
-      if( currentAppInfo.versionName!= versionMsg.version){
-        return AppUpgradeInfo(title: '新版本:'+versionMsg.version, contents: versionMsg.versionDes.split('<br>'),force: false);
-      }
-    }
+  // Future<AppUpgradeInfo>_loadVersion() async {
+  //   var currentAppInfo=await FlutterUpgrade.appInfo;
+  //   print(currentAppInfo);
+  //   var versionResult = await CheckLatestVersionDao.checkVersion();
+  //   if (versionResult.code == 200) {
+  //     setState(() {
+  //       versionMsg = versionResult.data;
+  //       _loading = false;
+  //     });
+  //     if( currentAppInfo.versionName!= versionMsg.version){
+  //       return AppUpgradeInfo(title: '新版本:'+versionMsg.version, contents: versionMsg.versionDes.split('<br>'),force: false);
+  //     }
+  //   }
+  //
+  //   return null;
+  //   //   setState(() {
+  //   //     versionMsg = versionResult.data;
+  //   //     _loading = false;
+  //   //   });
+  //   //   // print(_packageInfo.version);
+  //   //   // print(versionMsg.version);
+  //   //   if(versionMsg != null && _packageInfo != null && _packageInfo.version != versionMsg.version){
+  //   //     //_onUploadPressed(context);
+  //   //     return AppUpgradeInfo(title: '新版本:'+versionMsg.version, contents: [versionMsg.versionDes],force: false);
+  //   //
+  //   //   }else{
+  //   //
+  //   //   }
+  //   // } else {
+  //   //   _onLoadAlert(context);
+  //   // }
+  // }
 
-    return null;
-    //   setState(() {
-    //     versionMsg = versionResult.data;
-    //     _loading = false;
-    //   });
-    //   // print(_packageInfo.version);
-    //   // print(versionMsg.version);
-    //   if(versionMsg != null && _packageInfo != null && _packageInfo.version != versionMsg.version){
-    //     //_onUploadPressed(context);
-    //     return AppUpgradeInfo(title: '新版本:'+versionMsg.version, contents: [versionMsg.versionDes],force: false);
-    //
-    //   }else{
-    //
-    //   }
-    // } else {
-    //   _onLoadAlert(context);
-    // }
-  }
-
-  Future<void> _initPackageInfo() async {
-    final PackageInfo info = await PackageInfo.fromPlatform();
-    setState(() {
-      _packageInfo = info;
-    });
-  }
+  // Future<void> _initPackageInfo() async {
+  //   final PackageInfo info = await PackageInfo.fromPlatform();
+  //   setState(() {
+  //     _packageInfo = info;
+  //   });
+  // }
 
   _load() async {
-    var msgResult = await GetMessageDao.getMessage('1','1','1','5');
+    dynamic msgResult = await GetMessageDao.getMessage('1','1','1','5');
     if (msgResult.code == 200) {
       msgList=msgResult.data;
-      if (msgList != null && msgList.length>0) {
+      if (msgList.length>0) {
         for (var item in msgList) {
           msgShowList.add(
             _item('images/tie_big.png',
-                item.sendTime.toIso8601String().substring(0, 10),
+                item.sendTime!.toIso8601String().substring(0, 10),
                 item.msgTitle,
                 item.msgContent
             ),
@@ -162,17 +158,17 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin{
   }
 
   _loadMsg() async {
-    var myMsgResult = await GetMessageDao.getMessage(userData.userPid,'2','1','1');
+    dynamic myMsgResult = await GetMessageDao.getMessage(userData!.userPid,'2','1','1');
     if (myMsgResult.code == 200) {
       myMsgList=myMsgResult.data;
-      if (myMsgList != null && myMsgList.length>0) {
+      if (myMsgList.length>0) {
         setState(() {
           _loading = false;
           for (var item in myMsgList) {
             myMsgShowList.add(
               GestureDetector(
                 onTap: (){
-                  if(uinfo!=null){
+                  if(uInfo!=null){
                     exT = result.exTokenTime.millisecondsSinceEpoch;
                     // token时间转时间戳
                     if(exT >= _dateTime){
@@ -237,8 +233,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin{
 
     //获取当前版本信息
     //_initPackageInfo();
-
-    AppUpgrade.appUpgrade(context,_loadVersion(),iosAppId:'1528859048' );
+    // AppUpgrade.appUpgrade(context,_loadVersion(),iosAppId:'1528859048' );
     //升级提示弹窗
     //_loadVersion();
     super.initState();
@@ -291,7 +286,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin{
                               ),
                             ),
                             Container(
-                              child: myMsgs != null && myMsgs.length>0 ?
+                              child: myMsgs.length>0 ?
                               ListView.builder(
                                 controller: _scrollController,
                                 padding: EdgeInsets.only(top: 20,bottom: 30),
@@ -353,7 +348,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin{
                                             children: <Widget>[
                                               Text(
                                                 userData == null ?
-                                                '你好！点这里登录/注册':'你好！'+userData.userName,
+                                                '你好！点这里登录/注册':'你好！'+userData!.userName,
                                                 style: TextStyle(
                                                   fontSize: 20,
                                                   color: Colors.white,
@@ -383,8 +378,8 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin{
                                                             borderRadius: BorderRadius.circular(45),
                                                             child: userData == null?
                                                             Image(image: AssetImage('images/my_big.png'),)
-                                                                :userData != null && userData.headImg != null ?
-                                                            Image(image:NetworkImage(userData.headImg))
+                                                                :userData != null && userData!.headImg != null ?
+                                                            Image(image:NetworkImage(userData!.headImg))
                                                                 :Image(image: AssetImage('images/my_big.png'),),
                                                           ),
                                                         )
@@ -568,7 +563,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin{
                                                   ),
                                                   child:GestureDetector(
                                                     onTap: () async {
-                                                      if(uinfo!=null && userData != null){
+                                                      if(uInfo!=null && userData != null){
                                                         exT = result.exTokenTime.millisecondsSinceEpoch;
                                                         // token时间转时间戳
                                                         if(exT >= _dateTime){
@@ -616,7 +611,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin{
                                                     ),
                                                     child:GestureDetector(
                                                         onTap: (){
-                                                          if(uinfo!=null && userData != null){
+                                                          if(uInfo!=null && userData != null){
                                                             exT = result.exTokenTime.millisecondsSinceEpoch;
                                                             // token时间转时间戳
                                                             if(exT >= _dateTime){
@@ -667,7 +662,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin{
                                                   ),
                                                   child:GestureDetector(
                                                     onTap: () async {
-                                                      if(uinfo!=null && userData != null){
+                                                      if(uInfo!=null && userData != null){
                                                         exT = result.exTokenTime.millisecondsSinceEpoch;
                                                         // token时间转时间戳
                                                         if(exT >= _dateTime){
@@ -715,7 +710,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin{
                                                     ),
                                                     child:GestureDetector(
                                                         onTap: (){
-                                                          if(uinfo!=null && userData != null){
+                                                          if(uInfo!=null && userData != null){
                                                             exT = result.exTokenTime.millisecondsSinceEpoch;
                                                             // token时间转时间戳
                                                             if(exT >= _dateTime){
@@ -870,73 +865,52 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin{
     ).show();
   }
 
-  _onUploadPressed(context) {
-    Alert(
-      context: context,
-      type: AlertType.warning,
-      title: "发现新版本"+versionMsg.version,
-      desc: "请前往应用商店进行更新",
-      buttons: [
-        DialogButton(
-          child: Text(
-            "去更新",
-            style: TextStyle(color: Colors.white, fontSize: 20),
-          ),
-          onPressed: (){
-
-            // 跳转到应用商店
-            if(Theme.of(context).platform == TargetPlatform.android){
-              // 安卓手机
-              print('android');
-            }else{
-              // 苹果手机
-              print('ios');
-              _serviceVersionApp="http://itunes.apple.com/cn/lookup?id=com.bigxia.thumbsir";
-              launch(_serviceVersionApp);
-            }
-
-            _getUserInfo();
-            _load();
-            Navigator.pop(context);
-          },
-          color: Color(0xFF5580EB),
-        ),
-        DialogButton(
-          child: Text(
-            "再等等",
-            style: TextStyle(color: Colors.white, fontSize: 20),
-          ),
-          onPressed: (){
-            _getUserInfo();
-            _load();
-            Navigator.pop(context);
-          },
-          color: Color(0xFFCCCCCC),
-        ),
-      ],
-    ).show();
-  }
-
-  _onCloseAlertPressed(context) {
-    Alert(
-      context: context,
-      title: "暂未开放，敬请期待!",
-      content: Padding(
-        padding: EdgeInsets.only(top: 10),
-        child: Image(image: AssetImage('images/wait.png'),),
-      ),
-      buttons: [
-        DialogButton(
-          child: Text(
-            "知道啦",
-            style: TextStyle(color: Colors.white, fontSize: 20),
-          ),
-          onPressed: () => Navigator.pop(context),
-          color: Color(0xFF5580EB),
-        ),
-      ],
-    ).show();
-  }
+  // _onUploadPressed(context) {
+  //   Alert(
+  //     context: context,
+  //     type: AlertType.warning,
+  //     title: "发现新版本"+versionMsg.version,
+  //     desc: "请前往应用商店进行更新",
+  //     buttons: [
+  //       DialogButton(
+  //         child: Text(
+  //           "去更新",
+  //           style: TextStyle(color: Colors.white, fontSize: 20),
+  //         ),
+  //         onPressed: (){
+  //
+  //           // 跳转到应用商店
+  //           if(Theme.of(context).platform == TargetPlatform.android){
+  //             // 安卓手机
+  //             print('android');
+  //           }else{
+  //             // 苹果手机
+  //             print('ios');
+  //             _serviceVersionApp="http://itunes.apple.com/cn/lookup?id=com.bigxia.thumbsir";
+  //             launch(_serviceVersionApp);
+  //           }
+  //
+  //           _getUserInfo();
+  //           _load();
+  //           Navigator.pop(context);
+  //         },
+  //         color: Color(0xFF5580EB),
+  //       ),
+  //       DialogButton(
+  //         child: Text(
+  //           "再等等",
+  //           style: TextStyle(color: Colors.white, fontSize: 20),
+  //         ),
+  //         onPressed: (){
+  //           _getUserInfo();
+  //           _load();
+  //           Navigator.pop(context);
+  //         },
+  //         color: Color(0xFFCCCCCC),
+  //       ),
+  //     ],
+  //   ).show();
+  // }
 
   _onLoadAlert(context) {
     Alert(

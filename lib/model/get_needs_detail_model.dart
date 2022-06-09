@@ -10,14 +10,14 @@ String getNeedsDetailToJson(GetNeedsDetail data) => json.encode(data.toJson());
 
 class GetNeedsDetail {
   GetNeedsDetail({
-    this.code,
-    this.message,
+    required this.code,
+    required this.message,
     this.data,
   });
 
   int code;
   String message;
-  List<Datum> data;
+  List<Datum>? data;
 
   factory GetNeedsDetail.fromJson(Map<String, dynamic> json) => GetNeedsDetail(
     code: json["Code"] == null ? null : json["Code"],
@@ -26,16 +26,16 @@ class GetNeedsDetail {
   );
 
   Map<String, dynamic> toJson() => {
-    "Code": code == null ? null : code,
-    "Message": message == null ? null : message,
-    "Data": data == null ? null : List<dynamic>.from(data.map((x) => x.toJson())),
+    "Code": code,
+    "Message": message,
+    "Data": data == null ? null : List<dynamic>.from(data!.map((x) => x.toJson())),
   };
 }
 
 class Datum {
   Datum({
-    this.id,
-    this.mainNeed,
+    required this.id,
+    required this.mainNeed,
     this.needReason,
     this.coreNeedOne,
     this.coreNeedOneRemark,
@@ -45,7 +45,7 @@ class Datum {
     this.coreNeedThreeRemark,
     this.otherNeed,
     this.otherNeedRemark,
-    this.state,
+    required this.state,
   });
 
   int id;
@@ -77,8 +77,8 @@ class Datum {
   );
 
   Map<String, dynamic> toJson() => {
-    "ID": id == null ? null : id,
-    "MainNeed": mainNeed == null ? null : mainNeed,
+    "ID": id,
+    "MainNeed": mainNeed,
     "NeedReason": needReason,
     "CoreNeedOne": coreNeedOne,
     "CoreNeedOneRemark": coreNeedOneRemark,
@@ -88,6 +88,6 @@ class Datum {
     "CoreNeedThreeRemark": coreNeedThreeRemark,
     "OtherNeed": otherNeed,
     "OtherNeedRemark": otherNeedRemark,
-    "State": state == null ? null : state,
+    "State": state,
   };
 }

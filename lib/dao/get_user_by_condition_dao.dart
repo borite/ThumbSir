@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:ThumbSir/utils/common_vars.dart';
 
 //接口地址前缀
-const String apiPerfix=CommonVars.apiPrefix;
+const String apiPerFix=Url.apiPrefix;
 
 class GetUserByConditionDao {
   static Future<GetCustomerMain> getCondition(
@@ -15,7 +15,11 @@ class GetUserByConditionDao {
       String userID,
     ) async {
     final response = await http.get(
-        apiPerfix+'api/customer/GetUserByCondition?ageMin='+ageMin+'&ageMax='+ageMax+'&birthMonth='+birthMonth+'&dealReason='+dealReason+'&userID='+userID
+        Uri.http(
+            apiPerFix,
+            '/api/customer/GetUserByCondition',
+            {'ageMin':ageMin,'ageMax':ageMax,'birthMonth':birthMonth,'dealReason':dealReason,'userID':userID}
+        )
     );
     //Utf8Decoder utf8decoder = Utf8Decoder();  // 修复中文乱码
     //var result = json.decode(utf8decoder.convert(response.bodyBytes));

@@ -4,9 +4,7 @@ import 'package:ThumbSir/pages/home.dart';
 import 'package:ThumbSir/pages/login/find_key_phone_page.dart';
 import 'package:ThumbSir/pages/mycenter/change_code_page.dart';
 import 'package:ThumbSir/pages/mycenter/change_phone_old_page.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -18,25 +16,23 @@ class SetSafePage extends StatefulWidget {
 class _SetSafePageState extends State<SetSafePage> {
   final TextEditingController textController=TextEditingController();
 
-  LoginResultData userData;
+  LoginResultData? userData;
   int _dateTime = DateTime.now().millisecondsSinceEpoch; // 当前时间转时间戳
-  int exT;
-  String uinfo;
+  late int exT;
+  late String uInfo;
   var result;
   _getUserInfo() async {
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    uinfo= prefs.getString("userInfo");
-    if(uinfo != null){
-      result =loginResultDataFromJson(uinfo);
-      exT = result.exTokenTime.millisecondsSinceEpoch; // token时间转时间戳
-      if(exT >= _dateTime){
-        this.setState(() {
-          userData=LoginResultData.fromJson(json.decode(uinfo));
-        });
-      }else{
-        _onLogoutAlertPressed(context);
-      }
+    uInfo= prefs.getString("userInfo")!;
+    result =loginResultDataFromJson(uInfo);
+    exT = result.exTokenTime.millisecondsSinceEpoch; // token时间转时间戳
+    if(exT >= _dateTime){
+      this.setState(() {
+        userData=LoginResultData.fromJson(json.decode(uInfo));
+      });
+    }else{
+      _onLogoutAlertPressed(context);
     }
   }
 
@@ -89,7 +85,7 @@ class _SetSafePageState extends State<SetSafePage> {
                                 Container(
                                   margin:EdgeInsets.only(right: 15),
                                   child: Text(
-                                    userData == null ?'':userData.phone.substring(0,3) + '****' + userData.phone.substring(7,),
+                                    userData == null ?'':userData!.phone.substring(0,3) + '****' + userData!.phone.substring(7,),
                                     style:TextStyle(
                                       fontSize: 16,
                                       color: Color(0xFF999999),

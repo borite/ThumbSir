@@ -10,14 +10,14 @@ String getCareActionToJson(GetCareAction data) => json.encode(data.toJson());
 
 class GetCareAction {
   GetCareAction({
-    this.code,
-    this.message,
+    required this.code,
+    required this.message,
     this.data,
   });
 
   int code;
   String message;
-  List<Datum> data;
+  List<Datum>? data;
 
   factory GetCareAction.fromJson(Map<String, dynamic> json) => GetCareAction(
     code: json["Code"] == null ? null : json["Code"],
@@ -26,27 +26,27 @@ class GetCareAction {
   );
 
   Map<String, dynamic> toJson() => {
-    "Code": code == null ? null : code,
-    "Message": message == null ? null : message,
-    "Data": data == null ? null : List<dynamic>.from(data.map((x) => x.toJson())),
+    "Code": code,
+    "Message": message,
+    "Data": data == null ? null : List<dynamic>.from(data!.map((x) => x.toJson())),
   };
 }
 
 class Datum {
   Datum({
-    this.id,
-    this.giftName,
-    this.giftReason,
-    this.giftPrice,
+    required this.id,
+    required this.giftName,
+    required this.giftReason,
+    required this.giftPrice,
     this.addTime,
-    this.giftRemark,
+    required this.giftRemark,
   });
 
   int id;
   String giftName;
   String giftReason;
   double giftPrice;
-  DateTime addTime;
+  DateTime? addTime;
   String giftRemark;
 
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
@@ -59,11 +59,11 @@ class Datum {
   );
 
   Map<String, dynamic> toJson() => {
-  "ID": id == null ? null : id,
-  "GiftName": giftName == null ? null : giftName,
-  "GiftReason": giftReason == null ? null : giftReason,
-    "GiftPrice": giftPrice == null ? null : giftPrice,
-    "AddTime": addTime == null ? null : addTime.toIso8601String(),
-    "GiftRemark": giftRemark == null ? null : giftRemark,
+  "ID": id,
+  "GiftName": giftName,
+  "GiftReason": giftReason,
+    "GiftPrice": giftPrice,
+    "AddTime": addTime == null ? null : addTime!.toIso8601String(),
+    "GiftRemark": giftRemark,
   };
 }

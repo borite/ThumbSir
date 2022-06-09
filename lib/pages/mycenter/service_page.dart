@@ -12,7 +12,7 @@ class ServicePage extends StatefulWidget {
 
 class _ServicePageState extends State<ServicePage> {
   final TextEditingController feedBackController=TextEditingController();
-  RegExp feedBackReg;
+  late RegExp feedBackReg;
   bool feedBackBool = false;
   @override
   void initState() {
@@ -156,7 +156,7 @@ class _ServicePageState extends State<ServicePage> {
                       if(feedBackBool == true){
                         SharedPreferences prefs = await SharedPreferences.getInstance();
                         final userId= prefs.getString("userID");
-                        var result = await SendFeedBackDao.sendFeedBack(userId, feedBackController.text);
+                        var result = await SendFeedBackDao.sendFeedBack(userId!, feedBackController.text);
                         if(result.code == 200){
                           _onSuccessAlertPressed(context);
                           setState(() {
@@ -169,7 +169,7 @@ class _ServicePageState extends State<ServicePage> {
                             feedBackController.text = '';
                             feedBackBool = false;
                           });
-                        };
+                        }
                       }else{}
                     },
                     child: Container(
@@ -244,11 +244,9 @@ class _ServicePageState extends State<ServicePage> {
     );
   }
   _onChanged(String text){
-    if(text != null){
-      setState(() {
-        feedBackBool = feedBackReg.hasMatch(feedBackController.text);
-      });
-    }
+    setState(() {
+      feedBackBool = feedBackReg.hasMatch(feedBackController.text);
+    });
   }
   _onSuccessAlertPressed(context) {
     Alert(

@@ -1,8 +1,5 @@
 import 'package:ThumbSir/pages/broker/client/client_edit_gift_page.dart';
-import 'package:ThumbSir/pages/broker/traded/traded_edit_gift_page.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
 
 class ClientGiftItem extends StatefulWidget {
   final date;
@@ -13,7 +10,7 @@ class ClientGiftItem extends StatefulWidget {
   final id;
   final item;
 
-  ClientGiftItem({Key key,
+  ClientGiftItem({Key? key,
     this.date,this.giftMsg,this.price,this.dec,this.type,this.item,this.id
   }):super(key:key);
   @override
@@ -21,10 +18,10 @@ class ClientGiftItem extends StatefulWidget {
 }
 
 class _ClientGiftItemState extends State<ClientGiftItem> with SingleTickerProviderStateMixin{
-  Animation<double> animation;
-  AnimationController controller;
-  AnimationStatus animationStatus;
-  double animationValue;
+  late Animation<double> animation;
+  late AnimationController controller;
+  late AnimationStatus animationStatus;
+  late double animationValue;
 
 
   @override

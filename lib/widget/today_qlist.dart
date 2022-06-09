@@ -1,12 +1,13 @@
 import 'dart:convert';
-import 'package:new_lianghua_app/dao/get_user_mission_records_dao.dart';
-import 'package:new_lianghua_app/dao/get_user_select_mission_dao.dart';
-import 'package:new_lianghua_app/widget/qlist_item.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:ThumbSir/dao/get_user_select_mission_dao.dart';
+import 'package:ThumbSir/model/get_user_select_mission_model.dart';
+import 'package:ThumbSir/model/login_result_data_model.dart';
+import 'package:ThumbSir/widget/qlist_item.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../model/login_result_data_model.dart';
-import 'package:new_lianghua_app/model/get_user_select_mission_model.dart';
+import 'package:ThumbSir/model/mission_record_model.dart';
+import 'package:ThumbSir/dao/get_user_mission_records_dao.dart';
 
 
 class TodayQList extends StatefulWidget {
@@ -27,7 +28,7 @@ class _TodayQListState extends State<TodayQList> with SingleTickerProviderStateM
   void initState(){
 
     _getUserInfo();
-    controller = AnimationController(vsync:this,duration: const Duration(seconds: 1));
+    controller = AnimationController(vsync:this,duration: Duration(seconds: 1));
     animation = Tween<double>(begin: 700,end:25).animate(
         CurvedAnimation(parent: controller,curve: Curves.easeInOut)
           ..addListener(() {
@@ -47,7 +48,7 @@ class _TodayQListState extends State<TodayQList> with SingleTickerProviderStateM
   }
   DateTime dateTime = DateTime.now();
 
-  dynamic missionList;
+  var missionList;
 
   List<Datum> missions = [];
   List<Widget> missionsShowList = [];
@@ -76,10 +77,10 @@ class _TodayQListState extends State<TodayQList> with SingleTickerProviderStateM
 
       if (missionList.code == 200) {
         missions = missionList.data;
-        if (missions.isNotEmpty) {
+        if (missions.length>0) {
 
           for (var item in missions) {
-            dynamic mission= await GetMissionRecordDao.missionRecord(userData!.userPid,item.id.toString(),userData!.userLevel.substring(0,1));
+            dynamic mRecord= await GetMissionRecordDao.missionRecord(userData!.userPid,item.id.toString(),userData!.userLevel.substring(0,1));
 
             missionsShowList.add(
               QListItem(
@@ -88,9 +89,9 @@ class _TodayQListState extends State<TodayQList> with SingleTickerProviderStateM
                 time: item.planningStartTime!.toIso8601String().substring(11,16)+'~'+item.planningEndTime!.toIso8601String().substring(11,16),
                 star: item.stars,
                 percent: item.finishRate,
-                remark: item.remark ?? '暂无描述',
-                address: item.address ?? '暂未标注地点',
-                currentAddress: mission.data==null?"还未上传":mission.data.address,
+                remark: item.remark == null ? '暂无描述':item.remark,
+                address: item.address == null ? '暂未标注地点':item.address,
+                currentAddress: mRecord.data==null?"还未上传":mRecord.data.address,
                 taskId:item.id.toString(),
                 defaultId: item.defaultTaskId.toString(),
                 planCount:item.planningCount,
@@ -98,12 +99,11 @@ class _TodayQListState extends State<TodayQList> with SingleTickerProviderStateM
                 date: 1,
                 userID:userData!.userPid,
                 userLevel:userData!.userLevel,
-                imgs:mission.data==null?"":mission.data.missionImgs,
+                imgs:mRecord.data==null?"":mRecord.data.missionImgs,
                 startTime: item.planningStartTime,
                 endTime: item.planningEndTime,
-                tabIndex: widget.tabIndex,
-                callBack: ()=>onChange(widget.tabIndex),
-                pageIndex: 0,
+                tabIndex: this.widget.tabIndex,
+                callBack: ()=>onChange(this.widget.tabIndex), pageIndex: 0,
               ),
             );
 
@@ -138,19 +138,14 @@ class _TodayQListState extends State<TodayQList> with SingleTickerProviderStateM
       body: ListView(
         children: <Widget>[
           Container(
-              constraints: const BoxConstraints(
+              constraints: BoxConstraints(
                   minHeight: 800
               ),
-              decoration: const BoxDecoration(
-                  gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end:Alignment.bottomCenter,
-                      colors: [Color.fromRGBO(208, 240, 238, 1),Color.fromRGBO(228, 233, 250, 1),Color.fromRGBO(234, 239, 253, 1)]
-                  )
-              ),
+              decoration: BoxDecoration(color: Colors.white),
               child:Container(
-                  padding: const EdgeInsets.only(top:90,bottom:25),
-                  child: missions.isNotEmpty && Msgs != []?
+                  width: 335,
+                  padding: EdgeInsets.only(top:140,bottom:50),
+                  child: missions.length !=0 && Msgs != []?
                   Column(
                     children: Msgs,
                   )
@@ -161,15 +156,15 @@ class _TodayQListState extends State<TodayQList> with SingleTickerProviderStateM
                       width: 335,
                       height: 104,
                       child: Column(
-                        children: const <Widget>[
+                        children: <Widget>[
                           Padding(
-                            padding: EdgeInsets.only(top:25,bottom:8),
+                            padding: EdgeInsets.only(top: 25,bottom: 8),
                             child: Text(
                               '还没有任务计划',
                               style: TextStyle(
                                 decoration: TextDecoration.none,
                                 fontSize: 20,
-                                color: Colors.black12,
+                                color: Color(0xFFCCCCCC),
                                 fontWeight: FontWeight.normal,
                               ),
                               textAlign: TextAlign.center,
@@ -180,7 +175,7 @@ class _TodayQListState extends State<TodayQList> with SingleTickerProviderStateM
                             style: TextStyle(
                               decoration: TextDecoration.none,
                               fontSize: 16,
-                              color: Colors.black12,
+                              color: Color(0xFFCCCCCC),
                               fontWeight: FontWeight.normal,
                             ),
                             textAlign: TextAlign.center,
@@ -202,14 +197,14 @@ class _TodayQListState extends State<TodayQList> with SingleTickerProviderStateM
       desc: "请检查网络连接情况",
       buttons: [
         DialogButton(
-          child: const Text(
+          child: Text(
             "确定",
             style: TextStyle(color: Colors.white, fontSize: 20),
           ),
           onPressed: () {
             Navigator.pop(context);
           },
-          color: const Color(0xFF6E85D3),
+          color: Color(0xFF5580EB),
         )
       ],
     ).show();

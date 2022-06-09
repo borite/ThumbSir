@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:http/http.dart' as http;
-import 'package:new_lianghua_app/model/check_lates_version_model.dart';
+import '../model/check_lates_version_model.dart';
 import '../utils/common_vars.dart';
 
 //接口地址前缀

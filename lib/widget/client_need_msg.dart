@@ -1,18 +1,22 @@
+import 'package:ThumbSir/dao/change_need_state_dao.dart';
+import 'package:ThumbSir/dao/delete_customer_need_dao.dart';
 import 'package:ThumbSir/pages/broker/client/buy_need_page.dart';
+import 'package:ThumbSir/pages/broker/client/client_detail_page.dart';
 import 'package:ThumbSir/pages/broker/client/sell_need_page.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:ThumbSir/dao/get_needs_detail_dao.dart';
-import 'package:ThumbSir/pages/broker/traded/traded_add_deal_page.dart';
 import 'package:wheel_chooser/wheel_chooser.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ThumbSir/common/alert.dart';
+import 'package:ThumbSir/pages/broker/client/client_need_to_add_deal_page.dart';
+import 'package:ThumbSir/pages/broker/client/edit_buy_need_page.dart';
+import 'package:ThumbSir/pages/broker/client/edit_sell_need_page.dart';
 
 
 class ClientNeedMsg extends StatefulWidget {
   final item;
 
-  ClientNeedMsg({Key key,
+  ClientNeedMsg({Key? key,
     this.item
   }):super(key:key);
   @override
@@ -22,10 +26,12 @@ class ClientNeedMsg extends StatefulWidget {
 class _ClientNeedMsgState extends State<ClientNeedMsg> with SingleTickerProviderStateMixin{
   ScrollController _scrollController = ScrollController();
   bool _loading = false;
-  List need=new List();
+  late List need;
   List<Widget> msgs=[];
+
   String needMinCount = "购买住宅";
   String stateMinCount = "已成交";
+
 
   _load() async {
     var needResult = await GetNeedsDetailDao.httpGetNeedsDetail(
@@ -34,10 +40,126 @@ class _ClientNeedMsgState extends State<ClientNeedMsg> with SingleTickerProvider
 
       if (needResult.code == 200) {
         var needsList = needResult.data;
-        if (needsList.length>0) {
+        if (needsList!.length>0) {
           need = needsList;
+
           setState(() {
             for (var item in need) {
+              List<Widget> others=[];
+              print(item);
+              var noOtherNeeds;
+              var _otherNeedArr;
+              var _otherList;
+
+              String IsJueCe;
+              //决策人姓名
+              String JueCeName;
+              //决策人手机号
+              String JueCePhone;
+              //是否有代理人
+              String HasDaiLi;
+              //代理人姓名
+              String DaiLiName;
+              //代理人手机号
+              String DaiLiPhone;
+              //付款方式
+              String PayWay;
+              //首付预算
+              String ShouFu;
+              //总价预算
+              String ZongJia;
+              //意向小区
+              String YxXiaoQu;
+              var _otherNeesArr;
+
+              //核心需求记录
+              String coreNeedsArr="";
+              if(item.coreNeedOne!=null){
+                coreNeedsArr+=item.coreNeedOne;
+              }
+
+              if(item.coreNeedTwo!=null&&!item.coreNeedTwo.toString().contains('暂无')){
+                coreNeedsArr+='|'+item.coreNeedTwo;
+              }
+              if(item.coreNeedThree!=null&&!item.coreNeedThree.toString().contains('暂无')){
+                coreNeedsArr+='|'+item.coreNeedThree;
+              }
+
+              if(item.otherNeed!=null){
+                var iOtherNeed=item.otherNeed.toString();
+                //增加分隔符|
+                iOtherNeed= iOtherNeed.replaceAll('}', '}|');
+                //通过分隔符分割字符串，0-为非核心需求，1-为决策之类的信息
+                _otherNeedArr=iOtherNeed.split('|');
+
+                //把决策类的信息再次用逗号分割
+                noOtherNeeds=_otherNeedArr[1].split(',');
+
+                print(noOtherNeeds);
+
+                //定义相关数据变量
+                //是否为决策人
+                IsJueCe=noOtherNeeds[1].split(':')[1];
+                //决策人姓名
+                JueCeName=noOtherNeeds[2].split(':')[1];
+                //决策人手机号
+                JueCePhone=noOtherNeeds[3].split(':')[1];
+                //是否有代理人
+                HasDaiLi=noOtherNeeds[4].split(':')[1];
+                //代理人姓名
+                DaiLiName=noOtherNeeds[5].split(':')[1];
+                //代理人手机号
+                DaiLiPhone=noOtherNeeds[6].split(':')[1];
+                //付款方式
+                PayWay=noOtherNeeds[7].split(':')[1];
+                //首付预算
+                ShouFu=noOtherNeeds[8].split(':')[1];
+                //总价预算
+                ZongJia=noOtherNeeds[9].split(':')[1];
+                //意向小区
+                YxXiaoQu=noOtherNeeds[10].split(':')[1];
+
+                _otherNeesArr= _reGroupOtherNeed(_otherNeedArr[0], coreNeedsArr,item.mainNeed);
+                _otherList=_otherNeesArr.toString().split(",");
+                for (var item1 in _otherList) {
+                    others.add(
+                      Chip(
+                        backgroundColor: Color(0xFF93C0FB),
+                        label: Text(item1.replaceAll('"', '')
+                            .replaceAll('[', '')
+                            .replaceAll(']', ''),
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.white,
+                            decoration: TextDecoration.none,
+                            fontWeight: FontWeight.normal,
+                          ),),
+                      ),
+                    );
+                };
+              } else{
+                IsJueCe="未完善";
+                //决策人姓名
+                JueCeName="未完善";
+                //决策人手机号
+                JueCePhone="未完善";
+                //是否有代理人
+                HasDaiLi="未完善";
+                //代理人姓名
+                DaiLiName="未完善";
+                //代理人手机号
+                DaiLiPhone="未完善";
+                //付款方式
+                PayWay="未完善";
+                //首付预算
+                ShouFu="未完善";
+                //总价预算
+                ZongJia="未完善";
+                //意向小区
+                YxXiaoQu="未完善";
+                // _otherNeesArr;
+              }
+
               msgs.add(
                   Container(
                     width: 335,
@@ -52,7 +174,7 @@ class _ClientNeedMsgState extends State<ClientNeedMsg> with SingleTickerProvider
                               Row(
                                 children: [
                                   Text(
-                                    item.mainNeed??"暂无",
+                                    item.mainNeed??"暂无需求",
                                     style: TextStyle(
                                       fontSize: 14,
                                       color: Color(0xFF5580EB),
@@ -62,7 +184,7 @@ class _ClientNeedMsgState extends State<ClientNeedMsg> with SingleTickerProvider
                                   ),
                                   GestureDetector(
                                     onTap: (){
-                                      _changeStateAlertPressed(context);
+                                      _changeStateAlertPressed(context,item.id,item);
                                     },
                                     child: Container(
                                       margin: EdgeInsets.only(left: 10),
@@ -94,10 +216,22 @@ class _ClientNeedMsgState extends State<ClientNeedMsg> with SingleTickerProvider
                               ),
                               GestureDetector(
                                 onTap: (){
-                                  // Navigator.push(context, MaterialPageRoute(builder: (context)=>TradedEditDealPage(
-                                  //   item:widget.item,
-                                  //   dealItem: item,
-                                  // )));
+                                  if(item.mainNeed.toString().substring(0,2)=="购买" || item.mainNeed.toString().substring(0,2)=="租赁"){
+                                    Navigator.push(context, MaterialPageRoute(builder: (context)=>EditBuyNeedPage(
+                                      cid: widget.item.mid,
+                                      mainNeed:item.mainNeed,
+                                      userName:widget.item.userName,
+                                      needDetail: item,
+                                    )));
+                                  }else{
+                                    Navigator.push(context, MaterialPageRoute(builder: (context)=>EditSellNeedPage(
+                                      cid: widget.item.mid,
+                                      mainNeed:item.mainNeed,
+                                      userName:widget.item.userName,
+                                      needDetail: item,
+                                    )));
+                                  }
+
                                 },
                                 child: Container(
                                   width: 50,
@@ -106,6 +240,32 @@ class _ClientNeedMsgState extends State<ClientNeedMsg> with SingleTickerProvider
                                   child: Image.asset("images/editor.png"),
                                 ),
                               )
+                            ],
+                          ),
+                        ),
+                        // 需求创建时间
+                        Container(
+                          margin: EdgeInsets.only(left: 20,bottom: 10),
+                          child: Row(
+                            children: <Widget>[
+                              Text(
+                                "需求创建时间：",
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Color(0xFF666666),
+                                  decoration: TextDecoration.none,
+                                  fontWeight: FontWeight.normal,
+                                ),
+                              ),
+                              Text(
+                                item.addTime!=null?item.addTime.toString().substring(0,10):"-",
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Color(0xFF666666),
+                                  decoration: TextDecoration.none,
+                                  fontWeight: FontWeight.normal,
+                                ),
+                              ),
                             ],
                           ),
                         ),
@@ -124,7 +284,7 @@ class _ClientNeedMsgState extends State<ClientNeedMsg> with SingleTickerProvider
                                 ),
                               ),
                               Text(
-                                item.needReason??"未知",
+                                item.needReason??"未完善",
                                 style: TextStyle(
                                   fontSize: 14,
                                   color: Color(0xFF666666),
@@ -136,12 +296,38 @@ class _ClientNeedMsgState extends State<ClientNeedMsg> with SingleTickerProvider
                           ),
                         ),
                         // 购房用途
+                        // Container(
+                        //   margin: EdgeInsets.only(left: 20,top: 10),
+                        //   child: Row(
+                        //     children: <Widget>[
+                        //       Text(
+                        //         "购房用途：",
+                        //         style: TextStyle(
+                        //           fontSize: 14,
+                        //           color: Color(0xFF666666),
+                        //           decoration: TextDecoration.none,
+                        //           fontWeight: FontWeight.normal,
+                        //         ),
+                        //       ),
+                        //       Text(
+                        //         "自住",
+                        //         style: TextStyle(
+                        //           fontSize: 14,
+                        //           color: Color(0xFF666666),
+                        //           decoration: TextDecoration.none,
+                        //           fontWeight: FontWeight.normal,
+                        //         ),
+                        //       ),
+                        //     ],
+                        //   ),
+                        // ),
+                        // 是否为决策人
                         Container(
                           margin: EdgeInsets.only(left: 20,top: 10),
                           child: Row(
                             children: <Widget>[
                               Text(
-                                "购房用途：",
+                                "是否为决策人：",
                                 style: TextStyle(
                                   fontSize: 14,
                                   color: Color(0xFF666666),
@@ -150,7 +336,7 @@ class _ClientNeedMsgState extends State<ClientNeedMsg> with SingleTickerProvider
                                 ),
                               ),
                               Text(
-                                "自住",
+                                IsJueCe,
                                 style: TextStyle(
                                   fontSize: 14,
                                   color: Color(0xFF666666),
@@ -161,13 +347,14 @@ class _ClientNeedMsgState extends State<ClientNeedMsg> with SingleTickerProvider
                             ],
                           ),
                         ),
-                        // 决策人
+                        // 决策人姓名
+                        IsJueCe=="否"?
                         Container(
                           margin: EdgeInsets.only(left: 20,top: 10),
                           child: Row(
                             children: <Widget>[
                               Text(
-                                "是否为购房决策人：",
+                                "决策人姓名：",
                                 style: TextStyle(
                                   fontSize: 14,
                                   color: Color(0xFF666666),
@@ -176,7 +363,60 @@ class _ClientNeedMsgState extends State<ClientNeedMsg> with SingleTickerProvider
                                 ),
                               ),
                               Text(
-                                "是",
+                                JueCeName,
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Color(0xFF666666),
+                                  decoration: TextDecoration.none,
+                                  fontWeight: FontWeight.normal,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ):Container(width: 1,),
+                        // 决策人手机号
+                        IsJueCe=="否"?
+                        Container(
+                          margin: EdgeInsets.only(left: 20,top: 10),
+                          child: Row(
+                            children: <Widget>[
+                              Text(
+                                "决策人手机号：",
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Color(0xFF666666),
+                                  decoration: TextDecoration.none,
+                                  fontWeight: FontWeight.normal,
+                                ),
+                              ),
+                              Text(
+                                JueCePhone,
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Color(0xFF666666),
+                                  decoration: TextDecoration.none,
+                                  fontWeight: FontWeight.normal,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ):Container(width: 1,),
+                        // 是否有代理人
+                        Container(
+                          margin: EdgeInsets.only(left: 20,top: 10),
+                          child: Row(
+                            children: <Widget>[
+                              Text(
+                                "是否有代理人：",
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Color(0xFF666666),
+                                  decoration: TextDecoration.none,
+                                  fontWeight: FontWeight.normal,
+                                ),
+                              ),
+                              Text(
+                                HasDaiLi,
                                 style: TextStyle(
                                   fontSize: 14,
                                   color: Color(0xFF666666),
@@ -187,39 +427,94 @@ class _ClientNeedMsgState extends State<ClientNeedMsg> with SingleTickerProvider
                             ],
                           ),
                         ),
+                        // 代理人姓名
+                        HasDaiLi=="是"?
+                        Container(
+                          margin: EdgeInsets.only(left: 20,top: 10),
+                          child: Row(
+                            children: <Widget>[
+                              Text(
+                                "代理人姓名：",
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Color(0xFF666666),
+                                  decoration: TextDecoration.none,
+                                  fontWeight: FontWeight.normal,
+                                ),
+                              ),
+                              Text(
+                                DaiLiName,
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Color(0xFF666666),
+                                  decoration: TextDecoration.none,
+                                  fontWeight: FontWeight.normal,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ):Container(width: 1,),
+                        // 代理人手机号
+                        HasDaiLi=="是"?
+                        Container(
+                          margin: EdgeInsets.only(left: 20,top: 10),
+                          child: Row(
+                            children: <Widget>[
+                              Text(
+                                "代理人手机号码：",
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Color(0xFF666666),
+                                  decoration: TextDecoration.none,
+                                  fontWeight: FontWeight.normal,
+                                ),
+                              ),
+                              Text(
+                                DaiLiPhone,
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Color(0xFF666666),
+                                  decoration: TextDecoration.none,
+                                  fontWeight: FontWeight.normal,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ):Container(width: 1,),
                         // 资质审核
-                        Container(
-                          margin: EdgeInsets.only(left: 20,top: 10),
-                          child: Row(
-                            children: <Widget>[
-                              Text(
-                                "是否有购房资质：",
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  color: Color(0xFF666666),
-                                  decoration: TextDecoration.none,
-                                  fontWeight: FontWeight.normal,
-                                ),
-                              ),
-                              Text(
-                                "是",
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  color: Color(0xFF666666),
-                                  decoration: TextDecoration.none,
-                                  fontWeight: FontWeight.normal,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+                        // Container(
+                        //   margin: EdgeInsets.only(left: 20,top: 10),
+                        //   child: Row(
+                        //     children: <Widget>[
+                        //       Text(
+                        //         "是否有购房资质：",
+                        //         style: TextStyle(
+                        //           fontSize: 14,
+                        //           color: Color(0xFF666666),
+                        //           decoration: TextDecoration.none,
+                        //           fontWeight: FontWeight.normal,
+                        //         ),
+                        //       ),
+                        //       Text(
+                        //         "是",
+                        //         style: TextStyle(
+                        //           fontSize: 14,
+                        //           color: Color(0xFF666666),
+                        //           decoration: TextDecoration.none,
+                        //           fontWeight: FontWeight.normal,
+                        //         ),
+                        //       ),
+                        //     ],
+                        //   ),
+                        // ),
                         // 付款方式
                         Container(
                           margin: EdgeInsets.only(left: 20,top: 10,right: 20,bottom: 0),
                           child: Row(
                             children: <Widget>[
                               Text(
-                                "付款方式：",
+                                item.mainNeed.toString().substring(0,1)=="购买"||item.mainNeed.toString().substring(0,1)=="租赁"?
+                                    "付款方式：":"房屋现用途：",
                                 style: TextStyle(
                                   fontSize: 14,
                                   color: Color(0xFF666666),
@@ -229,7 +524,7 @@ class _ClientNeedMsgState extends State<ClientNeedMsg> with SingleTickerProvider
                               ),
                               Expanded(
                                 child: Text(
-                                  "贷款",
+                                  PayWay,
                                   style: TextStyle(
                                     fontSize: 14,
                                     color: Color(0xFF666666),
@@ -247,7 +542,8 @@ class _ClientNeedMsgState extends State<ClientNeedMsg> with SingleTickerProvider
                           child: Row(
                             children: <Widget>[
                               Text(
-                                "总价预算：",
+                                item.mainNeed.toString().substring(0,2)=="购买"?"总价预算：":
+                                item.mainNeed.toString().substring(0,1)=="租赁"?"押金预算：":"底价：",
                                 style: TextStyle(
                                   fontSize: 14,
                                   color: Color(0xFF666666),
@@ -257,7 +553,7 @@ class _ClientNeedMsgState extends State<ClientNeedMsg> with SingleTickerProvider
                               ),
                               Expanded(
                                 child: Text(
-                                  "700万",
+                                  ZongJia,
                                   style: TextStyle(
                                     fontSize: 14,
                                     color: Color(0xFF666666),
@@ -270,12 +566,14 @@ class _ClientNeedMsgState extends State<ClientNeedMsg> with SingleTickerProvider
                           ),
                         ),
                         // 首付预算
+                        PayWay=="全款"?Container(width: 1,):
                         Container(
                           margin: EdgeInsets.only(left: 20,top: 10,right: 20,bottom: 0),
                           child: Row(
                             children: <Widget>[
                               Text(
-                                "首付预算：",
+                                item.mainNeed.toString().substring(0,2)=="购买"?"首付预算：":
+                                item.mainNeed.toString().substring(0,1)=="租赁"?"月租金预算：":"报盘价：",
                                 style: TextStyle(
                                   fontSize: 14,
                                   color: Color(0xFF666666),
@@ -285,7 +583,7 @@ class _ClientNeedMsgState extends State<ClientNeedMsg> with SingleTickerProvider
                               ),
                               Expanded(
                                 child: Text(
-                                  "300万",
+                                  ShouFu,
                                   style: TextStyle(
                                     fontSize: 14,
                                     color: Color(0xFF666666),
@@ -303,7 +601,8 @@ class _ClientNeedMsgState extends State<ClientNeedMsg> with SingleTickerProvider
                           child: Row(
                             children: <Widget>[
                               Text(
-                                "意向区域：",
+                                item.mainNeed.toString().substring(0,1)=="购买"||item.mainNeed.toString().substring(0,1)=="租赁"?
+                                "意向区域：":"房源地址：",
                                 style: TextStyle(
                                   fontSize: 14,
                                   color: Color(0xFF666666),
@@ -313,7 +612,7 @@ class _ClientNeedMsgState extends State<ClientNeedMsg> with SingleTickerProvider
                               ),
                               Expanded(
                                 child: Text(
-                                  "三环内，长河湾小区、卫生部小区、交大东路56号院",
+                                  YxXiaoQu,
                                   style: TextStyle(
                                     fontSize: 14,
                                     color: Color(0xFF666666),
@@ -368,7 +667,7 @@ class _ClientNeedMsgState extends State<ClientNeedMsg> with SingleTickerProvider
                               Expanded(
                                 child:Text(
                                   // "要住三代人",
-                                  item.coreNeedOneRemark??"无备注",
+                                  item.coreNeedOneRemark??"无描述",
                                   style: TextStyle(
                                     fontSize: 14,
                                     color: Color(0xFF666666),
@@ -381,7 +680,7 @@ class _ClientNeedMsgState extends State<ClientNeedMsg> with SingleTickerProvider
                           ),
                         ),
                         // 核心需求2
-                        item.coreNeedTwo == null || item.coreNeedTwo == ""?
+                        item.coreNeedTwo != null && item.coreNeedTwo != ""?
                         Container(
                           margin: EdgeInsets.only(left: 20,top: 10,right: 20,bottom: 0),
                           child: Row(
@@ -420,7 +719,7 @@ class _ClientNeedMsgState extends State<ClientNeedMsg> with SingleTickerProvider
                             :
                         Container(width: 1,),
                         // 核心需求3
-                        item.coreNeedThree == null || item.coreNeedThree == ""?
+                        item.coreNeedThree != null && item.coreNeedThree != ""?
                         Container(
                           margin: EdgeInsets.only(left: 20,top: 10,right: 20,bottom: 10),
                           child: Row(
@@ -444,7 +743,7 @@ class _ClientNeedMsgState extends State<ClientNeedMsg> with SingleTickerProvider
                               ),
                               Expanded(
                                 child:Text(
-                                  item.coreNeedTwoRemark??"-",
+                                  item.coreNeedThreeRemark??"-",
                                   style: TextStyle(
                                     fontSize: 14,
                                     color: Color(0xFF666666),
@@ -505,131 +804,15 @@ class _ClientNeedMsgState extends State<ClientNeedMsg> with SingleTickerProvider
                             ],
                           ),
                         ),
+
+                        item.otherNeed==null?
                         Container(
                           margin: EdgeInsets.only(left: 20,top: 10,right: 20,bottom: 0),
-                          child: Wrap(
-                            spacing: 10,
+                          child: Row(
                             children: <Widget>[
                               Chip(
                                 backgroundColor: Color(0xFF93C0FB),
-                                label: Text('楼层：3~5层',style: TextStyle(
-                                  fontSize: 14,
-                                  color: Colors.white,
-                                  decoration: TextDecoration.none,
-                                  fontWeight: FontWeight.normal,
-                                ),),
-                              ),
-                              Chip(
-                                backgroundColor: Color(0xFF93C0FB),
-                                label: Text('面积：70平米',style: TextStyle(
-                                  fontSize: 14,
-                                  color: Colors.white,
-                                  decoration: TextDecoration.none,
-                                  fontWeight: FontWeight.normal,
-                                ),),
-                              ),
-                              Chip(
-                                backgroundColor: Color(0xFF93C0FB),
-                                label: Text('朝向：不限',style: TextStyle(
-                                  fontSize: 14,
-                                  color: Colors.white,
-                                  decoration: TextDecoration.none,
-                                  fontWeight: FontWeight.normal,
-                                ),),
-                              ),
-                              Chip(
-                                backgroundColor: Color(0xFF93C0FB),
-                                label: Text('税费：满五唯一',style: TextStyle(
-                                  fontSize: 14,
-                                  color: Colors.white,
-                                  decoration: TextDecoration.none,
-                                  fontWeight: FontWeight.normal,
-                                ),),
-                              ),
-                              Chip(
-                                backgroundColor: Color(0xFF93C0FB),
-                                label: Text('楼龄：不限',style: TextStyle(
-                                  fontSize: 14,
-                                  color: Colors.white,
-                                  decoration: TextDecoration.none,
-                                  fontWeight: FontWeight.normal,
-                                ),),
-                              ),
-                              Chip(
-                                backgroundColor: Color(0xFF93C0FB),
-                                label: Text('电梯：不带电梯',style: TextStyle(
-                                  fontSize: 14,
-                                  color: Colors.white,
-                                  decoration: TextDecoration.none,
-                                  fontWeight: FontWeight.normal,
-                                ),),
-                              ),
-                              Chip(
-                                backgroundColor: Color(0xFF93C0FB),
-                                label: Text('交通：近地铁',style: TextStyle(
-                                  fontSize: 14,
-                                  color: Colors.white,
-                                  decoration: TextDecoration.none,
-                                  fontWeight: FontWeight.normal,
-                                ),),
-                              ),
-                              Chip(
-                                backgroundColor: Color(0xFF93C0FB),
-                                label: Text('医院：不限',style: TextStyle(
-                                  fontSize: 14,
-                                  color: Colors.white,
-                                  decoration: TextDecoration.none,
-                                  fontWeight: FontWeight.normal,
-                                ),),
-                              ),
-                              Chip(
-                                backgroundColor: Color(0xFF93C0FB),
-                                label: Text('银行：不限',style: TextStyle(
-                                  fontSize: 14,
-                                  color: Colors.white,
-                                  decoration: TextDecoration.none,
-                                  fontWeight: FontWeight.normal,
-                                ),),
-                              ),
-                              Chip(
-                                backgroundColor: Color(0xFF93C0FB),
-                                label: Text('公园：不限',style: TextStyle(
-                                  fontSize: 14,
-                                  color: Colors.white,
-                                  decoration: TextDecoration.none,
-                                  fontWeight: FontWeight.normal,
-                                ),),
-                              ),
-                              Chip(
-                                backgroundColor: Color(0xFF93C0FB),
-                                label: Text('商场：不限',style: TextStyle(
-                                  fontSize: 14,
-                                  color: Colors.white,
-                                  decoration: TextDecoration.none,
-                                  fontWeight: FontWeight.normal,
-                                ),),
-                              ),
-                              Chip(
-                                backgroundColor: Color(0xFF93C0FB),
-                                label: Text('物业：中等',style: TextStyle(
-                                  fontSize: 14,
-                                  color: Colors.white,
-                                  decoration: TextDecoration.none,
-                                  fontWeight: FontWeight.normal,
-                                ),),
-                              ),
-                              Chip(
-                                backgroundColor: Color(0xFF93C0FB),
-                                label: Text('特殊要求：车位、安静、人车分流',style: TextStyle(
-                                  fontSize: 14,
-                                  color: Colors.white,
-                                  decoration: TextDecoration.none,
-                                  fontWeight: FontWeight.normal,
-                                ),),
-                              ),
-                              Chip(
-                                backgroundColor: Color(0xFF93C0FB),
-                                label: Text('其他：小书房',style: TextStyle(
+                                label: Text('未完善，点我去完善信息吧~',style: TextStyle(
                                   fontSize: 14,
                                   color: Colors.white,
                                   decoration: TextDecoration.none,
@@ -638,15 +821,22 @@ class _ClientNeedMsgState extends State<ClientNeedMsg> with SingleTickerProvider
                               ),
                             ],
                           ),
+                        )
+                        :
+                        Container(
+                          margin: EdgeInsets.only(left: 20,top: 10,right: 20,bottom: 0),
+                          child: Wrap(
+                            spacing: 10,
+                            children: others,
+                          ),
                         ),
 
                       ],
                     ),
-
                   )
-
               );
             }
+            //others.clear();
           });
         }
       } else {
@@ -758,1908 +948,6 @@ class _ClientNeedMsgState extends State<ClientNeedMsg> with SingleTickerProvider
                           ),
                         )
                     ),
-                    // 购买
-                    Container(
-                      child: Column(
-                        children: [
-                          Container(
-                            width: 335,
-                            child: Column(
-                              children: <Widget>[
-                                // 基本信息
-                                Container(
-                                  margin: EdgeInsets.only(left: 20,top: 20,right: 20,bottom: 5),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: <Widget>[
-                                      Text(
-                                        "购买公寓",
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          color: Color(0xFF5580EB),
-                                          decoration: TextDecoration.none,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                      ),
-                                      GestureDetector(
-                                        onTap: (){
-                                          // Navigator.push(context, MaterialPageRoute(builder: (context)=>TradedEditDealPage(
-                                          //   item:widget.item,
-                                          //   dealItem: item,
-                                          // )));
-                                        },
-                                        child: Container(
-                                          width: 50,
-                                          height: 20,
-                                          color: Colors.transparent,
-                                          child: Image.asset("images/editor.png"),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                // 购房原因
-                                Container(
-                                  margin: EdgeInsets.only(left: 20,top: 10),
-                                  child: Row(
-                                    children: <Widget>[
-                                      Text(
-                                        "购房原因：",
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          color: Color(0xFF666666),
-                                          decoration: TextDecoration.none,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                      ),
-                                      Text(
-                                        "婚房",
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          color: Color(0xFF666666),
-                                          decoration: TextDecoration.none,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                // 购房用途
-                                Container(
-                                  margin: EdgeInsets.only(left: 20,top: 10),
-                                  child: Row(
-                                    children: <Widget>[
-                                      Text(
-                                        "购房用途：",
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          color: Color(0xFF666666),
-                                          decoration: TextDecoration.none,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                      ),
-                                      Text(
-                                        "自住",
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          color: Color(0xFF666666),
-                                          decoration: TextDecoration.none,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                // 决策人
-                                Container(
-                                  margin: EdgeInsets.only(left: 20,top: 10),
-                                  child: Row(
-                                    children: <Widget>[
-                                      Text(
-                                        "是否为购房决策人：",
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          color: Color(0xFF666666),
-                                          decoration: TextDecoration.none,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                      ),
-                                      Text(
-                                        "是",
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          color: Color(0xFF666666),
-                                          decoration: TextDecoration.none,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                // 资质审核
-                                Container(
-                                  margin: EdgeInsets.only(left: 20,top: 10),
-                                  child: Row(
-                                    children: <Widget>[
-                                      Text(
-                                        "是否有购房资质：",
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          color: Color(0xFF666666),
-                                          decoration: TextDecoration.none,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                      ),
-                                      Text(
-                                        "是",
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          color: Color(0xFF666666),
-                                          decoration: TextDecoration.none,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                // 付款方式
-                                Container(
-                                  margin: EdgeInsets.only(left: 20,top: 10,right: 20,bottom: 0),
-                                  child: Row(
-                                    children: <Widget>[
-                                      Text(
-                                        "付款方式：",
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          color: Color(0xFF666666),
-                                          decoration: TextDecoration.none,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Text(
-                                          "贷款",
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            color: Color(0xFF666666),
-                                            decoration: TextDecoration.none,
-                                            fontWeight: FontWeight.normal,
-                                          ),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                // 总价预算
-                                Container(
-                                  margin: EdgeInsets.only(left: 20,top: 10,right: 20,bottom: 0),
-                                  child: Row(
-                                    children: <Widget>[
-                                      Text(
-                                        "总价预算：",
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          color: Color(0xFF666666),
-                                          decoration: TextDecoration.none,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Text(
-                                          "700万",
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            color: Color(0xFF666666),
-                                            decoration: TextDecoration.none,
-                                            fontWeight: FontWeight.normal,
-                                          ),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                // 首付预算
-                                Container(
-                                  margin: EdgeInsets.only(left: 20,top: 10,right: 20,bottom: 0),
-                                  child: Row(
-                                    children: <Widget>[
-                                      Text(
-                                        "首付预算：",
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          color: Color(0xFF666666),
-                                          decoration: TextDecoration.none,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Text(
-                                          "300万",
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            color: Color(0xFF666666),
-                                            decoration: TextDecoration.none,
-                                            fontWeight: FontWeight.normal,
-                                          ),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                // 意向区域
-                                Container(
-                                  margin: EdgeInsets.only(left: 20,top: 10,right: 20,bottom: 0),
-                                  child: Row(
-                                    children: <Widget>[
-                                      Text(
-                                        "意向区域：",
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          color: Color(0xFF666666),
-                                          decoration: TextDecoration.none,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Text(
-                                          "三环内，长河湾小区、卫生部小区、交大东路56号院",
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            color: Color(0xFF666666),
-                                            decoration: TextDecoration.none,
-                                            fontWeight: FontWeight.normal,
-                                          ),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                // 核心需求
-                                Container(
-                                  margin: EdgeInsets.only(left: 20,top: 10,right: 20,bottom: 0),
-                                  child: Row(
-                                    children: <Widget>[
-                                      Text(
-                                        "核心需求：",
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          color: Color(0xFF666666),
-                                          decoration: TextDecoration.none,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                // 核心需求1
-                                Container(
-                                  margin: EdgeInsets.only(left: 20,top: 10,right: 20,bottom: 0),
-                                  child: Row(
-                                    children: <Widget>[
-                                      Container(
-                                        margin: EdgeInsets.only(right: 10),
-                                        padding: EdgeInsets.fromLTRB(8, 3, 8, 3),
-                                        decoration: BoxDecoration(
-                                          color:Color(0xFF5580EB),
-                                          borderRadius: BorderRadius.all(Radius.circular(6)),
-                                        ),
-                                        child: Text(
-                                          "居室：3居室",
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            color: Colors.white,
-                                            decoration: TextDecoration.none,
-                                            fontWeight: FontWeight.normal,
-                                          ),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child:Text(
-                                          "要住三代人",
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            color: Color(0xFF666666),
-                                            decoration: TextDecoration.none,
-                                            fontWeight: FontWeight.normal,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                // 核心需求2
-                                Container(
-                                  margin: EdgeInsets.only(left: 20,top: 10,right: 20,bottom: 0),
-                                  child: Row(
-                                    children: <Widget>[
-                                      Container(
-                                        margin: EdgeInsets.only(right: 10),
-                                        padding: EdgeInsets.fromLTRB(8, 3, 8, 3),
-                                        decoration: BoxDecoration(
-                                          color:Color(0xFF5580EB),
-                                          borderRadius: BorderRadius.all(Radius.circular(6)),
-                                        ),
-                                        child: Text(
-                                          "学区：交大附小",
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            color: Colors.white,
-                                            decoration: TextDecoration.none,
-                                            fontWeight: FontWeight.normal,
-                                          ),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child:Text(
-                                          "孩子2022年上小学",
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            color: Color(0xFF666666),
-                                            decoration: TextDecoration.none,
-                                            fontWeight: FontWeight.normal,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                // 核心需求3
-                                Container(
-                                  margin: EdgeInsets.only(left: 20,top: 10,right: 20,bottom: 10),
-                                  child: Row(
-                                    children: <Widget>[
-                                      Container(
-                                        margin: EdgeInsets.only(right: 10),
-                                        padding: EdgeInsets.fromLTRB(8, 3, 8, 3),
-                                        decoration: BoxDecoration(
-                                          color:Color(0xFF5580EB),
-                                          borderRadius: BorderRadius.all(Radius.circular(6)),
-                                        ),
-                                        child: Text(
-                                          "装修：精装修",
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            color: Colors.white,
-                                            decoration: TextDecoration.none,
-                                            fontWeight: FontWeight.normal,
-                                          ),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child:Text(
-                                          "房子已经卖了，着急住",
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            color: Color(0xFF666666),
-                                            decoration: TextDecoration.none,
-                                            fontWeight: FontWeight.normal,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-
-                                // 综合描述
-                                Container(
-                                  margin: EdgeInsets.only(left: 20,top: 10,right: 20,bottom: 0),
-                                  child: Row(
-                                    children: <Widget>[
-                                      Text(
-                                        "综合描述：",
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          color: Color(0xFF666666),
-                                          decoration: TextDecoration.none,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Text(
-                                          "自己的房子已经卖了，着急住，最好楼层低一些或带电梯",
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            color: Color(0xFF666666),
-                                            decoration: TextDecoration.none,
-                                            fontWeight: FontWeight.normal,
-                                          ),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-
-                                // 其他需求
-                                Container(
-                                  margin: EdgeInsets.only(left: 20,top: 10,right: 20,bottom: 0),
-                                  child: Row(
-                                    children: <Widget>[
-                                      Text(
-                                        "其他需求：",
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          color: Color(0xFF666666),
-                                          decoration: TextDecoration.none,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Container(
-                                  margin: EdgeInsets.only(left: 20,top: 10,right: 20,bottom: 0),
-                                  child: Wrap(
-                                    spacing: 10,
-                                    children: <Widget>[
-                                      Chip(
-                                        backgroundColor: Color(0xFF93C0FB),
-                                        label: Text('楼层：3~5层',style: TextStyle(
-                                          fontSize: 14,
-                                          color: Colors.white,
-                                          decoration: TextDecoration.none,
-                                          fontWeight: FontWeight.normal,
-                                        ),),
-                                      ),
-                                      Chip(
-                                        backgroundColor: Color(0xFF93C0FB),
-                                        label: Text('面积：70平米',style: TextStyle(
-                                          fontSize: 14,
-                                          color: Colors.white,
-                                          decoration: TextDecoration.none,
-                                          fontWeight: FontWeight.normal,
-                                        ),),
-                                      ),
-                                      Chip(
-                                        backgroundColor: Color(0xFF93C0FB),
-                                        label: Text('朝向：不限',style: TextStyle(
-                                          fontSize: 14,
-                                          color: Colors.white,
-                                          decoration: TextDecoration.none,
-                                          fontWeight: FontWeight.normal,
-                                        ),),
-                                      ),
-                                      Chip(
-                                        backgroundColor: Color(0xFF93C0FB),
-                                        label: Text('税费：满五唯一',style: TextStyle(
-                                          fontSize: 14,
-                                          color: Colors.white,
-                                          decoration: TextDecoration.none,
-                                          fontWeight: FontWeight.normal,
-                                        ),),
-                                      ),
-                                      Chip(
-                                        backgroundColor: Color(0xFF93C0FB),
-                                        label: Text('楼龄：不限',style: TextStyle(
-                                          fontSize: 14,
-                                          color: Colors.white,
-                                          decoration: TextDecoration.none,
-                                          fontWeight: FontWeight.normal,
-                                        ),),
-                                      ),
-                                      Chip(
-                                        backgroundColor: Color(0xFF93C0FB),
-                                        label: Text('电梯：不带电梯',style: TextStyle(
-                                          fontSize: 14,
-                                          color: Colors.white,
-                                          decoration: TextDecoration.none,
-                                          fontWeight: FontWeight.normal,
-                                        ),),
-                                      ),
-                                      Chip(
-                                        backgroundColor: Color(0xFF93C0FB),
-                                        label: Text('交通：近地铁',style: TextStyle(
-                                          fontSize: 14,
-                                          color: Colors.white,
-                                          decoration: TextDecoration.none,
-                                          fontWeight: FontWeight.normal,
-                                        ),),
-                                      ),
-                                      Chip(
-                                        backgroundColor: Color(0xFF93C0FB),
-                                        label: Text('医院：不限',style: TextStyle(
-                                          fontSize: 14,
-                                          color: Colors.white,
-                                          decoration: TextDecoration.none,
-                                          fontWeight: FontWeight.normal,
-                                        ),),
-                                      ),
-                                      Chip(
-                                        backgroundColor: Color(0xFF93C0FB),
-                                        label: Text('银行：不限',style: TextStyle(
-                                          fontSize: 14,
-                                          color: Colors.white,
-                                          decoration: TextDecoration.none,
-                                          fontWeight: FontWeight.normal,
-                                        ),),
-                                      ),
-                                      Chip(
-                                        backgroundColor: Color(0xFF93C0FB),
-                                        label: Text('公园：不限',style: TextStyle(
-                                          fontSize: 14,
-                                          color: Colors.white,
-                                          decoration: TextDecoration.none,
-                                          fontWeight: FontWeight.normal,
-                                        ),),
-                                      ),
-                                      Chip(
-                                        backgroundColor: Color(0xFF93C0FB),
-                                        label: Text('商场：不限',style: TextStyle(
-                                          fontSize: 14,
-                                          color: Colors.white,
-                                          decoration: TextDecoration.none,
-                                          fontWeight: FontWeight.normal,
-                                        ),),
-                                      ),
-                                      Chip(
-                                        backgroundColor: Color(0xFF93C0FB),
-                                        label: Text('物业：中等',style: TextStyle(
-                                          fontSize: 14,
-                                          color: Colors.white,
-                                          decoration: TextDecoration.none,
-                                          fontWeight: FontWeight.normal,
-                                        ),),
-                                      ),
-                                      Chip(
-                                        backgroundColor: Color(0xFF93C0FB),
-                                        label: Text('特殊要求：车位、安静、人车分流',style: TextStyle(
-                                          fontSize: 14,
-                                          color: Colors.white,
-                                          decoration: TextDecoration.none,
-                                          fontWeight: FontWeight.normal,
-                                        ),),
-                                      ),
-                                      Chip(
-                                        backgroundColor: Color(0xFF93C0FB),
-                                        label: Text('其他：小书房',style: TextStyle(
-                                          fontSize: 14,
-                                          color: Colors.white,
-                                          decoration: TextDecoration.none,
-                                          fontWeight: FontWeight.normal,
-                                        ),),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-
-                              ],
-                            ),
-
-                          ),
-                        ],
-                      ),
-                    ),
-                    // 租赁
-                    Container(
-                      child: Column(
-                        children: [
-                          Container(
-                            width: 335,
-                            child: Column(
-                              children: <Widget>[
-                                // 基本信息
-                                Container(
-                                  margin: EdgeInsets.only(left: 20,top: 20,right: 20,bottom: 5),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: <Widget>[
-                                      Text(
-                                        "租赁住宅",
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          color: Color(0xFF5580EB),
-                                          decoration: TextDecoration.none,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                      ),
-                                      GestureDetector(
-                                        onTap: (){
-                                          // Navigator.push(context, MaterialPageRoute(builder: (context)=>TradedEditDealPage(
-                                          //   item:widget.item,
-                                          //   dealItem: item,
-                                          // )));
-                                        },
-                                        child: Container(
-                                          width: 50,
-                                          height: 20,
-                                          color: Colors.transparent,
-                                          child: Image.asset("images/editor.png"),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                // 租房原因
-                                Container(
-                                  margin: EdgeInsets.only(left: 20,top: 10),
-                                  child: Row(
-                                    children: <Widget>[
-                                      Text(
-                                        "租房原因：",
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          color: Color(0xFF666666),
-                                          decoration: TextDecoration.none,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                      ),
-                                      Text(
-                                        "上班",
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          color: Color(0xFF666666),
-                                          decoration: TextDecoration.none,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                // 租房用途
-                                Container(
-                                  margin: EdgeInsets.only(left: 20,top: 10),
-                                  child: Row(
-                                    children: <Widget>[
-                                      Text(
-                                        "租房用途：",
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          color: Color(0xFF666666),
-                                          decoration: TextDecoration.none,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                      ),
-                                      Text(
-                                        "自住",
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          color: Color(0xFF666666),
-                                          decoration: TextDecoration.none,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                // 决策人
-                                Container(
-                                  margin: EdgeInsets.only(left: 20,top: 10),
-                                  child: Row(
-                                    children: <Widget>[
-                                      Text(
-                                        "是否为租房决策人：",
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          color: Color(0xFF666666),
-                                          decoration: TextDecoration.none,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                      ),
-                                      Text(
-                                        "是",
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          color: Color(0xFF666666),
-                                          decoration: TextDecoration.none,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                // 付款方式
-                                Container(
-                                  margin: EdgeInsets.only(left: 20,top: 10,right: 20,bottom: 0),
-                                  child: Row(
-                                    children: <Widget>[
-                                      Text(
-                                        "付款方式：",
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          color: Color(0xFF666666),
-                                          decoration: TextDecoration.none,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Text(
-                                          "押一付三",
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            color: Color(0xFF666666),
-                                            decoration: TextDecoration.none,
-                                            fontWeight: FontWeight.normal,
-                                          ),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                // 每月预算
-                                Container(
-                                  margin: EdgeInsets.only(left: 20,top: 10,right: 20,bottom: 0),
-                                  child: Row(
-                                    children: <Widget>[
-                                      Text(
-                                        "每月房租预算：",
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          color: Color(0xFF666666),
-                                          decoration: TextDecoration.none,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Text(
-                                          "4000元",
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            color: Color(0xFF666666),
-                                            decoration: TextDecoration.none,
-                                            fontWeight: FontWeight.normal,
-                                          ),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                // 意向区域
-                                Container(
-                                  margin: EdgeInsets.only(left: 20,top: 10,right: 20,bottom: 0),
-                                  child: Row(
-                                    children: <Widget>[
-                                      Text(
-                                        "意向区域：",
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          color: Color(0xFF666666),
-                                          decoration: TextDecoration.none,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Text(
-                                          "三环内，长河湾小区、卫生部小区、交大东路56号院",
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            color: Color(0xFF666666),
-                                            decoration: TextDecoration.none,
-                                            fontWeight: FontWeight.normal,
-                                          ),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                // 核心需求
-                                Container(
-                                  margin: EdgeInsets.only(left: 20,top: 10,right: 20,bottom: 0),
-                                  child: Row(
-                                    children: <Widget>[
-                                      Text(
-                                        "核心需求：",
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          color: Color(0xFF666666),
-                                          decoration: TextDecoration.none,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                // 核心需求1
-                                Container(
-                                  margin: EdgeInsets.only(left: 20,top: 10,right: 20,bottom: 0),
-                                  child: Row(
-                                    children: <Widget>[
-                                      Container(
-                                        margin: EdgeInsets.only(right: 10),
-                                        padding: EdgeInsets.fromLTRB(8, 3, 8, 3),
-                                        decoration: BoxDecoration(
-                                          color:Color(0xFF5580EB),
-                                          borderRadius: BorderRadius.all(Radius.circular(6)),
-                                        ),
-                                        child: Text(
-                                          "居室：3居室",
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            color: Colors.white,
-                                            decoration: TextDecoration.none,
-                                            fontWeight: FontWeight.normal,
-                                          ),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child:Text(
-                                          "要住三代人",
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            color: Color(0xFF666666),
-                                            decoration: TextDecoration.none,
-                                            fontWeight: FontWeight.normal,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                // 核心需求2
-                                Container(
-                                  margin: EdgeInsets.only(left: 20,top: 10,right: 20,bottom: 0),
-                                  child: Row(
-                                    children: <Widget>[
-                                      Container(
-                                        margin: EdgeInsets.only(right: 10),
-                                        padding: EdgeInsets.fromLTRB(8, 3, 8, 3),
-                                        decoration: BoxDecoration(
-                                          color:Color(0xFF5580EB),
-                                          borderRadius: BorderRadius.all(Radius.circular(6)),
-                                        ),
-                                        child: Text(
-                                          "学区：交大附小",
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            color: Colors.white,
-                                            decoration: TextDecoration.none,
-                                            fontWeight: FontWeight.normal,
-                                          ),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child:Text(
-                                          "孩子2022年上小学",
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            color: Color(0xFF666666),
-                                            decoration: TextDecoration.none,
-                                            fontWeight: FontWeight.normal,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                // 核心需求3
-                                Container(
-                                  margin: EdgeInsets.only(left: 20,top: 10,right: 20,bottom: 10),
-                                  child: Row(
-                                    children: <Widget>[
-                                      Container(
-                                        margin: EdgeInsets.only(right: 10),
-                                        padding: EdgeInsets.fromLTRB(8, 3, 8, 3),
-                                        decoration: BoxDecoration(
-                                          color:Color(0xFF5580EB),
-                                          borderRadius: BorderRadius.all(Radius.circular(6)),
-                                        ),
-                                        child: Text(
-                                          "装修：精装修",
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            color: Colors.white,
-                                            decoration: TextDecoration.none,
-                                            fontWeight: FontWeight.normal,
-                                          ),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child:Text(
-                                          "房子已经卖了，着急住",
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            color: Color(0xFF666666),
-                                            decoration: TextDecoration.none,
-                                            fontWeight: FontWeight.normal,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-
-                                // 综合描述
-                                Container(
-                                  margin: EdgeInsets.only(left: 20,top: 10,right: 20,bottom: 0),
-                                  child: Row(
-                                    children: <Widget>[
-                                      Text(
-                                        "综合描述：",
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          color: Color(0xFF666666),
-                                          decoration: TextDecoration.none,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Text(
-                                          "自己的房子已经卖了，着急住，最好楼层低一些或带电梯",
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            color: Color(0xFF666666),
-                                            decoration: TextDecoration.none,
-                                            fontWeight: FontWeight.normal,
-                                          ),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-
-                                // 其他需求
-                                Container(
-                                  margin: EdgeInsets.only(left: 20,top: 10,right: 20,bottom: 0),
-                                  child: Row(
-                                    children: <Widget>[
-                                      Text(
-                                        "其他需求：",
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          color: Color(0xFF666666),
-                                          decoration: TextDecoration.none,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Container(
-                                  margin: EdgeInsets.only(left: 20,top: 10,right: 20,bottom: 0),
-                                  child: Wrap(
-                                    spacing: 10,
-                                    children: <Widget>[
-                                      Chip(
-                                        backgroundColor: Color(0xFF93C0FB),
-                                        label: Text('楼层：3~5层',style: TextStyle(
-                                          fontSize: 14,
-                                          color: Colors.white,
-                                          decoration: TextDecoration.none,
-                                          fontWeight: FontWeight.normal,
-                                        ),),
-                                      ),
-                                      Chip(
-                                        backgroundColor: Color(0xFF93C0FB),
-                                        label: Text('面积：70平米',style: TextStyle(
-                                          fontSize: 14,
-                                          color: Colors.white,
-                                          decoration: TextDecoration.none,
-                                          fontWeight: FontWeight.normal,
-                                        ),),
-                                      ),
-                                      Chip(
-                                        backgroundColor: Color(0xFF93C0FB),
-                                        label: Text('朝向：不限',style: TextStyle(
-                                          fontSize: 14,
-                                          color: Colors.white,
-                                          decoration: TextDecoration.none,
-                                          fontWeight: FontWeight.normal,
-                                        ),),
-                                      ),
-                                      Chip(
-                                        backgroundColor: Color(0xFF93C0FB),
-                                        label: Text('税费：满五唯一',style: TextStyle(
-                                          fontSize: 14,
-                                          color: Colors.white,
-                                          decoration: TextDecoration.none,
-                                          fontWeight: FontWeight.normal,
-                                        ),),
-                                      ),
-                                      Chip(
-                                        backgroundColor: Color(0xFF93C0FB),
-                                        label: Text('楼龄：不限',style: TextStyle(
-                                          fontSize: 14,
-                                          color: Colors.white,
-                                          decoration: TextDecoration.none,
-                                          fontWeight: FontWeight.normal,
-                                        ),),
-                                      ),
-                                      Chip(
-                                        backgroundColor: Color(0xFF93C0FB),
-                                        label: Text('电梯：不带电梯',style: TextStyle(
-                                          fontSize: 14,
-                                          color: Colors.white,
-                                          decoration: TextDecoration.none,
-                                          fontWeight: FontWeight.normal,
-                                        ),),
-                                      ),
-                                      Chip(
-                                        backgroundColor: Color(0xFF93C0FB),
-                                        label: Text('交通：近地铁',style: TextStyle(
-                                          fontSize: 14,
-                                          color: Colors.white,
-                                          decoration: TextDecoration.none,
-                                          fontWeight: FontWeight.normal,
-                                        ),),
-                                      ),
-                                      Chip(
-                                        backgroundColor: Color(0xFF93C0FB),
-                                        label: Text('医院：不限',style: TextStyle(
-                                          fontSize: 14,
-                                          color: Colors.white,
-                                          decoration: TextDecoration.none,
-                                          fontWeight: FontWeight.normal,
-                                        ),),
-                                      ),
-                                      Chip(
-                                        backgroundColor: Color(0xFF93C0FB),
-                                        label: Text('银行：不限',style: TextStyle(
-                                          fontSize: 14,
-                                          color: Colors.white,
-                                          decoration: TextDecoration.none,
-                                          fontWeight: FontWeight.normal,
-                                        ),),
-                                      ),
-                                      Chip(
-                                        backgroundColor: Color(0xFF93C0FB),
-                                        label: Text('公园：不限',style: TextStyle(
-                                          fontSize: 14,
-                                          color: Colors.white,
-                                          decoration: TextDecoration.none,
-                                          fontWeight: FontWeight.normal,
-                                        ),),
-                                      ),
-                                      Chip(
-                                        backgroundColor: Color(0xFF93C0FB),
-                                        label: Text('商场：不限',style: TextStyle(
-                                          fontSize: 14,
-                                          color: Colors.white,
-                                          decoration: TextDecoration.none,
-                                          fontWeight: FontWeight.normal,
-                                        ),),
-                                      ),
-                                      Chip(
-                                        backgroundColor: Color(0xFF93C0FB),
-                                        label: Text('物业：中等',style: TextStyle(
-                                          fontSize: 14,
-                                          color: Colors.white,
-                                          decoration: TextDecoration.none,
-                                          fontWeight: FontWeight.normal,
-                                        ),),
-                                      ),
-                                      Chip(
-                                        backgroundColor: Color(0xFF93C0FB),
-                                        label: Text('特殊要求：车位、安静、人车分流',style: TextStyle(
-                                          fontSize: 14,
-                                          color: Colors.white,
-                                          decoration: TextDecoration.none,
-                                          fontWeight: FontWeight.normal,
-                                        ),),
-                                      ),
-                                      Chip(
-                                        backgroundColor: Color(0xFF93C0FB),
-                                        label: Text('其他：小书房',style: TextStyle(
-                                          fontSize: 14,
-                                          color: Colors.white,
-                                          decoration: TextDecoration.none,
-                                          fontWeight: FontWeight.normal,
-                                        ),),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-
-                              ],
-                            ),
-
-                          ),
-                        ],
-                      ),
-                    ),
-                    // 出售
-                    Container(
-                      child: Column(
-                        children: [
-                          Container(
-                            width: 335,
-                            child: Column(
-                              children: <Widget>[
-                                // 基本信息
-                                Container(
-                                  margin: EdgeInsets.only(left: 20,top: 20,right: 20,bottom: 5),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: <Widget>[
-                                      Text(
-                                        "出售公寓",
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          color: Color(0xFF5580EB),
-                                          decoration: TextDecoration.none,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                      ),
-                                      GestureDetector(
-                                        onTap: (){
-                                          // Navigator.push(context, MaterialPageRoute(builder: (context)=>TradedEditDealPage(
-                                          //   item:widget.item,
-                                          //   dealItem: item,
-                                          // )));
-                                        },
-                                        child: Container(
-                                          width: 50,
-                                          height: 20,
-                                          color: Colors.transparent,
-                                          child: Image.asset("images/editor.png"),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                // 出售原因
-                                Container(
-                                  margin: EdgeInsets.only(left: 20,top: 10),
-                                  child: Row(
-                                    children: <Widget>[
-                                      Text(
-                                        "出售原因：",
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          color: Color(0xFF666666),
-                                          decoration: TextDecoration.none,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                      ),
-                                      Text(
-                                        "变现",
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          color: Color(0xFF666666),
-                                          decoration: TextDecoration.none,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                // 房屋现用途
-                                Container(
-                                  margin: EdgeInsets.only(left: 20,top: 10),
-                                  child: Row(
-                                    children: <Widget>[
-                                      Text(
-                                        "房屋现用途：",
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          color: Color(0xFF666666),
-                                          decoration: TextDecoration.none,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                      ),
-                                      Text(
-                                        "自住",
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          color: Color(0xFF666666),
-                                          decoration: TextDecoration.none,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                // 决策人
-                                Container(
-                                  margin: EdgeInsets.only(left: 20,top: 10),
-                                  child: Row(
-                                    children: <Widget>[
-                                      Text(
-                                        "是否为出售决策人：",
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          color: Color(0xFF666666),
-                                          decoration: TextDecoration.none,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                      ),
-                                      Text(
-                                        "是",
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          color: Color(0xFF666666),
-                                          decoration: TextDecoration.none,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                // 当前报价
-                                Container(
-                                  margin: EdgeInsets.only(left: 20,top: 10,right: 20,bottom: 0),
-                                  child: Row(
-                                    children: <Widget>[
-                                      Text(
-                                        "当前报价：",
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          color: Color(0xFF666666),
-                                          decoration: TextDecoration.none,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Text(
-                                          "700万",
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            color: Color(0xFF666666),
-                                            decoration: TextDecoration.none,
-                                            fontWeight: FontWeight.normal,
-                                          ),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                // 房屋地址
-                                Container(
-                                  margin: EdgeInsets.only(left: 20,top: 10,right: 20,bottom: 0),
-                                  child: Row(
-                                    children: <Widget>[
-                                      Text(
-                                        "房屋地址：",
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          color: Color(0xFF666666),
-                                          decoration: TextDecoration.none,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Text(
-                                          "北京市海淀区交大东路56号院3号楼1单元402",
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            color: Color(0xFF666666),
-                                            decoration: TextDecoration.none,
-                                            fontWeight: FontWeight.normal,
-                                          ),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                // 房源详情
-                                Container(
-                                  margin: EdgeInsets.only(left: 20,top: 10,right: 20,bottom: 0),
-                                  child: Row(
-                                    children: <Widget>[
-                                      Text(
-                                        "房源详情：",
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          color: Color(0xFF666666),
-                                          decoration: TextDecoration.none,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Text(
-                                          "点击前往房源系统",
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            color: Color(0xFF666666),
-                                            decoration: TextDecoration.none,
-                                            fontWeight: FontWeight.normal,
-                                          ),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                // 核心需求
-                                Container(
-                                  margin: EdgeInsets.only(left: 20,top: 10,right: 20,bottom: 0),
-                                  child: Row(
-                                    children: <Widget>[
-                                      Text(
-                                        "核心需求：",
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          color: Color(0xFF666666),
-                                          decoration: TextDecoration.none,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                // 核心需求1
-                                Container(
-                                  margin: EdgeInsets.only(left: 20,top: 10,right: 20,bottom: 0),
-                                  child: Row(
-                                    children: <Widget>[
-                                      Container(
-                                        margin: EdgeInsets.only(right: 10),
-                                        padding: EdgeInsets.fromLTRB(8, 3, 8, 3),
-                                        decoration: BoxDecoration(
-                                          color:Color(0xFF5580EB),
-                                          borderRadius: BorderRadius.all(Radius.circular(6)),
-                                        ),
-                                        child: Text(
-                                          "付款方式：全款",
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            color: Colors.white,
-                                            decoration: TextDecoration.none,
-                                            fontWeight: FontWeight.normal,
-                                          ),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child:Text(
-                                          "着急用钱",
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            color: Color(0xFF666666),
-                                            decoration: TextDecoration.none,
-                                            fontWeight: FontWeight.normal,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                // 核心需求2
-                                Container(
-                                  margin: EdgeInsets.only(left: 20,top: 10,right: 20,bottom: 0),
-                                  child: Row(
-                                    children: <Widget>[
-                                      Container(
-                                        margin: EdgeInsets.only(right: 10),
-                                        padding: EdgeInsets.fromLTRB(8, 3, 8, 3),
-                                        decoration: BoxDecoration(
-                                          color:Color(0xFF5580EB),
-                                          borderRadius: BorderRadius.all(Radius.circular(6)),
-                                        ),
-                                        child: Text(
-                                          "定金：50万",
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            color: Colors.white,
-                                            decoration: TextDecoration.none,
-                                            fontWeight: FontWeight.normal,
-                                          ),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child:Text(
-                                          "3月3日之前需要用",
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            color: Color(0xFF666666),
-                                            decoration: TextDecoration.none,
-                                            fontWeight: FontWeight.normal,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                // 核心需求3
-                                Container(
-                                  margin: EdgeInsets.only(left: 20,top: 10,right: 20,bottom: 10),
-                                  child: Row(
-                                    children: <Widget>[
-                                      Container(
-                                        margin: EdgeInsets.only(right: 10),
-                                        padding: EdgeInsets.fromLTRB(8, 3, 8, 3),
-                                        decoration: BoxDecoration(
-                                          color:Color(0xFF5580EB),
-                                          borderRadius: BorderRadius.all(Radius.circular(6)),
-                                        ),
-                                        child: Text(
-                                          "底价：680万",
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            color: Colors.white,
-                                            decoration: TextDecoration.none,
-                                            fontWeight: FontWeight.normal,
-                                          ),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child:Text(
-                                          "不能再低了",
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            color: Color(0xFF666666),
-                                            decoration: TextDecoration.none,
-                                            fontWeight: FontWeight.normal,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-
-                                // 综合描述
-                                Container(
-                                  margin: EdgeInsets.only(left: 20,top: 10,right: 20,bottom: 0),
-                                  child: Row(
-                                    children: <Widget>[
-                                      Text(
-                                        "综合描述：",
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          color: Color(0xFF666666),
-                                          decoration: TextDecoration.none,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Text(
-                                          "着急用钱，需要周期短且全款的用户",
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            color: Color(0xFF666666),
-                                            decoration: TextDecoration.none,
-                                            fontWeight: FontWeight.normal,
-                                          ),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-
-                                // 其他需求
-                                Container(
-                                  margin: EdgeInsets.only(left: 20,top: 10,right: 20,bottom: 0),
-                                  child: Row(
-                                    children: <Widget>[
-                                      Text(
-                                        "其他需求：",
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          color: Color(0xFF666666),
-                                          decoration: TextDecoration.none,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Container(
-                                  margin: EdgeInsets.only(left: 20,top: 10,right: 20,bottom: 0),
-                                  child: Wrap(
-                                    spacing: 10,
-                                    children: <Widget>[
-                                      Chip(
-                                        backgroundColor: Color(0xFF93C0FB),
-                                        label: Text('成交周期：5月之前',style: TextStyle(
-                                          fontSize: 14,
-                                          color: Colors.white,
-                                          decoration: TextDecoration.none,
-                                          fontWeight: FontWeight.normal,
-                                        ),),
-                                      ),
-                                      Chip(
-                                        backgroundColor: Color(0xFF93C0FB),
-                                        label: Text('其他：越快越好',style: TextStyle(
-                                          fontSize: 14,
-                                          color: Colors.white,
-                                          decoration: TextDecoration.none,
-                                          fontWeight: FontWeight.normal,
-                                        ),),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-
-                              ],
-                            ),
-
-                          ),
-                        ],
-                      ),
-                    ),
-                    // 出租
-                    Container(
-                      child: Column(
-                        children: [
-                          Container(
-                            width: 335,
-                            child: Column(
-                              children: <Widget>[
-                                // 基本信息
-                                Container(
-                                  margin: EdgeInsets.only(left: 20,top: 20,right: 20,bottom: 5),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: <Widget>[
-                                      Text(
-                                        "出租住宅",
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          color: Color(0xFF5580EB),
-                                          decoration: TextDecoration.none,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                      ),
-                                      GestureDetector(
-                                        onTap: (){
-                                          // Navigator.push(context, MaterialPageRoute(builder: (context)=>TradedEditDealPage(
-                                          //   item:widget.item,
-                                          //   dealItem: item,
-                                          // )));
-                                        },
-                                        child: Container(
-                                          width: 50,
-                                          height: 20,
-                                          color: Colors.transparent,
-                                          child: Image.asset("images/editor.png"),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                // 出租原因
-                                Container(
-                                  margin: EdgeInsets.only(left: 20,top: 10),
-                                  child: Row(
-                                    children: <Widget>[
-                                      Text(
-                                        "出租原因：",
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          color: Color(0xFF666666),
-                                          decoration: TextDecoration.none,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                      ),
-                                      Text(
-                                        "闲置",
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          color: Color(0xFF666666),
-                                          decoration: TextDecoration.none,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                // 房屋现用途
-                                Container(
-                                  margin: EdgeInsets.only(left: 20,top: 10),
-                                  child: Row(
-                                    children: <Widget>[
-                                      Text(
-                                        "房屋现用途：",
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          color: Color(0xFF666666),
-                                          decoration: TextDecoration.none,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                      ),
-                                      Text(
-                                        "闲置",
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          color: Color(0xFF666666),
-                                          decoration: TextDecoration.none,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                // 决策人
-                                Container(
-                                  margin: EdgeInsets.only(left: 20,top: 10),
-                                  child: Row(
-                                    children: <Widget>[
-                                      Text(
-                                        "是否为出租决策人：",
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          color: Color(0xFF666666),
-                                          decoration: TextDecoration.none,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                      ),
-                                      Text(
-                                        "是",
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          color: Color(0xFF666666),
-                                          decoration: TextDecoration.none,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                // 当前报价
-                                Container(
-                                  margin: EdgeInsets.only(left: 20,top: 10,right: 20,bottom: 0),
-                                  child: Row(
-                                    children: <Widget>[
-                                      Text(
-                                        "当前报价：",
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          color: Color(0xFF666666),
-                                          decoration: TextDecoration.none,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Text(
-                                          "5000元/月",
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            color: Color(0xFF666666),
-                                            decoration: TextDecoration.none,
-                                            fontWeight: FontWeight.normal,
-                                          ),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                // 房屋地址
-                                Container(
-                                  margin: EdgeInsets.only(left: 20,top: 10,right: 20,bottom: 0),
-                                  child: Row(
-                                    children: <Widget>[
-                                      Text(
-                                        "房屋地址：",
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          color: Color(0xFF666666),
-                                          decoration: TextDecoration.none,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Text(
-                                          "北京市海淀区交大东路56号院3号楼1单元402",
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            color: Color(0xFF666666),
-                                            decoration: TextDecoration.none,
-                                            fontWeight: FontWeight.normal,
-                                          ),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                // 房源详情
-                                Container(
-                                  margin: EdgeInsets.only(left: 20,top: 10,right: 20,bottom: 0),
-                                  child: Row(
-                                    children: <Widget>[
-                                      Text(
-                                        "房源详情：",
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          color: Color(0xFF666666),
-                                          decoration: TextDecoration.none,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Text(
-                                          "点击前往房源系统",
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            color: Color(0xFF666666),
-                                            decoration: TextDecoration.none,
-                                            fontWeight: FontWeight.normal,
-                                          ),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                // 核心需求
-                                Container(
-                                  margin: EdgeInsets.only(left: 20,top: 10,right: 20,bottom: 0),
-                                  child: Row(
-                                    children: <Widget>[
-                                      Text(
-                                        "核心需求：",
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          color: Color(0xFF666666),
-                                          decoration: TextDecoration.none,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                // 核心需求1
-                                Container(
-                                  margin: EdgeInsets.only(left: 20,top: 10,right: 20,bottom: 0),
-                                  child: Row(
-                                    children: <Widget>[
-                                      Container(
-                                        margin: EdgeInsets.only(right: 10),
-                                        padding: EdgeInsets.fromLTRB(8, 3, 8, 3),
-                                        decoration: BoxDecoration(
-                                          color:Color(0xFF5580EB),
-                                          borderRadius: BorderRadius.all(Radius.circular(6)),
-                                        ),
-                                        child: Text(
-                                          "付款方式：押一付三",
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            color: Colors.white,
-                                            decoration: TextDecoration.none,
-                                            fontWeight: FontWeight.normal,
-                                          ),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child:Text(
-                                          "无",
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            color: Color(0xFF666666),
-                                            decoration: TextDecoration.none,
-                                            fontWeight: FontWeight.normal,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                // 核心需求2
-                                Container(
-                                  margin: EdgeInsets.only(left: 20,top: 10,right: 20,bottom: 0),
-                                  child: Row(
-                                    children: <Widget>[
-                                      Container(
-                                        margin: EdgeInsets.only(right: 10),
-                                        padding: EdgeInsets.fromLTRB(8, 3, 8, 3),
-                                        decoration: BoxDecoration(
-                                          color:Color(0xFF5580EB),
-                                          borderRadius: BorderRadius.all(Radius.circular(6)),
-                                        ),
-                                        child: Text(
-                                          "押金：2个月房租",
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            color: Colors.white,
-                                            decoration: TextDecoration.none,
-                                            fontWeight: FontWeight.normal,
-                                          ),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child:Text(
-                                          "家电设备好，业主想多要押金",
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            color: Color(0xFF666666),
-                                            decoration: TextDecoration.none,
-                                            fontWeight: FontWeight.normal,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                // 核心需求3
-                                Container(
-                                  margin: EdgeInsets.only(left: 20,top: 10,right: 20,bottom: 10),
-                                  child: Row(
-                                    children: <Widget>[
-                                      Container(
-                                        margin: EdgeInsets.only(right: 10),
-                                        padding: EdgeInsets.fromLTRB(8, 3, 8, 3),
-                                        decoration: BoxDecoration(
-                                          color:Color(0xFF5580EB),
-                                          borderRadius: BorderRadius.all(Radius.circular(6)),
-                                        ),
-                                        child: Text(
-                                          "底价：4800元/月",
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            color: Colors.white,
-                                            decoration: TextDecoration.none,
-                                            fontWeight: FontWeight.normal,
-                                          ),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child:Text(
-                                          "不能再低了",
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            color: Color(0xFF666666),
-                                            decoration: TextDecoration.none,
-                                            fontWeight: FontWeight.normal,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-
-                                // 综合描述
-                                Container(
-                                  margin: EdgeInsets.only(left: 20,top: 10,right: 20,bottom: 0),
-                                  child: Row(
-                                    children: <Widget>[
-                                      Text(
-                                        "综合描述：",
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          color: Color(0xFF666666),
-                                          decoration: TextDecoration.none,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Text(
-                                          "自己的房子已经卖了，着急住，最好楼层低一些或带电梯",
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            color: Color(0xFF666666),
-                                            decoration: TextDecoration.none,
-                                            fontWeight: FontWeight.normal,
-                                          ),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-
-                                // 其他需求
-                                Container(
-                                  margin: EdgeInsets.only(left: 20,top: 10,right: 20,bottom: 0),
-                                  child: Row(
-                                    children: <Widget>[
-                                      Text(
-                                        "其他需求：",
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          color: Color(0xFF666666),
-                                          decoration: TextDecoration.none,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Container(
-                                  margin: EdgeInsets.only(left: 20,top: 10,right: 20,bottom: 0),
-                                  child: Wrap(
-                                    spacing: 10,
-                                    children: <Widget>[
-                                      Chip(
-                                        backgroundColor: Color(0xFF93C0FB),
-                                        label: Text('其他：租户最好是女生',style: TextStyle(
-                                          fontSize: 14,
-                                          color: Colors.white,
-                                          decoration: TextDecoration.none,
-                                          fontWeight: FontWeight.normal,
-                                        ),),
-                                      ),
-                                      Chip(
-                                        backgroundColor: Color(0xFF93C0FB),
-                                        label: Text('其他：整租优先',style: TextStyle(
-                                          fontSize: 14,
-                                          color: Colors.white,
-                                          decoration: TextDecoration.none,
-                                          fontWeight: FontWeight.normal,
-                                        ),),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-
-                              ],
-                            ),
-
-                          ),
-                        ],
-                      ),
-                    )
                   ],
                 )
               ),
@@ -2754,7 +1042,7 @@ class _ClientNeedMsgState extends State<ClientNeedMsg> with SingleTickerProvider
       ],
     ).show();
   }
-  _changeStateAlertPressed(context) {
+  _changeStateAlertPressed(context,id,item) {
     Alert(
       context: context,
       title: "修改需求状态",
@@ -2810,19 +1098,53 @@ class _ClientNeedMsgState extends State<ClientNeedMsg> with SingleTickerProvider
             // 修改需求状态并跳转到详情页
             if(stateMinCount == "已成交"){
               // 删自己，添加成交信息,并跳转到详情页
-
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>ClientNeedToAddDealPage(
+                item:widget.item,
+                needID: id,
+                needItem:item,
+              )));
             }
             if(stateMinCount == "进行中"){
               // 改变state为2,并跳转到详情页
-
+              var changeState = await ChangeNeedStateDao.cahngeNeedState(id.toString(),"2");
+              if(changeState.code == 200){
+                _onRefresh();
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>ClientDetailPage(
+                  item:widget.item,
+                  tabIndex: 0,
+                )));
+              }else {
+                _onRefresh();
+                onOverLoadPressed(context);
+              }
             }
             if(stateMinCount == "失效"){
               // 改变state为3,并跳转到详情页
-
+              var changeState = await ChangeNeedStateDao.cahngeNeedState(id.toString(),"3");
+              if(changeState.code == 200){
+                _onRefresh();
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>ClientDetailPage(
+                  item:widget.item,
+                  tabIndex: 0,
+                )));
+              }else {
+                _onRefresh();
+                onOverLoadPressed(context);
+              }
             }
             if(stateMinCount == "删除此需求"){
               // 删自己,并跳转到详情页
-
+              var deleteNeed = await DeleteCustomerNeedDao.deleteCustomerNeed(id.toString());
+              if(deleteNeed.code == 200){
+                _onRefresh();
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>ClientDetailPage(
+                  item:widget.item,
+                  tabIndex: 0,
+                )));
+              }else {
+                _onRefresh();
+                onOverLoadPressed(context);
+              }
             }
           },
           color: Color(0xFF5580EB),
@@ -2848,4 +1170,79 @@ class _ClientNeedMsgState extends State<ClientNeedMsg> with SingleTickerProvider
       _loading = !_loading;
     });
   }
+
+  //从其他需求中分离核心需求
+  _reGroupOtherNeed(String otherNeedsArr,String coreNeedsArr,mainNeed){
+      String oarr="";
+      var coreNeedsList=coreNeedsArr.split('|');
+      var coreNeedKey="";
+      for(var i=0;i<coreNeedsList.length;i++){
+        coreNeedKey+=","+coreNeedsList[i].split(':')[0];
+      }
+      coreNeedKey=coreNeedKey.substring(1);
+      print(coreNeedKey);
+      var on;
+      if(mainNeed.toString().substring(0,2)=="出租"){
+        on=otherNeedsArr.replaceAll('elevator', '电梯')
+            .replaceAll('floor', '楼层')
+            .replaceAll('houseage', '楼龄')
+            .replaceAll('decoration', '装修')
+            .replaceAll('traffic', '交通')
+            .replaceAll('school', '学区')
+            .replaceAll('hospital', '医院')
+            .replaceAll('bank', '银行')
+            .replaceAll('park', '公园')
+            .replaceAll('shop', '商场')
+            .replaceAll('property', '物业')
+            .replaceAll('tax', '税费')
+            .replaceAll('special', '特殊要求')
+            .replaceAll('other', '其他')
+            .replaceAll('area', '面积')
+            .replaceAll('room', '居室')
+            .replaceAll('direction', '朝向')
+            .replaceAll('buyWay', '付款方式')
+            .replaceAll('dingJin', '定金')
+            .replaceAll('shouFu', '押金')
+            .replaceAll('zhouQi', '成交周期')
+            .replaceAll('{', '').replaceAll('}', '').split('\",\"');
+      }else{
+        on=otherNeedsArr.replaceAll('elevator', '电梯')
+            .replaceAll('floor', '楼层')
+            .replaceAll('houseage', '楼龄')
+            .replaceAll('decoration', '装修')
+            .replaceAll('traffic', '交通')
+            .replaceAll('school', '学区')
+            .replaceAll('hospital', '医院')
+            .replaceAll('bank', '银行')
+            .replaceAll('park', '公园')
+            .replaceAll('shop', '商场')
+            .replaceAll('property', '物业')
+            .replaceAll('tax', '税费')
+            .replaceAll('special', '特殊要求')
+            .replaceAll('other', '其他')
+            .replaceAll('area', '面积')
+            .replaceAll('room', '居室')
+            .replaceAll('direction', '朝向')
+            .replaceAll('buyWay', '付款方式')
+            .replaceAll('dingJin', '定金')
+            .replaceAll('shouFu', '首付')
+            .replaceAll('zhouQi', '成交周期')
+            .replaceAll('{', '').replaceAll('}', '').split('\",\"');
+      }
+      var core=coreNeedsArr.split('|');
+      for(var o=0;o<on.length;o++){
+
+        var k=on[o].replaceAll('\"', '').split(':')[0];
+        if(!coreNeedKey.contains(k)){
+            oarr+=on[o]+"|";
+        }
+      }
+      print(on);
+      print(core);
+      print(oarr);
+      var reOtherNeedsArr=oarr.substring(0,oarr.lastIndexOf('|')).split('|');
+      return reOtherNeedsArr;
+
+  }
+
 }

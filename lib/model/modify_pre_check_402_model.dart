@@ -10,25 +10,25 @@ String modifyPreCheck402ToJson(ModifyPreCheck402 data) => json.encode(data.toJso
 
 class ModifyPreCheck402 {
   ModifyPreCheck402({
-    this.code,
-    this.message,
+    required this.code,
+    required this.message,
     this.data,
   });
 
   int code;
   String message;
-  Data data;
+  Data? data;
 
   factory ModifyPreCheck402.fromJson(Map<String, dynamic> json) => ModifyPreCheck402(
-    code: json["Code"] == null ? null : json["Code"],
-    message: json["Message"] == null ? null : json["Message"],
+    code: json["Code"],
+    message: json["Message"],
     data: json["Data"] == null ? null : Data.fromJson(json["Data"]),
   );
 
   Map<String, dynamic> toJson() => {
-    "Code": code == null ? null : code,
-    "Message": message == null ? null : message,
-    "Data": data == null ? null : data.toJson(),
+    "Code": code,
+    "Message": message,
+    "Data": data == null ? null : data!.toJson(),
   };
 }
 
@@ -38,8 +38,8 @@ class Data {
     this.modiPlans,
   });
 
-  List<Plan> delPlans;
-  List<Plan> modiPlans;
+  List<Plan>? delPlans;
+  List<Plan>? modiPlans;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
     delPlans: json["delPlans"] == null ? null : List<Plan>.from(json["delPlans"].map((x) => Plan.fromJson(x))),
@@ -47,31 +47,31 @@ class Data {
   );
 
   Map<String, dynamic> toJson() => {
-    "delPlans": delPlans == null ? null : List<dynamic>.from(delPlans.map((x) => x.toJson())),
-    "modiPlans": modiPlans == null ? null : List<dynamic>.from(modiPlans.map((x) => x.toJson())),
+    "delPlans": delPlans == null ? null : List<dynamic>.from(delPlans!.map((x) => x.toJson())),
+    "modiPlans": modiPlans == null ? null : List<dynamic>.from(modiPlans!.map((x) => x.toJson())),
   };
 }
 
 class Plan {
   Plan({
     this.planningStartTime,
-    this.defaultTaskId,
+    required this.defaultTaskId,
     this.planningEndTime,
-    this.id,
-    this.taskName,
-    this.companyId,
-    this.userId,
-    this.userLevel,
-    this.stars,
-    this.planningCount,
+    required this.id,
+    required this.taskName,
+    required this.companyId,
+    required this.userId,
+    required this.userLevel,
+    required this.stars,
+    required this.planningCount,
     this.address,
     this.remark,
-    this.isKpi,
+    required this.isKpi,
   });
 
-  DateTime planningStartTime;
+  DateTime? planningStartTime;
   int defaultTaskId;
-  DateTime planningEndTime;
+  DateTime? planningEndTime;
   int id;
   String taskName;
   String companyId;
@@ -85,33 +85,33 @@ class Plan {
 
   factory Plan.fromJson(Map<String, dynamic> json) => Plan(
     planningStartTime: json["PlanningStartTime"] == null ? null : DateTime.parse(json["PlanningStartTime"]),
-    defaultTaskId: json["DefaultTaskID"] == null ? null : json["DefaultTaskID"],
+    defaultTaskId: json["DefaultTaskID"],
     planningEndTime: json["PlanningEndTime"] == null ? null : DateTime.parse(json["PlanningEndTime"]),
-    id: json["ID"] == null ? null : json["ID"],
-    taskName: json["TaskName"] == null ? null : json["TaskName"],
-    companyId: json["CompanyID"] == null ? null : json["CompanyID"],
-    userId: json["UserID"] == null ? null : json["UserID"],
-    userLevel: json["UserLevel"] == null ? null : json["UserLevel"],
-    stars: json["Stars"] == null ? null : json["Stars"],
-    planningCount: json["PlanningCount"] == null ? null : json["PlanningCount"],
+    id: json["ID"],
+    taskName: json["TaskName"],
+    companyId: json["CompanyID"],
+    userId: json["UserID"],
+    userLevel: json["UserLevel"],
+    stars: json["Stars"],
+    planningCount: json["PlanningCount"],
     address: json["Address"],
     remark: json["Remark"],
-    isKpi: json["IsKPI"] == null ? null : json["IsKPI"],
+    isKpi: json["IsKPI"],
   );
 
   Map<String, dynamic> toJson() => {
-    "PlanningStartTime": planningStartTime == null ? null : planningStartTime.toIso8601String(),
-    "DefaultTaskID": defaultTaskId == null ? null : defaultTaskId,
-    "PlanningEndTime": planningEndTime == null ? null : planningEndTime.toIso8601String(),
-    "ID": id == null ? null : id,
-    "TaskName": taskName == null ? null : taskName,
-    "CompanyID": companyId == null ? null : companyId,
-    "UserID": userId == null ? null : userId,
-    "UserLevel": userLevel == null ? null : userLevel,
-    "Stars": stars == null ? null : stars,
-    "PlanningCount": planningCount == null ? null : planningCount,
+    "PlanningStartTime": planningStartTime == null ? null : planningStartTime!.toIso8601String(),
+    "DefaultTaskID": defaultTaskId,
+    "PlanningEndTime": planningEndTime == null ? null : planningEndTime!.toIso8601String(),
+    "ID": id,
+    "TaskName": taskName,
+    "CompanyID": companyId,
+    "UserID": userId,
+    "UserLevel": userLevel,
+    "Stars": stars,
+    "PlanningCount": planningCount,
     "Address": address,
     "Remark": remark,
-    "IsKPI": isKpi == null ? null : isKpi,
+    "IsKPI": isKpi,
   };
 }

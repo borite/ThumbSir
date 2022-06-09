@@ -4,7 +4,7 @@ import 'package:ThumbSir/model/common_result_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:ThumbSir/utils/common_vars.dart';
 
-const String api_perfix=CommonVars.apiPrefix;
+const String apiPerFix=Url.apiPrefix;
 
 class UpdateCustomerDao{
     static Future<CommonResult> updateCustomer(
@@ -57,9 +57,9 @@ class UpdateCustomerDao{
         "FamilyMembers":familyMembers,
         "DealInfoWithCreateCustomer":dealInfoWithCreateCustomer
       };
-      print(json.encode(_body));
-       final String apiUrl=api_perfix+"api/customer/UpdateCustomer";
-       final response= await http.post(apiUrl,
+      var client = http.Client();
+      final response= await client.post(
+          Uri.http(apiPerFix,'/api/customer/UpdateCustomer'),
            headers: {'Content-type': 'application/json'},  //告诉服务器，发送的数据类型为Json类型
            body: json.encode(_body)  //将body的键值对用Json形式编码发送
        );
@@ -106,8 +106,8 @@ class DealInfo {
     this.dealTime,
   });
 
-  String dealReason;
-  DateTime dealTime;
+  String? dealReason;
+  DateTime? dealTime;
 
   factory DealInfo.fromJson(Map<String, dynamic> json) => DealInfo(
     dealReason: json["DealReason"] == null ? null : json["DealReason"],
@@ -116,7 +116,7 @@ class DealInfo {
 
   Map<String, dynamic> toJson() => {
     "DealReason": dealReason == null ? null : dealReason,
-    "DealTime": dealTime == null ? null : dealTime.toIso8601String(),
+    "DealTime": dealTime == null ? null : dealTime!.toIso8601String(),
   };
 }
 

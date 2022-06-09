@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:http/http.dart' as http;
-
 import '../model/modify_pre_check_402_model.dart';
 import '../utils/common_vars.dart';
 

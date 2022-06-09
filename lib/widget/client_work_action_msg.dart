@@ -1,22 +1,16 @@
 import 'package:ThumbSir/common/alert.dart';
-import 'package:ThumbSir/dao/get_care_action_dao.dart';
 import 'package:ThumbSir/pages/broker/qlist/qlist_page.dart';
-import 'package:ThumbSir/pages/broker/traded/traded_add_gift_page.dart';
 import 'package:ThumbSir/pages/major/qlist/major_qlist_page.dart';
 import 'package:ThumbSir/pages/manager/qlist/manager_qlist_page.dart';
 import 'package:ThumbSir/pages/manager/qlist/s_qlist_page.dart';
-import 'package:ThumbSir/widget/gift_item.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 
 class ClientWorkActionMsg extends StatefulWidget {
   final item;
   final result;
 
-  ClientWorkActionMsg({Key key,
+  ClientWorkActionMsg({Key? key,
     this.item,this.result
   }):super(key:key);
   @override
@@ -29,7 +23,7 @@ class _ClientWorkActionMsgState extends State<ClientWorkActionMsg> with SingleTi
   var msgList;
   List<Widget> msgShowList = [];
   List<Widget> msgs=[];
-  List action=new List();
+  late List action;
   bool _loading = false;
 
   @override
