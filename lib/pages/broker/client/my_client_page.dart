@@ -594,5 +594,4 @@ class _MyClientPageState extends State<MyClientPage> {
       ],
     ).show();
   }
-
 }

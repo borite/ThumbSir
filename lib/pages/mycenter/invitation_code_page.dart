@@ -117,7 +117,7 @@ class _InvitationCodePageState extends State<InvitationCodePage> {
                           ),
                           child: GestureDetector(
                             onTap: (){
-                              Clipboard.setData(ClipboardData(text: userData.inviteCode));
+                              Clipboard.setData(ClipboardData(text: '963123'));
                               _onPasteAlertPressed(context);
                             },
                             child: Text("复制",style: TextStyle(

@@ -3,8 +3,6 @@ import 'package:ThumbSir/dao/delete_customer_dao.dart';
 import 'package:ThumbSir/model/login_result_data_model.dart';
 import 'package:ThumbSir/pages/broker/client/my_client_page.dart';
 import 'package:ThumbSir/pages/broker/traded/my_traded_page.dart';
-import 'package:ThumbSir/pages/manager/client/m_client_page.dart';
-import 'package:ThumbSir/pages/manager/client/s_client_page.dart';
 import 'package:ThumbSir/pages/manager/traded/m_traded_page.dart';
 import 'package:ThumbSir/pages/manager/traded/s_traded_page.dart';
 import 'package:ThumbSir/widget/client_action_msg.dart';
@@ -131,11 +129,11 @@ class _ClientDetailPageState extends State<ClientDetailPage> with TickerProvider
                                     }
                                     if (userData.userLevel.substring(0, 1) == "4") {
                                       Navigator.push(context, MaterialPageRoute(
-                                          builder: (context) => SClientPage()));
+                                          builder: (context) => STradedPage()));
                                     }
                                     if (userData.userLevel.substring(0, 1) == "5") {
                                       Navigator.push(context, MaterialPageRoute(
-                                          builder: (context) => MClientPage()));
+                                          builder: (context) => MTradedPage()));
                                     }
                                   },
                                   child: Container(
@@ -231,15 +229,15 @@ class _ClientDetailPageState extends State<ClientDetailPage> with TickerProvider
             if (deleteResult.code == 200) {
               if (userData.userLevel.substring(0, 1) == "6") {
                 Navigator.push(context, MaterialPageRoute(
-                    builder: (context) => MyClientPage()));
+                    builder: (context) => MyTradedPage()));
               }
               if (userData.userLevel.substring(0, 1) == "4") {
                 Navigator.push(context, MaterialPageRoute(
-                    builder: (context) => SClientPage()));
+                    builder: (context) => STradedPage()));
               }
               if (userData.userLevel.substring(0, 1) == "5") {
                 Navigator.push(context, MaterialPageRoute(
-                    builder: (context) => MClientPage()));
+                    builder: (context) => MTradedPage()));
               }
             }
           },

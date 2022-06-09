@@ -1,10 +1,9 @@
 import 'dart:convert';
 import 'package:ThumbSir/common/reg.dart';
 import 'package:ThumbSir/dao/add_customer_dao.dart';
-import 'package:ThumbSir/dao/add_house_step1_dao.dart';
-import 'package:ThumbSir/dao/get_company_list_dao.dart';
 import 'package:ThumbSir/model/login_result_data_model.dart';
-import 'package:ThumbSir/pages/house/house_add_basic_msg_page.dart';
+import 'package:ThumbSir/pages/broker/client/buy_need_page.dart';
+import 'package:ThumbSir/pages/house/add_sell_need_detail_page.dart';
 import 'package:city_picker/city_picker.dart';
 import 'package:ThumbSir/pages/house/house_list_page.dart';
 import 'package:ThumbSir/pages/manager/traded/m_traded_page.dart';
@@ -16,9 +15,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wheel_chooser/wheel_chooser.dart';
 import 'package:flutter_holo_date_picker/flutter_holo_date_picker.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:ThumbSir/model/company_list_model.dart';
-import 'package:simple_autocomplete_formfield/simple_autocomplete_formfield.dart';
 
 class HouseAddPage extends StatefulWidget {
   @override
@@ -40,14 +36,6 @@ class _HouseAddPageState extends State<HouseAddPage> {
   String phoneNum;
   RegExp phoneReg;
   bool phoneBool;
-  final TextEditingController agentNameController = TextEditingController();
-  String agentName;
-  RegExp agentReg;
-  bool agentNameBool;
-  final TextEditingController agentPhoneNumController=TextEditingController();
-  String agentPhoneNum;
-  RegExp agentPhoneReg;
-  bool agentPhoneBool;
   final TextEditingController careerController=TextEditingController();
   String career;
   RegExp careerReg;
@@ -65,21 +53,21 @@ class _HouseAddPageState extends State<HouseAddPage> {
   RegExp memberReg;
   bool memberBool = false;
 
-  String needMinCount = "出售住宅";
-  String tradeMinCount = "着急";
+  String dealMinCount = "购买住宅";
+  String needMinCount = "购买住宅";
   String incomeMinCount = "10万以下";
   String comeMinCount = "社区开发";
-  String reasonMinCount = "闲置";
+  String memberMinCount = "妻子";
   int _starIndex = 0;
 
   List<DealInfo> deal=new List();
   List<NeedInfo> need=new List();
   List<FamilyMember> member=new List();
-  DateTime selectedDate=DateTime(2021,1,1);
+
+  DateTime _selectedDate=DateTime(2020,1,1);
+  DateTime _selectedBirthdayDate=DateTime(1980,1,1);
 
   int _radioGroupA = 0;
-
-  var addResult;
 
   void _handleRadioValueChanged(int value) {
     setState(() {
@@ -90,14 +78,11 @@ class _HouseAddPageState extends State<HouseAddPage> {
   String text;
   String p1;
   String p2;
-  String p3;
   void _incrementCounter() async {
     CityResult result = await showCityPicker(context,
         initCity: CityResult()
           ..province = p1
-          ..city = p2
-          ..county = p3
-    );
+          ..city = p2);
 
     if (result == null) {
       return;
@@ -105,10 +90,9 @@ class _HouseAddPageState extends State<HouseAddPage> {
 
     p1 = result?.province;
     p2 = result?.city;
-    p3 = result?.county;
 
     setState(() {
-      text = "${result?.province} - ${result?.city} - ${result?.county}";
+      text = "${result?.province} - ${result?.city}";
     });
   }
 
@@ -127,19 +111,6 @@ class _HouseAddPageState extends State<HouseAddPage> {
     }
   }
 
-  Datum selectedItem;
-
-  final scaffoldKey = GlobalKey<ScaffoldState>();
-  final formKey = GlobalKey<FormState>();
-  bool autovalidate = false;
-  List<Datum> companies;
-  final list = <Datum>[];
-
-  _load() async {
-    var r = await GetCompanyListDao.httpGetCompanyList();
-    companies = r.data;
-  }
-
   @override
   void initState() {
     nameReg = TextReg;
@@ -149,10 +120,7 @@ class _HouseAddPageState extends State<HouseAddPage> {
     likeReg = TextReg;
     msgReg = FeedBackReg;
     memberReg = TextReg;
-    agentReg = TextReg;
-    agentPhoneReg = telPhoneReg;
     _getUserInfo();
-    _load();
     super.initState();
   }
 
@@ -169,8 +137,6 @@ class _HouseAddPageState extends State<HouseAddPage> {
     likeController.dispose();
     msgController.dispose();
     countController.dispose();
-    agentNameController.dispose();
-    agentPhoneNumController.dispose();
     super.dispose();
   }
 
@@ -195,7 +161,7 @@ class _HouseAddPageState extends State<HouseAddPage> {
                         children: <Widget>[
                           // 导航栏
                           Padding(
-                              padding: EdgeInsets.only(left: 15,top: 15,bottom: 15),
+                              padding: EdgeInsets.only(left: 15,top: 15,bottom: 25),
                               child:Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
@@ -226,485 +192,6 @@ class _HouseAddPageState extends State<HouseAddPage> {
                                 ],
                               )
                           ),
-                          // 选择房源所在区域
-                          Container(
-                            width: 335,
-                            margin: EdgeInsets.only(top: 15),
-                            child: Text(
-                              '房源所在区域：',
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Color(0xFF333333),
-                                decoration: TextDecoration.none,
-                                fontWeight: FontWeight.normal,
-                              ),
-                            ),
-                          ),
-                          GestureDetector(
-                            onTap: _incrementCounter,
-                            child: Container(
-                              width: 335,
-                              height: 40,
-                              margin: EdgeInsets.only(top: 10),
-                              decoration: BoxDecoration(
-                                border: Border.all(width: 1,color: Color(0xFF2692FD)),
-                                borderRadius: BorderRadius.circular(8),
-                                color: Colors.white,
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-                                  Padding(
-                                    padding:EdgeInsets.only(left: 10),
-                                    child: Text(
-                                      text ?? "点击选择",
-                                      style:TextStyle(
-                                        fontSize: 14,
-                                        color: Color(0xFF999999),
-                                        fontWeight: FontWeight.normal,
-                                        decoration: TextDecoration.none,
-                                      ),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding:EdgeInsets.only(right: 10),
-                                    child: Icon(Icons.arrow_drop_down),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-
-                          // 房源所在小区
-                          Container(
-                            width: 335,
-                            margin: EdgeInsets.only(top: 20),
-                            child: Text(
-                              '房源所在小区：',
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Color(0xFF333333),
-                                decoration: TextDecoration.none,
-                                fontWeight: FontWeight.normal,
-                              ),
-                            ),
-                          ),
-                          // Input(
-                          //   hintText: "请输入房源所在小区",
-                          //   tipText: "请输入房源所在小区",
-                          //   errorTipText: "请输入房源所在小区",
-                          //   rightText: "请输入房源所在小区",
-                          //   controller: careerController,
-                          //   inputType: TextInputType.text,
-                          //   reg: careerReg,
-                          //   onChanged: (text){
-                          //     setState(() {
-                          //       career = text;
-                          //       careerBool = careerReg.hasMatch(career);
-                          //     });
-                          //   },
-                          // ),
-                          Container(
-                            width: 335,
-                            height: 300,
-                            margin: EdgeInsets.only(top: 10),
-                            child: Form(
-                              key: formKey,
-                              autovalidateMode: AutovalidateMode.disabled,
-                              child: Column(children: <Widget>[
-//                      Text('Selected listItem: "$selectedItem"'),
-                                SimpleAutocompleteFormField<Datum>(
-                                  decoration: InputDecoration(
-                                    contentPadding: EdgeInsets.fromLTRB(8, 0, 10, 10),
-                                    border: OutlineInputBorder(
-                                      /*边角*/
-                                      borderRadius: BorderRadius.all(Radius.circular(8),),
-                                      borderSide: BorderSide(color: Color(0xFF2692FD), width: 1,),
-                                    ),
-                                    enabledBorder: OutlineInputBorder(
-                                      /*边角*/
-                                      borderRadius: BorderRadius.all(Radius.circular(8),),
-                                      borderSide: BorderSide(color: Color(0xFF2692FD), width: 1,),
-                                    ),
-                                    focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.all(Radius.circular(8),),
-                                      borderSide: BorderSide(color: Color(0xFF2692FD), width: 1,),
-                                    ),
-                                    hintStyle: TextStyle(fontSize: 14),
-                                    hintText: "请输入房源所在小区",
-                                  ),
-//                        suggestionsHeight: 200.0,
-                                  maxSuggestions: 5,
-                                  itemBuilder: (context, listItem) => Padding(
-                                    padding: EdgeInsets.only(top: 5,left: 5),
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Padding(
-                                          padding: EdgeInsets.only(top: 10),
-                                          child: Row(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                Padding(
-                                                  padding: EdgeInsets.only(right: 5),
-                                                  child: Image(image: AssetImage("images/choose.png"),),
-                                                ),
-                                                Text(
-                                                  listItem.companyName,
-                                                  style: TextStyle(
-                                                      fontSize: 16,
-                                                      color: Color(0xFF5580EB)
-                                                  ),
-                                                )
-                                              ]),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  onSearch: (search) async => companies.where((person) => person.companyName.toLowerCase()
-                                      .contains(search.toLowerCase())).toList(),
-                                  itemFromString: (string) => companies.singleWhere(
-                                          (listItem) => listItem.companyName.toLowerCase() == string.toLowerCase(),
-                                      orElse: () => null),
-                                  onChanged: (value) {setState(() => selectedItem = value);},
-                                  onSaved: (value) {setState(() => selectedItem = value);},
-                                  validator: (listItem) => listItem == null ? '输入后在下方选择小区，若没有请点击新建楼盘' : null,
-                                ),
-                              ]),
-                            ),
-                          ),
-                          Container(
-                            width: 335,
-                            margin: EdgeInsets.only(top: 10),
-                            child: Text(
-                              '新建楼盘',
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Color(0xFFF24848),
-                                decoration: TextDecoration.none,
-                                fontWeight: FontWeight.normal,
-                              ),
-                            ),
-                          ),
-
-
-                          // 房源地址
-                          Container(
-                            width: 335,
-                            margin: EdgeInsets.only(top: 10),
-                            child: Row(
-                              children: [
-                                Text(
-                                  '房源地址：',
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    color: Color(0xFF333333),
-                                    decoration: TextDecoration.none,
-                                    fontWeight: FontWeight.normal,
-                                  ),
-                                ),
-                                GestureDetector(
-                                  onTap: (){
-                                    _onCountPressed(context);
-                                  },
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                        border: Border(bottom: BorderSide(width: 1,color: Color(0xFF0E7AE6)))
-                                    ),
-                                    child: Text(
-                                      "1号楼2单元301室",
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        color: Color(0xFF5580EB),
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.normal,
-                                      ),),
-                                  ),
-                                ),
-                              ],
-                            )
-                          ),
-
-                          // 报价
-                          Container(
-                            width: 335,
-                            margin: EdgeInsets.only(top: 15,bottom: 15),
-                            child: Row(
-                              children: <Widget>[
-                                Padding(
-                                  padding: EdgeInsets.only(right: 20),
-                                  child: Text('报价:',style: TextStyle(
-                                    fontSize: 14,
-                                    color: Color(0xFF333333),
-                                    decoration: TextDecoration.none,
-                                    fontWeight: FontWeight.normal,
-                                  ),),
-                                ),
-                                GestureDetector(
-                                  onTap: (){
-                                    _onCountPressed(context);
-                                  },
-                                  child: Container(
-                                    width: 80,
-                                    decoration: BoxDecoration(
-                                        border: Border(bottom: BorderSide(width: 1,color: Color(0xFF0E7AE6)))
-                                    ),
-                                    child: Text(
-                                      itemCount.toString(),
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        color: Color(0xFF5580EB),
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.normal,
-                                      ),),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(right: 20,left: 20),
-                                  child: Text("万",style: TextStyle(
-                                    fontSize: 14,
-                                    color: Color(0xFF333333),
-                                    decoration: TextDecoration.none,
-                                    fontWeight: FontWeight.normal,
-                                  ),),
-                                ),
-                              ],
-                            ),
-                          ),
-
-                          // 房源来源
-                          Container(
-                            width: 335,
-                            margin: EdgeInsets.only(top: 10),
-                            child: Text(
-                              '房源来源：',
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Color(0xFF333333),
-                                decoration: TextDecoration.none,
-                                fontWeight: FontWeight.normal,
-                              ),
-                            ),
-                          ),
-                          Container(
-                            width: 200,
-                            height: 120,
-                            margin: EdgeInsets.only(top: 18),
-                            child: WheelChooser(
-                              onValueChanged: (s){
-                                setState(() {
-                                  comeMinCount = s;
-                                });
-                              },
-                              datas: ["社区开发", "店面接待", "电话开发", "老客户再交易","老客户转介绍","其他"],
-                              selectTextStyle: TextStyle(
-                                  color: Color(0xFF0E7AE6),
-                                  fontWeight: FontWeight.normal,
-                                  decoration: TextDecoration.none,
-                                  fontSize: 12
-                              ),
-                              unSelectTextStyle: TextStyle(
-                                  color: Color(0xFF666666),
-                                  fontWeight: FontWeight.normal,
-                                  decoration: TextDecoration.none,
-                                  fontSize: 12
-                              ),
-                            ),
-                          ),
-                          // 交易类型
-                          Container(
-                            width: 335,
-                            margin: EdgeInsets.only(top: 10),
-                            child: Text(
-                              '交易类型：',
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Color(0xFF333333),
-                                decoration: TextDecoration.none,
-                                fontWeight: FontWeight.normal,
-                              ),
-                            ),
-                          ),
-                          Container(
-                            width: 200,
-                            height: 120,
-                            margin: EdgeInsets.only(top: 18),
-                            child: WheelChooser(
-                              onValueChanged: (s){
-                                setState(() {
-                                  needMinCount = s;
-                                });
-                              },
-                              datas: ["出售住宅", "出售公寓", "出售商铺", "出售车位","出租住宅", "出租住宅", "出租住宅", "出租住宅",],
-                              selectTextStyle: TextStyle(
-                                  color: Color(0xFF0E7AE6),
-                                  fontWeight: FontWeight.normal,
-                                  decoration: TextDecoration.none,
-                                  fontSize: 12
-                              ),
-                              unSelectTextStyle: TextStyle(
-                                  color: Color(0xFF666666),
-                                  fontWeight: FontWeight.normal,
-                                  decoration: TextDecoration.none,
-                                  fontSize: 12
-                              ),
-                            ),
-                          ),
-                          // 交易迫切度
-                          Container(
-                            width: 335,
-                            margin: EdgeInsets.only(top: 10),
-                            child: Text(
-                              '交易迫切度：',
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Color(0xFF333333),
-                                decoration: TextDecoration.none,
-                                fontWeight: FontWeight.normal,
-                              ),
-                            ),
-                          ),
-                          Container(
-                            width: 200,
-                            height: 120,
-                            margin: EdgeInsets.only(top: 18),
-                            child: WheelChooser(
-                              onValueChanged: (s){
-                                setState(() {
-                                  tradeMinCount = s;
-                                });
-                              },
-                              datas: ["着急", "诚心", "一般", "下架","已成交"],
-                              selectTextStyle: TextStyle(
-                                  color: Color(0xFF0E7AE6),
-                                  fontWeight: FontWeight.normal,
-                                  decoration: TextDecoration.none,
-                                  fontSize: 12
-                              ),
-                              unSelectTextStyle: TextStyle(
-                                  color: Color(0xFF666666),
-                                  fontWeight: FontWeight.normal,
-                                  decoration: TextDecoration.none,
-                                  fontSize: 12
-                              ),
-                            ),
-                          ),
-
-                          // 出售原因
-                          Container(
-                            width: 335,
-                            margin: EdgeInsets.only(top: 10),
-                            child: Text(
-                              '交易原因：',
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Color(0xFF333333),
-                                decoration: TextDecoration.none,
-                                fontWeight: FontWeight.normal,
-                              ),
-                            ),
-                          ),
-                          Container(
-                            width: 200,
-                            height: 120,
-                            margin: EdgeInsets.only(top: 18),
-                            child: WheelChooser(
-                              onValueChanged: (s){
-                                setState(() {
-                                  reasonMinCount = s;
-                                });
-                              },
-                              datas: ["闲置","变现", "换房改善", "离开当前城市","其他"],
-                              // 出租
-                              // datas: ["闲置", "离开当前城市","其他"],
-                              selectTextStyle: TextStyle(
-                                  color: Color(0xFF0E7AE6),
-                                  fontWeight: FontWeight.normal,
-                                  decoration: TextDecoration.none,
-                                  fontSize: 12
-                              ),
-                              unSelectTextStyle: TextStyle(
-                                  color: Color(0xFF666666),
-                                  fontWeight: FontWeight.normal,
-                                  decoration: TextDecoration.none,
-                                  fontSize: 12
-                              ),
-                            ),
-                          ),
-
-                          // 期望成交时间
-                          Container(
-                            width: 335,
-                            margin: EdgeInsets.only(top: 25),
-                            child: Text(
-                              '期望成交时间：',
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Color(0xFF333333),
-                                decoration: TextDecoration.none,
-                                fontWeight: FontWeight.normal,
-                              ),
-                            ),
-                          ),
-                          Container(
-                            width: 260,
-                            child: DatePickerWidget(
-                              looping: true, // default is not looping
-                              firstDate: DateTime(1940),
-                              lastDate: DateTime(2030, 1, 1),
-                              initialDate: DateTime(2021),
-                              dateFormat: "yyyy年-MMMM月-dd日",
-                              locale: DatePicker.localeFromString('zh'),
-                              onChange: (DateTime newDate, _) => selectedDate = newDate,
-                              pickerTheme: DateTimePickerTheme(
-                                itemTextStyle: TextStyle(color: Color(0xFF5580EB), fontSize: 18),
-                                dividerColor: Color(0xFF5580EB),
-                              ),
-                            ),
-                          ),
-
-                          // 房源介绍
-                          Container(
-                            width: 335,
-                            margin: EdgeInsets.only(top: 20),
-                            child: Text(
-                              '房源介绍：',
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Color(0xFF333333),
-                                decoration: TextDecoration.none,
-                                fontWeight: FontWeight.normal,
-                              ),
-                            ),
-                          ),
-                          Container(
-                            height: 100,
-                            margin: EdgeInsets.only(top: 15,left: 30,right: 30,bottom: 30),
-                            decoration: BoxDecoration(
-                              border: Border.all(width: 1,color: Color(0xFF5580EB)),
-                              borderRadius: BorderRadius.circular(8),
-                              color: Colors.white,
-                            ),
-                            child: TextField(
-                              controller: mapController,
-                              autofocus: false,
-                              keyboardType: TextInputType.multiline,
-                              onChanged: _onMapChanged,
-                              maxLines: null,
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Color(0xFF999999),
-                                fontWeight: FontWeight.normal,
-                                decoration: TextDecoration.none,
-                              ),
-                              decoration: InputDecoration(
-                                hintText:'此介绍可以通过分享展示给客户，5~300字',
-                                contentPadding: EdgeInsets.all(10),
-                                border: InputBorder.none,
-                              ),
-                            ),
-                          ),
-
                           // 业主姓名
                           Container(
                             width: 335,
@@ -823,13 +310,13 @@ class _HouseAddPageState extends State<HouseAddPage> {
                             tipText: "请输入代理人姓名",
                             errorTipText: "请输入代理人姓名",
                             rightText: "请输入代理人姓名",
-                            controller: agentNameController,
+                            controller: userNameController,
                             inputType: TextInputType.text,
-                            reg: agentReg,
+                            reg: nameReg,
                             onChanged: (text){
                               setState(() {
-                                agentName = text;
-                                agentNameBool = agentReg.hasMatch(agentName);
+                                userName = text;
+                                userNameBool = nameReg.hasMatch(userName);
                               });
                             },
                           ),
@@ -852,15 +339,430 @@ class _HouseAddPageState extends State<HouseAddPage> {
                             tipText: "请输入代理人的手机号码",
                             errorTipText: "请输入格式正确的手机号码",
                             rightText: "手机号码格式正确",
-                            controller: agentPhoneNumController,
+                            controller: phoneNumController,
                             inputType: TextInputType.phone,
-                            reg: agentPhoneReg,
+                            reg: phoneReg,
                             onChanged: (text){
                               setState(() {
-                                agentPhoneNum = text;
-                                agentPhoneBool = agentPhoneReg.hasMatch(agentPhoneNum);
+                                phoneNum = text;
+                                phoneBool = phoneReg.hasMatch(phoneNum);
                               });
                             },
+                          ),
+
+                          // 房源来源
+                          Container(
+                            width: 335,
+                            margin: EdgeInsets.only(top: 10),
+                            child: Text(
+                              '房源来源：',
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Color(0xFF333333),
+                                decoration: TextDecoration.none,
+                                fontWeight: FontWeight.normal,
+                              ),
+                            ),
+                          ),
+                          Container(
+                            width: 200,
+                            height: 120,
+                            margin: EdgeInsets.only(top: 18),
+                            child: WheelChooser(
+                              onValueChanged: (s){
+                                setState(() {
+                                  comeMinCount = s;
+                                });
+                              },
+                              datas: ["社区开发", "店面接待", "电话开发", "老客户再交易","老客户转介绍","其他"],
+                              selectTextStyle: TextStyle(
+                                  color: Color(0xFF0E7AE6),
+                                  fontWeight: FontWeight.normal,
+                                  decoration: TextDecoration.none,
+                                  fontSize: 12
+                              ),
+                              unSelectTextStyle: TextStyle(
+                                  color: Color(0xFF666666),
+                                  fontWeight: FontWeight.normal,
+                                  decoration: TextDecoration.none,
+                                  fontSize: 12
+                              ),
+                            ),
+                          ),
+                          // 交易类型
+                          Container(
+                            width: 335,
+                            margin: EdgeInsets.only(top: 10),
+                            child: Text(
+                              '交易类型：',
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Color(0xFF333333),
+                                decoration: TextDecoration.none,
+                                fontWeight: FontWeight.normal,
+                              ),
+                            ),
+                          ),
+                          Container(
+                            width: 200,
+                            height: 120,
+                            margin: EdgeInsets.only(top: 18),
+                            child: WheelChooser(
+                              onValueChanged: (s){
+                                setState(() {
+                                  comeMinCount = s;
+                                });
+                              },
+                              datas: ["出售住宅", "出售公寓", "出售商铺", "出售车位","出租住宅", "出租住宅", "出租住宅", "出租住宅",],
+                              selectTextStyle: TextStyle(
+                                  color: Color(0xFF0E7AE6),
+                                  fontWeight: FontWeight.normal,
+                                  decoration: TextDecoration.none,
+                                  fontSize: 12
+                              ),
+                              unSelectTextStyle: TextStyle(
+                                  color: Color(0xFF666666),
+                                  fontWeight: FontWeight.normal,
+                                  decoration: TextDecoration.none,
+                                  fontSize: 12
+                              ),
+                            ),
+                          ),
+                          // 交易迫切度
+                          Container(
+                            width: 335,
+                            margin: EdgeInsets.only(top: 10),
+                            child: Text(
+                              '交易迫切度：',
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Color(0xFF333333),
+                                decoration: TextDecoration.none,
+                                fontWeight: FontWeight.normal,
+                              ),
+                            ),
+                          ),
+                          Container(
+                            width: 200,
+                            height: 120,
+                            margin: EdgeInsets.only(top: 18),
+                            child: WheelChooser(
+                              onValueChanged: (s){
+                                setState(() {
+                                  comeMinCount = s;
+                                });
+                              },
+                              datas: ["着急", "诚心", "一般", "下架","已成交"],
+                              selectTextStyle: TextStyle(
+                                  color: Color(0xFF0E7AE6),
+                                  fontWeight: FontWeight.normal,
+                                  decoration: TextDecoration.none,
+                                  fontSize: 12
+                              ),
+                              unSelectTextStyle: TextStyle(
+                                  color: Color(0xFF666666),
+                                  fontWeight: FontWeight.normal,
+                                  decoration: TextDecoration.none,
+                                  fontSize: 12
+                              ),
+                            ),
+                          ),
+
+                          // 出售原因
+                          Container(
+                            width: 335,
+                            margin: EdgeInsets.only(top: 10),
+                            child: Text(
+                              '交易原因：',
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Color(0xFF333333),
+                                decoration: TextDecoration.none,
+                                fontWeight: FontWeight.normal,
+                              ),
+                            ),
+                          ),
+                          Container(
+                            width: 200,
+                            height: 120,
+                            margin: EdgeInsets.only(top: 18),
+                            child: WheelChooser(
+                              onValueChanged: (s){
+                                setState(() {
+                                  comeMinCount = s;
+                                });
+                              },
+                              datas: ["变现", "处理闲置房产","换房改善", "离开当前城市","其他"],
+                              // 出租
+                              // datas: ["闲置", "离开当前城市","其他"],
+                              selectTextStyle: TextStyle(
+                                  color: Color(0xFF0E7AE6),
+                                  fontWeight: FontWeight.normal,
+                                  decoration: TextDecoration.none,
+                                  fontSize: 12
+                              ),
+                              unSelectTextStyle: TextStyle(
+                                  color: Color(0xFF666666),
+                                  fontWeight: FontWeight.normal,
+                                  decoration: TextDecoration.none,
+                                  fontSize: 12
+                              ),
+                            ),
+                          ),
+
+
+                          // 期望成交时间
+                          Container(
+                            width: 335,
+                            margin: EdgeInsets.only(top: 25),
+                            child: Text(
+                              '期望成交时间：',
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Color(0xFF333333),
+                                decoration: TextDecoration.none,
+                                fontWeight: FontWeight.normal,
+                              ),
+                            ),
+                          ),
+                          Container(
+                            width: 260,
+                            child: DatePickerWidget(
+                              looping: true, // default is not looping
+                              firstDate: DateTime(1940),
+                              lastDate: DateTime(2030, 1, 1),
+                              initialDate: DateTime(1980),
+                              dateFormat: "yyyy年-MMMM月-dd日",
+                              locale: DatePicker.localeFromString('zh'),
+                              onChange: (DateTime newDate, _) => _selectedBirthdayDate = newDate,
+                              pickerTheme: DateTimePickerTheme(
+                                itemTextStyle: TextStyle(color: Color(0xFF5580EB), fontSize: 18),
+                                dividerColor: Color(0xFF5580EB),
+                              ),
+                            ),
+                          ),
+
+                          // 选择房源所在区域
+                          Container(
+                            width: 335,
+                            margin: EdgeInsets.only(top: 25),
+                            child: Text(
+                              '房源所在区域：',
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Color(0xFF333333),
+                                decoration: TextDecoration.none,
+                                fontWeight: FontWeight.normal,
+                              ),
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: _incrementCounter,
+                            child: Container(
+                              width: 335,
+                              height: 40,
+                              margin: EdgeInsets.only(top: 10),
+                              decoration: BoxDecoration(
+                                border: Border.all(width: 1,color: Color(0xFF2692FD)),
+                                borderRadius: BorderRadius.circular(8),
+                                color: Colors.white,
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  Padding(
+                                    padding:EdgeInsets.only(left: 10),
+                                    child: Text(
+                                      text ?? "点击选择",
+                                      style:TextStyle(
+                                        fontSize: 14,
+                                        color: Color(0xFF999999),
+                                        fontWeight: FontWeight.normal,
+                                        decoration: TextDecoration.none,
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding:EdgeInsets.only(right: 10),
+                                    child: Icon(Icons.arrow_drop_down),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+
+                          // 房源所在小区
+                          Container(
+                            width: 335,
+                            margin: EdgeInsets.only(top: 20),
+                            child: Text(
+                              '房源所在小区：',
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Color(0xFF333333),
+                                decoration: TextDecoration.none,
+                                fontWeight: FontWeight.normal,
+                              ),
+                            ),
+                          ),
+                          Input(
+                            hintText: "请输入房源所在小区",
+                            tipText: "请输入房源所在小区",
+                            errorTipText: "请输入房源所在小区",
+                            rightText: "请输入房源所在小区",
+                            controller: careerController,
+                            inputType: TextInputType.text,
+                            reg: careerReg,
+                            onChanged: (text){
+                              setState(() {
+                                career = text;
+                                careerBool = careerReg.hasMatch(career);
+                              });
+                            },
+                          ),
+                          Container(
+                            width: 335,
+                            margin: EdgeInsets.only(top: 10),
+                            child: Text(
+                              '点击打开百度地图做地点标记',
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Color(0xFFF24848),
+                                decoration: TextDecoration.none,
+                                fontWeight: FontWeight.normal,
+                              ),
+                            ),
+                          ),
+
+                          // 报价
+                          Container(
+                            width: 335,
+                            margin: EdgeInsets.only(top: 15),
+                            child: Row(
+                              children: <Widget>[
+                                Padding(
+                                  padding: EdgeInsets.only(right: 20),
+                                  child: Text('报价:',style: TextStyle(
+                                    fontSize: 14,
+                                    color: Color(0xFF333333),
+                                    decoration: TextDecoration.none,
+                                    fontWeight: FontWeight.normal,
+                                  ),),
+                                ),
+                                GestureDetector(
+                                  onTap: (){
+                                    _onCountPressed(context);
+                                  },
+                                  child: Container(
+                                    width: 80,
+                                    decoration: BoxDecoration(
+                                        border: Border(bottom: BorderSide(width: 1,color: Color(0xFF0E7AE6)))
+                                    ),
+                                    child: Text(
+                                      itemCount.toString(),
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        color: Color(0xFF5580EB),
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.normal,
+                                      ),),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(right: 20,left: 20),
+                                  child: Text("万",style: TextStyle(
+                                    fontSize: 14,
+                                    color: Color(0xFF333333),
+                                    decoration: TextDecoration.none,
+                                    fontWeight: FontWeight.normal,
+                                  ),),
+                                ),
+                              ],
+                            ),
+                          ),
+
+                          // 房源地址
+                          Container(
+                            width: 335,
+                            margin: EdgeInsets.only(top: 20),
+                            child: Text(
+                              '房源地址：',
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Color(0xFF333333),
+                                decoration: TextDecoration.none,
+                                fontWeight: FontWeight.normal,
+                              ),
+                            ),
+                          ),
+                          Container(
+                            height: 100,
+                            margin: EdgeInsets.only(top: 15,left: 30,right: 30,bottom: 5),
+                            decoration: BoxDecoration(
+                              border: Border.all(width: 1,color: Color(0xFF5580EB)),
+                              borderRadius: BorderRadius.circular(8),
+                              color: Colors.white,
+                            ),
+                            child: TextField(
+                              controller: mapController,
+                              autofocus: false,
+                              keyboardType: TextInputType.multiline,
+                              onChanged: _onMapChanged,
+                              maxLines: null,
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Color(0xFF999999),
+                                fontWeight: FontWeight.normal,
+                                decoration: TextDecoration.none,
+                              ),
+                              decoration: InputDecoration(
+                                hintText:'请填写房源详细地址，5~300字',
+                                contentPadding: EdgeInsets.all(10),
+                                border: InputBorder.none,
+                              ),
+                            ),
+                          ),
+
+                          // 房源介绍
+                          Container(
+                            width: 335,
+                            margin: EdgeInsets.only(top: 20),
+                            child: Text(
+                              '房源介绍：',
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Color(0xFF333333),
+                                decoration: TextDecoration.none,
+                                fontWeight: FontWeight.normal,
+                              ),
+                            ),
+                          ),
+                          Container(
+                            height: 100,
+                            margin: EdgeInsets.only(top: 15,left: 30,right: 30,bottom: 30),
+                            decoration: BoxDecoration(
+                              border: Border.all(width: 1,color: Color(0xFF5580EB)),
+                              borderRadius: BorderRadius.circular(8),
+                              color: Colors.white,
+                            ),
+                            child: TextField(
+                              controller: mapController,
+                              autofocus: false,
+                              keyboardType: TextInputType.multiline,
+                              onChanged: _onMapChanged,
+                              maxLines: null,
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Color(0xFF999999),
+                                fontWeight: FontWeight.normal,
+                                decoration: TextDecoration.none,
+                              ),
+                              decoration: InputDecoration(
+                                hintText:'此介绍可以通过分享展示给客户，5~300字',
+                                contentPadding: EdgeInsets.all(10),
+                                border: InputBorder.none,
+                              ),
+                            ),
                           ),
 
                           // 完成
@@ -868,51 +770,48 @@ class _HouseAddPageState extends State<HouseAddPage> {
                             onTap: ()async{
                               // if(userNameBool == true && phoneBool == true && _starIndex != 0 ){
                               //   _onRefresh();
-                                addResult = await AddHouseStep1Dao.addHouseStep1(
-                                  userData.companyId,
-                                  userNameController.text,
-                                  phoneNumController.text,
-                                  userData.userPid,
-                                  selectedDate.toString(),
-                                  needMinCount.substring(0,2),
-                                  needMinCount.substring(3,4),
-                                  text,
-                                  selectedItem.companyName,
-                                  "1号楼2单元401室",
-                                  comeMinCount,
-                                    itemCount,
-                                  tradeMinCount,
-                                  reasonMinCount,
-                                  agentNameController.text,
-                                  agentPhoneNumController.text,
-                                  mapController.text
-                                );
-                                print(addResult);
-                                if (addResult.code == 200 || addResult.code ==210) {
-                                  _onRefresh();
-                                  _finishPressed(context);
-                                  // if (userData.userLevel.substring(0, 1) == "6") {
-                                  //   Navigator.push(context, MaterialPageRoute(
-                                  //       builder: (context) => HouseListPage()));
-                                  // }
-                                  // if (userData.userLevel.substring(0, 1) == "4") {
-                                  //   Navigator.push(context, MaterialPageRoute(
-                                  //       builder: (context) => STradedPage()));
-                                  // }
-                                  // if (userData.userLevel.substring(0, 1) == "5") {
-                                  //   Navigator.push(context, MaterialPageRoute(
-                                  //       builder: (context) => MTradedPage()));
-                                  // }
-                                } else {
-                                  _onRefresh();
-                                  _onOverLoadPressed(context);
-                                }
-                              },
-                              // else{
+                                _finishPressed(context);
+                                // var addResult = await AddCustomerDao.addCustomer(
+                                //     userData.companyId,
+                                //     userData.userPid,
+                                //     "5",
+                                //     userNameController.text,
+                                //     _radioGroupA.toString(),
+                                //     phoneNumController.text,
+                                //     _selectedBirthdayDate.toIso8601String(),
+                                //     _starIndex.toString(),
+                                //     careerController.text==null?"未知":careerController.text,
+                                //     incomeMinCount,
+                                //     likeController.text==null?"未知":likeController.text,
+                                //     msgController.text==null?"未知":msgController.text,
+                                //     mapController.text==null?"未知":mapController.text,
+                                //     member,  // 家庭成员
+                                //     deal,  // 成交历史
+                                // );
+                                // print(addResult);
+                                // if (addResult.code == 200) {
+                                //   _onRefresh();
+                                //   if (userData.userLevel.substring(0, 1) == "6") {
+                                //     Navigator.push(context, MaterialPageRoute(
+                                //         builder: (context) => MyTradedPage()));
+                                //   }
+                                //   if (userData.userLevel.substring(0, 1) == "4") {
+                                //     Navigator.push(context, MaterialPageRoute(
+                                //         builder: (context) => STradedPage()));
+                                //   }
+                                //   if (userData.userLevel.substring(0, 1) == "5") {
+                                //     Navigator.push(context, MaterialPageRoute(
+                                //         builder: (context) => MTradedPage()));
+                                //   }
+                                // } else {
+                                //   _onRefresh();
+                                //   _onOverLoadPressed(context);
+                                // }
+                              // }else{
                               //   // 必填信息不完整的弹窗
                               //   _onMsgPressed(context);
                               // }
-                            // }
+                            },
                             child: Container(
                                 width: 335,
                                 height: 40,
@@ -1022,6 +921,109 @@ class _HouseAddPageState extends State<HouseAddPage> {
     ).show();
   }
 
+  _addDealAlertPressed(context) {
+    Alert(
+      context: context,
+      title: "添加成交历史",
+      content: Column(
+        children: <Widget>[
+          Row(
+            children: <Widget>[
+              Container(
+                padding: EdgeInsets.only(left: 10,top: 10),
+                child: Text("成交原因：",style: TextStyle(
+                    fontSize: 14,
+                    color: Color(0xFF666666)
+                ),
+                  textAlign: TextAlign.left,
+                ),
+              ),
+            ],
+          ),
+          Container(
+            width: 80,
+            height: 120,
+            margin: EdgeInsets.only(top: 18),
+            child: WheelChooser(
+              onValueChanged: (s){
+                setState(() {
+                  dealMinCount = s;
+                });
+              },
+              datas: ["购买住宅", "购买商铺", "购买公寓", "购买车位","出售住宅", "出售商铺", "出售公寓", "出售车位","租赁住宅", "租赁商铺", "租赁公寓", "租赁车位","出租住宅", "出租商铺", "出租公寓", "出租车位",],
+              selectTextStyle: TextStyle(
+                  color: Color(0xFF0E7AE6),
+                  fontWeight: FontWeight.normal,
+                  decoration: TextDecoration.none,
+                  fontSize: 12
+              ),
+              unSelectTextStyle: TextStyle(
+                  color: Color(0xFF666666),
+                  fontWeight: FontWeight.normal,
+                  decoration: TextDecoration.none,
+                  fontSize: 12
+              ),
+            ),
+          ),
+          Row(
+            children: <Widget>[
+              Container(
+                padding: EdgeInsets.only(left: 10,top: 10),
+                child: Text("成交时间：",style: TextStyle(
+                    fontSize: 14,
+                    color: Color(0xFF666666)
+                ),
+                  textAlign: TextAlign.left,
+                ),
+              ),
+            ],
+          ),
+          Container(
+            width: 240,
+            child: DatePickerWidget(
+              looping: true, // default is not looping
+              firstDate: DateTime(2000),
+              lastDate: DateTime(2030, 1, 1),
+              initialDate: DateTime(2020,1,1),
+              dateFormat: "yyyy年-MMMM月-dd日",
+              locale: DatePicker.localeFromString('zh'),
+              onChange: (DateTime newDate, _) => _selectedDate = newDate,
+              pickerTheme: DateTimePickerTheme(
+                itemTextStyle: TextStyle(color: Color(0xFF5580EB), fontSize: 18),
+                dividerColor: Color(0xFF5580EB),
+              ),
+            ),
+          ),
+        ],
+      ),
+      buttons: [
+        DialogButton(
+          child: Text(
+            "确定",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () async {
+            setState(() {
+              var d=new DealInfo(dealReason: dealMinCount,dealTime: _selectedDate);
+              deal.add(d);
+            });
+            Navigator.pop(context);
+          },
+          color: Color(0xFF5580EB),
+        ),
+        DialogButton(
+          child: Text(
+            "取消",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: (){
+            Navigator.pop(context);
+          },
+          color: Color(0xFFCCCCCC),
+        ),
+      ],
+    ).show();
+  }
   _addNeedAlertPressed(context) {
     Alert(
       context: context,
@@ -1109,9 +1111,7 @@ class _HouseAddPageState extends State<HouseAddPage> {
           ),
           onPressed: (){
             Navigator.push(context, MaterialPageRoute(
-                builder: (context) => HouseAddBasicMsgPage(
-                    houseId:addResult.data.houseId
-                )));
+                builder: (context) => AddSellNeedDetailPage()));
           },
           color: Color(0xFF5580EB),
         ),
@@ -1133,6 +1133,120 @@ class _HouseAddPageState extends State<HouseAddPage> {
                 Navigator.push(context, MaterialPageRoute(
                     builder: (context) => MTradedPage()));
               }
+          },
+          color: Color(0xFFCCCCCC),
+        ),
+      ],
+    ).show();
+  }
+  _addMemberAlertPressed(context) {
+    Alert(
+      context: context,
+      title: "添加家庭成员",
+      content: Column(
+        children: <Widget>[
+          Row(
+            children: <Widget>[
+              Container(
+                padding: EdgeInsets.only(left: 10,top: 10),
+                child: Text("选择成员：",style: TextStyle(
+                    fontSize: 14,
+                    color: Color(0xFF666666)
+                ),
+                  textAlign: TextAlign.left,
+                ),
+              ),
+            ],
+          ),
+          Container(
+            width: 80,
+            height: 120,
+            margin: EdgeInsets.only(top: 18),
+            child: WheelChooser(
+              onValueChanged: (s){
+                setState(() {
+                  memberMinCount = s;
+                });
+              },
+              datas: ["妻子", "丈夫","儿子", "女儿", "父亲", "母亲","哥哥", "姐姐","弟弟", "妹妹", "宠物","其他"],
+              selectTextStyle: TextStyle(
+                  color: Color(0xFF0E7AE6),
+                  fontWeight: FontWeight.normal,
+                  decoration: TextDecoration.none,
+                  fontSize: 12
+              ),
+              unSelectTextStyle: TextStyle(
+                  color: Color(0xFF666666),
+                  fontWeight: FontWeight.normal,
+                  decoration: TextDecoration.none,
+                  fontSize: 12
+              ),
+            ),
+          ),
+          Row(
+            children: <Widget>[
+              Container(
+                padding: EdgeInsets.only(left: 10,top: 10),
+                child: Text("家庭成员的描述：",style: TextStyle(
+                    fontSize: 14,
+                    color: Color(0xFF666666)
+                ),
+                  textAlign: TextAlign.left,
+                ),
+              ),
+            ],
+          ),
+          Container(
+            height: 100,
+            margin: EdgeInsets.only(top: 15,left: 30,right: 30,bottom: 30),
+            decoration: BoxDecoration(
+              border: Border.all(width: 1,color: Color(0xFF5580EB)),
+              borderRadius: BorderRadius.circular(8),
+              color: Colors.white,
+            ),
+            child: TextField(
+              controller: memberController,
+              autofocus: false,
+              keyboardType: TextInputType.multiline,
+              onChanged: _onMemberChanged,
+              maxLines: null,
+              style: TextStyle(
+                fontSize: 14,
+                color: Color(0xFF999999),
+                fontWeight: FontWeight.normal,
+                decoration: TextDecoration.none,
+              ),
+              decoration: InputDecoration(
+                hintText:'爱好、习惯等……',
+                contentPadding: EdgeInsets.all(10),
+                border: InputBorder.none,
+              ),
+            ),
+          ),
+        ],
+      ),
+      buttons: [
+        DialogButton(
+          child: Text(
+            "确定",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () async {
+            setState(() {
+              var m=new FamilyMember(memberRole: memberMinCount,memberHobby: memberController.text);
+              member.add(m);
+            });
+            Navigator.pop(context);
+          },
+          color: Color(0xFF5580EB),
+        ),
+        DialogButton(
+          child: Text(
+            "取消",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: (){
+            Navigator.pop(context);
           },
           color: Color(0xFFCCCCCC),
         ),
@@ -1191,6 +1305,27 @@ class _HouseAddPageState extends State<HouseAddPage> {
     if(text != null){
       setState(() {
         mapBool = mapReg.hasMatch(mapController.text);
+      });
+    }
+  }
+  _onLikeChanged(String text){
+    if(text != null){
+      setState(() {
+        likeBool = likeReg.hasMatch(likeController.text);
+      });
+    }
+  }
+  _onMsgChanged(String text){
+    if(text != null){
+      setState(() {
+        msgBool = msgReg.hasMatch(msgController.text);
+      });
+    }
+  }
+  _onMemberChanged(String text){
+    if(text != null){
+      setState(() {
+        memberBool = memberReg.hasMatch(memberController.text);
       });
     }
   }

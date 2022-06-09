@@ -212,7 +212,7 @@ class _SigninChooseAreaPageState extends State<SigninChooseAreaPage> {
                         height: 150,
                         margin: EdgeInsets.only(top: 10),
                         child: Form(
-                          autovalidateMode: AutovalidateMode.disabled,
+                          autovalidate: autovalidate,
                           child: Column(children: <Widget>[
                             SimpleAutocompleteFormField<String>(
                               controller: levelOneController,
@@ -332,7 +332,7 @@ class _SigninChooseAreaPageState extends State<SigninChooseAreaPage> {
                         height: 150,
                         margin: EdgeInsets.only(top: 10),
                         child: Form(
-                          autovalidateMode: AutovalidateMode.disabled,
+                          autovalidate: autovalidate,
                           child: Column(children: <Widget>[
                             SimpleAutocompleteFormField<String>(
                               controller: levelTwoController,

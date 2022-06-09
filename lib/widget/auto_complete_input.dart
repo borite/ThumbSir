@@ -32,7 +32,7 @@ class _AutoCompleteInputState extends State<AutoCompleteInput> {
         padding: EdgeInsets.all(8.0),
         child: Form(
           key: formKey,
-          autovalidateMode: AutovalidateMode.disabled,
+          autovalidate: autovalidate,
           child: ListView(children: <Widget>[
             SizedBox(height: 16.0),
             Text('Selected listItem: "$selectedItem"'),

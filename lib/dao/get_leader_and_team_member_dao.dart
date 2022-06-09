@@ -4,7 +4,11 @@ import '../model/get_leader_and_team_member_model.dart';
 import '../utils/common_vars.dart';
 
 //接口地址前缀
+<<<<<<< HEAD
 const String apiPerFix=Url.testApiPrefix;
+=======
+const String apiPerfix=CommonVars.apiPrefix;
+>>>>>>> parent of e137123c (空安全前)
 
 class GetLeaderAndTeamMemberDao {
   static Future<GetLeaderAndTeamMember> getLeaderAndTeamMember(String userID) async {

@@ -251,7 +251,7 @@ class _MyTradedPageState extends State<MyTradedPage> {
                                       ),
                                       Padding(
                                         padding: EdgeInsets.only(left: 10),
-                                        child: Text('我的老客户',style: TextStyle(
+                                        child: Text('我的客户',style: TextStyle(
                                           fontSize: 16,
                                           color: Color(0xFF5580EB),
                                           fontWeight: FontWeight.normal,

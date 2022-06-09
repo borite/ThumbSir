@@ -1,18 +1,11 @@
-import 'package:ThumbSir/dao/change_old_and_undeal_dao.dart';
-import 'package:ThumbSir/dao/delete_customer_need_dao.dart';
-import 'package:ThumbSir/dao/get_needs_detail_dao.dart';
 import 'package:ThumbSir/pages/broker/client/client_edit_basic_msg_page.dart';
 import 'package:ThumbSir/pages/broker/client/client_edit_family_member_page.dart';
 import 'package:ThumbSir/pages/broker/client/client_edit_remark_page.dart';
 import 'package:ThumbSir/pages/broker/traded/traded_edit_basic_msg_page.dart';
 import 'package:ThumbSir/pages/broker/traded/traded_edit_family_member_page.dart';
 import 'package:ThumbSir/pages/broker/traded/traded_edit_remark_page.dart';
-import 'package:ThumbSir/pages/home.dart';
-import 'package:ThumbSir/widget/loading.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:ThumbSir/common/alert.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
 
 
 class ClientBasicMsg extends StatefulWidget {
@@ -28,8 +21,6 @@ class ClientBasicMsg extends StatefulWidget {
 class _ClientBasicMsgState extends State<ClientBasicMsg> with SingleTickerProviderStateMixin{
   int star=1;
   List member=new List();
-  var deleteNeed;
-  bool _loading = false;
 
   @override
   void initState(){
@@ -41,10 +32,7 @@ class _ClientBasicMsgState extends State<ClientBasicMsg> with SingleTickerProvid
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ProgressDialog(
-        loading: _loading,
-        msg:"加载中...",
-        child:Container(
+      body: Container(
           decoration: BoxDecoration(
             color: Colors.white,
           ),
@@ -79,7 +67,7 @@ class _ClientBasicMsgState extends State<ClientBasicMsg> with SingleTickerProvid
                         ),
                         GestureDetector(
                           onTap: (){
-                            _changeStateAlertPressed(context);
+
                           },
                           child: Container(
                             padding: EdgeInsets.fromLTRB(10, 0, 10, 4),
@@ -535,90 +523,6 @@ class _ClientBasicMsgState extends State<ClientBasicMsg> with SingleTickerProvid
             ],
           )
       )
-      )
     );
-  }
-  _changeStateAlertPressed(context) {
-    Alert(
-      context: context,
-      title: "转为老客户",
-      type: AlertType.warning,
-      content: Column(
-        children: <Widget>[
-          Container(
-            padding: EdgeInsets.only(left: 10,top: 10),
-            child: Text("修改状态后该用户的所有需求将被一同删除，是否确定执行此操作？",style: TextStyle(
-                fontSize: 18,
-                color: Color(0xFF666666)
-            ),
-              textAlign: TextAlign.left,
-            ),
-          ),
-          Container(
-            padding: EdgeInsets.only(left: 10,top: 10),
-            child: Text("修改状态完成后请到老客户维护模块查看该客户的信息",style: TextStyle(
-                fontSize: 14,
-                color: Color(0xFF666666)
-            ),
-              textAlign: TextAlign.left,
-            ),
-          ),
-        ],
-      ),
-      buttons: [
-        DialogButton(
-          child: Text(
-            "确定",
-            style: TextStyle(color: Colors.white, fontSize: 20),
-          ),
-          onPressed: () async {
-            _onRefresh();
-            // 转为老客户并删除需求，完成后跳转至首页
-            // 转为老客户，完成后跳转到首页
-            var changeState = await ChangeOldAndUndealDao.changeOldAndUndeal(widget.item.mid, "true");
-            // 获取需求信息
-            var needResult = await GetNeedsDetailDao.httpGetNeedsDetail(widget.item.mid.toString());
-            if (needResult.code == 200) {
-              var needsList = needResult.data;
-              if (needsList.length>0) {
-                var need = needsList;
-                setState(() async {
-                  for (var item in need) {
-                    // 循环删除需求
-                    deleteNeed = await DeleteCustomerNeedDao.deleteCustomerNeed(item.id.toString());
-                  }
-                });
-              }
-            }
-            if(changeState.code == 200 && deleteNeed.code == 200){
-              _onRefresh();
-              Navigator.of(context).pushAndRemoveUntil(
-                  new MaterialPageRoute(builder: (context) => new Home( )
-                  ), (route) => route == null);
-            }else{
-              _onRefresh();
-              onOverLoadPressed(context);
-            }
-          },
-          color: Color(0xFF5580EB),
-        ),
-        DialogButton(
-          child: Text(
-            "取消",
-            style: TextStyle(color: Colors.white, fontSize: 20),
-          ),
-          onPressed: (){
-            Navigator.pop(context);
-          },
-          color: Color(0xFFCCCCCC),
-        ),
-      ],
-    ).show();
-  }
-  // 加载中loading
-  Future<Null> _onRefresh() async {
-    setState(() {
-      _loading = !_loading;
-    });
   }
 }

@@ -32,8 +32,7 @@ class _MajorQListPageState extends State<MajorQListPage> with SingleTickerProvid
                   height: 29,
                   child: Image(image:AssetImage('images/teamlisticon_s.png'),),
                 ),
-                // title: Text('团队量化',style: TextStyle(color:_currentIndex != 0? _defaultColor : _activeColor,))
-                label:'团队量化'
+                title: Text('团队量化',style: TextStyle(color:_currentIndex != 0? _defaultColor : _activeColor,))
             ),
             BottomNavigationBarItem(
               icon: Container(
@@ -44,8 +43,7 @@ class _MajorQListPageState extends State<MajorQListPage> with SingleTickerProvid
                 height: 29,
                 child: Image(image:AssetImage('images/teamanalyze_s.png')),
               ),
-              // title: Text('团队分析',style: TextStyle(color:_currentIndex != 1? _defaultColor : _activeColor,)),
-              label: '团队分析',
+              title: Text('团队分析',style: TextStyle(color:_currentIndex != 1? _defaultColor : _activeColor,)),
             ),
           ],
         ),

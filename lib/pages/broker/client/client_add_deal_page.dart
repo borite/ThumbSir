@@ -361,10 +361,17 @@ class _ClientAddDealPageState extends State<ClientAddDealPage> {
                               );
                               if(addResult.code == 200){
                                 _onRefresh();
-                                Navigator.push(context, MaterialPageRoute(builder: (context)=>ClientDetailPage(
-                                  item:widget.item,
-                                  tabIndex: 1,
-                                )));
+                                var getItem = await GetCustomerInfoDao.getCustomerInfo(widget.item.mid.toString());
+                                if(getItem.code == 200){
+                                  _onRefresh();
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>ClientDetailPage(
+                                    item:widget.item,
+                                    tabIndex: 1,
+                                  )));
+                                }else {
+                                  _onRefresh();
+                                  _onOverLoadPressed(context);
+                                }
                               }
                             },
                             child: Container(

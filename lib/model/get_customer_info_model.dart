@@ -4,7 +4,7 @@
 
 import 'dart:convert';
 
-//import 'dart:wasm';
+import 'dart:wasm';
 
 GetCustomerInfo getCustomerInfoFromJson(String str) => GetCustomerInfo.fromJson(json.decode(str));
 

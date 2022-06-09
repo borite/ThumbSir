@@ -1,11 +1,8 @@
-import 'package:ThumbSir/dao/change_old_and_undeal_dao.dart';
 import 'package:ThumbSir/pages/broker/traded/traded_edit_basic_msg_page.dart';
 import 'package:ThumbSir/pages/broker/traded/traded_edit_family_member_page.dart';
 import 'package:ThumbSir/pages/broker/traded/traded_edit_remark_page.dart';
-import 'package:ThumbSir/pages/home.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
 
 
 class TradedBasicMsg extends StatefulWidget {
@@ -45,49 +42,21 @@ class _TradedBasicMsgState extends State<TradedBasicMsg> with SingleTickerProvid
                   children: <Widget>[
                     // 姓名
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: <Widget>[
-                            Container(
-                              width: 20,
-                              margin: EdgeInsets.only(left: 20,right: 10),
-                              child: Image.asset("images/my_3.png"),
-                            ),
-                            Text(
-                              widget.item.userName,
-                              style: TextStyle(
-                                color: Color(0xFF333333),
-                                fontSize: 20,
-                                fontWeight: FontWeight.normal,
-                                decoration: TextDecoration.none,
-                              ),
-                            )
-                          ],
+                      children: <Widget>[
+                        Container(
+                          width: 20,
+                          margin: EdgeInsets.only(left: 20,right: 10),
+                          child: Image.asset("images/my_3.png"),
                         ),
-                        GestureDetector(
-                          onTap: (){
-                            _changeStateAlertPressed(context);
-                          },
-                          child: Container(
-                            padding: EdgeInsets.fromLTRB(10, 0, 10, 4),
-                            margin: EdgeInsets.only(right: 20,top: 2,bottom: 10),
-                            decoration: BoxDecoration(
-                                border: Border.all(
-                                    width: 1,
-                                    color: Color(0xFF93C0FB)
-                                ),
-                                borderRadius: BorderRadius.circular(8)
-                            ),
-                            child: Text(
-                              "转为有需求客户",
-                              style: TextStyle(
-                                  color: Color(0xFF93C0FB),
-                                  fontSize: 14
-                              ),
-                            ),
+                        Text(
+                          widget.item.userName,
+                          style: TextStyle(
+                            color: Color(0xFF333333),
+                            fontSize: 20,
+                            fontWeight: FontWeight.normal,
+                            decoration: TextDecoration.none,
                           ),
-                        ),
+                        )
                       ],
                     ),
                     // 基本信息
@@ -523,49 +492,5 @@ class _TradedBasicMsgState extends State<TradedBasicMsg> with SingleTickerProvid
           )
       )
     );
-  }
-  _changeStateAlertPressed(context) {
-    Alert(
-      context: context,
-      title: "转为有需求客户",
-      type: AlertType.warning,
-      content: Container(
-        padding: EdgeInsets.only(left: 10,top: 10),
-        child: Text("修改状态后该用户的信息全部保留并移至客源系统模块，请在客源系统模块添加并完善该用户的需求信息，是否确定执行此操作？",style: TextStyle(
-            fontSize: 18,
-            color: Color(0xFF666666)
-        ),
-          textAlign: TextAlign.left,
-        ),
-      ),
-      buttons: [
-        DialogButton(
-          child: Text(
-            "确定",
-            style: TextStyle(color: Colors.white, fontSize: 20),
-          ),
-          onPressed: () async {
-            // 转为有需求客户，完成后跳转到首页
-            var changeState = await ChangeOldAndUndealDao.changeOldAndUndeal(widget.item.mid, "false");
-            if(changeState.code == 200){
-              Navigator.of(context).pushAndRemoveUntil(
-                  new MaterialPageRoute(builder: (context) => new Home( )
-                  ), (route) => route == null);
-            }
-          },
-          color: Color(0xFF5580EB),
-        ),
-        DialogButton(
-          child: Text(
-            "取消",
-            style: TextStyle(color: Colors.white, fontSize: 20),
-          ),
-          onPressed: (){
-            Navigator.pop(context);
-          },
-          color: Color(0xFFCCCCCC),
-        ),
-      ],
-    ).show();
   }
 }
