@@ -1,18 +1,17 @@
-import 'package:ThumbSir/common/reg.dart';
-import 'package:ThumbSir/dao/getuser_byphone_dao.dart';
-import 'package:ThumbSir/dao/signin_phone_verify_code_dao.dart';
-import 'package:ThumbSir/model/find_user_result_model.dart';
-import 'package:ThumbSir/model/phoneverifycode_model.dart';
-import 'package:ThumbSir/pages/login/signin_page.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:ThumbSir/common/reg.dart';
+import 'package:ThumbSir/dao/get_user_by_phone_dao.dart';
+import 'package:ThumbSir/dao/signin_phone_verify_code_dao.dart';
+import 'package:ThumbSir/model/get_user_by_phone_model.dart';
+import 'package:ThumbSir/model/phone_verify_code_model.dart';
+import 'package:ThumbSir/pages/login/signin_page.dart';
 import 'dart:async';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
 // 可用时使用的字体样式。
-final TextStyle _availableStyle = TextStyle(
+const TextStyle _availableStyle = TextStyle(
   fontSize: 14.0,
-  color: const Color(0xFF5580EB),
+  color: Color(0xFF6E85D3),
 );
 
 class PYZMInput extends StatefulWidget {
@@ -26,16 +25,17 @@ class PYZMInput extends StatefulWidget {
   final inputType;
   final RegExp reg;
   final editParentText;
-  const PYZMInput({Key key,
-    this.controller,
-    this.yzmcontroller,
-    this.onChanged,
+  const PYZMInput({
+    Key? key,
+    required this.controller,
+    required this.yzmcontroller,
+    required this.onChanged,
     this.hintText="",
     this.tipText="",
     this.rightText="格式正确",
-    this.errorTipText,
+    required this.errorTipText,
     this.inputType,
-    this.reg,
+    required this.reg,
     this.editParentText,
   });
   @override
@@ -47,45 +47,45 @@ class _PYZMInputState extends State<PYZMInput> {
   /// 倒计时的秒数，默认60秒。
   int countdown = 0;
   /// 用户点击时的回调函数。
-  Function onTapCallback;
+  // Function onTapCallback;
   /// 是否可以获取验证码。
   bool available = false;
 
-  FocusNode _focusNode = FocusNode();
+  final FocusNode _focusNode = FocusNode();
   bool textBool = true;// 输入的内容是否合法
-  RegExp phoneReg;
+  late RegExp phoneReg;
   bool phoneBool = false;
-  Color tipColor = Color(0xFF2692FD);
+  Color tipColor = const Color(0xFF6E85D3);
   int tip = 0;
-  String WebAPICookie;
+  late String webAPICookie;
 
-  String userID;
+  late String userID;
 
 
   // 倒计时的计时器。
-  Timer _timer;
+  Timer? _timer;
   /// 当前倒计时的秒数。
-  int _seconds;
+  late int seconds;
   /// 当前墨水瓶（`InkWell`）的字体样式。
   TextStyle inkWellStyle = _availableStyle;
 
   @override
   void initState() {
     phoneReg = telPhoneReg;
-    _seconds = countdown;
+    seconds = countdown;
     _focusNode.addListener(() {
       if (!_focusNode.hasFocus) {
         // TextField失去焦点
         setState(() {
-          textBool = this.widget.reg.hasMatch(this.widget.yzmcontroller.text);
+          textBool = widget.reg.hasMatch(widget.yzmcontroller.text);
         });
         if(textBool == true){
           setState(() {
-            tipColor = Color(0xFF2692FD);
+            tipColor = const Color(0xFF6E85D3);
           });
         }else if(textBool == false ){
           setState(() {
-            tipColor = Color(0xFFF24848);
+            tipColor = const Color(0xFFF24848);
           });
         }
       }
@@ -97,9 +97,7 @@ class _PYZMInputState extends State<PYZMInput> {
   void dispose() {
     _focusNode.unfocus();
     super.dispose();
-    if(_timer!=null){
-      _timer.cancel();
-    }
+    _timer?.cancel();
   }
 
   @override
@@ -111,50 +109,50 @@ class _PYZMInputState extends State<PYZMInput> {
               Container(
                 width: 335,
                 height: 40,
-                margin: EdgeInsets.only(top: 10),
+                margin: const EdgeInsets.only(top: 10),
                 child: TextField(
                   controller: widget.yzmcontroller,
                   autofocus: false,
-                  keyboardType: this.widget.inputType,
+                  keyboardType: widget.inputType,
                   onChanged: _onChanged,
                   focusNode: _focusNode,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 14,
                     color: Color(0xFF999999),
                     fontWeight: FontWeight.normal,
                     decoration: TextDecoration.none,
                   ),
                   decoration: InputDecoration(
-                    contentPadding: EdgeInsets.fromLTRB(8, 0, 10, 10),
+                    contentPadding: const EdgeInsets.fromLTRB(8, 0, 10, 10),
                     border: OutlineInputBorder(
                       /*边角*/
-                      borderRadius: BorderRadius.all(Radius.circular(8),),
+                      borderRadius: const BorderRadius.all(Radius.circular(8),),
                       borderSide: BorderSide(color: tipColor, width: 1,),
                     ),
                     enabledBorder: OutlineInputBorder(
                       /*边角*/
-                      borderRadius: BorderRadius.all(Radius.circular(8),),
+                      borderRadius: const BorderRadius.all(Radius.circular(8),),
                       borderSide: BorderSide(color: tipColor, width: 1,),
                     ),
                     focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(8),),
+                      borderRadius: const BorderRadius.all(Radius.circular(8),),
                       borderSide: BorderSide(color: tipColor, width: 1,),
                     ),
-                    hintStyle: TextStyle(fontSize: 14),
+                    hintStyle: const TextStyle(fontSize: 14),
                     hintText: widget.hintText,
                   ),
                 ),
               ),
               Container(
                   width: 335,
-                  margin: EdgeInsets.only(top: 5,left: 15),
+                  margin: const EdgeInsets.only(top: 5,left: 15),
                   child: Row(
                     children: <Widget>[
                       Text(
-                        tip == 0 ? this.widget.tipText : tip == 2 ? this.widget.errorTipText:this.widget.rightText,
+                        tip == 0 ? widget.tipText : tip == 2 ? widget.errorTipText:widget.rightText,
                         style: TextStyle(
                           fontSize: 12,
-                          color: tip == 0 ? Color(0xFF999999):tipColor,
+                          color: tip == 0 ? const Color(0xFF999999):tipColor,
                         ),textAlign: TextAlign.left,),
                     ],
                   )
@@ -168,10 +166,10 @@ class _PYZMInputState extends State<PYZMInput> {
               child: Container(
                 width: 110,
                 height: 30,
-                margin: EdgeInsets.only(top: 15),
-                padding: EdgeInsets.only(top: 5),
-                decoration: BoxDecoration(
-                    border: Border(left: BorderSide(width: 1,color: Color(0xFF5580EB)))
+                margin: const EdgeInsets.only(top: 15),
+                padding: const EdgeInsets.only(top: 5),
+                decoration: const BoxDecoration(
+                    border: Border(left: BorderSide(width: 1,color: Color(0xFF6E85D3)))
                 ),
                 child: Text(
                   countdown > 0?'$countdown后重新获取':'获取验证码',
@@ -180,7 +178,7 @@ class _PYZMInputState extends State<PYZMInput> {
                 ),
               ),
               onTap: () async {
-                final String phoneNum=this.widget.controller.text;
+                final String phoneNum=widget.controller.text;
                 phoneBool = phoneReg.hasMatch(phoneNum);
 
                 if(countdown>0){
@@ -188,21 +186,21 @@ class _PYZMInputState extends State<PYZMInput> {
                 }
                 //当电话号码合法时
                 if(phoneBool){
-                  final FindUserResult phoneresult=await GetUserByPhoneDao.findUserByPhone(phoneNum);
+                  final GetUserByPhone phoneResult=await GetUserByPhoneDao.getUserByPhone(phoneNum);
                   //找到用户，返回成功
-                  if(phoneresult.code==200){
+                  if(phoneResult.code==200){
                     setState(() {
                       countdown=60;
                     });
                     startCountDownTimer();
-                    userID=phoneresult.data.userPid;
+                    userID=phoneResult.data!.userPid;
 
                     //发送验证码，注意cookie
-                    final PhoneVerifyCode coderesult=await PhoneVerifyCodeDao.sendSms(phoneNum);
+                    PhoneVerifyCode? codeResult=await PhoneVerifyCodeDao.sendSms(phoneNum);
                     //验证码发送成功
-                    if(coderesult.code==200){
-                      WebAPICookie = coderesult.cookie.split(';')[0];
-                      widget.editParentText(WebAPICookie,userID);
+                    if(codeResult.code==200){
+                      webAPICookie = codeResult.cookie.split(';')[0];
+                      widget.editParentText(webAPICookie,userID);
                     }
                   }else{   //用户没有找到，会返回404
                     _on400AlertPressed(context);
@@ -218,35 +216,34 @@ class _PYZMInputState extends State<PYZMInput> {
 
   //倒计时计时器方法
   void startCountDownTimer(){
-    const oneSecond=const Duration(seconds: 1);
-    var callback=(timer)=>{
-      this.setState(() {
+    const oneSecond=Duration(seconds: 1);
+    Null Function(dynamic timer) callBack;
+    callBack=(timer){
+      setState(() {
         if(countdown < 1){
-          _timer.cancel();
+          _timer?.cancel();
         }else{
           countdown=countdown-1;
         }
-      })
+      });
     };
-    _timer=Timer.periodic(oneSecond, callback );
+    _timer=Timer.periodic(oneSecond, callBack );
   }
 
   _onChanged(String text){
-    if(widget.onChanged != null){
-      widget.onChanged(text);
+    widget.onChanged(text);
+    setState(() {
+      textBool = widget.reg.hasMatch(widget.yzmcontroller.text);
+    });
+    if(textBool == true){
       setState(() {
-        textBool = this.widget.reg.hasMatch(this.widget.yzmcontroller.text);
+        tipColor = const Color(0xFF6E85D3);
+        tip = 1;
       });
-      if(textBool == true){
-        setState(() {
-          tipColor = Color(0xFF2692FD);
-          tip = 1;
-        });
-      }else if (textBool == false){
-        setState(() {
-          tip = 2;
-        });
-      }
+    }else if (textBool == false){
+      setState(() {
+        tip = 2;
+      });
     }
   }
   _on400AlertPressed(context) {
@@ -256,15 +253,15 @@ class _PYZMInputState extends State<PYZMInput> {
       title: "该手机号未注册",
       buttons: [
         DialogButton(
-          child: Text(
+          child: const Text(
             "去注册",
             style: TextStyle(color: Colors.white, fontSize: 20),
           ),
-          onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context)=>SigninNameAndPhonePage())),
-          color: Color(0xFF5580EB),
+          onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context)=>const SigninNameAndPhonePage())),
+          color: const Color(0xFF6E85D3),
         ),
         DialogButton(
-          child: Text(
+          child: const Text(
             "知道了",
             style: TextStyle(color: Colors.white, fontSize: 20),
           ),
@@ -274,7 +271,7 @@ class _PYZMInputState extends State<PYZMInput> {
               available = false;
             });
           },
-          color: Color(0xFFCCCCCC),
+          color: const Color(0xFFCCCCCC),
         ),
       ],
     ).show();
@@ -286,12 +283,12 @@ class _PYZMInputState extends State<PYZMInput> {
       title: "手机号码格式不正确",
       buttons: [
         DialogButton(
-          child: Text(
+          child: const Text(
             "再试试",
             style: TextStyle(color: Colors.white, fontSize: 20),
           ),
           onPressed: () => Navigator.pop(context),
-          color: Color(0xFF5580EB),
+          color: const Color(0xFF6E85D3),
         ),
       ],
     ).show();

@@ -1,10 +1,11 @@
 import 'dart:async';
-import 'package:ThumbSir/model/get_next_level_list_model.dart';
 import 'package:http/http.dart' as http;
-import 'package:ThumbSir/utils/common_vars.dart';
+
+import '../model/get_next_level_list_model.dart';
+import '../utils/common_vars.dart';
 
 //接口地址前缀
-const String apiPerfix=CommonVars.apiPrefix;
+const String apiPerFix=Url.apiPrefix;
 
 class GetNextLevelListDao {
   static Future<GetNextLevelList> httpGetNextLevelList(
@@ -13,7 +14,13 @@ class GetNextLevelListDao {
       String leaderSection,
       String date
     ) async {
-    final response = await http.get(apiPerfix+'api/analysis/GetNextLevelList?leaderID='+leaderID+'&companyID='+companyID+'&LeaderSection='+leaderSection+'&date='+date);
+    final response = await http.get(
+        Uri.http(
+            apiPerFix,
+            '/api/analysis/GetNextLevelList',
+            {'leaderID':leaderID,'companyID':companyID,'LeaderSection':leaderSection,'date':date}
+        )
+    );
     //Utf8Decoder utf8decoder = Utf8Decoder();  // 修复中文乱码
     //var result = json.decode(utf8decoder.convert(response.bodyBytes));
     if(response.statusCode == 200){

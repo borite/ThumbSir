@@ -1,20 +1,22 @@
 import 'dart:async';
-import 'package:ThumbSir/model/login_result_model.dart';
 import 'package:http/http.dart' as http;
-import 'package:ThumbSir/utils/common_vars.dart';
+import 'package:new_lianghua_app/model/login_result_model.dart';
+import '../utils/common_vars.dart';
 
-const String api_perfix=CommonVars.apiPrefix;
+const String apiPerFix=Url.apiPrefix;
 
 class TokenCheckDao{
-    static Future<LoginResult> tokenCheck(String Token) async {
-       final String apiUrl=api_perfix+"api/User/TokenCheck";
-       final response= await http.post(apiUrl,body: {"Token":Token});
+    static Future<LoginResult> tokenCheck(String token) async {
+      var client = http.Client();
+       final response= await client.post(
+           Uri.http(apiPerFix,'/api/User/TokenCheck'),
+           body: {"Token":token});
        if(response.statusCode==200){
          final String resString=response.body;
          LoginResult t= loginResultFromJson(resString);
          return t;
        }else{
-         return null;
+         throw Exception(response.body);
        }
     }
 }

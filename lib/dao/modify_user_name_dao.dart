@@ -1,20 +1,24 @@
 import 'dart:async';
-import 'package:ThumbSir/model/common_result_model.dart';
 import 'package:http/http.dart' as http;
-import 'package:ThumbSir/utils/common_vars.dart';
+import 'package:new_lianghua_app/model/common_result_model.dart';
 
-const String api_perfix=CommonVars.apiPrefix;
+import '../utils/common_vars.dart';
+
+const String apiPerFix=Url.apiPrefix;
 
 class ModifyUserNameDao{
     static Future<CommonResult> modifyName(String userID,String newName) async {
-       final String apiUrl=api_perfix+"api/usercenter/ModifyUserName";
-       final response= await http.post(apiUrl,body: {"UserName":newName,"UserID":userID});
+
+      var client = http.Client();
+      final response= await client.post(
+          Uri.http(apiPerFix,'/api/usercenter/ModifyUserName'),
+          body: {"UserName":newName,"UserID":userID});
        if(response.statusCode==200){
          final String resString=response.body;
          CommonResult t= commonResultFromJson(resString);
          return t;
        }else{
-         return null;
+         throw Exception(response.body);
        }
     }
 }

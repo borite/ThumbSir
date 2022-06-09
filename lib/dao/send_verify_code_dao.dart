@@ -1,22 +1,25 @@
 import 'dart:async';
 import 'package:http/http.dart' as http;
-import 'package:ThumbSir/model/sendverifycode_model.dart';
-import 'package:ThumbSir/utils/common_vars.dart';
+import 'package:new_lianghua_app/model/send_verify_code_model.dart';
 
-const String api_perfix=CommonVars.apiPrefix;
+import '../utils/common_vars.dart';
+
+const String apiPerFix=Url.apiPrefix;
 
 class SendVerifyCodeDao{
     static Future<SendVerifyCode> sendSms(String phoneNum) async {
-       final String apiUrl=api_perfix+"api/User/RegisterCheckNum";
-       final response= await http.post(apiUrl,body: {"phoneNum":phoneNum});
+      var client = http.Client();
+      final response= await client.post(
+          Uri.http(apiPerFix,'/api/User/RegisterCheckNum'),
+          body: {"phoneNum":phoneNum});
        if(response.statusCode==200){
          final String resString=response.body;
-         final String setCookie=response.headers['set-cookie'];
+         final String? setCookie=response.headers['set-cookie'];
          SendVerifyCode t= sendVerifyCodeFromJson(resString);
-         t.cookie=setCookie;
+         t.cookie=setCookie!;
          return t;
        }else{
-         return null;
+         throw Exception(response.body);
        }
     }
 }

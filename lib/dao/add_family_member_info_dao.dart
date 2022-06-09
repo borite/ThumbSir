@@ -1,11 +1,10 @@
 import 'dart:async';
-import 'dart:convert';
 import 'package:ThumbSir/model/common_result_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:ThumbSir/utils/common_vars.dart';
 
 //接口地址前缀
-const String apiPerfix=CommonVars.apiPrefix;
+const String apiPerfix=Url.apiPrefix;
 
 class AddFamilyMemberInfoDao {
   static Future<CommonResult> addFamilyMemberInfo(

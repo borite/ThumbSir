@@ -19,17 +19,15 @@ class ProgressDialog extends StatelessWidget {
   //字体颜色
   final Color textColor;
 
-  ProgressDialog(
-      {Key key,
-        @required this.loading,
-        this.msg,
+  const ProgressDialog(
+      {Key? key,
+        required this.loading,
+        required this.msg,
         this.progress = const CircularProgressIndicator(),
         this.alpha = 0.6,
         this.textColor = Colors.white,
-        @required this.child})
-      : assert(child != null),
-        assert(loading != null),
-        super(key: key);
+        required this.child})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -37,43 +35,37 @@ class ProgressDialog extends StatelessWidget {
     widgetList.add(child);
     if (loading) {
       Widget layoutProgress;
-      if (msg == null) {
-        layoutProgress = Center(
-          child: progress,
-        );
-      } else {
-        layoutProgress = Center(
-          child: Container(
-            padding: const EdgeInsets.all(20.0),
-            decoration: BoxDecoration(
-                color: Colors.black87,
-                borderRadius: BorderRadius.circular(4.0)),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                progress,
-                Container(
-                  padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0),
-                  child: Text(
-                    msg,
-                    style: TextStyle(
-                      color: textColor,
-                      fontSize: 16.0,
-                      fontWeight: FontWeight.normal,
-                      decoration: TextDecoration.none,
-                    ),
+      layoutProgress = Center(
+        child: Container(
+          padding: const EdgeInsets.all(20.0),
+          decoration: BoxDecoration(
+              color: Colors.black87,
+              borderRadius: BorderRadius.circular(4.0)),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              progress,
+              Container(
+                padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0),
+                child: Text(
+                  msg,
+                  style: TextStyle(
+                    color: textColor,
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.normal,
+                    decoration: TextDecoration.none,
                   ),
-                )
-              ],
-            ),
+                ),
+              )
+            ],
           ),
-        );
-      }
+        ),
+      );
       widgetList.add(Opacity(
         opacity: alpha,
-        child: new ModalBarrier(color: Colors.transparent),
+        child: const ModalBarrier(color: Colors.transparent),
       ));
       widgetList.add(layoutProgress);
     }

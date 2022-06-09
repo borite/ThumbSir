@@ -1,18 +1,16 @@
 import 'dart:convert';
+import 'package:new_lianghua_app/dao/get_user_mission_records_dao.dart';
+import 'package:new_lianghua_app/dao/get_user_select_mission_dao.dart';
+import 'package:new_lianghua_app/widget/qlist_item.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
-import 'package:ThumbSir/dao/get_user_select_mission_dao.dart';
-import 'package:ThumbSir/model/get_user_select_mission_model.dart';
-import 'package:ThumbSir/model/login_result_data_model.dart';
-import 'package:ThumbSir/widget/qlist_item.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:ThumbSir/model/mission_record_model.dart';
-import 'package:ThumbSir/dao/get_user_mission_records_dao.dart';
+import '../model/login_result_data_model.dart';
+import 'package:new_lianghua_app/model/get_user_select_mission_model.dart';
 
 
 class TodayQList extends StatefulWidget {
-  TodayQList({Key key,this.tabIndex,this.callBack }):super(key:key);
+  TodayQList({Key? key,required this.tabIndex,this.callBack }):super(key:key);
   int tabIndex;
   final callBack;
   @override
@@ -20,16 +18,16 @@ class TodayQList extends StatefulWidget {
 }
 
 class _TodayQListState extends State<TodayQList> with SingleTickerProviderStateMixin{
-  Animation<double> animation;
-  AnimationController controller;
-  AnimationStatus animationStatus;
-  double animationValue;
+  late Animation<double> animation;
+  late AnimationController controller;
+  late AnimationStatus animationStatus;
+  late double animationValue;
   
   @override
   void initState(){
 
     _getUserInfo();
-    controller = AnimationController(vsync:this,duration: Duration(seconds: 1));
+    controller = AnimationController(vsync:this,duration: const Duration(seconds: 1));
     animation = Tween<double>(begin: 700,end:25).animate(
         CurvedAnimation(parent: controller,curve: Curves.easeInOut)
           ..addListener(() {
@@ -49,66 +47,63 @@ class _TodayQListState extends State<TodayQList> with SingleTickerProviderStateM
   }
   DateTime dateTime = DateTime.now();
 
-  var missionList;
+  dynamic missionList;
 
   List<Datum> missions = [];
   List<Widget> missionsShowList = [];
 
   List<Widget> Msgs=[];
 
-  LoginResultData userData;
-  String uinfo;
-  var result;
+  LoginResultData? userData;
+  late String uInfo;
 
   _getUserInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    uinfo= prefs.getString("userInfo");
-    if(uinfo != null){
-      result =loginResultDataFromJson(uinfo);
-      this.setState(() {
-        userData=LoginResultData.fromJson(json.decode(uinfo));
-      });
-      _load();
-    }
+    uInfo= prefs.getString("userInfo")!;
+    setState(() {
+      userData=LoginResultData.fromJson(json.decode(uInfo));
+    });
+    _load();
   }
 
   _load() async {
     if(userData != null ){
       missionList = await GetUserSelectMissionDao.getMissions(
-          userData.userPid,
-          userData.userLevel.substring(0,1),
+          userData!.userPid,
+          userData!.userLevel.substring(0,1),
           dateTime.toIso8601String().substring(0,10),
       );
 
       if (missionList.code == 200) {
         missions = missionList.data;
-        if (missions.length>0) {
+        if (missions.isNotEmpty) {
 
           for (var item in missions) {
-            GetMissionRecord m_record= await UserSelectMissionDao.missionRecord(userData.userPid,item.id.toString(),userData.userLevel.substring(0,1));
+            dynamic mission= await GetMissionRecordDao.missionRecord(userData!.userPid,item.id.toString(),userData!.userLevel.substring(0,1));
 
             missionsShowList.add(
               QListItem(
                 name: item.taskName,
                 number: item.defaultTaskId == 15 || item.defaultTaskId == 16 || item.defaultTaskId == 13? "":item.planningCount.toString()+item.taskUnit,
-                time: item.planningStartTime.toIso8601String().substring(11,16)+'~'+item.planningEndTime.toIso8601String().substring(11,16),
+                time: item.planningStartTime!.toIso8601String().substring(11,16)+'~'+item.planningEndTime!.toIso8601String().substring(11,16),
                 star: item.stars,
                 percent: item.finishRate,
-                remark: item.remark == null ? '暂无描述':item.remark,
-                address: item.address == null ? '暂未标注地点':item.address,
-                currentAddress: m_record.data==null?"还未上传":m_record.data.address,
+                remark: item.remark ?? '暂无描述',
+                address: item.address ?? '暂未标注地点',
+                currentAddress: mission.data==null?"还未上传":mission.data.address,
                 taskId:item.id.toString(),
                 defaultId: item.defaultTaskId.toString(),
                 planCount:item.planningCount,
                 unit:item.taskUnit,
                 date: 1,
-                userID:userData.userPid,
-                userLevel:userData.userLevel,
-                imgs:m_record.data==null?"":m_record.data.missionImgs,
+                userID:userData!.userPid,
+                userLevel:userData!.userLevel,
+                imgs:mission.data==null?"":mission.data.missionImgs,
                 startTime: item.planningStartTime,
                 endTime: item.planningEndTime,
-                tabIndex: this.widget.tabIndex,
-                callBack: ()=>onChange(this.widget.tabIndex),
+                tabIndex: widget.tabIndex,
+                callBack: ()=>onChange(widget.tabIndex),
+                pageIndex: 0,
               ),
             );
 
@@ -123,7 +118,7 @@ class _TodayQListState extends State<TodayQList> with SingleTickerProviderStateM
     }
   }
 
-  int t;
+  late int t;
   void onChange(tIndex){
     setState(() {
       t = tIndex;
@@ -143,14 +138,19 @@ class _TodayQListState extends State<TodayQList> with SingleTickerProviderStateM
       body: ListView(
         children: <Widget>[
           Container(
-              constraints: BoxConstraints(
+              constraints: const BoxConstraints(
                   minHeight: 800
               ),
-              decoration: BoxDecoration(color: Colors.white),
+              decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end:Alignment.bottomCenter,
+                      colors: [Color.fromRGBO(208, 240, 238, 1),Color.fromRGBO(228, 233, 250, 1),Color.fromRGBO(234, 239, 253, 1)]
+                  )
+              ),
               child:Container(
-                  width: 335,
-                  padding: EdgeInsets.only(top:140,bottom:50),
-                  child: missions.length !=0 && Msgs != []?
+                  padding: const EdgeInsets.only(top:90,bottom:25),
+                  child: missions.isNotEmpty && Msgs != []?
                   Column(
                     children: Msgs,
                   )
@@ -161,15 +161,15 @@ class _TodayQListState extends State<TodayQList> with SingleTickerProviderStateM
                       width: 335,
                       height: 104,
                       child: Column(
-                        children: <Widget>[
+                        children: const <Widget>[
                           Padding(
-                            padding: EdgeInsets.only(top: 25,bottom: 8),
+                            padding: EdgeInsets.only(top:25,bottom:8),
                             child: Text(
                               '还没有任务计划',
                               style: TextStyle(
                                 decoration: TextDecoration.none,
                                 fontSize: 20,
-                                color: Color(0xFFCCCCCC),
+                                color: Colors.black12,
                                 fontWeight: FontWeight.normal,
                               ),
                               textAlign: TextAlign.center,
@@ -180,7 +180,7 @@ class _TodayQListState extends State<TodayQList> with SingleTickerProviderStateM
                             style: TextStyle(
                               decoration: TextDecoration.none,
                               fontSize: 16,
-                              color: Color(0xFFCCCCCC),
+                              color: Colors.black12,
                               fontWeight: FontWeight.normal,
                             ),
                             textAlign: TextAlign.center,
@@ -202,14 +202,14 @@ class _TodayQListState extends State<TodayQList> with SingleTickerProviderStateM
       desc: "请检查网络连接情况",
       buttons: [
         DialogButton(
-          child: Text(
+          child: const Text(
             "确定",
             style: TextStyle(color: Colors.white, fontSize: 20),
           ),
           onPressed: () {
             Navigator.pop(context);
           },
-          color: Color(0xFF5580EB),
+          color: const Color(0xFF6E85D3),
         )
       ],
     ).show();

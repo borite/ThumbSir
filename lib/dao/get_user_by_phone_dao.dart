@@ -1,16 +1,19 @@
 import 'dart:async';
-import 'package:ThumbSir/model/getuser_byphone_model.dart';
 import 'package:http/http.dart' as http;
-import 'package:ThumbSir/utils/common_vars.dart';
+import 'package:new_lianghua_app/model/get_user_by_phone_model.dart';
+import '../utils/common_vars.dart';
 
 //接口地址前缀
-const String apiPerfix=CommonVars.apiPrefix;
+const String apiPerFix=Url.apiPrefix;
 
 class GetUserByPhoneDao {
   static Future<GetUserByPhone> getUserByPhone(String phoneNum) async {
-    final response = await http.post(apiPerfix+'api/commontools/GetUserByPhone',body: {
-      "phoneNum": phoneNum,
-    });
+    var client = http.Client();
+    final response= await client.post(
+        Uri.http(apiPerFix,'/api/commontools/GetUserByPhone'),
+        body: {
+          "phoneNum": phoneNum,
+        });
     //Utf8Decoder utf8decoder = Utf8Decoder();  // 修复中文乱码
     //var result = json.decode(utf8decoder.convert(response.bodyBytes));
     if(response.statusCode == 200){

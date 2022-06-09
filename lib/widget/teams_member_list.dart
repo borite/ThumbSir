@@ -1,25 +1,24 @@
 import 'dart:convert';
 import 'package:rflutter_alert/rflutter_alert.dart';
-import 'package:ThumbSir/dao/get_next_level_users_dao.dart';
-import 'package:ThumbSir/model/login_result_data_model.dart';
-import 'package:ThumbSir/pages/mycenter/change_member_page.dart';
-import 'package:ThumbSir/pages/mycenter/s_center_group_detail_page.dart';
-import 'package:ThumbSir/pages/mycenter/z_center_group_detail_page.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../dao/get_next_level_users_dao.dart';
+import '../model/login_result_data_model.dart';
+import '../pages/mycenter/change_member_page.dart';
+import '../pages/mycenter/s_center_group_detail_page.dart';
+import '../pages/mycenter/z_center_group_detail_page.dart';
 
 class TeamsMemberList extends StatefulWidget {
   final myMsg;
-  TeamsMemberList({this.myMsg});
+  const TeamsMemberList({Key? key, this.myMsg}) : super(key: key);
   @override
   _TeamsMemberListState createState() => _TeamsMemberListState();
 }
 
 class _TeamsMemberListState extends State<TeamsMemberList> {
-  var getNextLevelUsersResult;
+  dynamic getNextLevelUsersResult;
   bool hasMember = false;
-  var membersResult;
+  dynamic membersResult;
   List<Widget> members = [];
 
   _load()async{
@@ -42,19 +41,15 @@ class _TeamsMemberListState extends State<TeamsMemberList> {
     }
   }
 
-  LoginResultData userData;
-  String uinfo;
-  var result;
+  LoginResultData? userData;
+  late String uInfo;
 
   _getUserInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    uinfo= prefs.getString("userInfo");
-    if(uinfo != null){
-      result =loginResultDataFromJson(uinfo);
-      this.setState(() {
-        userData=LoginResultData.fromJson(json.decode(uinfo));
-      });
-    }
+    uInfo= prefs.getString("userInfo")!;
+    setState(() {
+      userData=LoginResultData.fromJson(json.decode(uInfo));
+    });
   }
 
   @override
@@ -82,13 +77,13 @@ class _TeamsMemberListState extends State<TeamsMemberList> {
               )));
             },
             child: Container(
-              margin: EdgeInsets.only(bottom: 25),
-              padding: EdgeInsets.only(right: 15),
+              margin: const EdgeInsets.only(bottom: 25),
+              padding: const EdgeInsets.only(right: 15),
               width: 335,
               height: 60,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(12),
-                boxShadow: [BoxShadow(
+                boxShadow: const [BoxShadow(
                     color: Color(0xFFcccccc),
                     offset: Offset(0.0, 3.0),
                     blurRadius: 10.0,
@@ -105,20 +100,20 @@ class _TeamsMemberListState extends State<TeamsMemberList> {
                         width: 60,
                         height: 60,
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.only(
+                          borderRadius: const BorderRadius.only(
                             topRight: Radius.circular(30),
                             bottomRight: Radius.circular(30),
                             topLeft: Radius.circular(12),
                             bottomLeft: Radius.circular(12),
                           ),
-                          color: Color(0xFF93C0FB),
-                          border: Border.all(color: Color(0xFFCCCCCC),width: 1),
+                          color: const Color(0xFF93C0FB),
+                          border: Border.all(color: const Color(0xFFCCCCCC),width: 1),
                         ),
                         child:Padding(
-                          padding: EdgeInsets.only(top: 16),
+                          padding: const EdgeInsets.only(top: 16),
                           child: Text(
                             (members.length+1).toString(),
-                            style:TextStyle(
+                            style:const TextStyle(
                               fontSize: 20,
                               color: Colors.white,
                               fontWeight: FontWeight.normal,
@@ -129,11 +124,11 @@ class _TeamsMemberListState extends State<TeamsMemberList> {
                         ),
                       ),
                       Container(
-                        margin: EdgeInsets.only(left: 20),
+                        margin: const EdgeInsets.only(left: 20),
                         width: 200,
                         child: Text(
                           getNextLevelUsersResult.data == null || item.section == null || item.userName == null?'':item.section+'（ '+item.userName+' ）',
-                          style:TextStyle(
+                          style:const TextStyle(
                             fontSize: 14,
                             color: Color(0xFF666666),
                             fontWeight: FontWeight.normal,
@@ -143,13 +138,17 @@ class _TeamsMemberListState extends State<TeamsMemberList> {
                       ),
                     ],
                   ),
-                  Image(image: AssetImage('images/next.png'),)
+                  const Icon(
+                      Icons.arrow_forward_ios_rounded,
+                      color: Color(0xFF666666),
+                      size: 16
+                  )
                 ],
               ),
             ),
           ),
         );
-      };
+      }
     }
 
     content =Column(
@@ -162,17 +161,17 @@ class _TeamsMemberListState extends State<TeamsMemberList> {
   Widget build(BuildContext context) {
     return Container(
       width: 335,
-      margin: EdgeInsets.only(left: 8,right: 8),
+      margin: const EdgeInsets.only(left: 8,right: 8),
       child: Column(
         children: <Widget>[
           // 组名
           Container(
-            margin: EdgeInsets.only(bottom: 40,top: 5),
+            margin: const EdgeInsets.only(bottom: 40,top: 5),
             width: 335,
             height: 60,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(12),
-              border: Border.all(color:Color(0xFF93C0FB),width: 2),
+              border: Border.all(color:const Color(0xFF6E85D3),width: 2),
               color: Colors.white,
             ),
             child: Row(
@@ -183,16 +182,16 @@ class _TeamsMemberListState extends State<TeamsMemberList> {
                     Container(
                       width: 60,
                       height: 60,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         borderRadius: BorderRadius.only(
                           topRight: Radius.circular(30),
                           bottomRight: Radius.circular(30),
                           topLeft: Radius.circular(10),
                           bottomLeft: Radius.circular(10),
                         ),
-                        color: Color(0xFF93C0FB),
+                        color: Color(0xFF6E85D3),
                       ),
-                      child:Padding(
+                      child:const Padding(
                         padding: EdgeInsets.only(top: 16,left: 10),
                         child: Text(
                           '区域',
@@ -206,10 +205,10 @@ class _TeamsMemberListState extends State<TeamsMemberList> {
                       ),
                     ),
                     Container(
-                      margin: EdgeInsets.only(left: 20),
+                      margin: const EdgeInsets.only(left: 20),
                       child: Text(
                         widget.myMsg.section,
-                        style:TextStyle(
+                        style:const TextStyle(
                           fontSize: 14,
                           color: Color(0xFF666666),
                           fontWeight: FontWeight.normal,
@@ -224,79 +223,77 @@ class _TeamsMemberListState extends State<TeamsMemberList> {
           ),
           // 负责人
           Container(
-            margin: EdgeInsets.only(bottom: 30),
+            margin: const EdgeInsets.only(bottom: 30),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Row(
                   children: <Widget>[
-                    Container(
-                      child: Stack(
-                        children: <Widget>[
-                          Container(
-                            width: 80,
-                            height: 80,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.all(Radius.circular(45)),
-                                color: Colors.white,
-                                border: widget.myMsg.userLevel.substring(0,1) == '2'?
-                                Border.all(color: Color(0xFF7412F2),width: 1) // 副总经理深紫色
-                                :widget.myMsg.userLevel.substring(0,1) == '3'?
-                                Border.all(color: Color(0xFF9149EC),width: 1) // 总监浅紫色
-                                    :
-                                Border.all(color: Color(0xFFFF9600),width: 1), // 商圈经理橘色
-                            ),
-                            child:ClipRRect(
-                              borderRadius: BorderRadius.circular(45),
-                              child: Image(
-                              image: widget.myMsg.headImg == null?
-                              AssetImage('images/my_big.png')
-                              :NetworkImage(widget.myMsg.headImg),
-                            ),
-                            )
+                    Stack(
+                      children: <Widget>[
+                        Container(
+                          width: 80,
+                          height: 80,
+                          decoration: BoxDecoration(
+                              borderRadius: const BorderRadius.all(Radius.circular(45)),
+                              color: Colors.white,
+                              border: widget.myMsg.userLevel.substring(0,1) == '2'?
+                              Border.all(color: const Color(0xFF7412F2),width: 1) // 副总经理深紫色
+                              :widget.myMsg.userLevel.substring(0,1) == '3'?
+                              Border.all(color: const Color(0xFF9149EC),width: 1) // 总监浅紫色
+                                  :
+                              Border.all(color: const Color(0xFFFF9600),width: 1), // 商圈经理橘色
                           ),
-                          Positioned(
-                            top: 60,
-                            left: 10,
-                            child: Container(
-                              width: 60,
-                              height: 20,
-                              decoration: BoxDecoration(
-                                  border: widget.myMsg.userLevel.substring(0,1) == '2'?
-                                  Border.all(color: Color(0xFF7412F2),width: 1) // 副总经理深紫色
-                                      :widget.myMsg.userLevel.substring(0,1) == '3'?
-                                  Border.all(color: Color(0xFF9149EC),width: 1) // 总监浅紫色
-                                      :
-                                  Border.all(color: Color(0xFFFF9600),width: 1), // 商圈经理橘色
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.all(Radius.circular(5))
-                              ),
-                              child: Padding(
-                                padding: EdgeInsets.only(top:2,left:5,right: 5),
-                                child: Text(
-                                  widget.myMsg.userLevel.substring(2,),
-                                  style: TextStyle(
-                                    fontSize: 10,
-                                    color: widget.myMsg.userLevel.substring(0,1) == '2'?
-                                    Color(0xFF7412F2) // 副总经理深紫色
-                                      :widget.myMsg.userLevel.substring(0,1) == '3'?
-                                    Color(0xFF9149EC) // 总监浅紫色
+                          child:ClipRRect(
+                            borderRadius: BorderRadius.circular(45),
+                            child: widget.myMsg.headImg == null?
+                            const Image(
+                            image: AssetImage('images/my_big.png'),
+                          ):
+                            Image(image: NetworkImage(widget.myMsg.headImg)),
+                          )
+                        ),
+                        Positioned(
+                          top: 60,
+                          left: 10,
+                          child: Container(
+                            width: 60,
+                            height: 20,
+                            decoration: BoxDecoration(
+                                border: widget.myMsg.userLevel.substring(0,1) == '2'?
+                                Border.all(color: const Color(0xFF7412F2),width: 1) // 副总经理深紫色
+                                    :widget.myMsg.userLevel.substring(0,1) == '3'?
+                                Border.all(color: const Color(0xFF9149EC),width: 1) // 总监浅紫色
                                     :
-                                    Color(0xFFFF9600), // 商圈经理橘色
-                                    fontWeight: FontWeight.normal,
-                                    decoration: TextDecoration.none,
-                                  ),
-                                  textAlign: TextAlign.center,
-                                  overflow: TextOverflow.clip,
+                                Border.all(color: const Color(0xFFFF9600),width: 1), // 商圈经理橘色
+                                color: Colors.white,
+                                borderRadius: const BorderRadius.all(Radius.circular(5))
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.only(top:2,left:5,right: 5),
+                              child: Text(
+                                widget.myMsg.userLevel.substring(2,),
+                                style: TextStyle(
+                                  fontSize: 10,
+                                  color: widget.myMsg.userLevel.substring(0,1) == '2'?
+                                  const Color(0xFF7412F2) // 副总经理深紫色
+                                    :widget.myMsg.userLevel.substring(0,1) == '3'?
+                                  const Color(0xFF9149EC) // 总监浅紫色
+                                  :
+                                  const Color(0xFFFF9600), // 商圈经理橘色
+                                  fontWeight: FontWeight.normal,
+                                  decoration: TextDecoration.none,
                                 ),
+                                textAlign: TextAlign.center,
+                                overflow: TextOverflow.clip,
                               ),
                             ),
-                          )
-                        ],
-                      ),
+                          ),
+                        )
+                      ],
                     ),
                     Container(
-                      margin: EdgeInsets.only(left: 20),
+                      margin: const EdgeInsets.only(left: 20),
                       width: 150,
                       child: Column(
                         children: <Widget>[
@@ -304,7 +301,7 @@ class _TeamsMemberListState extends State<TeamsMemberList> {
                             children: <Widget>[
                               Text(
                                 widget.myMsg.userName,
-                                style:TextStyle(
+                                style:const TextStyle(
                                   fontSize: 14,
                                   color: Color(0xFF333333),
                                   fontWeight: FontWeight.normal,
@@ -312,18 +309,20 @@ class _TeamsMemberListState extends State<TeamsMemberList> {
                                 ),
                               ),
                               widget.myMsg.isVip == true?
-                              Padding(
-                                padding: EdgeInsets.only(left: 10),
-                                child: Image(image: AssetImage('images/vip_yellow.png'),),
+                              Container(
+                                margin: const EdgeInsets.only(left: 6),
+                                width: 14,
+                                height: 14,
+                                child: const Image(image: AssetImage('images/vip_yellow.png'),),
                               ):Container(width: 1,)
                             ],
                           ),
                           Container(
                             width: 150,
-                            padding: EdgeInsets.only(top: 10),
+                            padding: const EdgeInsets.only(top: 10),
                             child: Text(
                               widget.myMsg.phone,
-                              style:TextStyle(
+                              style:const TextStyle(
                                 fontSize: 10,
                                 color: Color(0xFF999999),
                                 fontWeight: FontWeight.normal,
@@ -338,7 +337,7 @@ class _TeamsMemberListState extends State<TeamsMemberList> {
                 ),
                 GestureDetector(
                   onTap: () async {
-                    if((int.parse(userData.userLevel.substring(0,1))+1) == int.parse(widget.myMsg.userLevel.substring(0,1))){
+                    if((int.parse(userData!.userLevel.substring(0,1))+1) == int.parse(widget.myMsg.userLevel.substring(0,1))){
                       Navigator.push(context, MaterialPageRoute(builder: (context)=>ChangeMemberPage(
                         msg:widget.myMsg,
                       )));
@@ -346,11 +345,11 @@ class _TeamsMemberListState extends State<TeamsMemberList> {
                       _onOtherMemberAlertPressed(context);
                     }
                   },
-                  child: Padding(
+                  child: const Padding(
                     padding: EdgeInsets.only(right: 10),
                     child: Text("更换",style:TextStyle(
                       fontSize: 14,
-                      color: Color(0xFF93C0FB),
+                      color: Color(0xFF6E85D3),
                       fontWeight: FontWeight.normal,
                       decoration: TextDecoration.none,
                     ),),
@@ -364,22 +363,11 @@ class _TeamsMemberListState extends State<TeamsMemberList> {
           memberItem()
           :
           Container(
-              margin: EdgeInsets.only(top: 50),
+              margin: const EdgeInsets.only(top: 50),
               width: 335,
               height: 104,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
-                  boxShadow: [BoxShadow(
-                      color: Color(0xFFcccccc),
-                      offset: Offset(0.0, 3.0),
-                      blurRadius: 10.0,
-                      spreadRadius: 2.0
-                  )
-                  ],
-                  color: Colors.white
-              ),
               child: Column(
-                children: <Widget>[
+                children: const <Widget>[
                   Padding(
                     padding: EdgeInsets.only(top: 25,bottom: 8),
                     child: Text(
@@ -418,12 +406,12 @@ class _TeamsMemberListState extends State<TeamsMemberList> {
       desc: "您仅能更换比您低一层级的直属下级",
       buttons: [
         DialogButton(
-            child: Text(
+            child: const Text(
               "知道了",
               style: TextStyle(color: Colors.white, fontSize: 20),
             ),
             onPressed: (){Navigator.pop(context);},
-            color: Color(0xFF5580EB)
+            color: const Color(0xFF5580EB)
         ),
       ],
     ).show();

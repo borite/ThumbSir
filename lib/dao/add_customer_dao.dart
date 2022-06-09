@@ -4,7 +4,7 @@ import 'package:ThumbSir/model/common_result_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:ThumbSir/utils/common_vars.dart';
 
-const String api_perfix=CommonVars.apiPrefix;
+const String api_perfix=Url.apiPrefix;
 
 class AddCustomerDao{
     static Future<CommonResult> addCustomer(
@@ -78,8 +78,8 @@ class FamilyMember {
     this.memberHobby,
   });
 
-  String memberRole;
-  String memberHobby;
+  String? memberRole;
+  String? memberHobby;
 
   factory FamilyMember.fromJson(Map<String, dynamic> json) => FamilyMember(
     memberRole: json["MemberRole"] == null ? null : json["MemberRole"],
@@ -102,8 +102,8 @@ class DealInfo {
     this.dealTime,
   });
 
-  String dealReason;
-  DateTime dealTime;
+  String? dealReason;
+  DateTime? dealTime;
 
   factory DealInfo.fromJson(Map<String, dynamic> json) => DealInfo(
     dealReason: json["DealReason"] == null ? null : json["DealReason"],
@@ -112,7 +112,7 @@ class DealInfo {
 
   Map<String, dynamic> toJson() => {
     "DealReason": dealReason == null ? null : dealReason,
-    "DealTime": dealTime == null ? null : dealTime.toIso8601String(),
+    "DealTime": dealTime == null ? null : dealTime!.toIso8601String(),
   };
 }
 
@@ -121,7 +121,7 @@ class NeedInfo {
     this.needReason,
   });
 
-  String needReason;
+  String? needReason;
 
   factory NeedInfo.fromJson(Map<String, dynamic> json) => NeedInfo(
     needReason: json["NeedReason"] == null ? null : json["NeedReason"],

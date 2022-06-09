@@ -1,11 +1,12 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:ThumbSir/model/common_result_model.dart';
 import 'package:http/http.dart' as http;
-import 'package:ThumbSir/utils/common_vars.dart';
+
+import '../model/common_result_model.dart';
+import '../utils/common_vars.dart';
 
 //接口地址前缀
-const String apiPerfix=CommonVars.apiPrefix;
+const String apiPerFix=Url.apiPrefix;
 
 
 class CreatMissionDao {
@@ -17,7 +18,7 @@ class CreatMissionDao {
       String userLevel,
       List missionContent
   ) async {
-    List<MissionSubmit> aaa =new List<MissionSubmit>();
+    List<MissionSubmit> aaa =<MissionSubmit>[];
     missionContent.forEach((element) {
       var i=missionSubmitFromJson(element);
       aaa.add(i);
@@ -29,8 +30,9 @@ class CreatMissionDao {
       "UserLevel":userLevel,
       "MissionContent":aaa
     } ;
-    final response = await http.post(apiPerfix+'api/mission/CreatMission',
-        headers: {'Content-type': 'application/json'},
+    var client = http.Client();
+    final response= await client.post(
+        Uri.http(apiPerFix,'/api/mission/CreatMission'),
         body:json.encode(body));
     //Utf8Decoder utf8decoder = Utf8Decoder();  // 修复中文乱码
     //var result = json.decode(utf8decoder.convert(response.bodyBytes));
@@ -48,9 +50,9 @@ String missionSubmitToJson(MissionSubmit data) => json.encode(data.toJson());
 
 class MissionSubmit {
   MissionSubmit({
-    this.id,
-    this.taskTitle,
-    this.taskUnit,
+    required this.id,
+    required this.taskTitle,
+    required this.taskUnit,
   });
 
   String id;
@@ -58,14 +60,14 @@ class MissionSubmit {
   String taskUnit;
 
   factory MissionSubmit.fromJson(Map<String, dynamic> json) => MissionSubmit(
-    id: json["ID"] == null ? null : json["ID"],
-    taskTitle: json["TaskTitle"] == null ? null : json["TaskTitle"],
-    taskUnit: json["TaskUnit"] == null ? null : json["TaskUnit"],
+    id: json["ID"],
+    taskTitle: json["TaskTitle"],
+    taskUnit: json["TaskUnit"],
   );
 
   Map<String, dynamic> toJson() => {
-    "ID": id == null ? null : id,
-    "TaskTitle": taskTitle == null ? null : taskTitle,
-    "TaskUnit": taskUnit == null ? null : taskUnit,
+    "ID": id,
+    "TaskTitle": taskTitle,
+    "TaskUnit": taskUnit,
   };
 }

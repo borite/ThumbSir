@@ -1,11 +1,10 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:ThumbSir/model/add_house_step1_model.dart';
 import 'package:ThumbSir/model/common_result_model.dart';
 import 'package:http/http.dart' as http;
-import 'package:ThumbSir/utils/common_vars.dart';
+import '../utils/common_vars.dart';
 
-const String api_perfix=CommonVars.testApiPrefix;
+const String api_perfix=Url.testApiPrefix;
 
 class AddHouseStep2Dao{
     static Future<CommonResult> addHouseStep2(

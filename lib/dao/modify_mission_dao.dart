@@ -1,12 +1,11 @@
 import 'dart:async';
-import 'package:ThumbSir/model/common_result_model.dart';
-import 'package:ThumbSir/model/modify_pre_check_401_model.dart';
-import 'package:ThumbSir/model/modify_pre_check_402_model.dart';
 import 'package:http/http.dart' as http;
-import 'package:ThumbSir/utils/common_vars.dart';
+
+import '../model/modify_pre_check_402_model.dart';
+import '../utils/common_vars.dart';
 
 //接口地址前缀
-const String apiPerfix=CommonVars.apiPrefix;
+const String apiPerFix=Url.apiPrefix;
 
 class ModifyMissionDao {
   static Future<ModifyPreCheck402> modifyMission(
@@ -22,20 +21,22 @@ class ModifyMissionDao {
       String address,
       String remark,
       ) async {
-    // final response = await http.post(apiPerfix+'api/mission/ModifyMission',body: {
-    final response = await http.post(apiPerfix+'api/mission/ModifyPreCheck',body: {
-      "OldMissionID":oldMissionId,
-      "CompanyID": companyId,
-      "userID": userId,
-      "AdminTaskID":adminTaskId,
-      "UserLevel":userLevel,
-      "PlanningStartTime":planningStartTime,
-      "PlanningEndTime":planningEndTime,
-      "Stars":stars,
-      "PlanningCount":planningCount,
-      "Address":address,
-      "Remark":remark,
-    });
+    var client = http.Client();
+    final response= await client.post(
+        Uri.http(apiPerFix,'/api/mission/ModifyPreCheck'),
+        body: {
+          "OldMissionID":oldMissionId,
+          "CompanyID": companyId,
+          "userID": userId,
+          "AdminTaskID":adminTaskId,
+          "UserLevel":userLevel,
+          "PlanningStartTime":planningStartTime,
+          "PlanningEndTime":planningEndTime,
+          "Stars":stars,
+          "PlanningCount":planningCount,
+          "Address":address,
+          "Remark":remark,
+        });
     //Utf8Decoder utf8decoder = Utf8Decoder();  // 修复中文乱码
     //var result = json.decode(utf8decoder.convert(response.bodyBytes));
     if(response.statusCode == 200){

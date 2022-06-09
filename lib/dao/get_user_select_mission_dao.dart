@@ -1,10 +1,10 @@
 import 'dart:async';
-import 'package:ThumbSir/model/get_user_select_mission_model.dart';
 import 'package:http/http.dart' as http;
-import 'package:ThumbSir/utils/common_vars.dart';
+import '../model/get_user_select_mission_model.dart';
+import '../utils/common_vars.dart';
 
 //接口地址前缀
-const String apiPerfix=CommonVars.apiPrefix;
+const String apiPerFix=Url.apiPrefix;
 
 class GetUserSelectMissionDao {
   static Future<GetUserSelectMission> getMissions(
@@ -13,7 +13,11 @@ class GetUserSelectMissionDao {
       String date,
       ) async {
     final response = await http.get(
-        apiPerfix+'api/mission/GetUserSelectMission?UserID='+userID+'&UserLevel='+userLevel+'&date='+date
+        Uri.http(
+            apiPerFix,
+            '/api/mission/GetUserSelectMission',
+            {'UserID':userID,'UserLevel':userLevel,'date':date}
+        )
     );
     //Utf8Decoder utf8decoder = Utf8Decoder();  // 修复中文乱码
     //var result = json.decode(utf8decoder.convert(response.bodyBytes));
