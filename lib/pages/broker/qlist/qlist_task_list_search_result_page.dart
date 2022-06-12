@@ -4,9 +4,7 @@ import 'package:ThumbSir/model/get_user_select_mission_model.dart';
 import 'package:ThumbSir/model/login_result_data_model.dart';
 import 'package:ThumbSir/widget/qlist_check_item.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:some_calendar/some_calendar.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:jiffy/jiffy.dart';
@@ -22,38 +20,32 @@ class QListTaskListSearchResultPage extends StatefulWidget {
 }
 
 class _QListTaskListSearchResultPageState extends State<QListTaskListSearchResultPage> {
-  DateTime selectedDate;
-  List<DateTime> selectedDates = List();
+  late DateTime selectedDate;
+  List<DateTime> selectedDates = [];
   final _scaffoldKey = GlobalKey<ScaffoldState>();
-
-  LoginResultData userData;
-  String uinfo;
-  var result;
-
-
-  var missionList;
-
+  dynamic missionList;
   List<Datum> missions = [];
   List<Widget> missionsMorningShowList = [];
   List<Widget> msgs=[];
 
+
+  LoginResultData? userData;
+  late String uInfo;
+
   _getUserInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    uinfo= prefs.getString("userInfo");
-    if(uinfo != null){
-      result =loginResultDataFromJson(uinfo);
-      this.setState(() {
-        userData=LoginResultData.fromJson(json.decode(uinfo));
-      });
+    uInfo= prefs.getString("userInfo")!;
+    setState(() {
+      userData=LoginResultData.fromJson(json.decode(uInfo));
+    });
       _load();
-    }
   }
 
   _load() async {
     if(userData != null ){
       missionList = await GetUserSelectMissionDao.getMissions(
-        userData.userPid,
-        userData.userLevel.substring(0,1),
+        userData!.userPid,
+        userData!.userLevel.substring(0,1),
         selectedDate.toIso8601String().substring(0,10),
       );
       if (missionList.code == 200) {
@@ -61,7 +53,7 @@ class _QListTaskListSearchResultPageState extends State<QListTaskListSearchResul
         if (missions.length>0) {
 
           for (var item in missions) {
-            GetMissionRecord m_record= await UserSelectMissionDao.missionRecord(userData.userPid,item.id.toString(),userData.userLevel.substring(0,1));
+            dynamic mRecord= await GetMissionRecordDao.missionRecord(userData!.userPid,item.id.toString(),userData!.userLevel.substring(0,1));
             missionsMorningShowList.add(
 //              name: item.taskName,
 //              number: item.defaultTaskId == 15 || item.defaultTaskId == 16 || item.defaultTaskId == 13? "":item.planningCount.toString()+item.taskUnit,
@@ -85,13 +77,13 @@ class _QListTaskListSearchResultPageState extends State<QListTaskListSearchResul
               QListCheckItem(
                 name: item.taskName,
                 number: item.defaultTaskId == 15 || item.defaultTaskId == 16 || item.defaultTaskId == 13? "":item.planningCount.toString()+item.taskUnit,
-                time: item.planningStartTime.toIso8601String().substring(11,16)+'~'+item.planningEndTime.toIso8601String().substring(11,16),
+                time: item.planningStartTime!.toIso8601String().substring(11,16)+'~'+item.planningEndTime!.toIso8601String().substring(11,16),
                 star: item.stars,
                 percent: item.finishRate,
                 remark: item.remark == null ? '暂无描述':item.remark,
                 address: item.address == null ? '暂未标注地点':item.address,
-                currentAddress: m_record.data==null?"还未上传":m_record.data.address,
-                imgs:m_record.data==null?"":m_record.data.missionImgs
+                currentAddress: mRecord.data==null?"还未上传":mRecord.data.address,
+                imgs:mRecord.data==null?"":mRecord.data.missionImgs, pageIndex: 0,tabIndex: 0,
               ),
             );
           }
@@ -200,28 +192,28 @@ class _QListTaskListSearchResultPageState extends State<QListTaskListSearchResul
                             ),
                             GestureDetector(
                               onTap: () {
-                                showDialog(
-                                    context: context,
-                                    builder: (_) => SomeCalendar(
-                                      primaryColor: Color(0xff93C0FB),
-                                      mode: SomeMode.Single,
-                                      labels: new Labels(
-                                        dialogDone: '确定',
-                                        dialogCancel: '取消',
-                                      ),
-                                      isWithoutDialog: false,
-                                      selectedDate: selectedDate,
-                                      startDate: Jiffy().subtract(years: 3),
-                                      lastDate: Jiffy().add(months: 9),
-                                      textColor: Color(0xFF93C0FB),
-                                      done: (date) {
-                                        setState(() {
-                                          selectedDate = date;
-                                          missionsMorningShowList=[];
-                                          _load();
-                                        });
-                                      },
-                                    ));
+                                // showDialog(
+                                //     context: context,
+                                //     builder: (_) => SomeCalendar(
+                                //       primaryColor: Color(0xff93C0FB),
+                                //       mode: SomeMode.Single,
+                                //       labels: new Labels(
+                                //         dialogDone: '确定',
+                                //         dialogCancel: '取消',
+                                //       ),
+                                //       isWithoutDialog: false,
+                                //       selectedDate: selectedDate,
+                                //       startDate: Jiffy().subtract(years: 3),
+                                //       lastDate: Jiffy().add(months: 9),
+                                //       textColor: Color(0xFF93C0FB),
+                                //       done: (date) {
+                                //         setState(() {
+                                //           selectedDate = date;
+                                //           missionsMorningShowList=[];
+                                //           _load();
+                                //         });
+                                //       },
+                                //     ));
                               },
                               child: Row(
                                 children: <Widget>[

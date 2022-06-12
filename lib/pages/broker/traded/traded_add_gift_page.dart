@@ -3,12 +3,8 @@ import 'package:ThumbSir/common/reg.dart';
 import 'package:ThumbSir/dao/add_care_customer_action_dao.dart';
 import 'package:ThumbSir/dao/add_customer_dao.dart';
 import 'package:ThumbSir/dao/get_customer_info_dao.dart';
-import 'package:ThumbSir/model/get_customer_main_model.dart';
 import 'package:ThumbSir/model/login_result_data_model.dart';
-import 'package:ThumbSir/pages/broker/traded/my_traded_page.dart';
 import 'package:ThumbSir/pages/broker/traded/traded_detail_page.dart';
-import 'package:ThumbSir/pages/manager/traded/m_traded_page.dart';
-import 'package:ThumbSir/pages/manager/traded/s_traded_page.dart';
 import 'package:ThumbSir/widget/input.dart';
 import 'package:ThumbSir/widget/loading.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +16,7 @@ import 'package:rflutter_alert/rflutter_alert.dart';
 class TradedAddGiftPage extends StatefulWidget {
   final item;
 
-  TradedAddGiftPage({Key key,
+  TradedAddGiftPage({Key? key,
     this.item
   }):super(key:key);
   @override
@@ -31,36 +27,32 @@ class _TradedAddGiftPageState extends State<TradedAddGiftPage> {
   bool _loading = false;
 
   final TextEditingController priceController=TextEditingController();
-  String price;
-  RegExp priceReg;
-  bool priceBool;
+  late String price;
+  late RegExp priceReg;
+  bool priceBool = false;
   final TextEditingController giftNameController=TextEditingController();
-  String giftName;
-  RegExp giftNameReg;
+  late String giftName;
+  late RegExp giftNameReg;
   bool giftNameBool = false;
   final TextEditingController remarkController=TextEditingController();
-  RegExp remarkReg;
+  late RegExp remarkReg;
   bool remarkBool = false;
 
   String sendReason = "节日礼";
 
-  List<DealInfo> deal=new List();
+  List<DealInfo> deal=[];
 
   DateTime _selectedDate=DateTime(2021,1,1);
 
-  LoginResultData userData;
-  String uinfo;
-  var result;
+  LoginResultData? userData;
+  late String uInfo;
 
   _getUserInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    uinfo= prefs.getString("userInfo");
-    if(uinfo != null){
-      result =loginResultDataFromJson(uinfo);
-      this.setState(() {
-        userData=LoginResultData.fromJson(json.decode(uinfo));
-      });
-    }
+    uInfo= prefs.getString("userInfo")!;
+    setState(() {
+      userData=LoginResultData.fromJson(json.decode(uInfo));
+    });
   }
 
   @override
@@ -225,7 +217,7 @@ class _TradedAddGiftPageState extends State<TradedAddGiftPage> {
                                 giftName = text;
                                 giftNameBool = priceReg.hasMatch(giftName);
                               });
-                            },
+                            }, password: false,
                           ),
                           // 价格
                           Container(
@@ -249,6 +241,7 @@ class _TradedAddGiftPageState extends State<TradedAddGiftPage> {
                             controller: priceController,
                             inputType: TextInputType.number,
                             reg: priceReg,
+                            password: false,
                             onChanged: (text){
                               setState(() {
                                 price = text;
@@ -315,7 +308,7 @@ class _TradedAddGiftPageState extends State<TradedAddGiftPage> {
                                 if(getItem.code == 200){
                                   _onRefresh();
                                   Navigator.push(context, MaterialPageRoute(builder: (context)=>TradedDetailPage(
-                                    item:getItem.data[0],
+                                    item:getItem.data![0],
                                     tabIndex: 2,
                                   )));
                                 }else {
@@ -332,7 +325,7 @@ class _TradedAddGiftPageState extends State<TradedAddGiftPage> {
                                 height: 40,
                                 padding: EdgeInsets.all(4),
                                 margin: EdgeInsets.only(bottom: 50,top: 40),
-                                decoration: giftNameController.text == null ||giftNameController.text ==""|| priceController.text == null || priceController.text==""?
+                                decoration: giftNameController.text ==""|| priceController.text==""?
                                 BoxDecoration(
                                     border: Border.all(width: 1,color: Color(0xFF93C0FB)),
                                     borderRadius: BorderRadius.circular(8),
@@ -370,7 +363,7 @@ class _TradedAddGiftPageState extends State<TradedAddGiftPage> {
       _loading = !_loading;
     });
   }
-  _onRemarkChanged(String text){
+  _onRemarkChanged(dynamic text){
     if(text != null){
       setState(() {
         remarkBool = remarkReg.hasMatch(remarkController.text);

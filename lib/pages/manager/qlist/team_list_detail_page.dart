@@ -30,19 +30,15 @@ class _TeamListDetailPageState extends State<TeamListDetailPage> {
   var dateTime = DateTime.now().toIso8601String().substring(0,10);
   List<Widget> showList = [];
 
-  LoginResultData userData;
-  String uinfo;
-  var result;
+  LoginResultData? userData;
+  late String uInfo;
 
   _getUserInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    uinfo= prefs.getString("userInfo");
-    if(uinfo != null){
-      result =loginResultDataFromJson(uinfo);
-      this.setState(() {
-        userData=LoginResultData.fromJson(json.decode(uinfo));
-      });
-    }
+    uInfo= prefs.getString("userInfo")!;
+    setState(() {
+      userData=LoginResultData.fromJson(json.decode(uInfo));
+    });
     if(userData != null){
       _load();
     }else{
@@ -53,14 +49,14 @@ class _TeamListDetailPageState extends State<TeamListDetailPage> {
   }
 
   _load()async{
-    var getLeaderResult = await GetLeaderDataDao.httpGetLeaderData(
+    dynamic getLeaderResult = await GetLeaderDataDao.httpGetLeaderData(
         widget.leaderID,
-        userData.companyId,
+        userData!.companyId,
         dateTime
     );
-    var getMemberListResult = await GetNextLiangHuaDao.httpGetNextLiangHua(
+    dynamic getMemberListResult = await GetNextLiangHuaDao.httpGetNextLiangHua(
         widget.leaderID,
-        userData.companyId,
+        userData!.companyId,
         widget.leaderArea,
         dateTime
     );
@@ -212,7 +208,7 @@ class _TeamListDetailPageState extends State<TeamListDetailPage> {
             ),
           ),
         );
-      };
+      }
     }
     content =Column(
       children:showList,
@@ -380,13 +376,12 @@ class _TeamListDetailPageState extends State<TeamListDetailPage> {
                                           ),
                                           child:ClipRRect(
                                               borderRadius: BorderRadius.circular(40),
-                                              child:Image(
-                                                image: leaderInfo != null ?
-                                                leaderInfo.headImg != null ?
-                                                NetworkImage(leaderInfo.headImg)
-                                                    :
-                                                AssetImage('images/my_big.png'):AssetImage('images/my_big.png'),
-                                              )
+                                              child:leaderInfo != null ?
+                                              leaderInfo.headImg != null ?
+                                              Image(
+                                                image: NetworkImage(leaderInfo.headImg)
+                                              ) :Image(image: AssetImage('images/my_big.png'))
+                                                  :Image(image: AssetImage('images/my_big.png'),)
                                           ),
                                         ),
                                         Positioned(

@@ -4,7 +4,7 @@ import 'package:ThumbSir/model/login_result_data_model.dart';
 import 'package:ThumbSir/pages/home.dart';
 import 'package:ThumbSir/pages/manager/qlist/team_list_member_page.dart';
 import 'package:ThumbSir/pages/manager/qlist/view_my_mini_tasks_page.dart';
-import 'package:ThumbSir/pages/mycenter/choose_mini_task_page.dart';
+import 'package:ThumbSir/pages/manager/qlist/choose_mini_task_page.dart';
 import 'package:ThumbSir/pages/mycenter/my_center_page.dart';
 import 'package:ThumbSir/pages/tips/qlist_tips_page.dart';
 import 'package:flutter/material.dart';
@@ -26,19 +26,15 @@ class _GroupListPageState extends State<GroupListPage> {
   List<Widget> showList = [];
   List<Widget> msgs=[];
 
-  LoginResultData userData;
-  String uinfo;
-  var result;
+  LoginResultData? userData;
+  late String uInfo;
 
   _getUserInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    uinfo= prefs.getString("userInfo");
-    if(uinfo != null){
-      result =loginResultDataFromJson(uinfo);
-      this.setState(() {
-        userData=LoginResultData.fromJson(json.decode(uinfo));
-      });
-    }
+    uInfo= prefs.getString("userInfo")!;
+    setState(() {
+      userData=LoginResultData.fromJson(json.decode(uInfo));
+    });
     if(userData != null){
       _load();
     }else{
@@ -49,9 +45,9 @@ class _GroupListPageState extends State<GroupListPage> {
   }
 
   _load()async{
-    var getMemberListResult = await GetLastLevelMembersDao.httpGetLastLevelMembers(
-        userData.userPid,
-        userData.companyId,
+    dynamic getMemberListResult = await GetLastLevelMembersDao.httpGetLastLevelMembers(
+        userData!.userPid,
+        userData!.companyId,
         dateTime
     );
     if(getMemberListResult != null){
@@ -88,12 +84,10 @@ class _GroupListPageState extends State<GroupListPage> {
                               ),
                               child:ClipRRect(
                                   borderRadius: BorderRadius.circular(30),
-                                  child:Image(
-                                    image: item.headImg != null ?
-                                    NetworkImage(item.headImg)
-                                        :
-                                    AssetImage('images/my_big.png'),
-                                  )
+                                  child:item.headImg != null ?
+                                  Image(
+                                    image: NetworkImage(item.headImg),
+                                  ) :Image(image: AssetImage('images/my_big.png'))
                               ),
                             ),
                             Container(
@@ -143,7 +137,7 @@ class _GroupListPageState extends State<GroupListPage> {
                   ),
                 ),
               );
-            };
+            }
           }
           setState(() {
             msgs=showList;
@@ -224,17 +218,10 @@ class _GroupListPageState extends State<GroupListPage> {
                             children: <Widget>[
                               Container(
                                 width: 60,
-                                child: RaisedButton(
-                                  onPressed: (){
+                                child: GestureDetector(
+                                  onTap: (){
                                     Navigator.push(context, MaterialPageRoute(builder: (context)=>QListTipsPage()));
                                   },
-                                  color: Colors.transparent,
-                                  elevation: 0,
-                                  disabledElevation: 0,
-                                  highlightColor: Colors.transparent,
-                                  highlightElevation: 0,
-                                  splashColor: Colors.transparent,
-                                  disabledColor: Colors.transparent,
                                   child: ClipOval(
                                     child: Container(
                                         width: 26,
@@ -258,17 +245,10 @@ class _GroupListPageState extends State<GroupListPage> {
                               Container(
                                 margin: EdgeInsets.only(right: 10),
                                 width: 60,
-                                child: RaisedButton(
-                                  onPressed: (){
+                                child: GestureDetector(
+                                  onTap: (){
                                     Navigator.push(context, MaterialPageRoute(builder: (context)=>MyCenterPage()));
                                   },
-                                  color: Colors.transparent,
-                                  elevation: 0,
-                                  disabledElevation: 0,
-                                  highlightColor: Colors.transparent,
-                                  highlightElevation: 0,
-                                  splashColor: Colors.transparent,
-                                  disabledColor: Colors.transparent,
                                   child: ClipOval(
                                     child: Container(
                                         width: 26,
@@ -337,7 +317,7 @@ class _GroupListPageState extends State<GroupListPage> {
                                   Padding(
                                     padding: EdgeInsets.only(left: 25,right: 15,top: 5),
                                     child: Text(
-                                      userData != null ? userData.section:'',
+                                      userData != null ? userData!.section:'',
                                       style: TextStyle(
                                         decoration: TextDecoration.none,
                                         fontSize: 20,

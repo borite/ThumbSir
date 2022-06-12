@@ -18,20 +18,16 @@ class _QListViewMiniTasksPageState extends State<QListViewMiniTasksPage> {
   List<Widget> missions = [];
   bool _loading = false;
 
-  LoginResultData userData;
-  String uinfo;
-  var result;
+  LoginResultData? userData;
+  late String uInfo;
 
   _getUserInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    uinfo= prefs.getString("userInfo");
-    if(uinfo != null){
-      result =loginResultDataFromJson(uinfo);
-      this.setState(() {
-        userData=LoginResultData.fromJson(json.decode(uinfo));
-      });
-    }
-    if(userData != null && userData.leaderId != null){
+    uInfo= prefs.getString("userInfo")!;
+    setState(() {
+      userData=LoginResultData.fromJson(json.decode(uInfo));
+    });
+    if(userData != null && userData!.leaderId != null){
       _load();
     }else{
       setState(() {
@@ -41,7 +37,7 @@ class _QListViewMiniTasksPageState extends State<QListViewMiniTasksPage> {
   }
 
   _load()async{
-    getMissionAResult = await GetMissionADao.getMissionA(userData.userPid, userData.leaderId, userData.userLevel.substring(0,1), userData.companyId);
+    getMissionAResult = await GetMissionADao.getMissionA(userData!.userPid, userData!.leaderId, userData!.userLevel.substring(0,1), userData!.companyId);
     if(getMissionAResult != null){
       if(getMissionAResult.code == 200){
         setState(() {
@@ -128,7 +124,7 @@ class _QListViewMiniTasksPageState extends State<QListViewMiniTasksPage> {
             ),
           ),
         );
-      };
+      }
     }
     content =Column(
       children: missions,
@@ -178,7 +174,7 @@ class _QListViewMiniTasksPageState extends State<QListViewMiniTasksPage> {
                           ],
                         ),
                       ),
-                      userData != null && userData.leaderId != null ?
+                      userData != null && userData!.leaderId != null ?
                       Column(
                         children: <Widget>[
                           // 查看最低任务

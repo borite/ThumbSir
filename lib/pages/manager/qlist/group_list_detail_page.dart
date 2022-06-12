@@ -28,19 +28,15 @@ class _GroupListDetailPageState extends State<GroupListDetailPage> {
   var dateTime = DateTime.now().toIso8601String().substring(0,10);
   List<Widget> showList = [];
 
-  LoginResultData userData;
-  String uinfo;
-  var result;
+  LoginResultData? userData;
+  late String uInfo;
 
   _getUserInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    uinfo= prefs.getString("userInfo");
-    if(uinfo != null){
-      result =loginResultDataFromJson(uinfo);
-      this.setState(() {
-        userData=LoginResultData.fromJson(json.decode(uinfo));
-      });
-    }
+    uInfo= prefs.getString("userInfo")!;
+    setState(() {
+      userData=LoginResultData.fromJson(json.decode(uInfo));
+    });
     if(userData != null){
       _load();
     }else{
@@ -51,14 +47,14 @@ class _GroupListDetailPageState extends State<GroupListDetailPage> {
   }
 
   _load()async{
-    var getLeaderResult = await GetLeaderDataDao.httpGetLeaderData(
+    dynamic getLeaderResult = await GetLeaderDataDao.httpGetLeaderData(
         widget.leaderID,
-        userData.companyId,
+        userData!.companyId,
         dateTime
     );
-    var getMemberListResult = await GetLastLevelMembersDao.httpGetLastLevelMembers(
+    dynamic getMemberListResult = await GetLastLevelMembersDao.httpGetLastLevelMembers(
         widget.leaderID,
-        userData.companyId,
+        userData!.companyId,
         dateTime
     );
     if(getMemberListResult != null && getLeaderResult != null ){
@@ -125,12 +121,10 @@ class _GroupListDetailPageState extends State<GroupListDetailPage> {
                         ),
                         child:ClipRRect(
                             borderRadius: BorderRadius.circular(30),
-                            child:Image(
-                              image: item.headImg != null ?
-                              NetworkImage(item.headImg)
-                                  :
-                              AssetImage('images/my_big.png'),
-                            )
+                            child:item.headImg != null ?
+                            Image(
+                              image: NetworkImage(item.headImg),
+                            ):Image(image: AssetImage('images/my_big.png'))
                         ),
                       ),
                       Container(
@@ -180,7 +174,7 @@ class _GroupListDetailPageState extends State<GroupListDetailPage> {
             ),
           ),
         );
-      };
+      }
     }
     content =Column(
       children:showList,

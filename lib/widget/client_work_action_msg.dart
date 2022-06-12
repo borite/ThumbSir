@@ -128,7 +128,8 @@ class _ClientWorkActionMsgState extends State<ClientWorkActionMsg> with SingleTi
                                           ),
                                         ),
                                         Text(
-                                          item.actionTime.toString().substring(0,16)??"-",
+                                          // item.actionTime.toString().substring(0,16)??"-",
+                                          item.actionTime.toString().substring(0,16),
                                           style: TextStyle(
                                             fontSize: 14,
                                             color: Color(0xFF666666),

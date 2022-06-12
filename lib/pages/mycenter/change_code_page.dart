@@ -1,13 +1,9 @@
-import 'dart:convert';
-
 import 'package:ThumbSir/dao/check_verify_code_dao.dart';
 import 'package:ThumbSir/dao/modify_user_pwd_dao.dart';
 import 'package:ThumbSir/model/common_result_model.dart';
 import 'package:ThumbSir/pages/mycenter/change_code_finish_page.dart';
 import 'package:ThumbSir/widget/input.dart';
 import 'package:ThumbSir/widget/pyzminput.dart';
-import 'package:ThumbSir/widget/yzminput.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:ThumbSir/common/reg.dart';
@@ -20,28 +16,28 @@ class ChangeCodePage extends StatefulWidget {
 
 class _ChangeCodePageState extends State<ChangeCodePage> {
   final TextEditingController phoneNumController=TextEditingController();
-  String phoneNum;
-  RegExp phoneReg;
-  bool phoneBool;
+  late String phoneNum;
+  late RegExp phoneReg;
+  bool phoneBool = false;
   final TextEditingController passwordController=TextEditingController();
-  String password;
-  RegExp psdReg;
-  bool psdBool;
+  late String password;
+  late RegExp psdReg;
+  bool psdBool = false;
   final TextEditingController verifyCodeController=TextEditingController();
-  String verifyCode;
-  RegExp yzmReg;
-  bool verifyCodeBool;
+  late String verifyCode;
+  late RegExp yzmReg;
+  bool verifyCodeBool = false;
   final TextEditingController newPasswordController=TextEditingController();
-  String newPassword;
-  bool newPsdBool;
+  late String newPassword;
+  bool newPsdBool = false;
   final TextEditingController sNewPasswordController=TextEditingController();
-  String sNewPassword;
-  bool sNewPsdBool;
+  late String sNewPassword;
+  bool sNewPsdBool = false;
 
-  String userId;
+  late String userId;
   _load() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    userId=prefs.getString("userID");
+    userId=prefs.getString("userID")!;
   }
 
   @override
@@ -53,7 +49,7 @@ class _ChangeCodePageState extends State<ChangeCodePage> {
     super.initState();
   }
 
-  String WebAPICookie;
+  late String webAPICookie;
   @override
     Widget build(BuildContext context) {
       return Scaffold(
@@ -120,7 +116,7 @@ class _ChangeCodePageState extends State<ChangeCodePage> {
                                 phoneNum = text;
                                 phoneBool = phoneReg.hasMatch(phoneNum);
                               });
-                            },
+                            }, password: false,
                           ),
                           // 验证码
                           PYZMInput(
@@ -149,6 +145,7 @@ class _ChangeCodePageState extends State<ChangeCodePage> {
                             controller: passwordController,
                             inputType: TextInputType.text,
                             reg: psdReg,
+                            password: false,
                             onChanged: (text){
                               setState(() {
                                 password = text;
@@ -165,6 +162,7 @@ class _ChangeCodePageState extends State<ChangeCodePage> {
                             controller: newPasswordController,
                             inputType: TextInputType.text,
                             reg: psdReg,
+                            password: false,
                             onChanged: (text){
                               setState(() {
                                 newPassword = text;
@@ -181,6 +179,7 @@ class _ChangeCodePageState extends State<ChangeCodePage> {
                             controller: sNewPasswordController,
                             inputType: TextInputType.text,
                             reg: psdReg,
+                            password: false,
                             onChanged: (text){
                               setState(() {
                                 sNewPassword = text;
@@ -217,10 +216,10 @@ class _ChangeCodePageState extends State<ChangeCodePage> {
                             child: GestureDetector(
                               onTap: () async {
                                 if(psdBool == true && newPasswordController.text == newPasswordController.text){
-                                  final CommonResult coderesult=await CheckVerifyCodeDao.checkCode(verifyCode,WebAPICookie);
-                                  if(coderesult != null){
-                                    if(coderesult.code == 200 ){
-                                      final CommonResult modifyKeyResult=await ModifyUserPwdDao.modifyPwd(
+                                  dynamic codeResult=await CheckVerifyCodeDao.checkCode(verifyCode,webAPICookie);
+                                  if(codeResult != null){
+                                    if(codeResult.code == 200 ){
+                                      dynamic modifyKeyResult=await ModifyUserPwdDao.modifyPwd(
                                         newPasswordController.text,
                                         passwordController.text,
                                         userId
@@ -252,7 +251,7 @@ class _ChangeCodePageState extends State<ChangeCodePage> {
   }
   _editParentText(editText,userID) {
     setState(() {
-      WebAPICookie = editText;
+      webAPICookie = editText;
       userId = userID;
     });
   }

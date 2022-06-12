@@ -1,23 +1,12 @@
-import 'dart:convert';
 import 'package:ThumbSir/dao/check_verify_code_dao.dart';
-import 'package:ThumbSir/dao/modify_phone_step1_dao.dart';
 import 'package:ThumbSir/dao/modify_phone_step2_dao.dart';
 import 'package:ThumbSir/model/common_result_model.dart';
-import 'package:ThumbSir/pages/home.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:ThumbSir/common/reg.dart';
-import 'package:ThumbSir/model/login_result_data_model.dart';
-import 'package:ThumbSir/pages/login/signin_choose_company_page.dart';
 import 'package:ThumbSir/pages/mycenter/change_phone_finish_page.dart';
 import 'package:ThumbSir/widget/input.dart';
 import 'package:ThumbSir/widget/pyzminput.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:ThumbSir/model/sendverifycode_model.dart';
-import 'package:ThumbSir/dao/send_verify_code_dao.dart';
-import 'package:ThumbSir/dao/signin_dao.dart';
-import 'package:ThumbSir/model/userreg_model.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class ChangePhoneNewPage extends StatefulWidget {
   final passWord;
@@ -29,15 +18,15 @@ class ChangePhoneNewPage extends StatefulWidget {
 
 class _ChangePhoneNewPageState extends State<ChangePhoneNewPage> {
   final TextEditingController phoneNumController=TextEditingController();
-  String phoneNum;
-  RegExp phoneReg;
-  bool phoneBool;
+  late String phoneNum;
+  late RegExp phoneReg;
+  bool phoneBool = false;
   final TextEditingController verifyCodeController=TextEditingController();
-  String verifyCode;
-  RegExp yzmReg;
-  bool verifyCodeBool;
-  String userId;
-  String WebAPICookie;
+  late String verifyCode;
+  late RegExp yzmReg;
+  bool verifyCodeBool = false;
+  late String userId;
+  late String webAPICookie;
 
   @override
   void initState() {
@@ -124,7 +113,7 @@ class _ChangePhoneNewPageState extends State<ChangePhoneNewPage> {
                                 phoneNum = text;
                                 phoneBool = phoneReg.hasMatch(phoneNum);
                               });
-                            },
+                            }, password: false,
                           ),
                           // 验证码
                           PYZMInput(
@@ -168,7 +157,7 @@ class _ChangePhoneNewPageState extends State<ChangePhoneNewPage> {
                             padding: EdgeInsets.only(top: 4),
                             child: GestureDetector(
                               onTap: () async {
-                                final CommonResult coderesult=await CheckVerifyCodeDao.checkCode(verifyCode,WebAPICookie);
+                                final CommonResult coderesult=await CheckVerifyCodeDao.checkCode(verifyCode,webAPICookie);
                                 if(coderesult != null){
                                   if(coderesult.code == 200 ){
                                     var result = await ModifyPhoneStepTwoDao.modifyPhone2(widget.passWord, phoneNum, widget.userID);
@@ -198,7 +187,7 @@ class _ChangePhoneNewPageState extends State<ChangePhoneNewPage> {
   }
   _editParentText(editText,userID) {
     setState(() {
-      WebAPICookie = editText;
+      webAPICookie = editText;
       userId = widget.userID;
     });
   }

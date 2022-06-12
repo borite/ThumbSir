@@ -21,7 +21,7 @@ class _AnalyzeDetailPageState extends State<AnalyzeDetailPage> with SingleTicker
   var listResult;
 
   _load()async{
-    var getDataResult = await GetSingleMissionDataDao.httpGetSingleMissionData(
+    dynamic getDataResult = await GetSingleMissionDataDao.httpGetSingleMissionData(
       widget.taskId,
       widget.section,
       widget.companyId,
@@ -87,15 +87,12 @@ class _AnalyzeDetailPageState extends State<AnalyzeDetailPage> with SingleTicker
                     ),
                     child: ClipRRect(
                         borderRadius: BorderRadius.circular(30),
-                        child: Image(
-                            image: item.uinfo[0] != null ?
-                            item.uinfo[0].headImg == null ?
-                          AssetImage('images/my_big.png')
-                            :
-                          NetworkImage(item.uinfo[0].headImg)
-                            :
-                        AssetImage('images/my_big.png')
-                        )
+                        child: item.uinfo[0] != null ?
+                        item.uinfo[0].headImg == null ?
+                        Image(
+                            image: AssetImage('images/my_big.png')
+                        ):Image(image: NetworkImage(item.uinfo[0].headImg))
+                            : Image(image: AssetImage('images/my_big.png'))
                     ),
                   ),
                   Column(
@@ -162,7 +159,7 @@ class _AnalyzeDetailPageState extends State<AnalyzeDetailPage> with SingleTicker
               )
           ),
         );
-      };
+      }
     }
     content =Column(
       children:showList,

@@ -3,7 +3,6 @@ import 'package:ThumbSir/common/reg.dart';
 import 'package:ThumbSir/dao/add_family_member_info_dao.dart';
 import 'package:ThumbSir/dao/delete_family_member_info_dao.dart';
 import 'package:ThumbSir/dao/get_customer_info_dao.dart';
-import 'package:ThumbSir/dao/update_family_member_info_dao.dart';
 import 'package:ThumbSir/model/get_customer_main_model.dart';
 import 'package:ThumbSir/model/login_result_data_model.dart';
 import 'package:ThumbSir/pages/broker/traded/traded_detail_page.dart';
@@ -16,7 +15,7 @@ import 'package:rflutter_alert/rflutter_alert.dart';
 class TradedEditFamilyMemberPage extends StatefulWidget {
   final item;
 
-  TradedEditFamilyMemberPage({Key key,
+  TradedEditFamilyMemberPage({Key? key,
     this.item
   }):super(key:key);
   @override
@@ -28,26 +27,22 @@ class _TradedEditFamilyMemberPageState extends State<TradedEditFamilyMemberPage>
   ScrollController _scrollController = ScrollController();
 
   final TextEditingController memberController=TextEditingController();
-  RegExp memberReg;
+  late RegExp memberReg;
   bool memberBool = false;
 
   String memberMinCount = "妻子";
 
-  List member=new List();
+  List member=[];
 
-  LoginResultData userData;
-  String uinfo;
-  var result;
+  LoginResultData? userData;
+  late String uInfo;
 
   _getUserInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    uinfo= prefs.getString("userInfo");
-    if(uinfo != null){
-      result =loginResultDataFromJson(uinfo);
-      this.setState(() {
-        userData=LoginResultData.fromJson(json.decode(uinfo));
-      });
-    }
+    uInfo= prefs.getString("userInfo")!;
+    setState(() {
+      userData=LoginResultData.fromJson(json.decode(uInfo));
+    });
   }
 
   @override
@@ -99,7 +94,7 @@ class _TradedEditFamilyMemberPageState extends State<TradedEditFamilyMemberPage>
                                           if(getItem.code == 200){
                                             _onRefresh();
                                             Navigator.push(context, MaterialPageRoute(builder: (context)=>TradedDetailPage(
-                                              item:getItem.data[0],
+                                              item:getItem.data![0],
                                               tabIndex: 0,
                                             )));
                                           }else {
@@ -340,7 +335,7 @@ class _TradedEditFamilyMemberPageState extends State<TradedEditFamilyMemberPage>
           ),
           onPressed: () async {
             setState(() {
-              var m=new FamilyMember(memberRole: memberMinCount,memberHobby: memberController.text);
+              dynamic m=new FamilyMember(memberRole: memberMinCount,memberHobby: memberController.text);
               member.add(m);
             });
             var addResult = await AddFamilyMemberInfoDao.addFamilyMemberInfo(widget.item.mid.toString(), memberMinCount, memberController.text);
@@ -385,7 +380,7 @@ class _TradedEditFamilyMemberPageState extends State<TradedEditFamilyMemberPage>
               if(getItem.code == 200){
                 _onRefresh();
                 Navigator.push(context, MaterialPageRoute(builder: (context)=>TradedDetailPage(
-                  item:getItem.data[0],
+                  item:getItem.data![0],
                   tabIndex: 0,
                 )));
               }else {
@@ -439,7 +434,7 @@ class _TradedEditFamilyMemberPageState extends State<TradedEditFamilyMemberPage>
       _loading = !_loading;
     });
   }
-  _onMemberChanged(String text){
+  _onMemberChanged(dynamic text){
     if(text != null){
       setState(() {
         memberBool = memberReg.hasMatch(memberController.text);

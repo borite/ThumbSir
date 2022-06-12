@@ -160,15 +160,15 @@ class DealList {
 class FamilyMember {
   FamilyMember({
     this.userInfoMain,
-    required this.id,
-    required this.mid,
+    this.id,
+    this.mid,
     this.memberRole,
     this.memberHobby,
   });
 
   dynamic userInfoMain;
-  int id;
-  int mid;
+  dynamic id;
+  dynamic mid;
   dynamic memberRole;
   dynamic memberHobby;
 

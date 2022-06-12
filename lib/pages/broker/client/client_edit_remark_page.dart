@@ -1,11 +1,9 @@
 import 'dart:convert';
 import 'package:ThumbSir/common/reg.dart';
-import 'package:ThumbSir/dao/get_customer_info_dao.dart';
 import 'package:ThumbSir/dao/get_user_detail_by_id_dao.dart';
 import 'package:ThumbSir/dao/update_customer_dao.dart';
 import 'package:ThumbSir/model/login_result_data_model.dart';
 import 'package:ThumbSir/pages/broker/client/client_detail_page.dart';
-import 'package:ThumbSir/pages/broker/traded/traded_detail_page.dart';
 import 'package:ThumbSir/widget/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -14,7 +12,7 @@ import 'package:rflutter_alert/rflutter_alert.dart';
 class ClientEditRemarkPage extends StatefulWidget {
   final item;
 
-  ClientEditRemarkPage({Key key,
+  ClientEditRemarkPage({Key? key,
     this.item
   }):super(key:key);
   @override
@@ -24,22 +22,18 @@ class ClientEditRemarkPage extends StatefulWidget {
 class _ClientEditRemarkPageState extends State<ClientEditRemarkPage> {
   bool _loading = false;
   final TextEditingController msgController=TextEditingController();
-  RegExp msgReg;
+  late RegExp msgReg;
   bool msgBool = false;
 
-  LoginResultData userData;
-  String uinfo;
-  var result;
+  LoginResultData? userData;
+  late String uInfo;
 
   _getUserInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    uinfo= prefs.getString("userInfo");
-    if(uinfo != null){
-      result =loginResultDataFromJson(uinfo);
-      this.setState(() {
-        userData=LoginResultData.fromJson(json.decode(uinfo));
-      });
-    }
+    uInfo= prefs.getString("userInfo")!;
+    setState(() {
+      userData=LoginResultData.fromJson(json.decode(uInfo));
+    });
   }
 
   @override
@@ -150,8 +144,8 @@ class _ClientEditRemarkPageState extends State<ClientEditRemarkPage> {
                                 _onRefresh();
                                 var addResult = await UpdateCustomerDao.updateCustomer(
                                   widget.item.mid.toString(),
-                                  userData.companyId,
-                                  userData.userPid,
+                                  userData!.companyId,
+                                  userData!.userPid,
                                   "5",
                                   widget.item.userName,
                                   widget.item.sex.toString(),
@@ -172,7 +166,7 @@ class _ClientEditRemarkPageState extends State<ClientEditRemarkPage> {
                                   if(getItem.code == 200){
                                     _onRefresh();
                                     Navigator.push(context, MaterialPageRoute(builder: (context)=>ClientDetailPage(
-                                      item:getItem.data[0],
+                                      item:getItem.data![0],
                                       tabIndex: 0,
                                     )));
                                   }else {
@@ -272,7 +266,7 @@ class _ClientEditRemarkPageState extends State<ClientEditRemarkPage> {
       _loading = !_loading;
     });
   }
-  _onMsgChanged(String text){
+  _onMsgChanged(dynamic text){
     if(text != null){
       setState(() {
         msgBool = msgReg.hasMatch(msgController.text);

@@ -11,7 +11,6 @@ class _ChangeCodeFinishPageState extends State<ChangeCodeFinishPage> {
   final TextEditingController phoneNumController=TextEditingController();
   final TextEditingController passwordController=TextEditingController();
   final TextEditingController verifyCodeController=TextEditingController();
-  String WebAPICookie;
   @override
     Widget build(BuildContext context) {
       return Scaffold(

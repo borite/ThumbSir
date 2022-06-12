@@ -27,19 +27,15 @@ class _TeamAnalyzePageState extends State<TeamAnalyzePage> {
   List<Widget> showList = [];
   List<Widget> msgs=[];
 
-  LoginResultData userData;
-  String uinfo;
-  var result;
+  LoginResultData? userData;
+  late String uInfo;
 
   _getUserInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    uinfo= prefs.getString("userInfo");
-    if(uinfo != null){
-      result =loginResultDataFromJson(uinfo);
-      this.setState(() {
-        userData=LoginResultData.fromJson(json.decode(uinfo));
-      });
-    }
+    uInfo= prefs.getString("userInfo")!;
+    setState(() {
+      userData=LoginResultData.fromJson(json.decode(uInfo));
+    });
     if(userData != null){
       _load();
     }else{
@@ -50,10 +46,10 @@ class _TeamAnalyzePageState extends State<TeamAnalyzePage> {
   }
 
   _load()async{
-    var getMemberListResult = await GetNextLevelListDao.httpGetNextLevelList(
-        userData.userPid,
-        userData.companyId,
-        userData.section,
+    dynamic getMemberListResult = await GetNextLevelListDao.httpGetNextLevelList(
+        userData!.userPid,
+        userData!.companyId,
+        userData!.section,
         dateTime
     );
     if(getMemberListResult != null){
@@ -118,7 +114,7 @@ class _TeamAnalyzePageState extends State<TeamAnalyzePage> {
                             onTap: (){
                               Navigator.push(context, MaterialPageRoute(builder: (context)=>TeamAnalyzeDetailPage(
                                   section:item.teamName,
-                                  companyId:userData.companyId
+                                  companyId:userData!.companyId
                               )));
                             },
                             child: Container(
@@ -166,7 +162,7 @@ class _TeamAnalyzePageState extends State<TeamAnalyzePage> {
                   ),
                 ),
               );
-            };
+            }
           }
           setState(() {
             msgs=showList;
@@ -247,17 +243,10 @@ class _TeamAnalyzePageState extends State<TeamAnalyzePage> {
                                   children: <Widget>[
                                     Container(
                                       width: 60,
-                                      child: RaisedButton(
-                                        onPressed: (){
+                                      child: GestureDetector(
+                                        onTap: (){
                                           Navigator.push(context, MaterialPageRoute(builder: (context)=>QListTipsPage()));
                                         },
-                                        color: Colors.transparent,
-                                        elevation: 0,
-                                        disabledElevation: 0,
-                                        highlightColor: Colors.transparent,
-                                        highlightElevation: 0,
-                                        splashColor: Colors.transparent,
-                                        disabledColor: Colors.transparent,
                                         child: ClipOval(
                                           child: Container(
                                               width: 26,
@@ -281,17 +270,10 @@ class _TeamAnalyzePageState extends State<TeamAnalyzePage> {
                                     Container(
                                       margin: EdgeInsets.only(right: 10),
                                       width: 60,
-                                      child: RaisedButton(
-                                        onPressed: (){
+                                      child: GestureDetector(
+                                        onTap: (){
                                           Navigator.push(context, MaterialPageRoute(builder: (context)=>MyCenterPage()));
                                         },
-                                        color: Colors.transparent,
-                                        elevation: 0,
-                                        disabledElevation: 0,
-                                        highlightColor: Colors.transparent,
-                                        highlightElevation: 0,
-                                        splashColor: Colors.transparent,
-                                        disabledColor: Colors.transparent,
                                         child: ClipOval(
                                           child: Container(
                                               width: 26,
@@ -321,8 +303,8 @@ class _TeamAnalyzePageState extends State<TeamAnalyzePage> {
                         GestureDetector(
                           onTap: (){
                             Navigator.push(context, MaterialPageRoute(builder: (context)=>TeamAnalyzeDetailPage(
-                              section:userData.section,
-                              companyId:userData.companyId
+                              section:userData!.section,
+                              companyId:userData!.companyId
                             )));
                           },
                           child: Row(
@@ -365,7 +347,7 @@ class _TeamAnalyzePageState extends State<TeamAnalyzePage> {
                                       Padding(
                                         padding: EdgeInsets.only(left: 25,right: 15,top: 5),
                                         child: Text(
-                                          userData != null ? userData.section:'',
+                                          userData != null ? userData!.section:'',
                                           style: TextStyle(
                                             decoration: TextDecoration.none,
                                             fontSize: 20,
@@ -398,13 +380,13 @@ class _TeamAnalyzePageState extends State<TeamAnalyzePage> {
                                       height: 20,
                                       decoration: BoxDecoration(
                                           border: userData != null ?
-                                          userData.userLevel.substring(0,1) == '1' ?
+                                          userData!.userLevel.substring(0,1) == '1' ?
                                           Border.all(color: Color(0xFF003273),width: 1) // 总经理深蓝色
-                                              :userData.userLevel.substring(0,1) == '2' ?
+                                              :userData!.userLevel.substring(0,1) == '2' ?
                                           Border.all(color: Color(0xFF7412F2),width: 1) // 副总经理深紫色
-                                              :userData.userLevel.substring(0,1) == '3' ?
+                                              :userData!.userLevel.substring(0,1) == '3' ?
                                           Border.all(color: Color(0xFF9149EC),width: 1) // 总监浅紫色
-                                              :userData.userLevel.substring(0,1) == '4' ?
+                                              :userData!.userLevel.substring(0,1) == '4' ?
                                           Border.all(color: Color(0xFFFF9600),width: 1)// 商圈经理橘色
                                               :
                                           Border.all(color: Color(0xFF24CC8E),width: 1)
@@ -421,13 +403,13 @@ class _TeamAnalyzePageState extends State<TeamAnalyzePage> {
                                           style: TextStyle(
                                             fontSize: 10,
                                             color: userData != null ?
-                                            userData.userLevel.substring(0,1) == '1' ?
+                                            userData!.userLevel.substring(0,1) == '1' ?
                                             Color(0xFF003273) // 总经理深蓝色
-                                                :userData.userLevel.substring(0,1) == '2' ?
+                                                :userData!.userLevel.substring(0,1) == '2' ?
                                             Color(0xFF7412F2) // 副总经理深紫色
-                                                :userData.userLevel.substring(0,1) == '3' ?
+                                                :userData!.userLevel.substring(0,1) == '3' ?
                                             Color(0xFF9149EC) // 总监浅紫色
-                                                :userData.userLevel.substring(0,1) == '4' ?
+                                                :userData!.userLevel.substring(0,1) == '4' ?
                                             Color(0xFFFF9600)// 商圈经理橘色
                                                 :
                                             Color(0xFF24CC8E)// 店长绿色,

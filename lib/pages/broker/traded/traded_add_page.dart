@@ -24,28 +24,28 @@ class _TradedAddPageState extends State<TradedAddPage> {
   bool _loading = false;
 
   final TextEditingController userNameController = TextEditingController();
-  String userName;
-  RegExp nameReg;
-  bool userNameBool;
+  late String userName;
+  late RegExp nameReg;
+  bool userNameBool = false;
   final TextEditingController phoneNumController=TextEditingController();
-  String phoneNum;
-  RegExp phoneReg;
-  bool phoneBool;
+  late String phoneNum;
+  late RegExp phoneReg;
+  bool phoneBool = false;
   final TextEditingController careerController=TextEditingController();
-  String career;
-  RegExp careerReg;
+  late String career;
+  late RegExp careerReg;
   bool careerBool = false;
   final TextEditingController mapController=TextEditingController();
-  RegExp mapReg;
+  late RegExp mapReg;
   bool mapBool = false;
   final TextEditingController likeController=TextEditingController();
-  RegExp likeReg;
+  late RegExp likeReg;
   bool likeBool = false;
   final TextEditingController msgController=TextEditingController();
-  RegExp msgReg;
+  late RegExp msgReg;
   bool msgBool = false;
   final TextEditingController memberController=TextEditingController();
-  RegExp memberReg;
+  late RegExp memberReg;
   bool memberBool = false;
 
   String dealMinCount = "购买住宅";
@@ -53,33 +53,29 @@ class _TradedAddPageState extends State<TradedAddPage> {
   String memberMinCount = "妻子";
   int _starIndex = 0;
 
-  List<DealInfo> deal=new List();
-  List<FamilyMember> member=new List();
+  List<DealInfo> deal=[];
+  List<FamilyMember> member=[];
 
   DateTime _selectedDate=DateTime(2020,1,1);
   DateTime _selectedBirthdayDate=DateTime(1980,1,1);
 
   int _radioGroupA = 0;
 
-  void _handleRadioValueChanged(int value) {
+  _handleRadioValueChanged(int value) {
     setState(() {
       _radioGroupA = value;
     });
   }
 
-  LoginResultData userData;
-  String uinfo;
-  var result;
+  LoginResultData? userData;
+  late String uInfo;
 
   _getUserInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    uinfo= prefs.getString("userInfo");
-    if(uinfo != null){
-      result =loginResultDataFromJson(uinfo);
-      this.setState(() {
-        userData=LoginResultData.fromJson(json.decode(uinfo));
-      });
-    }
+    uInfo= prefs.getString("userInfo")!;
+    setState(() {
+      userData=LoginResultData.fromJson(json.decode(uInfo));
+    });
   }
 
   @override
@@ -187,7 +183,7 @@ class _TradedAddPageState extends State<TradedAddPage> {
                                 userName = text;
                                 userNameBool = nameReg.hasMatch(userName);
                               });
-                            },
+                            }, password: false,
                           ),
                           // 成交历史
                           Container(
@@ -224,7 +220,7 @@ class _TradedAddPageState extends State<TradedAddPage> {
                                                 borderRadius: BorderRadius.only(topLeft: Radius.circular(8),bottomLeft: Radius.circular(8)),
                                               ),
                                               child: Text(
-                                                deal[index].dealReason,
+                                                deal[index].dealReason!,
                                                 style: TextStyle(
                                                   fontSize: 14,
                                                   color: Colors.white,
@@ -243,7 +239,7 @@ class _TradedAddPageState extends State<TradedAddPage> {
                                                   )
                                               ),
                                               child: Text(
-                                                "时间："+deal[index].dealTime.toIso8601String().substring(0,10),
+                                                "时间："+deal[index].dealTime!.toIso8601String().substring(0,10),
                                                 style: TextStyle(
                                                   fontSize: 14,
                                                   color: Color(0xFF5580EB),
@@ -399,7 +395,7 @@ class _TradedAddPageState extends State<TradedAddPage> {
                                 phoneNum = text;
                                 phoneBool = phoneReg.hasMatch(phoneNum);
                               });
-                            },
+                            }, password: false,
                           ),
                           // 客户生日
                           Container(
@@ -458,14 +454,14 @@ class _TradedAddPageState extends State<TradedAddPage> {
                                 RadioListTile(
                                   value: 0,
                                   groupValue: _radioGroupA,
-                                  onChanged: _handleRadioValueChanged,
+                                  onChanged: _handleRadioValueChanged(0),
                                   title: Text('男'),
                                   selected: _radioGroupA == 0,
                                 ),
                                 RadioListTile(
                                   value: 1,
                                   groupValue: _radioGroupA,
-                                  onChanged: _handleRadioValueChanged,
+                                  onChanged: _handleRadioValueChanged(1),
                                   title: Text('女'),
                                   selected: _radioGroupA == 1,
                                 ),
@@ -494,6 +490,7 @@ class _TradedAddPageState extends State<TradedAddPage> {
                             controller: careerController,
                             inputType: TextInputType.text,
                             reg: careerReg,
+                            password: false,
                             onChanged: (text){
                               setState(() {
                                 career = text;
@@ -698,7 +695,7 @@ class _TradedAddPageState extends State<TradedAddPage> {
                                                 ))
                                               ),
                                               child: Text(
-                                                member[index].memberRole,
+                                                member[index].memberRole!,
                                                 style: TextStyle(
                                                   fontSize: 14,
                                                   color: Color(0xFF5580EB),
@@ -712,7 +709,7 @@ class _TradedAddPageState extends State<TradedAddPage> {
                                               width: 210,
                                               padding: EdgeInsets.fromLTRB(20, 0, 10, 3),
                                               child: Text(
-                                                member[index].memberHobby,
+                                                member[index].memberHobby!,
                                                 style: TextStyle(
                                                   fontSize: 14,
                                                   color: Color(0xFF5580EB),
@@ -778,8 +775,8 @@ class _TradedAddPageState extends State<TradedAddPage> {
                               if(userNameBool == true && phoneBool == true && _starIndex != 0 ){
                                 _onRefresh();
                                 var addResult = await AddCustomerDao.addCustomer(
-                                    userData.companyId,
-                                    userData.userPid,
+                                    userData!.companyId,
+                                    userData!.userPid,
                                     "5",
                                     userNameController.text,
                                     _radioGroupA.toString(),
@@ -794,18 +791,17 @@ class _TradedAddPageState extends State<TradedAddPage> {
                                     member,  // 家庭成员
                                     deal,  // 成交历史
                                 );
-                                print(addResult);
                                 if (addResult.code == 200) {
                                   _onRefresh();
-                                  if (userData.userLevel.substring(0, 1) == "6") {
+                                  if (userData!.userLevel.substring(0, 1) == "6") {
                                     Navigator.push(context, MaterialPageRoute(
                                         builder: (context) => MyTradedPage()));
                                   }
-                                  if (userData.userLevel.substring(0, 1) == "4") {
+                                  if (userData!.userLevel.substring(0, 1) == "4") {
                                     Navigator.push(context, MaterialPageRoute(
                                         builder: (context) => STradedPage()));
                                   }
-                                  if (userData.userLevel.substring(0, 1) == "5") {
+                                  if (userData!.userLevel.substring(0, 1) == "5") {
                                     Navigator.push(context, MaterialPageRoute(
                                         builder: (context) => MTradedPage()));
                                   }
@@ -1120,28 +1116,28 @@ class _TradedAddPageState extends State<TradedAddPage> {
       _loading = !_loading;
     });
   }
-  _onMapChanged(String text){
+  _onMapChanged(dynamic text){
     if(text != null){
       setState(() {
         mapBool = mapReg.hasMatch(mapController.text);
       });
     }
   }
-  _onLikeChanged(String text){
+  _onLikeChanged(dynamic text){
     if(text != null){
       setState(() {
         likeBool = likeReg.hasMatch(likeController.text);
       });
     }
   }
-  _onMsgChanged(String text){
+  _onMsgChanged(dynamic text){
     if(text != null){
       setState(() {
         msgBool = msgReg.hasMatch(msgController.text);
       });
     }
   }
-  _onMemberChanged(String text){
+  _onMemberChanged(dynamic text){
     if(text != null){
       setState(() {
         memberBool = memberReg.hasMatch(memberController.text);

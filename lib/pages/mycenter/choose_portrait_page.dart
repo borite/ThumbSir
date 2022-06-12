@@ -9,10 +9,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:ThumbSir/dao/get_direct_sgin_dao.dart';
-import 'package:http/http.dart' as http;
-import 'package:http_parser/http_parser.dart';
-import 'package:ThumbSir/utils/common_vars.dart';
-import 'package:mime/mime.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
@@ -23,13 +19,13 @@ class ChoosePortraitPage extends StatefulWidget {
 
 class _ChoosePortraitPageState extends State<ChoosePortraitPage> {
   final _picker = ImagePicker();
-  File portrait;
-  File _image;
+  dynamic portrait;
+  dynamic _image;
   Future pickImage() async {
-    final image = await _picker.getImage(
+    final image = await _picker.pickImage(
         source: ImageSource.gallery
     );
-    final File img=File(image.path);
+    final File img=File(image!.path);
     setState(() {
       _image = img;
     });
@@ -44,25 +40,22 @@ class _ChoosePortraitPageState extends State<ChoosePortraitPage> {
     });
   }
 
-  LoginResultData userData;
+  LoginResultData? userData;
   int _dateTime = DateTime.now().millisecondsSinceEpoch; // 当前时间转时间戳
-  int exT;
-  String uinfo;
-  var result;
+  late int exT;
+  late String uInfo;
 
   _getUserInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    uinfo= prefs.getString("userInfo");
-    if(uinfo != null){
-      result =loginResultDataFromJson(uinfo);
-      exT = result.exTokenTime.millisecondsSinceEpoch; // token时间转时间戳
-      if(exT >= _dateTime){
-        this.setState(() {
-          userData=LoginResultData.fromJson(json.decode(uinfo));
-        });
-      }else{
-        _onLogoutAlertPressed(context);
-      }
+    uInfo= prefs.getString("userInfo")!;
+    dynamic result =loginResultDataFromJson(uInfo);
+    exT = result.exTokenTime.millisecondsSinceEpoch; // token时间转时间戳
+    if(exT >= _dateTime){
+      this.setState(() {
+        userData=LoginResultData.fromJson(json.decode(uInfo));
+      });
+    }else{
+      _onLogoutAlertPressed(context);
     }
   }
   _onLogoutAlertPressed(context) {
@@ -168,10 +161,10 @@ class _ChoosePortraitPageState extends State<ChoosePortraitPage> {
                             borderRadius: BorderRadius.circular(100),
                             child: userData == null && portrait == null?
                             Image(image: AssetImage('images/my_big.png'),)
-                                :portrait != null && userData != null && userData.headImg != portrait?
+                                :portrait != null && userData != null && userData!.headImg != portrait?
                             Image.file(portrait,fit: BoxFit.fill,)
-                                :userData.headImg != null ?
-                            Image(image:NetworkImage(userData.headImg))
+                                :userData!.headImg != null ?
+                            Image(image:NetworkImage(userData!.headImg))
                                 :Image(image: AssetImage('images/my_big.png'),),
                           ),
                         ),
@@ -216,10 +209,10 @@ class _ChoosePortraitPageState extends State<ChoosePortraitPage> {
                             var sign= await GetDirectSignDao.httpGetSign(fName, '1');
                             if(sign.code==200){
                               FormData formData=new FormData.fromMap({
-                                "OSSAccessKeyId":sign.data.accessId,
-                                "policy":sign.data.policy,
-                                "signature":sign.data.signature,
-                                "key":sign.data.dir+fName,
+                                "OSSAccessKeyId":sign.data!.accessId,
+                                "policy":sign.data!.policy,
+                                "signature":sign.data!.signature,
+                                "key":sign.data!.dir+fName,
                                 "success_action_status":"200",
                                 "file":await MultipartFile.fromFile(portrait.path,filename: fName)
                               });
@@ -228,10 +221,10 @@ class _ChoosePortraitPageState extends State<ChoosePortraitPage> {
                                 if(res.statusCode==200){
                                   SharedPreferences prefs = await SharedPreferences.getInstance();
                                   var userId= prefs.getString("userID");
-                                  var modifyHeadResult = await ModifyHeadDao.modifyHead(sign.data.finalUrl, userId);
+                                  var modifyHeadResult = await ModifyHeadDao.modifyHead(sign.data!.finalUrl, userId!);
                                   if(modifyHeadResult.code == 200){
                                     // 更新token
-                                    var tokenResult = await TokenCheckDao.tokenCheck(userData.token);
+                                    var tokenResult = await TokenCheckDao.tokenCheck(userData!.token);
                                     if(tokenResult.code == 200){
                                       String dataStr=json.encode(tokenResult.data);
                                       prefs.setString("userInfo", dataStr);
@@ -241,9 +234,8 @@ class _ChoosePortraitPageState extends State<ChoosePortraitPage> {
                                 }else{_onNetAlertPressed(context);}
                               } on DioError catch(e){
                                 print(e.message);
-                                print(e.response.data);
-                                print(e.response.headers);
-                                print(e.response.request);
+                                print(e.response!.data);
+                                print(e.response!.headers);
                               }
                               _onRefresh();
                             }

@@ -26,12 +26,12 @@ class _TeamTradedMemberPageState extends State<TeamTradedMemberPage> {
   var reasonValue = "所有";
 
   final TextEditingController searchController = TextEditingController();
-  String search;
-  RegExp searchReg;
-  bool searchBool;
+  late String search;
+  late RegExp searchReg;
+  bool searchBool = false;
 
   List<DropdownMenuItem> getAgeList(){
-    List<DropdownMenuItem> ageLists = new List();
+    List<DropdownMenuItem> ageLists = [];
     DropdownMenuItem ageList1 = new DropdownMenuItem(child: Text('所有'),value: '所有',);
     ageLists.add(ageList1);
     DropdownMenuItem ageList2 = new DropdownMenuItem(child: Text('< 30岁'),value: '< 30岁',);
@@ -46,7 +46,7 @@ class _TeamTradedMemberPageState extends State<TeamTradedMemberPage> {
   }
 
   List<DropdownMenuItem> getMonthList(){
-    List<DropdownMenuItem> monthLists = new List();
+    List<DropdownMenuItem>? monthLists = [];
     DropdownMenuItem ageList1 = new DropdownMenuItem(child: Text('所有'),value: 0,);
     monthLists.add(ageList1);
     DropdownMenuItem ageList2 = new DropdownMenuItem(child: Text('1月'),value: 1,);
@@ -77,7 +77,7 @@ class _TeamTradedMemberPageState extends State<TeamTradedMemberPage> {
   }
 
   List<DropdownMenuItem> getReasonList(){
-    List<DropdownMenuItem> reasonLists = new List();
+    List<DropdownMenuItem> reasonLists = [];
     DropdownMenuItem ageList1 = new DropdownMenuItem(child: Text('所有'),value: '所有',);
     reasonLists.add(ageList1);
     DropdownMenuItem ageList2 = new DropdownMenuItem(child: Text('出售'),value: '出售',);
@@ -134,15 +134,15 @@ class _TeamTradedMemberPageState extends State<TeamTradedMemberPage> {
                 age:item.age,
                 phone:item.phone,
                 birthday:item.birthday.toString().substring(0,10),
-                firstDealReason: item.dealList.length > 0 ?item.dealList[0].dealReason:null,
-                firstDealTime: item.dealList.length > 0 ? item.dealList[0].finishTime.toIso8601String().substring(0,10):null,
-                secondDealReason: item.dealList.length > 1 ?item.dealList[1].dealReason:null,
-                ssecondDealTime: item.dealList.length > 1 ?item.dealList[1].finishTime.toIso8601String().substring(0,10):null,
+                firstDealReason: item.dealList!.length > 0 ?item.dealList![0].dealReason:null,
+                firstDealTime: item.dealList!.length > 0 ? item.dealList![0].finishTime!.toIso8601String().substring(0,10):null,
+                secondDealReason: item.dealList!.length > 1 ?item.dealList![1].dealReason:null,
+                ssecondDealTime: item.dealList!.length > 1 ?item.dealList![1].finishTime!.toIso8601String().substring(0,10):null,
                 giftList: giftList,
                 item:item
             ),
           );
-        };
+        }
       }
       setState(() {
         customers=customersShowList;
@@ -250,7 +250,7 @@ class _TeamTradedMemberPageState extends State<TeamTradedMemberPage> {
                                   fontWeight: FontWeight.normal,
                                   decoration: TextDecoration.none,
                                 ),
-                                onChanged: (T){
+                                onChanged: (dynamic T){
                                   setState(() {
                                     ageValue = T;
                                     customers = [];
@@ -288,7 +288,7 @@ class _TeamTradedMemberPageState extends State<TeamTradedMemberPage> {
                                   fontWeight: FontWeight.normal,
                                   decoration: TextDecoration.none,
                                 ),
-                                onChanged: (T){
+                                onChanged: (dynamic T){
                                   setState(() {
                                     monthValue = T;
                                     customers = [];
@@ -326,7 +326,7 @@ class _TeamTradedMemberPageState extends State<TeamTradedMemberPage> {
                                   fontWeight: FontWeight.normal,
                                   decoration: TextDecoration.none,
                                 ),
-                                onChanged: (T){
+                                onChanged: (dynamic T){
                                   setState(() {
                                     reasonValue = T;
                                     customers = [];
@@ -346,7 +346,7 @@ class _TeamTradedMemberPageState extends State<TeamTradedMemberPage> {
                     Container(
                         margin: EdgeInsets.only(bottom: 60),
                         child:
-                        customersList!=null && customersList.length != 0 && customers != []?
+                        customersList!=[] && customersList.length != 0 && customers != []?
                         ListView.builder(
                           controller: _scrollController,
                           shrinkWrap: true,

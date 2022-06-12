@@ -16,7 +16,7 @@ class TradedDetailPage extends StatefulWidget {
   final item;
   final tabIndex;
 
-  TradedDetailPage({Key key,
+  TradedDetailPage({Key? key,
     this.item,this.tabIndex
   }):super(key:key);
   @override
@@ -24,26 +24,20 @@ class TradedDetailPage extends StatefulWidget {
 }
 
 class _TradedDetailPageState extends State<TradedDetailPage> with TickerProviderStateMixin {
-  bool _loading = false;
-
-  TabController _controller;
+  late TabController _controller;
   //0基本信息，1成交信息，2维护动作的Tab Index
   int tabIndex=0;
-  var tabs = [];
+  dynamic tabs;
 
-  LoginResultData userData;
-  String uinfo;
-  var result;
+  LoginResultData? userData;
+  late String uInfo;
 
   _getUserInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    uinfo= prefs.getString("userInfo");
-    if(uinfo != null){
-      result =loginResultDataFromJson(uinfo);
-      this.setState(() {
-        userData=LoginResultData.fromJson(json.decode(uinfo));
-      });
-    }
+    uInfo= prefs.getString("userInfo")!;
+    setState(() {
+      userData=LoginResultData.fromJson(json.decode(uInfo));
+    });
   }
 
   @override
@@ -107,15 +101,15 @@ class _TradedDetailPageState extends State<TradedDetailPage> with TickerProvider
                               children: <Widget>[
                                 GestureDetector(
                                   onTap: (){
-                                    if (userData.userLevel.substring(0, 1) == "6") {
+                                    if (userData!.userLevel.substring(0, 1) == "6") {
                                       Navigator.push(context, MaterialPageRoute(
                                           builder: (context) => MyTradedPage()));
                                     }
-                                    if (userData.userLevel.substring(0, 1) == "4") {
+                                    if (userData!.userLevel.substring(0, 1) == "4") {
                                       Navigator.push(context, MaterialPageRoute(
                                           builder: (context) => STradedPage()));
                                     }
-                                    if (userData.userLevel.substring(0, 1) == "5") {
+                                    if (userData!.userLevel.substring(0, 1) == "5") {
                                       Navigator.push(context, MaterialPageRoute(
                                           builder: (context) => MTradedPage()));
                                     }
@@ -209,15 +203,15 @@ class _TradedDetailPageState extends State<TradedDetailPage> with TickerProvider
               widget.item.mid.toString()
             );
             if (deleteResult.code == 200) {
-              if (userData.userLevel.substring(0, 1) == "6") {
+              if (userData!.userLevel.substring(0, 1) == "6") {
                 Navigator.push(context, MaterialPageRoute(
                     builder: (context) => MyTradedPage()));
               }
-              if (userData.userLevel.substring(0, 1) == "4") {
+              if (userData!.userLevel.substring(0, 1) == "4") {
                 Navigator.push(context, MaterialPageRoute(
                     builder: (context) => STradedPage()));
               }
-              if (userData.userLevel.substring(0, 1) == "5") {
+              if (userData!.userLevel.substring(0, 1) == "5") {
                 Navigator.push(context, MaterialPageRoute(
                     builder: (context) => MTradedPage()));
               }

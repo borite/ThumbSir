@@ -18,7 +18,7 @@ class TradedEditDealPage extends StatefulWidget {
   final item;
   final dealItem;
 
-  TradedEditDealPage({Key key,
+  TradedEditDealPage({Key? key,
     this.item,this.dealItem
   }):super(key:key);
   @override
@@ -29,39 +29,35 @@ class _TradedEditDealPageState extends State<TradedEditDealPage> {
   bool _loading = false;
 
   final TextEditingController priceController=TextEditingController();
-  String price;
-  RegExp priceReg;
-  bool priceBool;
+  late String price;
+  late RegExp priceReg;
+  bool priceBool = false;
   final TextEditingController areaController=TextEditingController();
-  String area;
-  RegExp areaReg;
+  late String area;
+  late RegExp areaReg;
   bool areaBool = false;
   final TextEditingController mapController=TextEditingController();
-  RegExp mapReg;
+  late RegExp mapReg;
   bool mapBool = false;
   final TextEditingController remarkController=TextEditingController();
-  RegExp remarkReg;
+  late RegExp remarkReg;
   bool remarkBool = false;
 
   String dealMinCount = "购买住宅";
 
-  List<DealInfo> deal=new List();
+  List<DealInfo> deal=[];
 
   DateTime _selectedDate=DateTime(2020,1,1);
 
-  LoginResultData userData;
-  String uinfo;
-  var result;
+  LoginResultData? userData;
+  late String uInfo;
 
   _getUserInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    uinfo= prefs.getString("userInfo");
-    if(uinfo != null){
-      result =loginResultDataFromJson(uinfo);
-      this.setState(() {
-        userData=LoginResultData.fromJson(json.decode(uinfo));
-      });
-    }
+    uInfo= prefs.getString("userInfo")!;
+    setState(() {
+      userData=LoginResultData.fromJson(json.decode(uInfo));
+    });
   }
 
   @override
@@ -250,7 +246,7 @@ class _TradedEditDealPageState extends State<TradedEditDealPage> {
                                 price = text;
                                 priceBool = priceReg.hasMatch(price);
                               });
-                            },
+                            }, password: false,
                           ),
                           // 面积
                           Container(
@@ -273,6 +269,7 @@ class _TradedEditDealPageState extends State<TradedEditDealPage> {
                             rightText: "请输入面积",
                             controller: areaController,
                             inputType: TextInputType.number,
+                            password: false,
                             reg: areaReg,
                             onChanged: (text){
                               setState(() {
@@ -373,10 +370,10 @@ class _TradedEditDealPageState extends State<TradedEditDealPage> {
                                   widget.item.mid.toString(),
                                   dealMinCount,
                                   _selectedDate.toIso8601String(),
-                                  mapController.text == null?"":mapController.text,
-                                  areaController.text == null ?"":areaController.text,
-                                  priceController.text == null ?"":priceController.text,
-                                remarkController.text == null ?"":remarkController.text,
+                                  mapController.text,
+                                  areaController.text,
+                                  priceController.text,
+                                remarkController.text,
                               );
                               if(addResult.code == 200){
                                 _onRefresh();
@@ -384,7 +381,7 @@ class _TradedEditDealPageState extends State<TradedEditDealPage> {
                                 if(getItem.code == 200){
                                   _onRefresh();
                                   Navigator.push(context, MaterialPageRoute(builder: (context)=>TradedDetailPage(
-                                    item:getItem.data[0],
+                                    item:getItem.data![0],
                                     tabIndex: 1,
                                   )));
                                 }else {
@@ -430,11 +427,9 @@ class _TradedEditDealPageState extends State<TradedEditDealPage> {
     });
   }
   _onMapChanged(String text){
-    if(text != null){
-      setState(() {
-        mapBool = mapReg.hasMatch(mapController.text);
-      });
-    }
+    setState(() {
+      mapBool = mapReg.hasMatch(mapController.text);
+    });
   }
   _deleteAlertPressed(context) {
     Alert(
@@ -458,7 +453,7 @@ class _TradedEditDealPageState extends State<TradedEditDealPage> {
               if(getItem.code == 200){
                 _onRefresh();
                 Navigator.push(context, MaterialPageRoute(builder: (context)=>TradedDetailPage(
-                  item:getItem.data[0],
+                  item:getItem.data![0],
                   tabIndex: 1,
                 )));
               }else {
@@ -483,11 +478,9 @@ class _TradedEditDealPageState extends State<TradedEditDealPage> {
     ).show();
   }
   _onRemarkChanged(String text){
-    if(text != null){
-      setState(() {
-        remarkBool = remarkReg.hasMatch(remarkController.text);
-      });
-    }
+    setState(() {
+      remarkBool = remarkReg.hasMatch(remarkController.text);
+    });
   }
   _onOverLoadPressed(context) {
     Alert(

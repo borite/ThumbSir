@@ -158,17 +158,17 @@ class Act {
 class FamilyMember {
   FamilyMember({
     this.userInfoMain,
-    required this.id,
-    required this.mid,
+    this.id,
+    this.mid,
     this.memberRole,
     this.memberHobby,
   });
 
   dynamic userInfoMain;
-  int id;
-  int mid;
-  String? memberRole;
-  String? memberHobby;
+  dynamic id;
+  dynamic mid;
+  dynamic memberRole;
+  dynamic memberHobby;
 
   factory FamilyMember.fromJson(Map<String, dynamic> json) => FamilyMember(
     userInfoMain: json["UserInfoMain"],

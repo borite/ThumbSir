@@ -22,23 +22,19 @@ class _ChangeMemberSearchPageState extends State<ChangeMemberSearchPage> {
   var phoneShowState = 0;
 
   final TextEditingController phoneNumController=TextEditingController();
-  String phoneNum;
-  RegExp phoneReg;
-  bool phoneBool;
+  late String phoneNum;
+  late RegExp phoneReg;
+  bool phoneBool = false;
 
-  LoginResultData userData;
-  String uinfo;
-  var result;
+  LoginResultData? userData;
+  late String uInfo;
 
   _getUserInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    uinfo= prefs.getString("userInfo");
-    if(uinfo != null){
-      result =loginResultDataFromJson(uinfo);
-      this.setState(() {
-        userData=LoginResultData.fromJson(json.decode(uinfo));
-      });
-    }
+    uInfo= prefs.getString("userInfo")!;
+    this.setState(() {
+      userData=LoginResultData.fromJson(json.decode(uInfo));
+    });
   }
 
   @override
@@ -90,7 +86,7 @@ class _ChangeMemberSearchPageState extends State<ChangeMemberSearchPage> {
                         )
                     ),
 
-                    userData != null &&userData.userLevel.substring(0,1) != '6'?
+                    userData != null &&userData!.userLevel.substring(0,1) != '6'?
                     //找下级输入手机号
                     Container(
                       width: 335,
@@ -106,7 +102,7 @@ class _ChangeMemberSearchPageState extends State<ChangeMemberSearchPage> {
                       ),
                     )
                     :Container(height: 1,),
-                    userData != null &&userData.userLevel.substring(0,1) != '6'?
+                    userData != null &&userData!.userLevel.substring(0,1) != '6'?
                     Container(
                       width: 350,
                       height: 80,
@@ -125,7 +121,7 @@ class _ChangeMemberSearchPageState extends State<ChangeMemberSearchPage> {
                                 phoneNum = text;
                                 phoneBool = phoneReg.hasMatch(phoneNum);
                               });
-                            },
+                            }, password: false,
                           ),
                           Positioned(
                               left: 300,
@@ -169,7 +165,7 @@ class _ChangeMemberSearchPageState extends State<ChangeMemberSearchPage> {
                         children: <Widget>[
                           GestureDetector(
                             onTap: (){
-                              if(int.parse(userData.userLevel.substring(0,1))+1 == int.parse(phoneResultData.userLevel.substring(0,1))){
+                              if(int.parse(userData!.userLevel.substring(0,1))+1 == int.parse(phoneResultData.userLevel.substring(0,1))){
                                 _onChooseMemberAlertPressed(context);
                               }else{
                                 _onChooseMemberLevelAlertPressed(context);
@@ -195,12 +191,10 @@ class _ChangeMemberSearchPageState extends State<ChangeMemberSearchPage> {
                                         ),
                                         child:ClipRRect(
                                           borderRadius: BorderRadius.circular(30),
-                                          child: Image(
-                                            image:phoneResultData.headImg != null?
-                                            NetworkImage(phoneResultData.headImg)
-                                                :
-                                            AssetImage('images/my_big.png'),
-                                          ),
+                                          child: phoneResultData.headImg != null?
+                                          Image(
+                                            image: NetworkImage(phoneResultData.headImg),
+                                          ):Image(image: AssetImage('images/my_big.png'),)
                                         ),
                                       ),
                                       Container(

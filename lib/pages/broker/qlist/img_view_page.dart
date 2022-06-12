@@ -14,7 +14,7 @@ class ImgViewPage extends StatefulWidget {
   final bool canDel;
   final userid,taskid;
   final userlevel;
-  ImgViewPage({Key key,this.imglist,this.canDel,this.userid,this.userlevel,this.taskid }):super(key:key);
+  ImgViewPage({Key? key,this.imglist,required this.canDel,this.userid,this.userlevel,this.taskid }):super(key:key);
   @override
   _ImgViewPageState createState() => _ImgViewPageState();
 }
@@ -32,7 +32,6 @@ class _ImgViewPageState extends State<ImgViewPage> {
     super.initState();
     print(widget.userid);
     for(String url in widget.imglist){
-      print("abcdef");
       imgList.add(url);
     }
   }
@@ -119,7 +118,7 @@ class _ImgViewPageState extends State<ImgViewPage> {
                           print(m_record);
                           if(m_record.code==200) {
                             print("单个删除图片成功");
-                            GetMissionRecord mr= await UserSelectMissionDao.missionRecord(widget.userid,widget.taskid,widget.userlevel.substring(0,1));
+                            GetMissionRecord mr= await GetMissionRecordDao.missionRecord(widget.userid,widget.taskid,widget.userlevel.substring(0,1));
                             if(mr.code==200){
                               print("重新获取任务记录");
                               List<String> leftImg=[];
@@ -138,7 +137,7 @@ class _ImgViewPageState extends State<ImgViewPage> {
                                   Navigator.push(context, MaterialPageRoute(builder: (context)=>MajorQListPage()));
                                 }
                               }else{
-                                for(String missImg in mr.data.missionImgs.split('|')){
+                                for(String missImg in mr.data!.missionImgs!.split('|')){
                                   if(missImg!="") {
                                     leftImg.add(missImg);
                                   }

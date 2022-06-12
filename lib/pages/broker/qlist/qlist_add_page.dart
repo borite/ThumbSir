@@ -9,6 +9,7 @@ import 'package:ThumbSir/model/choose_item_model.dart';
 import 'package:ThumbSir/pages/broker/qlist/qlist_page.dart';
 import 'package:ThumbSir/pages/manager/qlist/manager_qlist_page.dart';
 import 'package:ThumbSir/pages/manager/qlist/s_qlist_page.dart';
+import 'package:chips_choice_null_safety/chips_choice_null_safety.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:ThumbSir/model/get_default_task_model.dart';
 import 'package:ThumbSir/model/login_result_data_model.dart';
@@ -16,7 +17,6 @@ import 'package:ThumbSir/pages/broker/qlist/qlist_view_mini_tasks_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_time_picker_spinner/flutter_time_picker_spinner.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:chips_choice/chips_choice.dart';
 
 class QListAddPage extends StatefulWidget {
   final date;
@@ -27,11 +27,11 @@ class QListAddPage extends StatefulWidget {
 
 class _QListAddPageState extends State<QListAddPage> {
   final TextEditingController remarkController=TextEditingController();
-  RegExp remarkReg;
+  late RegExp remarkReg;
   bool remarkBool = false;
   final TextEditingController mapController=TextEditingController();
   final TextEditingController countController=TextEditingController();
-  RegExp mapReg;
+  late RegExp mapReg;
   bool mapBool = false;
   String chooseId = "-1";
   String chooseUnit = "";
@@ -39,22 +39,18 @@ class _QListAddPageState extends State<QListAddPage> {
 
   String tag = "1";
 
-  LoginResultData userData;
-  String uinfo;
-  var result;
+  LoginResultData? userData;
+  late String uInfo;
 
   _getUserInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    uinfo= prefs.getString("userInfo");
-    if(uinfo != null){
-      result =loginResultDataFromJson(uinfo);
-      this.setState(() {
-        userData=LoginResultData.fromJson(json.decode(uinfo));
-      });
-    }
+    uInfo= prefs.getString("userInfo")!;
+    setState(() {
+      userData=LoginResultData.fromJson(json.decode(uInfo));
+    });
   }
   _load() async {
-    var taskList = await GetDefaultTaskDao.httpGetDefaultTask();
+    dynamic taskList = await GetDefaultTaskDao.httpGetDefaultTask();
     if (taskList.code == 200) {
       setState(() {
         tasks = taskList.data;
@@ -68,13 +64,13 @@ class _QListAddPageState extends State<QListAddPage> {
   List<Datum> tasks = [];
   List<Widget> tasksShowList = [];
 
-  DateTime startTime;
-  DateTime endTime;
+  late DateTime startTime;
+  late DateTime endTime;
   int _starIndex = 3;
   int itemCount = 1;
   bool isRemark = false;
   bool isMap = false;
-  List taskList;
+  late List taskList;
 
   var searchResult;
   var deleteResult;
@@ -258,12 +254,12 @@ class _QListAddPageState extends State<QListAddPage> {
                       title: '可选的任务名称（ 单选 ）',
                       child: ChipsChoice<String>.single(
                         value: tag,
-                        options:  ChipsChoiceOption.listFrom<String,Datum>(
-                          source: tasks,
-                          // 存储形式
-                          value:(index,item)=>'{"id":"'+item.id.toString()+'","TaskTitle":"'+item.taskName+'","TaskUnit":"'+item.taskUnit+'"}',
-                          // 展示形式
-                          label: (index,item)=>item.taskName
+                        choiceItems:  C2Choice.listFrom<String,Datum>(
+                            source: tasks,
+                            // 存储形式
+                            value:(index,item)=>'{"id":"'+item.id.toString()+'","TaskTitle":"'+item.taskName+'","TaskUnit":"'+item.taskUnit+'"}',
+                            // 展示形式
+                            label: (index,item)=>item.taskName
                         ),
                         onChanged: (val){
                           setState((){
@@ -274,13 +270,16 @@ class _QListAddPageState extends State<QListAddPage> {
                             chooseTaskName = item.taskTitle;
                           });
                         },
-                        itemConfig: ChipsChoiceItemConfig(
-                          selectedColor: Color(0xFF5580EB),
-                          selectedBrightness: Brightness.dark,
-                          unselectedColor: Color(0xFF5580EB),
-                          unselectedBorderOpacity: .3,
+                        choiceStyle: const C2ChoiceStyle(
+                          color: Color(0xFF5580EB),
+                          borderOpacity: .3,
                         ),
-                        isWrapped: true,
+                        choiceActiveStyle: const C2ChoiceStyle(
+                          color: Color(0xFFFFFFFF),
+                          backgroundColor: Color(0xFF5580EB),
+                          borderOpacity: .3,
+                        ),
+                        wrapped: true,
                       ),
                     ):Container(height: 1,),
                     // 若选择其他描述必填提示
@@ -919,11 +918,11 @@ class _QListAddPageState extends State<QListAddPage> {
                             if (chooseId == "15" || chooseId == "16") {
                               var checkResult1516 = await CreatePreCheckDao
                                   .modifyMission(
-                                userData.companyId,
-                                userData.userPid,
+                                userData!.companyId,
+                                userData!.userPid,
                                 chooseId,
                                 // adminTaskId,
-                                userData.userLevel.substring(0, 1),
+                                userData!.userLevel.substring(0, 1),
                                 startTime.toIso8601String(),
                                 endTime.toIso8601String(),
                                 _starIndex.toString(),
@@ -935,11 +934,11 @@ class _QListAddPageState extends State<QListAddPage> {
                               if (checkResult1516.code == 200){
                                 var result1516 = await UserSelectMissionDao
                                     .selectMission(
-                                  userData.companyId,
-                                  userData.userPid,
+                                  userData!.companyId,
+                                  userData!.userPid,
                                   chooseId,
                                   // adminTaskId,
-                                  userData.userLevel.substring(0, 1),
+                                  userData!.userLevel.substring(0, 1),
                                   startTime.toIso8601String(),
                                   endTime.toIso8601String(),
                                   _starIndex.toString(),
@@ -949,15 +948,15 @@ class _QListAddPageState extends State<QListAddPage> {
                                   remarkController.text,
                                 );
                                 if(result1516.code == 200){
-                                  if (userData.userLevel.substring(0, 1) == "6") {
+                                  if (userData!.userLevel.substring(0, 1) == "6") {
                                     Navigator.push(context, MaterialPageRoute(
                                         builder: (context) => QListPage()));
                                   }
-                                  if (userData.userLevel.substring(0, 1) == "4") {
+                                  if (userData!.userLevel.substring(0, 1) == "4") {
                                     Navigator.push(context, MaterialPageRoute(
                                         builder: (context) => SQListPage()));
                                   }
-                                  if (userData.userLevel.substring(0, 1) == "5") {
+                                  if (userData!.userLevel.substring(0, 1) == "5") {
                                     Navigator.push(context, MaterialPageRoute(
                                         builder: (context) => ManagerQListPage()));
                                   }
@@ -985,11 +984,11 @@ class _QListAddPageState extends State<QListAddPage> {
 
                             if (chooseId == "13") {
                               var searchResult13 = await CreatePreCheckDao.modifyMission(
-                                userData.companyId,
-                                userData.userPid,
+                                userData!.companyId,
+                                userData!.userPid,
                                 chooseId,
                                 // adminTaskId,
-                                userData.userLevel.substring(0, 1),
+                                userData!.userLevel.substring(0, 1),
                                 startTime.toIso8601String().substring(0, 11) +
                                     '00:00:00.000000',
                                 endTime.toIso8601String().substring(0, 11) +
@@ -1003,11 +1002,11 @@ class _QListAddPageState extends State<QListAddPage> {
                               if (searchResult13.code == 200){
                                 var result13 = await UserSelectMissionDao
                                     .selectMission(
-                                  userData.companyId,
-                                  userData.userPid,
+                                  userData!.companyId,
+                                  userData!.userPid,
                                   chooseId,
                                   // adminTaskId,
-                                  userData.userLevel.substring(0, 1),
+                                  userData!.userLevel.substring(0, 1),
                                   startTime.toIso8601String().substring(0, 11) +
                                       '00:00:00.000000',
                                   endTime.toIso8601String().substring(0, 11) +
@@ -1019,15 +1018,15 @@ class _QListAddPageState extends State<QListAddPage> {
                                   remarkController.text,
                                 );
                                 if(result13.code == 200){
-                                  if (userData.userLevel.substring(0, 1) == "6") {
+                                  if (userData!.userLevel.substring(0, 1) == "6") {
                                     Navigator.push(context, MaterialPageRoute(
                                         builder: (context) => QListPage()));
                                   }
-                                  if (userData.userLevel.substring(0, 1) == "4") {
+                                  if (userData!.userLevel.substring(0, 1) == "4") {
                                     Navigator.push(context, MaterialPageRoute(
                                         builder: (context) => SQListPage()));
                                   }
-                                  if (userData.userLevel.substring(0, 1) == "5") {
+                                  if (userData!.userLevel.substring(0, 1) == "5") {
                                     Navigator.push(context, MaterialPageRoute(
                                         builder: (context) => ManagerQListPage()));
                                   }
@@ -1056,11 +1055,11 @@ class _QListAddPageState extends State<QListAddPage> {
                             if (chooseId == "12" && isRemark == true &&
                                 remarkController.text != '') {
                               var searchResult12 = await CreatePreCheckDao.modifyMission(
-                                userData.companyId,
-                                userData.userPid,
+                                userData!.companyId,
+                                userData!.userPid,
                                 chooseId,
                                 // adminTaskId,
-                                userData.userLevel.substring(0, 1),
+                                userData!.userLevel.substring(0, 1),
                                 startTime.toIso8601String(),
                                 endTime.toIso8601String(),
                                 _starIndex.toString(),
@@ -1072,11 +1071,11 @@ class _QListAddPageState extends State<QListAddPage> {
                               if (searchResult12.code == 200){
                                 var result12 = await UserSelectMissionDao
                                     .selectMission(
-                                  userData.companyId,
-                                  userData.userPid,
+                                  userData!.companyId,
+                                  userData!.userPid,
                                   chooseId,
                                   // adminTaskId,
-                                  userData.userLevel.substring(0, 1),
+                                  userData!.userLevel.substring(0, 1),
                                   startTime.toIso8601String(),
                                   endTime.toIso8601String(),
                                   _starIndex.toString(),
@@ -1086,15 +1085,15 @@ class _QListAddPageState extends State<QListAddPage> {
                                   remarkController.text,
                                 );
                                 if(result12.code == 200){
-                                  if (userData.userLevel.substring(0, 1) == "6") {
+                                  if (userData!.userLevel.substring(0, 1) == "6") {
                                     Navigator.push(context, MaterialPageRoute(
                                         builder: (context) => QListPage()));
                                   }
-                                  if (userData.userLevel.substring(0, 1) == "4") {
+                                  if (userData!.userLevel.substring(0, 1) == "4") {
                                     Navigator.push(context, MaterialPageRoute(
                                         builder: (context) => SQListPage()));
                                   }
-                                  if (userData.userLevel.substring(0, 1) == "5") {
+                                  if (userData!.userLevel.substring(0, 1) == "5") {
                                     Navigator.push(context, MaterialPageRoute(
                                         builder: (context) => ManagerQListPage()));
                                   }
@@ -1125,11 +1124,11 @@ class _QListAddPageState extends State<QListAddPage> {
                                 chooseId != "16" && _starIndex != 0) {
                               var searchOtherResult = await CreatePreCheckDao
                                   .modifyMission(
-                                userData.companyId,
-                                userData.userPid,
+                                userData!.companyId,
+                                userData!.userPid,
                                 chooseId,
                                 // adminTaskId,
-                                userData.userLevel.substring(0, 1),
+                                userData!.userLevel.substring(0, 1),
                                 startTime.toIso8601String(),
                                 endTime.toIso8601String(),
                                 _starIndex.toString(),
@@ -1140,11 +1139,11 @@ class _QListAddPageState extends State<QListAddPage> {
                               );
                               if (searchOtherResult.code == 200){
                                 var resultOther = await UserSelectMissionDao.selectMission(
-                                  userData.companyId,
-                                  userData.userPid,
+                                  userData!.companyId,
+                                  userData!.userPid,
                                   chooseId,
                                   // adminTaskId,
-                                  userData.userLevel.substring(0, 1),
+                                  userData!.userLevel.substring(0, 1),
                                   startTime.toIso8601String(),
                                   endTime.toIso8601String(),
                                   _starIndex.toString(),
@@ -1154,15 +1153,15 @@ class _QListAddPageState extends State<QListAddPage> {
                                   remarkController.text,
                                 );
                                 if(resultOther.code == 200){
-                                  if (userData.userLevel.substring(0, 1) == "6") {
+                                  if (userData!.userLevel.substring(0, 1) == "6") {
                                     Navigator.push(context, MaterialPageRoute(
                                         builder: (context) => QListPage()));
                                   }
-                                  if (userData.userLevel.substring(0, 1) == "4") {
+                                  if (userData!.userLevel.substring(0, 1) == "4") {
                                     Navigator.push(context, MaterialPageRoute(
                                         builder: (context) => SQListPage()));
                                   }
-                                  if (userData.userLevel.substring(0, 1) == "5") {
+                                  if (userData!.userLevel.substring(0, 1) == "5") {
                                     Navigator.push(context, MaterialPageRoute(
                                         builder: (context) => ManagerQListPage()));
                                   }
@@ -1305,14 +1304,14 @@ class _QListAddPageState extends State<QListAddPage> {
       },
     );
   }
-  _onChanged(String text){
+  _onChanged(dynamic text){
     if(text != null){
       setState(() {
         remarkBool = remarkReg.hasMatch(remarkController.text);
       });
     }
   }
-  _onMapChanged(String text){
+  _onMapChanged(dynamic text){
     if(text != null){
       setState(() {
         mapBool = mapReg.hasMatch(mapController.text);
@@ -1679,13 +1678,13 @@ class _QListAddPageState extends State<QListAddPage> {
           onPressed: ()async{
             // 循环调用删除和修改
             // 修改自己
-            var resultSelfCreate = await UserSelectMissionDao
+            dynamic resultSelfCreate = await UserSelectMissionDao
                 .selectMission(
-              userData.companyId,
-              userData.userPid,
+              userData!.companyId,
+              userData!.userPid,
               chooseId,
               // adminTaskId,
-              userData.userLevel.substring(0, 1),
+              userData!.userLevel.substring(0, 1),
               chooseId != '13' ? startTime.toIso8601String():startTime.toIso8601String().substring(0, 11) + '00:00:00.000000',
               chooseId != '13' ? endTime.toIso8601String():startTime.toIso8601String().substring(0, 11) + '00:00:00.000000',
               _starIndex.toString(),
@@ -1739,15 +1738,15 @@ class _QListAddPageState extends State<QListAddPage> {
                 && resultSelfCreate.code == 200
                 && deleteResult.code == 200
                 && modifyResult.code == 200){
-              if (userData.userLevel.substring(0, 1) == "6") {
+              if (userData!.userLevel.substring(0, 1) == "6") {
                 Navigator.push(context, MaterialPageRoute(
                     builder: (context) => QListPage()));
               }
-              if (userData.userLevel.substring(0, 1) == "4") {
+              if (userData!.userLevel.substring(0, 1) == "4") {
                 Navigator.push(context, MaterialPageRoute(
                     builder: (context) => SQListPage()));
               }
-              if (userData.userLevel.substring(0, 1) == "5") {
+              if (userData!.userLevel.substring(0, 1) == "5") {
                 Navigator.push(context, MaterialPageRoute(
                     builder: (context) => ManagerQListPage()));
               }
@@ -1757,15 +1756,15 @@ class _QListAddPageState extends State<QListAddPage> {
                 && searchResult.data.delPlans.length == 0
                 && resultSelfCreate.code == 200
                 && modifyResult.code == 200){
-              if (userData.userLevel.substring(0, 1) == "6") {
+              if (userData!.userLevel.substring(0, 1) == "6") {
                 Navigator.push(context, MaterialPageRoute(
                     builder: (context) => QListPage()));
               }
-              if (userData.userLevel.substring(0, 1) == "4") {
+              if (userData!.userLevel.substring(0, 1) == "4") {
                 Navigator.push(context, MaterialPageRoute(
                     builder: (context) => SQListPage()));
               }
-              if (userData.userLevel.substring(0, 1) == "5") {
+              if (userData!.userLevel.substring(0, 1) == "5") {
                 Navigator.push(context, MaterialPageRoute(
                     builder: (context) => ManagerQListPage()));
               }
@@ -1775,15 +1774,15 @@ class _QListAddPageState extends State<QListAddPage> {
                 && searchResult.data.delPlans.length != 0
                 && resultSelfCreate.code == 200
                 && deleteResult.code == 200){
-              if (userData.userLevel.substring(0, 1) == "6") {
+              if (userData!.userLevel.substring(0, 1) == "6") {
                 Navigator.push(context, MaterialPageRoute(
                     builder: (context) => QListPage()));
               }
-              if (userData.userLevel.substring(0, 1) == "4") {
+              if (userData!.userLevel.substring(0, 1) == "4") {
                 Navigator.push(context, MaterialPageRoute(
                     builder: (context) => SQListPage()));
               }
-              if (userData.userLevel.substring(0, 1) == "5") {
+              if (userData!.userLevel.substring(0, 1) == "5") {
                 Navigator.push(context, MaterialPageRoute(
                     builder: (context) => ManagerQListPage()));
               }
@@ -1870,9 +1869,9 @@ class Content extends StatelessWidget {
   final Widget child;
 
   Content({
-    Key key,
-    @required this.title,
-    @required this.child,
+    Key? key,
+    required this.title,
+    required this.child,
   }) : super(key: key);
 
   @override

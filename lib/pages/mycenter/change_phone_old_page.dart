@@ -1,18 +1,13 @@
 import 'dart:convert';
-
 import 'package:ThumbSir/common/reg.dart';
 import 'package:ThumbSir/dao/check_verify_code_dao.dart';
 import 'package:ThumbSir/dao/modify_phone_step1_dao.dart';
-import 'package:ThumbSir/model/common_result_model.dart';
 import 'package:ThumbSir/model/login_result_data_model.dart';
-import 'package:ThumbSir/model/sendverifycode_model.dart';
 import 'package:ThumbSir/widget/input.dart';
 import 'package:ThumbSir/widget/pyzminput.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
-
 import '../home.dart';
 import 'change_phone_new_page.dart';
 
@@ -23,45 +18,42 @@ class ChangePhoneOldPage extends StatefulWidget {
 
 class _ChangePhoneOldPageState extends State<ChangePhoneOldPage> {
   final TextEditingController phoneNumController=TextEditingController();
-  String phoneNum;
-  RegExp phoneReg;
-  bool phoneBool;
+  late String phoneNum;
+  late RegExp phoneReg;
+  bool phoneBool =false;
   final TextEditingController passwordController=TextEditingController();
-  String password;
-  RegExp psdReg;
-  bool psdBool;
+  late String password;
+  late RegExp psdReg;
+  bool psdBool = false;
   final TextEditingController verifyCodeController=TextEditingController();
-  String verifyCode;
-  RegExp yzmReg;
-  bool verifyCodeBool;
-  String userId;
+  late String verifyCode;
+  late RegExp yzmReg;
+  bool verifyCodeBool = false;
+  late String userId;
 
-  String WebAPICookie;
+  late String webAPICookie;
 
-  LoginResultData userData;
+  LoginResultData? userData;
   int _dateTime = DateTime.now().millisecondsSinceEpoch; // 当前时间转时间戳
-  int exT;
-  String uinfo;
-  var result;
+  late int exT;
+  late String uInfo;
   _getUserInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    uinfo= prefs.getString("userInfo");
-    if(uinfo != null){
-      result =loginResultDataFromJson(uinfo);
-      exT = result.exTokenTime.millisecondsSinceEpoch; // token时间转时间戳
-      if(exT >= _dateTime){
-        this.setState(() {
-          userData=LoginResultData.fromJson(json.decode(uinfo));
-        });
-      }else{
-        _onLogoutAlertPressed(context);
-      }
+    uInfo= prefs.getString("userInfo")!;
+    dynamic result =loginResultDataFromJson(uInfo);
+    exT = result.exTokenTime.millisecondsSinceEpoch; // token时间转时间戳
+    if(exT >= _dateTime){
+      this.setState(() {
+        userData=LoginResultData.fromJson(json.decode(uInfo));
+      });
+    }else{
+      _onLogoutAlertPressed(context);
     }
   }
 
   _load()async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    userId= prefs.getString("userID");
+    userId= prefs.getString("userID")!;
   }
 
   @override
@@ -148,7 +140,7 @@ class _ChangePhoneOldPageState extends State<ChangePhoneOldPage> {
                                   ),
                                 ),
                                 Text(
-                                  userData == null ?'':userData.phone.substring(0,3)+'****'+userData.phone.substring(7,),
+                                  userData == null ?'':userData!.phone.substring(0,3)+'****'+userData!.phone.substring(7,),
                                   style:TextStyle(
                                     fontSize: 14,
                                     color: Color(0xFF2692FD),
@@ -179,7 +171,7 @@ class _ChangePhoneOldPageState extends State<ChangePhoneOldPage> {
                                 password = text;
                                 psdBool = psdReg.hasMatch(password);
                               });
-                            },
+                            }, password: false,
                           ),
                           //手机号码
                           Input(
@@ -190,6 +182,7 @@ class _ChangePhoneOldPageState extends State<ChangePhoneOldPage> {
                             controller: phoneNumController,
                             inputType: TextInputType.phone,
                             reg: phoneReg,
+                            password: false,
                             onChanged: (text){
                               setState(() {
                                 phoneNum = text;
@@ -241,12 +234,12 @@ class _ChangePhoneOldPageState extends State<ChangePhoneOldPage> {
                             padding: EdgeInsets.only(top: 4),
                             child: GestureDetector(
                               onTap: () async {
-                                final CommonResult coderesult=await CheckVerifyCodeDao.checkCode(verifyCode,WebAPICookie);
-                                if(coderesult != null){
-                                  if(coderesult.code == 200 ){
+                                dynamic codeResult=await CheckVerifyCodeDao.checkCode(verifyCode,webAPICookie);
+                                if(codeResult != null){
+                                  if(codeResult.code == 200 ){
                                     SharedPreferences prefs = await SharedPreferences.getInstance();
                                     final userId= prefs.getString("userID");
-                                    var result = await ModifyPhoneStepOneDao.modifyPhone1(password, phoneNum, userId);
+                                    var result = await ModifyPhoneStepOneDao.modifyPhone1(password, phoneNum, userId!);
                                     if(result.code==200) {
                                       Navigator.push(context, MaterialPageRoute(builder: (context)=>ChangePhoneNewPage(
                                         passWord:password,
@@ -356,7 +349,7 @@ class _ChangePhoneOldPageState extends State<ChangePhoneOldPage> {
   }
   _editParentText(editText,userID) {
     setState(() {
-      WebAPICookie = editText;
+      webAPICookie = editText;
       userId = userID;
     });
   }

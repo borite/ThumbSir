@@ -12,7 +12,7 @@ import 'package:rflutter_alert/rflutter_alert.dart';
 class TradedEditRemarkPage extends StatefulWidget {
   final item;
 
-  TradedEditRemarkPage({Key key,
+  TradedEditRemarkPage({Key? key,
     this.item
   }):super(key:key);
   @override
@@ -22,22 +22,18 @@ class TradedEditRemarkPage extends StatefulWidget {
 class _TradedEditRemarkPageState extends State<TradedEditRemarkPage> {
   bool _loading = false;
   final TextEditingController msgController=TextEditingController();
-  RegExp msgReg;
+  late RegExp msgReg;
   bool msgBool = false;
 
-  LoginResultData userData;
-  String uinfo;
-  var result;
+  LoginResultData? userData;
+  late String uInfo;
 
   _getUserInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    uinfo= prefs.getString("userInfo");
-    if(uinfo != null){
-      result =loginResultDataFromJson(uinfo);
-      this.setState(() {
-        userData=LoginResultData.fromJson(json.decode(uinfo));
-      });
-    }
+    uInfo= prefs.getString("userInfo")!;
+    setState(() {
+      userData=LoginResultData.fromJson(json.decode(uInfo));
+    });
   }
 
   @override
@@ -148,8 +144,8 @@ class _TradedEditRemarkPageState extends State<TradedEditRemarkPage> {
                                 _onRefresh();
                                 var addResult = await UpdateCustomerDao.updateCustomer(
                                   widget.item.mid.toString(),
-                                  userData.companyId,
-                                  userData.userPid,
+                                  userData!.companyId,
+                                  userData!.userPid,
                                   "5",
                                   widget.item.userName,
                                   widget.item.sex.toString(),
@@ -170,7 +166,7 @@ class _TradedEditRemarkPageState extends State<TradedEditRemarkPage> {
                                   if(getItem.code == 200){
                                     _onRefresh();
                                     Navigator.push(context, MaterialPageRoute(builder: (context)=>TradedDetailPage(
-                                      item:getItem.data[0],
+                                      item:getItem.data![0],
                                       tabIndex: 0,
                                     )));
                                   }else {

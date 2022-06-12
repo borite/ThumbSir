@@ -44,7 +44,8 @@ class _SQListPageState extends State<SQListPage> with SingleTickerProviderStateM
                 height: 26,
                 child: Image(image:AssetImage('images/listicon_s.png'),),
               ),
-              title: Text('个人量化',style: TextStyle(color:_currentIndex != 0? _defaultColor : _activeColor,))
+              // title: Text('个人量化',style: TextStyle(color:_currentIndex != 0? _defaultColor : _activeColor,))
+              label: '个人量化'
             ),
             BottomNavigationBarItem(
               icon: Container(
@@ -55,12 +56,14 @@ class _SQListPageState extends State<SQListPage> with SingleTickerProviderStateM
                 height:26,
                 child:Image(image:AssetImage('images/analyze_s.png')),
               ),
-              title: Text('个人分析',style: TextStyle(color:_currentIndex != 1? _defaultColor : _activeColor,)),
+              // title: Text('个人分析',style: TextStyle(color:_currentIndex != 1? _defaultColor : _activeColor,)),
+              label: '个人分析'
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.list,color: Colors.grey,),
               activeIcon:Icon(Icons.list,color:Colors.blue,),
-              title: Text('新增任务',style: TextStyle(color:_currentIndex != 2? _defaultColor : _activeColor,)),
+              // title: Text('新增任务',style: TextStyle(color:_currentIndex != 2? _defaultColor : _activeColor,)),
+              label: '新增任务'
             ),
             BottomNavigationBarItem(
                 icon: Container(
@@ -71,7 +74,8 @@ class _SQListPageState extends State<SQListPage> with SingleTickerProviderStateM
                   height: 29,
                   child: Image(image:AssetImage('images/teamlisticon_s.png'),),
                 ),
-                title: Text('团队量化',style: TextStyle(color:_currentIndex != 3? _defaultColor : _activeColor,))
+                // title: Text('团队量化',style: TextStyle(color:_currentIndex != 3? _defaultColor : _activeColor,))
+              label: '团队量化'
             ),
             BottomNavigationBarItem(
               icon: Container(
@@ -82,7 +86,8 @@ class _SQListPageState extends State<SQListPage> with SingleTickerProviderStateM
                 height: 29,
                 child: Image(image:AssetImage('images/teamanalyze_s.png')),
               ),
-              title: Text('团队分析',style: TextStyle(color:_currentIndex != 4? _defaultColor : _activeColor,)),
+              // title: Text('团队分析',style: TextStyle(color:_currentIndex != 4? _defaultColor : _activeColor,)),
+              label: '团队分析'
             ),
           ],
         ),

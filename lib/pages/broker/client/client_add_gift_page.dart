@@ -2,14 +2,8 @@ import 'dart:convert';
 import 'package:ThumbSir/common/reg.dart';
 import 'package:ThumbSir/dao/add_care_customer_action_dao.dart';
 import 'package:ThumbSir/dao/add_customer_dao.dart';
-import 'package:ThumbSir/dao/get_customer_info_dao.dart';
-import 'package:ThumbSir/model/get_customer_main_model.dart';
 import 'package:ThumbSir/model/login_result_data_model.dart';
 import 'package:ThumbSir/pages/broker/client/client_detail_page.dart';
-import 'package:ThumbSir/pages/broker/traded/my_traded_page.dart';
-import 'package:ThumbSir/pages/broker/traded/traded_detail_page.dart';
-import 'package:ThumbSir/pages/manager/traded/m_traded_page.dart';
-import 'package:ThumbSir/pages/manager/traded/s_traded_page.dart';
 import 'package:ThumbSir/widget/input.dart';
 import 'package:ThumbSir/widget/loading.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +15,7 @@ import 'package:rflutter_alert/rflutter_alert.dart';
 class ClientAddGiftPage extends StatefulWidget {
   final item;
 
-  ClientAddGiftPage({Key key,
+  ClientAddGiftPage({Key? key,
     this.item
   }):super(key:key);
   @override
@@ -32,36 +26,32 @@ class _ClientAddGiftPageState extends State<ClientAddGiftPage> {
   bool _loading = false;
 
   final TextEditingController priceController=TextEditingController();
-  String price;
-  RegExp priceReg;
-  bool priceBool;
+  late String price;
+  late RegExp priceReg;
+  bool priceBool = false;
   final TextEditingController giftNameController=TextEditingController();
-  String giftName;
-  RegExp giftNameReg;
+  late String giftName;
+  late RegExp giftNameReg;
   bool giftNameBool = false;
   final TextEditingController remarkController=TextEditingController();
-  RegExp remarkReg;
+  late RegExp remarkReg;
   bool remarkBool = false;
 
   String sendReason = "节日礼";
 
-  List<DealInfo> deal=new List();
+  List<DealInfo> deal=[];
 
   DateTime _selectedDate=DateTime(2021,1,1);
 
-  LoginResultData userData;
-  String uinfo;
-  var result;
+  LoginResultData? userData;
+  late String uInfo;
 
   _getUserInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    uinfo= prefs.getString("userInfo");
-    if(uinfo != null){
-      result =loginResultDataFromJson(uinfo);
-      this.setState(() {
-        userData=LoginResultData.fromJson(json.decode(uinfo));
-      });
-    }
+    uInfo= prefs.getString("userInfo")!;
+    setState(() {
+      userData=LoginResultData.fromJson(json.decode(uInfo));
+    });
   }
 
   @override
@@ -226,7 +216,7 @@ class _ClientAddGiftPageState extends State<ClientAddGiftPage> {
                                 giftName = text;
                                 giftNameBool = priceReg.hasMatch(giftName);
                               });
-                            },
+                            }, password: false,
                           ),
                           // 价格
                           Container(
@@ -250,6 +240,7 @@ class _ClientAddGiftPageState extends State<ClientAddGiftPage> {
                             controller: priceController,
                             inputType: TextInputType.number,
                             reg: priceReg,
+                            password: false,
                             onChanged: (text){
                               setState(() {
                                 price = text;
@@ -364,7 +355,7 @@ class _ClientAddGiftPageState extends State<ClientAddGiftPage> {
       _loading = !_loading;
     });
   }
-  _onRemarkChanged(String text){
+  _onRemarkChanged(dynamic text){
     if(text != null){
       setState(() {
         remarkBool = remarkReg.hasMatch(remarkController.text);

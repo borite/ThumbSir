@@ -3,12 +3,8 @@ import 'package:ThumbSir/common/reg.dart';
 import 'package:ThumbSir/dao/add_customer_dao.dart';
 import 'package:ThumbSir/dao/add_deal_record_dao.dart';
 import 'package:ThumbSir/dao/get_customer_info_dao.dart';
-import 'package:ThumbSir/model/get_customer_main_model.dart';
 import 'package:ThumbSir/model/login_result_data_model.dart';
-import 'package:ThumbSir/pages/broker/traded/my_traded_page.dart';
 import 'package:ThumbSir/pages/broker/traded/traded_detail_page.dart';
-import 'package:ThumbSir/pages/manager/traded/m_traded_page.dart';
-import 'package:ThumbSir/pages/manager/traded/s_traded_page.dart';
 import 'package:ThumbSir/widget/input.dart';
 import 'package:ThumbSir/widget/loading.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +16,7 @@ import 'package:rflutter_alert/rflutter_alert.dart';
 class TradedAddDealPage extends StatefulWidget {
   final item;
 
-  TradedAddDealPage({Key key,
+  TradedAddDealPage({Key? key,
     this.item
   }):super(key:key);
   @override
@@ -31,39 +27,35 @@ class _TradedAddDealPageState extends State<TradedAddDealPage> {
   bool _loading = false;
 
   final TextEditingController priceController=TextEditingController();
-  String price;
-  RegExp priceReg;
-  bool priceBool;
+  late String price;
+  late RegExp priceReg;
+  bool priceBool = false;
   final TextEditingController areaController=TextEditingController();
-  String area;
-  RegExp areaReg;
+  late String area;
+  late RegExp areaReg;
   bool areaBool = false;
   final TextEditingController mapController=TextEditingController();
-  RegExp mapReg;
+  late RegExp mapReg;
   bool mapBool = false;
   final TextEditingController remarkController=TextEditingController();
-  RegExp remarkReg;
+  late RegExp remarkReg;
   bool remarkBool = false;
 
   String dealMinCount = "购买住宅";
 
-  List<DealInfo> deal=new List();
+  List<DealInfo> deal=[];
 
   DateTime _selectedDate=DateTime(2020,1,1);
 
-  LoginResultData userData;
-  String uinfo;
-  var result;
+  LoginResultData? userData;
+  late String uInfo;
 
   _getUserInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    uinfo= prefs.getString("userInfo");
-    if(uinfo != null){
-      result =loginResultDataFromJson(uinfo);
-      this.setState(() {
-        userData=LoginResultData.fromJson(json.decode(uinfo));
-      });
-    }
+    uInfo= prefs.getString("userInfo")!;
+    setState(() {
+      userData=LoginResultData.fromJson(json.decode(uInfo));
+    });
   }
 
   @override
@@ -231,7 +223,7 @@ class _TradedAddDealPageState extends State<TradedAddDealPage> {
                                 price = text;
                                 priceBool = priceReg.hasMatch(price);
                               });
-                            },
+                            }, password: false,
                           ),
                           // 面积
                           Container(
@@ -255,6 +247,7 @@ class _TradedAddDealPageState extends State<TradedAddDealPage> {
                             controller: areaController,
                             inputType: TextInputType.number,
                             reg: areaReg,
+                            password: false,
                             onChanged: (text){
                               setState(() {
                                 area = text;
@@ -364,7 +357,7 @@ class _TradedAddDealPageState extends State<TradedAddDealPage> {
                                 if(getItem.code == 200){
                                   _onRefresh();
                                   Navigator.push(context, MaterialPageRoute(builder: (context)=>TradedDetailPage(
-                                    item:getItem.data[0],
+                                    item:getItem.data![0],
                                     tabIndex: 1,
                                   )));
                                 }else {
@@ -409,14 +402,14 @@ class _TradedAddDealPageState extends State<TradedAddDealPage> {
       _loading = !_loading;
     });
   }
-  _onMapChanged(String text){
+  _onMapChanged(dynamic text){
     if(text != null){
       setState(() {
         mapBool = mapReg.hasMatch(mapController.text);
       });
     }
   }
-  _onRemarkChanged(String text){
+  _onRemarkChanged(dynamic text){
     if(text != null){
       setState(() {
         remarkBool = remarkReg.hasMatch(remarkController.text);

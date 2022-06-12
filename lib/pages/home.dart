@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:ThumbSir/dao/check_lates_version_dao.dart';
 import 'package:ThumbSir/dao/get_message_dao.dart';
 import 'package:ThumbSir/dao/token_check_dao.dart';
 import 'package:ThumbSir/model/login_result_data_model.dart';
@@ -7,7 +6,6 @@ import 'package:ThumbSir/model/get_message_model.dart';
 import 'package:ThumbSir/pages/broker/client/my_client_page.dart';
 import 'package:ThumbSir/pages/broker/qlist/qlist_page.dart';
 import 'package:ThumbSir/pages/broker/traded/my_traded_page.dart';
-import 'package:ThumbSir/pages/house/house_list_page.dart';
 import 'package:ThumbSir/pages/login/login_page.dart';
 import 'package:ThumbSir/pages/major/qlist/major_qlist_page.dart';
 import 'package:ThumbSir/pages/manager/traded/m_traded_page.dart';
@@ -17,12 +15,12 @@ import 'package:ThumbSir/pages/manager/qlist/manager_qlist_page.dart';
 import 'package:ThumbSir/pages/manager/qlist/s_qlist_page.dart';
 import 'package:ThumbSir/pages/tips/qlist_tips_page.dart';
 import 'package:ThumbSir/widget/loading.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ThumbSir/pages/mycenter/my_center_page.dart';
-import 'package:flutter/painting.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'broker/house/house_list_page.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -222,9 +220,9 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin{
 
   @override
   void initState(){
-    setState(() {
-      _loading = true;
-    });
+    // setState(() {
+    //   _loading = true;
+    // });
 
     //获取用户信息
     _getUserInfo();

@@ -2,12 +2,8 @@ import 'dart:convert';
 import 'package:ThumbSir/common/reg.dart';
 import 'package:ThumbSir/dao/get_customer_info_dao.dart';
 import 'package:ThumbSir/dao/update_customer_dao.dart';
-import 'package:ThumbSir/model/get_customer_main_model.dart';
 import 'package:ThumbSir/model/login_result_data_model.dart';
-import 'package:ThumbSir/pages/broker/traded/my_traded_page.dart';
 import 'package:ThumbSir/pages/broker/traded/traded_detail_page.dart';
-import 'package:ThumbSir/pages/manager/traded/m_traded_page.dart';
-import 'package:ThumbSir/pages/manager/traded/s_traded_page.dart';
 import 'package:ThumbSir/widget/input.dart';
 import 'package:ThumbSir/widget/loading.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +15,7 @@ import 'package:rflutter_alert/rflutter_alert.dart';
 class TradedEditBasicMsgPage extends StatefulWidget {
   final item;
 
-  TradedEditBasicMsgPage({Key key,
+  TradedEditBasicMsgPage({Key? key,
     this.item
   }):super(key:key);
   @override
@@ -30,53 +26,47 @@ class _TradedEditBasicMsgPageState extends State<TradedEditBasicMsgPage> {
   bool _loading = false;
 
   final TextEditingController userNameController = TextEditingController();
-  String userName;
-  RegExp nameReg;
-  bool userNameBool;
+  late String userName;
+  late RegExp nameReg;
+  bool userNameBool = false;
   final TextEditingController phoneNumController=TextEditingController();
-  String phoneNum;
-  RegExp phoneReg;
-  bool phoneBool;
+  late String phoneNum;
+  late RegExp phoneReg;
+  bool phoneBool = false;
   final TextEditingController careerController=TextEditingController();
-  String career;
-  RegExp careerReg;
+  late String career;
+  late RegExp careerReg;
   bool careerBool = false;
   final TextEditingController mapController=TextEditingController();
-  RegExp mapReg;
+  late RegExp mapReg;
   bool mapBool = false;
   final TextEditingController likeController=TextEditingController();
-  RegExp likeReg;
+  late RegExp likeReg;
   bool likeBool = false;
 
   String dealMinCount = "购买住宅";
   String incomeMinCount = "10万以下";
   String memberMinCount = "妻子";
   int _starIndex = 0;
-
-  DateTime _selectedDate=DateTime(2010,1,1);
   DateTime _selectedBirthdayDate=DateTime(1980,1,1);
 
   int _radioGroupA = 0;
 
-  void _handleRadioValueChanged(int value) {
+  _handleRadioValueChanged(int value) {
     setState(() {
       _radioGroupA = value;
     });
   }
 
-  LoginResultData userData;
-  String uinfo;
-  var result;
+  LoginResultData? userData;
+  late String uInfo;
 
   _getUserInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    uinfo= prefs.getString("userInfo");
-    if(uinfo != null){
-      result =loginResultDataFromJson(uinfo);
-      this.setState(() {
-        userData=LoginResultData.fromJson(json.decode(uinfo));
-      });
-    }
+    uInfo= prefs.getString("userInfo")!;
+    setState(() {
+      userData=LoginResultData.fromJson(json.decode(uInfo));
+    });
   }
 
   @override
@@ -189,7 +179,7 @@ class _TradedEditBasicMsgPageState extends State<TradedEditBasicMsgPage> {
                                 userName = text;
                                 userNameBool = nameReg.hasMatch(userName);
                               });
-                            },
+                            }, password: false,
                           ),
                           // 重要度
                           Container(
@@ -286,6 +276,7 @@ class _TradedEditBasicMsgPageState extends State<TradedEditBasicMsgPage> {
                             controller: phoneNumController,
                             inputType: TextInputType.phone,
                             reg: phoneReg,
+                            password: false,
                             onChanged: (text){
                               setState(() {
                                 phoneNum = text;
@@ -372,14 +363,14 @@ class _TradedEditBasicMsgPageState extends State<TradedEditBasicMsgPage> {
                                 RadioListTile(
                                   value: 0,
                                   groupValue: _radioGroupA,
-                                  onChanged: _handleRadioValueChanged,
+                                  onChanged: _handleRadioValueChanged(0),
                                   title: Text('男'),
                                   selected: _radioGroupA == 0,
                                 ),
                                 RadioListTile(
                                   value: 1,
                                   groupValue: _radioGroupA,
-                                  onChanged: _handleRadioValueChanged,
+                                  onChanged: _handleRadioValueChanged(1),
                                   title: Text('女'),
                                   selected: _radioGroupA == 1,
                                 ),
@@ -408,6 +399,7 @@ class _TradedEditBasicMsgPageState extends State<TradedEditBasicMsgPage> {
                             controller: careerController,
                             inputType: TextInputType.text,
                             reg: careerReg,
+                            password: false,
                             onChanged: (text){
                               setState(() {
                                 career = text;
@@ -543,8 +535,8 @@ class _TradedEditBasicMsgPageState extends State<TradedEditBasicMsgPage> {
                                 _onRefresh();
                                 var addResult = await UpdateCustomerDao.updateCustomer(
                                     widget.item.mid.toString(),
-                                    userData.companyId,
-                                    userData.userPid,
+                                    userData!.companyId,
+                                    userData!.userPid,
                                     "5",
                                     userNameController.text,
                                     _radioGroupA.toString(),
@@ -565,7 +557,7 @@ class _TradedEditBasicMsgPageState extends State<TradedEditBasicMsgPage> {
                                   if(getItem.code == 200){
                                     _onRefresh();
                                     Navigator.push(context, MaterialPageRoute(builder: (context)=>TradedDetailPage(
-                                      item:getItem.data[0],
+                                      item:getItem.data![0],
                                       tabIndex: 0,
                                     )));
                                   }else {
@@ -689,14 +681,14 @@ class _TradedEditBasicMsgPageState extends State<TradedEditBasicMsgPage> {
       _loading = !_loading;
     });
   }
-  _onMapChanged(String text){
+  _onMapChanged(dynamic text){
     if(text != null){
       setState(() {
         mapBool = mapReg.hasMatch(mapController.text);
       });
     }
   }
-  _onLikeChanged(String text){
+  _onLikeChanged(dynamic text){
     if(text != null){
       setState(() {
         likeBool = likeReg.hasMatch(likeController.text);

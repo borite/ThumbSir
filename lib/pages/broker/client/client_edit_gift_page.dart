@@ -1,12 +1,9 @@
 import 'dart:convert';
 import 'package:ThumbSir/common/reg.dart';
 import 'package:ThumbSir/dao/add_customer_dao.dart';
-import 'package:ThumbSir/dao/delete_care_action_dao.dart';
-import 'package:ThumbSir/dao/get_customer_info_dao.dart';
 import 'package:ThumbSir/dao/update_care_action_dao.dart';
 import 'package:ThumbSir/model/login_result_data_model.dart';
 import 'package:ThumbSir/pages/broker/client/client_detail_page.dart';
-import 'package:ThumbSir/pages/broker/traded/traded_detail_page.dart';
 import 'package:ThumbSir/widget/input.dart';
 import 'package:ThumbSir/widget/loading.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +21,7 @@ class ClientEditGiftPage extends StatefulWidget {
   final type;
   final id;
 
-  ClientEditGiftPage({Key key,
+  ClientEditGiftPage({Key? key,
     this.date,this.giftMsg,this.price,this.dec,this.type,this.item,this.id
   }):super(key:key);
   @override
@@ -35,36 +32,32 @@ class _ClientEditGiftPageState extends State<ClientEditGiftPage> {
   bool _loading = false;
 
   final TextEditingController nameController=TextEditingController();
-  String name;
-  RegExp nameReg;
-  bool nameBool;
+  late String name;
+  late RegExp nameReg;
+  bool nameBool = false;
   final TextEditingController priceController=TextEditingController();
-  String price;
-  RegExp priceReg;
+  late String price;
+  late RegExp priceReg;
   bool priceBool = false;
   final TextEditingController decController=TextEditingController();
-  RegExp decReg;
+  late RegExp decReg;
   bool decBool = false;
 
   String sendReason = "节日礼";
 
-  List<DealInfo> deal=new List();
+  List<DealInfo> deal=[];
 
   DateTime _selectedDate=DateTime(2021,1,1);
 
-  LoginResultData userData;
-  String uinfo;
-  var result;
+  LoginResultData? userData;
+  late String uInfo;
 
   _getUserInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    uinfo= prefs.getString("userInfo");
-    if(uinfo != null){
-      result =loginResultDataFromJson(uinfo);
-      this.setState(() {
-        userData=LoginResultData.fromJson(json.decode(uinfo));
-      });
-    }
+    uInfo= prefs.getString("userInfo")!;
+    setState(() {
+      userData=LoginResultData.fromJson(json.decode(uInfo));
+    });
   }
 
   @override
@@ -249,7 +242,7 @@ class _ClientEditGiftPageState extends State<ClientEditGiftPage> {
                                 name = text;
                                 nameBool = priceReg.hasMatch(name);
                               });
-                            },
+                            }, password: false,
                           ),
                           // 价格
                           Container(
@@ -273,6 +266,7 @@ class _ClientEditGiftPageState extends State<ClientEditGiftPage> {
                             controller: priceController,
                             inputType: TextInputType.number,
                             reg: priceReg,
+                            password: false,
                             onChanged: (text){
                               setState(() {
                                 price = text;
@@ -381,7 +375,7 @@ class _ClientEditGiftPageState extends State<ClientEditGiftPage> {
       _loading = !_loading;
     });
   }
-  _onDecChanged(String text){
+  _onDecChanged(dynamic text){
     if(text != null){
       setState(() {
         decBool = decReg.hasMatch(decController.text);

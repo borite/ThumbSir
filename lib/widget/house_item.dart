@@ -1,5 +1,6 @@
-import 'package:ThumbSir/pages/house/house_detail_page.dart';
 import 'package:flutter/material.dart';
+
+import '../pages/broker/house/house_detail_page.dart';
 
 class HouseItem extends StatefulWidget {
   final houseItem;
@@ -62,7 +63,7 @@ class _HouseItemState extends State<HouseItem> with SingleTickerProviderStateMix
             ),
           ),
         );
-      };
+      }
     }
   }
 

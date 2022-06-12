@@ -1,6 +1,4 @@
 // 用于团队量化分析的详情页
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 
@@ -11,8 +9,8 @@ class TeamAnalyzeItemDetailPage extends StatefulWidget {
 
 class _TeamAnalyzeItemDetailPageState extends State<TeamAnalyzeItemDetailPage> with SingleTickerProviderStateMixin{
 
-  TabController _controller;
-  var tabs = [];
+  late TabController _controller;
+  dynamic tabs;
 
   @override
   void initState() {

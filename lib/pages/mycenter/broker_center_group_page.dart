@@ -19,37 +19,34 @@ class _BrokerCenterGroupPageState extends State<BrokerCenterGroupPage> {
 
   bool _loading = false;
 
-  LoginResultData userData;
+  LoginResultData? userData;
   int _dateTime = DateTime.now().millisecondsSinceEpoch; // 当前时间转时间戳
-  int exT;
-  String uinfo;
-  var result;
+  late int exT;
+  late String uInfo;
 
   List<Widget> brokers = [];
 
   _getUserInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    uinfo= prefs.getString("userInfo");
-    if(uinfo != null){
-      result =loginResultDataFromJson(uinfo);
-      exT = result.exTokenTime.millisecondsSinceEpoch; // token时间转时间戳
-      if(exT >= _dateTime){
-        this.setState(() {
-          userData=LoginResultData.fromJson(json.decode(uinfo));
-        });
-      }else{
-        _onLogoutAlertPressed(context);
-      }
+    uInfo= prefs.getString("userInfo")!;
+    dynamic result =loginResultDataFromJson(uInfo);
+    exT = result.exTokenTime.millisecondsSinceEpoch; // token时间转时间戳
+    if(exT >= _dateTime){
+      this.setState(() {
+        userData=LoginResultData.fromJson(json.decode(uInfo));
+      });
+    }else{
+      _onLogoutAlertPressed(context);
     }
   }
 
   _load()async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final userId= prefs.getString("userID");
-    if(userData.leaderId != null && userData.userState == 1){
+    if(userData!.leaderId != null && userData!.userState == 1){
 
-      print(userData.userState);
-      leaderAndMemberResult = await GetLeaderAndTeamMemberDao.getLeaderAndTeamMember(userId);
+      print(userData!.userState);
+      leaderAndMemberResult = await GetLeaderAndTeamMemberDao.getLeaderAndTeamMember(userId!);
       if(leaderAndMemberResult != null){
         if(leaderAndMemberResult.code == 200){
           setState(() {
@@ -95,12 +92,10 @@ class _BrokerCenterGroupPageState extends State<BrokerCenterGroupPage> {
                     ),
                     child:ClipRRect(
                       borderRadius: BorderRadius.circular(30),
-                      child: Image(
-                        image: item.headImg != null?
-                        NetworkImage(item.headImg)
-                        :
-                        AssetImage('images/my_big.png'),
-                      ),
+                      child: item.headImg != null?
+                      Image(
+                        image: NetworkImage(item.headImg)
+                      ):Image(image: AssetImage('images/my_big.png'),),
                     ),
                   ),
                   Container(
@@ -150,7 +145,7 @@ class _BrokerCenterGroupPageState extends State<BrokerCenterGroupPage> {
           ),
         ),
       );
-    };
+    }
     content =Column(
       children: brokers,
     );
@@ -274,12 +269,10 @@ class _BrokerCenterGroupPageState extends State<BrokerCenterGroupPage> {
                                         ),
                                         child: ClipRRect(
                                           borderRadius: BorderRadius.circular(40),
-                                          child: Image(
-                                            image: leaderAndMemberResult.data.leader != null && leaderAndMemberResult.data.leader.headImg != null?
-                                            NetworkImage(leaderAndMemberResult.data.leader.headImg)
-                                            :
-                                            AssetImage('images/my_big.png'),
-                                          ),
+                                          child: leaderAndMemberResult.data.leader != null && leaderAndMemberResult.data.leader.headImg != null?
+                                          Image(
+                                            image: NetworkImage(leaderAndMemberResult.data.leader.headImg),
+                                          ):Image(image: AssetImage('images/my_big.png'),)
                                         ),
                                       ),
                                       // 职位名称

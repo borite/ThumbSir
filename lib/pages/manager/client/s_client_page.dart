@@ -1,7 +1,5 @@
 import 'package:ThumbSir/pages/broker/client/my_client_page.dart';
-import 'package:ThumbSir/pages/broker/traded/my_traded_page.dart';
 import 'package:ThumbSir/pages/manager/client/team_client_page.dart';
-import 'package:ThumbSir/pages/manager/traded/team_traded_page.dart';
 import 'package:flutter/material.dart';
 
 
@@ -33,7 +31,7 @@ class _SClientPageState extends State<SClientPage> {
                   height: 26,
                   child: Image(image:AssetImage('images/my_traded_s.png'),),
                 ),
-                title: Text('我的客户')
+                label: '我的客户'
             ),
             BottomNavigationBarItem(
               icon: Container(
@@ -44,7 +42,7 @@ class _SClientPageState extends State<SClientPage> {
                 height:26,
                 child:Image(image:AssetImage('images/team_traded_s.png')),
               ),
-              title: Text('团队客户'),
+              label: '团队客户',
             ),
           ],
           iconSize: 26,

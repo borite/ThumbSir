@@ -1,9 +1,7 @@
 import 'package:ThumbSir/common/reg.dart';
-import 'package:ThumbSir/dao/get_customer_info_dao.dart';
 import 'package:ThumbSir/dao/search_client_customer_dao.dart';
 import 'package:ThumbSir/dao/search_customer_dao.dart';
 import 'package:ThumbSir/pages/broker/client/client_detail_page.dart';
-import 'package:ThumbSir/pages/broker/traded/traded_detail_page.dart';
 import 'package:ThumbSir/widget/input.dart';
 import 'package:flutter/material.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
@@ -22,13 +20,13 @@ class _ClientSearchPageState extends State<ClientSearchPage> {
   var searchShowState = 0;
 
   final TextEditingController searchController=TextEditingController();
-  String search;
-  RegExp searchReg;
-  bool searchBool;
+  late String search;
+  late RegExp searchReg;
+  bool searchBool = false;
 
   ScrollController _scrollController = ScrollController();
 
-  String searchMsg;
+  late String searchMsg;
   _load()async{
     searchResult = await SearchClientCustomerDao.searchClientCustomer(widget.keyword, widget.userID);
     if(searchResult != null){
@@ -231,6 +229,7 @@ class _ClientSearchPageState extends State<ClientSearchPage> {
                             controller: searchController,
                             inputType: TextInputType.text,
                             reg: searchReg,
+                            password: false,
                             onChanged: (text){
                               setState(() {
                                 search = text;
@@ -311,26 +310,5 @@ class _ClientSearchPageState extends State<ClientSearchPage> {
           )
       ),
     );
-  }
-
-  _onOverLoadPressed(context) {
-    Alert(
-      context: context,
-      type: AlertType.error,
-      title: "提交失败",
-      desc: "请检查网络后重试",
-      buttons: [
-        DialogButton(
-          child: Text(
-            "确定",
-            style: TextStyle(color: Colors.white, fontSize: 20),
-          ),
-          onPressed: () async {
-            Navigator.pop(context);
-          },
-          color: Color(0xFF5580EB),
-        ),
-      ],
-    ).show();
   }
 }

@@ -6,11 +6,9 @@ import 'package:ThumbSir/pages/home.dart';
 import 'package:ThumbSir/widget/loading.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:ThumbSir/model/login_result_data_model.dart';
-import 'package:ThumbSir/pages/broker/qlist/qlist_change_page.dart';
 import 'package:ThumbSir/widget/input.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 
 class ChangeNamePage extends StatefulWidget {
   @override
@@ -19,31 +17,28 @@ class ChangeNamePage extends StatefulWidget {
 
 class _ChangeNamePageState extends State<ChangeNamePage> {
   final TextEditingController userNameController = TextEditingController();
-  String userName;
-  RegExp nameReg;
-  bool userNameBool;
+  late String userName;
+  late RegExp nameReg;
+  bool userNameBool = false;
 
-  LoginResultData userData;
+  LoginResultData? userData;
   int _dateTime = DateTime.now().millisecondsSinceEpoch; // 当前时间转时间戳
-  int exT;
-  String uinfo;
-  var result;
+  late int exT;
+  late String uInfo;
 
   bool _loading = false;
 
   _getUserInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    uinfo= prefs.getString("userInfo");
-    if(uinfo != null){
-      result =loginResultDataFromJson(uinfo);
-      exT = result.exTokenTime.millisecondsSinceEpoch; // token时间转时间戳
-      if(exT >= _dateTime){
-        this.setState(() {
-          userData=LoginResultData.fromJson(json.decode(uinfo));
-        });
-      }else{
-        _onLogoutAlertPressed(context);
-      }
+    uInfo= prefs.getString("userInfo")!;
+    dynamic result =loginResultDataFromJson(uInfo);
+    exT = result.exTokenTime.millisecondsSinceEpoch; // token时间转时间戳
+    if(exT >= _dateTime){
+      this.setState(() {
+        userData=LoginResultData.fromJson(json.decode(uInfo));
+      });
+    }else{
+      _onLogoutAlertPressed(context);
     }
   }
 
@@ -96,7 +91,7 @@ class _ChangeNamePageState extends State<ChangeNamePage> {
                       ),
                       // 姓名
                       Input(
-                        hintText: userData == null ? "姓名":userData.userName,
+                        hintText: userData == null ? "姓名":userData!.userName,
                         errorTipText: "为了方便同事找到您，建议输入真实姓名",
                         tipText: "为了方便同事找到您，建议输入真实姓名",
                         rightText: "姓名格式正确",
@@ -108,16 +103,16 @@ class _ChangeNamePageState extends State<ChangeNamePage> {
                             userName = text;
                             userNameBool = nameReg.hasMatch(userName);
                           });
-                        },
+                        }, password: false,
                       ),
                       // 相册中选取
                       GestureDetector(
                         onTap: ()async{
                           if(userNameBool == true){
                             _onRefresh();
-                            final result=await ModifyUserNameDao.modifyName(userData.userPid,userName);
+                            final result=await ModifyUserNameDao.modifyName(userData!.userPid,userName);
                             if(result.code == 200){
-                              final tokenResult = await TokenCheckDao.tokenCheck(userData.token);
+                              final tokenResult = await TokenCheckDao.tokenCheck(userData!.token);
                               if(tokenResult.code==200){
                                 String dataStr=json.encode(tokenResult.data);
                                 SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -166,16 +161,6 @@ class _ChangeNamePageState extends State<ChangeNamePage> {
     setState(() {
       _loading = !_loading;
     });
-    if(uinfo != null){
-      setState(() {
-        _loading = !_loading;
-      });
-    }
-//    await Future.delayed(Duration(milliseconds: 500), () {
-//      setState(() {
-//        _loading = !_loading;
-//      });
-//    });
   }
   _onLogoutAlertPressed(context) {
     Alert(

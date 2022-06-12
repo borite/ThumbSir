@@ -33,7 +33,7 @@ class _MClientPageState extends State<MClientPage> {
                   height: 26,
                   child: Image(image:AssetImage('images/my_traded_s.png'),),
                 ),
-                title: Text('我的客户')
+                label: '我的客户'
             ),
             BottomNavigationBarItem(
               icon: Container(
@@ -44,7 +44,7 @@ class _MClientPageState extends State<MClientPage> {
                 height:26,
                 child:Image(image:AssetImage('images/team_traded_s.png')),
               ),
-              title: Text('团队客户'),
+              label: '团队客户',
             ),
           ],
           iconSize: 26,

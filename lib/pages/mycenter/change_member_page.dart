@@ -62,13 +62,13 @@ class _ChangeMemberPageState extends State<ChangeMemberPage> {
                       ),
                       child:ClipRRect(
                         borderRadius: BorderRadius.circular(45),
-                        child: Image(
-                          image: widget.msg== null?
-                          AssetImage('images/my_big.png')
-                              :widget.msg != null && widget.msg.headImg == null?
-                          AssetImage('images/my_big.png')
-                              :NetworkImage(widget.msg.headImg),
-                        ),
+                        child: widget.msg== null?
+                        Image(
+                          image:AssetImage('images/my_big.png')
+                        )
+                            :widget.msg != null && widget.msg.headImg == null?
+                            Image(image: AssetImage('images/my_big.png'))
+                            :Image(image: NetworkImage(widget.msg.headImg),),
                       )
                     ),
                   ),

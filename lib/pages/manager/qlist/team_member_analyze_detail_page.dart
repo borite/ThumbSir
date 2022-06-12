@@ -5,7 +5,6 @@ import 'package:ThumbSir/widget/user_analyze_item.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
-import 'package:some_calendar/some_calendar.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:jiffy/jiffy.dart';
@@ -19,7 +18,7 @@ class TeamMemberAnalyzeDetailPage extends StatefulWidget {
 }
 
 class _TeamMemberAnalyzeDetailPageState extends State<TeamMemberAnalyzeDetailPage> with SingleTickerProviderStateMixin{
-  List<DateTime> selectedDates = List();
+  late List<DateTime> selectedDates;
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   bool _loading = false;
@@ -32,19 +31,15 @@ class _TeamMemberAnalyzeDetailPageState extends State<TeamMemberAnalyzeDetailPag
   List<Widget> showList = [];
   List<Widget> msgs=[];
 
-  LoginResultData userData;
-  String uinfo;
-  var result;
+  LoginResultData? userData;
+  late String uInfo;
 
   _getUserInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    uinfo= prefs.getString("userInfo");
-    if(uinfo != null){
-      result =loginResultDataFromJson(uinfo);
-      this.setState(() {
-        userData=LoginResultData.fromJson(json.decode(uinfo));
-      });
-    }
+    uInfo= prefs.getString("userInfo")!;
+    this.setState(() {
+      userData=LoginResultData.fromJson(json.decode(uInfo));
+    });
     if(userData != null){
       _load();
     }else{
@@ -55,17 +50,17 @@ class _TeamMemberAnalyzeDetailPageState extends State<TeamMemberAnalyzeDetailPag
   }
 
   _load()async{
-    var getDataResult = await GetPersonalDataDao.getPersonalData(
+    dynamic getDataResult = await GetPersonalDataDao.getPersonalData(
       widget.id,
-      userData.companyId,
+      userData!.companyId,
       startTime.toIso8601String().substring(0,11)+'00:00:00.000000',
       endTime.toIso8601String().substring(0,11)+'23:59:59.000000',
     );
     if(getDataResult != null){
       if(getDataResult.code == 200){
           _loading =false;
-          sumResult = getDataResult.data.zonghe;
-          listResult = getDataResult.data.list;
+          sumResult = getDataResult.data!.zonghe;
+          listResult = getDataResult.data!.list;
           if (listResult.length>0) {
             for(var item in listResult) {
               showList.add(
@@ -78,7 +73,7 @@ class _TeamMemberAnalyzeDetailPageState extends State<TeamMemberAnalyzeDetailPag
                   unit: item.taskUnit,
                 ),
               );
-            };
+            }
           }
           setState(() {
             msgs=showList;
@@ -161,33 +156,33 @@ class _TeamMemberAnalyzeDetailPageState extends State<TeamMemberAnalyzeDetailPag
                   alignment: Alignment(0,-1),
                   child: GestureDetector(
                     onTap: ()async{
-                      showDialog(
-                          context: context,
-                          builder: (_) => SomeCalendar(
-                            mode: SomeMode.Range,
-                            scrollDirection: Axis.horizontal,
-                            startDate: Jiffy().subtract(years: 3),
-                            lastDate: Jiffy().add(months: 1),
-                            primaryColor: Color(0xff93C0FB),
-                            textColor: Color(0xFF93C0FB),
-                            isWithoutDialog: false,
-                            selectedDates: selectedDates,
-                            labels: Labels(
-                              dialogCancel: '取消',
-                              dialogDone: '确定',
-                            ),
-                            done: (date) {
-                              setState(() {
-                                selectedDates = date;
-                                startTime = date[0];
-                                showEndTime = date[date.length - 1];
-                                endTime = date[date.length-1];
-                                showList.clear();
-                                _load();
-                              });
-                            },
-                          )
-                      );
+                      // showDialog(
+                      //     context: context,
+                      //     builder: (_) => SomeCalendar(
+                      //       mode: SomeMode.Range,
+                      //       scrollDirection: Axis.horizontal,
+                      //       startDate: Jiffy().subtract(years: 3),
+                      //       lastDate: Jiffy().add(months: 1),
+                      //       primaryColor: Color(0xff93C0FB),
+                      //       textColor: Color(0xFF93C0FB),
+                      //       isWithoutDialog: false,
+                      //       selectedDates: selectedDates,
+                      //       labels: Labels(
+                      //         dialogCancel: '取消',
+                      //         dialogDone: '确定',
+                      //       ),
+                      //       done: (date) {
+                      //         setState(() {
+                      //           selectedDates = date;
+                      //           startTime = date[0];
+                      //           showEndTime = date[date.length - 1];
+                      //           endTime = date[date.length-1];
+                      //           showList.clear();
+                      //           _load();
+                      //         });
+                      //       },
+                      //     )
+                      // );
                     },
                     child: Container(
                       width: 335,

@@ -1,14 +1,12 @@
 import 'dart:convert';
-import 'package:ThumbSir/dao/client_get_leader_info_dao.dart';
 import 'package:ThumbSir/dao/client_get_next_level_customer_dao.dart';
-import 'package:ThumbSir/dao/get_leader_info_dao.dart';
-import 'package:ThumbSir/dao/get_next_level_customer_dao.dart';
 import 'package:ThumbSir/model/login_result_data_model.dart';
 import 'package:ThumbSir/pages/manager/client/group_client_detail_page.dart';
-import 'package:ThumbSir/pages/manager/traded/group_traded_detail_page.dart';
 import 'package:ThumbSir/pages/manager/traded/team_traded_member_page.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../../dao/client_get_leader_info_dao.dart';
 
 class TeamClientDetailPage extends StatefulWidget {
   final leaderArea;
@@ -31,19 +29,15 @@ class _TeamClientDetailPageState extends State<TeamClientDetailPage> {
   var dateTime = DateTime.now().toIso8601String().substring(0,10);
   List<Widget> showList = [];
 
-  LoginResultData userData;
-  String uinfo;
-  var result;
+  LoginResultData? userData;
+  late String uInfo;
 
   _getUserInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    uinfo= prefs.getString("userInfo");
-    if(uinfo != null){
-      result =loginResultDataFromJson(uinfo);
-      this.setState(() {
-        userData=LoginResultData.fromJson(json.decode(uinfo));
-      });
-    }
+    uInfo= prefs.getString("userInfo")!;
+    setState(() {
+      userData=LoginResultData.fromJson(json.decode(uInfo));
+    });
     if(userData != null){
       _load();
     }else{
@@ -54,13 +48,13 @@ class _TeamClientDetailPageState extends State<TeamClientDetailPage> {
   }
 
   _load()async{
-    var getLeaderResult = await ClientGetLeaderInfoDao.httpClientGetLeaderInfo(
+    dynamic getLeaderResult = await ClientGetLeaderInfoDao.httpClientGetLeaderInfo(
         widget.leaderID,
-        userData.companyId,
+        userData!.companyId,
     );
-    var getMemberListResult = await ClientGetNextLevelCustomerDao.httpClientGetNextLevelCustomer(
+    dynamic getMemberListResult = await ClientGetNextLevelCustomerDao.httpClientGetNextLevelCustomer(
         widget.leaderID,
-        userData.companyId,
+        userData!.companyId,
         widget.leaderArea,
     );
     if(getMemberListResult != null && getLeaderResult != null ){
@@ -241,7 +235,7 @@ class _TeamClientDetailPageState extends State<TeamClientDetailPage> {
             ),
           ),
         );
-      };
+      }
     }
     content =Column(
       children:showList,
@@ -407,13 +401,12 @@ class _TeamClientDetailPageState extends State<TeamClientDetailPage> {
                                           ),
                                           child:ClipRRect(
                                               borderRadius: BorderRadius.circular(40),
-                                              child:Image(
-                                                image: leaderInfo != null ?
-                                                leaderInfo.headImg != null ?
-                                                NetworkImage(leaderInfo.headImg)
-                                                    :
-                                                AssetImage('images/my_big.png'):AssetImage('images/my_big.png'),
-                                              )
+                                              child:leaderInfo != null ?
+                                              leaderInfo.headImg != null ?
+                                              Image(
+                                                image: NetworkImage(leaderInfo.headImg)
+                                              ) :Image(image: AssetImage('images/my_big.png'))
+                                                  :Image(image: AssetImage('images/my_big.png'),)
                                           ),
                                         ),
                                         Positioned(

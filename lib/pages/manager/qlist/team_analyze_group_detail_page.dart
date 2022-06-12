@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'package:ThumbSir/dao/get_last_level_members_dao.dart';
 import 'package:ThumbSir/dao/get_leader_data_dao.dart';
 import 'package:ThumbSir/model/login_result_data_model.dart';
-import 'package:ThumbSir/pages/manager/qlist/team_analyze_detail_page.dart';
 import 'package:ThumbSir/pages/manager/qlist/team_member_analyze_detail_page.dart';
 import 'package:ThumbSir/widget/loading.dart';
 import 'package:flutter/material.dart';
@@ -29,19 +28,15 @@ class _TeamAnalyzeGroupDetailPageState extends State<TeamAnalyzeGroupDetailPage>
   var dateTime = DateTime.now().toIso8601String().substring(0,10);
   List<Widget> showList = [];
 
-  LoginResultData userData;
-  String uinfo;
-  var result;
+  LoginResultData? userData;
+  late String uInfo;
 
   _getUserInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    uinfo= prefs.getString("userInfo");
-    if(uinfo != null){
-      result =loginResultDataFromJson(uinfo);
-      this.setState(() {
-        userData=LoginResultData.fromJson(json.decode(uinfo));
-      });
-    }
+    uInfo= prefs.getString("userInfo")!;
+    setState(() {
+      userData=LoginResultData.fromJson(json.decode(uInfo));
+    });
     if(userData != null){
       _load();
     }else{
@@ -52,14 +47,14 @@ class _TeamAnalyzeGroupDetailPageState extends State<TeamAnalyzeGroupDetailPage>
   }
 
   _load()async{
-    var getLeaderResult = await GetLeaderDataDao.httpGetLeaderData(
+    dynamic getLeaderResult = await GetLeaderDataDao.httpGetLeaderData(
         widget.leaderID,
-        userData.companyId,
+        userData!.companyId,
         dateTime
     );
-    var getMemberListResult = await GetLastLevelMembersDao.httpGetLastLevelMembers(
+    dynamic getMemberListResult = await GetLastLevelMembersDao.httpGetLastLevelMembers(
         widget.leaderID,
-        userData.companyId,
+        userData!.companyId,
         dateTime
     );
     if(getMemberListResult != null && getLeaderResult != null ){
@@ -125,12 +120,10 @@ class _TeamAnalyzeGroupDetailPageState extends State<TeamAnalyzeGroupDetailPage>
                         ),
                         child:ClipRRect(
                             borderRadius: BorderRadius.circular(30),
-                            child:Image(
-                              image: item.headImg != null ?
-                              NetworkImage(item.headImg)
-                                  :
-                              AssetImage('images/my_big.png'),
-                            )
+                            child:item.headImg != null ?
+                            Image(
+                              image: NetworkImage(item.headImg)
+                            ):Image(image: AssetImage('images/my_big.png'),)
                         ),
                       ),
                       Container(
@@ -178,7 +171,7 @@ class _TeamAnalyzeGroupDetailPageState extends State<TeamAnalyzeGroupDetailPage>
             ),
           ),
         );
-      };
+      }
     }
     content =Column(
       children:showList,
@@ -327,13 +320,12 @@ class _TeamAnalyzeGroupDetailPageState extends State<TeamAnalyzeGroupDetailPage>
                                                   ),
                                                   child:ClipRRect(
                                                       borderRadius: BorderRadius.circular(40),
-                                                      child:Image(
-                                                        image: leaderInfo != null ?
-                                                        leaderInfo.headImg != null ?
-                                                        NetworkImage(leaderInfo.headImg)
-                                                            :
-                                                        AssetImage('images/my_big.png'):AssetImage('images/my_big.png'),
-                                                      )
+                                                      child:leaderInfo != null ?
+                                                      leaderInfo.headImg != null ?
+                                                      Image(
+                                                        image: NetworkImage(leaderInfo.headImg)
+                                                      ):Image(image: AssetImage('images/my_big.png'))
+                                                              :Image(image:AssetImage('images/my_big.png'),)
                                                   ),
                                                 ),
                                                 Positioned(

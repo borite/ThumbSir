@@ -1,10 +1,8 @@
 import 'package:ThumbSir/dao/get_care_action_dao.dart';
 import 'package:ThumbSir/dao/get_customer_list_dao.dart';
-import 'package:ThumbSir/model/get_customer_main_model.dart';
 import 'package:ThumbSir/widget/client_check_item.dart';
 import 'package:flutter/material.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
-import 'package:ThumbSir/model/get_customer_list_model.dart';
 
 class TeamClientMemberPage extends StatefulWidget {
   final userId;
@@ -26,12 +24,12 @@ class _TeamClientMemberPageState extends State<TeamClientMemberPage> {
   var needValue = "所有";
 
   final TextEditingController searchController = TextEditingController();
-  String search;
-  RegExp searchReg;
-  bool searchBool;
+  late String search;
+  late RegExp searchReg;
+  bool searchBool = false;
 
   List<DropdownMenuItem> getAgeList(){
-    List<DropdownMenuItem> ageLists = new List();
+    List<DropdownMenuItem> ageLists = [];
     DropdownMenuItem ageList1 = new DropdownMenuItem(child: Text('所有'),value: '所有',);
     ageLists.add(ageList1);
     DropdownMenuItem ageList2 = new DropdownMenuItem(child: Text('< 30岁'),value: '< 30岁',);
@@ -46,7 +44,7 @@ class _TeamClientMemberPageState extends State<TeamClientMemberPage> {
   }
 
   List<DropdownMenuItem> getMonthList(){
-    List<DropdownMenuItem> monthLists = new List();
+    List<DropdownMenuItem> monthLists = [];
     DropdownMenuItem ageList1 = new DropdownMenuItem(child: Text('所有'),value: 0,);
     monthLists.add(ageList1);
     DropdownMenuItem ageList2 = new DropdownMenuItem(child: Text('1月'),value: 1,);
@@ -77,7 +75,7 @@ class _TeamClientMemberPageState extends State<TeamClientMemberPage> {
   }
 
   List<DropdownMenuItem> getNeedList(){
-    List<DropdownMenuItem> needLists = new List();
+    List<DropdownMenuItem> needLists = [];
     DropdownMenuItem ageList1 = new DropdownMenuItem(child: Text('所有'),value: '所有',);
     needLists.add(ageList1);
     DropdownMenuItem ageList2 = new DropdownMenuItem(child: Text('出售'),value: '出售',);
@@ -148,7 +146,7 @@ class _TeamClientMemberPageState extends State<TeamClientMemberPage> {
                 item:item
             ),
           );
-        };
+        }
       }
       setState(() {
         customers=customersShowList;
@@ -256,7 +254,7 @@ class _TeamClientMemberPageState extends State<TeamClientMemberPage> {
                                   fontWeight: FontWeight.normal,
                                   decoration: TextDecoration.none,
                                 ),
-                                onChanged: (T){
+                                onChanged: (dynamic T){
                                   setState(() {
                                     ageValue = T;
                                     customers = [];
@@ -294,7 +292,7 @@ class _TeamClientMemberPageState extends State<TeamClientMemberPage> {
                                   fontWeight: FontWeight.normal,
                                   decoration: TextDecoration.none,
                                 ),
-                                onChanged: (T){
+                                onChanged: (dynamic T){
                                   setState(() {
                                     monthValue = T;
                                     customers = [];
@@ -332,7 +330,7 @@ class _TeamClientMemberPageState extends State<TeamClientMemberPage> {
                                   fontWeight: FontWeight.normal,
                                   decoration: TextDecoration.none,
                                 ),
-                                onChanged: (T){
+                                onChanged: (dynamic T){
                                   setState(() {
                                     needValue = T;
                                     customers = [];
@@ -352,7 +350,7 @@ class _TeamClientMemberPageState extends State<TeamClientMemberPage> {
                     Container(
                         margin: EdgeInsets.only(bottom: 60),
                         child:
-                        customersList!=null && customersList.length != 0 && customers != []?
+                        customersList!=[] && customersList.length != 0 && customers != []?
                         ListView.builder(
                           controller: _scrollController,
                           shrinkWrap: true,

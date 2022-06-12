@@ -33,12 +33,12 @@ class _MyTradedPageState extends State<MyTradedPage> {
   var reasonValue = "所有";
 
   final TextEditingController searchController = TextEditingController();
-  String search;
-  RegExp searchReg;
-  bool searchBool;
+  late String search;
+  late RegExp searchReg;
+  bool searchBool = false;
 
   List<DropdownMenuItem> getAgeList(){
-    List<DropdownMenuItem> ageLists = new List();
+    List<DropdownMenuItem> ageLists = [];
     DropdownMenuItem ageList1 = new DropdownMenuItem(child: Text('所有'),value: '所有',);
     ageLists.add(ageList1);
     DropdownMenuItem ageList2 = new DropdownMenuItem(child: Text('< 30岁'),value: '< 30岁',);
@@ -53,7 +53,7 @@ class _MyTradedPageState extends State<MyTradedPage> {
   }
 
   List<DropdownMenuItem> getMonthList(){
-    List<DropdownMenuItem> monthLists = new List();
+    List<DropdownMenuItem> monthLists = [];
     DropdownMenuItem ageList1 = new DropdownMenuItem(child: Text('所有'),value: 0,);
     monthLists.add(ageList1);
     DropdownMenuItem ageList2 = new DropdownMenuItem(child: Text('1月'),value: 1,);
@@ -84,7 +84,7 @@ class _MyTradedPageState extends State<MyTradedPage> {
   }
 
   List<DropdownMenuItem> getReasonList(){
-    List<DropdownMenuItem> reasonLists = new List();
+    List<DropdownMenuItem> reasonLists = [];
     DropdownMenuItem ageList1 = new DropdownMenuItem(child: Text('所有'),value: '所有',);
     reasonLists.add(ageList1);
     DropdownMenuItem ageList2 = new DropdownMenuItem(child: Text('出售'),value: '出售',);
@@ -107,21 +107,17 @@ class _MyTradedPageState extends State<MyTradedPage> {
   List<Widget> customers=[];
 
 
-  LoginResultData userData;
-  String uinfo;
-  var result;
+  LoginResultData? userData;
+  late String uInfo;
 
   _getUserInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    uinfo= prefs.getString("userInfo");
-    if(uinfo != null){
-      result =loginResultDataFromJson(uinfo);
-      this.setState(() {
-        userData=LoginResultData.fromJson(json.decode(uinfo));
-      });
+    uInfo= prefs.getString("userInfo")!;
+    setState(() {
+      userData=LoginResultData.fromJson(json.decode(uInfo));
+    });
       _load();
     }
-  }
 
   _load() async {
     _onRefresh();
@@ -130,7 +126,7 @@ class _MyTradedPageState extends State<MyTradedPage> {
 
       if(ageValue == "所有" && monthValue == 0 && reasonValue == "所有"){
         customersResult = await GetCustomerMainDao.getCustomerMain(
-          userData.userPid,
+          userData!.userPid,
           "5",
           pageIndex.toString(),
           '50',
@@ -141,7 +137,7 @@ class _MyTradedPageState extends State<MyTradedPage> {
             ageValue == "所有"?"0":ageValue == "< 30岁"?"30":ageValue == "30~40"?"40":ageValue == "40~50"?"50":"100",
             monthValue.toString(),
             reasonValue == "所有"?"0":reasonValue,
-            userData.userPid,
+            userData!.userPid,
         );
       }
 
@@ -160,10 +156,10 @@ class _MyTradedPageState extends State<MyTradedPage> {
                   age:item.age,
                   phone:item.phone,
                   birthday:item.birthday.toString().substring(0,10),
-                  firstDealReason: item.dealList.length > 0 ?item.dealList[0].dealReason:null,
-                  firstDealTime: item.dealList.length > 0 ? item.dealList[0].finishTime.toIso8601String().substring(0,10):null,
-                  secondDealReason: item.dealList.length > 1 ?item.dealList[1].dealReason:null,
-                  ssecondDealTime: item.dealList.length > 1 ?item.dealList[1].finishTime.toIso8601String().substring(0,10):null,
+                  firstDealReason: item.dealList!.length > 0 ?item.dealList![0].dealReason:null,
+                  firstDealTime: item.dealList!.length > 0 ? item.dealList![0].finishTime!.toIso8601String().substring(0,10):null,
+                  secondDealReason: item.dealList!.length > 1 ?item.dealList![1].dealReason:null,
+                  ssecondDealTime: item.dealList!.length > 1 ?item.dealList![1].finishTime!.toIso8601String().substring(0,10):null,
                   giftList: giftList,
                   item:item
               ),
@@ -265,17 +261,10 @@ class _MyTradedPageState extends State<MyTradedPage> {
                                     children: <Widget>[
                                       Container(
                                         width: 60,
-                                        child: RaisedButton(
-                                          onPressed: (){
+                                        child: GestureDetector(
+                                          onTap: (){
                                             Navigator.push(context, MaterialPageRoute(builder: (context)=>QListTipsPage()));
                                           },
-                                          color: Colors.transparent,
-                                          elevation: 0,
-                                          disabledElevation: 0,
-                                          highlightColor: Colors.transparent,
-                                          highlightElevation: 0,
-                                          splashColor: Colors.transparent,
-                                          disabledColor: Colors.transparent,
                                           child: ClipOval(
                                             child: Container(
                                                 width: 26,
@@ -299,17 +288,10 @@ class _MyTradedPageState extends State<MyTradedPage> {
                                       Container(
                                         margin: EdgeInsets.only(right: 10),
                                         width: 60,
-                                        child: RaisedButton(
-                                          onPressed: (){
+                                        child: GestureDetector(
+                                          onTap: (){
                                             Navigator.push(context, MaterialPageRoute(builder: (context)=>MyCenterPage()));
                                           },
-                                          color: Colors.transparent,
-                                          elevation: 0,
-                                          disabledElevation: 0,
-                                          highlightColor: Colors.transparent,
-                                          highlightElevation: 0,
-                                          splashColor: Colors.transparent,
-                                          disabledColor: Colors.transparent,
                                           child: ClipOval(
                                             child: Container(
                                                 width: 26,
@@ -354,7 +336,7 @@ class _MyTradedPageState extends State<MyTradedPage> {
                                           search = text;
                                           searchBool = searchReg.hasMatch(search);
                                         });
-                                      },
+                                      }, password: false,
                                     ),
                                     Positioned(
                                         left: 300,
@@ -363,7 +345,7 @@ class _MyTradedPageState extends State<MyTradedPage> {
                                           onTap: ()async{
                                             Navigator.push(context, MaterialPageRoute(builder: (context)=>TradedSearchPage(
                                               keyword:searchController.text,
-                                              userID:userData.userPid,
+                                              userID:userData!.userPid,
                                             )));
                                           },
                                           child: Container(
@@ -408,7 +390,7 @@ class _MyTradedPageState extends State<MyTradedPage> {
                                         fontWeight: FontWeight.normal,
                                         decoration: TextDecoration.none,
                                       ),
-                                      onChanged: (T){
+                                      onChanged: (dynamic T){
                                         setState(() {
                                           ageValue = T;
                                           customers = [];
@@ -446,7 +428,7 @@ class _MyTradedPageState extends State<MyTradedPage> {
                                         fontWeight: FontWeight.normal,
                                         decoration: TextDecoration.none,
                                       ),
-                                      onChanged: (T){
+                                      onChanged: (dynamic T){
                                         setState(() {
                                           monthValue = T;
                                           customers = [];
@@ -484,7 +466,7 @@ class _MyTradedPageState extends State<MyTradedPage> {
                                         fontWeight: FontWeight.normal,
                                         decoration: TextDecoration.none,
                                       ),
-                                      onChanged: (T){
+                                      onChanged: (dynamic T){
                                         setState(() {
                                           reasonValue = T;
                                           customers = [];
@@ -504,7 +486,7 @@ class _MyTradedPageState extends State<MyTradedPage> {
                           Container(
                             margin: EdgeInsets.only(bottom: 60),
                               child:
-                              customersList!=null && customersList.length != 0 && customers != []?
+                              customersList!=[] && customersList.length != 0 && customers != []?
                               ListView.builder(
                                 controller: _scrollController,
 //                                padding: EdgeInsets.only(top: 0,bottom: 10),

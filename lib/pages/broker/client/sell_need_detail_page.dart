@@ -4,9 +4,9 @@ import 'package:ThumbSir/dao/get_user_detail_by_id_dao.dart';
 import 'package:ThumbSir/model/sell_other_needs_model.dart';
 import 'package:ThumbSir/pages/broker/client/client_detail_page.dart';
 import 'package:ThumbSir/widget/loading.dart';
+import 'package:chips_choice_null_safety/chips_choice_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
-import 'package:chips_choice/chips_choice.dart';
 
 class SellNeedDetailPage extends StatefulWidget {
   final cid;
@@ -16,7 +16,7 @@ class SellNeedDetailPage extends StatefulWidget {
   final coreNeedNames;
   final otherMsg;
 
-  SellNeedDetailPage({Key key,
+  SellNeedDetailPage({Key? key,
     this.cid,this.mainNeed,this.needReason,this.userName,this.coreNeedNames,this.otherMsg
   }):super(key:key);
   @override
@@ -28,36 +28,36 @@ class _SellNeedDetailPageState extends State<SellNeedDetailPage> {
   SellOtherNeeds _otherNeeds = new SellOtherNeeds();
 
   //默认是所有需求，下面通过对比传来的核心字符，会去除核心需求，最终是非核心需求
-  List<BuyRequirement> reqList=new List();
-  List<BuyRequirement> allList = new List();
+  List<BuyRequirement> reqList=[];
+  List<BuyRequirement> allList = [];
   //核心需求列表
-  List<BuyRequirement> coreList=new List();
+  List<BuyRequirement> coreList=[];
   //非核心需求列表
-  List<BuyRequirement> nonCoreList=new List();
+  List<BuyRequirement> nonCoreList=[];
 
   bool _loading = false;
-  String otherChooses;
+  late String otherChooses;
 
   final TextEditingController mapController=TextEditingController();
-  RegExp mapReg;
+  late RegExp mapReg;
   bool mapBool = false;
   final TextEditingController coreController1=TextEditingController();
-  RegExp core1Reg;
+  late RegExp core1Reg;
   bool core1Bool = false;
   final TextEditingController coreController2=TextEditingController();
-  RegExp core2Reg;
+  late RegExp core2Reg;
   bool core2Bool = false;
   final TextEditingController coreController3=TextEditingController();
-  RegExp core3Reg;
+  late RegExp core3Reg;
   bool core3Bool = false;
   final TextEditingController otherController=TextEditingController();
-  RegExp otherReg;
+  late RegExp otherReg;
   bool otherBool = false;
   final TextEditingController dingJinController=TextEditingController();
-  RegExp dingJinReg;
+  late RegExp dingJinReg;
   bool dingJinBool = false;
   final TextEditingController shouFuController=TextEditingController();
-  RegExp shouFuReg;
+  late RegExp shouFuReg;
   bool shouFuBool = false;
 
   String core1choose="";
@@ -67,7 +67,7 @@ class _SellNeedDetailPageState extends State<SellNeedDetailPage> {
   List<String> tags = [];
   List idList = [];
   int itemLength = 0;
-  List missionContent=new List();
+  List missionContent=[];
   List<String> way = [];
   List<String> period = [];
 
@@ -381,7 +381,7 @@ class _SellNeedDetailPageState extends State<SellNeedDetailPage> {
                       child: FormField<List<String>>(
                           initialValue: tags,
                           validator: (value) {
-                            if (value.isEmpty) {
+                            if (value==null) {
                               return '请选择核心任务的名称';
                             }
                             if (value.length > item.maxSelect) {
@@ -389,19 +389,19 @@ class _SellNeedDetailPageState extends State<SellNeedDetailPage> {
                             }
                             return null;
                           },
-                          builder: (state) {
+                          builder: (dynamic state) {
                             return Column(
                                 children: <Widget>[
                                   Container(
                                     alignment: Alignment.centerLeft,
                                     child: ChipsChoice<String>.multiple(
                                       value: state.value,
-                                      options:  ChipsChoiceOption.listFrom(
+                                      choiceItems:  C2Choice.listFrom(
                                           source: item.reqOptions.split(','),
                                           // 存储形式
-                                          value:(index,item)=>item,
+                                          value:(index,item)=>item.toString(),
                                           // 展示形式
-                                          label: (index,item)=>item
+                                          label: (index,item)=>item.toString()
                                       ),
                                       onChanged: (val) {
                                         state.didChange(val);
@@ -413,13 +413,16 @@ class _SellNeedDetailPageState extends State<SellNeedDetailPage> {
                                         });
                                         _CheckSelection(item.reqName, sel.substring(0,sel.lastIndexOf(',')));
                                       },
-                                      itemConfig: ChipsChoiceItemConfig(
-                                        selectedColor: Color(0xFF5580EB),
-                                        selectedBrightness: Brightness.dark,
-                                        unselectedColor: Color(0xFF5580EB),
-                                        unselectedBorderOpacity: .3,
+                                      choiceStyle: const C2ChoiceStyle(
+                                        color: Color(0xFF5580EB),
+                                        borderOpacity: .3,
                                       ),
-                                      isWrapped: true,
+                                      choiceActiveStyle: const C2ChoiceStyle(
+                                        color: Color(0xFFFFFFFF),
+                                        backgroundColor: Color(0xFF5580EB),
+                                        borderOpacity: .3,
+                                      ),
+                                      wrapped: true,
                                     ),
                                   ),
                                   Container(
@@ -678,7 +681,7 @@ class _SellNeedDetailPageState extends State<SellNeedDetailPage> {
                                   child: FormField<List<String>>(
                                       initialValue: tags,
                                       validator: (value) {
-                                        if (value.isEmpty) {
+                                        if (value==null) {
                                           return '请选择核心任务的名称';
                                         }
                                         if (value.length > coreList[0].maxSelect) {
@@ -686,19 +689,19 @@ class _SellNeedDetailPageState extends State<SellNeedDetailPage> {
                                         }
                                         return null;
                                       },
-                                      builder: (state) {
+                                      builder: (dynamic state) {
                                         return Column(
                                             children: <Widget>[
                                               Container(
                                                 alignment: Alignment.centerLeft,
                                                 child: ChipsChoice<String>.multiple(
                                                   value: state.value,
-                                                  options:  ChipsChoiceOption.listFrom(
+                                                  choiceItems:  C2Choice.listFrom(
                                                       source: coreList[0].reqOptions.split(','),
                                                       // 存储形式
-                                                      value:(index,item)=>item,
+                                                      value:(index,item)=>item.toString(),
                                                       // 展示形式
-                                                      label: (index,item)=>item
+                                                      label: (index,item)=>item.toString()
                                                   ),
                                                   onChanged: (val) {
                                                     state.didChange(val);
@@ -714,13 +717,16 @@ class _SellNeedDetailPageState extends State<SellNeedDetailPage> {
                                                       }
                                                     });
                                                   },
-                                                  itemConfig: ChipsChoiceItemConfig(
-                                                    selectedColor: Color(0xFF5580EB),
-                                                    selectedBrightness: Brightness.dark,
-                                                    unselectedColor: Color(0xFF5580EB),
-                                                    unselectedBorderOpacity: .3,
+                                                  choiceStyle: const C2ChoiceStyle(
+                                                    color: Color(0xFF5580EB),
+                                                    borderOpacity: .3,
                                                   ),
-                                                  isWrapped: true,
+                                                  choiceActiveStyle: const C2ChoiceStyle(
+                                                    color: Color(0xFFFFFFFF),
+                                                    backgroundColor: Color(0xFF5580EB),
+                                                    borderOpacity: .3,
+                                                  ),
+                                                  wrapped: true,
                                                 ),
                                               ),
                                               Container(
@@ -960,7 +966,7 @@ class _SellNeedDetailPageState extends State<SellNeedDetailPage> {
                                   child: FormField<List<String>>(
                                       initialValue: tags,
                                       validator: (value) {
-                                        if (value.isEmpty) {
+                                        if (value==null) {
                                           return '请选择核心任务的名称';
                                         }
                                         if (value.length > coreList[1].maxSelect) {
@@ -968,19 +974,19 @@ class _SellNeedDetailPageState extends State<SellNeedDetailPage> {
                                         }
                                         return null;
                                       },
-                                      builder: (state) {
+                                      builder: (dynamic state) {
                                         return Column(
                                             children: <Widget>[
                                               Container(
                                                 alignment: Alignment.centerLeft,
                                                 child: ChipsChoice<String>.multiple(
                                                   value: state.value,
-                                                  options:  ChipsChoiceOption.listFrom(
+                                                  choiceItems:  C2Choice.listFrom(
                                                       source: coreList[1].reqOptions.split(','),
                                                       // 存储形式
-                                                      value:(index,item)=>item,
+                                                      value:(index,item)=>item.toString(),
                                                       // 展示形式
-                                                      label: (index,item)=>item
+                                                      label: (index,item)=>item.toString()
                                                   ),
                                                   onChanged: (val) {
                                                     state.didChange(val);
@@ -996,13 +1002,16 @@ class _SellNeedDetailPageState extends State<SellNeedDetailPage> {
                                                       }
                                                     });
                                                   },
-                                                  itemConfig: ChipsChoiceItemConfig(
-                                                    selectedColor: Color(0xFF5580EB),
-                                                    selectedBrightness: Brightness.dark,
-                                                    unselectedColor: Color(0xFF5580EB),
-                                                    unselectedBorderOpacity: .3,
+                                                  choiceStyle: const C2ChoiceStyle(
+                                                    color: Color(0xFF5580EB),
+                                                    borderOpacity: .3,
                                                   ),
-                                                  isWrapped: true,
+                                                  choiceActiveStyle: const C2ChoiceStyle(
+                                                    color: Color(0xFFFFFFFF),
+                                                    backgroundColor: Color(0xFF5580EB),
+                                                    borderOpacity: .3,
+                                                  ),
+                                                  wrapped: true,
                                                 ),
                                               ),
                                               Container(
@@ -1243,7 +1252,7 @@ class _SellNeedDetailPageState extends State<SellNeedDetailPage> {
                                   child: FormField<List<String>>(
                                       initialValue: tags,
                                       validator: (value) {
-                                        if (value.isEmpty) {
+                                        if (value==null) {
                                           return '请选择核心任务的名称';
                                         }
                                         if (value.length > coreList[2].maxSelect) {
@@ -1251,19 +1260,19 @@ class _SellNeedDetailPageState extends State<SellNeedDetailPage> {
                                         }
                                         return null;
                                       },
-                                      builder: (state) {
+                                      builder: (dynamic state) {
                                         return Column(
                                             children: <Widget>[
                                               Container(
                                                 alignment: Alignment.centerLeft,
                                                 child: ChipsChoice<String>.multiple(
                                                   value: state.value,
-                                                  options:  ChipsChoiceOption.listFrom(
+                                                  choiceItems:  C2Choice.listFrom(
                                                       source: coreList[2].reqOptions.split(','),
                                                       // 存储形式
-                                                      value:(index,item)=>item,
+                                                      value:(index,item)=>item.toString(),
                                                       // 展示形式
-                                                      label: (index,item)=>item
+                                                      label: (index,item)=>item.toString()
                                                   ),
                                                   onChanged: (val) {
                                                     state.didChange(val);
@@ -1279,13 +1288,16 @@ class _SellNeedDetailPageState extends State<SellNeedDetailPage> {
                                                       }
                                                     });
                                                   },
-                                                  itemConfig: ChipsChoiceItemConfig(
-                                                    selectedColor: Color(0xFF5580EB),
-                                                    selectedBrightness: Brightness.dark,
-                                                    unselectedColor: Color(0xFF5580EB),
-                                                    unselectedBorderOpacity: .3,
+                                                  choiceStyle: const C2ChoiceStyle(
+                                                    color: Color(0xFF5580EB),
+                                                    borderOpacity: .3,
                                                   ),
-                                                  isWrapped: true,
+                                                  choiceActiveStyle: const C2ChoiceStyle(
+                                                    color: Color(0xFFFFFFFF),
+                                                    backgroundColor: Color(0xFF5580EB),
+                                                    borderOpacity: .3,
+                                                  ),
+                                                  wrapped: true,
                                                 ),
                                               ),
                                               Container(
@@ -1442,31 +1454,31 @@ class _SellNeedDetailPageState extends State<SellNeedDetailPage> {
                                 widget.cid.toString(),
                                 widget.mainNeed,
                                 widget.needReason,
-                                coreList[0].reqName=="其他"? (coreList[0].reqName+":"+otherController.text??"无要求")
-                                    :coreList[0].reqName=="定金"&& widget.mainNeed.toString().substring(0,2)=="出租"? (coreList[0].reqName+":"+(dingJinController.text??"-")+"元")
-                                    :coreList[0].reqName=="定金"&& widget.mainNeed.toString().substring(0,2)=="出售"? (coreList[0].reqName+":"+(dingJinController.text??"-")+"万")
-                                    :coreList[0].reqName=="首付"? (coreList[0].reqName+":"+(shouFuController.text??"-")+"万")
-                                    :coreList[0].reqName=="押金"? (coreList[0].reqName+":"+(shouFuController.text??"-")+"元")
+                                coreList[0].reqName=="其他"? (coreList[0].reqName+":"+otherController.text)
+                                    :coreList[0].reqName=="定金"&& widget.mainNeed.toString().substring(0,2)=="出租"? (coreList[0].reqName+":"+(dingJinController.text)+"元")
+                                    :coreList[0].reqName=="定金"&& widget.mainNeed.toString().substring(0,2)=="出售"? (coreList[0].reqName+":"+(dingJinController.text)+"万")
+                                    :coreList[0].reqName=="首付"? (coreList[0].reqName+":"+(shouFuController.text)+"万")
+                                    :coreList[0].reqName=="押金"? (coreList[0].reqName+":"+(shouFuController.text)+"元")
                                     :(coreList[0].reqName+":"+core1choose.substring(0,core1choose.lastIndexOf(','))),
                                 coreController1.text,
                                 coreList.length<2?"暂无第二核心需求"
-                                    :coreList.length>1&&coreList[1].reqName=="其他"?(coreList[1].reqName+":"+otherController.text??"无要求")
-                                    :coreList.length>1&&coreList[1].reqName=="定金"&& widget.mainNeed.toString().substring(0,2)=="出售"?(coreList[1].reqName+":"+(dingJinController.text??"-")+"万")
-                                    :coreList.length>1&&coreList[1].reqName=="定金"&& widget.mainNeed.toString().substring(0,2)=="出租"?(coreList[1].reqName+":"+(dingJinController.text??"-")+"元")
-                                    :coreList.length>1&&coreList[1].reqName=="首付"?(coreList[1].reqName+":"+(shouFuController.text??"-")+"万")
-                                    :coreList.length>1&&coreList[1].reqName=="押金"?(coreList[1].reqName+":"+(shouFuController.text??"-")+"元")
+                                    :coreList.length>1&&coreList[1].reqName=="其他"?(coreList[1].reqName+":"+otherController.text)
+                                    :coreList.length>1&&coreList[1].reqName=="定金"&& widget.mainNeed.toString().substring(0,2)=="出售"?(coreList[1].reqName+":"+(dingJinController.text)+"万")
+                                    :coreList.length>1&&coreList[1].reqName=="定金"&& widget.mainNeed.toString().substring(0,2)=="出租"?(coreList[1].reqName+":"+(dingJinController.text)+"元")
+                                    :coreList.length>1&&coreList[1].reqName=="首付"?(coreList[1].reqName+":"+(shouFuController.text)+"万")
+                                    :coreList.length>1&&coreList[1].reqName=="押金"?(coreList[1].reqName+":"+(shouFuController.text)+"元")
                                     :(coreList[1].reqName+":"+core2choose.substring(0,core2choose.lastIndexOf(','))),
                                 coreController2.text,
                                 coreList.length<3?"暂无第三核心需求"
-                                    :coreList.length>2&&coreList[2].reqName=="其他"?(coreList[2].reqName+":"+otherController.text??"无要求")
-                                    :coreList.length>2&&coreList[2].reqName=="定金"&& widget.mainNeed.toString().substring(0,2)=="出售"?(coreList[2].reqName+":"+(dingJinController.text??"-")+"万")
-                                    :coreList.length>2&&coreList[2].reqName=="定金"&& widget.mainNeed.toString().substring(0,2)=="出租"?(coreList[2].reqName+":"+(dingJinController.text??"-")+"元")
-                                    :coreList.length>2&&coreList[2].reqName=="首付"?(coreList[2].reqName+":"+(shouFuController.text??"-")+"万")
-                                    :coreList.length>2&&coreList[2].reqName=="押金"?(coreList[2].reqName+":"+(shouFuController.text??"-")+"元")
+                                    :coreList.length>2&&coreList[2].reqName=="其他"?(coreList[2].reqName+":"+otherController.text)
+                                    :coreList.length>2&&coreList[2].reqName=="定金"&& widget.mainNeed.toString().substring(0,2)=="出售"?(coreList[2].reqName+":"+(dingJinController.text)+"万")
+                                    :coreList.length>2&&coreList[2].reqName=="定金"&& widget.mainNeed.toString().substring(0,2)=="出租"?(coreList[2].reqName+":"+(dingJinController.text)+"元")
+                                    :coreList.length>2&&coreList[2].reqName=="首付"?(coreList[2].reqName+":"+(shouFuController.text)+"万")
+                                    :coreList.length>2&&coreList[2].reqName=="押金"?(coreList[2].reqName+":"+(shouFuController.text)+"元")
                                     :(coreList[2].reqName+":"+core3choose.substring(0,core3choose.lastIndexOf(','))),
                                 coreController3.text,
                                 otherChooses+","+widget.otherMsg,
-                                mapController.text??"-",
+                                mapController.text,
                                 "2",
                               );
                               if (addResult.code == 200) {
@@ -1474,7 +1486,7 @@ class _SellNeedDetailPageState extends State<SellNeedDetailPage> {
                                 if(getItem.code == 200){
                                   _onRefresh();
                                   Navigator.push(context, MaterialPageRoute(builder: (context)=>ClientDetailPage(
-                                    item:getItem.data[0],
+                                    item:getItem.data![0],
                                     tabIndex: 0,
                                   )));
                                 }else {
@@ -1573,28 +1585,28 @@ class _SellNeedDetailPageState extends State<SellNeedDetailPage> {
     }
   }
 
-  _onMapChanged(String text){
+  _onMapChanged(dynamic text){
     if(text != null){
       setState(() {
         mapBool = mapReg.hasMatch(mapController.text);
       });
     }
   }
-  _onCore1Changed(String text){
+  _onCore1Changed(dynamic text){
     if(text != null){
       setState(() {
         core1Bool = core1Reg.hasMatch(coreController1.text);
       });
     }
   }
-  _onCore2Changed(String text){
+  _onCore2Changed(dynamic text){
     if(text != null){
       setState(() {
         core2Bool = core2Reg.hasMatch(coreController2.text);
       });
     }
   }
-  _onCore3Changed(String text){
+  _onCore3Changed(dynamic text){
     if(text != null){
       setState(() {
         core3Bool = core3Reg.hasMatch(coreController3.text);
@@ -1603,7 +1615,7 @@ class _SellNeedDetailPageState extends State<SellNeedDetailPage> {
   }
 
 
-  _onDingJinChanged(String text){
+  _onDingJinChanged(dynamic text){
     if(text != null){
       setState(() {
         dingJinBool = dingJinReg.hasMatch(dingJinController.text);
@@ -1611,7 +1623,7 @@ class _SellNeedDetailPageState extends State<SellNeedDetailPage> {
       });
     }
   }
-  _onCore1DingJinChanged(String text){
+  _onCore1DingJinChanged(dynamic text){
     if(text != null){
       setState(() {
         dingJinBool = dingJinReg.hasMatch(dingJinController.text);
@@ -1619,7 +1631,7 @@ class _SellNeedDetailPageState extends State<SellNeedDetailPage> {
       });
     }
   }
-  _onCore2DingJinChanged(String text){
+  _onCore2DingJinChanged(dynamic text){
     if(text != null){
       setState(() {
         dingJinBool = dingJinReg.hasMatch(dingJinController.text);
@@ -1627,7 +1639,7 @@ class _SellNeedDetailPageState extends State<SellNeedDetailPage> {
       });
     }
   }
-  _onCore3DingJinChanged(String text){
+  _onCore3DingJinChanged(dynamic text){
     if(text != null){
       setState(() {
         dingJinBool = dingJinReg.hasMatch(dingJinController.text);
@@ -1636,7 +1648,7 @@ class _SellNeedDetailPageState extends State<SellNeedDetailPage> {
     }
   }
 
-  _onShouFuChanged(String text){
+  _onShouFuChanged(dynamic text){
     if(text != null){
       setState(() {
         shouFuBool = shouFuReg.hasMatch(shouFuController.text);
@@ -1644,7 +1656,7 @@ class _SellNeedDetailPageState extends State<SellNeedDetailPage> {
       });
     }
   }
-  _onCore1ShouFuChanged(String text){
+  _onCore1ShouFuChanged(dynamic text){
     if(text != null){
       setState(() {
         shouFuBool = shouFuReg.hasMatch(shouFuController.text);
@@ -1652,7 +1664,7 @@ class _SellNeedDetailPageState extends State<SellNeedDetailPage> {
       });
     }
   }
-  _onCore2ShouFuChanged(String text){
+  _onCore2ShouFuChanged(dynamic text){
     if(text != null){
       setState(() {
         shouFuBool = shouFuReg.hasMatch(shouFuController.text);
@@ -1660,7 +1672,7 @@ class _SellNeedDetailPageState extends State<SellNeedDetailPage> {
       });
     }
   }
-  _onCore3ShouFuChanged(String text){
+  _onCore3ShouFuChanged(dynamic text){
     if(text != null){
       setState(() {
         shouFuBool = shouFuReg.hasMatch(shouFuController.text);
@@ -1669,7 +1681,7 @@ class _SellNeedDetailPageState extends State<SellNeedDetailPage> {
     }
   }
 
-  _onOtherChanged(String text){
+  _onOtherChanged(dynamic text){
     if(text != null){
       setState(() {
         otherBool = otherReg.hasMatch(otherController.text);
@@ -1677,27 +1689,27 @@ class _SellNeedDetailPageState extends State<SellNeedDetailPage> {
       });
     }
   }
-  _onCore1OtherChanged(String text){
+  _onCore1OtherChanged(dynamic text){
     if(text != null){
       setState(() {
         otherBool = otherReg.hasMatch(otherController.text);
-        core1choose=otherController.text??"无要求";
+        core1choose=otherController.text;
       });
     }
   }
-  _onCore2OtherChanged(String text){
+  _onCore2OtherChanged(dynamic text){
     if(text != null){
       setState(() {
         otherBool = otherReg.hasMatch(otherController.text);
-        core2choose=otherController.text??"无要求";
+        core2choose=otherController.text;
       });
     }
   }
-  _onCore3OtherChanged(String text){
+  _onCore3OtherChanged(dynamic text){
     if(text != null){
       setState(() {
         otherBool = otherReg.hasMatch(otherController.text);
-        core3choose=otherController.text??"无要求";
+        core3choose=otherController.text;
       });
     }
   }

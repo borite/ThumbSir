@@ -3,9 +3,7 @@ import 'package:ThumbSir/pages/tips/qlist_tips_page.dart';
 import 'package:ThumbSir/widget/past_qlist.dart';
 import 'package:ThumbSir/widget/today_qlist.dart';
 import 'package:ThumbSir/widget/tomorrow_qlist.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:ThumbSir/pages/broker/qlist/qlist_add_page.dart';
 
 import '../../home.dart';
 
@@ -16,11 +14,11 @@ class QListListPage extends StatefulWidget {
 }
 
 class _QListListPageState extends State<QListListPage> with TickerProviderStateMixin {
-  TabController _controller;
-  TabController _timeController;
+  late TabController _controller;
+  late TabController _timeController;
   //0今天，1明天，2往期的Tab Index
   int tabIndex=0;
-  var tabs = [];
+  dynamic tabs = [];
   var timeTabs = [];
 
   //0上午，1下午，2晚上的Index
@@ -30,10 +28,10 @@ class _QListListPageState extends State<QListListPage> with TickerProviderStateM
     });
   }
 
-  Animation<double> animation;
-  AnimationController animationController;
-  AnimationStatus animationStatus;
-  double animationValue;
+  late Animation<double> animation;
+  late AnimationController animationController;
+  late AnimationStatus animationStatus;
+  late double animationValue;
 
 
 
@@ -151,17 +149,10 @@ class _QListListPageState extends State<QListListPage> with TickerProviderStateM
                                       children: <Widget>[
                                         Container(
                                           width: 60,
-                                          child: RaisedButton(
-                                            onPressed: (){
+                                          child: GestureDetector(
+                                            onTap: (){
                                               Navigator.push(context, MaterialPageRoute(builder: (context)=>QListTipsPage()));
                                             },
-                                            color: Colors.transparent,
-                                            elevation: 0,
-                                            disabledElevation: 0,
-                                            highlightColor: Colors.transparent,
-                                            highlightElevation: 0,
-                                            splashColor: Colors.transparent,
-                                            disabledColor: Colors.transparent,
                                             child: ClipOval(
                                               child: Container(
                                                   width: 26,
@@ -181,17 +172,10 @@ class _QListListPageState extends State<QListListPage> with TickerProviderStateM
                                         Container(
                                           margin: EdgeInsets.only(right: 10),
                                           width: 60,
-                                          child: RaisedButton(
-                                            onPressed: (){
+                                          child: GestureDetector(
+                                            onTap: (){
                                               Navigator.push(context, MaterialPageRoute(builder: (context)=>MyCenterPage()));
                                             },
-                                            color: Colors.transparent,
-                                            elevation: 0,
-                                            disabledElevation: 0,
-                                            highlightColor: Colors.transparent,
-                                            highlightElevation: 0,
-                                            splashColor: Colors.transparent,
-                                            disabledColor: Colors.transparent,
                                             child: ClipOval(
                                               child: Container(
                                                   width: 26,

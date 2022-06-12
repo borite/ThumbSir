@@ -28,19 +28,15 @@ class _TeamTradedDetailPageState extends State<TeamTradedDetailPage> {
   var dateTime = DateTime.now().toIso8601String().substring(0,10);
   List<Widget> showList = [];
 
-  LoginResultData userData;
-  String uinfo;
-  var result;
+  LoginResultData? userData;
+  late String uInfo;
 
   _getUserInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    uinfo= prefs.getString("userInfo");
-    if(uinfo != null){
-      result =loginResultDataFromJson(uinfo);
-      this.setState(() {
-        userData=LoginResultData.fromJson(json.decode(uinfo));
-      });
-    }
+    uInfo= prefs.getString("userInfo")!;
+    this.setState(() {
+      userData=LoginResultData.fromJson(json.decode(uInfo));
+    });
     if(userData != null){
       _load();
     }else{
@@ -51,25 +47,25 @@ class _TeamTradedDetailPageState extends State<TeamTradedDetailPage> {
   }
 
   _load()async{
-    var getLeaderResult = await GetLeaderInfoDao.httpGetLeaderInfo(
+    dynamic getLeaderResult = await GetLeaderInfoDao.httpGetLeaderInfo(
         widget.leaderID,
-        userData.companyId,
+        userData!.companyId,
     );
-    var getMemberListResult = await GetNextLevelCustomerDao.httpGetNextLevelCustomer(
+    dynamic getMemberListResult = await GetNextLevelCustomerDao.httpGetNextLevelCustomer(
         widget.leaderID,
-        userData.companyId,
+        userData!.companyId,
         widget.leaderArea,
     );
-    if(getMemberListResult != null && getLeaderResult != null ){
+    if(getLeaderResult != null ){
       if(getMemberListResult.code == 200 && getLeaderResult.code == 200){
         setState(() {
           hasMember = true;
           _loading =false;
-          leaderResult = getMemberListResult.data.countNums;
-          listResult = getMemberListResult.data.list;
-          currentLevelResult = getMemberListResult.data.currentLevel;
-          leaderInfo = getLeaderResult.data.leaderInfo;
-          leaderCount = getLeaderResult.data.leaderCustomerCount;
+          leaderResult = getMemberListResult.data!.countNums;
+          listResult = getMemberListResult.data!.list;
+          currentLevelResult = getMemberListResult.data!.currentLevel;
+          leaderInfo = getLeaderResult.data!.leaderInfo;
+          leaderCount = getLeaderResult.data!.leaderCustomerCount;
         });
       }else{
         setState(() {
@@ -208,7 +204,7 @@ class _TeamTradedDetailPageState extends State<TeamTradedDetailPage> {
             ),
           ),
         );
-      };
+      }
     }
     content =Column(
       children:showList,
@@ -376,13 +372,12 @@ class _TeamTradedDetailPageState extends State<TeamTradedDetailPage> {
                                           ),
                                           child:ClipRRect(
                                               borderRadius: BorderRadius.circular(40),
-                                              child:Image(
-                                                image: leaderInfo != null ?
-                                                leaderInfo.headImg != null ?
-                                                NetworkImage(leaderInfo.headImg)
-                                                    :
-                                                AssetImage('images/my_big.png'):AssetImage('images/my_big.png'),
-                                              )
+                                              child:leaderInfo != null ?
+                                              leaderInfo.headImg != null ?
+                                              Image(
+                                                image: NetworkImage(leaderInfo.headImg),
+                                              ):Image(image: AssetImage('images/my_big.png'))
+                                                  :Image(image: AssetImage('images/my_big.png'))
                                           ),
                                         ),
                                         Positioned(

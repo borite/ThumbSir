@@ -2,19 +2,13 @@ import 'dart:convert';
 import 'package:ThumbSir/dao/delete_customer_dao.dart';
 import 'package:ThumbSir/model/login_result_data_model.dart';
 import 'package:ThumbSir/pages/broker/client/my_client_page.dart';
-import 'package:ThumbSir/pages/broker/traded/my_traded_page.dart';
 import 'package:ThumbSir/pages/manager/client/m_client_page.dart';
 import 'package:ThumbSir/pages/manager/client/s_client_page.dart';
-import 'package:ThumbSir/pages/manager/traded/m_traded_page.dart';
-import 'package:ThumbSir/pages/manager/traded/s_traded_page.dart';
 import 'package:ThumbSir/widget/client_action_msg.dart';
 import 'package:ThumbSir/widget/client_basic_msg.dart';
 import 'package:ThumbSir/widget/client_deal_msg.dart';
 import 'package:ThumbSir/widget/client_need_msg.dart';
 import 'package:ThumbSir/widget/client_work_action_msg.dart';
-import 'package:ThumbSir/widget/traded_action_msg.dart';
-import 'package:ThumbSir/widget/traded_basic_msg.dart';
-import 'package:ThumbSir/widget/traded_deal_msg.dart';
 import 'package:flutter/material.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -23,7 +17,7 @@ class ClientDetailPage extends StatefulWidget {
   final item;
   final tabIndex;
 
-  ClientDetailPage({Key key,
+  ClientDetailPage({Key? key,
     this.item,this.tabIndex
   }):super(key:key);
   @override
@@ -31,26 +25,21 @@ class ClientDetailPage extends StatefulWidget {
 }
 
 class _ClientDetailPageState extends State<ClientDetailPage> with TickerProviderStateMixin {
-  bool _loading = false;
 
-  TabController _controller;
+  late TabController _controller;
   //0基本信息，1需求描述，2业务动作，3成交信息，4维护动作的Tab Index
   int tabIndex=0;
-  var tabs = [];
+  dynamic tabs = [];
 
-  LoginResultData userData;
-  String uinfo;
-  var result;
+  LoginResultData? userData;
+  late String uInfo;
 
   _getUserInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    uinfo= prefs.getString("userInfo");
-    if(uinfo != null){
-      result =loginResultDataFromJson(uinfo);
-      this.setState(() {
-        userData=LoginResultData.fromJson(json.decode(uinfo));
-      });
-    }
+    uInfo= prefs.getString("userInfo")!;
+    setState(() {
+      userData=LoginResultData.fromJson(json.decode(uInfo));
+    });
   }
 
   @override
@@ -94,7 +83,7 @@ class _ClientDetailPageState extends State<ClientDetailPage> with TickerProvider
                   // 业务动作
                   ClientWorkActionMsg(
                     item:widget.item,
-                    result:result,
+                    // result:result,
                   ),
                   // 成交信息
                   ClientDealMsg(
@@ -125,15 +114,15 @@ class _ClientDetailPageState extends State<ClientDetailPage> with TickerProvider
                               children: <Widget>[
                                 GestureDetector(
                                   onTap: (){
-                                    if (userData.userLevel.substring(0, 1) == "6") {
+                                    if (userData!.userLevel.substring(0, 1) == "6") {
                                       Navigator.push(context, MaterialPageRoute(
                                           builder: (context) => MyClientPage()));
                                     }
-                                    if (userData.userLevel.substring(0, 1) == "4") {
+                                    if (userData!.userLevel.substring(0, 1) == "4") {
                                       Navigator.push(context, MaterialPageRoute(
                                           builder: (context) => SClientPage()));
                                     }
-                                    if (userData.userLevel.substring(0, 1) == "5") {
+                                    if (userData!.userLevel.substring(0, 1) == "5") {
                                       Navigator.push(context, MaterialPageRoute(
                                           builder: (context) => MClientPage()));
                                     }
@@ -229,15 +218,15 @@ class _ClientDetailPageState extends State<ClientDetailPage> with TickerProvider
               widget.item.mid.toString()
             );
             if (deleteResult.code == 200) {
-              if (userData.userLevel.substring(0, 1) == "6") {
+              if (userData!.userLevel.substring(0, 1) == "6") {
                 Navigator.push(context, MaterialPageRoute(
                     builder: (context) => MyClientPage()));
               }
-              if (userData.userLevel.substring(0, 1) == "4") {
+              if (userData!.userLevel.substring(0, 1) == "4") {
                 Navigator.push(context, MaterialPageRoute(
                     builder: (context) => SClientPage()));
               }
-              if (userData.userLevel.substring(0, 1) == "5") {
+              if (userData!.userLevel.substring(0, 1) == "5") {
                 Navigator.push(context, MaterialPageRoute(
                     builder: (context) => MClientPage()));
               }

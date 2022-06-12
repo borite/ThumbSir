@@ -9,13 +9,13 @@ import 'package:ThumbSir/pages/broker/qlist/qlist_page.dart';
 import 'package:ThumbSir/pages/broker/qlist/qlist_view_mini_tasks_page.dart';
 import 'package:ThumbSir/pages/manager/qlist/manager_qlist_page.dart';
 import 'package:ThumbSir/pages/manager/qlist/s_qlist_page.dart';
+import 'package:chips_choice_null_safety/chips_choice_null_safety.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:ThumbSir/dao/get_default_task_dao.dart';
 import 'package:ThumbSir/model/login_result_data_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_time_picker_spinner/flutter_time_picker_spinner.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:chips_choice/chips_choice.dart';
 
 class QListChangePage extends StatefulWidget {
   final id;
@@ -39,43 +39,39 @@ class QListChangePage extends StatefulWidget {
 
 class _QListChangePageState extends State<QListChangePage> {
   final TextEditingController remarkController=TextEditingController();
-  RegExp remarkReg;
+  late RegExp remarkReg;
   bool remarkBool = false;
   final TextEditingController mapController=TextEditingController();
   final TextEditingController countController=TextEditingController();
-  RegExp mapReg;
+  late RegExp mapReg;
   bool mapBool = false;
-  String chooseId;
-  String chooseUnit;
-  String chooseTaskName;
+  late String chooseId;
+  late String chooseUnit;
+  late String chooseTaskName;
   var widgetStartTime;
   var widgetEndTime;
   String tag = "1";
 
-  var searchResult;
-  var deleteResult;
-  var modifyResult;
+  dynamic searchResult;
+  dynamic deleteResult;
+  dynamic modifyResult;
 
   List<String> delList=[];
   ScrollController _delController = ScrollController();
   ScrollController _modiController = ScrollController();
 
-  LoginResultData userData;
-  String uinfo;
-  var result;
+  LoginResultData? userData;
+  late String uInfo;
 
   _getUserInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    uinfo= prefs.getString("userInfo");
-    if(uinfo != null){
-      result =loginResultDataFromJson(uinfo);
-      this.setState(() {
-        userData=LoginResultData.fromJson(json.decode(uinfo));
-      });
-    }
+    uInfo= prefs.getString("userInfo")!;
+    setState(() {
+      userData=LoginResultData.fromJson(json.decode(uInfo));
+    });
   }
   _load() async {
-    var taskList = await GetDefaultTaskDao.httpGetDefaultTask();
+    dynamic taskList = await GetDefaultTaskDao.httpGetDefaultTask();
     if (taskList.code == 200) {
       setState(() {
         tasks = taskList.data;
@@ -91,12 +87,12 @@ class _QListChangePageState extends State<QListChangePage> {
 
   var startTime;
   var endTime;
-  int _starIndex;
-  int itemCount;
+  late int _starIndex;
+  late int itemCount;
   bool isRemark = false;
   bool isMap = false;
 
-  List taskList;
+  late List taskList;
 
   @override
   void initState() {
@@ -299,7 +295,7 @@ class _QListChangePageState extends State<QListChangePage> {
                       title: '可选的任务名称',
                       child: ChipsChoice<String>.single(
                         value: tag,
-                        options:  ChipsChoiceOption.listFrom<String,Datum>(
+                        choiceItems:  C2Choice.listFrom<String,Datum>(
                             source: tasks,
                             // 存储形式
                             value:(index,item)=>'{"id":"'+item.id.toString()+'","TaskTitle":"'+item.taskName+'","TaskUnit":"'+item.taskUnit+'"}',
@@ -315,13 +311,16 @@ class _QListChangePageState extends State<QListChangePage> {
                             chooseTaskName = item.taskTitle;
                           });
                         },
-                        itemConfig: ChipsChoiceItemConfig(
-                          selectedColor: Color(0xFF24CC8E),
-                          selectedBrightness: Brightness.dark,
-                          unselectedColor: Color(0xFF24CC8E),
-                          unselectedBorderOpacity: .3,
+                        choiceStyle: const C2ChoiceStyle(
+                          color: Color(0xFF6E85D3),
+                          borderOpacity: .3,
                         ),
-                        isWrapped: true,
+                        choiceActiveStyle: const C2ChoiceStyle(
+                          color: Color(0xFFFFFFFF),
+                          backgroundColor: Color(0xFF4ED491),
+                          borderOpacity: .3,
+                        ),
+                        wrapped: true,
                       ),
                     ):Container(height: 1,),
                     // 若选择其他描述必填提示
@@ -953,10 +952,10 @@ class _QListChangePageState extends State<QListChangePage> {
                             var result1516 = await ModifyMissionDao
                                 .modifyMission(
                               widget.id,
-                              userData.companyId,
-                              userData.userPid,
+                              userData!.companyId,
+                              userData!.userPid,
                               chooseId,
-                              userData.userLevel.substring(0, 1),
+                              userData!.userLevel.substring(0, 1),
                               widgetStartTime.toString(),
                               widgetEndTime.toString(),
                               _starIndex.toString(),
@@ -968,10 +967,10 @@ class _QListChangePageState extends State<QListChangePage> {
                               var resultSelfModify = await ConfirmModifyDao
                                   .modifyMission(
                                 widget.id,
-                                userData.companyId,
-                                userData.userPid,
+                                userData!.companyId,
+                                userData!.userPid,
                                 chooseId,
-                                userData.userLevel.substring(0, 1),
+                                userData!.userLevel.substring(0, 1),
                                 widgetStartTime.toString(),
                                 widgetEndTime.toString(),
                                 _starIndex.toString(),
@@ -980,15 +979,15 @@ class _QListChangePageState extends State<QListChangePage> {
                                 remarkController.text,
                               );
                               if(resultSelfModify.code == 200){
-                                if (userData.userLevel.substring(0, 1) == "6") {
+                                if (userData!.userLevel.substring(0, 1) == "6") {
                                   Navigator.push(context, MaterialPageRoute(
                                       builder: (context) => QListPage()));
                                 }
-                                if (userData.userLevel.substring(0, 1) == "4") {
+                                if (userData!.userLevel.substring(0, 1) == "4") {
                                   Navigator.push(context, MaterialPageRoute(
                                       builder: (context) => SQListPage()));
                                 }
-                                if (userData.userLevel.substring(0, 1) == "5") {
+                                if (userData!.userLevel.substring(0, 1) == "5") {
                                   Navigator.push(context, MaterialPageRoute(
                                       builder: (context) => ManagerQListPage()));
                                 }
@@ -1017,10 +1016,10 @@ class _QListChangePageState extends State<QListChangePage> {
                           if (chooseId == "13") {
                             var result13 = await ModifyMissionDao.modifyMission(
                               widget.id,
-                              userData.companyId,
-                              userData.userPid,
+                              userData!.companyId,
+                              userData!.userPid,
                               chooseId,
-                              userData.userLevel.substring(0, 1),
+                              userData!.userLevel.substring(0, 1),
                               widgetStartTime.toString().substring(0, 11) +
                                   '00:00:00.000000',
                               widgetEndTime.toString().substring(0, 11) +
@@ -1034,10 +1033,10 @@ class _QListChangePageState extends State<QListChangePage> {
                               var resultSelfModify = await ConfirmModifyDao
                                   .modifyMission(
                                 widget.id,
-                                userData.companyId,
-                                userData.userPid,
+                                userData!.companyId,
+                                userData!.userPid,
                                 chooseId,
-                                userData.userLevel.substring(0, 1),
+                                userData!.userLevel.substring(0, 1),
                                 widgetStartTime.toString().substring(0, 11) +
                                     '00:00:00.000000',
                                 widgetEndTime.toString().substring(0, 11) +
@@ -1048,15 +1047,15 @@ class _QListChangePageState extends State<QListChangePage> {
                                 remarkController.text,
                               );
                               if(resultSelfModify.code == 200){
-                                if (userData.userLevel.substring(0, 1) == "6") {
+                                if (userData!.userLevel.substring(0, 1) == "6") {
                                   Navigator.push(context, MaterialPageRoute(
                                       builder: (context) => QListPage()));
                                 }
-                                if (userData.userLevel.substring(0, 1) == "4") {
+                                if (userData!.userLevel.substring(0, 1) == "4") {
                                   Navigator.push(context, MaterialPageRoute(
                                       builder: (context) => SQListPage()));
                                 }
-                                if (userData.userLevel.substring(0, 1) == "5") {
+                                if (userData!.userLevel.substring(0, 1) == "5") {
                                   Navigator.push(context, MaterialPageRoute(
                                       builder: (context) => ManagerQListPage()));
                                 }
@@ -1086,10 +1085,10 @@ class _QListChangePageState extends State<QListChangePage> {
                               remarkController.text != '') {
                             var result12 = await ModifyMissionDao.modifyMission(
                               widget.id,
-                              userData.companyId,
-                              userData.userPid,
+                              userData!.companyId,
+                              userData!.userPid,
                               chooseId,
-                              userData.userLevel.substring(0, 1),
+                              userData!.userLevel.substring(0, 1),
                               widgetStartTime.toString(),
                               widgetEndTime.toString(),
                               _starIndex.toString(),
@@ -1101,10 +1100,10 @@ class _QListChangePageState extends State<QListChangePage> {
                               var resultSelfModify = await ConfirmModifyDao
                                   .modifyMission(
                                 widget.id,
-                                userData.companyId,
-                                userData.userPid,
+                                userData!.companyId,
+                                userData!.userPid,
                                 chooseId,
-                                userData.userLevel.substring(0, 1),
+                                userData!.userLevel.substring(0, 1),
                                 widgetStartTime.toString(),
                                 widgetEndTime.toString(),
                                 _starIndex.toString(),
@@ -1113,15 +1112,15 @@ class _QListChangePageState extends State<QListChangePage> {
                                 remarkController.text,
                               );
                               if(resultSelfModify.code == 200){
-                                if (userData.userLevel.substring(0, 1) == "6") {
+                                if (userData!.userLevel.substring(0, 1) == "6") {
                                   Navigator.push(context, MaterialPageRoute(
                                       builder: (context) => QListPage()));
                                 }
-                                if (userData.userLevel.substring(0, 1) == "4") {
+                                if (userData!.userLevel.substring(0, 1) == "4") {
                                   Navigator.push(context, MaterialPageRoute(
                                       builder: (context) => SQListPage()));
                                 }
-                                if (userData.userLevel.substring(0, 1) == "5") {
+                                if (userData!.userLevel.substring(0, 1) == "5") {
                                   Navigator.push(context, MaterialPageRoute(
                                       builder: (context) => ManagerQListPage()));
                                 }
@@ -1153,10 +1152,10 @@ class _QListChangePageState extends State<QListChangePage> {
                             var searchOtherResult = await ModifyMissionDao
                                 .modifyMission(
                               widget.id,
-                              userData.companyId,
-                              userData.userPid,
+                              userData!.companyId,
+                              userData!.userPid,
                               chooseId,
-                              userData.userLevel.substring(0, 1),
+                              userData!.userLevel.substring(0, 1),
                               widgetStartTime.toString(),
                               widgetEndTime.toString(),
                               _starIndex.toString(),
@@ -1168,10 +1167,10 @@ class _QListChangePageState extends State<QListChangePage> {
                               var resultSelfModify = await ConfirmModifyDao
                                   .modifyMission(
                                 widget.id,
-                                userData.companyId,
-                                userData.userPid,
+                                userData!.companyId,
+                                userData!.userPid,
                                 chooseId,
-                                userData.userLevel.substring(0, 1),
+                                userData!.userLevel.substring(0, 1),
                                 widgetStartTime.toString(),
                                 widgetEndTime.toString(),
                                 _starIndex.toString(),
@@ -1180,15 +1179,15 @@ class _QListChangePageState extends State<QListChangePage> {
                                 remarkController.text,
                               );
                               if(resultSelfModify.code == 200){
-                                if (userData.userLevel.substring(0, 1) == "6") {
+                                if (userData!.userLevel.substring(0, 1) == "6") {
                                   Navigator.push(context, MaterialPageRoute(
                                       builder: (context) => QListPage()));
                                 }
-                                if (userData.userLevel.substring(0, 1) == "4") {
+                                if (userData!.userLevel.substring(0, 1) == "4") {
                                   Navigator.push(context, MaterialPageRoute(
                                       builder: (context) => SQListPage()));
                                 }
-                                if (userData.userLevel.substring(0, 1) == "5") {
+                                if (userData!.userLevel.substring(0, 1) == "5") {
                                   Navigator.push(context, MaterialPageRoute(
                                       builder: (context) => ManagerQListPage()));
                                 }
@@ -1266,14 +1265,14 @@ class _QListChangePageState extends State<QListChangePage> {
       ),
     );
   }
-  _onChanged(String text){
+  _onChanged(dynamic text){
     if(text != null){
       setState(() {
         remarkBool = remarkReg.hasMatch(remarkController.text);
       });
     }
   }
-  _onMapChanged(String text){
+  _onMapChanged(dynamic text){
     if(text != null){
       setState(() {
         mapBool = mapReg.hasMatch(mapController.text);
@@ -1452,10 +1451,10 @@ class _QListChangePageState extends State<QListChangePage> {
             var resultSelfModify = await ConfirmModifyDao
                 .modifyMission(
               widget.id,
-              userData.companyId,
-              userData.userPid,
+              userData!.companyId,
+              userData!.userPid,
               chooseId,
-              userData.userLevel.substring(0, 1),
+              userData!.userLevel.substring(0, 1),
               chooseId != '13' ? widgetStartTime.toString():widgetStartTime.toString().substring(0, 11) + '00:00:00.000000',
               chooseId != '13' ? widgetEndTime.toString():widgetEndTime.toString().substring(0, 11) + '00:00:00.000000',
               _starIndex.toString(),
@@ -1513,15 +1512,15 @@ class _QListChangePageState extends State<QListChangePage> {
                 && deleteResult.code == 200
                 && modifyResult.code == 200){
               // print("三项成功");
-              if (userData.userLevel.substring(0, 1) == "6") {
+              if (userData!.userLevel.substring(0, 1) == "6") {
                 Navigator.push(context, MaterialPageRoute(
                     builder: (context) => QListPage()));
               }
-              if (userData.userLevel.substring(0, 1) == "4") {
+              if (userData!.userLevel.substring(0, 1) == "4") {
                 Navigator.push(context, MaterialPageRoute(
                     builder: (context) => SQListPage()));
               }
-              if (userData.userLevel.substring(0, 1) == "5") {
+              if (userData!.userLevel.substring(0, 1) == "5") {
                 Navigator.push(context, MaterialPageRoute(
                     builder: (context) => ManagerQListPage()));
               }
@@ -1532,15 +1531,15 @@ class _QListChangePageState extends State<QListChangePage> {
                 && resultSelfModify.code == 200
                 && modifyResult.code == 200){
               // print("改自己和相关成功");
-              if (userData.userLevel.substring(0, 1) == "6") {
+              if (userData!.userLevel.substring(0, 1) == "6") {
                 Navigator.push(context, MaterialPageRoute(
                     builder: (context) => QListPage()));
               }
-              if (userData.userLevel.substring(0, 1) == "4") {
+              if (userData!.userLevel.substring(0, 1) == "4") {
                 Navigator.push(context, MaterialPageRoute(
                     builder: (context) => SQListPage()));
               }
-              if (userData.userLevel.substring(0, 1) == "5") {
+              if (userData!.userLevel.substring(0, 1) == "5") {
                 Navigator.push(context, MaterialPageRoute(
                     builder: (context) => ManagerQListPage()));
               }
@@ -1551,15 +1550,15 @@ class _QListChangePageState extends State<QListChangePage> {
                 && resultSelfModify.code == 200
                 && deleteResult.code == 200){
               // print("改自己和删关联成功");
-              if (userData.userLevel.substring(0, 1) == "6") {
+              if (userData!.userLevel.substring(0, 1) == "6") {
                 Navigator.push(context, MaterialPageRoute(
                     builder: (context) => QListPage()));
               }
-              if (userData.userLevel.substring(0, 1) == "4") {
+              if (userData!.userLevel.substring(0, 1) == "4") {
                 Navigator.push(context, MaterialPageRoute(
                     builder: (context) => SQListPage()));
               }
-              if (userData.userLevel.substring(0, 1) == "5") {
+              if (userData!.userLevel.substring(0, 1) == "5") {
                 Navigator.push(context, MaterialPageRoute(
                     builder: (context) => ManagerQListPage()));
               }
@@ -1920,9 +1919,9 @@ class Content extends StatelessWidget {
   final Widget child;
 
   Content({
-    Key key,
-    @required this.title,
-    @required this.child,
+    Key? key,
+    required this.title,
+    required this.child,
   }) : super(key: key);
 
   @override

@@ -1,7 +1,5 @@
 import 'dart:convert';
-
 import 'package:ThumbSir/dao/get_mission_a_dao.dart';
-import 'package:ThumbSir/dao/get_mission_s_dao.dart';
 import 'package:ThumbSir/model/login_result_data_model.dart';
 import 'package:ThumbSir/widget/loading.dart';
 import 'package:flutter/material.dart';
@@ -22,19 +20,15 @@ class _ViewMyMiniTasksPageState extends State<ViewMyMiniTasksPage> {
   List<Widget> missions = [];
   bool _loading = false;
 
-  LoginResultData userData;
-  String uinfo;
-  var result;
+  LoginResultData? userData;
+  late String uInfo;
 
   _getUserInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    uinfo= prefs.getString("userInfo");
-    if(uinfo != null){
-      result =loginResultDataFromJson(uinfo);
-      this.setState(() {
-        userData=LoginResultData.fromJson(json.decode(uinfo));
-      });
-    }
+    uInfo= prefs.getString("userInfo")!;
+    this.setState(() {
+      userData=LoginResultData.fromJson(json.decode(uInfo));
+    });
     if(userData != null){
       _load();
     }else{
@@ -45,7 +39,8 @@ class _ViewMyMiniTasksPageState extends State<ViewMyMiniTasksPage> {
   }
 
   _load()async{
-    getMissionAResult = await GetMissionADao.getMissionA(widget.memberId, userData.userPid, (int.parse(userData.userLevel.substring(0,1))+1).toString(), userData.companyId);
+    getMissionAResult = await GetMissionADao.getMissionA(
+        widget.memberId, userData!.userPid, (int.parse(userData!.userLevel.substring(0,1))+1).toString(), userData!.companyId);
     if(getMissionAResult != null){
       if(getMissionAResult.code == 200){
         setState(() {
@@ -132,7 +127,7 @@ class _ViewMyMiniTasksPageState extends State<ViewMyMiniTasksPage> {
             ),
           ),
         );
-      };
+      }
     }
     content =Column(
       children: missions,

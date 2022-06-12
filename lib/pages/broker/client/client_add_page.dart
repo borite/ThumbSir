@@ -4,7 +4,6 @@ import 'package:ThumbSir/dao/add_customer_dao.dart';
 import 'package:ThumbSir/dao/add_new_customer_dao.dart';
 import 'package:ThumbSir/model/login_result_data_model.dart';
 import 'package:ThumbSir/pages/broker/client/buy_need_page.dart';
-import 'package:ThumbSir/pages/broker/traded/my_traded_page.dart';
 import 'package:ThumbSir/pages/manager/traded/m_traded_page.dart';
 import 'package:ThumbSir/pages/manager/traded/s_traded_page.dart';
 import 'package:ThumbSir/widget/input.dart';
@@ -29,28 +28,28 @@ class _ClientAddPageState extends State<ClientAddPage> {
   bool _loading = false;
 
   final TextEditingController userNameController = TextEditingController();
-  String userName;
-  RegExp nameReg;
-  bool userNameBool;
+  late String userName;
+  late RegExp nameReg;
+  bool userNameBool = false;
   final TextEditingController phoneNumController=TextEditingController();
-  String phoneNum;
-  RegExp phoneReg;
-  bool phoneBool;
+  late String phoneNum;
+  late RegExp phoneReg;
+  bool phoneBool = false;
   final TextEditingController careerController=TextEditingController();
-  String career;
-  RegExp careerReg;
+  late String career;
+  late RegExp careerReg;
   bool careerBool = false;
   final TextEditingController mapController=TextEditingController();
-  RegExp mapReg;
+  late RegExp mapReg;
   bool mapBool = false;
   final TextEditingController likeController=TextEditingController();
-  RegExp likeReg;
+  late RegExp likeReg;
   bool likeBool = false;
   final TextEditingController msgController=TextEditingController();
-  RegExp msgReg;
+  late RegExp msgReg;
   bool msgBool = false;
   final TextEditingController memberController=TextEditingController();
-  RegExp memberReg;
+  late RegExp memberReg;
   bool memberBool = false;
 
   String dealMinCount = "购买住宅";
@@ -60,34 +59,30 @@ class _ClientAddPageState extends State<ClientAddPage> {
   String memberMinCount = "妻子";
   int _starIndex = 0;
 
-  List<DealInfo> deal=new List();
-  List<BuySellNeedInfo> need=new List();
-  List<FamilyMember> member=new List();
+  List<DealInfo> deal=[];
+  List<BuySellNeedInfo> need=[];
+  List<FamilyMember> member=[];
 
   DateTime _selectedDate=DateTime(2020,1,1);
   DateTime _selectedBirthdayDate=DateTime(1980,1,1);
 
   int _radioGroupA = 0;
 
-  void _handleRadioValueChanged(int value) {
+  _handleRadioValueChanged(int value) {
     setState(() {
       _radioGroupA = value;
     });
   }
 
-  LoginResultData userData;
-  String uinfo;
-  var result;
+  LoginResultData? userData;
+  late String uInfo;
 
   _getUserInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    uinfo= prefs.getString("userInfo");
-    if(uinfo != null){
-      result =loginResultDataFromJson(uinfo);
-      this.setState(() {
-        userData=LoginResultData.fromJson(json.decode(uinfo));
-      });
-    }
+    uInfo= prefs.getString("userInfo")!;
+    setState(() {
+      userData=LoginResultData.fromJson(json.decode(uInfo));
+    });
   }
 
   @override
@@ -196,7 +191,7 @@ class _ClientAddPageState extends State<ClientAddPage> {
                                 userName = text;
                                 userNameBool = nameReg.hasMatch(userName);
                               });
-                            },
+                            }, password: false,
                           ),
 
                           // 需求
@@ -326,7 +321,7 @@ class _ClientAddPageState extends State<ClientAddPage> {
                                                 borderRadius: BorderRadius.only(topLeft: Radius.circular(8),bottomLeft: Radius.circular(8)),
                                               ),
                                               child: Text(
-                                                deal[index].dealReason,
+                                                deal[index].dealReason!,
                                                 style: TextStyle(
                                                   fontSize: 14,
                                                   color: Colors.white,
@@ -345,7 +340,7 @@ class _ClientAddPageState extends State<ClientAddPage> {
                                                   )
                                               ),
                                               child: Text(
-                                                "时间："+deal[index].dealTime.toIso8601String().substring(0,10),
+                                                "时间："+deal[index].dealTime!.toIso8601String().substring(0,10),
                                                 style: TextStyle(
                                                   fontSize: 14,
                                                   color: Color(0xFF5580EB),
@@ -537,6 +532,7 @@ class _ClientAddPageState extends State<ClientAddPage> {
                             controller: phoneNumController,
                             inputType: TextInputType.phone,
                             reg: phoneReg,
+                            password: false,
                             onChanged: (text){
                               setState(() {
                                 phoneNum = text;
@@ -601,14 +597,14 @@ class _ClientAddPageState extends State<ClientAddPage> {
                                 RadioListTile(
                                   value: 0,
                                   groupValue: _radioGroupA,
-                                  onChanged: _handleRadioValueChanged,
+                                  onChanged: _handleRadioValueChanged(0),
                                   title: Text('男'),
                                   selected: _radioGroupA == 0,
                                 ),
                                 RadioListTile(
                                   value: 1,
                                   groupValue: _radioGroupA,
-                                  onChanged: _handleRadioValueChanged,
+                                  onChanged: _handleRadioValueChanged(1),
                                   title: Text('女'),
                                   selected: _radioGroupA == 1,
                                 ),
@@ -637,6 +633,7 @@ class _ClientAddPageState extends State<ClientAddPage> {
                             controller: careerController,
                             inputType: TextInputType.text,
                             reg: careerReg,
+                            password: false,
                             onChanged: (text){
                               setState(() {
                                 career = text;
@@ -841,7 +838,7 @@ class _ClientAddPageState extends State<ClientAddPage> {
                                                 ))
                                               ),
                                               child: Text(
-                                                member[index].memberRole,
+                                                member[index].memberRole!,
                                                 style: TextStyle(
                                                   fontSize: 14,
                                                   color: Color(0xFF5580EB),
@@ -855,7 +852,7 @@ class _ClientAddPageState extends State<ClientAddPage> {
                                               width: 210,
                                               padding: EdgeInsets.fromLTRB(20, 0, 10, 3),
                                               child: Text(
-                                                member[index].memberHobby,
+                                                member[index].memberHobby!,
                                                 style: TextStyle(
                                                   fontSize: 14,
                                                   color: Color(0xFF5580EB),
@@ -922,8 +919,8 @@ class _ClientAddPageState extends State<ClientAddPage> {
                                 _onRefresh();
                                 // _finishPressed(context);
                                 var addResult = await AddNewCustomerDao.addNewCustomer(
-                                    userData.companyId,
-                                    userData.userPid,
+                                    userData!.companyId,
+                                    userData!.userPid,
                                     "5",
                                     userNameController.text,
                                     _radioGroupA.toString(),
@@ -943,15 +940,15 @@ class _ClientAddPageState extends State<ClientAddPage> {
                                 print(addResult);
                                 if (addResult.code == 200) {
                                   _onRefresh();
-                                  if (userData.userLevel.substring(0, 1) == "6") {
+                                  if (userData!.userLevel.substring(0, 1) == "6") {
                                     Navigator.push(context, MaterialPageRoute(
                                         builder: (context) => MyClientPage()));
                                   }
-                                  if (userData.userLevel.substring(0, 1) == "4") {
+                                  if (userData!.userLevel.substring(0, 1) == "4") {
                                     Navigator.push(context, MaterialPageRoute(
                                         builder: (context) => STradedPage()));
                                   }
-                                  if (userData.userLevel.substring(0, 1) == "5") {
+                                  if (userData!.userLevel.substring(0, 1) == "5") {
                                     Navigator.push(context, MaterialPageRoute(
                                         builder: (context) => MTradedPage()));
                                   }
@@ -1201,15 +1198,15 @@ class _ClientAddPageState extends State<ClientAddPage> {
             style: TextStyle(color: Colors.white, fontSize: 20),
           ),
           onPressed: (){
-              if (userData.userLevel.substring(0, 1) == "6") {
+              if (userData!.userLevel.substring(0, 1) == "6") {
                 Navigator.push(context, MaterialPageRoute(
                     builder: (context) => MyClientPage()));
               }
-              if (userData.userLevel.substring(0, 1) == "4") {
+              if (userData!.userLevel.substring(0, 1) == "4") {
                 Navigator.push(context, MaterialPageRoute(
                     builder: (context) => STradedPage()));
               }
-              if (userData.userLevel.substring(0, 1) == "5") {
+              if (userData!.userLevel.substring(0, 1) == "5") {
                 Navigator.push(context, MaterialPageRoute(
                     builder: (context) => MTradedPage()));
               }
@@ -1381,28 +1378,28 @@ class _ClientAddPageState extends State<ClientAddPage> {
       _loading = !_loading;
     });
   }
-  _onMapChanged(String text){
+  _onMapChanged(dynamic text){
     if(text != null){
       setState(() {
         mapBool = mapReg.hasMatch(mapController.text);
       });
     }
   }
-  _onLikeChanged(String text){
+  _onLikeChanged(dynamic text){
     if(text != null){
       setState(() {
         likeBool = likeReg.hasMatch(likeController.text);
       });
     }
   }
-  _onMsgChanged(String text){
+  _onMsgChanged(dynamic text){
     if(text != null){
       setState(() {
         msgBool = msgReg.hasMatch(msgController.text);
       });
     }
   }
-  _onMemberChanged(String text){
+  _onMemberChanged(dynamic text){
     if(text != null){
       setState(() {
         memberBool = memberReg.hasMatch(memberController.text);

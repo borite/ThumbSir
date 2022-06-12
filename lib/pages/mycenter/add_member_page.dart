@@ -27,43 +27,39 @@ class _AddMemberPageState extends State<AddMemberPage> {
   var areaShowState = 0;
 
   final TextEditingController areaController = TextEditingController();
-  String area;
-  RegExp areaReg;
-  bool areaBool;
+  late String area;
+  late RegExp areaReg;
+  bool areaBool = false;
   final TextEditingController phoneNumController=TextEditingController();
-  String phoneNum;
-  RegExp phoneReg;
-  bool phoneBool;
+  late String phoneNum;
+  late RegExp phoneReg;
+  bool phoneBool = false;
 
-  LoginResultData userData;
-  String uinfo;
-  var result;
+  LoginResultData? userData;
+  late String uInfo;
 
   var leaderInfo;
 
   _getUserInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    uinfo= prefs.getString("userInfo");
-    if(uinfo != null){
-      result =loginResultDataFromJson(uinfo);
-      this.setState(() {
-        userData=LoginResultData.fromJson(json.decode(uinfo));
-      });
-    }
+    uInfo= prefs.getString("userInfo")!;
+    setState(() {
+      userData=LoginResultData.fromJson(json.decode(uInfo));
+    });
     if(userData != null){
       _loadLeader();
     }
   }
 
   _loadLeader()async{
-    if(userData.leaderId != null){
+    if(userData!.leaderId != null){
       var getLeaderResult = await GetLeaderInfoDao.httpGetLeaderInfo(
-        userData.leaderId,
-        userData.companyId,
+        userData!.leaderId,
+        userData!.companyId,
       );
       if(getLeaderResult.code == 200){
         setState(() {
-          leaderInfo = getLeaderResult.data.leaderInfo;
+          leaderInfo = getLeaderResult.data!.leaderInfo;
         });
       }
     }
@@ -109,9 +105,9 @@ class _AddMemberPageState extends State<AddMemberPage> {
                             Padding(
                               padding: EdgeInsets.only(left: 10),
                               child: Text(
-                                userData != null && userData.userLevel.substring(0,1) == "6"?
+                                userData != null && userData!.userLevel.substring(0,1) == "6"?
                                 '添加上级成员'
-                                :userData != null && userData.userLevel.substring(0,1) == "1"?
+                                :userData != null && userData!.userLevel.substring(0,1) == "1"?
                                 '添加下级成员'
                                 :'添加上下级成员',
                                 style: TextStyle(
@@ -125,7 +121,7 @@ class _AddMemberPageState extends State<AddMemberPage> {
                         )
                     ),
 
-                    userData != null &&userData.userLevel.substring(0,1) != '6'?
+                    userData != null &&userData!.userLevel.substring(0,1) != '6'?
                     //找下级输入手机号
                     Container(
                       width: 335,
@@ -141,7 +137,7 @@ class _AddMemberPageState extends State<AddMemberPage> {
                       ),
                     )
                     :Container(height: 1,),
-                    userData != null &&userData.userLevel.substring(0,1) != '6'?
+                    userData != null &&userData!.userLevel.substring(0,1) != '6'?
                     Container(
                       width: 350,
                       height: 80,
@@ -160,7 +156,7 @@ class _AddMemberPageState extends State<AddMemberPage> {
                                 phoneNum = text;
                                 phoneBool = phoneReg.hasMatch(phoneNum);
                               });
-                            },
+                            }, password: false,
                           ),
                           Positioned(
                               left: 300,
@@ -204,7 +200,7 @@ class _AddMemberPageState extends State<AddMemberPage> {
                         children: <Widget>[
                           GestureDetector(
                             onTap: (){
-                              if(int.parse(userData.userLevel.substring(0,1))+1 == int.parse(phoneResultData.userLevel.substring(0,1))){
+                              if(int.parse(userData!.userLevel.substring(0,1))+1 == int.parse(phoneResultData.userLevel.substring(0,1))){
                                 _onChooseMemberAlertPressed(context);
                               }else{
                                 _onChooseMemberLevelAlertPressed(context);
@@ -230,12 +226,10 @@ class _AddMemberPageState extends State<AddMemberPage> {
                                         ),
                                         child:ClipRRect(
                                           borderRadius: BorderRadius.circular(30),
-                                          child: Image(
-                                            image:phoneResultData.headImg != null?
-                                            NetworkImage(phoneResultData.headImg)
-                                                :
-                                            AssetImage('images/my_big.png'),
-                                          ),
+                                          child: phoneResultData.headImg != null?
+                                          Image(
+                                            image: NetworkImage(phoneResultData.headImg)
+                                          ):Image(image: AssetImage('images/my_big.png'),),
                                         ),
                                       ),
                                       Container(
@@ -300,7 +294,7 @@ class _AddMemberPageState extends State<AddMemberPage> {
                     :Container(width: 335,),
 
                     //找领导输入区域
-                    userData != null && userData.userLevel.substring(0,1) != '1' && userData.leaderId == null?
+                    userData != null && userData!.userLevel.substring(0,1) != '1' && userData!.leaderId == null?
                     Container(
                       width: 335,
                       margin: EdgeInsets.only(top: 50),
@@ -315,15 +309,15 @@ class _AddMemberPageState extends State<AddMemberPage> {
                       ),
                     )
                     :
-                    userData != null && userData.userLevel.substring(0,1) != '1' && userData.leaderId != null?
+                    userData != null && userData!.userLevel.substring(0,1) != '1' && userData!.leaderId != null?
                     Container(
                       width: 335,
                       margin: EdgeInsets.only(top: 50),
                       child: Text(
-                        userData != null && userData.leaderId != null && userData.userState == 1 ?
+                        userData != null && userData!.leaderId != null && userData!.userState == 1 ?
                         '已挂载上级'
                             :
-                        userData != null && userData.leaderId != null && userData.userState == 3 ?
+                        userData != null && userData!.leaderId != null && userData!.userState == 3 ?
                         '已发送挂载申请的上级（待确认），需被申请人前往消息中心确认或拒绝'
                         :
                         '您的账号已被锁定',
@@ -337,7 +331,7 @@ class _AddMemberPageState extends State<AddMemberPage> {
                     )
                     :
                     Container(width: 1,),
-                    userData != null &&userData.userLevel.substring(0,1) != '1' && userData.leaderId == null?
+                    userData != null &&userData!.userLevel.substring(0,1) != '1' && userData!.leaderId == null?
                     Container(
                       width: 350,
                       height: 80,
@@ -351,6 +345,7 @@ class _AddMemberPageState extends State<AddMemberPage> {
                               controller: areaController,
                               inputType: TextInputType.text,
                               reg: areaReg,
+                              password: false,
                               onChanged: (text){
                                 setState(() {
                                   area = text;
@@ -364,7 +359,8 @@ class _AddMemberPageState extends State<AddMemberPage> {
                                 child: GestureDetector(
                                   onTap: ()async{
                                     if(areaBool == true){
-                                      areaResult = await GetLeaderDao.httpGetLeader(userData.companyId, areaController.text, (int.parse(userData.userLevel.substring(0,1))-1).toString());
+                                      areaResult = await GetLeaderDao.httpGetLeader(
+                                          userData!.companyId, areaController.text, (int.parse(userData!.userLevel.substring(0,1))-1).toString());
                                       if(areaResult != null){
                                         if(areaResult.code == 200){
                                           setState(() {
@@ -390,7 +386,7 @@ class _AddMemberPageState extends State<AddMemberPage> {
                       )
                     )
                     :
-                    userData != null &&userData.userLevel.substring(0,1) != '1' && userData.leaderId != null && leaderInfo != null?
+                    userData != null &&userData!.userLevel.substring(0,1) != '1' && userData!.leaderId != null && leaderInfo != null?
                     // 已挂载上级直接显示上级信息
                     Container(
                       width: 335,
@@ -413,12 +409,10 @@ class _AddMemberPageState extends State<AddMemberPage> {
                                 ),
                                 child:ClipRRect(
                                   borderRadius: BorderRadius.circular(30),
-                                  child: Image(
-                                    image:leaderInfo.headImg != null?
-                                    NetworkImage(leaderInfo.headImg)
-                                        :
-                                    AssetImage('images/my_big.png'),
-                                  ),
+                                  child: leaderInfo.headImg != null?
+                                  Image(
+                                    image: NetworkImage(leaderInfo.headImg)
+                                  ) :Image(image: AssetImage('images/my_big.png'),),
                                 ),
                               ),
                               Container(
@@ -484,12 +478,10 @@ class _AddMemberPageState extends State<AddMemberPage> {
                                         ),
                                         child:ClipRRect(
                                           borderRadius: BorderRadius.circular(30),
-                                          child: Image(
-                                            image:areaResultData.headImg != null?
-                                            NetworkImage(areaResultData.headImg)
-                                                :
-                                            AssetImage('images/my_big.png'),
-                                          ),
+                                          child: areaResultData.headImg != null?
+                                          Image(
+                                            image: NetworkImage(areaResultData.headImg),
+                                          ):Image(image: AssetImage('images/my_big.png'),)
                                         ),
                                       ),
                                       Container(
@@ -590,10 +582,10 @@ class _AddMemberPageState extends State<AddMemberPage> {
             ),
             onPressed: () async {
               // 申请挂载上级
-              var leaderResult = await AddLeaderDao.addLeaderPost(userData.userPid, areaResultData.userPid);
+              var leaderResult = await AddLeaderDao.addLeaderPost(userData!.userPid, areaResultData.userPid);
 
               if(leaderResult.code == 200){
-                var sendMessageResult = await SendMessageDao.sendMessage(userData.userPid, areaResultData.userPid, '上下级职位联接邀请', userData.userName+'申请成为你的下级', '2');
+                var sendMessageResult = await SendMessageDao.sendMessage(userData!.userPid, areaResultData.userPid, '上下级职位联接邀请', userData!.userName+'申请成为你的下级', '2');
                 if(sendMessageResult.code == 200){
                   _onLeaderResult200AlertPressed(context);
                 }else{
@@ -632,10 +624,10 @@ class _AddMemberPageState extends State<AddMemberPage> {
             ),
             onPressed: () async {
               // 申请挂载下级
-              var memberResult = await AddTeamMemberDao.addMemberPost(userData.userPid, phoneResultData.userPid);
+              var memberResult = await AddTeamMemberDao.addMemberPost(userData!.userPid, phoneResultData.userPid);
 
               if(memberResult.code == 200){
-                var sendMessageResult = await SendMessageDao.sendMessage(userData.userPid, phoneResultData.userPid, '上下级职位联接邀请', userData.userName+'申请成为你的上级', '2');
+                var sendMessageResult = await SendMessageDao.sendMessage(userData!.userPid, phoneResultData.userPid, '上下级职位联接邀请', userData!.userName+'申请成为你的上级', '2');
                 if(sendMessageResult.code == 200){
                   _onMemberResult200AlertPressed(context);
                 }else{

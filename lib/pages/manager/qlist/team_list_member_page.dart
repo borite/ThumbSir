@@ -1,15 +1,14 @@
 import 'package:ThumbSir/dao/get_user_select_mission_dao.dart';
 import 'package:ThumbSir/widget/qlist_check_item.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:some_calendar/some_calendar.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:ThumbSir/model/get_user_select_mission_model.dart';
 import 'package:ThumbSir/model/mission_record_model.dart';
-import 'package:ThumbSir/dao/get_user_mission_records_dao.dart';
+
+import '../../../dao/get_user_mission_records_dao.dart';
 
 class TeamListMemberPage extends StatefulWidget {
   final userId;
@@ -22,7 +21,7 @@ class TeamListMemberPage extends StatefulWidget {
 
 class _TeamListMemberPageState extends State<TeamListMemberPage> {
   DateTime selectedDate = DateTime.now();
-  List<DateTime> selectedDates = List();
+  late List<DateTime> selectedDates;
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   var missionList;
@@ -32,7 +31,7 @@ class _TeamListMemberPageState extends State<TeamListMemberPage> {
   List<Widget> msgs=[];
 
   _load() async {
-    var missionList = await GetUserSelectMissionDao.getMissions(
+    dynamic missionList = await GetUserSelectMissionDao.getMissions(
       widget.userId,
       widget.userLevel.substring(0,1),
       selectedDate.toIso8601String().substring(0,10),
@@ -41,19 +40,18 @@ class _TeamListMemberPageState extends State<TeamListMemberPage> {
         missions = missionList.data;
         if (missions.length>0) {
           for (var item in missions) {
-            GetMissionRecord m_record= await UserSelectMissionDao.missionRecord(widget.userId,item.id.toString(),widget.userLevel.substring(0,1));
-            print(m_record);
+            dynamic mRecord= await GetMissionRecordDao.missionRecord(widget.userId,item.id.toString(),widget.userLevel.substring(0,1));
             missionsMorningShowList.add(
               QListCheckItem(
                   name: item.taskName,
                   number: item.defaultTaskId == 15 || item.defaultTaskId == 16 || item.defaultTaskId == 13? "":item.planningCount.toString()+item.taskUnit,
-                  time: item.planningStartTime.toIso8601String().substring(11,16)+'~'+item.planningEndTime.toIso8601String().substring(11,16),
+                  time: item.planningStartTime!.toIso8601String().substring(11,16)+'~'+item.planningEndTime!.toIso8601String().substring(11,16),
                   star: item.stars,
                   percent: item.finishRate,
                   remark: item.remark == null ? '暂无描述':item.remark,
                   address: item.address == null ? '暂未标注地点':item.address,
-                  currentAddress: m_record.data==null?"还未上传":m_record.data.address,
-                  imgs:m_record.data==null?"":m_record.data.missionImgs
+                  currentAddress: mRecord.data==null?"还未上传":mRecord.data.address,
+                  imgs:mRecord.data==null?"":mRecord.data.missionImgs, pageIndex: 0, tabIndex: 0,
               ),
             );
           }
@@ -162,28 +160,28 @@ class _TeamListMemberPageState extends State<TeamListMemberPage> {
                             ),
                             GestureDetector(
                               onTap: () {
-                                showDialog(
-                                    context: context,
-                                    builder: (_) => SomeCalendar(
-                                      primaryColor: Color(0xff93C0FB),
-                                      mode: SomeMode.Single,
-                                      labels: new Labels(
-                                        dialogDone: '确定',
-                                        dialogCancel: '取消',
-                                      ),
-                                      isWithoutDialog: false,
-                                      selectedDate: selectedDate,
-                                      startDate: Jiffy().subtract(years: 3),
-                                      lastDate: Jiffy().add(months: 9),
-                                      textColor: Color(0xFF93C0FB),
-                                      done: (date) {
-                                        setState(() {
-                                          selectedDate = date;
-                                          missionsMorningShowList = [];
-                                          _load();
-                                        });
-                                      },
-                                    ));
+                                // showDialog(
+                                //     context: context,
+                                //     builder: (_) => SomeCalendar(
+                                //       primaryColor: Color(0xff93C0FB),
+                                //       mode: SomeMode.Single,
+                                //       labels: new Labels(
+                                //         dialogDone: '确定',
+                                //         dialogCancel: '取消',
+                                //       ),
+                                //       isWithoutDialog: false,
+                                //       selectedDate: selectedDate,
+                                //       startDate: Jiffy().subtract(years: 3),
+                                //       lastDate: Jiffy().add(months: 9),
+                                //       textColor: Color(0xFF93C0FB),
+                                //       done: (date) {
+                                //         setState(() {
+                                //           selectedDate = date;
+                                //           missionsMorningShowList = [];
+                                //           _load();
+                                //         });
+                                //       },
+                                //     ));
                               },
                               child: Row(
                                 children: <Widget>[

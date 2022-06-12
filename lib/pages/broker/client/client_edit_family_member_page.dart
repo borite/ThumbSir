@@ -2,13 +2,10 @@ import 'dart:convert';
 import 'package:ThumbSir/common/reg.dart';
 import 'package:ThumbSir/dao/add_family_member_info_dao.dart';
 import 'package:ThumbSir/dao/delete_family_member_info_dao.dart';
-import 'package:ThumbSir/dao/get_customer_info_dao.dart';
 import 'package:ThumbSir/dao/get_user_detail_by_id_dao.dart';
-import 'package:ThumbSir/dao/update_family_member_info_dao.dart';
 import 'package:ThumbSir/model/get_customer_list_model.dart';
 import 'package:ThumbSir/model/login_result_data_model.dart';
 import 'package:ThumbSir/pages/broker/client/client_detail_page.dart';
-import 'package:ThumbSir/pages/broker/traded/traded_detail_page.dart';
 import 'package:ThumbSir/widget/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -18,7 +15,7 @@ import 'package:rflutter_alert/rflutter_alert.dart';
 class ClientEditFamilyMemberPage extends StatefulWidget {
   final item;
 
-  ClientEditFamilyMemberPage({Key key,
+  ClientEditFamilyMemberPage({Key? key,
     this.item
   }):super(key:key);
   @override
@@ -30,26 +27,22 @@ class _ClientEditFamilyMemberPageState extends State<ClientEditFamilyMemberPage>
   ScrollController _scrollController = ScrollController();
 
   final TextEditingController memberController=TextEditingController();
-  RegExp memberReg;
+  late RegExp memberReg;
   bool memberBool = false;
 
   String memberMinCount = "妻子";
 
-  List member=new List();
+  List member=[];
 
-  LoginResultData userData;
-  String uinfo;
-  var result;
+  LoginResultData? userData;
+  late String uInfo;
 
   _getUserInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    uinfo= prefs.getString("userInfo");
-    if(uinfo != null){
-      result =loginResultDataFromJson(uinfo);
-      this.setState(() {
-        userData=LoginResultData.fromJson(json.decode(uinfo));
-      });
-    }
+    uInfo= prefs.getString("userInfo")!;
+    setState(() {
+      userData=LoginResultData.fromJson(json.decode(uInfo));
+    });
   }
 
   @override
@@ -101,7 +94,7 @@ class _ClientEditFamilyMemberPageState extends State<ClientEditFamilyMemberPage>
                                           if(getItem.code == 200){
                                             _onRefresh();
                                             Navigator.push(context, MaterialPageRoute(builder: (context)=>ClientDetailPage(
-                                              item:getItem.data[0],
+                                              item:getItem.data![0],
                                               tabIndex: 0,
                                             )));
                                           }else {
@@ -389,7 +382,7 @@ class _ClientEditFamilyMemberPageState extends State<ClientEditFamilyMemberPage>
               if(getItem.code == 200){
                 _onRefresh();
                 Navigator.push(context, MaterialPageRoute(builder: (context)=>ClientDetailPage(
-                  item:getItem.data[0],
+                  item:getItem.data![0],
                   tabIndex: 0,
                 )));
               }else {
@@ -443,7 +436,7 @@ class _ClientEditFamilyMemberPageState extends State<ClientEditFamilyMemberPage>
       _loading = !_loading;
     });
   }
-  _onMemberChanged(String text){
+  _onMemberChanged(dynamic text){
     if(text != null){
       setState(() {
         memberBool = memberReg.hasMatch(memberController.text);

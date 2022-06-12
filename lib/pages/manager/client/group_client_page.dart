@@ -1,10 +1,8 @@
 import 'dart:convert';
 import 'package:ThumbSir/dao/client_get_last_level_customer_num_dao.dart';
-import 'package:ThumbSir/dao/get_last_level_customer_num_dao.dart';
 import 'package:ThumbSir/model/login_result_data_model.dart';
 import 'package:ThumbSir/pages/home.dart';
 import 'package:ThumbSir/pages/manager/client/team_client_member_page.dart';
-import 'package:ThumbSir/pages/manager/traded/team_traded_member_page.dart';
 import 'package:ThumbSir/pages/mycenter/my_center_page.dart';
 import 'package:ThumbSir/pages/tips/qlist_tips_page.dart';
 import 'package:flutter/material.dart';
@@ -24,19 +22,15 @@ class _GroupClientPageState extends State<GroupClientPage> {
   List<Widget> showList = [];
   List<Widget> msgs=[];
 
-  LoginResultData userData;
-  String uinfo;
-  var result;
+  LoginResultData? userData;
+  late String uInfo;
 
   _getUserInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    uinfo= prefs.getString("userInfo");
-    if(uinfo != null){
-      result =loginResultDataFromJson(uinfo);
-      this.setState(() {
-        userData=LoginResultData.fromJson(json.decode(uinfo));
-      });
-    }
+    uInfo= prefs.getString("userInfo")!;
+    setState(() {
+      userData=LoginResultData.fromJson(json.decode(uInfo));
+    });
     if(userData != null){
       _load();
     }else{
@@ -47,9 +41,9 @@ class _GroupClientPageState extends State<GroupClientPage> {
   }
 
   _load()async{
-    var getMemberListResult = await ClientGetLastLevelCustomerNumDao.httpClientGetLastLevelCustomerNum(
-        userData.userPid,
-        userData.companyId,
+    dynamic getMemberListResult = await ClientGetLastLevelCustomerNumDao.httpClientGetLastLevelCustomerNum(
+        userData!.userPid,
+        userData!.companyId,
     );
     if(getMemberListResult != null){
       if(getMemberListResult.code == 200){
@@ -86,12 +80,10 @@ class _GroupClientPageState extends State<GroupClientPage> {
                               ),
                               child:ClipRRect(
                                   borderRadius: BorderRadius.circular(30),
-                                  child:Image(
-                                    image: item.headImg != null ?
-                                    NetworkImage(item.headImg)
-                                        :
-                                    AssetImage('images/my_big.png'),
-                                  )
+                                  child:item.headImg != null ?
+                                  Image(
+                                    image: NetworkImage(item.headImg)
+                                  ):Image(image: AssetImage('images/my_big.png'),)
                               ),
                             ),
                             Container(
@@ -169,7 +161,7 @@ class _GroupClientPageState extends State<GroupClientPage> {
                   ),
                 ),
               );
-            };
+            }
           }
           setState(() {
             msgs=showList;
@@ -251,17 +243,10 @@ class _GroupClientPageState extends State<GroupClientPage> {
                             children: <Widget>[
                               Container(
                                 width: 60,
-                                child: RaisedButton(
-                                  onPressed: (){
+                                child: GestureDetector(
+                                  onTap: (){
                                     Navigator.push(context, MaterialPageRoute(builder: (context)=>QListTipsPage()));
                                   },
-                                  color: Colors.transparent,
-                                  elevation: 0,
-                                  disabledElevation: 0,
-                                  highlightColor: Colors.transparent,
-                                  highlightElevation: 0,
-                                  splashColor: Colors.transparent,
-                                  disabledColor: Colors.transparent,
                                   child: ClipOval(
                                     child: Container(
                                         width: 26,
@@ -285,17 +270,10 @@ class _GroupClientPageState extends State<GroupClientPage> {
                               Container(
                                 margin: EdgeInsets.only(right: 10),
                                 width: 60,
-                                child: RaisedButton(
-                                  onPressed: (){
+                                child: GestureDetector(
+                                  onTap: (){
                                     Navigator.push(context, MaterialPageRoute(builder: (context)=>MyCenterPage()));
                                   },
-                                  color: Colors.transparent,
-                                  elevation: 0,
-                                  disabledElevation: 0,
-                                  highlightColor: Colors.transparent,
-                                  highlightElevation: 0,
-                                  splashColor: Colors.transparent,
-                                  disabledColor: Colors.transparent,
                                   child: ClipOval(
                                     child: Container(
                                         width: 26,
@@ -330,7 +308,7 @@ class _GroupClientPageState extends State<GroupClientPage> {
                           Padding(
                             padding: EdgeInsets.only(left: 25,right: 15,top: 5),
                             child: Text(
-                              userData != null ? userData.section:'',
+                              userData != null ? userData!.section:'',
                               style: TextStyle(
                                 decoration: TextDecoration.none,
                                 fontSize: 20,
@@ -346,13 +324,13 @@ class _GroupClientPageState extends State<GroupClientPage> {
                           height: 20,
                           decoration: BoxDecoration(
                               border: userData != null ?
-                              userData.userLevel.substring(0,1) == '1' ?
+                              userData!.userLevel.substring(0,1) == '1' ?
                               Border.all(color: Color(0xFF003273),width: 1) // 总经理深蓝色
-                                  :userData.userLevel.substring(0,1) == '2' ?
+                                  :userData!.userLevel.substring(0,1) == '2' ?
                               Border.all(color: Color(0xFF7412F2),width: 1) // 副总经理深紫色
-                                  :userData.userLevel.substring(0,1) == '3' ?
+                                  :userData!.userLevel.substring(0,1) == '3' ?
                               Border.all(color: Color(0xFF9149EC),width: 1) // 总监浅紫色
-                                  :userData.userLevel.substring(0,1) == '4' ?
+                                  :userData!.userLevel.substring(0,1) == '4' ?
                               Border.all(color: Color(0xFFFF9600),width: 1)// 商圈经理橘色
                                   :
                               Border.all(color: Color(0xFF24CC8E),width: 1)
@@ -369,13 +347,13 @@ class _GroupClientPageState extends State<GroupClientPage> {
                               style: TextStyle(
                                 fontSize: 10,
                                 color: userData != null ?
-                                userData.userLevel.substring(0,1) == '1' ?
+                                userData!.userLevel.substring(0,1) == '1' ?
                                 Color(0xFF003273) // 总经理深蓝色
-                                    :userData.userLevel.substring(0,1) == '2' ?
+                                    :userData!.userLevel.substring(0,1) == '2' ?
                                 Color(0xFF7412F2) // 副总经理深紫色
-                                    :userData.userLevel.substring(0,1) == '3' ?
+                                    :userData!.userLevel.substring(0,1) == '3' ?
                                 Color(0xFF9149EC) // 总监浅紫色
-                                    :userData.userLevel.substring(0,1) == '4' ?
+                                    :userData!.userLevel.substring(0,1) == '4' ?
                                 Color(0xFFFF9600)// 商圈经理橘色
                                     :
                                 Color(0xFF24CC8E)// 店长绿色,
@@ -394,13 +372,13 @@ class _GroupClientPageState extends State<GroupClientPage> {
                           height: 20,
                           decoration: BoxDecoration(
                               border: userData != null ?
-                              userData.userLevel.substring(0,1) == '1' ?
+                              userData!.userLevel.substring(0,1) == '1' ?
                               Border.all(color: Color(0xFF003273),width: 1) // 总经理深蓝色
-                                  :userData.userLevel.substring(0,1) == '2' ?
+                                  :userData!.userLevel.substring(0,1) == '2' ?
                               Border.all(color: Color(0xFF7412F2),width: 1) // 副总经理深紫色
-                                  :userData.userLevel.substring(0,1) == '3' ?
+                                  :userData!.userLevel.substring(0,1) == '3' ?
                               Border.all(color: Color(0xFF9149EC),width: 1) // 总监浅紫色
-                                  :userData.userLevel.substring(0,1) == '4' ?
+                                  :userData!.userLevel.substring(0,1) == '4' ?
                               Border.all(color: Color(0xFFFF9600),width: 1)// 商圈经理橘色
                                   :
                               Border.all(color: Color(0xFF24CC8E),width: 1)
@@ -417,13 +395,13 @@ class _GroupClientPageState extends State<GroupClientPage> {
                               style: TextStyle(
                                 fontSize: 10,
                                 color: userData != null ?
-                                userData.userLevel.substring(0,1) == '1' ?
+                                userData!.userLevel.substring(0,1) == '1' ?
                                 Color(0xFF003273) // 总经理深蓝色
-                                    :userData.userLevel.substring(0,1) == '2' ?
+                                    :userData!.userLevel.substring(0,1) == '2' ?
                                 Color(0xFF7412F2) // 副总经理深紫色
-                                    :userData.userLevel.substring(0,1) == '3' ?
+                                    :userData!.userLevel.substring(0,1) == '3' ?
                                 Color(0xFF9149EC) // 总监浅紫色
-                                    :userData.userLevel.substring(0,1) == '4' ?
+                                    :userData!.userLevel.substring(0,1) == '4' ?
                                 Color(0xFFFF9600)// 商圈经理橘色
                                     :
                                 Color(0xFF24CC8E)// 店长绿色,
@@ -442,13 +420,13 @@ class _GroupClientPageState extends State<GroupClientPage> {
                           height: 20,
                           decoration: BoxDecoration(
                               border: userData != null ?
-                              userData.userLevel.substring(0,1) == '1' ?
+                              userData!.userLevel.substring(0,1) == '1' ?
                               Border.all(color: Color(0xFF003273),width: 1) // 总经理深蓝色
-                                  :userData.userLevel.substring(0,1) == '2' ?
+                                  :userData!.userLevel.substring(0,1) == '2' ?
                               Border.all(color: Color(0xFF7412F2),width: 1) // 副总经理深紫色
-                                  :userData.userLevel.substring(0,1) == '3' ?
+                                  :userData!.userLevel.substring(0,1) == '3' ?
                               Border.all(color: Color(0xFF9149EC),width: 1) // 总监浅紫色
-                                  :userData.userLevel.substring(0,1) == '4' ?
+                                  :userData!.userLevel.substring(0,1) == '4' ?
                               Border.all(color: Color(0xFFFF9600),width: 1)// 商圈经理橘色
                                   :
                               Border.all(color: Color(0xFF24CC8E),width: 1)
@@ -465,13 +443,13 @@ class _GroupClientPageState extends State<GroupClientPage> {
                               style: TextStyle(
                                 fontSize: 10,
                                 color: userData != null ?
-                                userData.userLevel.substring(0,1) == '1' ?
+                                userData!.userLevel.substring(0,1) == '1' ?
                                 Color(0xFF003273) // 总经理深蓝色
-                                    :userData.userLevel.substring(0,1) == '2' ?
+                                    :userData!.userLevel.substring(0,1) == '2' ?
                                 Color(0xFF7412F2) // 副总经理深紫色
-                                    :userData.userLevel.substring(0,1) == '3' ?
+                                    :userData!.userLevel.substring(0,1) == '3' ?
                                 Color(0xFF9149EC) // 总监浅紫色
-                                    :userData.userLevel.substring(0,1) == '4' ?
+                                    :userData!.userLevel.substring(0,1) == '4' ?
                                 Color(0xFFFF9600)// 商圈经理橘色
                                     :
                                 Color(0xFF24CC8E)// 店长绿色,

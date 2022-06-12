@@ -2,12 +2,10 @@ import 'dart:convert';
 import 'package:ThumbSir/common/reg.dart';
 import 'package:ThumbSir/dao/get_care_action_dao.dart';
 import 'package:ThumbSir/dao/get_customer_list_dao.dart';
-import 'package:ThumbSir/dao/get_user_by_condition_dao.dart';
 import 'package:ThumbSir/model/get_customer_list_model.dart';
 import 'package:ThumbSir/model/login_result_data_model.dart';
 import 'package:ThumbSir/pages/broker/client/client_add_page.dart';
 import 'package:ThumbSir/pages/broker/client/client_search_page.dart';
-import 'package:ThumbSir/pages/broker/traded/traded_search_page.dart';
 import 'package:ThumbSir/pages/home.dart';
 import 'package:ThumbSir/pages/mycenter/my_center_page.dart';
 import 'package:ThumbSir/pages/tips/qlist_tips_page.dart';
@@ -34,12 +32,12 @@ class _MyClientPageState extends State<MyClientPage> {
   var needValue = "所有";
 
   final TextEditingController searchController = TextEditingController();
-  String search;
-  RegExp searchReg;
-  bool searchBool;
+  late String search;
+  late RegExp searchReg;
+  bool searchBool = false;
 
   List<DropdownMenuItem> getAgeList(){
-    List<DropdownMenuItem> ageLists = new List();
+    List<DropdownMenuItem> ageLists = [];
     DropdownMenuItem ageList1 = new DropdownMenuItem(child: Text('所有'),value: '所有',);
     ageLists.add(ageList1);
     DropdownMenuItem ageList2 = new DropdownMenuItem(child: Text('< 30岁'),value: '< 30岁',);
@@ -54,7 +52,7 @@ class _MyClientPageState extends State<MyClientPage> {
   }
 
   List<DropdownMenuItem> getMonthList(){
-    List<DropdownMenuItem> monthLists = new List();
+    List<DropdownMenuItem> monthLists = [];
     DropdownMenuItem ageList1 = new DropdownMenuItem(child: Text('所有'),value: 0,);
     monthLists.add(ageList1);
     DropdownMenuItem ageList2 = new DropdownMenuItem(child: Text('1月'),value: 1,);
@@ -85,7 +83,7 @@ class _MyClientPageState extends State<MyClientPage> {
   }
 
   List<DropdownMenuItem> getNeedList(){
-    List<DropdownMenuItem> needLists = new List();
+    List<DropdownMenuItem> needLists = [];
     DropdownMenuItem ageList1 = new DropdownMenuItem(child: Text('所有'),value: '所有',);
     needLists.add(ageList1);
     DropdownMenuItem ageList2 = new DropdownMenuItem(child: Text('出售'),value: '出售',);
@@ -108,21 +106,16 @@ class _MyClientPageState extends State<MyClientPage> {
   List<Widget> customers=[];
 
 
-  LoginResultData userData;
-  String uinfo;
-  var result;
+  LoginResultData? userData;
+  late String uInfo;
 
   _getUserInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    uinfo= prefs.getString("userInfo");
-    if(uinfo != null){
-      result =loginResultDataFromJson(uinfo);
-      this.setState(() {
-        userData=LoginResultData.fromJson(json.decode(uinfo));
-      });
+    uInfo= prefs.getString("userInfo")!;
+    setState(() {
+      userData=LoginResultData.fromJson(json.decode(uInfo));
+    });
       _load();
-    }
-    print(userData.userPid);
   }
 
   _load() async {
@@ -135,7 +128,7 @@ class _MyClientPageState extends State<MyClientPage> {
           '0',
           '0',
           '0',
-          userData.userPid,
+          userData!.userPid,
           "0",
           "5",
           pageIndex.toString(),
@@ -146,7 +139,7 @@ class _MyClientPageState extends State<MyClientPage> {
             ageValue == "所有"?"0":ageValue == "< 30岁"?"1":ageValue == "30~40"?"30":ageValue == "40~50"?"40":"50",
             ageValue == "所有"?"0":ageValue == "< 30岁"?"30":ageValue == "30~40"?"40":ageValue == "40~50"?"50":"100",
             monthValue.toString(),
-            userData.userPid,
+            userData!.userPid,
             needValue == "所有"?"0":needValue,
             "5",
             pageIndex.toString(),
@@ -155,7 +148,6 @@ class _MyClientPageState extends State<MyClientPage> {
       }
 
       if (customersResult.code == 200) {
-        print(customersResult);
         customersList = customersResult.data;
         if (customersList.length>0) {
           for (var item in customersList) {
@@ -272,17 +264,10 @@ class _MyClientPageState extends State<MyClientPage> {
                                     children: <Widget>[
                                       Container(
                                         width: 60,
-                                        child: RaisedButton(
-                                          onPressed: (){
+                                        child: GestureDetector(
+                                          onTap: (){
                                             Navigator.push(context, MaterialPageRoute(builder: (context)=>QListTipsPage()));
                                           },
-                                          color: Colors.transparent,
-                                          elevation: 0,
-                                          disabledElevation: 0,
-                                          highlightColor: Colors.transparent,
-                                          highlightElevation: 0,
-                                          splashColor: Colors.transparent,
-                                          disabledColor: Colors.transparent,
                                           child: ClipOval(
                                             child: Container(
                                                 width: 26,
@@ -306,17 +291,10 @@ class _MyClientPageState extends State<MyClientPage> {
                                       Container(
                                         margin: EdgeInsets.only(right: 10),
                                         width: 60,
-                                        child: RaisedButton(
-                                          onPressed: (){
+                                        child: GestureDetector(
+                                          onTap: (){
                                             Navigator.push(context, MaterialPageRoute(builder: (context)=>MyCenterPage()));
                                           },
-                                          color: Colors.transparent,
-                                          elevation: 0,
-                                          disabledElevation: 0,
-                                          highlightColor: Colors.transparent,
-                                          highlightElevation: 0,
-                                          splashColor: Colors.transparent,
-                                          disabledColor: Colors.transparent,
                                           child: ClipOval(
                                             child: Container(
                                                 width: 26,
@@ -356,6 +334,7 @@ class _MyClientPageState extends State<MyClientPage> {
                                       controller: searchController,
                                       inputType: TextInputType.text,
                                       reg: searchReg,
+                                      password: false,
                                       onChanged: (text){
                                         setState(() {
                                           search = text;
@@ -370,7 +349,7 @@ class _MyClientPageState extends State<MyClientPage> {
                                           onTap: ()async{
                                             Navigator.push(context, MaterialPageRoute(builder: (context)=>ClientSearchPage(
                                               keyword:searchController.text,
-                                              userID:userData.userPid,
+                                              userID:userData!.userPid,
                                             )));
                                           },
                                           child: Container(
@@ -415,7 +394,7 @@ class _MyClientPageState extends State<MyClientPage> {
                                         fontWeight: FontWeight.normal,
                                         decoration: TextDecoration.none,
                                       ),
-                                      onChanged: (T){
+                                      onChanged: (dynamic T){
                                         setState(() {
                                           ageValue = T;
                                           customers = [];
@@ -453,7 +432,7 @@ class _MyClientPageState extends State<MyClientPage> {
                                         fontWeight: FontWeight.normal,
                                         decoration: TextDecoration.none,
                                       ),
-                                      onChanged: (T){
+                                      onChanged: (dynamic T){
                                         setState(() {
                                           monthValue = T;
                                           customers = [];
@@ -491,7 +470,7 @@ class _MyClientPageState extends State<MyClientPage> {
                                         fontWeight: FontWeight.normal,
                                         decoration: TextDecoration.none,
                                       ),
-                                      onChanged: (T){
+                                      onChanged: (dynamic T){
                                         setState(() {
                                           needValue = T;
                                           customers = [];
@@ -511,7 +490,7 @@ class _MyClientPageState extends State<MyClientPage> {
                           Container(
                             margin: EdgeInsets.only(bottom: 60),
                               child:
-                              customersList!=null && customersList.length != 0 && customers != []?
+                              customersList!=[] && customersList.length != 0 && customers != []?
                               ListView.builder(
                                 controller: _scrollController,
 //                                padding: EdgeInsets.only(top: 0,bottom: 10),

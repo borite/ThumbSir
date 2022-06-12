@@ -2,14 +2,13 @@ import 'dart:convert';
 import 'package:ThumbSir/common/reg.dart';
 import 'package:ThumbSir/dao/add_customer_dao.dart';
 import 'package:ThumbSir/model/login_result_data_model.dart';
-import 'package:ThumbSir/pages/broker/client/buy_need_detail_page.dart';
 import 'package:ThumbSir/widget/input.dart';
 import 'package:ThumbSir/widget/loading.dart';
+import 'package:chips_choice_null_safety/chips_choice_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wheel_chooser/wheel_chooser.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
-import 'package:chips_choice/chips_choice.dart';
 
 import 'edit_buy_need_detail_page.dart';
 
@@ -19,7 +18,7 @@ class EditBuyNeedPage extends StatefulWidget {
   final userName;
   final needDetail;
 
-  EditBuyNeedPage({Key key,
+  EditBuyNeedPage({Key? key,
     this.cid,this.mainNeed,this.userName,this.needDetail
   }):super(key:key);
   @override
@@ -27,103 +26,99 @@ class EditBuyNeedPage extends StatefulWidget {
 }
 
 class _EditBuyNeedPageState extends State<EditBuyNeedPage> {
-  String items="";
+  dynamic items;
   bool _loading = false;
   // 核心需求
-  String CoreNeedName;
-  String WidgetCoreNeedOne;
+  dynamic CoreNeedName;
+  dynamic WidgetCoreNeedOne;
 
   ScrollController _dealScrollController = ScrollController();
   ScrollController _needScrollController = ScrollController();
   final TextEditingController agencyMemberScrollController = TextEditingController();
   String agencyPhoneNum = "-";
-  RegExp agencyPhoneReg;
-  bool agencyPhoneBool;
+  late RegExp agencyPhoneReg;
+  bool agencyPhoneBool = false;
   final TextEditingController desideMemberController = TextEditingController();
   String desidePhoneNum = "-";
-  RegExp desidePhoneReg;
-  bool desidePhoneBool;
+  late RegExp desidePhoneReg;
+  bool desidePhoneBool = false;
   final TextEditingController firstPriceNumController = TextEditingController();
   int firstPriceNum=1;
-  RegExp firstPriceNumReg;
-  bool firstPriceNumBool;
+  late RegExp firstPriceNumReg;
+  bool firstPriceNumBool = false;
   final TextEditingController totalPriceNumController = TextEditingController();
   int totalPriceNum=1;
-  RegExp totalPriceNumReg;
-  bool totalPriceNumBool;
+  late RegExp totalPriceNumReg;
+  bool totalPriceNumBool = false;
   final TextEditingController yaPriceNumController = TextEditingController();
   int yaPriceNum=1;
-  RegExp yaPriceNumReg;
-  bool yaPriceNumBool;
+  late RegExp yaPriceNumReg;
+  bool yaPriceNumBool = false;
   final TextEditingController fuPriceNumController = TextEditingController();
   int fuPriceNum=1;
-  RegExp fuPriceNumReg;
-  bool fuPriceNumBool;
+  late RegExp fuPriceNumReg;
+  bool fuPriceNumBool = false;
   final TextEditingController agencyNameController = TextEditingController();
   String agencyName = "-";
-  RegExp agencyNameReg;
-  bool agencyNameBool;
+  late RegExp agencyNameReg;
+  bool agencyNameBool = false;
   final TextEditingController desideNameController = TextEditingController();
   String desideName = "-";
-  RegExp desideNameReg;
-  bool desideNameBool;
+  late RegExp desideNameReg;
+  bool desideNameBool = false;
   final TextEditingController msgController=TextEditingController();
-  RegExp msgReg;
+  late RegExp msgReg;
   bool msgBool = false;
-  String comeMinCount;
+  late String comeMinCount;
   List<String> tags = [];
   List idList = [];
   String selectTaskIDs="";
   int itemLength = 0;
-  List missionContent=new List();
+  List missionContent=[];
   List<String> tasks = [];
 
-  List<DealInfo> deal=new List();
-  List<NeedInfo> need=new List();
-  List<FamilyMember> member=new List();
+  List<DealInfo> deal=[];
+  List<NeedInfo> need=[];
+  List<FamilyMember> member=[];
 
   int _desideRadioGroupA = 0;
   int _buyWayRadioGroupA = 0;
   int _statusRadioGroupA = 0;
   int _agencyRadioGroupA = 0;
 
-  void _handleDesideRadioValueChanged(int value) {
+  _handleDesideRadioValueChanged(int value) {
     setState(() {
       _desideRadioGroupA = value;
     });
   }
 
-  void _handleBuyWayRadioValueChanged(int value) {
+  _handleBuyWayRadioValueChanged(int value) {
     setState(() {
       _buyWayRadioGroupA = value;
     });
   }
 
-  void _handleStatusRadioValueChanged(int value) {
+  _handleStatusRadioValueChanged(int value) {
     setState(() {
       _statusRadioGroupA = value;
     });
   }
 
-  void _handleAgencyRadioValueChanged(int value) {
+  _handleAgencyRadioValueChanged(int value) {
     setState(() {
       _agencyRadioGroupA = value;
     });
   }
 
-  LoginResultData userData;
-  String uinfo;
-  var result;
+  LoginResultData? userData;
+  late String uInfo;
 
   _getUserInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    uinfo= prefs.getString("userInfo");
-    if(uinfo != null){
-      result =loginResultDataFromJson(uinfo);
-      this.setState(() {
-        userData=LoginResultData.fromJson(json.decode(uinfo));
-      });
-    }
+    uInfo= prefs.getString("userInfo")!;
+    setState(() {
+      userData=LoginResultData.fromJson(json.decode(uInfo));
+    });
   }
 
   _needsSplit() {
@@ -477,14 +472,14 @@ class _EditBuyNeedPageState extends State<EditBuyNeedPage> {
                                 RadioListTile(
                                   value: 0,
                                   groupValue: _desideRadioGroupA,
-                                  onChanged: _handleDesideRadioValueChanged,
+                                  onChanged: _handleDesideRadioValueChanged(0),
                                   title: Text('是'),
                                   selected: _desideRadioGroupA == 0,
                                 ),
                                 RadioListTile(
                                   value: 1,
                                   groupValue: _desideRadioGroupA,
-                                  onChanged: _handleDesideRadioValueChanged,
+                                  onChanged: _handleDesideRadioValueChanged(1),
                                   title: Text('否'),
                                   selected: _desideRadioGroupA == 1,
                                 ),
@@ -516,6 +511,7 @@ class _EditBuyNeedPageState extends State<EditBuyNeedPage> {
                                 controller: desideNameController,
                                 inputType: TextInputType.text,
                                 reg: desideNameReg,
+                                password: false,
                                 onChanged: (text){
                                   setState(() {
                                     desideName = text;
@@ -544,6 +540,7 @@ class _EditBuyNeedPageState extends State<EditBuyNeedPage> {
                                 controller: desideMemberController,
                                 inputType: TextInputType.phone,
                                 reg: desidePhoneReg,
+                                password: false,
                                 onChanged: (text){
                                   setState(() {
                                     desidePhoneNum = text;
@@ -582,14 +579,14 @@ class _EditBuyNeedPageState extends State<EditBuyNeedPage> {
                                 RadioListTile(
                                   value: 0,
                                   groupValue: _agencyRadioGroupA,
-                                  onChanged: _handleAgencyRadioValueChanged,
+                                  onChanged: _handleAgencyRadioValueChanged(0),
                                   title: Text('否'),
                                   selected: _agencyRadioGroupA == 0,
                                 ),
                                 RadioListTile(
                                   value: 1,
                                   groupValue: _agencyRadioGroupA,
-                                  onChanged: _handleAgencyRadioValueChanged,
+                                  onChanged: _handleAgencyRadioValueChanged(1),
                                   title: Text('是'),
                                   selected: _agencyRadioGroupA == 1,
                                 ),
@@ -621,6 +618,7 @@ class _EditBuyNeedPageState extends State<EditBuyNeedPage> {
                                 controller: agencyNameController,
                                 inputType: TextInputType.text,
                                 reg: agencyNameReg,
+                                password: false,
                                 onChanged: (text){
                                   setState(() {
                                     agencyName = text;
@@ -649,6 +647,7 @@ class _EditBuyNeedPageState extends State<EditBuyNeedPage> {
                                 controller: agencyNameController,
                                 inputType: TextInputType.phone,
                                 reg: agencyPhoneReg,
+                                password: false,
                                 onChanged: (text){
                                   setState(() {
                                     agencyPhoneNum = text;
@@ -689,14 +688,14 @@ class _EditBuyNeedPageState extends State<EditBuyNeedPage> {
                                 RadioListTile(
                                   value: 0,
                                   groupValue: _buyWayRadioGroupA,
-                                  onChanged: _handleBuyWayRadioValueChanged,
+                                  onChanged: _handleBuyWayRadioValueChanged(0),
                                   title: Text('贷款'),
                                   selected: _buyWayRadioGroupA == 0,
                                 ),
                                 RadioListTile(
                                   value: 1,
                                   groupValue: _buyWayRadioGroupA,
-                                  onChanged: _handleBuyWayRadioValueChanged,
+                                  onChanged: _handleBuyWayRadioValueChanged(1),
                                   title: Text('全款'),
                                   selected: _buyWayRadioGroupA == 1,
                                 ),
@@ -1089,7 +1088,7 @@ class _EditBuyNeedPageState extends State<EditBuyNeedPage> {
                                   child: FormField<List<String>>(
                                       initialValue: tags,
                                       validator: (value) {
-                                        if (value.isEmpty) {
+                                        if (value==null) {
                                           return '请选择核心任务的名称';
                                         }
                                         if (value.length > 3) {
@@ -1097,19 +1096,19 @@ class _EditBuyNeedPageState extends State<EditBuyNeedPage> {
                                         }
                                         return null;
                                       },
-                                      builder: (state) {
+                                      builder: (dynamic state) {
                                         return Column(
                                             children: <Widget>[
                                               Container(
                                                 alignment: Alignment.centerLeft,
                                                 child: ChipsChoice<String>.multiple(
                                                   value: state.value,
-                                                  options:  ChipsChoiceOption.listFrom(
+                                                  choiceItems:  C2Choice.listFrom(
                                                       source: tasks,
                                                       // 存储形式
-                                                      value:(index,item)=>item,
+                                                      value:(index,item)=>item.toString(),
                                                       // 展示形式
-                                                      label: (index,item)=>item
+                                                      label: (index,item)=>item.toString()
                                                   ),
                                                   onChanged: (val) {
                                                     state.didChange(val);
@@ -1118,7 +1117,6 @@ class _EditBuyNeedPageState extends State<EditBuyNeedPage> {
                                                     val.forEach((element) {
                                                       var item=element;
                                                       items+=item+',';
-                                                      print(items);
                                                       if(state.value != null){
                                                         setState(() {
                                                           itemLength = state.value.length;
@@ -1126,13 +1124,16 @@ class _EditBuyNeedPageState extends State<EditBuyNeedPage> {
                                                       }
                                                     });
                                                   },
-                                                  itemConfig: ChipsChoiceItemConfig(
-                                                    selectedColor: Color(0xFF5580EB),
-                                                    selectedBrightness: Brightness.dark,
-                                                    unselectedColor: Color(0xFF5580EB),
-                                                    unselectedBorderOpacity: .3,
+                                                  choiceStyle: const C2ChoiceStyle(
+                                                    color: Color(0xFF5580EB),
+                                                    borderOpacity: .3,
                                                   ),
-                                                  isWrapped: true,
+                                                  choiceActiveStyle: const C2ChoiceStyle(
+                                                    color: Color(0xFFFFFFFF),
+                                                    backgroundColor: Color(0xFF5580EB),
+                                                    borderOpacity: .3,
+                                                  ),
+                                                  wrapped: true,
                                                 ),
                                               ),
                                               Container(
@@ -1220,8 +1221,7 @@ class _EditBuyNeedPageState extends State<EditBuyNeedPage> {
                                                 totalPriceNum.toString() +
                                                 "元/月") + ","
                                             // 意向区域或小区
-                                            + "意向区域或小区:" + msgController.text ??
-                                            "无" + ','
+                                            + "意向区域或小区:" + msgController.text
 
                                     )));
                               }

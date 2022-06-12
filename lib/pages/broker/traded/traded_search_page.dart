@@ -18,15 +18,13 @@ class _TradedSearchPageState extends State<TradedSearchPage> {
   var searchResult;
   var searchResultData;
   var searchShowState = 0;
-
   final TextEditingController searchController=TextEditingController();
-  String search;
-  RegExp searchReg;
-  bool searchBool;
-
+  late String search;
+  late String searchMsg;
+  late RegExp searchReg;
+  bool searchBool = false;
   ScrollController _scrollController = ScrollController();
-
-  String searchMsg;
+  
   _load()async{
     searchResult = await SearchCustomerDao.searchCustomer(widget.keyword, widget.userID);
     if(searchResult != null){
@@ -59,7 +57,7 @@ class _TradedSearchPageState extends State<TradedSearchPage> {
                   var getItem = await GetCustomerInfoDao.getCustomerInfo(item.mid.toString());
                   if(getItem.code == 200){
                     Navigator.push(context, MaterialPageRoute(builder: (context)=>TradedDetailPage(
-                      item:getItem.data[0],
+                      item:getItem.data![0],
                       tabIndex: 1,
                     )));
                   }else {
@@ -239,7 +237,7 @@ class _TradedSearchPageState extends State<TradedSearchPage> {
                                 search = text;
                                 searchBool = searchReg.hasMatch(search);
                               });
-                            },
+                            }, password: false,
                           ),
                           Positioned(
                               left: 300,

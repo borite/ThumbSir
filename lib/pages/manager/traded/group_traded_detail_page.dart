@@ -27,19 +27,15 @@ class _GroupTradedDetailPageState extends State<GroupTradedDetailPage> {
   var dateTime = DateTime.now().toIso8601String().substring(0,10);
   List<Widget> showList = [];
 
-  LoginResultData userData;
-  String uinfo;
-  var result;
+  LoginResultData? userData;
+  late String uInfo;
 
   _getUserInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    uinfo= prefs.getString("userInfo");
-    if(uinfo != null){
-      result =loginResultDataFromJson(uinfo);
-      this.setState(() {
-        userData=LoginResultData.fromJson(json.decode(uinfo));
-      });
-    }
+    uInfo= prefs.getString("userInfo")!;
+    this.setState(() {
+      userData=LoginResultData.fromJson(json.decode(uInfo));
+    });
     if(userData != null){
       _load();
     }else{
@@ -50,13 +46,13 @@ class _GroupTradedDetailPageState extends State<GroupTradedDetailPage> {
   }
 
   _load()async{
-    var getLeaderResult = await GetLeaderInfoDao.httpGetLeaderInfo(
+    dynamic getLeaderResult = await GetLeaderInfoDao.httpGetLeaderInfo(
         widget.leaderID,
-        userData.companyId,
+        userData!.companyId,
     );
-    var getMemberListResult = await GetLastLevelCustomerNumDao.httpGetLastLevelCustomerNum(
+    dynamic getMemberListResult = await GetLastLevelCustomerNumDao.httpGetLastLevelCustomerNum(
         widget.leaderID,
-        userData.companyId,
+        userData!.companyId,
     );
     if(getMemberListResult != null && getLeaderResult != null ){
       if(getMemberListResult.code == 200 && getLeaderResult.code == 200){
@@ -122,12 +118,10 @@ class _GroupTradedDetailPageState extends State<GroupTradedDetailPage> {
                         ),
                         child:ClipRRect(
                             borderRadius: BorderRadius.circular(30),
-                            child:Image(
-                              image: item.headImg != null ?
-                              NetworkImage(item.headImg)
-                                  :
-                              AssetImage('images/my_big.png'),
-                            )
+                            child:item.headImg != null ?
+                            Image(
+                              image: NetworkImage(item.headImg),
+                            ):Image(image: AssetImage('images/my_big.png'))
                         ),
                       ),
                       Container(
@@ -177,7 +171,7 @@ class _GroupTradedDetailPageState extends State<GroupTradedDetailPage> {
             ),
           ),
         );
-      };
+      }
     }
     content =Column(
       children:showList,

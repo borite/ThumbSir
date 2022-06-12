@@ -861,21 +861,21 @@ class _QListItemState extends State<QListItem> with SingleTickerProviderStateMix
                                 // if(aa.inHours<1 && now.isAfter(widget.startTime)){
                                 if(now.isAfter(widget.startTime)){
                                   print("可以修改图片");
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) => QListUploadPage(
-                                      name : widget.name,
-                                      star : widget.star,
-                                      percent : widget.percent,
-                                      currentAddress : widget.currentAddress,
-                                      taskId : widget.taskId,
-                                      unit : widget.unit,
-                                      defaultId : widget.defaultId,
-                                      startTime : widget.startTime,
-                                      endTime : widget.endTime,
-                                      planCount : widget.planCount,
-                                      uploadImgs:widget.imgs
-                                  ))).then((x) => setState((){
-                                    _extend=true;
-                                  }));
+                                  // Navigator.push(context, MaterialPageRoute(builder: (context) => QListUploadPage(
+                                  //     name : widget.name,
+                                  //     star : widget.star,
+                                  //     percent : widget.percent,
+                                  //     currentAddress : widget.currentAddress,
+                                  //     taskId : widget.taskId,
+                                  //     unit : widget.unit,
+                                  //     defaultId : widget.defaultId,
+                                  //     startTime : widget.startTime,
+                                  //     endTime : widget.endTime,
+                                  //     planCount : widget.planCount,
+                                  //     uploadImgs:widget.imgs
+                                  // ))).then((x) => setState((){
+                                  //   _extend=true;
+                                  // }));
                                 }else{
                                   // 不可上传
                                   print("不可以上传图片");

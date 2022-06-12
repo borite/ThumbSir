@@ -30,19 +30,15 @@ class _GroupClientDetailPageState extends State<GroupClientDetailPage> {
   var dateTime = DateTime.now().toIso8601String().substring(0,10);
   List<Widget> showList = [];
 
-  LoginResultData userData;
-  String uinfo;
-  var result;
+  LoginResultData? userData;
+  late String uInfo;
 
   _getUserInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    uinfo= prefs.getString("userInfo");
-    if(uinfo != null){
-      result =loginResultDataFromJson(uinfo);
-      this.setState(() {
-        userData=LoginResultData.fromJson(json.decode(uinfo));
-      });
-    }
+    uInfo= prefs.getString("userInfo")!;
+    setState(() {
+      userData=LoginResultData.fromJson(json.decode(uInfo));
+    });
     if(userData != null){
       _load();
     }else{
@@ -53,13 +49,13 @@ class _GroupClientDetailPageState extends State<GroupClientDetailPage> {
   }
 
   _load()async{
-    var getLeaderResult = await ClientGetLeaderInfoDao.httpClientGetLeaderInfo(
+    dynamic getLeaderResult = await ClientGetLeaderInfoDao.httpClientGetLeaderInfo(
         widget.leaderID,
-        userData.companyId,
+        userData!.companyId,
     );
-    var getMemberListResult = await ClientGetLastLevelCustomerNumDao.httpClientGetLastLevelCustomerNum(
+    dynamic getMemberListResult = await ClientGetLastLevelCustomerNumDao.httpClientGetLastLevelCustomerNum(
         widget.leaderID,
-        userData.companyId,
+        userData!.companyId,
     );
     if(getMemberListResult != null && getLeaderResult != null ){
       if(getMemberListResult.code == 200 && getLeaderResult.code == 200){
@@ -125,12 +121,10 @@ class _GroupClientDetailPageState extends State<GroupClientDetailPage> {
                         ),
                         child:ClipRRect(
                             borderRadius: BorderRadius.circular(30),
-                            child:Image(
-                              image: item.headImg != null ?
-                              NetworkImage(item.headImg)
-                                  :
-                              AssetImage('images/my_big.png'),
-                            )
+                            child:item.headImg != null ?
+                            Image(
+                              image: NetworkImage(item.headImg)
+                            ) :Image(image: AssetImage('images/my_big.png'),)
                         ),
                       ),
                       Container(
@@ -208,7 +202,7 @@ class _GroupClientDetailPageState extends State<GroupClientDetailPage> {
             ),
           ),
         );
-      };
+      }
     }
     content =Column(
       children:showList,

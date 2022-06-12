@@ -11,8 +11,8 @@ import 'package:ThumbSir/widget/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wheel_chooser/wheel_chooser.dart';
-import 'package:flutter_holo_date_picker/flutter_holo_date_picker.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:flutter_holo_date_picker/flutter_holo_date_picker.dart';
 
 class TradedEditGiftPage extends StatefulWidget {
   final item;
@@ -23,7 +23,7 @@ class TradedEditGiftPage extends StatefulWidget {
   final type;
   final id;
 
-  TradedEditGiftPage({Key key,
+  TradedEditGiftPage({Key? key,
     this.date,this.giftMsg,this.price,this.dec,this.type,this.item,this.id
   }):super(key:key);
   @override
@@ -34,36 +34,32 @@ class _TradedEditGiftPageState extends State<TradedEditGiftPage> {
   bool _loading = false;
 
   final TextEditingController nameController=TextEditingController();
-  String name;
-  RegExp nameReg;
-  bool nameBool;
+  late String name;
+  late RegExp nameReg;
+  bool nameBool = false;
   final TextEditingController priceController=TextEditingController();
-  String price;
-  RegExp priceReg;
+  late String price;
+  late RegExp priceReg;
   bool priceBool = false;
   final TextEditingController decController=TextEditingController();
-  RegExp decReg;
+  late RegExp decReg;
   bool decBool = false;
 
   String sendReason = "节日礼";
 
-  List<DealInfo> deal=new List();
+  List<DealInfo> deal=[];
 
   DateTime _selectedDate=DateTime(2021,1,1);
 
-  LoginResultData userData;
-  String uinfo;
-  var result;
+  LoginResultData? userData;
+  late String uInfo;
 
   _getUserInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    uinfo= prefs.getString("userInfo");
-    if(uinfo != null){
-      result =loginResultDataFromJson(uinfo);
-      this.setState(() {
-        userData=LoginResultData.fromJson(json.decode(uinfo));
-      });
-    }
+    uInfo= prefs.getString("userInfo")!;
+    setState(() {
+      userData=LoginResultData.fromJson(json.decode(uInfo));
+    });
   }
 
   @override
@@ -248,7 +244,7 @@ class _TradedEditGiftPageState extends State<TradedEditGiftPage> {
                                 name = text;
                                 nameBool = priceReg.hasMatch(name);
                               });
-                            },
+                            }, password: false,
                           ),
                           // 价格
                           Container(
@@ -277,7 +273,7 @@ class _TradedEditGiftPageState extends State<TradedEditGiftPage> {
                                 price = text;
                                 priceBool = priceReg.hasMatch(price);
                               });
-                            },
+                            }, password: false,
                           ),
                           // 地址
                           Container(
@@ -339,7 +335,7 @@ class _TradedEditGiftPageState extends State<TradedEditGiftPage> {
                                 if(getItem.code == 200){
                                   _onRefresh();
                                   Navigator.push(context, MaterialPageRoute(builder: (context)=>TradedDetailPage(
-                                    item:getItem.data[0],
+                                    item:getItem.data![0],
                                     tabIndex: 2,
                                   )));
                                 }else {
@@ -414,7 +410,7 @@ class _TradedEditGiftPageState extends State<TradedEditGiftPage> {
               if(getItem.code == 200){
                 _onRefresh();
                 Navigator.push(context, MaterialPageRoute(builder: (context)=>TradedDetailPage(
-                  item:getItem.data[0],
+                  item:getItem.data![0],
                   tabIndex: 2,
                 )));
               }else {
