@@ -114,6 +114,7 @@ class _EditBuyNeedDetailPageState extends State<EditBuyNeedDetailPage> {
 
   List<Widget> nonCoreShowList = [];
   List<Widget> noncore = [];
+  dynamic oneed;
 
   @override
   void initState() {
@@ -183,8 +184,18 @@ class _EditBuyNeedDetailPageState extends State<EditBuyNeedDetailPage> {
     super.initState();
   }
 
+  @override
+  void dispose(){
+    mapController.dispose();
+    coreController1.dispose();
+    coreController2.dispose();
+    coreController3.dispose();
+    otherController.dispose();
+    super.dispose();
+  }
+
   _oldMsg(){
-    mapController.text = widget.needDetail.otherNeedRemark;
+    mapController.text = widget.needDetail.otherNeedRemark==null?"未填写":widget.needDetail.otherNeedRemark.toString();
 
     if(widget.isNew=="old"){
       oldCoreNeedOne = "old";
@@ -225,9 +236,10 @@ class _EditBuyNeedDetailPageState extends State<EditBuyNeedDetailPage> {
 
   _addOtherList(){
 
-    if (nonCoreList.length>0) {
-      var oneed=widget.needDetail.otherNeed.toString().split('}')[0]+"}";
+    if (nonCoreList.length>0 && widget.needDetail.otherNeed!=null) {
+      oneed=widget.needDetail.otherNeed.toString().split('}')[0]+"}";
       Map<String,dynamic> otherNeedSelected = json.decode(oneed);
+
       for (var item in nonCoreList) {
         if(item.reqName!="其他"){
 
@@ -511,13 +523,6 @@ class _EditBuyNeedDetailPageState extends State<EditBuyNeedDetailPage> {
         }
       }
     }
-  }
-
-  @override
-  void dispose(){
-    mapController.dispose();
-    otherController.dispose();
-    super.dispose();
   }
 
   @override

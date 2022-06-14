@@ -46,7 +46,6 @@ class _ClientNeedMsgState extends State<ClientNeedMsg> with SingleTickerProvider
           setState(() {
             for (var item in need) {
               List<Widget> others=[];
-              print(item);
               var noOtherNeeds;
               var _otherNeedArr;
               var _otherList;
@@ -806,22 +805,42 @@ class _ClientNeedMsgState extends State<ClientNeedMsg> with SingleTickerProvider
                         ),
 
                         item.otherNeed==null?
-                        Container(
-                          margin: EdgeInsets.only(left: 20,top: 10,right: 20,bottom: 0),
-                          child: Row(
-                            children: <Widget>[
-                              Chip(
-                                backgroundColor: Color(0xFF93C0FB),
-                                label: Text('未完善，点我去完善信息吧~',style: TextStyle(
-                                  fontSize: 14,
-                                  color: Colors.white,
-                                  decoration: TextDecoration.none,
-                                  fontWeight: FontWeight.normal,
-                                ),),
+                            GestureDetector(
+                              onTap: (){
+                                if(item.mainNeed.toString().substring(0,2)=="购买" || item.mainNeed.toString().substring(0,2)=="租赁"){
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>EditBuyNeedPage(
+                                    cid: widget.item.mid,
+                                    mainNeed:item.mainNeed,
+                                    userName:widget.item.userName,
+                                    needDetail: item,
+                                  )));
+                                }else{
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>EditSellNeedPage(
+                                    cid: widget.item.mid,
+                                    mainNeed:item.mainNeed,
+                                    userName:widget.item.userName,
+                                    needDetail: item,
+                                  )));
+                                }
+                              },
+                              child: Container(
+                                margin: EdgeInsets.only(left: 20,top: 10,right: 20,bottom: 0),
+                                child: Row(
+                                  children: <Widget>[
+                                    Chip(
+                                      backgroundColor: Color(0xFF93C0FB),
+                                      label: Text('未完善，点我去完善信息吧~',style: TextStyle(
+                                        fontSize: 14,
+                                        color: Colors.white,
+                                        decoration: TextDecoration.none,
+                                        fontWeight: FontWeight.normal,
+                                      ),),
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ],
-                          ),
-                        )
+                            )
+
                         :
                         Container(
                           margin: EdgeInsets.only(left: 20,top: 10,right: 20,bottom: 0),

@@ -173,9 +173,9 @@ class FamilyMember {
   dynamic memberHobby;
 
   factory FamilyMember.fromJson(Map<String, dynamic> json) => FamilyMember(
-  userInfoMain: json["UserInfoMain"],
-  id: json["ID"] == null ? null : json["ID"],
-  mid: json["MID"] == null ? null : json["MID"],
+    userInfoMain: json["UserInfoMain"],
+    id: json["ID"] == null ? null : json["ID"],
+    mid: json["MID"] == null ? null : json["MID"],
     memberRole: json["MemberRole"] == null ? null : json["MemberRole"],
     memberHobby: json["MemberHobby"] == null ? null : json["MemberHobby"],
   );

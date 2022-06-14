@@ -175,7 +175,7 @@ class _TradedEditFamilyMemberPageState extends State<TradedEditFamilyMemberPage>
                                               width: 210,
                                               padding: EdgeInsets.fromLTRB(20, 0, 10, 3),
                                               child: Text(
-                                                member[index].memberHobby,
+                                                member[index].memberHobby==null?"暂无描述":member[index].memberHobby,
                                                 style: TextStyle(
                                                   fontSize: 14,
                                                   color: Color(0xFF5580EB),

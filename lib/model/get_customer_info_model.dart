@@ -155,35 +155,34 @@ class DealList {
     "DealRemark": dealRemark == null ? null : dealRemark,
   };
 }
-
 class FamilyMember {
   FamilyMember({
     this.userInfoMain,
-    required this.id,
-    required this.mid,
+    this.id,
+    this.mid,
     this.memberRole,
     this.memberHobby,
   });
 
   dynamic userInfoMain;
-  int id;
-  int mid;
+  dynamic id;
+  dynamic mid;
   dynamic memberRole;
   dynamic memberHobby;
 
   factory FamilyMember.fromJson(Map<String, dynamic> json) => FamilyMember(
-  userInfoMain: json["UserInfoMain"],
-  id: json["ID"] == null ? null : json["ID"],
+    userInfoMain: json["UserInfoMain"],
+    id: json["ID"] == null ? null : json["ID"],
     mid: json["MID"] == null ? null : json["MID"],
-    memberRole: json["MemberRole"],
-    memberHobby: json["MemberHobby"],
+    memberRole: json["MemberRole"] == null ? null : json["MemberRole"],
+    memberHobby: json["MemberHobby"] == null ? null : json["MemberHobby"],
   );
 
   Map<String, dynamic> toJson() => {
     "UserInfoMain": userInfoMain,
     "ID": id,
     "MID": mid,
-    "MemberRole": memberRole,
-    "MemberHobby": memberHobby,
+    "MemberRole": memberRole == null ? null : memberRole,
+    "MemberHobby": memberHobby == null ? null : memberHobby,
   };
 }

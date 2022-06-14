@@ -487,7 +487,7 @@ class _TradedBasicMsgState extends State<TradedBasicMsg> with SingleTickerProvid
                                     ),
                                     Expanded(
                                       child: Text(
-                                        member[index].memberHobby,
+                                        member[index].memberHobby==null?"暂无描述":member[index].memberHobby,
                                         style: TextStyle(
                                           fontSize: 14,
                                           color: Color(0xFF666666),

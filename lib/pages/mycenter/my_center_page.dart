@@ -68,8 +68,9 @@ class _MyCenterPageState extends State<MyCenterPage> {
                                     ), (route) => route == null);
                               },
                               child: Container(
-                                width: 50,
-                                child: Image(image: AssetImage('images/back.png'),),
+                                width: 28,
+                                margin: EdgeInsets.only(left: 15),
+                                child: Image(image: AssetImage('images/home.png'),),
                               ),
                             ),
                             userData != null ?

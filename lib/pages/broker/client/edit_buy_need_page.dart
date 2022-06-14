@@ -69,7 +69,7 @@ class _EditBuyNeedPageState extends State<EditBuyNeedPage> {
   final TextEditingController msgController=TextEditingController();
   late RegExp msgReg;
   bool msgBool = false;
-  late String comeMinCount;
+  String comeMinCount="";
   List<String> tags = [];
   List idList = [];
   String selectTaskIDs="";
@@ -81,28 +81,9 @@ class _EditBuyNeedPageState extends State<EditBuyNeedPage> {
   List<NeedInfo> need=[];
   List<FamilyMember> member=[];
 
-  int _desideRadioGroupA = 0;
-  int _buyWayRadioGroupA = 0;
-  int _statusRadioGroupA = 0;
-  int _agencyRadioGroupA = 0;
-
-  _handleDesideRadioValueChanged(int value) {
-    setState(() {
-      _desideRadioGroupA = value;
-    });
-  }
-
-  _handleBuyWayRadioValueChanged(int value) {
-    setState(() {
-      _buyWayRadioGroupA = value;
-    });
-  }
-
-  _handleStatusRadioValueChanged(int value) {
-    setState(() {
-      _statusRadioGroupA = value;
-    });
-  }
+  dynamic _desideRadioGroupA = 0;
+  dynamic _buyWayRadioGroupA = 0;
+  dynamic _agencyRadioGroupA = 0;
 
   _handleAgencyRadioValueChanged(int value) {
     setState(() {
@@ -472,14 +453,22 @@ class _EditBuyNeedPageState extends State<EditBuyNeedPage> {
                                 RadioListTile(
                                   value: 0,
                                   groupValue: _desideRadioGroupA,
-                                  onChanged: _handleDesideRadioValueChanged(0),
+                                  onChanged: (value){
+                                    setState(() {
+                                      _desideRadioGroupA = value;
+                                    });
+                                  },
                                   title: Text('是'),
                                   selected: _desideRadioGroupA == 0,
                                 ),
                                 RadioListTile(
                                   value: 1,
                                   groupValue: _desideRadioGroupA,
-                                  onChanged: _handleDesideRadioValueChanged(1),
+                                  onChanged: (value){
+                                    setState(() {
+                                      _desideRadioGroupA = value;
+                                    });
+                                  },
                                   title: Text('否'),
                                   selected: _desideRadioGroupA == 1,
                                 ),
@@ -522,6 +511,7 @@ class _EditBuyNeedPageState extends State<EditBuyNeedPage> {
                               // 决策人手机号
                               Container(
                                 width: 335,
+                                margin: EdgeInsets.only(top: 10),
                                 child: Text(
                                   '决策人手机号码：',
                                   style: TextStyle(
@@ -579,14 +569,22 @@ class _EditBuyNeedPageState extends State<EditBuyNeedPage> {
                                 RadioListTile(
                                   value: 0,
                                   groupValue: _agencyRadioGroupA,
-                                  onChanged: _handleAgencyRadioValueChanged(0),
+                                  onChanged: (value){
+                                    setState(() {
+                                      _agencyRadioGroupA = value;
+                                    });
+                                  },
                                   title: Text('否'),
                                   selected: _agencyRadioGroupA == 0,
                                 ),
                                 RadioListTile(
                                   value: 1,
                                   groupValue: _agencyRadioGroupA,
-                                  onChanged: _handleAgencyRadioValueChanged(1),
+                                  onChanged:(value){
+                                    setState(() {
+                                      _agencyRadioGroupA = value;
+                                    });
+                                  },
                                   title: Text('是'),
                                   selected: _agencyRadioGroupA == 1,
                                 ),
@@ -688,14 +686,22 @@ class _EditBuyNeedPageState extends State<EditBuyNeedPage> {
                                 RadioListTile(
                                   value: 0,
                                   groupValue: _buyWayRadioGroupA,
-                                  onChanged: _handleBuyWayRadioValueChanged(0),
+                                  onChanged: (value){
+                                    setState(() {
+                                      _buyWayRadioGroupA = value;
+                                    });
+                                  },
                                   title: Text('贷款'),
                                   selected: _buyWayRadioGroupA == 0,
                                 ),
                                 RadioListTile(
                                   value: 1,
                                   groupValue: _buyWayRadioGroupA,
-                                  onChanged: _handleBuyWayRadioValueChanged(1),
+                                  onChanged: (value){
+                                    setState(() {
+                                      _buyWayRadioGroupA = value;
+                                    });
+                                  },
                                   title: Text('全款'),
                                   selected: _buyWayRadioGroupA == 1,
                                 ),

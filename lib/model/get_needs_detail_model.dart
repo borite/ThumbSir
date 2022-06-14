@@ -45,6 +45,7 @@ class Datum {
     this.coreNeedThreeRemark,
     this.otherNeed,
     this.otherNeedRemark,
+    this.addTime,
     required this.state,
   });
 
@@ -59,6 +60,7 @@ class Datum {
   dynamic coreNeedThreeRemark;
   dynamic otherNeed;
   dynamic otherNeedRemark;
+  DateTime? addTime;
   int state;
 
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
@@ -73,6 +75,7 @@ class Datum {
     coreNeedThreeRemark: json["CoreNeedThreeRemark"],
     otherNeed: json["OtherNeed"],
     otherNeedRemark: json["OtherNeedRemark"],
+    addTime: json["AddTime"] == null ? null : DateTime.parse(json["AddTime"]),
     state: json["State"] == null ? null : json["State"],
   );
 
@@ -88,6 +91,7 @@ class Datum {
     "CoreNeedThreeRemark": coreNeedThreeRemark,
     "OtherNeed": otherNeed,
     "OtherNeedRemark": otherNeedRemark,
+    "AddTime": addTime == null ? null : addTime!.toIso8601String(),
     "State": state,
   };
 }

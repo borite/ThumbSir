@@ -50,7 +50,7 @@ class _TradedEditBasicMsgPageState extends State<TradedEditBasicMsgPage> {
   int _starIndex = 0;
   DateTime _selectedBirthdayDate=DateTime(1980,1,1);
 
-  int _radioGroupA = 0;
+  dynamic _radioGroupA = 0;
 
   _handleRadioValueChanged(int value) {
     setState(() {
@@ -78,12 +78,12 @@ class _TradedEditBasicMsgPageState extends State<TradedEditBasicMsgPage> {
     likeReg = TextReg;
     userNameController.text = widget.item.userName;
     _starIndex = widget.item.starslevel;
-    phoneNumController.text = widget.item.phone;
+    phoneNumController.text = widget.item.phone.toString();
     _selectedBirthdayDate = widget.item.birthday;
     _radioGroupA = widget.item.sex;
-    careerController.text = widget.item.occupation;
-    mapController.text = widget.item.address;
-    likeController.text = widget.item.hobby;
+    careerController.text = widget.item.occupation.toString()=="null"?'未填写':widget.item.occupation.toString();
+    mapController.text = widget.item.address.toString();
+    likeController.text = widget.item.hobby.toString();
     incomeMinCount = widget.item.income;
 
     _getUserInfo();
@@ -363,14 +363,22 @@ class _TradedEditBasicMsgPageState extends State<TradedEditBasicMsgPage> {
                                 RadioListTile(
                                   value: 0,
                                   groupValue: _radioGroupA,
-                                  onChanged: _handleRadioValueChanged(0),
+                                  onChanged: (value){
+                                    setState(() {
+                                      _radioGroupA = value;
+                                    });
+                                  },
                                   title: Text('男'),
                                   selected: _radioGroupA == 0,
                                 ),
                                 RadioListTile(
                                   value: 1,
                                   groupValue: _radioGroupA,
-                                  onChanged: _handleRadioValueChanged(1),
+                                  onChanged: (value){
+                                    setState(() {
+                                      _radioGroupA = value;
+                                    });
+                                  },
                                   title: Text('女'),
                                   selected: _radioGroupA == 1,
                                 ),
@@ -543,11 +551,11 @@ class _TradedEditBasicMsgPageState extends State<TradedEditBasicMsgPage> {
                                     phoneNumController.text,
                                     _selectedBirthdayDate.toIso8601String(),
                                     _starIndex.toString(),
-                                    careerController.text==null?"未知":careerController.text,
+                                    careerController.text=="null"?"未知":careerController.text,
                                     incomeMinCount,
-                                    likeController.text==null?"未知":likeController.text,
+                                    likeController.text=="null"?"未知":likeController.text,
                                     widget.item.remark,
-                                    mapController.text==null?"未知":mapController.text,
+                                    mapController.text=="null"?"未知":mapController.text,
                                     [],
                                     [],
                                 );

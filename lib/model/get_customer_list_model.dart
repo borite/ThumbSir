@@ -196,9 +196,9 @@ class Need {
   });
 
   String mainNeed;
-  String coreNeedOne;
-  String coreNeedTwo;
-  String coreNeedThree;
+  dynamic coreNeedOne;
+  dynamic coreNeedTwo;
+  dynamic coreNeedThree;
 
   factory Need.fromJson(Map<String, dynamic> json) => Need(
     mainNeed: json["MainNeed"] == null ? null : json["MainNeed"],

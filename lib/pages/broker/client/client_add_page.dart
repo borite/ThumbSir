@@ -66,7 +66,7 @@ class _ClientAddPageState extends State<ClientAddPage> {
   DateTime _selectedDate=DateTime(2020,1,1);
   DateTime _selectedBirthdayDate=DateTime(1980,1,1);
 
-  int _radioGroupA = 0;
+  dynamic _radioGroupA = 0;
 
   _handleRadioValueChanged(int value) {
     setState(() {
@@ -597,14 +597,22 @@ class _ClientAddPageState extends State<ClientAddPage> {
                                 RadioListTile(
                                   value: 0,
                                   groupValue: _radioGroupA,
-                                  onChanged: _handleRadioValueChanged(0),
+                                  onChanged: (value){
+                                    setState(() {
+                                      _radioGroupA = value;
+                                    });
+                                  },
                                   title: Text('男'),
                                   selected: _radioGroupA == 0,
                                 ),
                                 RadioListTile(
                                   value: 1,
                                   groupValue: _radioGroupA,
-                                  onChanged: _handleRadioValueChanged(1),
+                                  onChanged: (value){
+                                    setState(() {
+                                      _radioGroupA = value;
+                                    });
+                                  },
                                   title: Text('女'),
                                   selected: _radioGroupA == 1,
                                 ),

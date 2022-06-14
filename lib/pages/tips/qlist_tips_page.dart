@@ -109,7 +109,7 @@ class _QListTipsPageState extends State<QListTipsPage> with SingleTickerProvider
                 children: <Widget>[
                   // 导航栏
                   Padding(
-                      padding: EdgeInsets.only(top:30,left: 0,right: 15,bottom: 0),
+                      padding: EdgeInsets.only(top:40),
                       child:Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
@@ -120,8 +120,9 @@ class _QListTipsPageState extends State<QListTipsPage> with SingleTickerProvider
                                   ), (route) => route == null);
                             },
                             child: Container(
-                              width: 50,
-                              child: Image(image: AssetImage('images/back.png'),),
+                              width: 28,
+                              margin: EdgeInsets.only(left: 15),
+                              child: Image(image: AssetImage('images/home.png'),),
                             ),
                           ),
                           Padding(
