@@ -20,6 +20,9 @@ class AddHouseStep2Dao{
         String ManagementPrice,
         String HaveElevator,
         String Tax,
+        int FloorHigh,
+        int HouseUnitPrice,
+
     ) async {
       //组织要发送给APi的键值对
       var _body={
@@ -35,6 +38,8 @@ class AddHouseStep2Dao{
         "ManagementPrice": ManagementPrice,
         "HaveElevator": HaveElevator,
         "Tax": Tax,
+        "FloorHigh":FloorHigh,
+        "HouseUnitPrice": HouseUnitPrice,
       };
       var client = http.Client();
       final response= await client.post(

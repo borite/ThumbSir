@@ -242,9 +242,9 @@ class _HouseItemState extends State<HouseItem> with SingleTickerProviderStateMix
                         ),
                         Text(
                           widget.houseItem.houseInfo.length<1 || widget.houseItem.houseInfo[0].orientation==null || widget.houseItem.houseInfo[0].orientation==""?"-朝向"
-                              :widget.houseItem.houseInfo[0].orientation
-                              .substring(0,widget.houseItem.houseInfo[0].orientation.lastIndexOf(',')).split(',').toString()
-                              .replaceAll("[", "").replaceAll("]", ""),
+                              :widget.houseItem.houseInfo[0].orientation,
+                              // .substring(0,widget.houseItem.houseInfo[0].orientation.lastIndexOf(',')).split(',').toString(),
+                              // .replaceAll("[", "").replaceAll("]", ""),
                           style: TextStyle(
                             fontSize: 14,
                             color: Color(0xFF666666),

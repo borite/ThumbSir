@@ -209,15 +209,15 @@ class _EditBuyNeedDetailPageState extends State<EditBuyNeedDetailPage> {
       if(widget.needDetail.coreNeedTwo != null &&widget.needDetail.coreNeedTwo.toString().contains(":")){
         core2choose = widget.needDetail.coreNeedTwo.toString().split(":")[1]+",";
       }
-      oldCoreNeedTwoRemark = widget.needDetail.coreNeedTwoRemark;
-      coreController2.text = widget.needDetail.coreNeedTwoRemark;
+      oldCoreNeedTwoRemark = widget.needDetail.coreNeedTwoRemark==null?"未填写":widget.needDetail.coreNeedTwoRemark;
+      coreController2.text = widget.needDetail.coreNeedTwoRemark==null?"未填写":widget.needDetail.coreNeedTwoRemark;
 
       oldCoreNeedThree = "old";
       if(widget.needDetail.coreNeedThree != null &&widget.needDetail.coreNeedThree.toString().contains(":")){
         core3choose = widget.needDetail.coreNeedThree.toString().split(":")[1]+",";
       }
-      oldCoreNeedThreeRemark = widget.needDetail.coreNeedThreeRemark;
-      coreController3.text = widget.needDetail.coreNeedThreeRemark;
+      oldCoreNeedThreeRemark = widget.needDetail.coreNeedThreeRemark==null?"未填写":widget.needDetail.coreNeedThreeRemark;;
+      coreController3.text = widget.needDetail.coreNeedThreeRemark==null?"未填写":widget.needDetail.coreNeedThreeRemark;;
       if(widget.needDetail.coreNeedOne.toString().split(":")[0]=="其他"){
         otherController.text = widget.needDetail.coreNeedOne.toString().split(":")[1];
       }
@@ -687,7 +687,6 @@ class _EditBuyNeedDetailPageState extends State<EditBuyNeedDetailPage> {
                                                     val.forEach((element) {
                                                       var item=element;
                                                       core1choose+=item+',';
-                                                      //print(core1choose);
                                                       if(state.value != null){
                                                         setState(() {
                                                           itemLength = state.value!.length;
@@ -902,7 +901,6 @@ class _EditBuyNeedDetailPageState extends State<EditBuyNeedDetailPage> {
                                                     val.forEach((element) {
                                                       var item=element;
                                                       core2choose+=item+',';
-                                                      //print(core2choose);
                                                       if(state.value != null){
                                                         setState(() {
                                                           itemLength = state.value!.length;
@@ -1118,7 +1116,6 @@ class _EditBuyNeedDetailPageState extends State<EditBuyNeedDetailPage> {
                                                     val.forEach((element) {
                                                       var item=element;
                                                       core3choose+=item+',';
-                                                      //print(core3choose);
                                                       if(state.value != null){
                                                         setState(() {
                                                           itemLength = state.value.length;
@@ -1304,7 +1301,7 @@ class _EditBuyNeedDetailPageState extends State<EditBuyNeedDetailPage> {
                           // 完成
                           GestureDetector(
                             onTap: ()async{
-
+                              _onRefresh();
                               if(_otherNeeds.elevator==null) {_otherNeeds.elevator = "无要求";}
                               if(_otherNeeds.floor==null){_otherNeeds.floor = "无要求";}
                               if(_otherNeeds.houseage==null){_otherNeeds.houseage = "无要求";}
@@ -1324,7 +1321,6 @@ class _EditBuyNeedDetailPageState extends State<EditBuyNeedDetailPage> {
                               if(_otherNeeds.other==null){_otherNeeds.other = "无要求";}
 
                               otherChooses=otherNeedsToJson(_otherNeeds);
-                              //print(otherChooses);
                               _onRefresh();
 
                                 var addResult = await UpdateCustomerNeedDao.updateCustomerNeed(

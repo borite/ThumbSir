@@ -34,7 +34,8 @@ class AddHouseStep3Dao{
       };
       var client = http.Client();
       final response= await client.post(
-          Uri.http(apiPerFix,'/api/order/AddNewOrder'),
+          Uri.http(apiPerFix,'/api/houseresource/AddHouseStep3'),
+          headers: {'Content-type': 'application/json'},  //告诉服务器，发送的数据类型为Json类型
           body: json.encode(_body)  //将body的键值对用Json形式编码发送
        );
        if(response.statusCode==200){

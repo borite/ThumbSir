@@ -83,7 +83,7 @@ class _ClientDetailPageState extends State<ClientDetailPage> with TickerProvider
                   // 业务动作
                   ClientWorkActionMsg(
                     item:widget.item,
-                    // result:result,
+                    result:userData,
                   ),
                   // 成交信息
                   ClientDealMsg(

@@ -193,7 +193,7 @@ class _HouseListPageState extends State<HouseListPage> {
                                               ), (route) => route == null);
                                         },
                                         child: Container(
-                                          width: 28,
+                                          width: 26,
                                           padding: EdgeInsets.only(top: 3),
                                           child: Image(image: AssetImage('images/home.png'),),
                                         ),
@@ -213,7 +213,7 @@ class _HouseListPageState extends State<HouseListPage> {
                                   Row(
                                     children: <Widget>[
                                       Container(
-                                        width: 60,
+                                        width: 28,
                                         child: GestureDetector(
                                           onTap: (){
                                             Navigator.push(context, MaterialPageRoute(builder: (context)=>QListTipsPage()));
@@ -239,8 +239,8 @@ class _HouseListPageState extends State<HouseListPage> {
                                         ),
                                       ),
                                       Container(
-                                        margin: EdgeInsets.only(right: 10),
-                                        width: 60,
+                                        margin: EdgeInsets.only(right: 20,left: 25),
+                                        width: 28,
                                         child: GestureDetector(
                                           onTap: (){
                                             Navigator.push(context, MaterialPageRoute(builder: (context)=>MyCenterPage()));

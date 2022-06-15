@@ -1193,7 +1193,7 @@ class _HouseDetailPageState extends State<HouseDetailPage> {
                                 child: Text(
                                   // '绿化率高、容积率低、人车分流、安静、视野好、底层板楼',
                                   houseDetail!=null?(
-                                      houseDetail.houseAroundInfo.length<1?"-"
+                                      houseDetail.houseAroundInfo.length<1 || houseDetail.houseAroundInfo[0].otherLabel ==""?"-"
                                           :houseDetail.houseAroundInfo[0].otherLabel.substring(0,houseDetail.houseAroundInfo[0].otherLabel.lastIndexOf(',')).split(',').toString()
                                           .replaceAll("[", "").replaceAll("]", "")
                                   ):'-',

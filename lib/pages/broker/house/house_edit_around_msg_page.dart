@@ -72,7 +72,7 @@ class _HouseEditAroundMsgPageState extends State<HouseEditAroundMsgPage> {
   List<String> otherLabelSel = [];
   String otherLabelSelect="";
 
-  int _radioGroupA = 0;
+  dynamic _radioGroupA = 0;
 
   List<String> tags = [];
   List<String> special = [];
@@ -290,14 +290,22 @@ class _HouseEditAroundMsgPageState extends State<HouseEditAroundMsgPage> {
                                 RadioListTile(
                                   value: 0,
                                   groupValue: _radioGroupA,
-                                  onChanged: _handleRadioValueChanged(0),
+                                  onChanged: (value){
+                                    setState(() {
+                                      _radioGroupA = value;
+                                    });
+                                  },
                                   title: Text('是学区房'),
                                   selected: _radioGroupA == 0,
                                 ),
                                 RadioListTile(
                                   value: 1,
                                   groupValue: _radioGroupA,
-                                  onChanged: _handleRadioValueChanged(1),
+                                  onChanged: (value){
+                                    setState(() {
+                                      _radioGroupA = value;
+                                    });
+                                  },
                                   title: Text('不是学区房'),
                                   selected: _radioGroupA == 1,
                                 ),

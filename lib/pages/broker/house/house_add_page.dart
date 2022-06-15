@@ -14,8 +14,6 @@ import 'package:wheel_chooser/wheel_chooser.dart';
 import 'package:flutter_holo_date_picker/flutter_holo_date_picker.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:ThumbSir/model/company_list_model.dart';
-import 'package:simple_autocomplete_formfield/simple_autocomplete_formfield.dart';
-
 import 'house_add_basic_msg_page.dart';
 import 'house_list_page.dart';
 
@@ -31,6 +29,10 @@ class _HouseAddPageState extends State<HouseAddPage> {
   bool _loading = false;
   final TextEditingController countController=TextEditingController();
   int itemCount = 1;
+  final TextEditingController communityController=TextEditingController();
+  String communityName = "";
+  final TextEditingController addressController=TextEditingController();
+  String address = "";
   final TextEditingController userNameController = TextEditingController();
   late String userName;
   late RegExp nameReg;
@@ -69,22 +71,14 @@ class _HouseAddPageState extends State<HouseAddPage> {
   String incomeMinCount = "10万以下";
   String comeMinCount = "社区开发";
   String reasonMinCount = "闲置";
-  int _starIndex = 0;
 
   List<DealInfo> deal=[];
   List<NeedInfo> need=[];
   List<FamilyMember> member=[];
   DateTime selectedDate=DateTime(2021,1,1);
 
-  int _radioGroupA = 0;
-
-  var addResult;
-
-  _handleRadioValueChanged(int value) {
-    setState(() {
-      _radioGroupA = value;
-    });
-  }
+  dynamic _radioGroupA = 0;
+  dynamic addResult;
 
   // String text;
   // String p1;
@@ -166,6 +160,8 @@ class _HouseAddPageState extends State<HouseAddPage> {
     countController.dispose();
     agentNameController.dispose();
     agentPhoneNumController.dispose();
+    addressController.dispose();
+    communityController.dispose();
     super.dispose();
   }
 
@@ -273,115 +269,51 @@ class _HouseAddPageState extends State<HouseAddPage> {
 
                           // 房源所在小区
                           Container(
-                            width: 335,
-                            margin: EdgeInsets.only(top: 20),
-                            child: Text(
-                              '房源所在小区：',
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Color(0xFF333333),
-                                decoration: TextDecoration.none,
-                                fontWeight: FontWeight.normal,
-                              ),
-                            ),
-                          ),
-                          // Input(
-                          //   hintText: "请输入房源所在小区",
-                          //   tipText: "请输入房源所在小区",
-                          //   errorTipText: "请输入房源所在小区",
-                          //   rightText: "请输入房源所在小区",
-                          //   controller: careerController,
-                          //   inputType: TextInputType.text,
-                          //   reg: careerReg,
-                          //   onChanged: (text){
-                          //     setState(() {
-                          //       career = text;
-                          //       careerBool = careerReg.hasMatch(career);
-                          //     });
-                          //   },
-                          // ),
-                          Container(
-                            width: 335,
-                            height: 300,
-                            margin: EdgeInsets.only(top: 10),
-                            child: Form(
-                              key: formKey,
-                              autovalidateMode: AutovalidateMode.disabled,
-                              child: Column(children: <Widget>[
-//                      Text('Selected listItem: "$selectedItem"'),
-                                SimpleAutocompleteFormField<Datum>(
-                                  decoration: InputDecoration(
-                                    contentPadding: EdgeInsets.fromLTRB(8, 0, 10, 10),
-                                    border: OutlineInputBorder(
-                                      /*边角*/
-                                      borderRadius: BorderRadius.all(Radius.circular(8),),
-                                      borderSide: BorderSide(color: Color(0xFF2692FD), width: 1,),
-                                    ),
-                                    enabledBorder: OutlineInputBorder(
-                                      /*边角*/
-                                      borderRadius: BorderRadius.all(Radius.circular(8),),
-                                      borderSide: BorderSide(color: Color(0xFF2692FD), width: 1,),
-                                    ),
-                                    focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.all(Radius.circular(8),),
-                                      borderSide: BorderSide(color: Color(0xFF2692FD), width: 1,),
-                                    ),
-                                    hintStyle: TextStyle(fontSize: 14),
-                                    hintText: "请输入房源所在小区",
-                                  ),
-//                        suggestionsHeight: 200.0,
-                                  maxSuggestions: 5,
-                                  itemBuilder: (context, listItem) => Padding(
-                                    padding: EdgeInsets.only(top: 5,left: 5),
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Padding(
-                                          padding: EdgeInsets.only(top: 10),
-                                          child: Row(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                Padding(
-                                                  padding: EdgeInsets.only(right: 5),
-                                                  child: Image(image: AssetImage("images/choose.png"),),
-                                                ),
-                                                Text(
-                                                  listItem!.companyName,
-                                                  style: TextStyle(
-                                                      fontSize: 16,
-                                                      color: Color(0xFF5580EB)
-                                                  ),
-                                                )
-                                              ]),
-                                        ),
-                                      ],
+                              width: 335,
+                              margin: EdgeInsets.only(top: 15),
+                              child: Row(
+                                children: [
+                                  Text(
+                                    '房源所在小区：',
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      color: Color(0xFF333333),
+                                      decoration: TextDecoration.none,
+                                      fontWeight: FontWeight.normal,
                                     ),
                                   ),
-                                  onSearch: (search) async => companies.where((person) => person.companyName.toLowerCase()
-                                      .contains(search.toLowerCase())).toList(),
-                                  itemFromString: (string) => companies.singleWhere(
-                                          (listItem) => listItem.companyName.toLowerCase() == string.toLowerCase(),),
-                                  onChanged: (value) {setState(() => selectedItem = value!);},
-                                  onSaved: (value) {setState(() => selectedItem = value!);},
-                                  validator: (listItem) => listItem == null ? '输入后在下方选择小区，若没有请点击新建楼盘' : null,
-                                ),
-                              ]),
-                            ),
-                          ),
-                          Container(
-                            width: 335,
-                            margin: EdgeInsets.only(top: 10),
-                            child: Text(
-                              '新建楼盘',
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Color(0xFFF24848),
-                                decoration: TextDecoration.none,
-                                fontWeight: FontWeight.normal,
-                              ),
-                            ),
-                          ),
+                                  GestureDetector(
+                                    onTap: (){
+                                      _onCommunityPressed(context);
+                                    },
+                                    child: Container(
+                                      margin: EdgeInsets.only(right: 10),
+                                      decoration: BoxDecoration(
+                                          border: Border(bottom: BorderSide(width: 1,color: Color(0xFF0E7AE6)))
+                                      ),
+                                      child: Text(
+                                        communityName==""?"点击输入":communityName,
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          color: Color(0xFF5580EB),
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.normal,
+                                        ),),
+                                    ),
+                                  ),
+                                  Text(
+                                    '小区',
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      color: Color(0xFF333333),
+                                      decoration: TextDecoration.none,
+                                      fontWeight: FontWeight.normal,
+                                    ),
+                                  ),
 
+                                ],
+                              )
+                          ),
 
                           // 房源地址
                           Container(
@@ -400,14 +332,15 @@ class _HouseAddPageState extends State<HouseAddPage> {
                                 ),
                                 GestureDetector(
                                   onTap: (){
-                                    _onCountPressed(context);
+                                    _onAddressPressed(context);
                                   },
                                   child: Container(
                                     decoration: BoxDecoration(
                                         border: Border(bottom: BorderSide(width: 1,color: Color(0xFF0E7AE6)))
                                     ),
                                     child: Text(
-                                      "1号楼2单元301室",
+                                      // address,
+                                      address==""?"点击输入":address,
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                         color: Color(0xFF5580EB),
@@ -732,6 +665,7 @@ class _HouseAddPageState extends State<HouseAddPage> {
                           // 业主手机号
                           Container(
                             width: 335,
+                            margin: EdgeInsets.only(top: 15),
                             child: Text(
                               '业主手机号码：',
                               style: TextStyle(
@@ -762,7 +696,7 @@ class _HouseAddPageState extends State<HouseAddPage> {
                           // 是否有代理人
                           Container(
                             width: 335,
-                            margin: EdgeInsets.only(top: 10),
+                            margin: EdgeInsets.only(top: 15),
                             child: Row(
                               children: <Widget>[
                                 Text(
@@ -786,138 +720,140 @@ class _HouseAddPageState extends State<HouseAddPage> {
                                 RadioListTile(
                                   value: 0,
                                   groupValue: _radioGroupA,
-                                  onChanged: _handleRadioValueChanged(0),
+                                  onChanged: (value){
+                                    setState(() {
+                                      _radioGroupA = value;
+                                    });
+                                  },
                                   title: Text('本人交易'),
                                   selected: _radioGroupA == 0,
                                 ),
                                 RadioListTile(
                                   value: 1,
                                   groupValue: _radioGroupA,
-                                  onChanged: _handleRadioValueChanged(1),
+                                  onChanged: (value){
+                                    setState(() {
+                                      _radioGroupA = value;
+                                    });
+                                  },
                                   title: Text('有代理人'),
                                   selected: _radioGroupA == 1,
                                 ),
                               ],
                             ),
                           ),
-
-                          // 代理人姓名
-                          Container(
-                            width: 335,
-                            child: Text(
-                              '代理人姓名：',
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Color(0xFF333333),
-                                decoration: TextDecoration.none,
-                                fontWeight: FontWeight.normal,
+                          _radioGroupA == 1?
+                          Column(
+                            children: [
+                              // 代理人姓名
+                              Container(
+                                width: 335,
+                                child: Text(
+                                  '代理人姓名：',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: Color(0xFF333333),
+                                    decoration: TextDecoration.none,
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                                ),
                               ),
-                            ),
-                          ),
-                          Input(
-                            hintText: "请输入代理人姓名",
-                            tipText: "请输入代理人姓名",
-                            errorTipText: "请输入代理人姓名",
-                            rightText: "请输入代理人姓名",
-                            controller: agentNameController,
-                            inputType: TextInputType.text,
-                            reg: agentReg,
-                            password: false,
-                            onChanged: (text){
-                              setState(() {
-                                agentName = text;
-                                agentNameBool = agentReg.hasMatch(agentName);
-                              });
-                            },
-                          ),
-
-                          // 代理人手机号
-                          Container(
-                            width: 335,
-                            child: Text(
-                              '代理人手机号码：',
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Color(0xFF333333),
-                                decoration: TextDecoration.none,
-                                fontWeight: FontWeight.normal,
+                              Input(
+                                hintText: "请输入代理人姓名",
+                                tipText: "请输入代理人姓名",
+                                errorTipText: "请输入代理人姓名",
+                                rightText: "请输入代理人姓名",
+                                controller: agentNameController,
+                                inputType: TextInputType.text,
+                                reg: agentReg,
+                                password: false,
+                                onChanged: (text){
+                                  setState(() {
+                                    agentName = text;
+                                    agentNameBool = agentReg.hasMatch(agentName);
+                                  });
+                                },
                               ),
-                            ),
-                          ),
-                          Input(
-                            hintText: "手机号码",
-                            tipText: "请输入代理人的手机号码",
-                            errorTipText: "请输入格式正确的手机号码",
-                            rightText: "手机号码格式正确",
-                            controller: agentPhoneNumController,
-                            inputType: TextInputType.phone,
-                            reg: agentPhoneReg,
-                            password: false,
-                            onChanged: (text){
-                              setState(() {
-                                agentPhoneNum = text;
-                                agentPhoneBool = agentPhoneReg.hasMatch(agentPhoneNum);
-                              });
-                            },
-                          ),
+
+                              // 代理人手机号
+                              Container(
+                                width: 335,
+                                margin: EdgeInsets.only(top: 15),
+                                child: Text(
+                                  '代理人手机号码：',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: Color(0xFF333333),
+                                    decoration: TextDecoration.none,
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                                ),
+                              ),
+                              Input(
+                                hintText: "手机号码",
+                                tipText: "请输入代理人的手机号码",
+                                errorTipText: "请输入格式正确的手机号码",
+                                rightText: "手机号码格式正确",
+                                controller: agentPhoneNumController,
+                                inputType: TextInputType.phone,
+                                reg: agentPhoneReg,
+                                password: false,
+                                onChanged: (text){
+                                  setState(() {
+                                    agentPhoneNum = text;
+                                    agentPhoneBool = agentPhoneReg.hasMatch(agentPhoneNum);
+                                  });
+                                },
+                              ),
+                            ],
+                          ):Container(width: 1,),
+
 
                           // 完成
                           GestureDetector(
                             onTap: ()async{
-                              // if(userNameBool == true && phoneBool == true && _starIndex != 0 ){
-                              //   _onRefresh();
+                              if(communityName!="" && address!="" && userNameBool == true && phoneBool == true ){
+                                _onRefresh();
                                 addResult = await AddHouseStep1Dao.addHouseStep1(
-                                  userData!.companyId,
-                                  userNameController.text,
-                                  phoneNumController.text,
-                                  userData!.userPid,
-                                  selectedDate.toString(),
-                                  needMinCount.substring(0,2),
-                                  needMinCount.substring(3,4),
-                                  "",// text,
-                                  selectedItem.companyName,
-                                  "1号楼2单元401室",
-                                  comeMinCount,
-                                    itemCount,
-                                  tradeMinCount,
-                                  reasonMinCount,
-                                  agentNameController.text,
-                                  agentPhoneNumController.text,
-                                  mapController.text
+                                  userData!.companyId,   // 公司id
+                                  userNameController.text, // 业主姓名
+                                  phoneNumController.text,  // 业主电话
+                                  userData!.userPid, // 录入人id
+                                  selectedDate.toString(), // 期望成交时间
+                                  needMinCount.substring(0,2), // 交易类型
+                                  needMinCount.substring(3,4), // 房源类型
+                                  "",// text, // 房源所在区域
+                                  communityName, // 房源小区名称
+                                  address, // 房源具体地址
+                                  comeMinCount, // 房屋来源
+                                    itemCount, // 房屋价格
+                                  tradeMinCount, // 交易迫切度
+                                  reasonMinCount, // 交易原因
+                                  agentNameController.text, // 代理人姓名
+                                  agentPhoneNumController.text, // 代理人手机号码
+                                  mapController.text, // 房源介绍
+                                  "", // 房屋权属
                                 );
-                                print(addResult);
                                 if (addResult.code == 200 || addResult.code ==210) {
                                   _onRefresh();
                                   _finishPressed(context);
-                                  // if (userData.userLevel.substring(0, 1) == "6") {
-                                  //   Navigator.push(context, MaterialPageRoute(
-                                  //       builder: (context) => HouseListPage()));
-                                  // }
-                                  // if (userData.userLevel.substring(0, 1) == "4") {
-                                  //   Navigator.push(context, MaterialPageRoute(
-                                  //       builder: (context) => STradedPage()));
-                                  // }
-                                  // if (userData.userLevel.substring(0, 1) == "5") {
-                                  //   Navigator.push(context, MaterialPageRoute(
-                                  //       builder: (context) => MTradedPage()));
-                                  // }
                                 } else {
                                   _onRefresh();
                                   _onOverLoadPressed(context);
                                 }
-                              },
-                              // else{
-                              //   // 必填信息不完整的弹窗
-                              //   _onMsgPressed(context);
-                              // }
-                            // }
+                              }
+                              else{
+                                _onRefresh();
+                                // 必填信息不完整的弹窗
+                                _onMsgPressed(context);
+                              }
+                            },
                             child: Container(
                                 width: 335,
                                 height: 40,
                                 padding: EdgeInsets.all(4),
                                 margin: EdgeInsets.only(bottom: 50,top: 100),
-                                decoration: phoneBool == true &&
-                                    userNameBool == true && _starIndex != 0?
+                                decoration: communityName!="" && address!="" && userNameBool == true && phoneBool == true ?
                                 BoxDecoration(
                                     border: Border.all(width: 1,color: Color(0xFF5580EB)),
                                     borderRadius: BorderRadius.circular(8),
@@ -949,11 +885,11 @@ class _HouseAddPageState extends State<HouseAddPage> {
     );
   }
 
-  // 输入任务数量弹窗
+  // 输入报价数额弹窗
   _onCountPressed(context) {
     Alert(
       context: context,
-      title: "输入任务数量",
+      title: "请输入报价数额（单位万元）",
       content: Column(
         children: <Widget>[
           TextField(
@@ -970,15 +906,10 @@ class _HouseAddPageState extends State<HouseAddPage> {
             style: TextStyle(color: Colors.white, fontSize: 20),
           ),
           onPressed: (){
-            if(int.parse(countController.text) > 0){
-              setState(() {
-                itemCount = int.parse(countController.text.toString());
-              });
-              Navigator.pop(context);
-            }else{
-              _onCountWrongPressed(context);
-            }
-
+            setState(() {
+              itemCount = int.parse(countController.text.toString());
+            });
+            Navigator.pop(context);
           },
           color: Color(0xFF5580EB),
           width: 120,
@@ -997,73 +928,19 @@ class _HouseAddPageState extends State<HouseAddPage> {
       ],
     ).show();
   }
-
-  // 任务数量不得小于1弹窗
-  _onCountWrongPressed(context) {
+  // 输入小区名称弹窗
+  _onCommunityPressed(context) {
     Alert(
       context: context,
-      title: "任务数量不得小于1",
-      desc: "请重试",
-      buttons: [
-        DialogButton(
-          child: Text(
-            "知道了",
-            style: TextStyle(color: Colors.white, fontSize: 20),
-          ),
-          onPressed: (){
-            Navigator.pop(context);
-          },
-          color: Color(0xFF5580EB),
-          width: 120,
-        )
-      ],
-    ).show();
-  }
-
-  _addNeedAlertPressed(context) {
-    Alert(
-      context: context,
-      title: "添加客户需求",
+      title: "输入小区名称",
+      desc:'例如金鱼池小区，仅输入金鱼池即可',
       content: Column(
         children: <Widget>[
-          Row(
-            children: <Widget>[
-              Container(
-                padding: EdgeInsets.only(left: 10,top: 10),
-                child: Text("需求类型：",style: TextStyle(
-                    fontSize: 14,
-                    color: Color(0xFF666666)
-                ),
-                  textAlign: TextAlign.left,
-                ),
-              ),
-            ],
-          ),
-          Container(
-            width: 80,
-            height: 120,
-            margin: EdgeInsets.only(top: 18),
-            child: WheelChooser(
-              onValueChanged: (s){
-                setState(() {
-                  needMinCount = s;
-                });
-              },
-              datas: ["购买住宅", "购买商铺", "购买公寓", "购买车位","出售住宅", "出售商铺", "出售公寓", "出售车位","租赁住宅", "租赁商铺", "租赁公寓", "租赁车位","出租住宅", "出租商铺", "出租公寓", "出租车位",],
-              selectTextStyle: TextStyle(
-                  color: Color(0xFF0E7AE6),
-                  fontWeight: FontWeight.normal,
-                  decoration: TextDecoration.none,
-                  fontSize: 12
-              ),
-              unSelectTextStyle: TextStyle(
-                  color: Color(0xFF666666),
-                  fontWeight: FontWeight.normal,
-                  decoration: TextDecoration.none,
-                  fontSize: 12
-              ),
-            ),
-          ),
+          TextField(
+            controller: communityController,
+            keyboardType: TextInputType.text,
+            textAlign: TextAlign.center,
+          )
         ],
       ),
       buttons: [
@@ -1072,14 +949,14 @@ class _HouseAddPageState extends State<HouseAddPage> {
             "确定",
             style: TextStyle(color: Colors.white, fontSize: 20),
           ),
-          onPressed: () async {
+          onPressed: (){
             setState(() {
-              var d=new NeedInfo(needReason: needMinCount);
-              need.add(d);
+              communityName = communityController.text;
             });
             Navigator.pop(context);
           },
           color: Color(0xFF5580EB),
+          width: 120,
         ),
         DialogButton(
           child: Text(
@@ -1090,10 +967,56 @@ class _HouseAddPageState extends State<HouseAddPage> {
             Navigator.pop(context);
           },
           color: Color(0xFFCCCCCC),
-        ),
+          width: 120,
+        )
       ],
     ).show();
   }
+  // 输入房源地址弹窗
+  _onAddressPressed(context) {
+    Alert(
+      context: context,
+      title: "输入房源地址",
+      desc:"仅输入楼栋号+单元号+门牌号即可，例如1号楼1单元101室",
+      content: Column(
+        children: <Widget>[
+          TextField(
+            controller: addressController,
+            keyboardType: TextInputType.text,
+            textAlign: TextAlign.center,
+          )
+        ],
+      ),
+      buttons: [
+        DialogButton(
+          child: Text(
+            "确定",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: (){
+            setState(() {
+              address = addressController.text;
+            });
+            Navigator.pop(context);
+          },
+          color: Color(0xFF5580EB),
+          width: 120,
+        ),
+        DialogButton(
+          child: Text(
+            "取消",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: (){
+            Navigator.pop(context);
+          },
+          color: Color(0xFFCCCCCC),
+          width: 120,
+        )
+      ],
+    ).show();
+  }
+
   _finishPressed(context) {
     Alert(
       context: context,
@@ -1108,7 +1031,8 @@ class _HouseAddPageState extends State<HouseAddPage> {
           onPressed: (){
             Navigator.push(context, MaterialPageRoute(
                 builder: (context) => HouseAddBasicMsgPage(
-                    houseId:addResult.data.houseId
+                    houseId:addResult.data.houseId,
+                    totalPrice: addResult.data.housePrice,
                 )));
           },
           color: Color(0xFF5580EB),

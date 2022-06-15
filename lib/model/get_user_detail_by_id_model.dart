@@ -57,19 +57,19 @@ class Datum {
   String userId;
   int userType;
   String userName;
-  int sex;
-  String phone;
+  dynamic sex;
+  dynamic phone;
   DateTime? birthday;
-  int starslevel;
-  String occupation;
-  String income;
-  String? hobby;
-  String? remark;
-  String? address;
+  dynamic starslevel;
+  dynamic occupation;
+  dynamic income;
+  dynamic hobby;
+  dynamic remark;
+  dynamic address;
   List<FamilyMember>? familyMember;
   List<Need>? needs;
   BusAct? busAct;
-  int? age;
+  dynamic age;
 
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
   mid: json["MID"] == null ? null : json["MID"],

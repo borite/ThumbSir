@@ -95,6 +95,7 @@ class _HouseEditBasicMsgPageState extends State<HouseEditBasicMsgPage> {
 
   @override
   void initState() {
+    print(widget.houseDetail);
     companyReg = TextReg;
 
     if(widget.houseDetail !=null){
@@ -1230,25 +1231,28 @@ class _HouseEditBasicMsgPageState extends State<HouseEditBasicMsgPage> {
                               //    _otherNeedPressed(context);
                               var addResult = await AddHouseStep2Dao
                                   .addHouseStep2(
-                                  widget.houseId.toString(),
-                                  areaController.text,
+                                  widget.houseId.toString(), //房源id
+                                  areaController.text, // 面积
                                   roomController.text + "-" +
                                       sittingRoomController.text + "-" +
                                       kitchenController.text + "-" +
-                                      toiletController.text,
+                                      toiletController.text, // 居室结构
                                   directionSelect == ""
                                       ? "未知"
-                                      : directionSelect,
-                                  floorController.text,
-                                  totalFloorController.text,
+                                      : directionSelect, // 朝向
+                                  floorController.text, // 所在楼层
+                                  totalFloorController.text, // 总楼层
                                   decorationSelect == ""
                                       ? "未知"
-                                      : decorationSelect,
-                                  houseAgeController.text,
-                                  managementCompanyController.text+"-"+(managementSelect==""?"未知":managementSelect),
-                                  managementPriceController.text,
-                                  elevatorSelect == "" ? "未知" : elevatorSelect,
-                                  taxSelect == "" ? "未知" : taxSelect
+                                      : decorationSelect, // 装修情况
+                                  houseAgeController.text, // 楼龄
+                                  managementCompanyController.text+"-"+(managementSelect==""?"未知":managementSelect), // 物业
+                                  managementPriceController.text, // 物业费
+                                  elevatorSelect == "" ? "未知" : elevatorSelect, // 电梯
+                                  taxSelect == "" ? "未知" : taxSelect, // 税费
+                                  int.parse(floorController.text)/int.parse(totalFloorController.text)<0.17?1
+                                  :int.parse(floorController.text)/int.parse(totalFloorController.text)>0.67?3:2, // 高中低楼层
+                                  (widget.houseDetail.housePrice/double.parse(houseAgeController.text)).truncate(), // 单价
                               );
                               print(addResult);
                               if (addResult.code == 200 ||

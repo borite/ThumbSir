@@ -17,8 +17,9 @@ import 'house_list_page.dart';
 
 class HouseAddBasicMsgPage extends StatefulWidget {
   final houseId;
+  final totalPrice;
   HouseAddBasicMsgPage({Key? key,
-    this.houseId,
+    this.houseId,this.totalPrice
   }):super(key:key);
   @override
   _HouseAddBasicMsgPageState createState() => _HouseAddBasicMsgPageState();
@@ -1036,47 +1037,36 @@ class _HouseAddBasicMsgPageState extends State<HouseAddBasicMsgPage> {
                             onTap: ()async {
                               // if(userNameBool == true && phoneBool == true && _starIndex != 0 ){
                               _onRefresh();
-
-                              //    _otherNeedPressed(context);
                               var addResult = await AddHouseStep2Dao
                                   .addHouseStep2(
-                                  widget.houseId.toString(),
-                                  areaController.text,
+                                  widget.houseId.toString(), //房源id
+                                  areaController.text, // 面积
                                   roomController.text + "-" +
                                       sittingRoomController.text + "-" +
                                       kitchenController.text + "-" +
-                                      toiletController.text,
+                                      toiletController.text,  // 居室结构
                                   directionSelect == ""
                                       ? "未知"
-                                      : directionSelect,
-                                  floorController.text,
-                                  totalFloorController.text,
+                                      : directionSelect, // 朝向
+                                  floorController.text, // 所在楼层
+                                  totalFloorController.text, // 总楼层
                                   decorationSelect == ""
                                       ? "未知"
-                                      : decorationSelect,
-                                  houseAgeController.text,
-                                  managementCompanyController.text+"-"+(managementSelect==""?"未知":managementSelect),
-                                  managementPriceController.text,
-                                  elevatorSelect == "" ? "未知" : elevatorSelect,
-                                  taxSelect == "" ? "未知" : taxSelect
+                                      : decorationSelect, // 装修情况
+                                  houseAgeController.text, // 楼龄
+                                  managementCompanyController.text+"-"+(managementSelect==""?"未知":managementSelect), // 物业
+                                  managementPriceController.text, // 物业费
+                                  elevatorSelect == "" ? "未知" : elevatorSelect, // 电梯
+                                  taxSelect == "" ? "未知" : taxSelect, // 税费
+                                  int.parse(floorController.text)/int.parse(totalFloorController.text)<0.17?1
+                                      :int.parse(floorController.text)/int.parse(totalFloorController.text)>0.67?3:2, // 高中低楼层
+                                (widget.totalPrice/double.parse(houseAgeController.text)).truncate(), // 单价
                               );
                               print(addResult);
                               if (addResult.code == 200 ||
                                   addResult.code == 201) {
                                 _onRefresh();
                                 _finishPressed(context);
-                                // if (userData.userLevel.substring(0, 1) == "6") {
-                                //   Navigator.push(context, MaterialPageRoute(
-                                //       builder: (context) => MyTradedPage()));
-                                // }
-                                // if (userData.userLevel.substring(0, 1) == "4") {
-                                //   Navigator.push(context, MaterialPageRoute(
-                                //       builder: (context) => STradedPage()));
-                                // }
-                                // if (userData.userLevel.substring(0, 1) == "5") {
-                                //   Navigator.push(context, MaterialPageRoute(
-                                //       builder: (context) => MTradedPage()));
-                                // }
                               } else {
                                 _onRefresh();
                                 _onOverLoadPressed(context);

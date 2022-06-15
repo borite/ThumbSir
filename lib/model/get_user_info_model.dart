@@ -68,12 +68,12 @@ class Datum {
   String companyName;
   int levelCount;
   String companyId;
-  String region;
-  String section;
+  dynamic region;
+  dynamic section;
   DateTime? creatTime;
   int inviteCount;
-  String sales;
-  String cs;
+  dynamic sales;
+  dynamic cs;
 
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
   userName: json["UserName"] == null ? null : json["UserName"],
