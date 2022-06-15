@@ -77,12 +77,6 @@ class _HouseEditAroundMsgPageState extends State<HouseEditAroundMsgPage> {
   List<String> tags = [];
   List<String> special = [];
 
-  _handleRadioValueChanged(int value) {
-    setState(() {
-      _radioGroupA = value;
-    });
-  }
-
   LoginResultData? userData;
   late String uInfo;
 
@@ -97,7 +91,7 @@ class _HouseEditAroundMsgPageState extends State<HouseEditAroundMsgPage> {
   @override
   void initState() {
     _getUserInfo();
-    special = ["安静","带车位","带小院","停车方便","绿化率高","容积率低","小区面积大","人车分流","视野好"];
+    special = ["近地铁","随时看房","安静","带车位","带小院","停车方便","绿化率高","容积率低","小区面积大","人车分流","视野好"];
     print(widget.houseDetail.houseAroundInfo);
     if(widget.houseDetail.houseAroundInfo.length>0){
       // 是否为学区房

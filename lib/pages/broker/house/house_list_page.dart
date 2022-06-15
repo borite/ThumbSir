@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:ThumbSir/common/reg.dart';
 import 'package:ThumbSir/model/login_result_data_model.dart';
+import 'package:ThumbSir/pages/broker/house/house_filter_search_choose_page.dart';
 import 'package:ThumbSir/pages/broker/traded/traded_search_page.dart';
 import 'package:ThumbSir/pages/home.dart';
 import 'package:ThumbSir/pages/mycenter/my_center_page.dart';
@@ -14,6 +15,7 @@ import 'package:rflutter_alert/rflutter_alert.dart';
 
 import '../../../dao/get_house_list_dao.dart';
 import 'house_add_page.dart';
+import 'house_search_page.dart';
 
 class HouseListPage extends StatefulWidget {
   @override
@@ -73,9 +75,9 @@ class _HouseListPageState extends State<HouseListPage> {
     sortLists.add(ageList2);
     DropdownMenuItem ageList3 = new DropdownMenuItem(child: Text('带看量'),value: '带看量',);
     sortLists.add(ageList3);
-    DropdownMenuItem ageList4 = new DropdownMenuItem(child: Text('价格升'),value: '价格升',);
+    DropdownMenuItem ageList4 = new DropdownMenuItem(child: Text('总价升'),value: '总价升',);
     sortLists.add(ageList4);
-    DropdownMenuItem ageList5 = new DropdownMenuItem(child: Text('价格降'),value: '价格降',);
+    DropdownMenuItem ageList5 = new DropdownMenuItem(child: Text('总价降'),value: '总价降',);
     sortLists.add(ageList5);
     return sortLists;
   }
@@ -297,9 +299,9 @@ class _HouseListPageState extends State<HouseListPage> {
                                         top: 18,
                                         child: GestureDetector(
                                           onTap: ()async{
-                                            Navigator.push(context, MaterialPageRoute(builder: (context)=>TradedSearchPage(
+                                            Navigator.push(context, MaterialPageRoute(builder: (context)=>HouseSearchPage(
                                               keyword:searchController.text,
-                                              userID:userData!.userPid,
+                                              companyID: userData!.companyId,
                                             )));
                                           },
                                           child: Container(
@@ -439,11 +441,10 @@ class _HouseListPageState extends State<HouseListPage> {
                           // 高级搜索
                           Container(
                             width: 335,
-                            margin: EdgeInsets.only(top: 10),
                             child: Row(
                               children: [
                                 Text(
-                                  "高级筛选：",
+                                  "高级筛选（多选）：",
                                   style: TextStyle(
                                     fontSize: 14,
                                     color: Color(0xFF666666),
@@ -451,64 +452,25 @@ class _HouseListPageState extends State<HouseListPage> {
                                     decoration: TextDecoration.none,
                                   ),
                                 ),
-                                Expanded(
-                                  child:Wrap(
-                                    spacing: 4,
-                                    children: [
-                                      Chip(
-                                        backgroundColor: Color(0xFF93C0FB),
-                                        label: Text('2居室',style: TextStyle(
-                                          fontSize: 14,
-                                          color: Colors.white,
-                                          decoration: TextDecoration.none,
-                                          fontWeight: FontWeight.normal,
-                                        ),),
-                                      ),
-                                      Chip(
-                                        backgroundColor: Color(0xFF93C0FB),
-                                        label: Text('朝南',style: TextStyle(
-                                          fontSize: 14,
-                                          color: Colors.white,
-                                          decoration: TextDecoration.none,
-                                          fontWeight: FontWeight.normal,
-                                        ),),
-                                      ),
-                                      Chip(
-                                        backgroundColor: Color(0xFF93C0FB),
-                                        label: Text('中楼层',style: TextStyle(
-                                          fontSize: 14,
-                                          color: Colors.white,
-                                          decoration: TextDecoration.none,
-                                          fontWeight: FontWeight.normal,
-                                        ),),
-                                      ),
-                                      Chip(
-                                        backgroundColor: Color(0xFF93C0FB),
-                                        label: Text('80-120平米',style: TextStyle(
-                                          fontSize: 14,
-                                          color: Colors.white,
-                                          decoration: TextDecoration.none,
-                                          fontWeight: FontWeight.normal,
-                                        ),),
-                                      ),
-                                      Chip(
-                                        backgroundColor: Color(0xFF93C0FB),
-                                        label: Text('精装修',style: TextStyle(
-                                          fontSize: 14,
-                                          color: Colors.white,
-                                          decoration: TextDecoration.none,
-                                          fontWeight: FontWeight.normal,
-                                        ),),
-                                      ),
-                                    ],
-                                  )
-
+                                Wrap(
+                                  spacing: 4,
+                                  children: [
+                                    Chip(
+                                      backgroundColor: Color(0xFF93C0FB),
+                                      label: Text('所有',style: TextStyle(
+                                        fontSize: 14,
+                                        color: Colors.white,
+                                        decoration: TextDecoration.none,
+                                        fontWeight: FontWeight.normal,
+                                      ),),
+                                    ),
+                                  ],
                                 ),
                                 GestureDetector(
                                   onTap: (){
-                                    // Navigator.push(context, MaterialPageRoute(builder: (context)=>TradedEditBasicMsgPage(
-                                    //   item: widget.item,
-                                    // )));
+                                    Navigator.push(context, MaterialPageRoute(builder: (context)=>HouseFilterSearchChoosePage(
+                                      // item: widget.item,
+                                    )));
                                   },
                                   child: Container(
                                     width: 50,
