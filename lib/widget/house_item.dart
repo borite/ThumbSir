@@ -28,6 +28,10 @@ class _HouseItemState extends State<HouseItem> with SingleTickerProviderStateMix
       if(widget.houseItem.houseType != null ){
         tags.add(widget.houseItem.houseType);
       }
+      if(widget.houseItem.houseOwnerShip != null &&widget.houseItem.houseOwnerShip !="" &&widget.houseItem.houseOwnerShip !="其他"){
+        tags.add(widget.houseItem.houseOwnerShip);
+      }
+      tags.add(widget.houseItem.ownerShip);
       if(widget.houseItem.houseInfo.length>0 && widget.houseItem.houseInfo[0].tax=="满五唯一,"){
         tags.add("满五唯一");
       }
@@ -43,6 +47,7 @@ class _HouseItemState extends State<HouseItem> with SingleTickerProviderStateMix
       if(widget.houseItem.houseInfo.length>0 && widget.houseItem.houseInfo[0].decoration=="精装修,"){
         tags.add("精装修");
       }
+
     }
     if(tags.length>0){
 

@@ -71,6 +71,7 @@ class _HouseAddPageState extends State<HouseAddPage> {
   String incomeMinCount = "10万以下";
   String comeMinCount = "社区开发";
   String reasonMinCount = "闲置";
+  String ownerMinCount = "商品房";
 
   List<DealInfo> deal=[];
   List<NeedInfo> need=[];
@@ -463,7 +464,7 @@ class _HouseAddPageState extends State<HouseAddPage> {
                                   needMinCount = s;
                                 });
                               },
-                              datas: ["出售住宅", "出售公寓", "出售商铺", "出售车位","出租住宅", "出租住宅", "出租住宅", "出租住宅",],
+                              datas: ["出售住宅", "出售公寓", "出售商铺", "出售车位","出租住宅", "出租公寓", "出租商铺", "出租车位",],
                               selectTextStyle: TextStyle(
                                   color: Color(0xFF0E7AE6),
                                   fontWeight: FontWeight.normal,
@@ -478,6 +479,53 @@ class _HouseAddPageState extends State<HouseAddPage> {
                               ),
                             ),
                           ),
+
+                          // 房屋权属
+                          needMinCount.substring(2,4)=="住宅"?
+                              Column(
+                                children: [
+                                  Container(
+                                    width: 335,
+                                    margin: EdgeInsets.only(top: 10),
+                                    child: Text(
+                                      '房屋类型：',
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        color: Color(0xFF333333),
+                                        decoration: TextDecoration.none,
+                                        fontWeight: FontWeight.normal,
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    width: 200,
+                                    height: 120,
+                                    margin: EdgeInsets.only(top: 18),
+                                    child: WheelChooser(
+                                      onValueChanged: (s){
+                                        setState(() {
+                                          ownerMinCount = s;
+                                        });
+                                      },
+                                      datas: ["商品房","公房","别墅","四合院","其他"],
+                                      selectTextStyle: TextStyle(
+                                          color: Color(0xFF0E7AE6),
+                                          fontWeight: FontWeight.normal,
+                                          decoration: TextDecoration.none,
+                                          fontSize: 12
+                                      ),
+                                      unSelectTextStyle: TextStyle(
+                                          color: Color(0xFF666666),
+                                          fontWeight: FontWeight.normal,
+                                          decoration: TextDecoration.none,
+                                          fontSize: 12
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              )
+                              :
+                              Container(width: 1,),
                           // 交易迫切度
                           Container(
                             width: 335,
@@ -821,7 +869,7 @@ class _HouseAddPageState extends State<HouseAddPage> {
                                   userData!.userPid, // 录入人id
                                   selectedDate.toString(), // 期望成交时间
                                   needMinCount.substring(0,2), // 交易类型
-                                  needMinCount.substring(3,4), // 房源类型
+                                  needMinCount.substring(2,4), // 房源类型
                                   "",// text, // 房源所在区域
                                   communityName, // 房源小区名称
                                   address, // 房源具体地址
@@ -832,7 +880,7 @@ class _HouseAddPageState extends State<HouseAddPage> {
                                   agentNameController.text, // 代理人姓名
                                   agentPhoneNumController.text, // 代理人手机号码
                                   mapController.text, // 房源介绍
-                                  "", // 房屋权属
+                                  needMinCount.substring(2,4)=="住宅"?ownerMinCount:'', // 房屋权属
                                 );
                                 if (addResult.code == 200 || addResult.code ==210) {
                                   _onRefresh();

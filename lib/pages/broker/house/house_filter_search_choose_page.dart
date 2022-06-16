@@ -1,21 +1,12 @@
 import 'dart:convert';
 import 'package:ThumbSir/common/reg.dart';
-import 'package:ThumbSir/dao/add_customer_dao.dart';
-import 'package:ThumbSir/dao/add_house_step2_dao.dart';
 import 'package:ThumbSir/model/login_result_data_model.dart';
-import 'package:ThumbSir/pages/broker/house/house_list_page.dart';
-import 'package:ThumbSir/pages/manager/traded/m_traded_page.dart';
-import 'package:ThumbSir/pages/manager/traded/s_traded_page.dart';
 import 'package:ThumbSir/widget/loading.dart';
 import 'package:chips_choice_null_safety/chips_choice_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:wheel_chooser/wheel_chooser.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
-
 import '../../../dao/modi_house_price_dao.dart';
-import '../../../dao/update_house_public_dao.dart';
-import '../../../dao/update_house_urgent_level_dao.dart';
 
 class HouseFilterSearchChoosePage extends StatefulWidget {
   final houseId;
@@ -40,6 +31,10 @@ class _HouseFilterSearchChoosePageState extends State<HouseFilterSearchChoosePag
   final TextEditingController managementCompanyController=TextEditingController();
   final TextEditingController priceController=TextEditingController();
   final TextEditingController priceReasonController=TextEditingController();
+  final TextEditingController priceMaxController=TextEditingController();
+  final TextEditingController priceMinController=TextEditingController();
+  final TextEditingController areaMaxController=TextEditingController();
+  final TextEditingController areaMinController=TextEditingController();
   late String companyName;
   late RegExp companyReg;
   bool companyNameBool = false;
@@ -57,85 +52,95 @@ class _HouseFilterSearchChoosePageState extends State<HouseFilterSearchChoosePag
   List<String> tags = [];
   List idList = [];
 
+  int itemLength = 0;
+  List missionContent=[];
+
   String directionSelect="";
   String decorationSelect="";
   String elevatorSelect="";
   String taxSelect="";
   String managementSelect="";
-  int itemLength = 0;
-  List missionContent=[];
+  String roomsSelect ="";
+  String floorSelect ="";
+  String houseAgeSelect ="";
+  String ownerShipSelect ="";
+  String otherLabelSelect ="";
+
 
   List<String> direction = [];
   List<String> lift =[];
   List<String> finish = [];
   List<String> manager = [];
   List<String> tax = [];
+  List<String> rooms = [];
+  List<String> floor = [];
+  List<String> houseAge = [];
+  List<String> ownerShip = [];
+  List<String> otherLabel = [];
 
   List<String> directionSel = [];
   List<String> liftSel =[];
   List<String> finishSel = [];
   List<String> managerSel = [];
   List<String> taxSel = [];
+  List<String> roomsSel = [];
+  List<String> floorSel = [];
+  List<String> houseAgeSel = [];
+  List<String> ownerShipSel = [];
+  List<String> otherLabelSel = [];
 
-  List<DealInfo> deal=[];
-  List<NeedInfo> need=[];
-  List<FamilyMember> member=[];
 
   LoginResultData? userData;
   late String uInfo;
 
-  var workValue = "所有";
-  var typeValue = 0;
-  var sortValue = "时间近";
+  String workValue = "所有";
+  int typeValue = 0;
+  int sortValue = -1;
 
   bool alreadyChoose = false;
 
   List<DropdownMenuItem> getWorkList(){
     List<DropdownMenuItem> workLists = [];
-    DropdownMenuItem ageList1 = new DropdownMenuItem(child: Text('所有'),value: '所有',);
-    workLists.add(ageList1);
-    DropdownMenuItem ageList2 = new DropdownMenuItem(child: Text('出售'),value: '出售',);
-    workLists.add(ageList2);
-    DropdownMenuItem ageList3 = new DropdownMenuItem(child: Text('出租'),value: '出租',);
-    workLists.add(ageList3);
-    DropdownMenuItem ageList4 = new DropdownMenuItem(child: Text('我的'),value: '我的',);
-    workLists.add(ageList4);
-    DropdownMenuItem ageList5 = new DropdownMenuItem(child: Text('下架'),value: '下架',);
-    workLists.add(ageList5);
+    DropdownMenuItem workList1 = new DropdownMenuItem(child: Text('所有'),value: '所有',);
+    workLists.add(workList1);
+    DropdownMenuItem workList2 = new DropdownMenuItem(child: Text('出售'),value: '出售',);
+    workLists.add(workList2);
+    DropdownMenuItem workList3 = new DropdownMenuItem(child: Text('出租'),value: '出租',);
+    workLists.add(workList3);
+    DropdownMenuItem workList4 = new DropdownMenuItem(child: Text('我的'),value: '我的',);
+    workLists.add(workList4);
+    DropdownMenuItem workList5 = new DropdownMenuItem(child: Text('下架'),value: '下架',);
+    workLists.add(workList5);
     return workLists;
   }
 
   List<DropdownMenuItem> getTypeList(){
     List<DropdownMenuItem> typeLists = [];
-    DropdownMenuItem ageList1 = new DropdownMenuItem(child: Text('所有'),value: 0,);
-    typeLists.add(ageList1);
-    DropdownMenuItem ageList2 = new DropdownMenuItem(child: Text('住宅'),value: 1,);
-    typeLists.add(ageList2);
-    DropdownMenuItem ageList3 = new DropdownMenuItem(child: Text('商铺'),value: 2,);
-    typeLists.add(ageList3);
-    DropdownMenuItem ageList4 = new DropdownMenuItem(child: Text('公寓'),value: 3,);
-    typeLists.add(ageList4);
-    DropdownMenuItem ageList5 = new DropdownMenuItem(child: Text('车位'),value: 4,);
-    typeLists.add(ageList5);
+    DropdownMenuItem typeList1 = new DropdownMenuItem(child: Text('所有'),value: 0,);
+    typeLists.add(typeList1);
+    DropdownMenuItem typeList2 = new DropdownMenuItem(child: Text('住宅'),value: 1,);
+    typeLists.add(typeList2);
+    DropdownMenuItem typeList3 = new DropdownMenuItem(child: Text('商铺'),value: 3,);
+    typeLists.add(typeList3);
+    DropdownMenuItem typeList4 = new DropdownMenuItem(child: Text('公寓'),value: 2,);
+    typeLists.add(typeList4);
+    DropdownMenuItem typeList5 = new DropdownMenuItem(child: Text('车位'),value: 4,);
+    typeLists.add(typeList5);
     return typeLists;
   }
 
   List<DropdownMenuItem> getSortList(){
     List<DropdownMenuItem> sortLists = [];
-    DropdownMenuItem ageList1 = new DropdownMenuItem(child: Text('时间近'),value: '时间近',);
-    sortLists.add(ageList1);
-    DropdownMenuItem ageList2 = new DropdownMenuItem(child: Text('时间远'),value: '时间远',);
-    sortLists.add(ageList2);
-    DropdownMenuItem ageList3 = new DropdownMenuItem(child: Text('带看量'),value: '带看量',);
-    sortLists.add(ageList3);
-    DropdownMenuItem ageList4 = new DropdownMenuItem(child: Text('总价升'),value: '总价升',);
-    sortLists.add(ageList4);
-    DropdownMenuItem ageList5 = new DropdownMenuItem(child: Text('总价降'),value: '总价降',);
-    sortLists.add(ageList5);
-    DropdownMenuItem ageList6 = new DropdownMenuItem(child: Text('单价升'),value: '单价升',);
-    sortLists.add(ageList6);
-    DropdownMenuItem ageList7 = new DropdownMenuItem(child: Text('单价降'),value: '单价降',);
-    sortLists.add(ageList7);
+    DropdownMenuItem sortList1 = new DropdownMenuItem(child: Text('时间近'),value: -1,);
+    sortLists.add(sortList1);
+    DropdownMenuItem sortList2 = new DropdownMenuItem(child: Text('时间远'),value: 0,);
+    sortLists.add(sortList2);
+    DropdownMenuItem sortList3 = new DropdownMenuItem(child: Text('带看量'),value: 1,);
+    sortLists.add(sortList3);
+    DropdownMenuItem sortList4 = new DropdownMenuItem(child: Text('总价升'),value: 2,);
+    sortLists.add(sortList4);
+    DropdownMenuItem sortList5 = new DropdownMenuItem(child: Text('总价降'),value: 3,);
+    sortLists.add(sortList5);
     return sortLists;
   }
   var houseList = [];
@@ -220,11 +225,16 @@ class _HouseFilterSearchChoosePageState extends State<HouseFilterSearchChoosePag
 
     _getUserInfo();
     // _load();
-    direction = ["东","南","西","北","未知"];
-    lift =["有电梯","无电梯","未知"];
-    finish = ["精装修","普通装修","毛坯房","未知"];
-    manager = ["优质物业","普通物业","无物业","未知"];
-    tax = ["满五唯一","满两年","不满两年","无关","未知"];
+    direction = ["东","南","西","北"];
+    rooms = ["1居室","2居室","3居室","4居室","5居室及以上"];
+    lift =["有电梯","无电梯"];
+    floor = ["低楼层","中楼层","高楼层"];
+    finish = ["精装修","普通装修","毛坯房"];
+    houseAge = ["5年以内","10年以内","15年以内","20年以内","20年以上"];
+    ownerShip = ["商品房","公房","别墅","四合院","其他"];
+    manager = ["优质物业","普通物业","无物业"];
+    tax = ["满五唯一","满两年","不满两年"];
+    otherLabel = ["近地铁","学区房","随时看房"];
 
     super.initState();
 
@@ -499,9 +509,6 @@ class _HouseFilterSearchChoosePageState extends State<HouseFilterSearchChoosePag
                                         setState(() {
                                           alreadyChoose = false;
                                         });
-                                        // Navigator.push(context, MaterialPageRoute(builder: (context)=>HouseFilterSearchChoosePage(
-                                        //   // item: widget.item,
-                                        // )));
                                       },
                                       child: Container(
                                         width: 50,
@@ -599,7 +606,7 @@ class _HouseFilterSearchChoosePageState extends State<HouseFilterSearchChoosePag
                                             border: Border(bottom: BorderSide(width: 1,color: Color(0xFF0E7AE6)))
                                         ),
                                         child: TextField(
-                                          controller: totalFloorController,
+                                          controller: areaMinController,
                                           keyboardType: TextInputType.number,
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
@@ -624,7 +631,7 @@ class _HouseFilterSearchChoosePageState extends State<HouseFilterSearchChoosePag
                                             border: Border(bottom: BorderSide(width: 1,color: Color(0xFF0E7AE6)))
                                         ),
                                         child: TextField(
-                                          controller: totalFloorController,
+                                          controller: areaMaxController,
                                           keyboardType: TextInputType.number,
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
@@ -677,7 +684,7 @@ class _HouseFilterSearchChoosePageState extends State<HouseFilterSearchChoosePag
                                             border: Border(bottom: BorderSide(width: 1,color: Color(0xFF0E7AE6)))
                                         ),
                                         child: TextField(
-                                          controller: totalFloorController,
+                                          controller: priceMinController,
                                           keyboardType: TextInputType.number,
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
@@ -702,7 +709,7 @@ class _HouseFilterSearchChoosePageState extends State<HouseFilterSearchChoosePag
                                             border: Border(bottom: BorderSide(width: 1,color: Color(0xFF0E7AE6)))
                                         ),
                                         child: TextField(
-                                          controller: totalFloorController,
+                                          controller: priceMaxController,
                                           keyboardType: TextInputType.number,
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
@@ -845,8 +852,8 @@ class _HouseFilterSearchChoosePageState extends State<HouseFilterSearchChoosePag
                                         if (value==null) {
                                           return '请选择核心任务的名称';
                                         }
-                                        if (value.length > 4) {
-                                          return "选择不可多于4项";
+                                        if (value.length > 5) {
+                                          return "选择不可多于5项";
                                         }
                                         return null;
                                       },
@@ -856,9 +863,9 @@ class _HouseFilterSearchChoosePageState extends State<HouseFilterSearchChoosePag
                                               Container(
                                                 alignment: Alignment.centerLeft,
                                                 child: ChipsChoice<String>.multiple(
-                                                  value: directionSel,
+                                                  value: roomsSel,
                                                   choiceItems:  C2Choice.listFrom(
-                                                      source: direction,
+                                                      source: rooms,
                                                       // 存储形式
                                                       value:(index,item)=>item.toString(),
                                                       // 展示形式
@@ -870,8 +877,8 @@ class _HouseFilterSearchChoosePageState extends State<HouseFilterSearchChoosePag
                                                     val.forEach((element) {
                                                       sel+=element+",";
                                                     });
-                                                    directionSel = val;
-                                                    directionSelect=sel.substring(0,sel.lastIndexOf(','));
+                                                    roomsSel = val;
+                                                    roomsSelect=sel.substring(0,sel.lastIndexOf(','));
                                                     // val.forEach((element) {
                                                     //   var item=element;
                                                     //   directionSelect+=item + ',';
@@ -899,7 +906,7 @@ class _HouseFilterSearchChoosePageState extends State<HouseFilterSearchChoosePag
                                                   padding: EdgeInsets.fromLTRB(15, 0, 15, 15),
                                                   alignment: Alignment.centerLeft,
                                                   child: Text(
-                                                    state.errorText ?? state.value!.length.toString() + '/4 可选',
+                                                    state.errorText ?? state.value!.length.toString() + '/5 可选',
                                                     style: TextStyle(
                                                         color: state.hasError
                                                             ? Colors.redAccent
@@ -1028,7 +1035,7 @@ class _HouseFilterSearchChoosePageState extends State<HouseFilterSearchChoosePag
                                         if (value==null) {
                                           return '请选择核心任务的名称';
                                         }
-                                        if (value.length > 4) {
+                                        if (value.length > 1) {
                                           return "选择不可多于4项";
                                         }
                                         return null;
@@ -1039,9 +1046,9 @@ class _HouseFilterSearchChoosePageState extends State<HouseFilterSearchChoosePag
                                               Container(
                                                 alignment: Alignment.centerLeft,
                                                 child: ChipsChoice<String>.multiple(
-                                                  value: directionSel,
+                                                  value: floorSel,
                                                   choiceItems:  C2Choice.listFrom(
-                                                      source: direction,
+                                                      source: floor,
                                                       // 存储形式
                                                       value:(index,item)=>item.toString(),
                                                       // 展示形式
@@ -1053,8 +1060,8 @@ class _HouseFilterSearchChoosePageState extends State<HouseFilterSearchChoosePag
                                                     val.forEach((element) {
                                                       sel+=element+",";
                                                     });
-                                                    directionSel = val;
-                                                    directionSelect=sel.substring(0,sel.lastIndexOf(','));
+                                                    floorSel = val;
+                                                    floorSelect=sel.substring(0,sel.lastIndexOf(','));
                                                     // val.forEach((element) {
                                                     //   var item=element;
                                                     //   directionSelect+=item + ',';
@@ -1082,7 +1089,7 @@ class _HouseFilterSearchChoosePageState extends State<HouseFilterSearchChoosePag
                                                   padding: EdgeInsets.fromLTRB(15, 0, 15, 15),
                                                   alignment: Alignment.centerLeft,
                                                   child: Text(
-                                                    state.errorText ?? state.value!.length.toString() + '/4 可选',
+                                                    state.errorText ?? state.value!.length.toString() + '/1 可选',
                                                     style: TextStyle(
                                                         color: state.hasError
                                                             ? Colors.redAccent
@@ -1212,7 +1219,7 @@ class _HouseFilterSearchChoosePageState extends State<HouseFilterSearchChoosePag
                                           return '请选择核心任务的名称';
                                         }
                                         if (value.length > 4) {
-                                          return "选择不可多于4项";
+                                          return "选择不可多于1项";
                                         }
                                         return null;
                                       },
@@ -1222,9 +1229,9 @@ class _HouseFilterSearchChoosePageState extends State<HouseFilterSearchChoosePag
                                               Container(
                                                 alignment: Alignment.centerLeft,
                                                 child: ChipsChoice<String>.multiple(
-                                                  value: directionSel,
+                                                  value: houseAgeSel,
                                                   choiceItems:  C2Choice.listFrom(
-                                                      source: direction,
+                                                      source: houseAge,
                                                       // 存储形式
                                                       value:(index,item)=>item.toString(),
                                                       // 展示形式
@@ -1236,8 +1243,8 @@ class _HouseFilterSearchChoosePageState extends State<HouseFilterSearchChoosePag
                                                     val.forEach((element) {
                                                       sel+=element+",";
                                                     });
-                                                    directionSel = val;
-                                                    directionSelect=sel.substring(0,sel.lastIndexOf(','));
+                                                    houseAgeSel = val;
+                                                    houseAgeSelect=sel.substring(0,sel.lastIndexOf(','));
                                                     // val.forEach((element) {
                                                     //   var item=element;
                                                     //   directionSelect+=item + ',';
@@ -1265,7 +1272,7 @@ class _HouseFilterSearchChoosePageState extends State<HouseFilterSearchChoosePag
                                                   padding: EdgeInsets.fromLTRB(15, 0, 15, 15),
                                                   alignment: Alignment.centerLeft,
                                                   child: Text(
-                                                    state.errorText ?? state.value!.length.toString() + '/4 可选',
+                                                    state.errorText ?? state.value!.length.toString() + '/1 可选',
                                                     style: TextStyle(
                                                         color: state.hasError
                                                             ? Colors.redAccent
@@ -1283,7 +1290,7 @@ class _HouseFilterSearchChoosePageState extends State<HouseFilterSearchChoosePag
                                   child: Row(
                                     children: <Widget>[
                                       Text(
-                                        '权属：',
+                                        '类型：',
                                         style: TextStyle(
                                           fontSize: 14,
                                           color: Color(0xFF333333),
@@ -1304,8 +1311,8 @@ class _HouseFilterSearchChoosePageState extends State<HouseFilterSearchChoosePag
                                         if (value==null) {
                                           return '请选择核心任务的名称';
                                         }
-                                        if (value.length > 4) {
-                                          return "选择不可多于4项";
+                                        if (value.length > 1) {
+                                          return "选择不可多于1项";
                                         }
                                         return null;
                                       },
@@ -1315,9 +1322,9 @@ class _HouseFilterSearchChoosePageState extends State<HouseFilterSearchChoosePag
                                               Container(
                                                 alignment: Alignment.centerLeft,
                                                 child: ChipsChoice<String>.multiple(
-                                                  value: directionSel,
+                                                  value: ownerShipSel,
                                                   choiceItems:  C2Choice.listFrom(
-                                                      source: direction,
+                                                      source: ownerShip,
                                                       // 存储形式
                                                       value:(index,item)=>item.toString(),
                                                       // 展示形式
@@ -1329,8 +1336,8 @@ class _HouseFilterSearchChoosePageState extends State<HouseFilterSearchChoosePag
                                                     val.forEach((element) {
                                                       sel+=element+",";
                                                     });
-                                                    directionSel = val;
-                                                    directionSelect=sel.substring(0,sel.lastIndexOf(','));
+                                                    ownerShipSel = val;
+                                                    ownerShipSelect=sel.substring(0,sel.lastIndexOf(','));
                                                     // val.forEach((element) {
                                                     //   var item=element;
                                                     //   directionSelect+=item + ',';
@@ -1358,7 +1365,7 @@ class _HouseFilterSearchChoosePageState extends State<HouseFilterSearchChoosePag
                                                   padding: EdgeInsets.fromLTRB(15, 0, 15, 15),
                                                   alignment: Alignment.centerLeft,
                                                   child: Text(
-                                                    state.errorText ?? state.value!.length.toString() + '/4 可选',
+                                                    state.errorText ?? state.value!.length.toString() + '/1 可选',
                                                     style: TextStyle(
                                                         color: state.hasError
                                                             ? Colors.redAccent
@@ -1487,8 +1494,8 @@ class _HouseFilterSearchChoosePageState extends State<HouseFilterSearchChoosePag
                                         if (value==null) {
                                           return '请选择核心任务的名称';
                                         }
-                                        if (value.length > 1) {
-                                          return "选择不可多于1项";
+                                        if (value.length > 3) {
+                                          return "选择不可多于3项";
                                         }
                                         return null;
                                       },
@@ -1500,7 +1507,7 @@ class _HouseFilterSearchChoosePageState extends State<HouseFilterSearchChoosePag
                                                 child: ChipsChoice<String>.multiple(
                                                   value: state.value,
                                                   choiceItems:  C2Choice.listFrom(
-                                                      source: tax,
+                                                      source: otherLabel,
                                                       // 存储形式
                                                       value:(index,item)=>item.toString(),
                                                       // 展示形式
@@ -1509,12 +1516,11 @@ class _HouseFilterSearchChoosePageState extends State<HouseFilterSearchChoosePag
                                                   onChanged: (val) {
                                                     state.didChange(val);
                                                     missionContent = val;
-                                                    taxSelect="";
+                                                    otherLabelSelect="";
                                                     val.forEach((element) {
                                                       var item=element;
                                                       print(item);
-                                                      taxSelect+=item + ',';
-                                                      print(taxSelect);
+                                                      otherLabelSelect+=item + ',';
                                                       if(state.value != null){
                                                         setState(() {
                                                           itemLength = state.value.length;
@@ -1538,7 +1544,7 @@ class _HouseFilterSearchChoosePageState extends State<HouseFilterSearchChoosePag
                                                   padding: EdgeInsets.fromLTRB(15, 0, 15, 15),
                                                   alignment: Alignment.centerLeft,
                                                   child: Text(
-                                                    state.errorText ?? state.value.length.toString() + '/1 可选',
+                                                    state.errorText ?? state.value.length.toString() + '/3 可选',
                                                     style: TextStyle(
                                                         color: state.hasError
                                                             ? Colors.redAccent

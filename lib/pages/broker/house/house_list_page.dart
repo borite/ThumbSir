@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'package:ThumbSir/common/reg.dart';
+import 'package:ThumbSir/dao/get_house_list_by_condition_dao.dart';
 import 'package:ThumbSir/model/login_result_data_model.dart';
 import 'package:ThumbSir/pages/broker/house/house_filter_search_choose_page.dart';
-import 'package:ThumbSir/pages/broker/traded/traded_search_page.dart';
 import 'package:ThumbSir/pages/home.dart';
 import 'package:ThumbSir/pages/mycenter/my_center_page.dart';
 import 'package:ThumbSir/pages/tips/qlist_tips_page.dart';
@@ -23,14 +23,13 @@ class HouseListPage extends StatefulWidget {
 }
 
 class _HouseListPageState extends State<HouseListPage> {
-  var pageIndex=0;
-  var customersResult;
+  int pageIndex=0;
   ScrollController _scrollController = ScrollController();
 
   bool _loading = false;
-  var workValue = "所有";
-  var typeValue = 0;
-  var sortValue = "时间近";
+  String workValue = "所有";
+  int typeValue = 0;
+  int sortValue = -1;
 
   final TextEditingController searchController = TextEditingController();
   late String search;
@@ -39,50 +38,50 @@ class _HouseListPageState extends State<HouseListPage> {
 
   List<DropdownMenuItem> getWorkList(){
     List<DropdownMenuItem> workLists = [];
-    DropdownMenuItem ageList1 = new DropdownMenuItem(child: Text('所有'),value: '所有',);
-    workLists.add(ageList1);
-    DropdownMenuItem ageList2 = new DropdownMenuItem(child: Text('出售'),value: '出售',);
-    workLists.add(ageList2);
-    DropdownMenuItem ageList3 = new DropdownMenuItem(child: Text('出租'),value: '出租',);
-    workLists.add(ageList3);
-    DropdownMenuItem ageList4 = new DropdownMenuItem(child: Text('我的'),value: '我的',);
-    workLists.add(ageList4);
-    DropdownMenuItem ageList5 = new DropdownMenuItem(child: Text('下架'),value: '下架',);
-    workLists.add(ageList5);
+    DropdownMenuItem workList1 = new DropdownMenuItem(child: Text('所有'),value: '所有',);
+    workLists.add(workList1);
+    DropdownMenuItem workList2 = new DropdownMenuItem(child: Text('出售'),value: '出售',);
+    workLists.add(workList2);
+    DropdownMenuItem workList3 = new DropdownMenuItem(child: Text('出租'),value: '出租',);
+    workLists.add(workList3);
+    DropdownMenuItem workList4 = new DropdownMenuItem(child: Text('我的'),value: '我的',);
+    workLists.add(workList4);
+    DropdownMenuItem workList5 = new DropdownMenuItem(child: Text('下架'),value: '下架',);
+    workLists.add(workList5);
     return workLists;
   }
 
   List<DropdownMenuItem> getTypeList(){
     List<DropdownMenuItem> typeLists = [];
-    DropdownMenuItem ageList1 = new DropdownMenuItem(child: Text('所有'),value: 0,);
-    typeLists.add(ageList1);
-    DropdownMenuItem ageList2 = new DropdownMenuItem(child: Text('住宅'),value: 1,);
-    typeLists.add(ageList2);
-    DropdownMenuItem ageList3 = new DropdownMenuItem(child: Text('商铺'),value: 2,);
-    typeLists.add(ageList3);
-    DropdownMenuItem ageList4 = new DropdownMenuItem(child: Text('公寓'),value: 3,);
-    typeLists.add(ageList4);
-    DropdownMenuItem ageList5 = new DropdownMenuItem(child: Text('车位'),value: 4,);
-    typeLists.add(ageList5);
+    DropdownMenuItem typeList1 = new DropdownMenuItem(child: Text('所有'),value: 0,);
+    typeLists.add(typeList1);
+    DropdownMenuItem typeList2 = new DropdownMenuItem(child: Text('住宅'),value: 1,);
+    typeLists.add(typeList2);
+    DropdownMenuItem typeList3 = new DropdownMenuItem(child: Text('商铺'),value: 3,);
+    typeLists.add(typeList3);
+    DropdownMenuItem typeList4 = new DropdownMenuItem(child: Text('公寓'),value: 2,);
+    typeLists.add(typeList4);
+    DropdownMenuItem typeList5 = new DropdownMenuItem(child: Text('车位'),value: 4,);
+    typeLists.add(typeList5);
     return typeLists;
   }
 
   List<DropdownMenuItem> getSortList(){
     List<DropdownMenuItem> sortLists = [];
-    DropdownMenuItem ageList1 = new DropdownMenuItem(child: Text('时间近'),value: '时间近',);
-    sortLists.add(ageList1);
-    DropdownMenuItem ageList2 = new DropdownMenuItem(child: Text('时间远'),value: '时间远',);
-    sortLists.add(ageList2);
-    DropdownMenuItem ageList3 = new DropdownMenuItem(child: Text('带看量'),value: '带看量',);
-    sortLists.add(ageList3);
-    DropdownMenuItem ageList4 = new DropdownMenuItem(child: Text('总价升'),value: '总价升',);
-    sortLists.add(ageList4);
-    DropdownMenuItem ageList5 = new DropdownMenuItem(child: Text('总价降'),value: '总价降',);
-    sortLists.add(ageList5);
+    DropdownMenuItem sortList1 = new DropdownMenuItem(child: Text('时间近'),value: -1,);
+    sortLists.add(sortList1);
+    DropdownMenuItem sortList2 = new DropdownMenuItem(child: Text('时间远'),value: 0,);
+    sortLists.add(sortList2);
+    DropdownMenuItem sortList3 = new DropdownMenuItem(child: Text('带看量'),value: 1,);
+    sortLists.add(sortList3);
+    DropdownMenuItem sortList4 = new DropdownMenuItem(child: Text('总价升'),value: 2,);
+    sortLists.add(sortList4);
+    DropdownMenuItem sortList5 = new DropdownMenuItem(child: Text('总价降'),value: 3,);
+    sortLists.add(sortList5);
     return sortLists;
   }
 
-  var houseList = [];
+  dynamic houseList = [];
   List<Widget> houseShowList = [];
   List<Widget> houses=[];
 
@@ -102,13 +101,28 @@ class _HouseListPageState extends State<HouseListPage> {
   _load() async {
     _onRefresh();
     if(userData != null ){
+      dynamic getHouseListResult;
       pageIndex ++ ;
-      var getHouseListResult = await GetHouseListDao.httpGetHouseList(
-        userData!.companyId,
-        pageIndex.toString(),
-        '30',
-      );
 
+
+      if(workValue == "所有" && typeValue == 0 && sortValue == -1){
+        getHouseListResult = await GetHouseListDao.httpGetHouseList(
+          userData!.companyId,
+          pageIndex.toString(),
+          '30',
+        );
+      }else{
+        getHouseListResult = await GetHouseListByConditionDao.httpGetHouseListByCondition(
+            userData!.userPid,
+            userData!.companyId,
+            workValue == "我的"?3:workValue == "失效"?4:0,
+            workValue == "出售"?1:workValue == "出租"?2:0,
+            typeValue,
+            sortValue,
+            pageIndex,
+            30
+        );
+      }
       if (getHouseListResult.code == 200) {
 
         houseList = getHouseListResult.data!;
@@ -349,12 +363,12 @@ class _HouseListPageState extends State<HouseListPage> {
                                       onChanged: (dynamic T){
                                         setState(() {
                                           workValue = T;
-                                          houses = [];
-                                          customersResult = null;
-                                          houseShowList = [];
                                           pageIndex = 0;
+                                          houseList = [];
+                                          houseShowList = [];
+                                          houses=[];
                                         });
-                                        // _load();
+                                        _load();
                                       },
                                     )
                                   ],
@@ -387,12 +401,12 @@ class _HouseListPageState extends State<HouseListPage> {
                                       onChanged: (dynamic T){
                                         setState(() {
                                           typeValue = T;
-                                          houses = [];
-                                          customersResult = null;
-                                          houseShowList = [];
                                           pageIndex = 0;
+                                          houseList = [];
+                                          houseShowList = [];
+                                          houses=[];
                                         });
-                                        // _load();
+                                        _load();
                                       },
                                     )
                                   ],
@@ -425,12 +439,12 @@ class _HouseListPageState extends State<HouseListPage> {
                                       onChanged: (dynamic T){
                                         setState(() {
                                           sortValue = T;
-                                          houses = [];
-                                          houseShowList = [];
-                                          customersResult = null;
                                           pageIndex = 0;
+                                          houseList = [];
+                                          houseShowList = [];
+                                          houses=[];
                                         });
-                                        // _load();
+                                        _load();
                                       },
                                     )
                                   ],

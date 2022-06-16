@@ -585,6 +585,36 @@ class _HouseDetailPageState extends State<HouseDetailPage> {
                                       children: [
                                         Container(
                                           child: Text(
+                                            '类型：',
+                                            style: TextStyle(
+                                              fontSize: 14,
+                                              color: Color(0xFF666666),
+                                              decoration: TextDecoration.none,
+                                              fontWeight: FontWeight.normal,
+                                            ),
+                                          ),
+                                        ),
+                                        Container(
+                                          child: Text(
+                                            houseDetail!=null?(
+                                                houseDetail.ownerShip==null || houseDetail.ownerShip==""?"-"
+                                                    :houseDetail.houseOwnerShip
+                                            ):'-',
+                                            style: TextStyle(
+                                              fontSize: 14,
+                                              color: Color(0xFF333333),
+                                              decoration: TextDecoration.none,
+                                              fontWeight: FontWeight.normal,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: [
+                                        Container(
+                                          child: Text(
                                             '装修：',
                                             style: TextStyle(
                                               fontSize: 14,
@@ -628,7 +658,7 @@ class _HouseDetailPageState extends State<HouseDetailPage> {
                                           child: Text(
                                             houseDetail!=null?(
                                                 houseDetail.houseBasicInfo.length<1 || houseDetail.houseBasicInfo[0].haveElevator==null || houseDetail.houseBasicInfo[0].haveElevator==""?"-"
-                                                    :houseDetail.houseBasicInfo[0].haveElevator
+                                                    :houseDetail.houseBasicInfo[0].haveElevator.replaceAll(',',"")
                                             ):'-',
                                             style: TextStyle(
                                               fontSize: 14,
