@@ -21,6 +21,12 @@ import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'broker/house/house_list_page.dart';
+import 'manager/client/m_client_page.dart';
+import 'manager/client/s_client_page.dart';
+import 'manager/client/team_client_page.dart';
+import 'manager/house/m_house_page.dart';
+import 'manager/house/s_house_page.dart';
+import 'manager/house/team_house_page.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -566,13 +572,13 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin{
                                                               Navigator.push(context, MaterialPageRoute(builder: (context)=>HouseListPage()));
                                                             }
                                                             if(result.userLevel.substring(0,1)=="5"){
-                                                              Navigator.push(context, MaterialPageRoute(builder: (context)=>ManagerQListPage()));
+                                                              Navigator.push(context, MaterialPageRoute(builder: (context)=>MHousePage()));
                                                             }
                                                             if(result.userLevel.substring(0,1)=="4"){
-                                                              Navigator.push(context, MaterialPageRoute(builder: (context)=>SQListPage()));
+                                                              Navigator.push(context, MaterialPageRoute(builder: (context)=>SHousePage()));
                                                             }
                                                             if(result.userLevel.substring(0,1)=="1"||result.userLevel.substring(0,1)=="2"||result.userLevel.substring(0,1)=="3"){
-                                                              Navigator.push(context, MaterialPageRoute(builder: (context)=>MajorQListPage()));
+                                                              Navigator.push(context, MaterialPageRoute(builder: (context)=>TeamHousePage()));
                                                             }
                                                           }else{
                                                             _onLoginAlertPressed(context);
@@ -614,13 +620,13 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin{
                                                                   Navigator.push(context, MaterialPageRoute(builder: (context)=>MyClientPage()));
                                                                 }
                                                                 if(result.userLevel.substring(0,1)=="5"){
-                                                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>MTradedPage()));
+                                                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>MClientPage()));
                                                                 }
                                                                 if(result.userLevel.substring(0,1)=="4"){
-                                                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>STradedPage()));
+                                                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>SClientPage()));
                                                                 }
                                                                 if(result.userLevel.substring(0,1)=="1"||result.userLevel.substring(0,1)=="2"||result.userLevel.substring(0,1)=="3"){
-                                                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>TeamTradedPage()));
+                                                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>TeamClientPage()));
                                                                 }
                                                               }else{
                                                                 _onLoginAlertPressed(context);

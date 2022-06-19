@@ -84,20 +84,8 @@ class _EditSellNeedPageState extends State<EditSellNeedPage> {
   List<NeedInfo> need=[];
   List<FamilyMember> member=[];
 
-  int _desideRadioGroupA = 0;
-  int _agencyRadioGroupA = 0;
-
-  _handleDesideRadioValueChanged(int value) {
-    setState(() {
-      _desideRadioGroupA = value;
-    });
-  }
-
-  _handleAgencyRadioValueChanged(int value) {
-    setState(() {
-      _agencyRadioGroupA = value;
-    });
-  }
+  dynamic _desideRadioGroupA = 0;
+  dynamic _agencyRadioGroupA = 0;
 
   LoginResultData? userData;
   late String uInfo;
@@ -441,14 +429,22 @@ class _EditSellNeedPageState extends State<EditSellNeedPage> {
                                 RadioListTile(
                                   value: 0,
                                   groupValue: _desideRadioGroupA,
-                                  onChanged: _handleDesideRadioValueChanged(0),
+                                  onChanged: (value){
+                                    setState(() {
+                                      _desideRadioGroupA = value;
+                                    });
+                                  },
                                   title: Text('是'),
                                   selected: _desideRadioGroupA == 0,
                                 ),
                                 RadioListTile(
                                   value: 1,
                                   groupValue: _desideRadioGroupA,
-                                  onChanged: _handleDesideRadioValueChanged(1),
+                                  onChanged: (value){
+                                    setState(() {
+                                      _desideRadioGroupA = value;
+                                    });
+                                  },
                                   title: Text('否'),
                                   selected: _desideRadioGroupA == 1,
                                 ),
@@ -491,6 +487,7 @@ class _EditSellNeedPageState extends State<EditSellNeedPage> {
                               // 决策人手机号
                               Container(
                                 width: 335,
+                                margin: EdgeInsets.only(top: 10),
                                 child: Text(
                                   '决策人手机号码：',
                                   style: TextStyle(
@@ -548,14 +545,22 @@ class _EditSellNeedPageState extends State<EditSellNeedPage> {
                                 RadioListTile(
                                   value: 0,
                                   groupValue: _agencyRadioGroupA,
-                                  onChanged: _handleAgencyRadioValueChanged(0),
+                                  onChanged: (value){
+                                    setState(() {
+                                      _agencyRadioGroupA = value;
+                                    });
+                                  },
                                   title: Text('否'),
                                   selected: _agencyRadioGroupA == 0,
                                 ),
                                 RadioListTile(
                                   value: 1,
                                   groupValue: _agencyRadioGroupA,
-                                  onChanged: _handleAgencyRadioValueChanged(1),
+                                  onChanged: (value){
+                                    setState(() {
+                                      _agencyRadioGroupA = value;
+                                    });
+                                  },
                                   title: Text('是'),
                                   selected: _agencyRadioGroupA == 1,
                                 ),
@@ -598,6 +603,7 @@ class _EditSellNeedPageState extends State<EditSellNeedPage> {
                               // 代理人手机号
                               Container(
                                 width: 335,
+                                margin: EdgeInsets.only(top: 10),
                                 child: Text(
                                   '代理人手机号码（选填）：',
                                   style: TextStyle(
@@ -675,7 +681,7 @@ class _EditSellNeedPageState extends State<EditSellNeedPage> {
                               // 出售报价
                               Container(
                                 width: 335,
-                                margin: EdgeInsets.only(top: 10),
+                                margin: EdgeInsets.only(top: 15),
                                 child: Row(
                                   children: <Widget>[
                                     Padding(

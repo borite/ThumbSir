@@ -104,7 +104,7 @@ class _HouseDetailPageState extends State<HouseDetailPage> {
             padding: EdgeInsets.only(left: 3,right: 3,top: 1,bottom: 1),
             color: Color(0xFF93C0FB),
             child: Text(
-              item1.replaceAll('"', '').replaceAll('[', '').replaceAll(']', ''),
+              item1.toString(),
               style: TextStyle(
                 fontSize: 12,
                 color: Colors.white,
@@ -190,6 +190,7 @@ class _HouseDetailPageState extends State<HouseDetailPage> {
               houseDetail.fieldUser
           );
           if(fieldUserResult.code == 200){
+            if(fieldUserResult.data!.length>0)
             setState(() {
               fieldUserData = fieldUserResult.data![0];
               fieldUserName=fieldUserData.userName;
@@ -596,10 +597,8 @@ class _HouseDetailPageState extends State<HouseDetailPage> {
                                         ),
                                         Container(
                                           child: Text(
-                                            houseDetail!=null?(
-                                                houseDetail.ownerShip==null || houseDetail.ownerShip==""?"-"
-                                                    :houseDetail.houseOwnerShip
-                                            ):'-',
+                                            houseDetail==null || houseDetail.houseOwnerShip==null || houseDetail.houseOwnerShip==""?"-"
+                                                    :houseDetail.houseOwnerShip,
                                             style: TextStyle(
                                               fontSize: 14,
                                               color: Color(0xFF333333),

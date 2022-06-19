@@ -2,22 +2,22 @@ import 'package:flutter/material.dart';
 
 import '../pages/broker/house/house_detail_page.dart';
 
-class HouseItem extends StatefulWidget {
+class HouseSearchItem extends StatefulWidget {
   final houseItem;
-  HouseItem({Key? key,
+  HouseSearchItem({Key? key,
     this.houseItem,
   }):super(key:key);
   @override
-  _HouseItemState createState() => _HouseItemState();
+  _HouseSearchItemState createState() => _HouseSearchItemState();
 }
 
-class _HouseItemState extends State<HouseItem> with SingleTickerProviderStateMixin{
+class _HouseSearchItemState extends State<HouseSearchItem> with SingleTickerProviderStateMixin{
   late Animation<double> animation;
   late AnimationController controller;
   late AnimationStatus animationStatus;
   late double animationValue;
   int page = 0;
-  var tags=[];
+  dynamic tags=[];
   List<Widget> tagsTips=[];
 
   final nowDate = DateTime.now();
@@ -28,19 +28,19 @@ class _HouseItemState extends State<HouseItem> with SingleTickerProviderStateMix
       if(widget.houseItem.houseType != null ){
         tags.add(widget.houseItem.houseType);
       }
-      if(widget.houseItem.houseInfo.length>0 && widget.houseItem.houseInfo[0].tax=="满五唯一,"){
+      if(widget.houseItem.tax=="满五唯一,"){
         tags.add("满五唯一");
       }
-      if(widget.houseItem.houseAroundInfo.length>0 && widget.houseItem.houseAroundInfo[0].traffic.toString().contains("地铁")){
+      if(widget.houseItem.otherLabel!=null && widget.houseItem.otherLabel!=""&& widget.houseItem.otherLabel.contains("地铁")){
         tags.add("近地铁");
       }
-      if(widget.houseItem.houseAroundInfo.length>0 && widget.houseItem.houseAroundInfo[0].isInSchoolArea){
+      if(widget.houseItem.otherLabel!=null && widget.houseItem.otherLabel!=""&& widget.houseItem.otherLabel.contains("学区房")){
         tags.add("学区房");
       }
-      if(widget.houseItem.keyUser != null ){
+      if(widget.houseItem.otherLabel!=null && widget.houseItem.otherLabel!=""&& widget.houseItem.otherLabel.contains("随时看房")){
         tags.add("随时看房");
       }
-      if(widget.houseItem.houseInfo.length>0 && widget.houseItem.houseInfo[0].decoration=="精装修,"){
+      if(widget.houseItem.decoration=="精装修,"){
         tags.add("精装修");
       }
     }
@@ -70,7 +70,9 @@ class _HouseItemState extends State<HouseItem> with SingleTickerProviderStateMix
   @override
   void initState() {
     super.initState();
+    print(widget.houseItem);
     _addTags();
+
     // 报盘时间
     differenceTime = nowDate.difference(widget.houseItem.addTime).inDays;
     if(differenceTime>300){
@@ -105,7 +107,7 @@ class _HouseItemState extends State<HouseItem> with SingleTickerProviderStateMix
     return GestureDetector(
       onTap: () {
         Navigator.push(context, MaterialPageRoute(builder: (context)=>HouseDetailPage(
-          houseId : widget.houseItem.houseId.toString(),
+          houseId : widget.houseItem.hid.toString(),
           tags:tags,
           houseNum:widget.houseItem.houseNum
         )));
@@ -136,13 +138,10 @@ class _HouseItemState extends State<HouseItem> with SingleTickerProviderStateMix
                 margin: EdgeInsets.only(left: 10,right: 10),
                 color: Colors.black12,
                 child:
-                widget.houseItem.houseInfo.length>0?
-                    widget.houseItem.houseInfo[0].houseImages !="" && widget.houseItem.houseInfo[0].houseImages !=null?
-                Image(image: NetworkImage(widget.houseItem.houseInfo[0].houseImages.split('|')[0]),fit: BoxFit.fill,)
+                widget.houseItem.houseImages !="" && widget.houseItem.houseImages !=null?
+                Image(image: NetworkImage(widget.houseItem.houseImages.split('|')[0]),fit: BoxFit.fill,)
                     :
                 Image(image: AssetImage('images/time.png'),)
-                    :
-                Image(image: AssetImage('images/time.png'),),
               ),
 
               Column(
@@ -210,8 +209,8 @@ class _HouseItemState extends State<HouseItem> with SingleTickerProviderStateMix
                       children: [
                         Text(
                           // '2-1-1-1',
-                          widget.houseItem.houseInfo.length<1 || widget.houseItem.houseInfo[0].structure==null || widget.houseItem.houseInfo[0].structure==""?"-居室"
-                              :widget.houseItem.houseInfo[0].structure,
+                          widget.houseItem.structure==null || widget.houseItem.structure==""?"-居室"
+                              :widget.houseItem.structure,
                           style: TextStyle(
                             fontSize: 14,
                             color: Color(0xFF666666),
@@ -221,7 +220,7 @@ class _HouseItemState extends State<HouseItem> with SingleTickerProviderStateMix
                         ),
                         Text(
                           // '88.85平',
-                          widget.houseItem.houseInfo.length<1 || widget.houseItem.houseInfo[0].area==null || widget.houseItem.houseInfo[0].area==""?"-平":(widget.houseItem.houseInfo[0].area.toString().split(".")[0].toString()+"平"),
+                          widget.houseItem.area==null || widget.houseItem.area==""?"-平":(widget.houseItem.area.toString().split(".")[0].toString()+"平"),
                           style: TextStyle(
                             fontSize: 14,
                             color: Color(0xFF666666),
@@ -230,9 +229,9 @@ class _HouseItemState extends State<HouseItem> with SingleTickerProviderStateMix
                           ),
                         ),
                         Text(
-                          widget.houseItem.houseInfo.length<1|| widget.houseItem.houseInfo[0].floor==null || widget.houseItem.houseInfo[0].floor==""
-                              || widget.houseItem.houseInfo[0].totalFloor==""|| widget.houseItem.houseInfo[0].totalFloor==null?"-层"
-                              :(widget.houseItem.houseInfo[0].floor.toString()+"/"+widget.houseItem.houseInfo[0].totalFloor.toString()+"层"),
+                          widget.houseItem.floor==null || widget.houseItem.floor==""
+                              || widget.houseItem.totalFloor==""|| widget.houseItem.totalFloor==null?"-层"
+                              :(widget.houseItem.floor.toString()+"/"+widget.houseItem.totalFloor.toString()+"层"),
                           style: TextStyle(
                             fontSize: 14,
                             color: Color(0xFF666666),
@@ -241,9 +240,9 @@ class _HouseItemState extends State<HouseItem> with SingleTickerProviderStateMix
                           ),
                         ),
                         Text(
-                          widget.houseItem.houseInfo.length<1 || widget.houseItem.houseInfo[0].orientation==null || widget.houseItem.houseInfo[0].orientation==""?"-朝向"
-                              :widget.houseItem.houseInfo[0].orientation,
-                              // .substring(0,widget.houseItem.houseInfo[0].orientation.lastIndexOf(',')).split(',').toString(),
+                          widget.houseItem.orientation==null || widget.houseItem.orientation==""?"-朝向"
+                              :widget.houseItem.orientation,
+                              // .substring(0,widget.houseItem.orientation.lastIndexOf(',')).split(',').toString(),
                               // .replaceAll("[", "").replaceAll("]", ""),
                           style: TextStyle(
                             fontSize: 14,
@@ -289,8 +288,8 @@ class _HouseItemState extends State<HouseItem> with SingleTickerProviderStateMix
                           padding: EdgeInsets.only(left: 4, top: 3),
                           child: Text(
                             widget.houseItem!=null?(
-                                widget.houseItem.houseInfo.length<1 || widget.houseItem.houseInfo.length<1 || widget.houseItem.houseInfo[0].area==null || widget.houseItem.houseInfo[0].area==""?"-元/平"
-                                    :(widget.houseItem.housePrice*10000/widget.houseItem.houseInfo[0].area).toString().split(".")[0].toString()+"元/平"
+                                widget.houseItem.area==null || widget.houseItem.area==""?"-元/平"
+                                    :(widget.houseItem.housePrice*10000/widget.houseItem.area).toString().split(".")[0].toString()+"元/平"
                             ):'-元/平',
                             style: TextStyle(
                               fontSize: 14,

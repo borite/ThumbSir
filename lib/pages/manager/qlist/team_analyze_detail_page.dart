@@ -9,7 +9,8 @@ import 'package:jiffy/jiffy.dart';
 class TeamAnalyzeDetailPage extends StatefulWidget {
   final section;
   final companyId;
-  TeamAnalyzeDetailPage({this.section,this.companyId});
+  final leaderID;
+  TeamAnalyzeDetailPage({this.section,this.companyId,this.leaderID});
   @override
   _TeamAnalyzeDetailPageState createState() => _TeamAnalyzeDetailPageState();
 }
@@ -33,7 +34,7 @@ class _TeamAnalyzeDetailPageState extends State<TeamAnalyzeDetailPage> with Sing
 
   _load()async{
     dynamic getDataResult = await GetSectionDataDao.httpGetSectionData(
-      widget.section,
+      widget.leaderID,
       widget.companyId,
       startTime.toIso8601String().substring(0,11)+'00:00:00.000000',
       endTime.toIso8601String().substring(0,11)+'23:59:59.000000',
@@ -58,6 +59,7 @@ class _TeamAnalyzeDetailPageState extends State<TeamAnalyzeDetailPage> with Sing
                   companyId:widget.companyId,
                   startTime:startTime.toIso8601String().substring(0,11)+'00:00:00.000000',
                   endTime:endTime.toIso8601String().substring(0,11)+'23:59:59.000000',
+                  leaderID: widget.leaderID,
                 ),
               );
             }

@@ -63,6 +63,7 @@ class Datum {
     this.tax,
     this.isInSchoolArea,
     this.daiKanCount,
+    this.houseCommunity
   });
 
   dynamic orientation;
@@ -94,6 +95,7 @@ class Datum {
   dynamic tax;
   dynamic isInSchoolArea;
   dynamic daiKanCount;
+  dynamic houseCommunity;
 
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
     orientation: json["Orientation"] == null ? null : json["Orientation"],
@@ -125,6 +127,7 @@ class Datum {
     tax: json["Tax"],
     isInSchoolArea: json["IsInSchoolArea"],
     daiKanCount: json["DaiKanCount"],
+      houseCommunity:json["HouseCommunity"]
   );
 
   Map<String, dynamic> toJson() => {
@@ -157,5 +160,6 @@ class Datum {
     "Tax": tax,
     "IsInSchoolArea": isInSchoolArea,
     "DaiKanCount": daiKanCount,
+    "HouseCommunity":houseCommunity,
   };
 }

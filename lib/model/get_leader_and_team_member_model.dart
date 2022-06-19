@@ -61,7 +61,7 @@ class Leader {
     required this.section,
     required this.userType,
     this.email,
-    required this.isVip,
+    this.isVip,
     required this.userLevel,
     this.vipEndTime,
   });
@@ -73,7 +73,7 @@ class Leader {
   String section;
   int userType;
   dynamic email;
-  bool isVip;
+  dynamic isVip;
   String userLevel;
   dynamic vipEndTime;
 

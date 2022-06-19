@@ -1,12 +1,13 @@
 import 'dart:convert';
 import 'package:ThumbSir/common/reg.dart';
+import 'package:ThumbSir/dao/get_house_list_by_filter_Search_dao.dart';
 import 'package:ThumbSir/model/login_result_data_model.dart';
 import 'package:ThumbSir/widget/loading.dart';
 import 'package:chips_choice_null_safety/chips_choice_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
-import '../../../dao/modi_house_price_dao.dart';
+import '../../../widget/house_search_item.dart';
 
 class HouseFilterSearchChoosePage extends StatefulWidget {
   final houseId;
@@ -19,18 +20,6 @@ class HouseFilterSearchChoosePage extends StatefulWidget {
 }
 
 class _HouseFilterSearchChoosePageState extends State<HouseFilterSearchChoosePage> {
-  final TextEditingController countController=TextEditingController();
-  final TextEditingController areaController=TextEditingController();
-  final TextEditingController roomController=TextEditingController();
-  final TextEditingController sittingRoomController=TextEditingController();
-  final TextEditingController kitchenController=TextEditingController();
-  final TextEditingController toiletController=TextEditingController();
-  final TextEditingController floorController=TextEditingController();
-  final TextEditingController totalFloorController=TextEditingController();
-  final TextEditingController houseAgeController=TextEditingController();
-  final TextEditingController managementCompanyController=TextEditingController();
-  final TextEditingController priceController=TextEditingController();
-  final TextEditingController priceReasonController=TextEditingController();
   final TextEditingController priceMaxController=TextEditingController();
   final TextEditingController priceMinController=TextEditingController();
   final TextEditingController areaMaxController=TextEditingController();
@@ -38,33 +27,25 @@ class _HouseFilterSearchChoosePageState extends State<HouseFilterSearchChoosePag
   late String companyName;
   late RegExp companyReg;
   bool companyNameBool = false;
-  final TextEditingController managementPriceController=TextEditingController();
   String levelMinCount = "着急";
   bool _loading = false;
   List levels=["着急","诚心","一般","下架"];
-
-  int priceCount = 1;
-  int areaCount = 1;
-  int roomCount = 1;
-  String address = "暂无";
   String tradeLevelCount = "着急";
+  
+  dynamic nowYear = DateTime.now().year;
+  List searchChoose =[];
+  List<Widget> showSearchChoose=[];
 
-  List<String> tags = [];
-  List idList = [];
-
-  int itemLength = 0;
-  List missionContent=[];
-
-  String directionSelect="";
-  String decorationSelect="";
-  String elevatorSelect="";
-  String taxSelect="";
-  String managementSelect="";
-  String roomsSelect ="";
-  String floorSelect ="";
-  String houseAgeSelect ="";
-  String ownerShipSelect ="";
-  String otherLabelSelect ="";
+  String directionSelect='-1';
+  String decorationSelect='-1';
+  String elevatorSelect='-1';
+  String taxSelect='-1';
+  String managementSelect='-1';
+  String roomsSelect ='-1';
+  String floorSelect ='-1';
+  String houseAgeSelect ='-1';
+  String ownerShipSelect ='-1';
+  String otherLabelSelect ='-1';
 
 
   List<String> direction = [];
@@ -94,7 +75,7 @@ class _HouseFilterSearchChoosePageState extends State<HouseFilterSearchChoosePag
   late String uInfo;
 
   String workValue = "所有";
-  int typeValue = 0;
+  String typeValue = "所有";
   int sortValue = -1;
 
   bool alreadyChoose = false;
@@ -116,15 +97,15 @@ class _HouseFilterSearchChoosePageState extends State<HouseFilterSearchChoosePag
 
   List<DropdownMenuItem> getTypeList(){
     List<DropdownMenuItem> typeLists = [];
-    DropdownMenuItem typeList1 = new DropdownMenuItem(child: Text('所有'),value: 0,);
+    DropdownMenuItem typeList1 = new DropdownMenuItem(child: Text('所有'),value: '所有',);
     typeLists.add(typeList1);
-    DropdownMenuItem typeList2 = new DropdownMenuItem(child: Text('住宅'),value: 1,);
+    DropdownMenuItem typeList2 = new DropdownMenuItem(child: Text('住宅'),value: '住宅',);
     typeLists.add(typeList2);
-    DropdownMenuItem typeList3 = new DropdownMenuItem(child: Text('商铺'),value: 3,);
+    DropdownMenuItem typeList3 = new DropdownMenuItem(child: Text('商铺'),value: '商铺',);
     typeLists.add(typeList3);
-    DropdownMenuItem typeList4 = new DropdownMenuItem(child: Text('公寓'),value: 2,);
+    DropdownMenuItem typeList4 = new DropdownMenuItem(child: Text('公寓'),value: '公寓',);
     typeLists.add(typeList4);
-    DropdownMenuItem typeList5 = new DropdownMenuItem(child: Text('车位'),value: 4,);
+    DropdownMenuItem typeList5 = new DropdownMenuItem(child: Text('车位'),value: '车位',);
     typeLists.add(typeList5);
     return typeLists;
   }
@@ -133,21 +114,26 @@ class _HouseFilterSearchChoosePageState extends State<HouseFilterSearchChoosePag
     List<DropdownMenuItem> sortLists = [];
     DropdownMenuItem sortList1 = new DropdownMenuItem(child: Text('时间近'),value: -1,);
     sortLists.add(sortList1);
-    DropdownMenuItem sortList2 = new DropdownMenuItem(child: Text('时间远'),value: 0,);
+    DropdownMenuItem sortList2 = new DropdownMenuItem(child: Text('时间远'),value: 1,);
     sortLists.add(sortList2);
-    DropdownMenuItem sortList3 = new DropdownMenuItem(child: Text('带看量'),value: 1,);
+    DropdownMenuItem sortList3 = new DropdownMenuItem(child: Text('带看量'),value: 6,);
     sortLists.add(sortList3);
     DropdownMenuItem sortList4 = new DropdownMenuItem(child: Text('总价升'),value: 2,);
     sortLists.add(sortList4);
     DropdownMenuItem sortList5 = new DropdownMenuItem(child: Text('总价降'),value: 3,);
     sortLists.add(sortList5);
+    DropdownMenuItem sortList6 = new DropdownMenuItem(child: Text('单价升'),value: 5,);
+    sortLists.add(sortList6);
+    DropdownMenuItem sortList7 = new DropdownMenuItem(child: Text('单价降'),value: 4,);
+    sortLists.add(sortList7);
     return sortLists;
   }
   var houseList = [];
   List<Widget> houseShowList = [];
   List<Widget> houses=[];
-  var pageIndex=0;
-  var customersResult;
+  var pageIndex=1;
+
+  List inputRoom=[];
 
   _getUserInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -157,74 +143,146 @@ class _HouseFilterSearchChoosePageState extends State<HouseFilterSearchChoosePag
     });
   }
 
-  @override
-  void initState() {
-    print(widget.houseDetail);
-    companyReg = TextReg;
+  _load()async {
+    if (
+    (priceMinController.text != "" && priceMaxController.text == "")
+        || (priceMinController.text == "" && priceMaxController.text != "")
+        || (areaMinController.text != "" && areaMaxController.text == "")
+        || (areaMinController.text == "" && areaMaxController.text != "")
+    ){
+      _onMsgWrongPressed(context);
+    } else {
+      _onRefresh();
+      searchChoose=[];
+      showSearchChoose=[];
 
-    if(widget.houseDetail !=null){
-      priceCount = int.parse(widget.houseDetail.housePrice.toString().split(".")[0].toString());
-      priceController.text = widget.houseDetail.housePrice.toString().split(".")[0].toString();
-      address = widget.houseDetail.houseCommunity+widget.houseDetail.houseAddress;
-      tradeLevelCount = widget.houseDetail.tradeLevel;
-      if(widget.houseDetail.houseBasicInfo.length>0){
-        if(widget.houseDetail.houseBasicInfo[0].area!=null){
-          areaController.text = widget.houseDetail.houseBasicInfo[0].area.toString();
-        }
-        if(widget.houseDetail.houseBasicInfo[0].floor!=null){
-          floorController.text = widget.houseDetail.houseBasicInfo[0].floor.toString();
-        }
-        if(widget.houseDetail.houseBasicInfo[0].totalFloor!=null){
-          totalFloorController.text = widget.houseDetail.houseBasicInfo[0].totalFloor.toString();
-        }
-        if(widget.houseDetail.houseBasicInfo[0].houseAge!=null){
-          houseAgeController.text = widget.houseDetail.houseBasicInfo[0].houseAge.toString();
-        }
-        if(widget.houseDetail.houseBasicInfo[0].managementPrice!=null){
-          managementPriceController.text = widget.houseDetail.houseBasicInfo[0].managementPrice.toString();
-        }
-        if(widget.houseDetail.houseBasicInfo[0].managementCompany.toString().contains("-")){
-          managementCompanyController.text = widget.houseDetail.houseBasicInfo[0].managementCompany.toString().split("-")[0];
-        }
-        if(widget.houseDetail.houseBasicInfo[0].structure.toString().contains("-")){
-          roomController.text = widget.houseDetail.houseBasicInfo[0].structure.toString().split("-")[0];
-          sittingRoomController.text =widget.houseDetail.houseBasicInfo[0].structure.toString().split("-")[1];
-          kitchenController.text =widget.houseDetail.houseBasicInfo[0].structure.toString().split("-")[2];
-          toiletController.text = widget.houseDetail.houseBasicInfo[0].structure.toString().split("-")[3];
-        }
-        if(widget.houseDetail.houseBasicInfo[0].orientation.toString().contains(",")){
-          directionSel=widget.houseDetail.houseBasicInfo[0].orientation.toString().split(',');
-        }
-        if(widget.houseDetail.houseBasicInfo[0].decoration.toString().contains(",")){
-          finishSel=widget.houseDetail.houseBasicInfo[0].decoration.toString().split(',');
-        }
-        if(widget.houseDetail.houseBasicInfo[0].haveElevator.toString().contains(",")){
-          liftSel=widget.houseDetail.houseBasicInfo[0].haveElevator.toString().split(',');
-        }
-        if(widget.houseDetail.houseBasicInfo[0].managementCompany.toString().contains(",")){
-          managerSel.add(widget.houseDetail.houseBasicInfo[0].managementCompany.toString().split(',')[0].toString().split("-")[1]);
-        }
-        if(widget.houseDetail.houseBasicInfo[0].tax.toString().contains(",")){
-          taxSel=widget.houseDetail.houseBasicInfo[0].tax.toString().split(',');
+      // 已选择标签
+      // 这里缺省份区域的判断
+      if(areaMaxController.text!=''&& areaMinController.text!=''){
+        searchChoose.add(areaMinController.text+"平米~"+areaMaxController.text+"平米");
+      }
+      if(priceMaxController.text!=''&& priceMinController.text!=''){
+        searchChoose.add(priceMinController.text+"万元~"+priceMaxController.text+"万元");
+      }
+      if(directionSelect!="-1"){
+        searchChoose.add(directionSelect);
+      }
+      if(roomsSelect!="-1"){
+        searchChoose.add(roomsSelect);
+      }
+      if(elevatorSelect!='-1'){
+        searchChoose.add(elevatorSelect);
+      }
+      if(floorSelect!='-1'){
+        searchChoose.add(floorSelect);
+      }
+      if(houseAgeSelect!="-1"){
+        searchChoose.add(houseAgeSelect);
+      }
+      if(ownerShipSelect!="-1"){
+        searchChoose.add(ownerShipSelect);
+      }
+      if(taxSelect!="-1"){
+        searchChoose.add(taxSelect);
+      }
+      if(otherLabelSelect!="-1"){
+        searchChoose.add(otherLabelSelect);
+      }
+
+      dynamic searchResult = await GetHouseListByFilterSearchDao
+          .httpGetHouseListByFilterSearch(
+        userData!.userPid,
+        userData!.companyId,
+        workValue == "我的" ? 3 : workValue == "失效" ? 4 : -1, // 业务
+        '-1', // 省份区域,
+        priceMinController.text == "" ? -1 : double.parse(priceMinController.text), // 最低价格
+        priceMaxController.text == "" ? -1 : double.parse(priceMaxController.text), // 最高价格
+        areaMinController.text == "" ? -1 : double.parse(areaMinController.text), // 最小面积
+        areaMaxController.text == "" ? -1 : double.parse(areaMaxController.text), // 最大面积
+        workValue == "出售" ? 1 : workValue == "出租" ? 2 : -1,
+        otherLabelSelect.contains("学区房") ? 1 : -1, // 是否为学区房
+        taxSelect, // 税费
+        otherLabelSelect, // 房源特色
+        directionSelect, // 朝向
+        roomsSelect == "-1" ? "-1" : inputRoom.toString().replaceAll("[", "").replaceAll("]", ""), // 居室
+        elevatorSelect, // 电梯
+        floorSelect, // 楼层
+        decorationSelect, // 装修
+        houseAgeSelect == "5年以内" ? (nowYear - 5)
+            : houseAgeSelect == "10年以内" ? (nowYear - 10)
+            : houseAgeSelect == "15年以内" ? (nowYear - 15)
+            : houseAgeSelect == "20年以内" ? (nowYear - 20)
+            : 1949, // 楼龄
+        typeValue == "所有" ? "-1" : typeValue, // 类型：住宅车位等
+        ownerShipSelect, // 权属
+        sortValue, // 排序规则
+        pageIndex,
+        30,
+      );
+      if (searchResult.code == 200) {
+        houseList = searchResult.data!;
+        if (houseList.length > 0) {
+          for (var item in houseList) {
+            houseShowList.add(
+              HouseSearchItem(
+                  houseItem: item
+              ),
+            );
+          }
         }
 
+        if(searchChoose.length>0){
+          for (var chooseItem in searchChoose) {
+            showSearchChoose.add(
+                Chip(
+                  backgroundColor: Color(0xFF93C0FB),
+                  label: Text(
+                    chooseItem,
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.white,
+                      decoration: TextDecoration.none,
+                      fontWeight: FontWeight.normal,
+                    ),),
+                )
+            );
+          }
+        }else{
+          showSearchChoose.add(
+              Chip(
+                backgroundColor: Color(0xFF93C0FB),
+                label: Text('所有',style: TextStyle(
+                  fontSize: 14,
+                  color: Colors.white,
+                  decoration: TextDecoration.none,
+                  fontWeight: FontWeight.normal,
+                ),),
+              )
+          );
+        }
 
-
-      }else{
-        areaController.text = "1";
-        floorController.text = "1";
-        totalFloorController.text = "1";
-        houseAgeController.text = "2000";
-        managementPriceController.text = "0";
-        roomController.text = "1";
-        sittingRoomController.text = "1";
-        kitchenController.text = "1";
-        toiletController.text = "1";
+        setState(() {
+          alreadyChoose = true;
+          houses = houseShowList;
+        });
+        _onRefresh();
+      } else {
+        _onRefresh();
+        _onOverLoadPressed(context);
       }
     }
+  }
+
+  @override
+  void initState() {
+    companyReg = TextReg;
+
+    priceMinController.text = "";
+    priceMaxController.text = "";
+    areaMinController.text = "";
+    areaMaxController.text = "";
 
     _getUserInfo();
-    // _load();
     direction = ["东","南","西","北"];
     rooms = ["1居室","2居室","3居室","4居室","5居室及以上"];
     lift =["有电梯","无电梯"];
@@ -244,17 +302,10 @@ class _HouseFilterSearchChoosePageState extends State<HouseFilterSearchChoosePag
 
   @override
   void dispose(){
-    countController.dispose();
-    areaController.dispose();
-    roomController.dispose();
-    sittingRoomController.dispose();
-    kitchenController.dispose();
-    toiletController.dispose();
-    floorController.dispose();
-    totalFloorController.dispose();
-    houseAgeController.dispose();
-    managementPriceController.dispose();
-    managementCompanyController.dispose();
+    priceMinController.dispose();
+    priceMaxController.dispose();
+    areaMinController.dispose();
+    areaMaxController.dispose();
     super.dispose();
   }
 
@@ -345,11 +396,12 @@ class _HouseFilterSearchChoosePageState extends State<HouseFilterSearchChoosePag
                                         setState(() {
                                           workValue = T;
                                           houses = [];
-                                          customersResult = null;
                                           houseShowList = [];
-                                          pageIndex = 0;
+                                          pageIndex = 1;
                                         });
-                                        // _load();
+                                        if(alreadyChoose){
+                                          _load();
+                                        }
                                       },
                                     )
                                   ],
@@ -383,11 +435,12 @@ class _HouseFilterSearchChoosePageState extends State<HouseFilterSearchChoosePag
                                         setState(() {
                                           typeValue = T;
                                           houses = [];
-                                          customersResult = null;
                                           houseShowList = [];
-                                          pageIndex = 0;
+                                          pageIndex = 1;
                                         });
-                                        // _load();
+                                        if(alreadyChoose){
+                                          _load();
+                                        }
                                       },
                                     )
                                   ],
@@ -422,10 +475,11 @@ class _HouseFilterSearchChoosePageState extends State<HouseFilterSearchChoosePag
                                           sortValue = T;
                                           houses = [];
                                           houseShowList = [];
-                                          customersResult = null;
-                                          pageIndex = 0;
+                                          pageIndex = 1;
                                         });
-                                        // _load();
+                                        if(alreadyChoose){
+                                          _load();
+                                        }
                                       },
                                     )
                                   ],
@@ -454,53 +508,7 @@ class _HouseFilterSearchChoosePageState extends State<HouseFilterSearchChoosePag
                                     Expanded(
                                         child:Wrap(
                                           spacing: 4,
-                                          children: [
-                                            Chip(
-                                              backgroundColor: Color(0xFF93C0FB),
-                                              label: Text('2居室',style: TextStyle(
-                                                fontSize: 14,
-                                                color: Colors.white,
-                                                decoration: TextDecoration.none,
-                                                fontWeight: FontWeight.normal,
-                                              ),),
-                                            ),
-                                            Chip(
-                                              backgroundColor: Color(0xFF93C0FB),
-                                              label: Text('朝南',style: TextStyle(
-                                                fontSize: 14,
-                                                color: Colors.white,
-                                                decoration: TextDecoration.none,
-                                                fontWeight: FontWeight.normal,
-                                              ),),
-                                            ),
-                                            Chip(
-                                              backgroundColor: Color(0xFF93C0FB),
-                                              label: Text('中楼层',style: TextStyle(
-                                                fontSize: 14,
-                                                color: Colors.white,
-                                                decoration: TextDecoration.none,
-                                                fontWeight: FontWeight.normal,
-                                              ),),
-                                            ),
-                                            Chip(
-                                              backgroundColor: Color(0xFF93C0FB),
-                                              label: Text('80-120平米',style: TextStyle(
-                                                fontSize: 14,
-                                                color: Colors.white,
-                                                decoration: TextDecoration.none,
-                                                fontWeight: FontWeight.normal,
-                                              ),),
-                                            ),
-                                            Chip(
-                                              backgroundColor: Color(0xFF93C0FB),
-                                              label: Text('精装修',style: TextStyle(
-                                                fontSize: 14,
-                                                color: Colors.white,
-                                                decoration: TextDecoration.none,
-                                                fontWeight: FontWeight.normal,
-                                              ),),
-                                            ),
-                                          ],
+                                          children:showSearchChoose,
                                         )
 
                                     ),
@@ -508,6 +516,9 @@ class _HouseFilterSearchChoosePageState extends State<HouseFilterSearchChoosePag
                                       onTap: (){
                                         setState(() {
                                           alreadyChoose = false;
+                                          houses = [];
+                                          houseShowList = [];
+                                          pageIndex = 1;
                                         });
                                       },
                                       child: Container(
@@ -519,6 +530,42 @@ class _HouseFilterSearchChoosePageState extends State<HouseFilterSearchChoosePag
                                     )
                                   ],
                                 ),
+                              ),
+                              houseList.length>0 && houses !=[]?
+                                  Container(width: 1,)
+                                  :
+                              Container(
+                                  alignment: Alignment.center,
+                                  margin: EdgeInsets.only(top: 20),
+                                  width: 335,
+                                  height: 104,
+                                  child: Column(
+                                    children: <Widget>[
+                                      Padding(
+                                        padding: EdgeInsets.only(top: 25,bottom: 8),
+                                        child: Text(
+                                          '没有相关房源',
+                                          style: TextStyle(
+                                            decoration: TextDecoration.none,
+                                            fontSize: 20,
+                                            color: Color(0xFFCCCCCC),
+                                            fontWeight: FontWeight.normal,
+                                          ),
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      ),
+                                      Text(
+                                        '换一换筛选条件再试试吧~',
+                                        style: TextStyle(
+                                          decoration: TextDecoration.none,
+                                          fontSize: 16,
+                                          color: Color(0xFFCCCCCC),
+                                          fontWeight: FontWeight.normal,
+                                        ),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ],
+                                  )
                               )
                             ],
                           )
@@ -582,7 +629,7 @@ class _HouseFilterSearchChoosePageState extends State<HouseFilterSearchChoosePag
                                   child: Row(
                                     children: <Widget>[
                                       Text(
-                                        '面积区间：',
+                                        '面积区间（须同时填写或同时不填）：',
                                         style: TextStyle(
                                           fontSize: 14,
                                           color: Color(0xFF333333),
@@ -660,7 +707,7 @@ class _HouseFilterSearchChoosePageState extends State<HouseFilterSearchChoosePag
                                   child: Row(
                                     children: <Widget>[
                                       Text(
-                                        '总价区间：',
+                                        '总价区间（须同时填写或同时不填）：',
                                         style: TextStyle(
                                           fontSize: 14,
                                           color: Color(0xFF333333),
@@ -754,7 +801,7 @@ class _HouseFilterSearchChoosePageState extends State<HouseFilterSearchChoosePag
                                   width: 335,
                                   // title: '可选的任务名称（ 多选 ）',
                                   child: FormField<List<String>>(
-                                      initialValue: tags,
+                                      initialValue: directionSel,
                                       validator: (value) {
                                         if (value==null) {
                                           return '请选择核心任务的名称';
@@ -785,14 +832,18 @@ class _HouseFilterSearchChoosePageState extends State<HouseFilterSearchChoosePag
                                                       sel+=element+",";
                                                     });
                                                     directionSel = val;
-                                                    directionSelect=sel.substring(0,sel.lastIndexOf(','));
+                                                    if(sel!=""){
+                                                      directionSelect=sel.substring(0,sel.lastIndexOf(','));
+                                                    }else{
+                                                      directionSelect="-1";
+                                                    }
                                                     // val.forEach((element) {
                                                     //   var item=element;
                                                     //   directionSelect+=item + ',';
                                                     //   print(directionSelect);
                                                     //   if(state.value != null){
                                                     //     setState(() {
-                                                    //       itemLength = state.value.length;
+                                                    //       itemLength = state.value!.length;
                                                     //     });
                                                     //   }
                                                     // });
@@ -847,7 +898,7 @@ class _HouseFilterSearchChoosePageState extends State<HouseFilterSearchChoosePag
                                   width: 335,
                                   // title: '可选的任务名称（ 多选 ）',
                                   child: FormField<List<String>>(
-                                      initialValue: tags,
+                                      initialValue: roomsSel,
                                       validator: (value) {
                                         if (value==null) {
                                           return '请选择核心任务的名称';
@@ -871,24 +922,20 @@ class _HouseFilterSearchChoosePageState extends State<HouseFilterSearchChoosePag
                                                       // 展示形式
                                                       label: (index,item)=>item.toString()
                                                   ),
-                                                  onChanged: (val) {
+                                                  onChanged: (dynamic val) {
                                                     state.didChange(val);
                                                     String sel="";
-                                                    val.forEach((element) {
-                                                      sel+=element+",";
-                                                    });
-                                                    roomsSel = val;
-                                                    roomsSelect=sel.substring(0,sel.lastIndexOf(','));
-                                                    // val.forEach((element) {
-                                                    //   var item=element;
-                                                    //   directionSelect+=item + ',';
-                                                    //   print(directionSelect);
-                                                    //   if(state.value != null){
-                                                    //     setState(() {
-                                                    //       itemLength = state.value.length;
-                                                    //     });
-                                                    //   }
-                                                    // });
+                                                    inputRoom=[];
+                                                      val.forEach((element) {
+                                                        sel+=element+",";
+                                                        inputRoom.add(element.substring(0,1));
+                                                      });
+                                                      roomsSel = val;
+                                                      if(sel!=""){
+                                                        roomsSelect=sel.substring(0,sel.lastIndexOf(','));
+                                                      }else{
+                                                        roomsSelect="-1";
+                                                      }
                                                   },
                                                   choiceStyle: const C2ChoiceStyle(
                                                     color: Color(0xFF5580EB),
@@ -940,7 +987,7 @@ class _HouseFilterSearchChoosePageState extends State<HouseFilterSearchChoosePag
                                   width: 335,
                                   // title: '可选的任务名称（ 多选 ）',
                                   child: FormField<List<String>>(
-                                      initialValue: tags,
+                                      initialValue: liftSel,
                                       validator: (value) {
                                         if (value==null) {
                                           return '请选择核心任务的名称';
@@ -956,7 +1003,7 @@ class _HouseFilterSearchChoosePageState extends State<HouseFilterSearchChoosePag
                                               Container(
                                                 alignment: Alignment.centerLeft,
                                                 child: ChipsChoice<String>.multiple(
-                                                  value: state.value,
+                                                  value: liftSel,
                                                   choiceItems:  C2Choice.listFrom(
                                                       source: lift,
                                                       // 存储形式
@@ -966,19 +1013,21 @@ class _HouseFilterSearchChoosePageState extends State<HouseFilterSearchChoosePag
                                                   ),
                                                   onChanged: (val) {
                                                     state.didChange(val);
-                                                    missionContent = val;
-                                                    elevatorSelect="";
+                                                    String sel ="";
                                                     val.forEach((element) {
-                                                      var item=element;
-                                                      print(item);
-                                                      elevatorSelect+=item + ',';
-                                                      print(elevatorSelect);
-                                                      if(state.value != null){
-                                                        setState(() {
-                                                          itemLength = state.value.length;
-                                                        });
-                                                      }
+                                                      sel+=element + ',';
+                                                      // if(state.value != null){
+                                                      //   setState(() {
+                                                      //     itemLength = state.value.length;
+                                                      //   });
+                                                      // }
                                                     });
+                                                    liftSel = val;
+                                                    if(sel!=""){
+                                                      elevatorSelect=sel.substring(0,sel.lastIndexOf(','));
+                                                    }else{
+                                                      elevatorSelect="-1";
+                                                    }
                                                   },
                                                   choiceStyle: const C2ChoiceStyle(
                                                     color: Color(0xFF5580EB),
@@ -1030,7 +1079,7 @@ class _HouseFilterSearchChoosePageState extends State<HouseFilterSearchChoosePag
                                   width: 335,
                                   // title: '可选的任务名称（ 多选 ）',
                                   child: FormField<List<String>>(
-                                      initialValue: tags,
+                                      initialValue: floorSel,
                                       validator: (value) {
                                         if (value==null) {
                                           return '请选择核心任务的名称';
@@ -1061,11 +1110,11 @@ class _HouseFilterSearchChoosePageState extends State<HouseFilterSearchChoosePag
                                                       sel+=element+",";
                                                     });
                                                     floorSel = val;
-                                                    floorSelect=sel.substring(0,sel.lastIndexOf(','));
-                                                    // val.forEach((element) {
-                                                    //   var item=element;
-                                                    //   directionSelect+=item + ',';
-                                                    //   print(directionSelect);
+                                                    if(sel!=""){
+                                                      floorSelect=sel.substring(0,sel.lastIndexOf(','));
+                                                    }else{
+                                                      floorSelect="-1";
+                                                    }
                                                     //   if(state.value != null){
                                                     //     setState(() {
                                                     //       itemLength = state.value.length;
@@ -1123,7 +1172,7 @@ class _HouseFilterSearchChoosePageState extends State<HouseFilterSearchChoosePag
                                   width: 335,
                                   // title: '可选的任务名称（ 多选 ）',
                                   child: FormField<List<String>>(
-                                      initialValue: tags,
+                                      initialValue: finishSel,
                                       validator: (value) {
                                         if (value==null) {
                                           return '请选择核心任务的名称';
@@ -1139,7 +1188,7 @@ class _HouseFilterSearchChoosePageState extends State<HouseFilterSearchChoosePag
                                               Container(
                                                 alignment: Alignment.centerLeft,
                                                 child: ChipsChoice<String>.multiple(
-                                                  value: state.value,
+                                                  value: finishSel,
                                                   choiceItems:  C2Choice.listFrom(
                                                       source: finish,
                                                       // 存储形式
@@ -1149,19 +1198,21 @@ class _HouseFilterSearchChoosePageState extends State<HouseFilterSearchChoosePag
                                                   ),
                                                   onChanged: (val) {
                                                     state.didChange(val);
-                                                    missionContent = val;
-                                                    decorationSelect="";
+                                                    String sel="";
                                                     val.forEach((element) {
-                                                      var item=element;
-                                                      print(item);
-                                                      decorationSelect+=item + ',';
-                                                      print(decorationSelect);
-                                                      if(state.value != null){
-                                                        setState(() {
-                                                          itemLength = state.value!.length;
-                                                        });
-                                                      }
+                                                      sel+=element+",";
                                                     });
+                                                    finishSel = val;
+                                                    if(sel!=""){
+                                                      decorationSelect=sel.substring(0,sel.lastIndexOf(','));
+                                                    }else{
+                                                      decorationSelect="-1";
+                                                    }
+                                                    // if(state.value != null){
+                                                    //   setState(() {
+                                                    //     itemLength = state.value!.length;
+                                                    //   });
+                                                    // }
                                                   },
                                                   choiceStyle: const C2ChoiceStyle(
                                                     color: Color(0xFF5580EB),
@@ -1213,7 +1264,7 @@ class _HouseFilterSearchChoosePageState extends State<HouseFilterSearchChoosePag
                                   width: 335,
                                   // title: '可选的任务名称（ 多选 ）',
                                   child: FormField<List<String>>(
-                                      initialValue: tags,
+                                      initialValue: houseAgeSel,
                                       validator: (value) {
                                         if (value==null) {
                                           return '请选择核心任务的名称';
@@ -1244,17 +1295,11 @@ class _HouseFilterSearchChoosePageState extends State<HouseFilterSearchChoosePag
                                                       sel+=element+",";
                                                     });
                                                     houseAgeSel = val;
-                                                    houseAgeSelect=sel.substring(0,sel.lastIndexOf(','));
-                                                    // val.forEach((element) {
-                                                    //   var item=element;
-                                                    //   directionSelect+=item + ',';
-                                                    //   print(directionSelect);
-                                                    //   if(state.value != null){
-                                                    //     setState(() {
-                                                    //       itemLength = state.value.length;
-                                                    //     });
-                                                    //   }
-                                                    // });
+                                                    if(sel!=""){
+                                                      houseAgeSelect=sel.substring(0,sel.lastIndexOf(','));
+                                                    }else{
+                                                      houseAgeSelect="-1";
+                                                    }
                                                   },
                                                   choiceStyle: const C2ChoiceStyle(
                                                     color: Color(0xFF5580EB),
@@ -1306,7 +1351,7 @@ class _HouseFilterSearchChoosePageState extends State<HouseFilterSearchChoosePag
                                   width: 335,
                                   // title: '可选的任务名称（ 多选 ）',
                                   child: FormField<List<String>>(
-                                      initialValue: tags,
+                                      initialValue: ownerShipSel,
                                       validator: (value) {
                                         if (value==null) {
                                           return '请选择核心任务的名称';
@@ -1337,17 +1382,11 @@ class _HouseFilterSearchChoosePageState extends State<HouseFilterSearchChoosePag
                                                       sel+=element+",";
                                                     });
                                                     ownerShipSel = val;
-                                                    ownerShipSelect=sel.substring(0,sel.lastIndexOf(','));
-                                                    // val.forEach((element) {
-                                                    //   var item=element;
-                                                    //   directionSelect+=item + ',';
-                                                    //   print(directionSelect);
-                                                    //   if(state.value != null){
-                                                    //     setState(() {
-                                                    //       itemLength = state.value.length;
-                                                    //     });
-                                                    //   }
-                                                    // });
+                                                    if(sel!=""){
+                                                      ownerShipSelect=sel.substring(0,sel.lastIndexOf(','));
+                                                    }else{
+                                                      ownerShipSelect="-1";
+                                                    }
                                                   },
                                                   choiceStyle: const C2ChoiceStyle(
                                                     color: Color(0xFF5580EB),
@@ -1399,7 +1438,7 @@ class _HouseFilterSearchChoosePageState extends State<HouseFilterSearchChoosePag
                                   width: 335,
                                   // title: '可选的任务名称（ 多选 ）',
                                   child: FormField<List<String>>(
-                                      initialValue: tags,
+                                      initialValue: taxSel,
                                       validator: (value) {
                                         if (value==null) {
                                           return '请选择核心任务的名称';
@@ -1415,7 +1454,7 @@ class _HouseFilterSearchChoosePageState extends State<HouseFilterSearchChoosePag
                                               Container(
                                                 alignment: Alignment.centerLeft,
                                                 child: ChipsChoice<String>.multiple(
-                                                  value: state.value,
+                                                  value: taxSel,
                                                   choiceItems:  C2Choice.listFrom(
                                                       source: tax,
                                                       // 存储形式
@@ -1425,19 +1464,16 @@ class _HouseFilterSearchChoosePageState extends State<HouseFilterSearchChoosePag
                                                   ),
                                                   onChanged: (val) {
                                                     state.didChange(val);
-                                                    missionContent = val;
-                                                    taxSelect="";
+                                                    String sel="";
                                                     val.forEach((element) {
-                                                      var item=element;
-                                                      print(item);
-                                                      taxSelect+=item + ',';
-                                                      print(taxSelect);
-                                                      if(state.value != null){
-                                                        setState(() {
-                                                          itemLength = state.value.length;
-                                                        });
-                                                      }
+                                                      sel+=element+",";
                                                     });
+                                                    taxSel = val;
+                                                    if(sel!=""){
+                                                      taxSelect=sel.substring(0,sel.lastIndexOf(','));
+                                                    }else{
+                                                      taxSelect="-1";
+                                                    }
                                                   },
                                                   choiceStyle: const C2ChoiceStyle(
                                                     color: Color(0xFF5580EB),
@@ -1489,7 +1525,7 @@ class _HouseFilterSearchChoosePageState extends State<HouseFilterSearchChoosePag
                                   width: 335,
                                   // title: '可选的任务名称（ 多选 ）',
                                   child: FormField<List<String>>(
-                                      initialValue: tags,
+                                      initialValue: otherLabelSel,
                                       validator: (value) {
                                         if (value==null) {
                                           return '请选择核心任务的名称';
@@ -1505,7 +1541,7 @@ class _HouseFilterSearchChoosePageState extends State<HouseFilterSearchChoosePag
                                               Container(
                                                 alignment: Alignment.centerLeft,
                                                 child: ChipsChoice<String>.multiple(
-                                                  value: state.value,
+                                                  value: otherLabelSel,
                                                   choiceItems:  C2Choice.listFrom(
                                                       source: otherLabel,
                                                       // 存储形式
@@ -1515,18 +1551,16 @@ class _HouseFilterSearchChoosePageState extends State<HouseFilterSearchChoosePag
                                                   ),
                                                   onChanged: (val) {
                                                     state.didChange(val);
-                                                    missionContent = val;
-                                                    otherLabelSelect="";
+                                                    String sel="";
                                                     val.forEach((element) {
-                                                      var item=element;
-                                                      print(item);
-                                                      otherLabelSelect+=item + ',';
-                                                      if(state.value != null){
-                                                        setState(() {
-                                                          itemLength = state.value.length;
-                                                        });
-                                                      }
+                                                      sel+=element+",";
                                                     });
+                                                    otherLabelSel = val;
+                                                    if(sel!=""){
+                                                      otherLabelSelect=sel.substring(0,sel.lastIndexOf(','));
+                                                    }else{
+                                                      otherLabelSelect="-1";
+                                                    }
                                                   },
                                                   choiceStyle: const C2ChoiceStyle(
                                                     color: Color(0xFF5580EB),
@@ -1556,66 +1590,10 @@ class _HouseFilterSearchChoosePageState extends State<HouseFilterSearchChoosePag
                                   )
                               ),
 
-                              // 下一步
+                              // 完成
                               GestureDetector(
                                 onTap: ()async {
-                                  setState(() {
-                                    alreadyChoose = true;
-                                  });
-                                  // if(userNameBool == true && phoneBool == true && _starIndex != 0 ){
-                                  // _onRefresh();
-                                  //
-                                  // //    _otherNeedPressed(context);
-                                  // var addResult = await AddHouseStep2Dao
-                                  //     .addHouseStep2(
-                                  //   widget.houseId.toString(), //房源id
-                                  //   areaController.text, // 面积
-                                  //   roomController.text + "-" +
-                                  //       sittingRoomController.text + "-" +
-                                  //       kitchenController.text + "-" +
-                                  //       toiletController.text, // 居室结构
-                                  //   directionSelect == ""
-                                  //       ? "未知"
-                                  //       : directionSelect, // 朝向
-                                  //   floorController.text, // 所在楼层
-                                  //   totalFloorController.text, // 总楼层
-                                  //   decorationSelect == ""
-                                  //       ? "未知"
-                                  //       : decorationSelect, // 装修情况
-                                  //   houseAgeController.text, // 楼龄
-                                  //   managementCompanyController.text+"-"+(managementSelect==""?"未知":managementSelect), // 物业
-                                  //   managementPriceController.text, // 物业费
-                                  //   elevatorSelect == "" ? "未知" : elevatorSelect, // 电梯
-                                  //   taxSelect == "" ? "未知" : taxSelect, // 税费
-                                  //   int.parse(floorController.text)/int.parse(totalFloorController.text)<0.17?1
-                                  //       :int.parse(floorController.text)/int.parse(totalFloorController.text)>0.67?3:2, // 高中低楼层
-                                  //   (widget.houseDetail.housePrice/double.parse(houseAgeController.text)).truncate(), // 单价
-                                  // );
-                                  // print(addResult);
-                                  // if (addResult.code == 200 ||
-                                  //     addResult.code == 201) {
-                                  //   _onRefresh();
-                                  //   if (userData!.userLevel.substring(0, 1) == "6") {
-                                  //     Navigator.push(context, MaterialPageRoute(
-                                  //         builder: (context) => HouseListPage()));
-                                  //   }
-                                  //   if (userData!.userLevel.substring(0, 1) == "4") {
-                                  //     Navigator.push(context, MaterialPageRoute(
-                                  //         builder: (context) => STradedPage()));
-                                  //   }
-                                  //   if (userData!.userLevel.substring(0, 1) == "5") {
-                                  //     Navigator.push(context, MaterialPageRoute(
-                                  //         builder: (context) => MTradedPage()));
-                                  //   }
-                                  // } else {
-                                  //   _onRefresh();
-                                  //   _onOverLoadPressed(context);
-                                  //   // }
-                                  //   // }else{
-                                  //   //   // 必填信息不完整的弹窗
-                                  //   //   _onMsgPressed(context);
-                                  //   // }
-                                  // }
+                                  _load();
                                 },
                                 child: Container(
                                     width: 335,
@@ -1628,12 +1606,6 @@ class _HouseFilterSearchChoosePageState extends State<HouseFilterSearchChoosePag
                                         borderRadius: BorderRadius.circular(8),
                                         color: Color(0xFF5580EB)
                                     ),
-                                    //     :
-                                    // BoxDecoration(
-                                    //     border: Border.all(width: 1,color: Color(0xFF93C0FB)),
-                                    //     borderRadius: BorderRadius.circular(8),
-                                    //     color: Color(0xFF93C0FB)
-                                    // ),
                                     child: Padding(
                                       padding: EdgeInsets.only(top: 4),
                                       child: Text('完成',style: TextStyle(
@@ -1646,7 +1618,14 @@ class _HouseFilterSearchChoosePageState extends State<HouseFilterSearchChoosePag
                                 ),
                               )
                             ],
-                          )
+                          ),
+                          // 列表
+                          houseList.length>0 && houses !=[]?
+                          Column(
+                            children: houses,
+                          ):
+                              Container(width: 1,)
+
 
                         ]
                     )
@@ -1655,174 +1634,6 @@ class _HouseFilterSearchChoosePageState extends State<HouseFilterSearchChoosePag
             )
         )
     );
-  }
-
-  // 价格未调整弹窗
-  _onPriceCountWrongPressed(context) {
-    Alert(
-      context: context,
-      type: AlertType.error,
-      title: "价格未变动",
-      desc: "请调价后重试",
-      buttons: [
-        DialogButton(
-          child: Text(
-            "知道了",
-            style: TextStyle(color: Colors.white, fontSize: 20),
-          ),
-          onPressed: (){
-            Navigator.pop(context);
-          },
-          color: Color(0xFF5580EB),
-          width: 120,
-        )
-      ],
-    ).show();
-  }
-
-  _editPricePressed(context) {
-    Alert(
-      context: context,
-      title: "修改房源报价",
-      content: Column(
-        children: <Widget>[
-          Row(
-            children: <Widget>[
-              Container(
-                padding: EdgeInsets.only(left: 10,top: 10),
-                child: Text("修改报价：",style: TextStyle(
-                    fontSize: 14,
-                    color: Color(0xFF666666)
-                ),
-                  textAlign: TextAlign.left,
-                ),
-              ),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                  width: 80,
-                  decoration: BoxDecoration(
-                      border: Border(bottom: BorderSide(width: 1,color: Color(0xFF0E7AE6)))
-                  ),
-                  child: TextField(
-                    controller: priceController,
-                    keyboardType: TextInputType.text,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Color(0xFF5580EB),
-                      fontSize: 20,
-                      fontWeight: FontWeight.normal,
-                    ),
-                  )
-              ),
-              Text("万",style: TextStyle(
-                  fontSize: 14,
-                  color: Color(0xFF666666)
-              ),
-                textAlign: TextAlign.left,
-              ),
-            ],
-          ),
-          Row(
-            children: <Widget>[
-              Container(
-                padding: EdgeInsets.only(left: 10,top: 20),
-                child: Text("调价原因：",style: TextStyle(
-                    fontSize: 14,
-                    color: Color(0xFF666666)
-                ),
-                  textAlign: TextAlign.left,
-                ),
-              ),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                  width: 200,
-                  height: 100,
-                  decoration: BoxDecoration(
-                    border: Border.all(width: 1,color: Color(0xFF0E7AE6)),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: TextField(
-                    controller: priceReasonController,
-                    autofocus: false,
-                    keyboardType: TextInputType.multiline,
-                    // onChanged: _onMapChanged,
-                    maxLines: null,
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Color(0xFF999999),
-                      fontWeight: FontWeight.normal,
-                      decoration: TextDecoration.none,
-                    ),
-                    decoration: InputDecoration(
-                      hintText:'请填写调价原因，5~300字',
-                      contentPadding: EdgeInsets.all(10),
-                      border: InputBorder.none,
-                    ),
-                  ),
-              ),
-            ],
-          ),
-          Container(
-            padding: EdgeInsets.only(left: 10,top: 10),
-            child: Text("点击确定立刻修改，请慎重选择",style: TextStyle(
-                fontSize: 14,
-                color: Color(0xFF666666)
-            ),
-              textAlign: TextAlign.left,
-            ),
-          ),
-        ],
-      ),
-      buttons: [
-        DialogButton(
-          child: Text(
-            "确定",
-            style: TextStyle(color: Colors.white, fontSize: 20),
-          ),
-          onPressed: () async {
-            if(priceReasonController.text== null || priceReasonController.text==""){
-              _onPriceReasonWrongPressed(context);
-            }else{
-              if(priceController.text == priceCount.toString()){
-                _onPriceCountWrongPressed(context);
-              } else{
-                var r=await ModiHousePriceDao.modiHousePrice(
-                    widget.houseId,
-                    priceController.text,
-                    userData!.userPid,
-                    priceReasonController.text
-                );
-                if(r.code == 200){
-                  setState(() {
-                    priceCount = int.parse(priceController.text);
-                  });
-                  Navigator.pop(context);
-                }
-              }
-            }
-          },
-          color: Color(0xFF5580EB),
-        ),
-        DialogButton(
-          child: Text(
-            "取消",
-            style: TextStyle(color: Colors.white, fontSize: 20),
-          ),
-          onPressed: (){
-            Navigator.pop(context);
-          },
-          color: Color(0xFFCCCCCC),
-        ),
-      ],
-    ).show();
   }
 
   _onOverLoadPressed(context) {
@@ -1846,12 +1657,12 @@ class _HouseFilterSearchChoosePageState extends State<HouseFilterSearchChoosePag
     ).show();
   }
 
-  _onPriceReasonWrongPressed(context) {
+  _onMsgWrongPressed(context) {
     Alert(
       context: context,
       type: AlertType.error,
-      title: "调价原因为必填项",
-      desc: "请完善后重试",
+      title: "面积和总价的最大最小值须同时填写或同时不填",
+      desc: "请检查后重试",
       buttons: [
         DialogButton(
           child: Text(
@@ -1866,7 +1677,6 @@ class _HouseFilterSearchChoosePageState extends State<HouseFilterSearchChoosePag
       ],
     ).show();
   }
-
 
   // 加载中loading
   Future<Null> _onRefresh() async {

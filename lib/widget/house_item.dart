@@ -31,7 +31,6 @@ class _HouseItemState extends State<HouseItem> with SingleTickerProviderStateMix
       if(widget.houseItem.houseOwnerShip != null &&widget.houseItem.houseOwnerShip !="" &&widget.houseItem.houseOwnerShip !="其他"){
         tags.add(widget.houseItem.houseOwnerShip);
       }
-      tags.add(widget.houseItem.ownerShip);
       if(widget.houseItem.houseInfo.length>0 && widget.houseItem.houseInfo[0].tax=="满五唯一,"){
         tags.add("满五唯一");
       }
@@ -58,7 +57,8 @@ class _HouseItemState extends State<HouseItem> with SingleTickerProviderStateMix
             padding: EdgeInsets.only(left: 3,right: 3,top: 1,bottom: 1),
             color: Color(0xFF93C0FB),
             child: Text(
-              item1.replaceAll('"', '').replaceAll('[', '').replaceAll(']', ''),
+              // item1.replaceAll('"', '').replaceAll('[', '').replaceAll(']', ''),
+              item1.toString(),
               style: TextStyle(
                 fontSize: 12,
                 color: Colors.white,

@@ -241,7 +241,7 @@ class _TeamTradedPageState extends State<TeamTradedPage> {
                           Row(
                             children: <Widget>[
                               Container(
-                                width: 60,
+                                width: 28,
                                 child: GestureDetector(
                                   onTap: (){
                                     Navigator.push(context, MaterialPageRoute(builder: (context)=>QListTipsPage()));
@@ -267,8 +267,8 @@ class _TeamTradedPageState extends State<TeamTradedPage> {
                                 ),
                               ),
                               Container(
-                                margin: EdgeInsets.only(right: 10),
-                                width: 60,
+                                margin: EdgeInsets.only(right: 20,left: 25),
+                                width: 28,
                                 child: GestureDetector(
                                   onTap: (){
                                     Navigator.push(context, MaterialPageRoute(builder: (context)=>MyCenterPage()));

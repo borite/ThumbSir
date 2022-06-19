@@ -15,9 +15,10 @@ class TeamAnalyzeItem extends StatefulWidget {
   final String companyId;
   final startTime;
   final endTime;
+  final leaderID;
   const TeamAnalyzeItem({Key? key,
     required this.name,required this.sum,required this.finish,required this.percent,required this.timePersent,required this.unit,
-    required this.taskId,required this.section,required this.companyId,this.startTime,this.endTime,
+    required this.taskId,required this.section,required this.companyId,this.startTime,this.endTime,this.leaderID
   });
   @override
   _TeamAnalyzeItemState createState() => _TeamAnalyzeItemState();
@@ -65,6 +66,7 @@ class _TeamAnalyzeItemState extends State<TeamAnalyzeItem> with SingleTickerProv
             taskId:widget.taskId.toString(),
             startTime:widget.startTime.toString(),
             endTime:widget.endTime.toString(),
+            leaderID: widget.leaderID,
           )));
         },
         child: Container(

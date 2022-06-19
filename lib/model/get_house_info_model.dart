@@ -74,6 +74,12 @@ class Datum {
     this.confirmKeyUser,
     this.confirmDealUser,
     this.confirmExclusiveUser,
+    this.modiAddrTimes,
+    this.isInvalid,
+    this.invalidReason,
+    this.daiKanCount,
+    this.houseNum,
+    this.houseOwnerShip,
   });
 
   dynamic companyLh;
@@ -116,6 +122,12 @@ class Datum {
   dynamic confirmKeyUser;
   dynamic confirmDealUser;
   dynamic confirmExclusiveUser;
+  dynamic modiAddrTimes;
+  dynamic isInvalid;
+  dynamic invalidReason;
+  dynamic daiKanCount;
+  dynamic houseNum;
+  dynamic houseOwnerShip;
 
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
   companyLh: json["Company_LH"] == null ? null : json["Company_LH"],
@@ -158,6 +170,12 @@ class Datum {
     confirmKeyUser: json["ConfirmKeyUser"] == null ? null : json["ConfirmKeyUser"],
     confirmDealUser: json["ConfirmDealUser"] == null ? null : json["ConfirmDealUser"],
     confirmExclusiveUser: json["ConfirmExclusiveUser"] == null ? null : json["ConfirmExclusiveUser"],
+    modiAddrTimes: json["ModiAddrTimes"] == null ? null : json["ModiAddrTimes"],
+    isInvalid: json["IsInvalid"] == null ? null : json["isInvalid"],
+    invalidReason: json["InvalidReason"] == null ? null : json["InvalidReason"],
+    daiKanCount: json["DaiKanCount"] == null ? null : json["DaiKanCount"],
+    houseNum: json["HouseNum"] == null ? null : json["HouseNum"],
+    houseOwnerShip: json["HouseOwnerShip"] == null ? null : json["HouseOwnerShip"],
   );
 
   Map<String, dynamic> toJson() => {
@@ -201,6 +219,12 @@ class Datum {
     "ConfirmKeyUser": confirmKeyUser == null ? null : confirmKeyUser,
     "ConfirmDealUser": confirmDealUser == null ? null : confirmDealUser,
     "ConfirmExclusiveUser": confirmExclusiveUser == null ? null : confirmExclusiveUser,
+    "ModiAddrTimes": modiAddrTimes == null ? null : modiAddrTimes,
+    "IsInvalid": isInvalid == null ? null : isInvalid,
+    "InvalidReason" : invalidReason == null ? null : invalidReason,
+    "DaiKanCount": daiKanCount == null ? null : daiKanCount,
+    "HouseNum" : houseNum == null ? null : houseNum,
+    "HouseOwnerShip": houseOwnerShip == null ? null : houseOwnerShip,
   };
 }
 

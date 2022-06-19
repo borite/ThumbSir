@@ -147,9 +147,9 @@ class _EditSellNeedDetailPageState extends State<EditSellNeedDetailPage> {
   }
 
   _addOtherList(){
-    if (nonCoreList.length>0) {
-      var oneed=widget.needDetail.otherNeed.toString().split('}')[0]+"}";
-      Map<String,dynamic> otherNeedSelected = json.decode(oneed);
+    if (nonCoreList.length>0 && widget.needDetail.otherNeed != null) {
+      dynamic oneed=widget.needDetail.otherNeed.toString().split('}')[0]+"}";
+      dynamic otherNeedSelected = json.decode(oneed);
       for (var item in nonCoreList) {
         if(item.reqName=="其他"){
           nonCoreShowList.add(
@@ -488,7 +488,7 @@ class _EditSellNeedDetailPageState extends State<EditSellNeedDetailPage> {
   }
 
   _oldMsg(){
-    mapController.text = widget.needDetail.otherNeedRemark;
+    mapController.text = widget.needDetail.otherNeedRemark==null?"未填写":widget.needDetail.otherNeedRemark;
     if(widget.isNew=="old"){
       oldCoreNeedOne = "old";
       if(widget.needDetail.coreNeedOne != null && widget.needDetail.coreNeedOne.toString().contains(":")){

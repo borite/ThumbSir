@@ -147,8 +147,9 @@ class _TeamAnalyzeMemberDetailPageState extends State<TeamAnalyzeMemberDetailPag
                     GestureDetector(
                       onTap: (){
                         Navigator.push(context, MaterialPageRoute(builder: (context)=>TeamAnalyzeDetailPage(
-                            section:item.teamName,
-                            companyId:userData!.companyId
+                          section:item.teamName,
+                          companyId:userData!.companyId,
+                          leaderID : item.nextLeader.userPid,
                         )));
                       },
                       child: Container(

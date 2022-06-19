@@ -9,7 +9,8 @@ class AnalyzeDetailPage extends StatefulWidget {
   final taskId;
   final startTime;
   final endTime;
-  AnalyzeDetailPage({this.section,this.companyId,this.taskId,this.startTime,this.endTime});
+  final leaderID;
+  AnalyzeDetailPage({this.section,this.companyId,this.taskId,this.startTime,this.endTime,this.leaderID});
   @override
   _AnalyzeDetailPageState createState() => _AnalyzeDetailPageState();
 }
@@ -23,7 +24,7 @@ class _AnalyzeDetailPageState extends State<AnalyzeDetailPage> with SingleTicker
   _load()async{
     dynamic getDataResult = await GetSingleMissionDataDao.httpGetSingleMissionData(
       widget.taskId,
-      widget.section,
+      widget.leaderID,
       widget.companyId,
       widget.startTime,
       widget.endTime

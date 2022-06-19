@@ -216,7 +216,7 @@ class _GroupAnalyzePageState extends State<GroupAnalyzePage> {
                           Row(
                             children: <Widget>[
                               Container(
-                                width: 60,
+                                width: 28,
                                 child: GestureDetector(
                                   onTap: (){
                                     Navigator.push(context, MaterialPageRoute(builder: (context)=>QListTipsPage()));
@@ -242,8 +242,8 @@ class _GroupAnalyzePageState extends State<GroupAnalyzePage> {
                                 ),
                               ),
                               Container(
-                                margin: EdgeInsets.only(right: 10),
-                                width: 60,
+                                margin: EdgeInsets.only(right: 20,left: 25),
+                                width: 28,
                                 child: GestureDetector(
                                   onTap: (){
                                     Navigator.push(context, MaterialPageRoute(builder: (context)=>MyCenterPage()));
@@ -279,6 +279,7 @@ class _GroupAnalyzePageState extends State<GroupAnalyzePage> {
                       Navigator.push(context, MaterialPageRoute(builder: (context)=>TeamAnalyzeDetailPage(
                         section: userData!.section,
                         companyId: userData!.companyId,
+                        leaderID: userData!.userPid,
                       )));
                     },
                     child: Row(

@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:ThumbSir/model/login_result_data_model.dart';
 import 'package:ThumbSir/pages/home.dart';
 import 'package:ThumbSir/pages/mycenter/invitation_code_page.dart';

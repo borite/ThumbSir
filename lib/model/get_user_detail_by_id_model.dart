@@ -192,16 +192,16 @@ class Need {
   Need({
     required this.id,
     required this.mainNeed,
-    required this.coreNeedOne,
-    required this.coreNeedTwo,
-    required this.coreNeedThree,
+    this.coreNeedOne,
+    this.coreNeedTwo,
+    this.coreNeedThree,
   });
 
   int id;
   String mainNeed;
-  String coreNeedOne;
-  String coreNeedTwo;
-  String coreNeedThree;
+  dynamic coreNeedOne;
+  dynamic coreNeedTwo;
+  dynamic coreNeedThree;
 
   factory Need.fromJson(Map<String, dynamic> json) => Need(
     id: json["ID"] == null ? null : json["ID"],

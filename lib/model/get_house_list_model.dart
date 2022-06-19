@@ -43,6 +43,7 @@ class Datum {
     this.houseAddress,
     this.addTime,
     this.tradeLevel,
+    this.houseOwnerShip,
     this.inputUser,
     this.maintenanceUser,
     this.fieldUser,
@@ -63,6 +64,7 @@ class Datum {
   dynamic houseAddress;
   DateTime? addTime;
   dynamic tradeLevel;
+  dynamic houseOwnerShip;
   dynamic inputUser;
   dynamic maintenanceUser;
   dynamic fieldUser;
@@ -83,6 +85,7 @@ class Datum {
     houseAddress: json["HouseAddress"] == null ? null : json["HouseAddress"],
     addTime: json["AddTime"] == null ? null : DateTime.parse(json["AddTime"]),
     tradeLevel: json["TradeLevel"] == null ? null : json["TradeLevel"],
+    houseOwnerShip: json["HouseOwnerShip"] == null ? null : json["HouseOwnerShip"],
     inputUser: json["InputUser"] == null ? null : User.fromJson(json["InputUser"]),
     maintenanceUser: json["MaintenanceUser"] == null ? null : User.fromJson(json["MaintenanceUser"]),
     fieldUser: json["FieldUser"] == null ? null : User.fromJson(json["FieldUser"]),
@@ -104,6 +107,7 @@ class Datum {
   "HouseAddress": houseAddress == null ? null : houseAddress,
     "AddTime": addTime == null ? null : addTime!.toIso8601String(),
     "TradeLevel": tradeLevel == null ? null : tradeLevel,
+    "HouseOwnerShip": houseOwnerShip == null ? null : houseOwnerShip,
     "InputUser": inputUser == null ? null : inputUser.toJson(),
     "MaintenanceUser": maintenanceUser == null ? null : maintenanceUser.toJson(),
     "FieldUser": fieldUser == null ? null : fieldUser.toJson(),

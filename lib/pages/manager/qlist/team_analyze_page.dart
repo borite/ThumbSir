@@ -114,7 +114,8 @@ class _TeamAnalyzePageState extends State<TeamAnalyzePage> {
                             onTap: (){
                               Navigator.push(context, MaterialPageRoute(builder: (context)=>TeamAnalyzeDetailPage(
                                   section:item.teamName,
-                                  companyId:userData!.companyId
+                                  companyId:userData!.companyId,
+                                  leaderID: item.nextLeader.userPid,
                               )));
                             },
                             child: Container(
@@ -242,7 +243,7 @@ class _TeamAnalyzePageState extends State<TeamAnalyzePage> {
                                 Row(
                                   children: <Widget>[
                                     Container(
-                                      width: 60,
+                                      width: 28,
                                       child: GestureDetector(
                                         onTap: (){
                                           Navigator.push(context, MaterialPageRoute(builder: (context)=>QListTipsPage()));
@@ -268,8 +269,8 @@ class _TeamAnalyzePageState extends State<TeamAnalyzePage> {
                                       ),
                                     ),
                                     Container(
-                                      margin: EdgeInsets.only(right: 10),
-                                      width: 60,
+                                      margin: EdgeInsets.only(right: 20,left: 25),
+                                      width: 28,
                                       child: GestureDetector(
                                         onTap: (){
                                           Navigator.push(context, MaterialPageRoute(builder: (context)=>MyCenterPage()));
@@ -304,7 +305,8 @@ class _TeamAnalyzePageState extends State<TeamAnalyzePage> {
                           onTap: (){
                             Navigator.push(context, MaterialPageRoute(builder: (context)=>TeamAnalyzeDetailPage(
                               section:userData!.section,
-                              companyId:userData!.companyId
+                              companyId:userData!.companyId,
+                              leaderID: userData!.userPid,
                             )));
                           },
                           child: Row(

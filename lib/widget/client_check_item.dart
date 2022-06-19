@@ -195,58 +195,66 @@ class _ClientCheckItemState extends State<ClientCheckItem> with SingleTickerProv
                               ),
                             ),
                           ),
-                          Container(
-                            margin: EdgeInsets.only(right: 10),
-                            padding: EdgeInsets.fromLTRB(8, 3, 8, 3),
-                            decoration: BoxDecoration(
-                              color:Color(0xFF5580EB),
-                              borderRadius: BorderRadius.all(Radius.circular(6)),
-                            ),
-                            child: Text(
-                              widget.need[0].coreNeedOne ?? "未完善",
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Colors.white,
-                                decoration: TextDecoration.none,
-                                fontWeight: FontWeight.normal,
-                              ),
-                            ),
-                          ),
-                          widget.need[0].coreNeedTwo!=null?
-                          Container(
-                            margin: EdgeInsets.only(right: 10),
-                            padding: EdgeInsets.fromLTRB(8, 3, 8, 3),
-                            decoration: BoxDecoration(
-                              color:Color(0xFF5580EB),
-                              borderRadius: BorderRadius.all(Radius.circular(6)),
-                            ),
-                            child: Text(
-                              widget.need[0].coreNeedTwo,
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Colors.white,
-                                decoration: TextDecoration.none,
-                                fontWeight: FontWeight.normal,
-                              ),
-                            ),
-                          ):Container(width: 1,),
-                          widget.need[0].coreNeedThree!=null?
-                          Container(
-                            padding: EdgeInsets.fromLTRB(8, 3, 8, 3),
-                            decoration: BoxDecoration(
-                              color:Color(0xFF5580EB),
-                              borderRadius: BorderRadius.all(Radius.circular(6)),
-                            ),
-                            child: Text(
-                              widget.need[0].coreNeedThree??"无",
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Colors.white,
-                                decoration: TextDecoration.none,
-                                fontWeight: FontWeight.normal,
-                              ),
-                            ),
-                          ):Container(width: 1,),
+                          Expanded(
+                              child: Wrap(
+                                spacing: 2,
+                                runSpacing: 5,
+                                children: [
+                                  Container(
+                                    margin: EdgeInsets.only(right: 10),
+                                    padding: EdgeInsets.fromLTRB(8, 3, 8, 3),
+                                    decoration: BoxDecoration(
+                                      color:Color(0xFF5580EB),
+                                      borderRadius: BorderRadius.all(Radius.circular(6)),
+                                    ),
+                                    child: Text(
+                                      widget.need[0].coreNeedOne ?? "未完善",
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        color: Colors.white,
+                                        decoration: TextDecoration.none,
+                                        fontWeight: FontWeight.normal,
+                                      ),
+                                    ),
+                                  ),
+                                  widget.need[0].coreNeedTwo!=null?
+                                  Container(
+                                    margin: EdgeInsets.only(right: 10),
+                                    padding: EdgeInsets.fromLTRB(8, 3, 8, 3),
+                                    decoration: BoxDecoration(
+                                      color:Color(0xFF5580EB),
+                                      borderRadius: BorderRadius.all(Radius.circular(6)),
+                                    ),
+                                    child: Text(
+                                      widget.need[0].coreNeedTwo,
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        color: Colors.white,
+                                        decoration: TextDecoration.none,
+                                        fontWeight: FontWeight.normal,
+                                      ),
+                                    ),
+                                  ):Container(width: 1,),
+                                  widget.need[0].coreNeedThree!=null?
+                                  Container(
+                                    padding: EdgeInsets.fromLTRB(8, 3, 8, 3),
+                                    decoration: BoxDecoration(
+                                      color:Color(0xFF5580EB),
+                                      borderRadius: BorderRadius.all(Radius.circular(6)),
+                                    ),
+                                    child: Text(
+                                      widget.need[0].coreNeedThree??"无",
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        color: Colors.white,
+                                        decoration: TextDecoration.none,
+                                        fontWeight: FontWeight.normal,
+                                      ),
+                                    ),
+                                  ):Container(width: 1,),
+                                ],
+                              )
+                          )
                         ],
                       ),
                     )
@@ -284,59 +292,66 @@ class _ClientCheckItemState extends State<ClientCheckItem> with SingleTickerProv
                               ),
                             ),
                           ),
-                          Container(
-                            margin: EdgeInsets.only(right: 10),
-                            padding: EdgeInsets.fromLTRB(8, 3, 8, 3),
-                            decoration: BoxDecoration(
-                              color:Color(0xFF5580EB),
-                              borderRadius: BorderRadius.all(Radius.circular(6)),
-                            ),
-                            child: Text(
-                              widget.need[0].coreNeedOne ?? "未完善",
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Colors.white,
-                                decoration: TextDecoration.none,
-                                fontWeight: FontWeight.normal,
-                              ),
-                            ),
-                          ),
-                          widget.need[1].coreNeedTwo!=null?
-                          Container(
-                            margin: EdgeInsets.only(right: 10),
-                            padding: EdgeInsets.fromLTRB(8, 3, 8, 3),
-                            decoration: BoxDecoration(
-                              color:Color(0xFF5580EB),
-                              borderRadius: BorderRadius.all(Radius.circular(6)),
-                            ),
-                            child: Text(
-                              widget.need[1].coreNeedTwo,
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Colors.white,
-                                decoration: TextDecoration.none,
-                                fontWeight: FontWeight.normal,
-                              ),
-                            ),
-                          ):Container(width: 1,),
-                          widget.need[1].coreNeedThree!=null?
-                          Container(
-                            padding: EdgeInsets.fromLTRB(8, 3, 8, 3),
-                            decoration: BoxDecoration(
-                              color:Color(0xFF5580EB),
-                              borderRadius: BorderRadius.all(Radius.circular(6)),
-                            ),
-                            child: Text(
-                              widget.need[1].coreNeedThree??"无",
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Colors.white,
-                                decoration: TextDecoration.none,
-                                fontWeight: FontWeight.normal,
-                              ),
-                            ),
-                          ):Container(width: 1,),
-                ]
+                          Expanded(
+                              child: Wrap(
+                                spacing: 2,
+                                runSpacing: 5,
+                                children: [
+                                  Container(
+                                    margin: EdgeInsets.only(right: 10),
+                                    padding: EdgeInsets.fromLTRB(8, 3, 8, 3),
+                                    decoration: BoxDecoration(
+                                      color:Color(0xFF5580EB),
+                                      borderRadius: BorderRadius.all(Radius.circular(6)),
+                                    ),
+                                    child: Text(
+                                      widget.need[0].coreNeedOne ?? "未完善",
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        color: Colors.white,
+                                        decoration: TextDecoration.none,
+                                        fontWeight: FontWeight.normal,
+                                      ),
+                                    ),
+                                  ),
+                                  widget.need[1].coreNeedTwo!=null?
+                                  Container(
+                                    margin: EdgeInsets.only(right: 10),
+                                    padding: EdgeInsets.fromLTRB(8, 3, 8, 3),
+                                    decoration: BoxDecoration(
+                                      color:Color(0xFF5580EB),
+                                      borderRadius: BorderRadius.all(Radius.circular(6)),
+                                    ),
+                                    child: Text(
+                                      widget.need[1].coreNeedTwo,
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        color: Colors.white,
+                                        decoration: TextDecoration.none,
+                                        fontWeight: FontWeight.normal,
+                                      ),
+                                    ),
+                                  ):Container(width: 1,),
+                                  widget.need[1].coreNeedThree!=null?
+                                  Container(
+                                    padding: EdgeInsets.fromLTRB(8, 3, 8, 3),
+                                    decoration: BoxDecoration(
+                                      color:Color(0xFF5580EB),
+                                      borderRadius: BorderRadius.all(Radius.circular(6)),
+                                    ),
+                                    child: Text(
+                                      widget.need[1].coreNeedThree??"无",
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        color: Colors.white,
+                                        decoration: TextDecoration.none,
+                                        fontWeight: FontWeight.normal,
+                                      ),
+                                    ),
+                                  ):Container(width: 1,),
+                                ],
+                              ))
+                        ]
                       ),
                     )
                         :
@@ -516,7 +531,7 @@ class _ClientCheckItemState extends State<ClientCheckItem> with SingleTickerProv
                           ),
                         ),
                         Text(
-                          widget.phone,
+                          widget.phone.substring(0,4)+"****"+widget.phone.substring(7,11),
                           style: TextStyle(
                             fontSize: 14,
                             color: Color(0xFF666666),
@@ -577,53 +592,58 @@ class _ClientCheckItemState extends State<ClientCheckItem> with SingleTickerProv
                       children: <Widget>[
                         widget.need != null && widget.need.length>0 && widget.need[0]!=[]?
                         Container(
-                          margin: EdgeInsets.only(bottom: 10,left: 15),
+                          width: 335,
+                          margin: EdgeInsets.only(bottom: 10,left: 5,right: 5),
                           child: Row(
                             children: <Widget>[
                               Container(
-                            padding: EdgeInsets.fromLTRB(10, 2, 10, 4),
-                            decoration: BoxDecoration(
-                              color: Color(0xFF5580EB),
-                              borderRadius: BorderRadius.only(topLeft: Radius.circular(8),bottomLeft: Radius.circular(8)),
-                            ),
-                            child: Text(
-                              // "购买住宅",
-                              widget.need[0].mainNeed ?? "暂无需求",
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Colors.white,
-                                decoration: TextDecoration.none,
-                                fontWeight: FontWeight.normal,
-                              ),
-                            ),
-                          ),
-                              Container(
-                            padding: EdgeInsets.fromLTRB(8, 1, 10, 3),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.only(topRight: Radius.circular(8),bottomRight: Radius.circular(8)),
-                                border: Border.all(
-                                  width: 1,
+                                padding: EdgeInsets.fromLTRB(10, 2, 10, 4),
+                                margin: EdgeInsets.only(right: 3),
+                                decoration: BoxDecoration(
                                   color: Color(0xFF5580EB),
-                                )
-                            ),
-                            child: Text(
-                              // "三居室 | 三环内 | 精装修",
-                              widget.need[0].coreNeedOne==null?"未完善"
-                                  :
-                              widget.need[0].coreNeedOne!=null&& widget.need[0].coreNeedTwo !=null && widget.need[0].coreNeedThree !=null?
-                              widget.need[0].coreNeedOne+" | "+widget.need[0].coreNeedTwo +" | "+ widget.need[0].coreNeedThree
-                                  :
-                              widget.need[0].coreNeedOne!=null && widget.need[0].coreNeedTwo == null?widget.need[0].coreNeedOne
-                                  :
-                              widget.need[0].coreNeedOne+" | "+widget.need[0].coreNeedTwo,
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Color(0xFF5580EB),
-                                decoration: TextDecoration.none,
-                                fontWeight: FontWeight.normal,
+                                  borderRadius: BorderRadius.all(Radius.circular(8)),
+                                ),
+                                child: Text(
+                                  // "购买住宅",
+                                  widget.need[0].mainNeed ?? "暂无需求",
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.white,
+                                    decoration: TextDecoration.none,
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                                ),
                               ),
-                            ),
-                          ),
+                              Expanded(
+                                child: Container(
+                                  padding: EdgeInsets.fromLTRB(8, 1, 10, 3),
+                                  decoration: BoxDecoration(
+                                    // borderRadius: BorderRadius.only(topRight: Radius.circular(8),bottomRight: Radius.circular(8)),
+                                      borderRadius: BorderRadius.all(Radius.circular(8)),
+                                      border: Border.all(
+                                        width: 1,
+                                        color: Color(0xFF5580EB),
+                                      )
+                                  ),
+                                  child: Text(
+                                      // "三居室 | 三环内 | 精装修",
+                                      widget.need[0].coreNeedOne==null?"未完善"
+                                          :
+                                      widget.need[0].coreNeedOne!=null&& widget.need[0].coreNeedTwo !=null && widget.need[0].coreNeedThree !=null?
+                                      widget.need[0].coreNeedOne+" | "+widget.need[0].coreNeedTwo +" | "+ widget.need[0].coreNeedThree
+                                          :
+                                      widget.need[0].coreNeedOne!=null && widget.need[0].coreNeedTwo == null?widget.need[0].coreNeedOne
+                                          :
+                                      widget.need[0].coreNeedOne+" | "+widget.need[0].coreNeedTwo,
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        color: Color(0xFF5580EB),
+                                        decoration: TextDecoration.none,
+                                        fontWeight: FontWeight.normal,
+                                      ),
+                                    ),
+                                  ),
+                                ),
                             ],
                           )
                         )
@@ -647,9 +667,10 @@ class _ClientCheckItemState extends State<ClientCheckItem> with SingleTickerProv
                               children: <Widget>[
                                 Container(
                                   padding: EdgeInsets.fromLTRB(10, 2, 10, 4),
+                                  margin: EdgeInsets.only(right: 3),
                                   decoration: BoxDecoration(
                                     color: Color(0xFF5580EB),
-                                    borderRadius: BorderRadius.only(topLeft: Radius.circular(8),bottomLeft: Radius.circular(8)),
+                                    borderRadius: BorderRadius.all(Radius.circular(8)),
                                   ),
                                   child: Text(
                                     // widget.need,
@@ -663,33 +684,35 @@ class _ClientCheckItemState extends State<ClientCheckItem> with SingleTickerProv
                                     ),
                                   ),
                                 ),
-                                Container(
-                                  padding: EdgeInsets.fromLTRB(8, 1, 10, 3),
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.only(topRight: Radius.circular(8),bottomRight: Radius.circular(8)),
-                                      border: Border.all(
-                                        width: 1,
-                                        color: Color(0xFF5580EB),
-                                      )
-                                  ),
-                                  child: Text(
-                                    // "三居室 | 三环内 | 精装修",
-                                    widget.need[1].coreNeedOne==null?"未完善"
-                                        :
-                                    widget.need[1].coreNeedOne!=null&& widget.need[1].coreNeedTwo !=null && widget.need[1].coreNeedThree !=null?
-                                    widget.need[1].coreNeedOne+" | "+widget.need[1].coreNeedTwo +" | "+ widget.need[1].coreNeedThree
-                                        :
-                                    widget.need[1].coreNeedOne!=null && widget.need[1].coreNeedTwo == null?widget.need[1].coreNeedOne
-                                        :
-                                    widget.need[1].coreNeedOne+" | "+widget.need[1].coreNeedTwo,
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                      color: Color(0xFF5580EB),
-                                      decoration: TextDecoration.none,
-                                      fontWeight: FontWeight.normal,
+                                Expanded(
+                                    child: Container(
+                                      padding: EdgeInsets.fromLTRB(8, 1, 10, 3),
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.all(Radius.circular(8)),
+                                          border: Border.all(
+                                            width: 1,
+                                            color: Color(0xFF5580EB),
+                                          )
+                                      ),
+                                      child: Text(
+                                          // "三居室 | 三环内 | 精装修",
+                                          widget.need[1].coreNeedOne==null?"未完善"
+                                              :
+                                          widget.need[1].coreNeedOne!=null&& widget.need[1].coreNeedTwo !=null && widget.need[1].coreNeedThree !=null?
+                                          widget.need[1].coreNeedOne+" | "+widget.need[1].coreNeedTwo +" | "+ widget.need[1].coreNeedThree
+                                              :
+                                          widget.need[1].coreNeedOne!=null && widget.need[1].coreNeedTwo == null?widget.need[1].coreNeedOne
+                                              :
+                                          widget.need[1].coreNeedOne+" | "+widget.need[1].coreNeedTwo,
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            color: Color(0xFF5580EB),
+                                            decoration: TextDecoration.none,
+                                            fontWeight: FontWeight.normal,
+                                          ),
+                                        ),
+                                      ),
                                     ),
-                                  ),
-                                ),
                               ],
                             )
 
@@ -726,40 +749,40 @@ class _ClientCheckItemState extends State<ClientCheckItem> with SingleTickerProv
                             child: Row(
                               children: <Widget>[
                                 Container(
-                            padding: EdgeInsets.fromLTRB(10, 2, 10, 4),
-                            decoration: BoxDecoration(
-                              color: Color(0xFF5580EB),
-                              borderRadius: BorderRadius.only(topLeft: Radius.circular(8),bottomLeft: Radius.circular(8)),
-                            ),
-                            child: Text(
-                              widget.action.act[0].actionName,
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Colors.white,
-                                decoration: TextDecoration.none,
-                                fontWeight: FontWeight.normal,
-                              ),
-                            ),
-                          ),
-                                Container(
-                            padding: EdgeInsets.fromLTRB(8, 1, 10, 3),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.only(topRight: Radius.circular(8),bottomRight: Radius.circular(8)),
-                                border: Border.all(
-                                  width: 1,
+                                padding: EdgeInsets.fromLTRB(10, 2, 10, 4),
+                                decoration: BoxDecoration(
                                   color: Color(0xFF5580EB),
-                                )
-                            ),
-                            child: Text(
-                              widget.action.act[0].actionTime.toString().substring(0,16),
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Color(0xFF5580EB),
-                                decoration: TextDecoration.none,
-                                fontWeight: FontWeight.normal,
+                                  borderRadius: BorderRadius.only(topLeft: Radius.circular(8),bottomLeft: Radius.circular(8)),
+                                ),
+                                child: Text(
+                                  widget.action.act[0].actionName,
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.white,
+                                    decoration: TextDecoration.none,
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                                ),
                               ),
-                            ),
-                          ),
+                                Container(
+                                  padding: EdgeInsets.fromLTRB(8, 1, 10, 3),
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.only(topRight: Radius.circular(8),bottomRight: Radius.circular(8)),
+                                      border: Border.all(
+                                        width: 1,
+                                        color: Color(0xFF5580EB),
+                                      )
+                                  ),
+                                  child: Text(
+                                    widget.action.act[0].actionTime.toString().substring(0,16),
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      color: Color(0xFF5580EB),
+                                      decoration: TextDecoration.none,
+                                      fontWeight: FontWeight.normal,
+                                    ),
+                                  ),
+                                ),
                               ],
                             )
                           )
@@ -927,7 +950,7 @@ class _ClientCheckItemState extends State<ClientCheckItem> with SingleTickerProv
                               child: Row(
                                 children: <Widget>[
                                   Text(
-                                    widget.giftList[index].addTime.toString().substring(0,10) + widget.giftList[index].giftReason+"：",
+                                    widget.giftList[index].addTime.toString().substring(0,10) + widget.giftList[index].giftReason,
                                     style: TextStyle(
                                       fontSize: 14,
                                       color: Color(0xFF5580EB),
@@ -937,7 +960,7 @@ class _ClientCheckItemState extends State<ClientCheckItem> with SingleTickerProv
                                   ),
                                   Expanded(
                                     child: Text(
-                                      widget.giftList[index].giftPrice.toString()+"元"+widget.giftList[index].giftName,
+                                      widget.giftList[index].giftPrice.toString()+"元，"+widget.giftList[index].giftName,
                                       style: TextStyle(
                                         fontSize: 14,
                                         color: Color(0xFF5580EB),
