@@ -86,7 +86,7 @@ class _TeamClientPageState extends State<TeamClientPage> {
                   }
                 },
                 child: Container(
-                  margin: EdgeInsets.only(bottom: 25),
+                  margin: EdgeInsets.only(bottom: 20),
                   padding: EdgeInsets.only(right: 15),
                   width: 335,
                   height: 90,
@@ -141,7 +141,7 @@ class _TeamClientPageState extends State<TeamClientPage> {
                               children: <Widget>[
                                 Container(
                                   width: 200,
-                                  padding: EdgeInsets.only(top: 8, bottom: 5),
+                                  padding: EdgeInsets.only(top: 7, bottom: 5),
                                   child: Text(
                                     item.teamName + ' （ ' +
                                         item.nextLeader.userName + ' ）',
@@ -373,7 +373,7 @@ class _TeamClientPageState extends State<TeamClientPage> {
                         ],
                       ),
                       Container(
-                        padding: EdgeInsets.only(top: 12, left: 25),
+                        padding: EdgeInsets.only(top: 8, left: 25),
                         child: Container(
                           height: 20,
                           decoration: BoxDecoration(
@@ -430,7 +430,7 @@ class _TeamClientPageState extends State<TeamClientPage> {
                         ),
                       ),
                       Container(
-                        padding: EdgeInsets.only(top: 12, left: 25),
+                        padding: EdgeInsets.only(top: 5, left: 25),
                         child: Container(
                           height: 20,
                           decoration: BoxDecoration(
@@ -487,7 +487,7 @@ class _TeamClientPageState extends State<TeamClientPage> {
                         ),
                       ),
                       Container(
-                        padding: EdgeInsets.only(top: 12, left: 25),
+                        padding: EdgeInsets.only(top: 5, left: 25),
                         child: Container(
                           height: 20,
                           decoration: BoxDecoration(

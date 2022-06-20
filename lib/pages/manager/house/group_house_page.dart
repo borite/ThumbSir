@@ -1,7 +1,9 @@
 import 'dart:convert';
 import 'package:ThumbSir/dao/get_last_level_customer_num_dao.dart';
+import 'package:ThumbSir/dao/get_last_level_house_resource_dao.dart';
 import 'package:ThumbSir/model/login_result_data_model.dart';
 import 'package:ThumbSir/pages/home.dart';
+import 'package:ThumbSir/pages/manager/house/team_house_member_page.dart';
 import 'package:ThumbSir/pages/manager/traded/team_traded_member_page.dart';
 import 'package:ThumbSir/pages/mycenter/my_center_page.dart';
 import 'package:ThumbSir/pages/tips/qlist_tips_page.dart';
@@ -41,24 +43,24 @@ class _GroupHousePageState extends State<GroupHousePage> {
   }
 
   _load()async{
-    dynamic getMemberListResult = await GetLastLevelCustomerNumDao.httpGetLastLevelCustomerNum(
+    dynamic getLastLevelHouseResult = await GetLastLevelHouseResourceDao.httpGetLastLevelHouseResource(
         userData!.userPid,
         userData!.companyId,
     );
-    if(getMemberListResult != null){
-      if(getMemberListResult.code == 200){
+    if(getLastLevelHouseResult != null){
+      if(getLastLevelHouseResult.code == 200){
           _loading =false;
-          leaderResult = getMemberListResult.data!.zong;
-          listResult = getMemberListResult.data!.list;
+          leaderResult = getLastLevelHouseResult.data!.houseCount;
+          listResult = getLastLevelHouseResult.data!.list;
           if (listResult.length>0) {
             for(var item in listResult) {
               showList.add(
                 GestureDetector(
                   onTap: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>TeamTradedMemberPage(
-                      userId: item.userPid,
-                      userLevel: item.userLevel,
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>TeamHouseMemberPage(
                       userName: item.userName,
+                      companyId: userData!.companyId,
+                      houseIDs: item.houseIDs.toString().replaceAll("[", "").replaceAll("]", ""),
                     )));
                   },
                   child: Container(
@@ -108,9 +110,9 @@ class _GroupHousePageState extends State<GroupHousePage> {
                                     width: 150,
                                     padding: EdgeInsets.only(top: 8),
                                     child: Text(
-                                      item.customerCount != null ?
-                                      '个人拥有客户数：'+item.customerCount.toString()
-                                          :'个人拥有客户数：0',
+                                      item.houseCount != null ?
+                                      '个人在维护房源数：'+item.houseCount.toString()
+                                          :'个人在维护房源数：0',
                                       style:TextStyle(
                                         fontSize: 12,
                                         color: Color(0xFF999999),
@@ -303,8 +305,8 @@ class _GroupHousePageState extends State<GroupHousePage> {
                             padding: EdgeInsets.only(top:2,left:5,right: 5),
                             child: Text(
                               leaderResult != null?
-                              '团队（含负责人）拥有客户数：'+ leaderResult.toString()
-                                  :'团队（含负责人）拥有客户数：0',
+                              '团队（含负责人）在维护房源数：'+ leaderResult.toString()
+                                  :'团队（含负责人）在维护房源数：0',
                               style: TextStyle(
                                 fontSize: 10,
                                 color: Color(0xFF24CC8E),

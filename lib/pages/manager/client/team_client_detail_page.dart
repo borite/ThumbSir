@@ -20,7 +20,6 @@ class TeamClientDetailPage extends StatefulWidget {
 
 class _TeamClientDetailPageState extends State<TeamClientDetailPage> {
   bool _loading = false;
-  var leaderResult;
   var listResult;
   var leaderInfo;
   var leaderCount;
@@ -62,7 +61,6 @@ class _TeamClientDetailPageState extends State<TeamClientDetailPage> {
         setState(() {
           hasMember = true;
           _loading =false;
-          leaderResult = getMemberListResult.data.levelData;
           listResult = getMemberListResult.data.list;
           currentLevelResult = getMemberListResult.data.currentLevel;
           leaderInfo = getLeaderResult.data.leaderInfo;
@@ -115,7 +113,6 @@ class _TeamClientDetailPageState extends State<TeamClientDetailPage> {
             child: Container(
               margin: EdgeInsets.only(bottom: 20),
               width: 335,
-              height: 60,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(12),
                 boxShadow: [BoxShadow(
@@ -133,7 +130,7 @@ class _TeamClientDetailPageState extends State<TeamClientDetailPage> {
                     children: <Widget>[
                       Container(
                         width: 60,
-                        height: 60,
+                        height: 90,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.only(
                             topRight: Radius.circular(30),
@@ -142,10 +139,11 @@ class _TeamClientDetailPageState extends State<TeamClientDetailPage> {
                             bottomLeft: Radius.circular(12),
                           ),
                           color: Color(0xFF93C0FB),
-                          border: Border.all(color: Color(0xFFCCCCCC),width: 1),
+                          border: Border.all(
+                              color: Color(0xFFCCCCCC), width: 1),
                         ),
                         child:Padding(
-                          padding: EdgeInsets.only(top: 16),
+                          padding: EdgeInsets.only(top: 30),
                           child: Text(
                             (listResult.indexOf(item)+1).toString(),
                             style:TextStyle(
@@ -165,7 +163,6 @@ class _TeamClientDetailPageState extends State<TeamClientDetailPage> {
                             children: <Widget>[
                               Container(
                                 width: 200,
-                                padding: EdgeInsets.only(top: 8,bottom: 5),
                                 child: Text(
                                   item.teamName+' （ '+ item.nextLeader.userName +' ）',
                                   style:TextStyle(
@@ -179,9 +176,10 @@ class _TeamClientDetailPageState extends State<TeamClientDetailPage> {
                               ),
                               Container(
                                 width: 200,
-                                padding: EdgeInsets.only(top: 8),
+                                padding: EdgeInsets.only(top: 3),
                                 child: Text(
-                                  '购买/租赁需求数：'+item.kehuNums.toString(),
+                                    item.levelData1.keHuCount !=null?
+                                  '购买/租赁需求数：'+item.levelData1.keHuCount.toString():'购买/租赁需求数：0',
                                   style:TextStyle(
                                     fontSize: 12,
                                     color: Color(0xFF999999),
@@ -192,11 +190,10 @@ class _TeamClientDetailPageState extends State<TeamClientDetailPage> {
                               ),
                               Container(
                                 width: 200,
-                                padding: EdgeInsets.only(top: 8),
+                                padding: EdgeInsets.only(top: 2),
                                 child: Text(
-                                  item.kehuNums != null ?
-                                  '出售/出租需求数：'+item.yezhuNums.toString()
-                                      :'出售/出租需求数：0',
+                                  item.levelData1.keHuCount != null ?
+                                  '出售/出租需求数：'+item.levelData1.yeZhuCount.toString() :'出售/出租需求数：0',
                                   style:TextStyle(
                                     fontSize: 12,
                                     color: Color(0xFF999999),
@@ -207,11 +204,10 @@ class _TeamClientDetailPageState extends State<TeamClientDetailPage> {
                               ),
                               Container(
                                 width: 200,
-                                padding: EdgeInsets.only(top: 8),
+                                padding: EdgeInsets.only(top: 2),
                                 child: Text(
-                                  item.kehuNums != null ?
-                                  '有多个需求的客户数：'+item.duoXuQiuNums.toString()
-                                      :'有多个需求的客户数：0',
+                                  item.levelData1.keHuCount != null ?
+                                  '有多个需求的客户数：'+item.levelData1.duoXuQiuCount.toString() :'有多个需求的客户数：0',
                                   style:TextStyle(
                                     fontSize: 12,
                                     color: Color(0xFF999999),
@@ -473,7 +469,7 @@ class _TeamClientDetailPageState extends State<TeamClientDetailPage> {
                                         ),
                                         Container(
                                           width: 200,
-                                          padding: EdgeInsets.only(top: 8),
+                                          padding: EdgeInsets.only(top: 3),
                                           child: Text(
                                             leaderCount!=null?
                                             '购买/租赁需求数：'+leaderCount.keHuCount.toString():'购买/租赁需求数：0',
@@ -487,7 +483,7 @@ class _TeamClientDetailPageState extends State<TeamClientDetailPage> {
                                         ),
                                         Container(
                                           width: 200,
-                                          padding: EdgeInsets.only(top: 8),
+                                          padding: EdgeInsets.only(top: 2),
                                           child: Text(
                                             leaderCount!=null?
                                             '出售/出租需求数：'+leaderCount.yeZhuCount.toString():'出售/出租需求数：0',
@@ -501,7 +497,7 @@ class _TeamClientDetailPageState extends State<TeamClientDetailPage> {
                                         ),
                                         Container(
                                           width: 200,
-                                          padding: EdgeInsets.only(top: 8),
+                                          padding: EdgeInsets.only(top: 2),
                                           child: Text(
                                             leaderCount!=null?
                                             '多个需求的客户数：'+leaderCount.duoXuQiuCount.toString():'多个需求的客户数：0',

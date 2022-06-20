@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:ThumbSir/dao/get_next_level_customer_dao.dart';
 import 'package:ThumbSir/model/login_result_data_model.dart';
 import 'package:ThumbSir/pages/home.dart';
+import 'package:ThumbSir/pages/manager/house/team_house_detail_page.dart';
 import 'package:ThumbSir/pages/manager/traded/group_traded_detail_page.dart';
 import 'package:ThumbSir/pages/manager/traded/team_traded_detail_page.dart';
 import 'package:ThumbSir/pages/mycenter/my_center_page.dart';
@@ -9,6 +10,8 @@ import 'package:ThumbSir/pages/tips/qlist_tips_page.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+
+import 'group_house_detail_page.dart';
 
 class TeamHousePage extends StatefulWidget {
   @override
@@ -61,14 +64,14 @@ class _TeamHousePageState extends State<TeamHousePage> {
               GestureDetector(
                 onTap: (){
                   if(currentLevelResult == '4'){
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>GroupTradedDetailPage(
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>GroupHouseDetailPage(
                         leaderArea : item.teamName,
                         leaderAreaRate : item.customerNum,
                         leaderName : item.nextLeader.userName,
                         leaderID : item.nextLeader.userPid
                     )));
                   }else{
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>TeamTradedDetailPage(
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>TeamHouseDetailPage(
                         leaderArea : item.teamName,
                         leaderAreaRate : item.customerNum,
                         leaderName : item.nextLeader.userName,
@@ -145,7 +148,7 @@ class _TeamHousePageState extends State<TeamHousePage> {
                                 Container(
                                   width: 200,
                                   child: Text(
-                                    '团队拥有客户数：'+item.customerNum.toString(),
+                                    '团队在维护房源数：'+item.customerNum.toString(),
                                     style:TextStyle(
                                       fontSize: 12,
                                       color: Color(0xFF999999),
@@ -341,8 +344,8 @@ class _TeamHousePageState extends State<TeamHousePage> {
                             padding: EdgeInsets.only(top:2,left:5,right: 5),
                             child: Text(
                               leaderResult != null?
-                              '团队（含负责人）拥有客户数：'+ leaderResult.toString()
-                                  :'团队（含负责人）拥有客户数：0',
+                              '团队（含负责人）在维护房源数：'+ leaderResult.toString()
+                                  :'团队（含负责人）在维护房源数：0',
                               style: TextStyle(
                                 fontSize: 10,
                                 color: userData != null ?
@@ -412,28 +415,5 @@ class _TeamHousePageState extends State<TeamHousePage> {
     setState(() {
       _loading = !_loading;
     });
-  }
-
-  _onHasMemberAlert(context) {
-    Alert(
-      context: context,
-      title: "您还没有下级成员",
-      desc: "拥有下级成员后才能为下级设置最低任务量，请前往个人中心邀请下级成员加入",
-      buttons: [
-        DialogButton(
-          child: Text(
-            "确定",
-            style: TextStyle(color: Colors.white, fontSize: 20),
-          ),
-          onPressed: () {
-            Navigator.pop(context);
-//            setState(() {
-//              _loading = false;
-//            });
-          },
-          color: Color(0xFF5580EB),
-        )
-      ],
-    ).show();
   }
 }

@@ -147,7 +147,7 @@ class _GroupClientDetailPageState extends State<GroupClientDetailPage> {
                             ),
                             Container(
                               width: 200,
-                              padding: EdgeInsets.only(top: 8),
+                              padding: EdgeInsets.only(top: 3),
                               child: Text(
                                   '购买/租赁需求数：'+item.kehuNums.toString(),
                                 style:TextStyle(
@@ -160,7 +160,7 @@ class _GroupClientDetailPageState extends State<GroupClientDetailPage> {
                             ),
                             Container(
                               width: 200,
-                              padding: EdgeInsets.only(top: 8),
+                              padding: EdgeInsets.only(top: 2),
                               child: Text(
                                 item.kehuNums != null ?
                                 '出售/出租需求数：'+item.yezhuNums.toString()
@@ -175,7 +175,7 @@ class _GroupClientDetailPageState extends State<GroupClientDetailPage> {
                             ),
                             Container(
                               width: 200,
-                              padding: EdgeInsets.only(top: 8),
+                              padding: EdgeInsets.only(top: 2),
                               child: Text(
                                 item.kehuNums != null ?
                                 '有多个需求的客户数：'+item.duoXuQiuNums.toString()
@@ -419,7 +419,7 @@ class _GroupClientDetailPageState extends State<GroupClientDetailPage> {
                                           ),
                                           Container(
                                             width: 200,
-                                            padding: EdgeInsets.only(top: 8),
+                                            padding: EdgeInsets.only(top: 3),
                                             child: Text(
                                               leaderCount!=null?
                                               '购买/租赁需求数：'+leaderCount.keHuCount.toString():'购买/租赁需求数：0',
@@ -433,7 +433,7 @@ class _GroupClientDetailPageState extends State<GroupClientDetailPage> {
                                           ),
                                           Container(
                                             width: 200,
-                                            padding: EdgeInsets.only(top: 8),
+                                            padding: EdgeInsets.only(top: 2),
                                             child: Text(
                                               leaderCount!=null?
                                               '出售/出租需求数：'+leaderCount.yeZhuCount.toString():'出售/出租需求数：0',
@@ -447,7 +447,7 @@ class _GroupClientDetailPageState extends State<GroupClientDetailPage> {
                                           ),
                                           Container(
                                             width: 200,
-                                            padding: EdgeInsets.only(top: 8),
+                                            padding: EdgeInsets.only(top: 2),
                                             child: Text(
                                               leaderCount!=null?
                                               '多个需求的客户数：'+leaderCount.duoXuQiuCount.toString():'多个需求的客户数：0',
