@@ -28,22 +28,22 @@ class _MHousePageState extends State<MHousePage> {
             BottomNavigationBarItem(
                 icon: Container(
                   height: 26,
-                  child: Image(image:AssetImage('images/my_traded.png'),),
+                  child: Image(image:AssetImage('images/house_a.png'),),
                 ),
                 activeIcon:Container(
                   height: 26,
-                  child: Image(image:AssetImage('images/my_traded_s.png'),),
+                  child: Image(image:AssetImage('images/house_s.png'),),
                 ),
                 label: '公司房源系统'
             ),
             BottomNavigationBarItem(
               icon: Container(
                 height:26,
-                child:Image(image:AssetImage('images/team_traded.png')),
+                child:Image(image:AssetImage('images/houses.png')),
               ),
               activeIcon:Container(
                 height:26,
-                child:Image(image:AssetImage('images/team_traded_s.png')),
+                child:Image(image:AssetImage('images/houses_s.png')),
               ),
               label: '团队房源管理',
             ),

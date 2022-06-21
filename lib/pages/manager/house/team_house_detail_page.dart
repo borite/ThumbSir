@@ -1,20 +1,14 @@
 import 'dart:convert';
-import 'package:ThumbSir/dao/get_leader_info_dao.dart';
-import 'package:ThumbSir/dao/get_next_level_customer_dao.dart';
+import 'package:ThumbSir/dao/get_next_level_house_resource_dao.dart';
 import 'package:ThumbSir/model/login_result_data_model.dart';
-import 'package:ThumbSir/pages/manager/traded/group_traded_detail_page.dart';
-import 'package:ThumbSir/pages/manager/traded/team_traded_member_page.dart';
+import 'package:ThumbSir/pages/manager/house/team_house_member_page.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import 'group_house_detail_page.dart';
 
 class TeamHouseDetailPage extends StatefulWidget {
-  final leaderArea;
-  final leaderName;
-  final leaderID;
-  final leaderAreaRate;
-  TeamHouseDetailPage({this.leaderArea,this.leaderName,this.leaderID,this.leaderAreaRate});
+  final houseItem;
+  TeamHouseDetailPage({this.houseItem});
   @override
   _TeamHouseDetailPageState createState() => _TeamHouseDetailPageState();
 }
@@ -23,12 +17,12 @@ class _TeamHouseDetailPageState extends State<TeamHouseDetailPage> {
   bool _loading = false;
   var leaderResult;
   var listResult;
-  var leaderInfo;
-  var leaderCount;
   var currentLevelResult;
   bool hasMember = false;
   var dateTime = DateTime.now().toIso8601String().substring(0,10);
   List<Widget> showList = [];
+  List<Widget> msgs=[];
+  dynamic leaderTeamHouseIDs;
 
   LoginResultData? userData;
   late String uInfo;
@@ -49,30 +43,144 @@ class _TeamHouseDetailPageState extends State<TeamHouseDetailPage> {
   }
 
   _load()async{
-    dynamic getLeaderResult = await GetLeaderInfoDao.httpGetLeaderInfo(
-        widget.leaderID,
-        userData!.companyId,
+    dynamic getResult = await GetNextLevelHouseResourceDao.getNextLevelHouseResource(
+      widget.houseItem.userId,
+      userData!.companyId,
+      widget.houseItem.teamName
     );
-    dynamic getMemberListResult = await GetNextLevelCustomerDao.httpGetNextLevelCustomer(
-        widget.leaderID,
-        userData!.companyId,
-        widget.leaderArea,
-    );
-    if(getLeaderResult != null ){
-      if(getMemberListResult.code == 200 && getLeaderResult.code == 200){
+    if(getResult != null){
+      if(getResult.code == 200){
         setState(() {
           hasMember = true;
           _loading =false;
-          leaderResult = getMemberListResult.data!.countNums;
-          listResult = getMemberListResult.data!.list;
-          currentLevelResult = getMemberListResult.data!.currentLevel;
-          leaderInfo = getLeaderResult.data!.leaderInfo;
-          leaderCount = getLeaderResult.data!.leaderCustomerCount;
+          leaderResult = getResult.data!.houseCount;
+          listResult = getResult.data!.teams;
+          leaderTeamHouseIDs = getResult.data!.hids;
+          currentLevelResult = getResult.data!.userLevel;
+        });
+        if (listResult.length>0) {
+          for(var item in listResult) {
+            showList.add(
+              GestureDetector(
+                onTap: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>TeamHouseMemberPage(
+                    userName: item.teamName,
+                    companyId: userData!.companyId,
+                    houseIDs: item.areaIDs.toString().replaceAll("[", "").replaceAll("]", ""),
+                  )));
+                },
+                child: Container(
+                  margin: EdgeInsets.only(bottom: 25),
+                  padding: EdgeInsets.only(right: 15),
+                  width: 335,
+                  height: 60,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    boxShadow: [BoxShadow(
+                        color: Color(0xFFcccccc),
+                        offset: Offset(0.0, 3.0),
+                        blurRadius: 10.0,
+                        spreadRadius: 2.0
+                    )],
+                    color: Colors.white,
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Row(
+                        children: <Widget>[
+                          Container(
+                            width: 60,
+                            height: 60,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.only(
+                                topRight: Radius.circular(30),
+                                bottomRight: Radius.circular(30),
+                                topLeft: Radius.circular(12),
+                                bottomLeft: Radius.circular(12),
+                              ),
+                              color: Color(0xFF93C0FB),
+                              border: Border.all(color: Color(0xFFCCCCCC),width: 1),
+                            ),
+                            child:Padding(
+                              padding: EdgeInsets.only(top:16),
+                              child: Text(
+                                (listResult.indexOf(item)+1).toString(),
+                                style:TextStyle(
+                                  fontSize: 20,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.normal,
+                                  decoration: TextDecoration.none,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(left: 20),
+                            width: 200,
+                            child: Column(
+                              children: <Widget>[
+                                Container(
+                                  width: 200,
+                                  padding: EdgeInsets.only(top: 8,bottom: 5),
+                                  child: Text(
+                                    item.teamName+' （ '+ item.leaderName +' ）',
+                                    style:TextStyle(
+                                      fontSize: 14,
+                                      color: Color(0xFF666666),
+                                      fontWeight: FontWeight.normal,
+                                      decoration: TextDecoration.none,
+                                    ),
+                                    textAlign: TextAlign.left,
+                                  ),
+                                ),
+                                Container(
+                                  width: 200,
+                                  child: Text(
+                                    '团队在维护房源数：'+item.areaHouseCount.toString(),
+                                    style:TextStyle(
+                                      fontSize: 12,
+                                      color: Color(0xFF999999),
+                                      fontWeight: FontWeight.normal,
+                                      decoration: TextDecoration.none,
+                                    ),
+                                    textAlign: TextAlign.left,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      GestureDetector(
+                        onTap: (){
+                          if(currentLevelResult.substring(0,1) == '4'){
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=>GroupHouseDetailPage(
+                                houseItem : item
+                            )));
+                          }else{
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=>TeamHouseDetailPage(
+                                houseItem : item
+                            )));
+                          }
+                        },
+                        child: Image(image: AssetImage('images/next.png'),),
+                      )
+
+                    ],
+                  ),
+                ),
+              ),
+            );
+          }
+        }
+        setState(() {
+          msgs=showList;
         });
       }else{
         setState(() {
           hasMember = false;
-          _loading = false;
         });
       }
     }else{
@@ -87,131 +195,6 @@ class _TeamHouseDetailPageState extends State<TeamHouseDetailPage> {
     _getUserInfo();
     _onRefresh();
     super.initState();
-  }
-
-  // 下级成员列表
-  Widget teamItem(){
-    Widget content;
-    if(listResult != null){
-      for(var item in listResult) {
-        showList.add(
-          GestureDetector(
-            onTap: (){
-              if(currentLevelResult.substring(0,1) == '4'){
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>GroupHouseDetailPage(
-                    leaderArea : item.teamName,
-                    leaderAreaRate : item.customerNum,
-                    leaderName : item.nextLeader.userName,
-                    leaderID : item.nextLeader.userPid
-                )));
-              }else{
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>TeamHouseDetailPage(
-                    leaderArea : item.teamName,
-                    leaderAreaRate : item.customerNum,
-                    leaderName : item.nextLeader.userName,
-                    leaderID : item.nextLeader.userPid
-                )));
-              }
-            },
-            child: Container(
-              margin: EdgeInsets.only(bottom: 20),
-              width: 335,
-              height: 60,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12),
-                boxShadow: [BoxShadow(
-                    color: Color(0xFFcccccc),
-                    offset: Offset(0.0, 3.0),
-                    blurRadius: 10.0,
-                    spreadRadius: 2.0
-                )],
-                color: Colors.white,
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Row(
-                    children: <Widget>[
-                      Container(
-                        width: 60,
-                        height: 60,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.only(
-                            topRight: Radius.circular(30),
-                            bottomRight: Radius.circular(30),
-                            topLeft: Radius.circular(12),
-                            bottomLeft: Radius.circular(12),
-                          ),
-                          color: Color(0xFF93C0FB),
-                          border: Border.all(color: Color(0xFFCCCCCC),width: 1),
-                        ),
-                        child:Padding(
-                          padding: EdgeInsets.only(top: 16),
-                          child: Text(
-                            (listResult.indexOf(item)+1).toString(),
-                            style:TextStyle(
-                              fontSize: 20,
-                              color: Colors.white,
-                              fontWeight: FontWeight.normal,
-                              decoration: TextDecoration.none,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                      ),
-                      Container(
-                          margin: EdgeInsets.only(left: 20),
-                          width: 200,
-                          child: Column(
-                            children: <Widget>[
-                              Container(
-                                width: 200,
-                                padding: EdgeInsets.only(top: 8,bottom: 5),
-                                child: Text(
-                                  item.teamName+' （ '+ item.nextLeader.userName +' ）',
-                                  style:TextStyle(
-                                    fontSize: 14,
-                                    color: Color(0xFF666666),
-                                    fontWeight: FontWeight.normal,
-                                    decoration: TextDecoration.none,
-                                  ),
-                                  textAlign: TextAlign.left,
-                                ),
-                              ),
-                              Container(
-                                width: 200,
-                                child: Text(
-                                  '团队在维护房源数：'+item.customerNum.toString(),
-                                  style:TextStyle(
-                                    fontSize: 12,
-                                    color: Color(0xFF999999),
-                                    fontWeight: FontWeight.normal,
-                                    decoration: TextDecoration.none,
-                                  ),
-                                  textAlign: TextAlign.left,
-                                ),
-                              ),
-                            ],
-                          )
-
-                      ),
-                    ],
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(right: 15),
-                    child: Image(image: AssetImage('images/next.png'),),
-                  )
-                ],
-              ),
-            ),
-          ),
-        );
-      }
-    }
-    content =Column(
-      children:showList,
-    );
-    return content;
   }
 
   @override
@@ -312,7 +295,7 @@ class _TeamHouseDetailPageState extends State<TeamHouseDetailPage> {
                                             width: 200,
                                             padding: EdgeInsets.only(top: 8,bottom: 5),
                                             child: Text(
-                                              widget.leaderArea,
+                                              widget.houseItem.teamName,
                                               style:TextStyle(
                                                 fontSize: 14,
                                                 color: Color(0xFF666666),
@@ -325,9 +308,7 @@ class _TeamHouseDetailPageState extends State<TeamHouseDetailPage> {
                                           Container(
                                             width: 200,
                                             child: Text(
-                                              leaderResult!=null ?
-                                              '团队在维护房源数：'+leaderResult.toString()
-                                              :'团队在维护房源数：0',
+                                              '团队在维护房源数：'+widget.houseItem.areaHouseCount.toString(),
                                               style:TextStyle(
                                                 fontSize: 12,
                                                 color: Color(0xFF999999),
@@ -374,10 +355,10 @@ class _TeamHouseDetailPageState extends State<TeamHouseDetailPage> {
                                           ),
                                           child:ClipRRect(
                                               borderRadius: BorderRadius.circular(40),
-                                              child:leaderInfo != null ?
-                                              leaderInfo.headImg != null ?
+                                              child:widget.houseItem != null ?
+                                              widget.houseItem.leaderHeadUrl != null ?
                                               Image(
-                                                image: NetworkImage(leaderInfo.headImg),
+                                                image: NetworkImage(widget.houseItem.leaderHeadUrl),
                                               ):Image(image: AssetImage('images/my_big.png'))
                                                   :Image(image: AssetImage('images/my_big.png'))
                                           ),
@@ -434,7 +415,7 @@ class _TeamHouseDetailPageState extends State<TeamHouseDetailPage> {
                                         Row(
                                           children: <Widget>[
                                             Text(
-                                              widget.leaderName,
+                                              widget.houseItem.leaderName,
                                               style:TextStyle(
                                                 fontSize: 14,
                                                 color: Color(0xFF333333),
@@ -452,7 +433,7 @@ class _TeamHouseDetailPageState extends State<TeamHouseDetailPage> {
                                             '':
                                             listResult != null && currentLevelResult != null && currentLevelResult.substring(0,1) == '2'?
                                             '':
-                                            '个人在维护房源数：'+leaderCount.toString(),
+                                            '个人在维护房源数：'+widget.houseItem.leaderHouseCount.toString(),
                                             style:TextStyle(
                                               fontSize: 12,
                                               color: Color(0xFF999999),
@@ -469,10 +450,10 @@ class _TeamHouseDetailPageState extends State<TeamHouseDetailPage> {
                               currentLevelResult!= null && currentLevelResult.substring(0,1) == '4'?
                               GestureDetector(
                                 onTap: (){
-                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>TeamTradedMemberPage(
-                                    userId: leaderInfo.userPid,
-                                    userLevel: leaderInfo.userLevel,
-                                    userName: leaderInfo.userName,
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>TeamHouseMemberPage(
+                                    userName:widget.houseItem.leaderName,
+                                    companyId:userData!.companyId,
+                                    houseIDs:widget.houseItem.leaderHouseIDs.toString().replaceAll("[", "").replaceAll("]", ""),
                                   )));
                                 },
                                 child: Container(
@@ -486,8 +467,10 @@ class _TeamHouseDetailPageState extends State<TeamHouseDetailPage> {
                           ),
                         ),
                         // 列表
-                        hasMember == true ?
-                        teamItem()
+                        hasMember == true && msgs != [] ?
+                        Column(
+                          children: msgs,
+                        )
                             :
                         Column(
                           children: <Widget>[

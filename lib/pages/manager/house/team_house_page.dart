@@ -1,8 +1,10 @@
 import 'dart:convert';
 import 'package:ThumbSir/dao/get_next_level_customer_dao.dart';
+import 'package:ThumbSir/dao/get_next_level_house_resource_dao.dart';
 import 'package:ThumbSir/model/login_result_data_model.dart';
 import 'package:ThumbSir/pages/home.dart';
 import 'package:ThumbSir/pages/manager/house/team_house_detail_page.dart';
+import 'package:ThumbSir/pages/manager/house/team_house_member_page.dart';
 import 'package:ThumbSir/pages/manager/traded/group_traded_detail_page.dart';
 import 'package:ThumbSir/pages/manager/traded/team_traded_detail_page.dart';
 import 'package:ThumbSir/pages/mycenter/my_center_page.dart';
@@ -26,6 +28,8 @@ class _TeamHousePageState extends State<TeamHousePage> {
   bool hasMember = false;
   List<Widget> showList = [];
   List<Widget> msgs=[];
+  dynamic leaderTeamHouseIDs;
+
 
   LoginResultData? userData;
   late String uInfo;
@@ -46,38 +50,29 @@ class _TeamHousePageState extends State<TeamHousePage> {
   }
 
   _load()async{
-    dynamic getMemberListResult = await GetNextLevelCustomerDao.httpGetNextLevelCustomer(
+    dynamic getResult = await GetNextLevelHouseResourceDao.getNextLevelHouseResource(
         userData!.userPid,
         userData!.companyId,
         userData!.section,
     );
-    if(getMemberListResult != null){
-      if(getMemberListResult.code == 200){
+    if(getResult != null){
+      if(getResult.code == 200){
         hasMember = true;
         _loading =false;
-        leaderResult = getMemberListResult.data!.countNums;
-        listResult = getMemberListResult.data!.list;
-        currentLevelResult = getMemberListResult.data!.currentLevel.substring(0,1);
+        leaderResult = getResult.data!.houseCount;
+        listResult = getResult.data!.teams;
+        leaderTeamHouseIDs = getResult.data!.hids;
+        currentLevelResult = getResult.data!.userLevel.substring(0,1);
         if (listResult.length>0) {
           for(var item in listResult) {
             showList.add(
               GestureDetector(
                 onTap: (){
-                  if(currentLevelResult == '4'){
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>GroupHouseDetailPage(
-                        leaderArea : item.teamName,
-                        leaderAreaRate : item.customerNum,
-                        leaderName : item.nextLeader.userName,
-                        leaderID : item.nextLeader.userPid
-                    )));
-                  }else{
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>TeamHouseDetailPage(
-                        leaderArea : item.teamName,
-                        leaderAreaRate : item.customerNum,
-                        leaderName : item.nextLeader.userName,
-                        leaderID : item.nextLeader.userPid
-                    )));
-                  }
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>TeamHouseMemberPage(
+                    userName: item.teamName,
+                    companyId: userData!.companyId,
+                    houseIDs: item.areaIDs.toString().replaceAll("[", "").replaceAll("]", ""),
+                  )));
                 },
                 child: Container(
                   margin: EdgeInsets.only(bottom: 25),
@@ -135,7 +130,7 @@ class _TeamHousePageState extends State<TeamHousePage> {
                                   width: 200,
                                   padding: EdgeInsets.only(top: 8,bottom: 5),
                                   child: Text(
-                                    item.teamName+' （ '+ item.nextLeader.userName +' ）',
+                                    item.teamName+' （ '+ item.leaderName +' ）',
                                     style:TextStyle(
                                       fontSize: 14,
                                       color: Color(0xFF666666),
@@ -148,7 +143,7 @@ class _TeamHousePageState extends State<TeamHousePage> {
                                 Container(
                                   width: 200,
                                   child: Text(
-                                    '团队在维护房源数：'+item.customerNum.toString(),
+                                    '团队在维护房源数：'+item.areaHouseCount.toString(),
                                     style:TextStyle(
                                       fontSize: 12,
                                       color: Color(0xFF999999),
@@ -163,7 +158,21 @@ class _TeamHousePageState extends State<TeamHousePage> {
                           ),
                         ],
                       ),
-                      Image(image: AssetImage('images/next.png'),),
+                      GestureDetector(
+                          onTap: (){
+                            if(currentLevelResult == '4'){
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=>GroupHouseDetailPage(
+                                  houseItem : item
+                              )));
+                            }else{
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=>TeamHouseDetailPage(
+                                  houseItem : item
+                              )));
+                            }
+                          },
+                        child: Image(image: AssetImage('images/next.png'),),
+                      )
+
                     ],
                   ),
                 ),
@@ -320,10 +329,17 @@ class _TeamHousePageState extends State<TeamHousePage> {
                           ),
                         ],
                       ),
-                      Container(
-                        padding: EdgeInsets.only(top: 12,left: 25),
+                      GestureDetector(
+                        onTap: (){
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>TeamHouseMemberPage(
+                            userName: userData!.section,
+                            companyId: userData!.companyId,
+                            houseIDs: leaderTeamHouseIDs.toString().replaceAll("[", "").replaceAll("]", ""),
+                          )));
+                        },
                         child: Container(
-                          height: 20,
+                          margin: EdgeInsets.only(top: 12,left: 25,bottom: 12),
+                          padding: EdgeInsets.only(top: 3,left: 4,right:4,bottom: 3),
                           decoration: BoxDecoration(
                               border: userData != null ?
                               userData!.userLevel.substring(0,1) == '1' ?
@@ -340,31 +356,58 @@ class _TeamHousePageState extends State<TeamHousePage> {
                               color: Colors.white,
                               borderRadius: BorderRadius.all(Radius.circular(5))
                           ),
-                          child: Padding(
-                            padding: EdgeInsets.only(top:2,left:5,right: 5),
-                            child: Text(
-                              leaderResult != null?
-                              '团队（含负责人）在维护房源数：'+ leaderResult.toString()
-                                  :'团队（含负责人）在维护房源数：0',
-                              style: TextStyle(
-                                fontSize: 10,
-                                color: userData != null ?
-                                userData!.userLevel.substring(0,1) == '1' ?
-                                Color(0xFF003273) // 总经理深蓝色
-                                    :userData!.userLevel.substring(0,1) == '2' ?
-                                Color(0xFF7412F2) // 副总经理深紫色
-                                    :userData!.userLevel.substring(0,1) == '3' ?
-                                Color(0xFF9149EC) // 总监浅紫色
-                                    :userData!.userLevel.substring(0,1) == '4' ?
-                                Color(0xFFFF9600)// 商圈经理橘色
-                                    :
-                                Color(0xFF24CC8E)// 店长绿色,
-                                    :Colors.white, // 未加载白色
-                                fontWeight: FontWeight.normal,
-                                decoration: TextDecoration.none,
-                              ),
-                              textAlign: TextAlign.center,
-                            ),
+                          child: Container(
+                              padding: EdgeInsets.only(top:2,left:5,right: 5),
+                              child: Column(
+                                children: [
+                                  Text(
+                                    leaderResult != null?
+                                    '团队（含负责人）在维护房源数：'+ leaderResult.toString()
+                                        :'团队（含负责人）在维护房源数：0',
+                                    style: TextStyle(
+                                      fontSize: 10,
+                                      color: userData != null ?
+                                      userData!.userLevel.substring(0,1) == '1' ?
+                                      Color(0xFF003273) // 总经理深蓝色
+                                          :userData!.userLevel.substring(0,1) == '2' ?
+                                      Color(0xFF7412F2) // 副总经理深紫色
+                                          :userData!.userLevel.substring(0,1) == '3' ?
+                                      Color(0xFF9149EC) // 总监浅紫色
+                                          :userData!.userLevel.substring(0,1) == '4' ?
+                                      Color(0xFFFF9600)// 商圈经理橘色
+                                          :
+                                      Color(0xFF24CC8E)// 店长绿色,
+                                          :Colors.white, // 未加载白色
+                                      fontWeight: FontWeight.normal,
+                                      decoration: TextDecoration.none,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  Text(
+                                    leaderResult != null?
+                                    '（点击查看团队房源）' :'',
+                                    style: TextStyle(
+                                      fontSize: 10,
+                                      color: userData != null ?
+                                      userData!.userLevel.substring(0,1) == '1' ?
+                                      Color(0xFF003273) // 总经理深蓝色
+                                          :userData!.userLevel.substring(0,1) == '2' ?
+                                      Color(0xFF7412F2) // 副总经理深紫色
+                                          :userData!.userLevel.substring(0,1) == '3' ?
+                                      Color(0xFF9149EC) // 总监浅紫色
+                                          :userData!.userLevel.substring(0,1) == '4' ?
+                                      Color(0xFFFF9600)// 商圈经理橘色
+                                          :
+                                      Color(0xFF24CC8E)// 店长绿色,
+                                          :Colors.white, // 未加载白色
+                                      fontWeight: FontWeight.normal,
+                                      decoration: TextDecoration.underline,
+                                    ),
+                                    textAlign: TextAlign.left,
+                                  ),
+                                ],
+                              )
+
                           ),
                         ),
                       ),

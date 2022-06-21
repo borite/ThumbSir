@@ -1,18 +1,13 @@
 import 'dart:convert';
-import 'package:ThumbSir/dao/get_last_level_customer_num_dao.dart';
-import 'package:ThumbSir/dao/get_leader_info_dao.dart';
+import 'package:ThumbSir/dao/get_last_level_house_resource_dao.dart';
 import 'package:ThumbSir/model/login_result_data_model.dart';
 import 'package:ThumbSir/pages/manager/house/team_house_member_page.dart';
-import 'package:ThumbSir/pages/manager/traded/team_traded_member_page.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class GroupHouseDetailPage extends StatefulWidget {
-  final leaderArea;
-  final leaderName;
-  final leaderID;
-  final leaderAreaRate;
-  GroupHouseDetailPage({this.leaderArea,this.leaderName,this.leaderID,this.leaderAreaRate});
+  final houseItem;
+  GroupHouseDetailPage({this.houseItem});
   @override
   _GroupHouseDetailPageState createState() => _GroupHouseDetailPageState();
 }
@@ -23,7 +18,6 @@ class _GroupHouseDetailPageState extends State<GroupHouseDetailPage> {
   var listResult;
   var leaderInfo;
   var leaderCount;
-  var currentLevelResult;
   bool hasMember = false;
   var dateTime = DateTime.now().toIso8601String().substring(0,10);
   List<Widget> showList = [];
@@ -47,21 +41,17 @@ class _GroupHouseDetailPageState extends State<GroupHouseDetailPage> {
   }
 
   _load()async{
-    dynamic getLeaderResult = await GetLeaderInfoDao.httpGetLeaderInfo(
-        widget.leaderID,
+    dynamic getLastListResult = await GetLastLevelHouseResourceDao.httpGetLastLevelHouseResource(
+        widget.houseItem.userId,
         userData!.companyId,
     );
-    dynamic getMemberListResult = await GetLastLevelCustomerNumDao.httpGetLastLevelCustomerNum(
-        widget.leaderID,
-        userData!.companyId,
-    );
-    if(getMemberListResult != null && getLeaderResult != null ){
-      if(getMemberListResult.code == 200 && getLeaderResult.code == 200){
+    if(getLastListResult != null){
+      if(getLastListResult.code == 200){
         setState(() {
           _loading =false;
-          listResult = getMemberListResult.data.list;
-          leaderInfo = getLeaderResult.data.leaderInfo;
-          leaderCount = getLeaderResult.data.leaderCustomerCount;
+          listResult = getLastListResult.data.list;
+          leaderCount = widget.houseItem.leaderHouseCount;
+          leaderInfo = widget.houseItem;
         });
         if(listResult != []){
           setState(() {
@@ -96,9 +86,9 @@ class _GroupHouseDetailPageState extends State<GroupHouseDetailPage> {
           GestureDetector(
             onTap: (){
               Navigator.push(context, MaterialPageRoute(builder: (context)=>TeamHouseMemberPage(
-                // userId: item.userPid,
-                // userLevel: item.userLevel,
-                // userName: item.userName,
+                userName: item.userName,
+                companyId: userData!.companyId,
+                houseIDs: item.houseIDs.toString().replaceAll("[", "").replaceAll("]", ""),
               )));
             },
             child: Container(
@@ -147,8 +137,8 @@ class _GroupHouseDetailPageState extends State<GroupHouseDetailPage> {
                               width: 150,
                               padding: EdgeInsets.only(top: 8),
                               child: Text(
-                                item.customerCount != null ?
-                                '个人在维护房源数：'+item.customerCount.toString()
+                                item.houseCount != null ?
+                                '个人在维护房源数：'+item.houseCount.toString()
                                     :'个人在维护房源数：0',
                                 style:TextStyle(
                                   fontSize: 12,
@@ -164,8 +154,8 @@ class _GroupHouseDetailPageState extends State<GroupHouseDetailPage> {
                     ],
                   ),
                   Padding(
-                    padding: EdgeInsets.only(right: 10),
-                    child: Image(image: AssetImage('images/next.png'),),
+                      padding: EdgeInsets.only(right: 10),
+                      child: Image(image: AssetImage('images/next.png'),),
                   ),
                 ],
               ),
@@ -277,7 +267,7 @@ class _GroupHouseDetailPageState extends State<GroupHouseDetailPage> {
                                             width: 200,
                                             padding: EdgeInsets.only(top: 8,bottom: 5),
                                             child: Text(
-                                              widget.leaderArea,
+                                              widget.houseItem.teamName,
                                               style:TextStyle(
                                                 fontSize: 14,
                                                 color: Color(0xFF666666),
@@ -290,7 +280,7 @@ class _GroupHouseDetailPageState extends State<GroupHouseDetailPage> {
                                           Container(
                                             width: 200,
                                             child: Text(
-                                              '团队在维护房源数：'+widget.leaderAreaRate.toString(),
+                                              '团队在维护房源数：'+widget.houseItem.areaHouseCount.toString(),
                                               style:TextStyle(
                                                 fontSize: 12,
                                                 color: Color(0xFF999999),
@@ -311,10 +301,10 @@ class _GroupHouseDetailPageState extends State<GroupHouseDetailPage> {
                         // 店长
                         GestureDetector(
                           onTap: (){
-                            Navigator.push(context, MaterialPageRoute(builder: (context)=>TeamTradedMemberPage(
-                              userId: leaderInfo.userPid,
-                              userLevel: leaderInfo.userLevel,
-                              userName: leaderInfo.userName,
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=>TeamHouseMemberPage(
+                              userName: leaderInfo.leaderName,
+                              companyId: userData!.companyId,
+                              houseIDs: leaderInfo.leaderHouseIDs.toString().replaceAll("[", "").replaceAll("]", ""),
                             )));
                           },
                           child: Container(
@@ -354,7 +344,7 @@ class _GroupHouseDetailPageState extends State<GroupHouseDetailPage> {
                                               child: Padding(
                                                 padding: EdgeInsets.only(top:2,left:5,right: 5),
                                                 child: Text(
-                                                  leaderInfo!=null?leaderInfo.userLevel.substring(2,):"",
+                                                  leaderInfo!=null?leaderInfo.leaderLevel.substring(2,):"",
                                                   style: TextStyle(
                                                     fontSize: 10,
                                                     color: Color(0xFF24CC8E),
@@ -377,7 +367,7 @@ class _GroupHouseDetailPageState extends State<GroupHouseDetailPage> {
                                           Row(
                                             children: <Widget>[
                                               Text(
-                                                leaderInfo != null?leaderInfo.userName:'',
+                                                leaderInfo != null?leaderInfo.leaderName:'',
                                                 style:TextStyle(
                                                   fontSize: 14,
                                                   color: Color(0xFF333333),

@@ -26,22 +26,22 @@ class _SHousePageState extends State<SHousePage> {
             BottomNavigationBarItem(
                 icon: Container(
                   height: 26,
-                  child: Image(image:AssetImage('images/my_traded.png'),),
+                  child: Image(image:AssetImage('images/house_a.png'),),
                 ),
                 activeIcon:Container(
                   height: 26,
-                  child: Image(image:AssetImage('images/my_traded_s.png'),),
+                  child: Image(image:AssetImage('images/house_s.png'),),
                 ),
                 label: '公司系统房源'
             ),
             BottomNavigationBarItem(
               icon: Container(
                 height:26,
-                child:Image(image:AssetImage('images/team_traded.png')),
+                child:Image(image:AssetImage('images/houses.png')),
               ),
               activeIcon:Container(
                 height:26,
-                child:Image(image:AssetImage('images/team_traded_s.png')),
+                child:Image(image:AssetImage('images/houses_s.png')),
               ),
               label: '团队房源管理',
             ),

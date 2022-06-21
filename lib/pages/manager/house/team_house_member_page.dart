@@ -26,29 +26,31 @@ class _TeamHouseMemberPageState extends State<TeamHouseMemberPage> {
   _load() async {
     _onRefresh();
     pageIndex ++ ;
-    housesResult = await GetHouseListByTeamDao.httpGetHouseListByTeam(
-      widget.companyId,
-      widget.houseIDs
-    );
+    if(widget.houseIDs !=""){
+      housesResult = await GetHouseListByTeamDao.httpGetHouseListByTeam(
+          widget.companyId,
+          widget.houseIDs
+      );
 
-    if (housesResult.code == 200) {
-      housesList = housesResult.data;
-      if (housesList.length>0) {
-        for (var item in housesList) {
-          housesShowList.add(
-            HouseItem(
-                houseItem:item
-            ),
-          );
+      if (housesResult.code == 200) {
+        housesList = housesResult.data;
+        if (housesList.length>0) {
+          for (var item in housesList) {
+            housesShowList.add(
+              HouseItem(
+                  houseItem:item
+              ),
+            );
+          }
         }
+        setState(() {
+          houses=housesShowList;
+        });
+        _onRefresh();
+      } else {
+        _onLoadAlert(context);
+        _onRefresh();
       }
-      setState(() {
-        houses=housesShowList;
-      });
-      _onRefresh();
-    } else {
-      _onLoadAlert(context);
-      _onRefresh();
     }
   }
 
