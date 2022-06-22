@@ -339,7 +339,6 @@ class _ClientEditFamilyMemberPageState extends State<ClientEditFamilyMemberPage>
               var m=new FamilyMember(memberRole: memberMinCount,memberHobby: memberController.text);
               member.add(m);
             });
-            print(member);
             var addResult = await AddFamilyMemberInfoDao.addFamilyMemberInfo(widget.item.mid.toString(), memberMinCount, memberController.text);
             if(addResult.code == 200){
               Navigator.pop(context);

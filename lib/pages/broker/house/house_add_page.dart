@@ -4,8 +4,6 @@ import 'package:ThumbSir/dao/add_customer_dao.dart';
 import 'package:ThumbSir/dao/add_house_step1_dao.dart';
 import 'package:ThumbSir/dao/get_company_list_dao.dart';
 import 'package:ThumbSir/model/login_result_data_model.dart';
-import 'package:ThumbSir/pages/manager/traded/m_traded_page.dart';
-import 'package:ThumbSir/pages/manager/traded/s_traded_page.dart';
 import 'package:ThumbSir/widget/input.dart';
 import 'package:ThumbSir/widget/loading.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +12,8 @@ import 'package:wheel_chooser/wheel_chooser.dart';
 import 'package:flutter_holo_date_picker/flutter_holo_date_picker.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:ThumbSir/model/company_list_model.dart';
+import '../../manager/house/m_house_page.dart';
+import '../../manager/house/s_house_page.dart';
 import 'house_add_basic_msg_page.dart';
 import 'house_list_page.dart';
 
@@ -1097,11 +1097,11 @@ class _HouseAddPageState extends State<HouseAddPage> {
               }
               if (userData!.userLevel.substring(0, 1) == "4") {
                 Navigator.push(context, MaterialPageRoute(
-                    builder: (context) => STradedPage()));
+                    builder: (context) => SHousePage()));
               }
               if (userData!.userLevel.substring(0, 1) == "5") {
                 Navigator.push(context, MaterialPageRoute(
-                    builder: (context) => MTradedPage()));
+                    builder: (context) => MHousePage()));
               }
           },
           color: Color(0xFFCCCCCC),

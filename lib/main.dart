@@ -1,3 +1,4 @@
+import 'package:ThumbSir/pages/broker/qlist/qlist_house_search_page.dart';
 import 'package:ThumbSir/pages/mycenter/choose_portrait_page.dart';
 import 'package:ThumbSir/pages/mycenter/portrait_crop_page.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +15,7 @@ class MyApp extends StatelessWidget{
       routes: {
         "crop_page":(context) => PortraitCropPage(),
         "choose_portrait":(context) => ChoosePortraitPage(),
+        "qlist_search_house":(context) => QlistHouseSearchPage(),
       },
     );
   }
