@@ -56,17 +56,17 @@ class Data {
   });
 
   int id;
-  String companyId;
-  String userId;
-  int adminTaskId;
-  DateTime? planningStartTime;
-  DateTime? planningEndTime;
-  DateTime? addTime;
-  int userLevel;
-  int stars;
-  int planningCount;
-  String remark;
-  String address;
+  dynamic companyId;
+  dynamic userId;
+  dynamic adminTaskId;
+  dynamic planningStartTime;
+  dynamic planningEndTime;
+  dynamic addTime;
+  dynamic userLevel;
+  dynamic stars;
+  dynamic planningCount;
+  dynamic remark;
+  dynamic address;
   List<dynamic>? missionRecordLevel1;
   List<dynamic>? missionRecordLevel2;
   List<dynamic>? missionRecordLevel3;

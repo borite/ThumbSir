@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:ThumbSir/common/reg.dart';
+import 'package:ThumbSir/dao/add_guan_lian_customer_dao.dart';
 import 'package:ThumbSir/dao/add_guan_lian_house_dao.dart';
 import 'package:ThumbSir/dao/confirm_modify_mission_dao.dart';
 import 'package:ThumbSir/dao/create_pre_check_dao.dart';
@@ -83,6 +84,9 @@ class _QListAddPageState extends State<QListAddPage> {
   List chosenHouse=[];
   List chosenHouseIds =[];
   ScrollController _chosenHouseScrollController = ScrollController();
+  List chosenClient=[];
+  List chosenClientIds =[];
+  ScrollController _chosenClientScrollController = ScrollController();
 
   @override
   void initState() {
@@ -1020,16 +1024,18 @@ class _QListAddPageState extends State<QListAddPage> {
                             'qlist_search_house',
                             arguments: {'companyID': userData!.companyId}
                         ).then((houseMsg){
-                          var h=new ChosenHouse(
+                          if(houseMsg!=null){
+                            var h=new ChosenHouse(
                               houseCommunity: houseMsg.toString().split("+")[0],
                               houseAddress: houseMsg.toString().split("+")[1],
                               houseId: houseMsg.toString().split("+")[2],);
-                          setState(() {
-                            chosenHouse.removeWhere((element) => element.houseId== houseMsg.toString().split("+")[2] );
-                            chosenHouseIds.remove(houseMsg.toString().split("+")[2]);
-                            chosenHouse.add(h);
-                            chosenHouseIds.add(houseMsg.toString().split("+")[2]);
-                          });
+                            setState(() {
+                              chosenHouse.removeWhere((element) => element.houseId== houseMsg.toString().split("+")[2] );
+                              chosenHouseIds.remove(houseMsg.toString().split("+")[2]);
+                              chosenHouse.add(h);
+                              chosenHouseIds.add(houseMsg.toString().split("+")[2]);
+                            });
+                          }
                         });
                       },
                       child: Container(
@@ -1052,13 +1058,95 @@ class _QListAddPageState extends State<QListAddPage> {
                     : Container(width: 1,),
 
                     // 添加客源
-                    chooseId == "2" || chooseId == "8"|| chooseId == "7"
+                    Container(
+                      width: 335,
+                      margin: EdgeInsets.only(top: 10),
+                      child: ListView.builder(
+                        itemCount: chosenClient.length,
+                        controller: _chosenClientScrollController,
+                        shrinkWrap: true,
+                        itemBuilder: (BuildContext context,int index){
+                          return Column(
+                            children: <Widget>[
+                              Container(
+                                  margin: EdgeInsets.only(bottom: 10),
+                                  child: Row(
+                                    children: <Widget>[
+                                      Container(
+                                        width: 54,
+                                        padding: EdgeInsets.fromLTRB(8, 2, 8, 2),
+                                        decoration: BoxDecoration(
+                                            border: Border(right: BorderSide(
+                                              width: 1,
+                                              color: Color(0xFFCCCCCC),
+                                            ))
+                                        ),
+                                        child: Text(
+                                          "客户",
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            color: Color(0xFF5580EB),
+                                            decoration: TextDecoration.none,
+                                            fontWeight: FontWeight.normal,
+                                          ),
+                                          textAlign: TextAlign.left,
+                                        ),
+                                      ),
+                                      Expanded(child: Container(
+                                        padding: EdgeInsets.fromLTRB(14, 2, 10, 2),
+                                        child: Text(
+                                          chosenClient[index].clientName+" "+chosenClient[index].clientPhone,
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            color: Color(0xFF5580EB),
+                                            decoration: TextDecoration.none,
+                                            fontWeight: FontWeight.normal,
+                                          ),
+                                        ),
+                                      )),
+                                      GestureDetector(
+                                        onTap: (){
+                                          chosenClientIds.remove(chosenClient[index].clientId);
+                                          setState(() {
+                                            chosenClient.removeWhere((element) => element.clientId==chosenClient[index].clientId);
+                                          });
+                                        },
+                                        child: Container(
+                                          width: 50,
+                                          height: 20,
+                                          child: Image(image: AssetImage("images/delete_blue.png"),),
+                                        ),
+                                      )
+                                    ],
+                                  )
+                              )
+                            ],
+                          );
+                        },
+
+                      ),
+                    ),
+                    chosenClient.length<1 && chooseId == "2" || chooseId == "8"|| chooseId == "7"
                         ||chooseId == "23" || chooseId == "21"|| chooseId == "6"?
                     GestureDetector(
                       onTap: (){
-                        // setState(() {
-                        //   hadChooseCus = true;
-                        // });
+                        Navigator.of(context).pushNamed(
+                            'qlist_search_client',
+                            arguments: {'userID': userData!.userPid}
+                        ).then((clientMsg){
+                          if(clientMsg!=null){
+                            var h=new ChosenClient(
+                              clientName: clientMsg.toString().split("+")[0],
+                              clientPhone: clientMsg.toString().split("+")[1],
+                              clientId: clientMsg.toString().split("+")[2],);
+                            setState(() {
+                              chosenClient.removeWhere((element) => element.houseId== clientMsg.toString().split("+")[2] );
+                              chosenClientIds.remove(clientMsg.toString().split("+")[2]);
+                              chosenClient.add(h);
+                              chosenClientIds.add(clientMsg.toString().split("+")[2]);
+                            });
+                          }
+                        });
                       },
                       child: Container(
                         width: 335,
@@ -1318,8 +1406,7 @@ class _QListAddPageState extends State<QListAddPage> {
                             if (chooseId != "-1" && chooseId != "12" &&
                                 chooseId != "13" && chooseId != "15" &&
                                 chooseId != "16" && _starIndex != 0) {
-                              var searchOtherResult = await CreatePreCheckDao
-                                  .modifyMission(
+                              var searchOtherResult = await CreatePreCheckDao.modifyMission(
                                 userData!.companyId,
                                 userData!.userPid,
                                 chooseId,
@@ -1349,14 +1436,42 @@ class _QListAddPageState extends State<QListAddPage> {
                                   remarkController.text,
                                 );
                                 if(resultOther.code == 200){
-                                  print(chosenHouseIds);
+                                  print(resultOther.data);
+                                  dynamic missionId = resultOther.data!.id;
                                   if(chosenHouseIds!=[]){
                                     // 循环调用关联绑定
                                     for (var item in chosenHouseIds) {
-                                      dynamic guanlianResult = await AddGuanLianHouseDao.addGuanLianHousePost(item.toString(), '', userData!.userPid, chooseId);
+                                      dynamic guanlianResult = await AddGuanLianHouseDao.addGuanLianHousePost(
+                                          item.toString(),
+                                          '',
+                                          userData!.userPid,
+                                          missionId.toString()
+                                      );
                                       print(guanlianResult.code);
                                     }
                                   }
+                                  if(chosenClientIds!=[]&& chosenHouseIds!=[]){
+                                    for(var item in chosenHouseIds){
+                                      dynamic guanlianHouseClientResult = await AddGuanLianCustomerDao.addGuanLianCustomerPost(
+                                          item.toString(),
+                                          chosenClientIds.toString().replaceAll("[", "").replaceAll("]", ""),
+                                          "",
+                                          missionId.toString()
+                                      );
+                                      print(guanlianHouseClientResult);
+                                    }
+                                  }
+                                  if(chosenClientIds!=[]&& chosenHouseIds==[]){
+                                    dynamic guanlianHouseClientResult = await AddGuanLianCustomerDao.addGuanLianCustomerPost(
+                                        "-1",
+                                        chosenClientIds.toString().replaceAll("[", "").replaceAll("]", ""),
+                                        "",
+                                        missionId
+                                    );
+                                    print(guanlianHouseClientResult);
+                                  }
+
+
                                   if (userData!.userLevel.substring(0, 1) == "6") {
                                     Navigator.push(context, MaterialPageRoute(
                                         builder: (context) => QListPage()));
@@ -2124,6 +2239,30 @@ class ChosenHouse {
     "houseCommunity": houseCommunity,
     "houseAddress": houseAddress,
     "houseId": houseId,
+  };
+}
+
+class ChosenClient {
+  ChosenClient({
+    this.clientName,
+    this.clientPhone,
+    this.clientId,
+  });
+
+  dynamic clientName;
+  dynamic clientPhone;
+  dynamic clientId;
+
+  factory ChosenClient.fromJson(Map<String, dynamic> json) => ChosenClient(
+    clientName: json["clientName"] == null ? null : json["clientName"],
+    clientPhone: json["clientPhone"] == null ? null : json["clientPhone"],
+    clientId: json["clientId"] == null ? null : json["clientId"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "clientName": clientName,
+    "clientPhone": clientPhone,
+    "clientId": clientId,
   };
 }
 

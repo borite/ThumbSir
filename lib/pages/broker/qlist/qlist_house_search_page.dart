@@ -127,7 +127,6 @@ class _QlistHouseSearchPageState extends State<QlistHouseSearchPage> {
                                   });
                                   if(searchBool == true){
                                     dynamic companyID1 = companyID.toString().split(" ")[1].toString().split("}")[0].toString();
-                                    print(companyID1);
                                     searchResult = await SearchHouseDao.httpSearchHouse(searchController.text,companyID1);
                                     if(searchResult != null){
                                       if(searchResult.code == 200 && searchResult.data.length > 0){

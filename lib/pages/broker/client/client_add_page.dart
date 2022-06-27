@@ -14,6 +14,8 @@ import 'package:wheel_chooser/wheel_chooser.dart';
 import 'package:flutter_holo_date_picker/flutter_holo_date_picker.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
+import '../../manager/client/m_client_page.dart';
+import '../../manager/client/s_client_page.dart';
 import 'my_client_page.dart';
 
 class ClientAddPage extends StatefulWidget {
@@ -954,11 +956,11 @@ class _ClientAddPageState extends State<ClientAddPage> {
                                   }
                                   if (userData!.userLevel.substring(0, 1) == "4") {
                                     Navigator.push(context, MaterialPageRoute(
-                                        builder: (context) => STradedPage()));
+                                        builder: (context) => SClientPage()));
                                   }
                                   if (userData!.userLevel.substring(0, 1) == "5") {
                                     Navigator.push(context, MaterialPageRoute(
-                                        builder: (context) => MTradedPage()));
+                                        builder: (context) => MClientPage()));
                                   }
                                 } else {
                                   _onRefresh();

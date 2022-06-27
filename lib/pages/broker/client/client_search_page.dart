@@ -4,7 +4,6 @@ import 'package:ThumbSir/dao/search_customer_dao.dart';
 import 'package:ThumbSir/pages/broker/client/client_detail_page.dart';
 import 'package:ThumbSir/widget/input.dart';
 import 'package:flutter/material.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
 
 class ClientSearchPage extends StatefulWidget {
   final keyword;
@@ -246,7 +245,7 @@ class _ClientSearchPageState extends State<ClientSearchPage> {
                                     searchMsg = searchController.text;
                                   });
                                   if(searchBool == true){
-                                    searchResult = await SearchCustomerDao.searchCustomer(searchController.text, widget.userID);
+                                    searchResult = await SearchClientCustomerDao.searchClientCustomer(searchController.text, widget.userID);
                                     if(searchResult != null){
                                       if(searchResult.code == 200 && searchResult.data.length > 0){
                                         setState(() {
