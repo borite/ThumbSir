@@ -75,6 +75,7 @@ class _QListTaskListSearchResultPageState extends State<QListTaskListSearchResul
 //              tabIndex: this.widget.tabIndex,
 //              callBack: ()=>onChange(this.widget.pageIndex,this.widget.tabIndex),
               QListCheckItem(
+                taskId: item.id.toString(),
                 name: item.taskName,
                 number: item.defaultTaskId == 15 || item.defaultTaskId == 16 || item.defaultTaskId == 13? "":item.planningCount.toString()+item.taskUnit,
                 time: item.planningStartTime!.toIso8601String().substring(11,16)+'~'+item.planningEndTime!.toIso8601String().substring(11,16),

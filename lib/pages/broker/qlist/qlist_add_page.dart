@@ -1042,7 +1042,7 @@ class _QListAddPageState extends State<QListAddPage> {
                         width: 335,
                         height: 32,
                         padding: EdgeInsets.all(4),
-                        margin: EdgeInsets.only(bottom: 20),
+                        margin: EdgeInsets.only(bottom: 12),
                         decoration: BoxDecoration(
                           border: Border.all(width: 1,color: Color(0xFF93C0FB)),
                           borderRadius: BorderRadius.circular(5),
@@ -1166,8 +1166,6 @@ class _QListAddPageState extends State<QListAddPage> {
                       ),
                     )
                         : Container(width: 1,),
-
-
 
 
 
@@ -1436,27 +1434,30 @@ class _QListAddPageState extends State<QListAddPage> {
                                   remarkController.text,
                                 );
                                 if(resultOther.code == 200){
-                                  print(resultOther.data);
                                   dynamic missionId = resultOther.data!.id;
+                                  dynamic missionName  = resultOther.data!.adminTask;
                                   if(chosenHouseIds!=[]){
                                     // 循环调用关联绑定
                                     for (var item in chosenHouseIds) {
                                       dynamic guanlianResult = await AddGuanLianHouseDao.addGuanLianHousePost(
                                           item.toString(),
-                                          '',
+                                          "",
                                           userData!.userPid,
-                                          missionId.toString()
+                                          missionId.toString(),
+                                          missionName,
                                       );
                                       print(guanlianResult.code);
                                     }
                                   }
                                   if(chosenClientIds!=[]&& chosenHouseIds!=[]){
+                                    print(chosenClientIds.toString().replaceAll("[", "").replaceAll("]", ""));
                                     for(var item in chosenHouseIds){
                                       dynamic guanlianHouseClientResult = await AddGuanLianCustomerDao.addGuanLianCustomerPost(
                                           item.toString(),
                                           chosenClientIds.toString().replaceAll("[", "").replaceAll("]", ""),
                                           "",
-                                          missionId.toString()
+                                          missionId.toString(),
+                                          missionName,
                                       );
                                       print(guanlianHouseClientResult);
                                     }
@@ -1466,7 +1467,8 @@ class _QListAddPageState extends State<QListAddPage> {
                                         "-1",
                                         chosenClientIds.toString().replaceAll("[", "").replaceAll("]", ""),
                                         "",
-                                        missionId
+                                        missionId,
+                                        missionName,
                                     );
                                     print(guanlianHouseClientResult);
                                   }

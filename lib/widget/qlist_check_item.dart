@@ -1,11 +1,14 @@
 import 'package:ThumbSir/pages/broker/qlist/img_view_page.dart';
-import 'package:ThumbSir/pages/broker/qlist/qlist_change_page.dart';
-import 'package:ThumbSir/pages/broker/qlist/qlist_upload_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 
+import '../dao/get_customer_in_mission_dao.dart';
+import '../dao/get_house_in_mission_dao.dart';
+import '../pages/broker/house/house_detail_page.dart';
+
 class QListCheckItem extends StatefulWidget {
+  final String taskId;
   final String name;
   final String number;
   final String time;
@@ -18,7 +21,11 @@ class QListCheckItem extends StatefulWidget {
   int tabIndex;
   final callBack;
   final String imgs;
-  QListCheckItem({Key? key,required this.imgs,required this.name,required this.number,required this.time,required this.star,required this.percent,required this.remark,required this.address,required this.currentAddress,required this.tabIndex,required this.pageIndex,this.callBack}):super(key:key);
+  QListCheckItem({Key? key,required this.taskId,
+    required this.imgs,required this.name,required this.number,
+    required this.time,required this.star,required this.percent,
+    required this.remark,required this.address,required this.currentAddress,
+    required this.tabIndex,required this.pageIndex,this.callBack}):super(key:key);
   @override
   _QListCheckItemState createState() => _QListCheckItemState();
 }
@@ -32,10 +39,63 @@ class _QListCheckItemState extends State<QListCheckItem> with SingleTickerProvid
   int page = 0;
   List _images=[];
 
+  bool haveHouse = false;
+  dynamic houseBindResult;
+  List<Widget> houseBindShowList=[];
+  List<Widget> houseBindR=[];
+  bool haveCustomer = false;
+  dynamic customerBindResult;
+
+  _load() async {
+    dynamic houseBind = await GetHouseInMissionDao.httpGetHouseInMission(widget.taskId);
+    if (houseBind.code == 200 && houseBind.data.length > 0) {
+      houseBindResult=houseBind.data;
+      for (var item in houseBindResult) {
+        houseBindShowList.add(
+            GestureDetector(
+              onTap: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>HouseDetailPage(
+                    houseId : item.houseId.toString(),
+                    tags:[],
+                    houseNum:item.houseNum
+                )));
+              },
+              child: Container(
+                padding: EdgeInsets.only(left: 20, right: 20,bottom: 10),
+                width:335,
+                child: Text(
+                  item.houseCommunity.toString()+item.houseAddress.toString(),
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Color(0xFF0E7AE6),
+                    decoration: TextDecoration.none,
+                    fontWeight: FontWeight.normal,
+                  ),
+                ),
+              ),
+            )
+        );
+      }
+      setState(() {
+        haveHouse = true;
+        houseBindR = houseBindShowList;
+      });
+
+    }
+    dynamic customerBind = await GetCustomerInMissionDao.httpGetCustomerInMission(widget.taskId);
+    if(customerBind.code == 200 && customerBind.data.length > 0){
+      setState(() {
+        haveCustomer = true;
+        customerBindResult = customerBind.data[0];
+      });
+    }
+  }
+
+
   @override
   void initState() {
     super.initState();
-
+    _load();
     if(widget.imgs!=""){
 
       print(widget.imgs);
@@ -752,6 +812,63 @@ class _QListCheckItemState extends State<QListCheckItem> with SingleTickerProvid
                         ],
                       ),
                     ),
+                    // 关联的房源
+                    haveHouse==true?
+                    Column(
+                      children: [
+                        Container(
+                          padding: EdgeInsets.only(left: 20, right: 20,top: 10,bottom: 10),
+                          width: 335,
+                          child: Text(
+                            '关联的房源',
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Color(0xFF666666),
+                              decoration: TextDecoration.none,
+                              fontWeight: FontWeight.normal,
+                            ),
+                          ),
+                        ),
+                        Column(
+                          children: houseBindR,
+                        ),
+                      ],
+                    )
+                        :Container(width: 1,),
+
+                    // 关联的客户
+                    haveCustomer==true?
+                    Column(
+                      children: [
+                        Container(
+                          padding: EdgeInsets.only(left: 20, right: 20,top: 10,bottom: 10),
+                          width: 335,
+                          child: Text(
+                            '关联的客户',
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Color(0xFF666666),
+                              decoration: TextDecoration.none,
+                              fontWeight: FontWeight.normal,
+                            ),
+                          ),
+                        ),
+                        Container(
+                          padding: EdgeInsets.only(left: 20, right: 20,bottom: 10),
+                          width:335,
+                          child: Text(
+                            customerBindResult.userName.toString() + " "+ customerBindResult.phone.toString(),
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Color(0xFF0E7AE6),
+                              decoration: TextDecoration.none,
+                              fontWeight: FontWeight.normal,
+                            ),
+                          ),
+                        )
+
+                      ],
+                    ):Container(width: 1,),
                     // 任务图片
                     Container(
                         width: 335,

@@ -3,11 +3,8 @@ import 'package:ThumbSir/widget/qlist_check_item.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
-import 'package:jiffy/jiffy.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:ThumbSir/model/get_user_select_mission_model.dart';
-import 'package:ThumbSir/model/mission_record_model.dart';
-
 import '../../../dao/get_user_mission_records_dao.dart';
 
 class TeamListMemberPage extends StatefulWidget {
@@ -43,6 +40,7 @@ class _TeamListMemberPageState extends State<TeamListMemberPage> {
             dynamic mRecord= await GetMissionRecordDao.missionRecord(widget.userId,item.id.toString(),widget.userLevel.substring(0,1));
             missionsMorningShowList.add(
               QListCheckItem(
+                  taskId: item.id.toString(),
                   name: item.taskName,
                   number: item.defaultTaskId == 15 || item.defaultTaskId == 16 || item.defaultTaskId == 13? "":item.planningCount.toString()+item.taskUnit,
                   time: item.planningStartTime!.toIso8601String().substring(11,16)+'~'+item.planningEndTime!.toIso8601String().substring(11,16),

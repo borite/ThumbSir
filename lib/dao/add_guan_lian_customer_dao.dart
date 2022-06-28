@@ -11,7 +11,8 @@ class AddGuanLianCustomerDao {
       String houseID,
       String customerID,
       String description,
-      String selectedMissionID
+      String selectedMissionID,
+      String missionName,
       ) async {
     var client = http.Client();
     final response= await client.post(
@@ -20,7 +21,8 @@ class AddGuanLianCustomerDao {
           "HouseID": houseID,
           "CustomerID": customerID,
           "Description": description,
-          "SelectedMissionID": selectedMissionID
+          "SelectedMissionID": selectedMissionID,
+          "MissionName":missionName,
         });
     //Utf8Decoder utf8decoder = Utf8Decoder();  // 修复中文乱码
     //var result = json.decode(utf8decoder.convert(response.bodyBytes));

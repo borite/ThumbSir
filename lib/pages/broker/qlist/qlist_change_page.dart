@@ -5,6 +5,7 @@ import 'package:ThumbSir/dao/delete_mission_dao.dart';
 import 'package:ThumbSir/dao/modify_mission_dao.dart';
 import 'package:ThumbSir/model/choose_item_model.dart';
 import 'package:ThumbSir/model/get_default_task_model.dart';
+import 'package:ThumbSir/pages/broker/qlist/qlist_add_page.dart';
 import 'package:ThumbSir/pages/broker/qlist/qlist_page.dart';
 import 'package:ThumbSir/pages/broker/qlist/qlist_view_mini_tasks_page.dart';
 import 'package:ThumbSir/pages/manager/qlist/manager_qlist_page.dart';
@@ -16,6 +17,11 @@ import 'package:ThumbSir/model/login_result_data_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_time_picker_spinner/flutter_time_picker_spinner.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../../../dao/add_guan_lian_customer_dao.dart';
+import '../../../dao/add_guan_lian_house_dao.dart';
+import '../../../dao/get_customer_in_mission_dao.dart';
+import '../../../dao/get_house_in_mission_dao.dart';
+import '../house/house_detail_page.dart';
 
 class QListChangePage extends StatefulWidget {
   final id;
@@ -81,6 +87,65 @@ class _QListChangePageState extends State<QListChangePage> {
     }
   }
 
+  List chosenHouse=[];
+  List chosenHouseIds =[];
+  ScrollController _chosenHouseScrollController = ScrollController();
+  List chosenClient=[];
+  List chosenClientIds =[];
+  ScrollController _chosenClientScrollController = ScrollController();
+
+  bool haveHouse = false;
+  dynamic houseBindResult;
+  List<Widget> houseBindShowList=[];
+  List<Widget> houseBindR=[];
+  bool haveCustomer = false;
+  dynamic customerBindResult;
+
+  _loadBind() async {
+    dynamic houseBind = await GetHouseInMissionDao.httpGetHouseInMission(widget.id);
+    if (houseBind.code == 200 && houseBind.data.length > 0) {
+      houseBindResult=houseBind.data;
+      for (var item in houseBindResult) {
+        houseBindShowList.add(
+            GestureDetector(
+              onTap: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>HouseDetailPage(
+                    houseId : item.houseId.toString(),
+                    tags:[],
+                    houseNum:item.houseNum
+                )));
+              },
+              child: Container(
+                padding: EdgeInsets.only(left: 20, right: 20,bottom: 10),
+                width:335,
+                child: Text(
+                  item.houseCommunity.toString()+item.houseAddress.toString(),
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Color(0xFF0E7AE6),
+                    decoration: TextDecoration.none,
+                    fontWeight: FontWeight.normal,
+                  ),
+                ),
+              ),
+            )
+        );
+      }
+      setState(() {
+        haveHouse = true;
+        houseBindR = houseBindShowList;
+      });
+    }
+
+    dynamic customerBind = await GetCustomerInMissionDao.httpGetCustomerInMission(widget.id);
+    if(customerBind.code == 200 && customerBind.data.length > 0){
+      setState(() {
+        haveCustomer = true;
+        customerBindResult = customerBind.data[0];
+      });
+    }
+  }
+
   var taskMsg;
   List<Datum> tasks = [];
   List<Widget> tasksShowList = [];
@@ -97,6 +162,7 @@ class _QListChangePageState extends State<QListChangePage> {
   @override
   void initState() {
     super.initState();
+    _loadBind();
     remarkReg = FeedBackReg;
     _getUserInfo();
     _load();
@@ -924,6 +990,274 @@ class _QListChangePageState extends State<QListChangePage> {
                       ),
                     ),
 
+                    // 关联房客源
+                    chooseId == "13" || chooseId =="15" || chooseId=="16"|| chooseId=="1"|| chooseId=="3"
+                        || chooseId=="4" || chooseId=="9"|| chooseId=="22"|| chooseId=="25"|| chooseId=="27"
+                        || chooseId=="30"|| chooseId=="31"|| chooseId=="34"|| chooseId=="37"?
+                    Container(width: 1,)
+                        :
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(20, 25, 20, 20),
+                      child: Row(
+                        children: <Widget>[
+                          Container(
+                            width: 20,
+                            height: 20,
+                            padding: EdgeInsets.all(2),
+                            decoration: BoxDecoration(
+                              color: Color(0xFF24CC8E),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Text(
+                              '5',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 14,
+                                fontWeight: FontWeight.normal,
+                                decoration: TextDecoration.none,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(left: 10),
+                            child: Text('匹配房源与客户',style: TextStyle(
+                              fontSize: 20,
+                              color: Color(0xFF666666),
+                              fontWeight: FontWeight.normal,
+                              decoration: TextDecoration.none,
+                            ),),
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    // 添加房源
+                    Container(
+                      width: 335,
+                      margin: EdgeInsets.only(top: 10),
+                      child: ListView.builder(
+                        itemCount: chosenHouse.length,
+                        controller: _chosenHouseScrollController,
+                        shrinkWrap: true,
+                        itemBuilder: (BuildContext context,int index){
+                          return Column(
+                            children: <Widget>[
+                              Container(
+                                  margin: EdgeInsets.only(bottom: 10),
+                                  child: Row(
+                                    children: <Widget>[
+                                      Container(
+                                        width: 54,
+                                        padding: EdgeInsets.fromLTRB(8, 2, 8, 2),
+                                        decoration: BoxDecoration(
+                                            border: Border(right: BorderSide(
+                                              width: 1,
+                                              color: Color(0xFFCCCCCC),
+                                            ))
+                                        ),
+                                        child: Text(
+                                          "房源",
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            color: Color(0xFF5580EB),
+                                            decoration: TextDecoration.none,
+                                            fontWeight: FontWeight.normal,
+                                          ),
+                                          textAlign: TextAlign.left,
+                                        ),
+                                      ),
+                                      Expanded(child: Container(
+                                        padding: EdgeInsets.fromLTRB(14, 2, 10, 2),
+                                        child: Text(
+                                          chosenHouse[index].houseCommunity+chosenHouse[index].houseAddress,
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            color: Color(0xFF5580EB),
+                                            decoration: TextDecoration.none,
+                                            fontWeight: FontWeight.normal,
+                                          ),
+                                        ),
+                                      )),
+                                      GestureDetector(
+                                        onTap: (){
+                                          chosenHouseIds.remove(chosenHouse[index].houseId);
+                                          setState(() {
+                                            chosenHouse.removeWhere((element) => element.houseId==chosenHouse[index].houseId);
+                                          });
+                                        },
+                                        child: Container(
+                                          width: 50,
+                                          height: 20,
+                                          child: Image(image: AssetImage("images/delete_blue.png"),),
+                                        ),
+                                      )
+                                    ],
+                                  )
+                              )
+                            ],
+                          );
+                        },
+
+                      ),
+                    ),
+                    // 单选
+                    chosenHouse.length<1 && (chooseId == "17" || chooseId == "26"|| chooseId == "33"|| chooseId == "35"|| chooseId == "5"
+                        || chooseId == "32"|| chooseId == "19"|| chooseId == "18"|| chooseId == "20"
+                        || chooseId == "24"|| chooseId == "8"|| chooseId == "7"|| chooseId == "23"
+                        || chooseId == "21"|| chooseId == "6")
+                        // 多选
+                        ||chooseId == "11" || chooseId == "10"|| chooseId == "2"?
+                    GestureDetector(
+                      onTap: (){
+                        Navigator.of(context).pushNamed(
+                            'qlist_search_house',
+                            arguments: {'companyID': userData!.companyId}
+                        ).then((houseMsg){
+                          if(houseMsg!=null){
+                            var h=new ChosenHouse(
+                              houseCommunity: houseMsg.toString().split("+")[0],
+                              houseAddress: houseMsg.toString().split("+")[1],
+                              houseId: houseMsg.toString().split("+")[2],);
+                            setState(() {
+                              chosenHouse.removeWhere((element) => element.houseId== houseMsg.toString().split("+")[2] );
+                              chosenHouseIds.remove(houseMsg.toString().split("+")[2]);
+                              chosenHouse.add(h);
+                              chosenHouseIds.add(houseMsg.toString().split("+")[2]);
+                            });
+                          }
+                        });
+                      },
+                      child: Container(
+                        width: 335,
+                        height: 32,
+                        padding: EdgeInsets.all(4),
+                        margin: EdgeInsets.only(bottom: 12),
+                        decoration: BoxDecoration(
+                          border: Border.all(width: 1,color: Color(0xFF24CC8E)),
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        child: Text('+ 添加房源',style: TextStyle(
+                          fontSize: 14,
+                          color: Color(0xFF24CC8E),
+                          fontWeight: FontWeight.normal,
+                          decoration: TextDecoration.none,
+                        ),textAlign: TextAlign.center,),
+                      ),
+                    )
+                        : Container(width: 1,),
+
+                    // 添加客源
+                    Container(
+                      width: 335,
+                      margin: EdgeInsets.only(top: 10),
+                      child: ListView.builder(
+                        itemCount: chosenClient.length,
+                        controller: _chosenClientScrollController,
+                        shrinkWrap: true,
+                        itemBuilder: (BuildContext context,int index){
+                          return Column(
+                            children: <Widget>[
+                              Container(
+                                  margin: EdgeInsets.only(bottom: 10),
+                                  child: Row(
+                                    children: <Widget>[
+                                      Container(
+                                        width: 54,
+                                        padding: EdgeInsets.fromLTRB(8, 2, 8, 2),
+                                        decoration: BoxDecoration(
+                                            border: Border(right: BorderSide(
+                                              width: 1,
+                                              color: Color(0xFFCCCCCC),
+                                            ))
+                                        ),
+                                        child: Text(
+                                          "客户",
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            color: Color(0xFF24CC8E),
+                                            decoration: TextDecoration.none,
+                                            fontWeight: FontWeight.normal,
+                                          ),
+                                          textAlign: TextAlign.left,
+                                        ),
+                                      ),
+                                      Expanded(child: Container(
+                                        padding: EdgeInsets.fromLTRB(14, 2, 10, 2),
+                                        child: Text(
+                                          chosenClient[index].clientName+" "+chosenClient[index].clientPhone,
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            color: Color(0xFF24CC8E),
+                                            decoration: TextDecoration.none,
+                                            fontWeight: FontWeight.normal,
+                                          ),
+                                        ),
+                                      )),
+                                      GestureDetector(
+                                        onTap: (){
+                                          chosenClientIds.remove(chosenClient[index].clientId);
+                                          setState(() {
+                                            chosenClient.removeWhere((element) => element.clientId==chosenClient[index].clientId);
+                                          });
+                                        },
+                                        child: Container(
+                                          width: 50,
+                                          height: 20,
+                                          child: Image(image: AssetImage("images/delete_blue.png"),),
+                                        ),
+                                      )
+                                    ],
+                                  )
+                              )
+                            ],
+                          );
+                        },
+
+                      ),
+                    ),
+                    chosenClient.length<1 && chooseId == "2" || chooseId == "8"|| chooseId == "7"
+                        ||chooseId == "23" || chooseId == "21"|| chooseId == "6"?
+                    GestureDetector(
+                      onTap: (){
+                        Navigator.of(context).pushNamed(
+                            'qlist_search_client',
+                            arguments: {'userID': userData!.userPid}
+                        ).then((clientMsg){
+                          if(clientMsg!=null){
+                            var h=new ChosenClient(
+                              clientName: clientMsg.toString().split("+")[0],
+                              clientPhone: clientMsg.toString().split("+")[1],
+                              clientId: clientMsg.toString().split("+")[2],);
+                            setState(() {
+                              chosenClient.removeWhere((element) => element.houseId== clientMsg.toString().split("+")[2] );
+                              chosenClientIds.remove(clientMsg.toString().split("+")[2]);
+                              chosenClient.add(h);
+                              chosenClientIds.add(clientMsg.toString().split("+")[2]);
+                            });
+                          }
+                        });
+                      },
+                      child: Container(
+                        width: 335,
+                        height: 32,
+                        padding: EdgeInsets.all(4),
+                        margin: EdgeInsets.only(bottom: 20),
+                        decoration: BoxDecoration(
+                          border: Border.all(width: 1,color: Color(0xFF24CC8E)),
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        child: Text('+ 添加客源',style: TextStyle(
+                          fontSize: 14,
+                          color: Color(0xFF24CC8E),
+                          fontWeight: FontWeight.normal,
+                          decoration: TextDecoration.none,
+                        ),textAlign: TextAlign.center,),
+                      ),
+                    )
+                        : Container(width: 1,),
+
+
                     // 备注
                     Text('注意!',style: TextStyle(
                       fontSize: 14,
@@ -945,6 +1279,7 @@ class _QListChangePageState extends State<QListChangePage> {
                       onTap: ()async {
                         var dateTimeEndTime=DateTime.parse(widgetEndTime);
                         var dateTimeStartTime=DateTime.parse(widgetStartTime);
+                        // 修改任务
                         if (chooseId!="13" && dateTimeEndTime.difference(dateTimeStartTime).inMinutes <= 0) {
                           _onTimeWrong(context);
                         } else {
@@ -1179,6 +1514,51 @@ class _QListChangePageState extends State<QListChangePage> {
                                 remarkController.text,
                               );
                               if(resultSelfModify.code == 200){
+
+                                // 修改关联的房客源
+                                dynamic missionId = resultSelfModify.data!.id;
+                                dynamic missionName  = resultSelfModify.data!.adminTask;
+                                // 修改关联的房源
+                                if(chosenHouseIds!=[]){
+                                  // 循环调用关联绑定
+                                  for (var item in chosenHouseIds) {
+                                    dynamic guanlianResult = await AddGuanLianHouseDao.addGuanLianHousePost(
+                                      item.toString(),
+                                      "",
+                                      userData!.userPid,
+                                      missionId.toString(),
+                                      missionName,
+                                    );
+                                    print(guanlianResult.code);
+                                  }
+                                }
+                                // 修改关联的有房源的客源
+                                if(chosenClientIds!=[]&& chosenHouseIds!=[]){
+                                  print(chosenClientIds.toString().replaceAll("[", "").replaceAll("]", ""));
+                                  for(var item in chosenHouseIds){
+                                    dynamic guanlianHouseClientResult = await AddGuanLianCustomerDao.addGuanLianCustomerPost(
+                                      item.toString(),
+                                      chosenClientIds.toString().replaceAll("[", "").replaceAll("]", ""),
+                                      "",
+                                      missionId.toString(),
+                                      missionName,
+                                    );
+                                    print(guanlianHouseClientResult);
+                                  }
+                                }
+                                // 修改关联的没有房源的客源
+                                if(chosenClientIds!=[]&& chosenHouseIds==[]){
+                                  dynamic guanlianHouseClientResult = await AddGuanLianCustomerDao.addGuanLianCustomerPost(
+                                    "-1",
+                                    chosenClientIds.toString().replaceAll("[", "").replaceAll("]", ""),
+                                    "",
+                                    missionId,
+                                    missionName,
+                                  );
+                                  print(guanlianHouseClientResult);
+                                }
+
+                                // 完成后的跳转
                                 if (userData!.userLevel.substring(0, 1) == "6") {
                                   Navigator.push(context, MaterialPageRoute(
                                       builder: (context) => QListPage()));
@@ -1212,6 +1592,16 @@ class _QListChangePageState extends State<QListChangePage> {
                               _onLoadAlert(context);
                             }
                           }else {}
+                        }
+
+                        // 如果任务id不是需要关联客源的-删除所有已关联的客源
+                        if(chooseId != "2"&& chooseId != "8"&& chooseId != "7"&& chooseId != "23"
+                            && chooseId != "21"&& chooseId != "6"){
+
+                        }
+                        // 如果任务id不是需要关联房源的-删除所有已关联的房源
+                        if(chooseId != "11"){
+
                         }
                       },
                       child: Container(
