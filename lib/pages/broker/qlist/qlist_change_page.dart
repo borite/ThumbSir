@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'package:ThumbSir/common/reg.dart';
 import 'package:ThumbSir/dao/confirm_modify_mission_dao.dart';
+import 'package:ThumbSir/dao/delete_customer_guanlian_dao.dart';
+import 'package:ThumbSir/dao/delete_house_in_mission_dao.dart';
 import 'package:ThumbSir/dao/delete_mission_dao.dart';
 import 'package:ThumbSir/dao/modify_mission_dao.dart';
 import 'package:ThumbSir/model/choose_item_model.dart';
@@ -21,7 +23,6 @@ import '../../../dao/add_guan_lian_customer_dao.dart';
 import '../../../dao/add_guan_lian_house_dao.dart';
 import '../../../dao/get_customer_in_mission_dao.dart';
 import '../../../dao/get_house_in_mission_dao.dart';
-import '../house/house_detail_page.dart';
 
 class QListChangePage extends StatefulWidget {
   final id;
@@ -94,54 +95,45 @@ class _QListChangePageState extends State<QListChangePage> {
   List chosenClientIds =[];
   ScrollController _chosenClientScrollController = ScrollController();
 
-  bool haveHouse = false;
   dynamic houseBindResult;
-  List<Widget> houseBindShowList=[];
-  List<Widget> houseBindR=[];
-  bool haveCustomer = false;
   dynamic customerBindResult;
+
+  List pastHouseIds =[];
+  List pastClientIds =[];
 
   _loadBind() async {
     dynamic houseBind = await GetHouseInMissionDao.httpGetHouseInMission(widget.id);
     if (houseBind.code == 200 && houseBind.data.length > 0) {
       houseBindResult=houseBind.data;
       for (var item in houseBindResult) {
-        houseBindShowList.add(
-            GestureDetector(
-              onTap: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>HouseDetailPage(
-                    houseId : item.houseId.toString(),
-                    tags:[],
-                    houseNum:item.houseNum
-                )));
-              },
-              child: Container(
-                padding: EdgeInsets.only(left: 20, right: 20,bottom: 10),
-                width:335,
-                child: Text(
-                  item.houseCommunity.toString()+item.houseAddress.toString(),
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Color(0xFF0E7AE6),
-                    decoration: TextDecoration.none,
-                    fontWeight: FontWeight.normal,
-                  ),
-                ),
-              ),
-            )
-        );
+        chosenHouseIds.add(item.houseId);
+        pastHouseIds.add(item.haid);
+        var h=new ChosenHouse(
+          houseCommunity: item.houseCommunity,
+          houseAddress: item.houseAddress,
+          houseId: item.houseId);
+        chosenHouse.add(h);
       }
       setState(() {
-        haveHouse = true;
-        houseBindR = houseBindShowList;
+        chosenHouseIds = chosenHouseIds;
+        chosenHouse = chosenHouse;
       });
     }
 
     dynamic customerBind = await GetCustomerInMissionDao.httpGetCustomerInMission(widget.id);
     if(customerBind.code == 200 && customerBind.data.length > 0){
+      customerBindResult = customerBind.data[0];
+      chosenClientIds.add(customerBindResult.customerId);
+      pastClientIds.add(customerBindResult.caid);
+      var c=new ChosenClient(
+        clientName: customerBindResult.userName,
+        clientPhone: customerBindResult.phone,
+        clientId: customerBindResult.customerId);
+      chosenClient.add(c);
       setState(() {
-        haveCustomer = true;
         customerBindResult = customerBind.data[0];
+        chosenClientIds = chosenClientIds;
+        chosenClient = chosenClient;
       });
     }
   }
@@ -230,15 +222,12 @@ class _QListChangePageState extends State<QListChangePage> {
                               child: Image(image: AssetImage('images/back.png'),),
                             ),
                           ),
-                          Padding(
-                            padding: EdgeInsets.only(left: 20),
-                            child: Text('修改任务',style: TextStyle(
-                              fontSize: 16,
-                              color: Color(0xFF0E7AE6),
-                              fontWeight: FontWeight.normal,
-                              decoration: TextDecoration.none,
-                            ),),
-                          )
+                          Text('修改任务',style: TextStyle(
+                            fontSize: 16,
+                            color: Color(0xFF0E7AE6),
+                            fontWeight: FontWeight.normal,
+                            decoration: TextDecoration.none,
+                          ),),
                         ],
                       ),
                     ),
@@ -441,28 +430,6 @@ class _QListChangePageState extends State<QListChangePage> {
                                 ),),
                             ),
                           ),
-//                          GestureDetector(
-//                            onTap: (){
-//                              setState(() {
-//                                itemCount = itemCount + 1;
-//                              });
-//                            },
-//                            child: Container(
-//                              width: 40,
-//                              height: 20,
-//                              margin: EdgeInsets.only(left: 15,right: 20),
-//                              decoration: BoxDecoration(
-//                                borderRadius: BorderRadius.circular(10),
-//                                border: Border.all(color: Color(0xFF24CC8E),width: 1),
-//                              ),
-//                              child: Text('+',style: TextStyle(
-//                                color: Color(0xFF5580EB),
-//                                fontSize: 14,
-//                                fontWeight: FontWeight.normal,
-//                                decoration: TextDecoration.none,
-//                              ),textAlign: TextAlign.center,),
-//                            ),
-//                          ),
                           Padding(
                             padding: EdgeInsets.only(right: 20,left: 20),
                             child: Text(chooseUnit,style: TextStyle(
@@ -1060,7 +1027,7 @@ class _QListChangePageState extends State<QListChangePage> {
                                           "房源",
                                           style: TextStyle(
                                             fontSize: 16,
-                                            color: Color(0xFF5580EB),
+                                            color: Color(0xFF24CC8E),
                                             decoration: TextDecoration.none,
                                             fontWeight: FontWeight.normal,
                                           ),
@@ -1073,7 +1040,7 @@ class _QListChangePageState extends State<QListChangePage> {
                                           chosenHouse[index].houseCommunity+chosenHouse[index].houseAddress,
                                           style: TextStyle(
                                             fontSize: 16,
-                                            color: Color(0xFF5580EB),
+                                            color: Color(0xFF24CC8E),
                                             decoration: TextDecoration.none,
                                             fontWeight: FontWeight.normal,
                                           ),
@@ -1185,7 +1152,7 @@ class _QListChangePageState extends State<QListChangePage> {
                                       Expanded(child: Container(
                                         padding: EdgeInsets.fromLTRB(14, 2, 10, 2),
                                         child: Text(
-                                          chosenClient[index].clientName+" "+chosenClient[index].clientPhone,
+                                          chosenClient[index].clientName.toString()+" "+chosenClient[index].clientPhone.toString(),
                                           style: TextStyle(
                                             fontSize: 16,
                                             color: Color(0xFF24CC8E),
@@ -1225,14 +1192,14 @@ class _QListChangePageState extends State<QListChangePage> {
                             arguments: {'userID': userData!.userPid}
                         ).then((clientMsg){
                           if(clientMsg!=null){
-                            var h=new ChosenClient(
+                            var c=new ChosenClient(
                               clientName: clientMsg.toString().split("+")[0],
                               clientPhone: clientMsg.toString().split("+")[1],
                               clientId: clientMsg.toString().split("+")[2],);
                             setState(() {
                               chosenClient.removeWhere((element) => element.houseId== clientMsg.toString().split("+")[2] );
                               chosenClientIds.remove(clientMsg.toString().split("+")[2]);
-                              chosenClient.add(h);
+                              chosenClient.add(c);
                               chosenClientIds.add(clientMsg.toString().split("+")[2]);
                             });
                           }
@@ -1516,8 +1483,6 @@ class _QListChangePageState extends State<QListChangePage> {
                               if(resultSelfModify.code == 200){
 
                                 // 修改关联的房客源
-                                dynamic missionId = resultSelfModify.data!.id;
-                                dynamic missionName  = resultSelfModify.data!.adminTask;
                                 // 修改关联的房源
                                 if(chosenHouseIds!=[]){
                                   // 循环调用关联绑定
@@ -1526,8 +1491,8 @@ class _QListChangePageState extends State<QListChangePage> {
                                       item.toString(),
                                       "",
                                       userData!.userPid,
-                                      missionId.toString(),
-                                      missionName,
+                                      widget.id.toString(),
+                                      chooseTaskName,
                                     );
                                     print(guanlianResult.code);
                                   }
@@ -1540,8 +1505,8 @@ class _QListChangePageState extends State<QListChangePage> {
                                       item.toString(),
                                       chosenClientIds.toString().replaceAll("[", "").replaceAll("]", ""),
                                       "",
-                                      missionId.toString(),
-                                      missionName,
+                                      widget.id.toString(),
+                                      chooseTaskName,
                                     );
                                     print(guanlianHouseClientResult);
                                   }
@@ -1552,8 +1517,8 @@ class _QListChangePageState extends State<QListChangePage> {
                                     "-1",
                                     chosenClientIds.toString().replaceAll("[", "").replaceAll("]", ""),
                                     "",
-                                    missionId,
-                                    missionName,
+                                    widget.id.toString(),
+                                    chooseTaskName,
                                   );
                                   print(guanlianHouseClientResult);
                                 }
@@ -1594,14 +1559,19 @@ class _QListChangePageState extends State<QListChangePage> {
                           }else {}
                         }
 
-                        // 如果任务id不是需要关联客源的-删除所有已关联的客源
-                        if(chooseId != "2"&& chooseId != "8"&& chooseId != "7"&& chooseId != "23"
-                            && chooseId != "21"&& chooseId != "6"){
-
+                        // 删除所有已关联的客源
+                        if(pastClientIds.length>0){
+                          for(var item in pastClientIds){
+                            dynamic deleteCustomersResult = await DeleteCustomerGuanLianDao.deleteCustomerGuanLian(item.toString());
+                            print(deleteCustomersResult.code);
+                          }
                         }
-                        // 如果任务id不是需要关联房源的-删除所有已关联的房源
-                        if(chooseId != "11"){
-
+                        // 删除所有已关联的房源
+                        if(pastHouseIds.length>0){
+                          for(var item in pastHouseIds){
+                            dynamic deleteHousesResult = await DeleteHouseInMissionDao.deleteHouseInMission(item.toString());
+                            print(deleteHousesResult.code);
+                          }
                         }
                       },
                       child: Container(
@@ -1691,33 +1661,6 @@ class _QListChangePageState extends State<QListChangePage> {
     ).show();
   }
 
-  _onTimeAlertPressed(context) {
-    Alert(
-      context: context,
-      type: AlertType.warning,
-      title: "当前时间与已有任务时间冲突",
-      desc: "各任务的计划时间不可重复，如果修改，将自动删除原定于14:00~15:00的带看任务，并将原定于15:01~16:00的实勘任务的时间调整为15:34~16:00，是否仍要修改？",
-      buttons: [
-        DialogButton(
-          child: Text(
-            "确定修改",
-            style: TextStyle(color: Colors.white, fontSize: 20),
-          ),
-          onPressed: () => Navigator.pop(context),
-          color: Color(0xFF5580EB),
-        ),
-        DialogButton(
-          child: Text(
-            "暂不修改",
-            style: TextStyle(color: Colors.white, fontSize: 20),
-          ),
-          onPressed: () => Navigator.pop(context),
-          color: Color(0xFF5580EB),
-        ),
-      ],
-    ).show();
-  }
-
   _onTimeAlert402Pressed(context) {
     Alert(
       context: context,
@@ -1748,7 +1691,6 @@ class _QListChangePageState extends State<QListChangePage> {
                 itemBuilder: (BuildContext context,int index){
                   return Column(
                     children: <Widget>[
-                      // 家庭成员
                       Container(
                         margin: EdgeInsets.only(top: 0,bottom: 0),
                         padding:EdgeInsets.only(top: 0,bottom: 0),

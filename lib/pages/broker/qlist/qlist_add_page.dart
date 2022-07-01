@@ -1435,7 +1435,6 @@ class _QListAddPageState extends State<QListAddPage> {
                                 );
                                 if(resultOther.code == 200){
                                   dynamic missionId = resultOther.data!.id;
-                                  dynamic missionName  = resultOther.data!.adminTask;
                                   if(chosenHouseIds!=[]){
                                     // 循环调用关联绑定
                                     for (var item in chosenHouseIds) {
@@ -1444,7 +1443,7 @@ class _QListAddPageState extends State<QListAddPage> {
                                           "",
                                           userData!.userPid,
                                           missionId.toString(),
-                                          missionName,
+                                          chooseTaskName,
                                       );
                                       print(guanlianResult.code);
                                     }
@@ -1457,7 +1456,7 @@ class _QListAddPageState extends State<QListAddPage> {
                                           chosenClientIds.toString().replaceAll("[", "").replaceAll("]", ""),
                                           "",
                                           missionId.toString(),
-                                          missionName,
+                                          chooseTaskName,
                                       );
                                       print(guanlianHouseClientResult);
                                     }
@@ -1468,7 +1467,7 @@ class _QListAddPageState extends State<QListAddPage> {
                                         chosenClientIds.toString().replaceAll("[", "").replaceAll("]", ""),
                                         "",
                                         missionId,
-                                        missionName,
+                                        chooseTaskName,
                                     );
                                     print(guanlianHouseClientResult);
                                   }

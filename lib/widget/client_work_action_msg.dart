@@ -5,7 +5,6 @@ import 'package:ThumbSir/pages/manager/qlist/manager_qlist_page.dart';
 import 'package:ThumbSir/pages/manager/qlist/s_qlist_page.dart';
 import 'package:flutter/material.dart';
 
-
 class ClientWorkActionMsg extends StatefulWidget {
   final item;
   final result;
@@ -26,16 +25,9 @@ class _ClientWorkActionMsgState extends State<ClientWorkActionMsg> with SingleTi
   late List action;
   bool _loading = false;
 
-  @override
-  void initState(){
-    super.initState();
-    // _load();
-    _scrollController.addListener(() {
-      // 如果滚动位置到了可滚动的最大距离，就加载更多
-      if(_scrollController.position.pixels == _scrollController.position.maxScrollExtent){
-        // _load();
-      }
-    });
+  _loadActive(){
+    // 获取客户和业主的任务列表 widget.item.mid
+    // dynamic activeList = await
     setState(() {
       action = widget.item.busAct.act;
       if (action.length>0) {
@@ -270,6 +262,20 @@ class _ClientWorkActionMsgState extends State<ClientWorkActionMsg> with SingleTi
         _onRefresh();
       }
     });
+  }
+
+  @override
+  void initState(){
+    super.initState();
+    _loadActive();
+    // _load();
+    _scrollController.addListener(() {
+      // 如果滚动位置到了可滚动的最大距离，就加载更多
+      if(_scrollController.position.pixels == _scrollController.position.maxScrollExtent){
+        // _load();
+      }
+    });
+
   }
 
   @override

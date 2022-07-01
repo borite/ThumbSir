@@ -1,14 +1,13 @@
 import 'dart:async';
 import 'package:http/http.dart' as http;
-
-import '../model/common_result_model.dart';
+import '../model/user_select_mission_model.dart';
 import '../utils/common_vars.dart';
 
 //接口地址前缀
 const String apiPerFix=Url.apiPrefix;
 
 class ConfirmModifyDao {
-  static Future<CommonResult> modifyMission(
+  static Future<UserSelectMission> modifyMission(
       String oldMissionId,
       String companyId,
       String userId,
@@ -41,7 +40,7 @@ class ConfirmModifyDao {
     //var result = json.decode(utf8decoder.convert(response.bodyBytes));
     if(response.statusCode == 200){
       //print(response.body);
-      return commonResultFromJson(response.body);
+      return userSelectMissionFromJson(response.body);
     }else{
       throw Exception(response.body);
     }
