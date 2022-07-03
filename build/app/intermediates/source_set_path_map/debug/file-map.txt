@@ -1,0 +1,16 @@
+com.bigxia.thumbsir.app-core-1.8.0-0 /Users/jiaozhengying/.gradle/caches/transforms-3/0601f560623c16dd1a0ad7fe1348ff45/transformed/core-1.8.0/res
+com.bigxia.thumbsir.app-jetified-window-java-1.0.0-beta04-1 /Users/jiaozhengying/.gradle/caches/transforms-3/41c8cddef70b20188cb3edfd1da0aa12/transformed/jetified-window-java-1.0.0-beta04/res
+com.bigxia.thumbsir.app-jetified-annotation-experimental-1.1.0-2 /Users/jiaozhengying/.gradle/caches/transforms-3/66c75f60cc3cdac0dc180e6f9ff24cc3/transformed/jetified-annotation-experimental-1.1.0/res
+com.bigxia.thumbsir.app-jetified-window-1.0.0-beta04-3 /Users/jiaozhengying/.gradle/caches/transforms-3/8459545252ec35fc0c18c0ce436fe2e8/transformed/jetified-window-1.0.0-beta04/res
+com.bigxia.thumbsir.app-lifecycle-runtime-2.3.1-4 /Users/jiaozhengying/.gradle/caches/transforms-3/cde42ed506b8d54cb92cde9926c1312a/transformed/lifecycle-runtime-2.3.1/res
+com.bigxia.thumbsir.app-debug-5 /Users/jiaozhengying/Desktop/ThumbSirGit/ThumbSir/android/app/src/debug/res
+com.bigxia.thumbsir.app-main-6 /Users/jiaozhengying/Desktop/ThumbSirGit/ThumbSir/android/app/src/main/res
+com.bigxia.thumbsir.app-pngs-7 /Users/jiaozhengying/Desktop/ThumbSirGit/ThumbSir/build/app/generated/res/pngs/debug
+com.bigxia.thumbsir.app-resValues-8 /Users/jiaozhengying/Desktop/ThumbSirGit/ThumbSir/build/app/generated/res/resValues/debug
+com.bigxia.thumbsir.app-rs-9 /Users/jiaozhengying/Desktop/ThumbSirGit/ThumbSir/build/app/generated/res/rs/debug
+com.bigxia.thumbsir.app-mergeDebugResources-10 /Users/jiaozhengying/Desktop/ThumbSirGit/ThumbSir/build/app/intermediates/incremental/debug/mergeDebugResources/merged.dir
+com.bigxia.thumbsir.app-mergeDebugResources-11 /Users/jiaozhengying/Desktop/ThumbSirGit/ThumbSir/build/app/intermediates/incremental/debug/mergeDebugResources/stripped.dir
+com.bigxia.thumbsir.app-merged_res-12 /Users/jiaozhengying/Desktop/ThumbSirGit/ThumbSir/build/app/intermediates/merged_res/debug
+com.bigxia.thumbsir.app-packaged_res-13 /Users/jiaozhengying/Desktop/ThumbSirGit/ThumbSir/build/flutter_plugin_android_lifecycle/intermediates/packaged_res/debug
+com.bigxia.thumbsir.app-packaged_res-14 /Users/jiaozhengying/Desktop/ThumbSirGit/ThumbSir/build/image_picker_android/intermediates/packaged_res/debug
+com.bigxia.thumbsir.app-packaged_res-15 /Users/jiaozhengying/Desktop/ThumbSirGit/ThumbSir/build/shared_preferences_android/intermediates/packaged_res/debug

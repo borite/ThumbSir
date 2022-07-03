@@ -1,4 +1,5 @@
 import 'package:ThumbSir/common/alert.dart';
+import 'package:ThumbSir/dao/get_combin_customer_info_dao.dart';
 import 'package:ThumbSir/pages/broker/qlist/qlist_page.dart';
 import 'package:ThumbSir/pages/major/qlist/major_qlist_page.dart';
 import 'package:ThumbSir/pages/manager/qlist/manager_qlist_page.dart';
@@ -17,100 +18,146 @@ class ClientWorkActionMsg extends StatefulWidget {
 }
 
 class _ClientWorkActionMsgState extends State<ClientWorkActionMsg> with SingleTickerProviderStateMixin{
-  ScrollController _scrollController = ScrollController();
+  ScrollController _kehuScrollController = ScrollController();
+  ScrollController _yezhuScrollController = ScrollController();
   var pageIndex=0;
   var msgList;
-  List<Widget> msgShowList = [];
-  List<Widget> msgs=[];
-  late List action;
+  List<Widget> kehuShowList = [];
+  List<Widget> kehuMsgs=[];
+  List<Widget> yezhuShowList = [];
+  List<Widget> yezhuMsgs=[];
+  late List yezhuAction=[];
+  late List kehuAction=[];
   bool _loading = false;
 
-  _loadActive(){
+  bool kehuEx = true;
+  bool yezhuEx = true;
+
+  _loadActive()async{
     // 获取客户和业主的任务列表 widget.item.mid
-    // dynamic activeList = await
-    setState(() {
-      action = widget.item.busAct.act;
-      if (action.length>0) {
-        for (var item in action) {
-          msgs.add(
-              Container(
-                width: 335,
-                child: Column(
-                  children: <Widget>[
-                    Container(
-                      width: 340,
-                      margin: EdgeInsets.only(top: 25),
-                      decoration: BoxDecoration(
-                          color: Colors.transparent
-                      ),
-                      child: Row(
-                        children: <Widget>[
-                          Container(
-                            width: 335,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(12),
-                                boxShadow: [BoxShadow(
-                                    color: Color(0xFFcccccc),
-                                    offset: Offset(0.0, 3.0),
-                                    blurRadius: 10.0,
-                                    spreadRadius: 2.0
-                                )
-                                ],
-                                color: Colors.white
-                            ),
-                            child: Column(
-                              children: <Widget>[
-                                // 项目和数量
-                                Container(
-                                  width: 335,
-                                  padding: EdgeInsets.only(top: 12, left: 15, right: 15),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: <Widget>[
-                                      GestureDetector(
-                                        onTap: (){
-                                        },
+    dynamic activeList = await GetCombinCustomerInfoDao.httpGetCombinCustomerInfo(widget.item.mid.toString());
+    if(activeList.code==200){
+      if(activeList.data.yezhuList.length>0){
+        for(dynamic item in activeList.data.yezhuList){
+          yezhuAction.add(item);
+        }
+      }
+      if(activeList.data.kehuResult.length>0){
+        for(dynamic item in activeList.data.kehuResult){
+          kehuAction.add(item);
+        }
+      }
+      if(kehuAction.length>0){
+        setState(() {
+          if (kehuAction.length>0) {
+            for (var item in kehuAction) {
+              kehuMsgs.add(
+                  Container(
+                    width: 335,
+                    child: Column(
+                      children: <Widget>[
+                        Container(
+                          width: 335,
+                          margin: EdgeInsets.only(top: 15),
+                          decoration: BoxDecoration(
+                              color: Colors.transparent
+                          ),
+                          child: Row(
+                            children: <Widget>[
+                              Container(
+                                width: 335,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(12),
+                                    boxShadow: [BoxShadow(
+                                        color: Color(0xFFcccccc),
+                                        offset: Offset(0.0, 3.0),
+                                        blurRadius: 10.0,
+                                        spreadRadius: 2.0
+                                    )
+                                    ],
+                                    color: Colors.white
+                                ),
+                                child: Column(
+                                  children: <Widget>[
+                                    // 项目和数量
+                                    Container(
+                                      width: 335,
+                                      padding: EdgeInsets.only(top: 10, left: 12, right: 12),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: <Widget>[
+                                          GestureDetector(
+                                            onTap: (){
+                                            },
+                                            child: Row(
+                                              children: <Widget>[
+                                                Container(
+                                                  padding: EdgeInsets.only(right: 6),
+                                                  child: Container(
+                                                    width:20,
+                                                    child: Icon(Icons.access_alarm,color: Color(0xFF0E7AE6),)
+                                                    // Image(image: AssetImage('images/time.png'),),
+                                                  ),
+                                                ),
+                                                Text(
+                                                  item.selectedMissionName??"未知任务",
+                                                  style: TextStyle(
+                                                    fontSize: 20,
+                                                    color: Color(0xFF0E7AE6),
+                                                    decoration: TextDecoration.none,
+                                                    fontWeight: FontWeight.normal,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          // GestureDetector(
+                                          //   child: Container(
+                                          //     width: 24,
+                                          //     child: Image(
+                                          //         image: AssetImage('images/editor.png')),
+                                          //   ),
+                                          // ),
+                                        ],
+                                      ),
+                                    ),
+                                    // 时间
+                                    Container(
+                                        width: 335,
+                                        margin: EdgeInsets.only(left: 10,right: 10,top: 8),
                                         child: Row(
                                           children: <Widget>[
                                             Container(
-                                              padding: EdgeInsets.only(right: 4),
-                                              child: Container(
-                                                width:20,
-                                                padding: EdgeInsets.only(top: 2),
-                                                child: Image(image: AssetImage('images/time.png'),),
+                                              child: Text(
+                                                '时间：',
+                                                style: TextStyle(
+                                                  fontSize: 14,
+                                                  color: Color(0xFF666666),
+                                                  decoration: TextDecoration.none,
+                                                  fontWeight: FontWeight.normal,
+                                                ),
                                               ),
                                             ),
                                             Text(
-                                              item.actionName??"未知任务",
+                                              // item.actionTime.toString().substring(0,16)??"-",
+                                              item.mlist[0].planningStartTime.toString().substring(0,16)+"~"+item.mlist[0].planningEndTime.toString().substring(11,16),
                                               style: TextStyle(
-                                                fontSize: 20,
-                                                color: Color(0xFF0E7AE6),
+                                                fontSize: 14,
+                                                color: Color(0xFF666666),
                                                 decoration: TextDecoration.none,
                                                 fontWeight: FontWeight.normal,
                                               ),
                                             ),
                                           ],
-                                        ),
-                                      ),
-                                      // GestureDetector(
-                                      //   child: Container(
-                                      //     width: 24,
-                                      //     child: Image(
-                                      //         image: AssetImage('images/editor.png')),
-                                      //   ),
-                                      // ),
-                                    ],
-                                  ),
-                                ),
-                                // 时间
-                                Container(
-                                    width: 335,
-                                    margin: EdgeInsets.only(left: 20,right: 20,bottom: 0,top: 8),
-                                    child: Row(
-                                      children: <Widget>[
-                                        Container(
-                                          child: Text(
-                                            '时间：',
+                                        )
+                                    ),
+                                    // 任务描述
+                                    Container(
+                                      margin: EdgeInsets.only(left: 10,right: 10,top: 5),
+                                      child: Row(
+                                        children: <Widget>[
+                                          Text(
+                                            "任务描述：",
                                             style: TextStyle(
                                               fontSize: 14,
                                               color: Color(0xFF666666),
@@ -118,150 +165,275 @@ class _ClientWorkActionMsgState extends State<ClientWorkActionMsg> with SingleTi
                                               fontWeight: FontWeight.normal,
                                             ),
                                           ),
-                                        ),
-                                        Text(
-                                          // item.actionTime.toString().substring(0,16)??"-",
-                                          item.actionTime.toString().substring(0,16),
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            color: Color(0xFF666666),
-                                            decoration: TextDecoration.none,
-                                            fontWeight: FontWeight.normal,
-                                          ),
-                                        ),
-                                      ],
-                                    )
-                                ),
-                                // 任务描述
-                                Container(
-                                  margin: EdgeInsets.only(left: 20,right: 20,bottom: 0,top: 5),
-                                  child: Row(
-                                    children: <Widget>[
-                                      Text(
-                                        "任务描述：",
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          color: Color(0xFF666666),
-                                          decoration: TextDecoration.none,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Text(
-                                          item.actionDesc??"无",
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            color: Color(0xFF999999),
-                                            decoration: TextDecoration.none,
-                                            fontWeight: FontWeight.normal,
-                                          ),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                // 计划地点
-                                Container(
-                                  margin: EdgeInsets.only(left: 20,right: 20,bottom: 0,top: 5),
-                                  child: Row(
-                                    children: <Widget>[
-                                      Text(
-                                        '计划地点：',
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          color: Color(0xFF666666),
-                                          decoration: TextDecoration.none,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Row(
-                                          children: <Widget>[
-                                            Container(
-                                              width: 22,
-                                              padding: EdgeInsets.only(right: 5,top: 2),
-                                              child: Image(image: AssetImage(
-                                                  'images/site_small.png'),),
-                                            ),
-                                            Container(
-                                              child: Expanded(
-                                                child: Text(
-                                                  item.actionPlace??"无",
-                                                  style: TextStyle(
-                                                    fontSize: 14,
-                                                    color: Color(0xFF0E7AE6),
-                                                    decoration: TextDecoration.none,
-                                                    fontWeight: FontWeight.normal,
-                                                  ),
-                                                ),
+                                          Expanded(
+                                            child: Text(
+                                              item.mlist[0].remark??"无",
+                                              style: TextStyle(
+                                                fontSize: 14,
+                                                color: Color(0xFF999999),
+                                                decoration: TextDecoration.none,
+                                                fontWeight: FontWeight.normal,
                                               ),
-                                            )
-                                          ],
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                // 上传凭证地点
-                                Container(
-                                  margin: EdgeInsets.only(left: 20,right: 20,bottom: 10,top: 5),
-                                  child: Row(
-                                    children: <Widget>[
-                                      Text(
-                                        '关联房源：',
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          color: Color(0xFF666666),
-                                          decoration: TextDecoration.none,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Row(
-                                          children: <Widget>[
-                                            Container(
-                                              width: 22,
-                                              padding: EdgeInsets.only(right: 5,top: 2),
-                                              child: Image(image: AssetImage(
-                                                  'images/site_small.png'),),
                                             ),
-                                            Container(
-                                              child: Expanded(
-                                                child: Text(
-                                                  '未关联',
-                                                  style: TextStyle(
-                                                    fontSize: 14,
-                                                    color: Color(0xFF0E7AE6),
-                                                    decoration: TextDecoration.none,
-                                                    fontWeight: FontWeight.normal,
-                                                  ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                    // 关联房源
+                                    Container(
+                                      margin: EdgeInsets.only(left: 10,right: 10,top: 5,bottom: 10),
+                                      child: Row(
+                                        children: <Widget>[
+                                          Text(
+                                            '关联房源：',
+                                            style: TextStyle(
+                                              fontSize: 14,
+                                              color: Color(0xFF666666),
+                                              decoration: TextDecoration.none,
+                                              fontWeight: FontWeight.normal,
+                                            ),
+                                          ),
+                                          Expanded(
+                                            child: Row(
+                                              children: <Widget>[
+                                                Container(
+                                                  width: 22,
+                                                  padding: EdgeInsets.only(right: 5,top: 2),
+                                                  child: Image(image: AssetImage(
+                                                      'images/site_small.png'),),
                                                 ),
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                      )
-                                    ],
-                                  ),
+                                                Container(
+                                                  child: Expanded(
+                                                    child: Text(
+                                                      item.mlist[0].houseCommunity+item.mlist[0].houseAddress??"未关联",
+                                                      style: TextStyle(
+                                                        fontSize: 14,
+                                                        color: Color(0xFF0E7AE6),
+                                                        decoration: TextDecoration.none,
+                                                        fontWeight: FontWeight.normal,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
-                    )
-                  ],
-                ),
+                              )
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
 
-              )
+                  )
 
-          );
-        }
-      } else {
-        onLoadAlert(context);
-        _onRefresh();
+              );
+            }
+          } else {
+            onLoadAlert(context);
+            _onRefresh();
+          }
+        });
       }
-    });
+      if(yezhuAction.length>0){
+        setState(() {
+          if (yezhuAction.length>0) {
+            for (var item in yezhuAction) {
+              yezhuMsgs.add(
+                  Container(
+                    width: 335,
+                    child: Column(
+                      children: <Widget>[
+                        Container(
+                          width: 335,
+                          margin: EdgeInsets.only(top: 15),
+                          decoration: BoxDecoration(
+                              color: Colors.transparent
+                          ),
+                          child: Row(
+                            children: <Widget>[
+                              Container(
+                                width: 335,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(12),
+                                    boxShadow: [BoxShadow(
+                                        color: Color(0xFFcccccc),
+                                        offset: Offset(0.0, 3.0),
+                                        blurRadius: 10.0,
+                                        spreadRadius: 2.0
+                                    )
+                                    ],
+                                    color: Colors.white
+                                ),
+                                child: Column(
+                                  children: <Widget>[
+                                    // 项目和数量
+                                    Container(
+                                      width: 335,
+                                      padding: EdgeInsets.only(top: 10, left: 12, right: 12),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: <Widget>[
+                                          GestureDetector(
+                                            onTap: (){
+                                            },
+                                            child: Row(
+                                              children: <Widget>[
+                                                Container(
+                                                  padding: EdgeInsets.only(right: 6),
+                                                  child: Container(
+                                                      width:20,
+                                                      child: Icon(Icons.access_alarm,color: Color(0xFF24CC8E),)
+                                                    // Image(image: AssetImage('images/time.png'),),
+                                                  ),
+                                                ),
+                                                Text(
+                                                  item.missionName??"未知任务",
+                                                  style: TextStyle(
+                                                    fontSize: 20,
+                                                    color: Color(0xFF24CC8E),
+                                                    decoration: TextDecoration.none,
+                                                    fontWeight: FontWeight.normal,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          // GestureDetector(
+                                          //   child: Container(
+                                          //     width: 24,
+                                          //     child: Image(
+                                          //         image: AssetImage('images/editor.png')),
+                                          //   ),
+                                          // ),
+                                        ],
+                                      ),
+                                    ),
+                                    // 时间
+                                    Container(
+                                        width: 335,
+                                        margin: EdgeInsets.only(left: 10,right: 10,top: 8),
+                                        child: Row(
+                                          children: <Widget>[
+                                            Container(
+                                              child: Text(
+                                                '时间：',
+                                                style: TextStyle(
+                                                  fontSize: 14,
+                                                  color: Color(0xFF666666),
+                                                  decoration: TextDecoration.none,
+                                                  fontWeight: FontWeight.normal,
+                                                ),
+                                              ),
+                                            ),
+                                            Text(
+                                              // item.actionTime.toString().substring(0,16)??"-",
+                                              item.mlist[0].planningStartTime.toString().substring(0,16)+"~"+item.mlist[0].planningEndTime.toString().substring(11,16),
+                                              style: TextStyle(
+                                                fontSize: 14,
+                                                color: Color(0xFF666666),
+                                                decoration: TextDecoration.none,
+                                                fontWeight: FontWeight.normal,
+                                              ),
+                                            ),
+                                          ],
+                                        )
+                                    ),
+                                    // 任务描述
+                                    Container(
+                                      margin: EdgeInsets.only(left: 10,right: 10,top: 5),
+                                      child: Row(
+                                        children: <Widget>[
+                                          Text(
+                                            "任务描述：",
+                                            style: TextStyle(
+                                              fontSize: 14,
+                                              color: Color(0xFF666666),
+                                              decoration: TextDecoration.none,
+                                              fontWeight: FontWeight.normal,
+                                            ),
+                                          ),
+                                          Expanded(
+                                            child: Text(
+                                              item.missionDescription??"暂无描述",
+                                              style: TextStyle(
+                                                fontSize: 14,
+                                                color: Color(0xFF999999),
+                                                decoration: TextDecoration.none,
+                                                fontWeight: FontWeight.normal,
+                                              ),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                    // 关联房源
+                                    Container(
+                                      margin: EdgeInsets.only(left: 10,right: 10,top: 5,bottom: 10),
+                                      child: Row(
+                                        children: <Widget>[
+                                          Text(
+                                            '房源：',
+                                            style: TextStyle(
+                                              fontSize: 14,
+                                              color: Color(0xFF666666),
+                                              decoration: TextDecoration.none,
+                                              fontWeight: FontWeight.normal,
+                                            ),
+                                          ),
+                                          Expanded(
+                                            child: Row(
+                                              children: <Widget>[
+                                                Container(
+                                                  width: 22,
+                                                  padding: EdgeInsets.only(right: 5,top: 2),
+                                                  child: Image(image: AssetImage(
+                                                      'images/site_small.png'),),
+                                                ),
+                                                Container(
+                                                  child: Expanded(
+                                                    child: Text(
+                                                      item.houseCommunity+item.houseAddress??"未关联",
+                                                      style: TextStyle(
+                                                        fontSize: 14,
+                                                        color: Color(0xFF24CC8E),
+                                                        decoration: TextDecoration.none,
+                                                        fontWeight: FontWeight.normal,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+
+                  )
+
+              );
+            }
+          } else {
+            onLoadAlert(context);
+            _onRefresh();
+          }
+        });
+      }
+    }
   }
 
   @override
@@ -269,18 +441,19 @@ class _ClientWorkActionMsgState extends State<ClientWorkActionMsg> with SingleTi
     super.initState();
     _loadActive();
     // _load();
-    _scrollController.addListener(() {
-      // 如果滚动位置到了可滚动的最大距离，就加载更多
-      if(_scrollController.position.pixels == _scrollController.position.maxScrollExtent){
-        // _load();
-      }
-    });
+    // _scrollController.addListener(() {
+    //   // 如果滚动位置到了可滚动的最大距离，就加载更多
+    //   if(_scrollController.position.pixels == _scrollController.position.maxScrollExtent){
+    //     // _load();
+    //   }
+    // });
 
   }
 
   @override
   void dispose(){
-    _scrollController.dispose();
+    // _kehuScrollController.dispose();
+    // _yezhuScrollController.dispose();
     super.dispose();
   }
 
@@ -362,29 +535,107 @@ class _ClientWorkActionMsgState extends State<ClientWorkActionMsg> with SingleTi
                       ],
                     ),
 
-                    // 维护记录列表
-                    Container(
-                        child: msgs.length>0 ?
+                    // 客户维护记录列表
+                    Column(
+                      children: [
+                        GestureDetector(
+                          onTap: (){
+                            setState(() {
+                              kehuEx=!kehuEx;
+                            });
+                          },
+                          child: Container(
+                              width:335,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text("作为客户的业务动作：",
+                                    style: TextStyle(
+                                      color: Color(0xFF93C0FB),
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                  kehuEx == false?
+                                  Icon(Icons.arrow_drop_up,color: Color(0xFF93C0FB),size: 26,)
+                                  :Icon(Icons.arrow_drop_down,color: Color(0xFF93C0FB),size: 26,),
+                                ],
+                              )
+                          ),
+                        ),
+                        kehuMsgs.length>0 && kehuEx==true?
                         ListView.builder(
-                          controller: _scrollController,
+                          controller: _kehuScrollController,
                           padding: EdgeInsets.only(bottom: 30),
                           shrinkWrap: true,
-                          itemCount: msgs.length,
+                          itemCount: kehuMsgs.length,
                           itemBuilder: (BuildContext context,int index){
-                            return msgs[index];
+                            return kehuMsgs[index];
                           },
                         )
+                            :kehuEx==false?Container(width: 0,)
                             :
-                        Padding(
-                          padding: EdgeInsets.only(top: 30),
-                          child: Text(
-                            '暂无业务动作记录',
+                        Container(
+                          margin: EdgeInsets.only(top: 10,bottom: 10),
+                          child: Text("暂无此类业务动作",
                             style: TextStyle(
-                                fontSize: 20,
-                                color: Color(0xFF999999)
+                              color: Color(0xFFCCCCCC),
+                              fontSize: 16,
                             ),
                           ),
+                        ),
+                      ],
+                    ),
+
+                    // 业主维护记录列表
+                    Column(
+                      children: [
+                        GestureDetector(
+                          onTap: (){
+                            setState(() {
+                              yezhuEx=!yezhuEx;
+                            });
+                          },
+                          child: Container(
+                              width:335,
+                              margin: EdgeInsets.only(top: 20),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text("作为业主的业务动作：",
+                                    style: TextStyle(
+                                      color: Color(0xFF93C0FB),
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                  yezhuEx == false?
+                                  Icon(Icons.arrow_drop_up,color: Color(0xFF93C0FB),size: 26,)
+                                      :Icon(Icons.arrow_drop_down,color: Color(0xFF93C0FB),size: 26,),
+                                ],
+                              )
+                          ),
+                        ),
+                        yezhuMsgs.length>0 && yezhuEx==true?
+                        ListView.builder(
+                          controller: _yezhuScrollController,
+                          padding: EdgeInsets.only(bottom: 30),
+                          shrinkWrap: true,
+                          itemCount: yezhuMsgs.length,
+                          itemBuilder: (BuildContext context,int index){
+                            return yezhuMsgs[index];
+                          },
                         )
+                            :yezhuEx==false?Container(width: 0,)
+                            :
+                            Container(
+                              margin: EdgeInsets.only(top: 10,bottom: 10),
+                              child: Text("暂无此类业务动作",
+                                style: TextStyle(
+                                  color: Color(0xFFCCCCCC),
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ),
+                      ],
                     ),
                 ]),
               )

@@ -1,0 +1,19 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.bigxia.thumbsir.app-mergeDebugResources-10:/values-km/values-km.xml",
+            "map": [
+                {
+                    "source": "/Users/jiaozhengying/.gradle/caches/transforms-3/0601f560623c16dd1a0ad7fe1348ff45/transformed/core-1.8.0/res/values-km/values-km.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "100",
+                        "endOffsets": "151"
+                    }
+                }
+            ]
+        }
+    ]
+}
